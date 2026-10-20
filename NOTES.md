@@ -78,3 +78,12 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 - Hub hero copy no longer runs under the 3D Keeper at ≥1101 px.
 - `<title>` moved into `<head>`, `color-scheme: dark`, meta description; one visible focus ring.
 - `build/out/` is now committed, so `python3 build/build.py` reproduces `dist/` without the pack files.
+
+## v6 (game UI redesign, desktop and laptop)
+- One new stylesheet, `build/style.game.css`, replaces style.css, style.extra.css, style.v4.css and style.v5.css. `build/style.keep.css` keeps the tooltip, recipe window, CSS boss heads, mod-family patterns and keyframes from the old files.
+- The look comes from Minecraft's own GUI: grey bevelled containers, inset item slots, stone buttons with the blue hover, black text fields, vanilla rarity colours (white, yellow, aqua, magenta, gold, red; gold ★ for Must-Have).
+- The home page is a title screen: panning panorama, logo, yellow splash text, stacked buttons, and version text in the corners.
+- The Path is an advancement tree that snakes across two rows; the Warden, Wither and Ender Dragon get challenge (spiked) frames.
+- Path pages show the boss with a boss bar above its stats. Curio cards are dark tooltip-style entries with the name in its rarity colour.
+- 3D now runs only on Path pages: the Keeper on the home hero and the WebGL portrait snapshots are gone (emblems use the Keeper's signature drop icon). The floating relic background is off.
+- Desktop and laptop only (1280–1920 px). Below 900 px the layout stacks so it stays usable, but it is not designed for phones.
