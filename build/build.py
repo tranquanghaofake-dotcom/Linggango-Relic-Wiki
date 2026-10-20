@@ -19,6 +19,7 @@ html = "\n".join([
     part("style.css"),
     part("style.extra.css"),
     part("style.v4.css"),
+    part("style.v5.css"),
     "</style>",
     part("body.html"),
     "<script>",

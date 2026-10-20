@@ -113,7 +113,7 @@ opts("fs",SLOTS.map(([s])=>s).sort().map(s=>[s,s]));
 opts("fa",ORDER.filter(a=>a>=0).map(a=>[a,"Up to "+actL(a)]));
 for(const k of ["m","s","a"]){const s=el("f"+k);s.value=st[k];s.onchange=()=>{st[k]=s.value;refresh()}}
 el("q").value=st.q;
-el("q").oninput=e=>{st.q=e.target.value.toLowerCase().trim();location.hash.startsWith("#i")?refreshSide():refresh()};
+el("q").oninput=e=>{st.q=e.target.value.toLowerCase().trim();location.hash.startsWith("#i")||location.hash===""||location.hash==="#"?refreshSide():refresh()};
 el("q").onkeydown=e=>{if(e.key==="Enter"){location.hash="#home";refresh()}};
 function resetFilters(){Object.assign(st,{c:[],g:[],r:[],x:[],m:"",s:"",a:"",q:"",nw:false});["fm","fs","fa","q"].forEach(i=>el(i).value="");refresh()}
 el("reset").onclick=resetFilters;
@@ -141,11 +141,15 @@ const tile=(d,i=99)=>`<a style="--i:${i}" class="t c${d.c} r${d.r}${d.g==="Loot"
 const gcard=(d,i)=>`<a class="gc r${d.r}" style="--i:${Math.min(i,40)}" href="#i${d.ix}" data-t="${d.ix}"><span class="ak">${ACT[d.t][0]}</span><span class="rk">${isMust(d)?"★ Must-Have":RN[d.r]}</span><span class="pic">${img(d.id)}</span><b>${esc(d.n)}</b><small>${esc(d.sl.join(", "))} · ${esc(d.m)}</small></a>`;
 const rbar=xs=>`<span class="bar5">${RNS.map(i=>{const n=xs.filter(d=>d.r===i).length;return n?`<i style="flex:${n};background:${RC[i]}"></i>`:""}).join("")}</span>`;
 const cards=xs=>`<div class="cards">${xs.map(x=>`<a class="card" href="#i${x.ix}" data-t="${x.ix}">${img(x.id)}<span>${esc(x.n)}</span></a>`).join("")}</div>`;
+const nAct=()=>st.c.length+st.r.length+st.x.length+st.g.length+(st.nw?1:0)+(st.m?1:0)+(st.s?1:0)+(st.a!==""?1:0)+(st.q?1:0);
+const fnote=(n,all)=>nAct()?`<div class="fnote" role="status"><span>Filters on: showing <b>${n}</b> of ${all} curios here.</span><button type="button" class="ghost clr2">Clear filters</button></div>`:"";
+const fempty=()=>`<div class="empty"><b>No curio here matches your filters.</b><p>Remove a filter in the sidebar, or clear them all to see this page in full.</p><button type="button" class="ghost clr2">Clear filters</button></div>`;
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
 const crumb=(...p)=>`<div class="crumb"><a href="#">Home</a> / ${p.join(" / ")}</div>`;
 function activeBar(){const P=[];
  st.c.forEach(k=>P.push(["c",k,ROLE[k]]));st.r.forEach(k=>P.push(["r",k,RN[k]]));st.x.forEach(k=>P.push(["x",k,k.slice(2)]));st.g.forEach(k=>P.push(["g",k,k]));
  if(st.nw)P.push(["nw","","Added mods"]);if(st.m)P.push(["m","",st.m]);if(st.s)P.push(["s","","Slot "+st.s]);if(st.a!=="")P.push(["a","","Up to "+actL(st.a)]);if(st.q)P.push(["q","","“"+st.q+"”"]);
- return P.length?`<div class="act-bar" role="group" aria-label="Active filters">${P.map(([k,v,t])=>`<button class="pill" data-k="${k}" data-v="${esc(v)}" aria-label="Remove filter ${esc(t)}">${esc(t)}<b aria-hidden="true">×</b></button>`).join("")}<button class="ghost" id="clr2">Clear all</button></div>`:""}
+ return P.length?`<div class="act-bar" role="group" aria-label="Active filters">${P.map(([k,v,t])=>`<button class="pill" data-k="${k}" data-v="${esc(v)}" aria-label="Remove filter ${esc(t)}">${esc(t)}<b aria-hidden="true">×</b></button>`).join("")}<button class="ghost clr2">Clear all</button></div>`:""}
 
 /* ---------- views ---------- */
 function hubHome(){
@@ -183,14 +187,14 @@ function hubList(kind,key){
  if(kind==="slot"){const rf=key.includes("?r=")?+key.split("?r=")[1]:null;key=key.split("?")[0];xs=key==="*"?D:D.filter(d=>d.sl.includes(key));if(rf!=null)xs=xs.filter(d=>d.r===rf);
   title=key==="*"?(rf!=null?`All ${RN[rf]} curios`:"All curios"):`${key} slot`;cr="Slot";if(key!=="*")lede=`Every curio worn in the ${key} slot, rarest first.`;
   bar=`<div class="brw-bar">${BIGSLOTS.map(([s])=>`<a href="#slot/${enc(s)}"${s===key?' aria-current="page"':""}>${esc(s)}</a>`).join("")}</div>`}
- else if(kind==="act"){const a=+key;xs=D.filter(d=>d.t===a);title=actL(a);cr="Path";lede=`${ACT[a][1]}.${a!=-1?` Next boss: ${ACTN[a]}.`:""} Must-Have ★ items first, then rarest first.`;const bk=PB[a],bs=bst(bk);hero=`<div class="lhero big" style="--tc:${ACT[a][2]};${tex(a)}">${bk&&B3[bk]?`<div class="stage" data-boss="${bk}" title="Drag to turn"></div>`:emblem(a,"lg")}${bs?`<div class="bcard"><b>${esc(bs.name)}</b><small>Defeat it to open ${esc(actL(a))}</small><div class="bstat"><span><i class="ai" style="--ai:var(--v-gui_heart)"></i>${Math.round(bs.effective.hp).toLocaleString()} HP</span><span><i class="ai" style="--ai:var(--v-gui_armor)"></i>${bs.effective.armor} armor</span>${bs.effective.dmg!=null?`<span><i class="ai" style="--ai:var(--v-fx_strength)"></i>${+(+bs.effective.dmg).toFixed(1)} damage</span>`:""}</div><small class="bnote">${esc(bs.summon||"")}${bs.rules&&bs.rules.some(r=>/Hardmode/i.test(r))?" · "+esc(bs.rules.find(r=>/Hardmode/i.test(r))):""}</small></div>`:""}${VBOSS[a]?`<p class="lhv">${esc(VBI[VBOSS[a]].sum)} ${fmt(VBI[VBOSS[a]].line)} <span class="vbp">${esc(VBI[VBOSS[a]].pack)}</span> <a href="${VBI[VBOSS[a]].url}" target="_blank" rel="noopener">Minecraft Wiki ↗</a></p>`:""}</div>`;
+ else if(kind==="act"){const a=+key;xs=D.filter(d=>d.t===a);title=actL(a);cr="Path";lede=`${cap(ACT[a][1])}.${a!=-1?` Next boss: ${ACTN[a]}.`:""} Must-Have ★ items first, then rarest first.`;const bk=PB[a],bs=bst(bk);hero=!(bk&&B3[bk])?"":`<div class="lhero big" style="--tc:${ACT[a][2]};${tex(a)}">${bk&&B3[bk]?`<div class="stage" data-boss="${bk}" title="Drag to turn"></div>`:emblem(a,"lg")}${bs?`<div class="bcard"><b>${esc(bs.name)}</b><small>Defeat it to open ${esc(actL(a))}</small><div class="bstat"><span><i class="ai" style="--ai:var(--v-gui_heart)"></i>${Math.round(bs.effective.hp).toLocaleString()} HP</span><span><i class="ai" style="--ai:var(--v-gui_armor)"></i>${bs.effective.armor} armor</span>${bs.effective.dmg!=null?`<span><i class="ai" style="--ai:var(--v-fx_strength)"></i>${+(+bs.effective.dmg).toFixed(1)} damage</span>`:""}</div><small class="bnote">${esc((bs.summon||"").replace(/\s*\([a-z0-9_]+:[a-z0-9_/]+\)/g,""))}${bs.rules&&bs.rules.some(r=>/Hardmode/i.test(r))?" · "+esc(bs.rules.find(r=>/Hardmode/i.test(r))):""}</small></div>`:""}${VBOSS[a]?`<p class="lhv">${esc(VBI[VBOSS[a]].sum)} ${fmt(VBI[VBOSS[a]].line)} <span class="vbp">${esc(VBI[VBOSS[a]].pack)}</span> <a href="${VBI[VBOSS[a]].url}" target="_blank" rel="noopener">Minecraft Wiki ↗</a></p>`:""}</div>`;
   bar=`<div class="brw-bar">${ORDER.filter(a=>D.some(d=>d.t===a)).map(b=>`<a href="#act/${b}"${b===a?' aria-current="page"':""}>${actL(b)}</a>`).join("")}</div>`}
  else if(kind==="mod"){modPage(key);return}
  else{document.title="Mods · Linggango Relic Wiki";const ms=[...MODS].sort((a,b)=>b[1].length-a[1].length);el("main").innerHTML=`${crumb("Mods")}<h1 class="qb">Mods</h1><p class="lede">${MODS.length} mods with curios in the pack, each framed in its own style.</p><div class="mgrid">${ms.map(([m,xs])=>{const F=mf(m),top=byRank(xs).filter(d=>IC[d.id]).slice(0,4);return `<a class="mcard" data-mf="${F[0]}" href="#mod/${enc(m)}"><span class="mbg"></span><span class="mic">${top.map(d=>img(d.id)).join("")}</span><b>${esc(m)}</b><span class="fam">${F[2]}</span><small>${xs.length} curio${minfo(m)?" · official page":""}</small></a>`}).join("")}</div>`;return}
- xs=byRank(xs);document.title=title+" · Linggango Relic Wiki";seedBg(kind+key,xs);
+ const all=xs.length;xs=byRank(xs.filter(d=>pass(d)));document.title=title+" · Linggango Relic Wiki";seedBg(kind+key,xs.length?xs:D);
  let shown=60;
- const draw=()=>{el("gl").innerHTML=xs.slice(0,shown).map(gcard).join("");el("bc").innerHTML=`Showing <b>1–${Math.min(shown,xs.length)}</b> of <b>${xs.length}</b> curios`;el("mr").hidden=shown>=xs.length};
- el("main").innerHTML=`${crumb(cr,esc(title))}${hero}<h1>${esc(title)}</h1>${lede?`<p class="lede">${esc(lede)}</p>`:""}${bar}<div class="brw-ct" id="bc"></div><div class="gridc" id="gl"></div><button class="more" id="mr">Show 60 more</button>`;
+ const draw=()=>{el("gl").innerHTML=xs.slice(0,shown).map(gcard).join("");el("bc").innerHTML=xs.length?`Showing <b>1–${Math.min(shown,xs.length)}</b> of <b>${xs.length}</b> curios`:"";el("mr").hidden=shown>=xs.length};
+ el("main").innerHTML=`${crumb(cr,esc(title))}${hero}<h1${kind==="act"&&!hero?' class="h-em"':""}>${kind==="act"&&!hero?emblem(+key,"xs"):""}${esc(title)}</h1>${lede?`<p class="lede">${esc(lede)}</p>`:""}${bar}${fnote(xs.length,all)}${xs.length?"":fempty()}<div class="brw-ct" id="bc"></div><div class="gridc" id="gl"></div><button class="more" id="mr">Show 60 more</button>`;
  el("mr").onclick=()=>{shown+=60;draw()};draw();
 }
 
@@ -211,7 +215,7 @@ function modPage(m){
   <div class="mbox wide"><h3>Unlocks by Path</h3><div class="abars">${acts.map(([a,ys])=>`<a href="#act/${a}" style="--tc:${ACT[a][2]}" title="${esc(actF(a))}: ${ys.length}"><i style="height:${Math.max(6,ys.length/mx*100)}%"></i><span>${ACT[a][0]}</span><em>${ys.length}</em></a>`).join("")}</div></div>
  </div>
  ${I&&I[3]?`<aside class="mnote"><b>In Linggango</b><p>${esc(I[3])}</p></aside>`:""}
- ${acts.map(([a,ys])=>`<section class="mact" style="--tc:${ACT[a][2]}"><h2>${emblem(a,"xs")}<span>${actL(a)}</span>${esc(ACT[a][1])}<small>${ys.length}</small></h2><div class="gridc">${ys.map(gcard).join("")}</div></section>`).join("")}</div>`;
+ ${fnote(xs.filter(d=>pass(d)).length,xs.length)}${nAct()&&!xs.some(d=>pass(d))?fempty():""}${acts.map(([a,ys])=>[a,ys.filter(d=>pass(d))]).filter(x=>x[1].length).map(([a,ys])=>`<section class="mact" style="--tc:${ACT[a][2]}"><h2>${emblem(a,"xs")}<span>${actL(a)}</span>${esc(ACT[a][1])}<small>${ys.length}</small></h2><div class="gridc">${ys.map(gcard).join("")}</div></section>`).join("")}</div>`;
 }
 
 function home(xs,asTable){
@@ -247,7 +251,7 @@ function page(d){
  document.title=d.n+" · Linggango Relic Wiki";seedBg("item"+d.m,D.filter(x=>x.m===d.m));
  const F=mf(d.m),slot=d.sl.join(", ")||"—",loot=d.g==="Loot",secs=[];
  const lock=d.gk?`<p class="lede"><span class="badge lockb">🔒 KEEPER-GATED</span>Linggango locks this item behind its progression gates: until you defeat <b>${GK[d.gk]}</b> (opens ${actL(d.gk)}) you can't take it out of a crafting station, use it or wear it, even if a chest gives it to you.</p>`:"";
- const must=isMust(d)?`<div class="mh-banner"><span class="mhs">★</span><div><b>Must-Have</b><p>${!/etching|charm_of_looting/.test(d.id)?"It adds curio slots, so you can wear more curios at once: every other relic on this wiki gets better with it. Get it as early as you can.":/etching/.test(d.id)?"An Etching turns one of your Catastrophe Scroll curses into a blessing and is an ingredient for most Celestial Artifacts relics.":"A Looting Charm unlocks L2 Hostility trait drops; without the right tier worn, trait mobs drop nothing extra."} Get it as soon as ${esc(actL(d.t))} opens and keep it in every build. Base power rating: <b>${RN[d.br]}</b>.</p></div></div>`:"";
+ const must=isMust(d)?`<div class="mh-banner"><span class="mhs">★</span><div><b>Must-Have</b><p>${!/etching|charm_of_looting/.test(d.id)?"It adds curio slots, so you can wear more curios at once: every other relic on this wiki gets better with it.":/etching/.test(d.id)?"An Etching turns one of your Catastrophe Scroll curses into a blessing and is an ingredient for most Celestial Artifacts relics.":"A Looting Charm unlocks L2 Hostility trait drops; without the right tier worn, trait mobs drop nothing extra."} Get it as soon as ${esc(actL(d.t))} opens and keep it in every build. Base power rating: <b>${RN[d.br]}</b>.</p></div></div>`:"";
  const scarce=d.sca?`<div class="mh-banner sca"><span class="mhs">⛏</span><div><b>Scarce Path 0 material</b><p>Daemonium and Iridium need a high-tier pickaxe to mine, but Terramity structures can drop them in chests. That makes this craftable early with luck, so it is rated one rarity higher than other Path 0 curios.</p></div></div>`:"";
  secs.push(["get",loot?"Where it drops":"How to get it",`${must}${scarce}<ol class="how">${d.src.map(x=>`<li>${fmt(x)}</li>`).join("")}</ol>${d.why.length?`<div class="whyb"><b>Why it sits on ${esc(actL(d.t))}</b><ul>${d.why.map(w=>`<li>${fmt(w)}</li>`).join("")}</ul></div>`:""}${lock}<p class="note">${d.a===-1?"Drops by L2 Hostility mob level, not tied to a boss milestone.":d.a!==d.t?`Earliest with luck: ${actL(d.a)}. Realistic: ${actL(d.t)} (${ACT[d.t][1]}).`:`Available from ${actL(d.t)} (${ACT[d.t][1]}).`}</p>`]);
  const rel=d.tg.map((t,j)=>[t,d.st[j],d.sr&&d.sr[j]]),relic=rel.filter(r=>r[0]==="relic"),other=rel.filter(r=>r[0]!=="relic");
@@ -277,17 +281,17 @@ function page(d){
  const s0=d.sl[0],sx=s0?byRank(D.filter(x=>x.sl.includes(s0))):[],si=sx.indexOf(d),pv=sx[si-1],nx=sx[si+1];
  const near=sx.filter(x=>x!==d).slice(Math.max(0,si-4),Math.max(0,si-4)+8);
  el("main").innerHTML=`<div class="ip r${d.r}" data-mf="${F[0]}">
- <header class="ip-hero"><div class="ip-htext"><div class="ip-crumb"><a href="#">Wiki</a> / <a href="#mod/${enc(d.m)}">${esc(d.m)}</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>
+ <header class="ip-hero"><div class="ip-htext"><div class="ip-crumb"><a href="#">Home</a> / <a href="#mod/${enc(d.m)}">${esc(d.m)}</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>
  <h1 class="ip-title">${isMust(d)?'<span class="mstar">★</span>':""}${esc(d.n)}</h1><p class="ip-lead">${fmt(d.fx)}</p>
  <p class="ip-meta"><span class="ip-fam">${F[2]}</span><span>${rLabel(d)}</span><span>${esc(slot)}</span><span>${loot?"Loot":"Craft"}</span>${d.nw?"<span>added mod</span>":""}</p></div>
- <div class="ip-art"><span class="ip-badge">${RN[d.r]}</span><div class="ip-stage" style="${tex(d.t)}"><span class="orb" aria-hidden="true">${[0,1,2,3,4,5].map(i=>`<i style="--k:${i};--sp:var(--v-${MFSP[F[0]]||"p_glint"})"></i>`).join("")}</span><div class="ip-icon">${ic}</div></div><span class="ip-mini">${ic}</span><span class="ip-path" title="${esc(actL(d.t))}">${emblem(d.t,"xs")}</span></div></header>
+</header>
  <div class="ip-body"><div class="ip-main">${secs.map(x=>`<section class="s ip-sec" id="s-${x[0]}"><h2>${x[1]}</h2>${x[2]}</section>`).join("")}
  ${s0?`<section class="sib"><h2>More ${esc(s0)} curios <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">see all ${sx.length} →</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>← Previous in ${esc(s0)}</small>${esc(pv.n)}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>Next in ${esc(s0)} →</small>${esc(nx.n)}</a>`:""}</nav></section>`:""}</div>
- <aside class="ip-side"><div class="ip-info"><div class="ip-ih"><span class="ip-slot">${ic}</span><div><b>${esc(d.n)}</b><span>${esc(d.m)}</span></div></div>
+ <aside class="ip-side"><div class="ip-art"><span class="ip-badge">${RN[d.r]}</span><div class="ip-stage" style="${tex(d.t)}"><span class="orb" aria-hidden="true">${[0,1,2,3,4,5].map(i=>`<i style="--k:${i};--sp:var(--v-${MFSP[F[0]]||"p_glint"})"></i>`).join("")}</span><div class="ip-icon">${ic}</div></div><span class="ip-mini">${ic}</span><span class="ip-path" title="${esc(actL(d.t))}">${emblem(d.t,"xs")}</span></div><div class="ip-info"><div class="ip-ih"><span class="ip-slot">${ic}</span><div><b>${esc(d.n)}</b><span>${esc(d.m)}</span></div></div>
  <dl><dt>Slot</dt><dd>${esc(slot)}</dd><dt>In-game rarity</dt><dd>${igName(d)}</dd><dt>Wiki tier</dt><dd>${rLabel(d)}</dd><dt>Path</dt><dd>${actL(d.t)}</dd>${d.a!==d.t?`<dt>With luck</dt><dd>${actL(d.a)}</dd>`:""}${d.gk?`<dt>Wearable</dt><dd>after ${GK[d.gk]}</dd>`:""}<dt>Role</dt><dd>${isMust(d)?"Every build":d.ro.map(k=>ROLE[k]).join(", ")}</dd></dl>
  <div class="ip-id"><code id="ipid">${esc(d.id)}</code><button type="button" id="ipcopy">Copy</button></div></div>
  <nav class="ip-toc"><b>On this page</b><ol>${secs.map(x=>`<li><a href="#i${d.ix}" data-go="s-${x[0]}">${x[1]}</a></li>`).join("")}</ol><a href="#i${d.ix}" class="ip-top" data-top="1">↑ Back to top</a></nav></aside></div></div>`;
- const cb=el("ipcopy");cb.onclick=()=>{try{navigator.clipboard.writeText(d.id).then(()=>{cb.classList.add("ok");cb.textContent="Copied";setTimeout(()=>{cb.classList.remove("ok");cb.textContent="Copy"},1400)})}catch(e){}};
+ const cb=el("ipcopy");cb.onclick=()=>{const ok=()=>{cb.classList.add("ok");cb.textContent="Copied";setTimeout(()=>{cb.classList.remove("ok");cb.textContent="Copy"},1400)};const old=()=>{const r=document.createRange();r.selectNodeContents(el("ipid"));const se=getSelection();se.removeAllRanges();se.addRange(r);try{document.execCommand("copy")?ok():(cb.textContent="Press Ctrl+C")}catch(e){cb.textContent="Press Ctrl+C"}};try{navigator.clipboard.writeText(d.id).then(ok,old)}catch(e){old()}};
  try{const links=[...el("main").querySelectorAll(".ip-toc [data-go]")];const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting)links.forEach(a=>a.classList.toggle("on",a.dataset.go===en.target.id))}),{rootMargin:"-30% 0px -60% 0px"});el("main").querySelectorAll(".ip-sec").forEach(x=>io.observe(x))}catch(e){}
 }
 
@@ -386,9 +390,11 @@ function render(){
  else if(h==="#mods")hubList("mods");
  else if(h.startsWith("#i")&&D[+h.slice(2)])page(D[+h.slice(2)]);
  else{document.title="Tier list · Linggango Relic Wiki";home(xs,false)}
- if(!h.startsWith("#home")&&h!=="#table")scrollTo(0,0);
+ if(!h.startsWith("#home")&&h!=="#table"&&!keepY)scrollTo(0,0);keepY=false;
 }
-function refresh(){const h=location.hash;if(h==="#home")render();else location.hash="#home"}
+const LISTH=/^#(slot|act|mod)\//;
+function refresh(){const h=location.hash;if(h==="#home"||LISTH.test(h)){keepY=true;render()}else location.hash="#home"}
+let keepY=false;
 addEventListener("hashchange",()=>{hideTip();window.Boss3D&&Boss3D.unmountAll();render();decorate()});
 
 /* ---------- tooltip ---------- */
@@ -425,7 +431,7 @@ addEventListener("scroll",hideTip,{capture:true,passive:true});
 document.addEventListener("click",e=>{
  const p=e.target.closest(".pill");if(p){const k=p.dataset.k,v=p.dataset.v;
   if(Array.isArray(st[k]))st[k]=st[k].filter(x=>String(x)!==v);else if(k==="nw")st.nw=false;else{st[k]="";el(k==="q"?"q":"f"+k).value=""}refresh();return}
- if(e.target.id==="clr2"){resetFilters();return}
+ if(e.target.closest("#clr2,.clr2")){resetFilters();return}
  const go=e.target.closest("[data-go]");if(go){e.preventDefault();el(go.dataset.go).scrollIntoView({behavior:RM?"auto":"smooth",block:"start"});return}
  if(e.target.closest("[data-top]")){e.preventDefault();scrollTo({top:0,behavior:RM?"auto":"smooth"});return}
  const tl=e.target.closest(".tl[data-tier]");if(tl){const a=+tl.dataset.tier,i=st.cl.indexOf(a);i<0?st.cl.push(a):st.cl.splice(i,1);save();const s=tl.parentNode;s.classList.toggle("closed");tl.setAttribute("aria-expanded",!s.classList.contains("closed"))}

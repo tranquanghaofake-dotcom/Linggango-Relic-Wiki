@@ -47,7 +47,8 @@ function load(key) {
 
 function frame(cam, box, aspect, yaw, pitch = 12, fill = 1) {
   const size = box.getSize(new THREE.Vector3()), c = box.getCenter(new THREE.Vector3());
-  const r = Math.max(size.y / 2 / Math.max(aspect, 0.6), size.length() / 2.6) / fill;
+  // vertical extent fits through fov; horizontal extent has to be divided by aspect
+  const r = Math.max(size.y / 2 * 1.2, Math.hypot(size.x, size.z) / 2 / Math.max(aspect, 0.6) * 1.05) / fill;
   const dist = r / Math.tan(cam.fov * Math.PI / 360);
   const a = yaw * Math.PI / 180, p = pitch * Math.PI / 180;
   cam.aspect = aspect;

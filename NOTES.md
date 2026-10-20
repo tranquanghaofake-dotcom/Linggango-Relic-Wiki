@@ -68,3 +68,13 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 4. Evolution chains ("upgraded from", "evolves from", "fed a Nether Star") count as ingredients, and a recipe is never earlier than any curio it is made from.
 5. L2 Hostility Looting Charms (trait drops read from the jar and the pack's kubejs overrides): with the Unpolished charm (Path III), trait mobs drop Ghast Tear, Blaze Rod, Wither Skeleton Skull, Netherite Scrap, Shulker Shell and more. Trait-level-1 drops move the path itself; level 3+ drops (rare early) move only the earliest path.
 6. More Relics stats are rebuilt from the mod's classes (the old data was ×100).
+
+## v5 (desktop/laptop polish and fixes)
+- Sidebar filters and header search now apply on Path, Slot and Mod pages, in place, with a "Filters on" notice and an empty state. Before, the list ignored them and the first click jumped to the tier list.
+- 3D boss framing fits the model's height (Iron Colossus' head and the Wither were clipped).
+- Paths with no 3D boss (Path 0, L2) no longer show a 360 px empty box; the emblem sits in the title.
+- Item page: art moved into the right column (no dead space under the title); ID no longer wraps; Copy works on file:// via a fallback.
+- Boss note hides raw ids like `(armageddon_mod:iron_remote)`; path ledes start with a capital; item breadcrumb says Home like every other page; Must-Have text no longer repeats itself.
+- Hub hero copy no longer runs under the 3D Keeper at ≥1101 px.
+- `<title>` moved into `<head>`, `color-scheme: dark`, meta description; one visible focus ring.
+- `build/out/` is now committed, so `python3 build/build.py` reproduces `dist/` without the pack files.
