@@ -60,7 +60,7 @@
   "ings": [
    {
     "id": "#minecraft:small_flowers",
-    "n": "any #minecraft:small flowers",
+    "n": "any small flower (Poppy, Dandelion…)",
     "from": ""
    },
    {

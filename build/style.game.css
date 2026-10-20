@@ -657,3 +657,10 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .prow{border-bottom:1px solid #ffffff10}
 
 .t:hover>img,.t:hover .aimg{filter:drop-shadow(0 0 6px color-mix(in srgb,var(--rc,#fff) 70%,transparent)) brightness(1.12)}
+@media(max-width:760px){
+ .top{position:relative!important;height:auto;flex-wrap:wrap;gap:8px;padding:8px 12px}
+ .top .nav{order:3;width:100%;display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .top .nav::-webkit-scrollbar{display:none}
+ .top .nav .mcb{flex:none;padding:6px 10px;font-size:14px}
+ .gbar{position:static!important}
+}

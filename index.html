@@ -2035,6 +2035,13 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .prow{border-bottom:1px solid #ffffff10}
 
 .t:hover>img,.t:hover .aimg{filter:drop-shadow(0 0 6px color-mix(in srgb,var(--rc,#fff) 70%,transparent)) brightness(1.12)}
+@media(max-width:760px){
+ .top{position:relative!important;height:auto;flex-wrap:wrap;gap:8px;padding:8px 12px}
+ .top .nav{order:3;width:100%;display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .top .nav::-webkit-scrollbar{display:none}
+ .top .nav .mcb{flex:none;padding:6px 10px;font-size:14px}
+ .gbar{position:static!important}
+}
 
 </style>
 <header class="top">
@@ -6057,7 +6064,8 @@ function unlockText(k,a){
  if(VBOSS[a])return k==="ender_dragon"?"No Keeper tier. It turns on Hardmode and its treasure bag is the only source of Khyros's Goldened Tears.":"No Keeper tier: nothing is locked behind it. The wiki places it here because of the gear you need to beat it.";
  const t=UNL_TIER[a],n=D.filter(d=>d.gk===a).length,ch=(CHAP.find(c=>c[0]===a)||[0,""])[1];
  return `Beating it opens the ${t} tier. Items in the ${t} tier (${t.toLowerCase()} tools, armor and the machines, magic and curios the pack locks there; ${n} curios on this wiki) can then be crafted, placed, used and worn.${ch?` Quest chapters that open: ${esc(ch.replace(/^Act [IVX]+,?\s*/,"")||"the next Act")}.`:""}`}
-function sumGrid(g){return `<div class="sgrid">${g.map(r=>r.map(c=>c?islot(c.replace(/^#/,"")):`<span class="slot sm"></span>`).join("")).join("")}</div>`}
+const TAGI={"minecraft:small_flowers":"minecraft:poppy","minecraft:flowers":"minecraft:poppy"};
+function sumGrid(g){return `<div class="sgrid">${g.map(r=>r.map(c=>c?islot(c.startsWith("#")?(TAGI[c.slice(1)]||c.slice(1)):c):`<span class="slot sm"></span>`).join("")).join("")}</div>`}
 function summonHtml(k){
  const v=VSUM[k];
  if(v)return `<section class="s sumg"><h2>How to summon it</h2><div class="sumhead">${islot(v.item,1)}<div><b>${esc(v.name)}</b><ol class="how">${v.steps.map(x=>`<li>${esc(x)}</li>`).join("")}</ol></div></div>${v.grid?`<h3>Build it like this</h3><div class="sumcraft">${sumGrid(v.grid)}<span class="arr">→</span>${islot("minecraft:wither_skeleton_skull",1)}<small>Wither</small></div>`:""}<p class="note">${esc(v.extra)}</p></section>`;
@@ -6065,12 +6073,12 @@ function summonHtml(k){
  const where=/in the Nether/i.test(u.use)?"in the Nether":/in the End/i.test(u.use)?"in the End":"anywhere";
  return `<section class="s sumg"><h2>How to summon it</h2><div class="sumhead">${islot(u.item,1)}<div><b>${ilink(u.item,u.name)}</b><p>Hold it and right-click <b>${where}</b> to summon the boss next to you. One item is used up per summon.</p>${u.info?`<p class="note">${esc(u.info.replace(/^Allow you to spawn[^!]*!\s*/,""))}</p>`:""}</div></div>
 ${u.recipe?`<h3>Crafting the ${esc(u.name)}</h3><div class="sumcraft">${sumGrid(u.recipe)}<span class="arr">→</span>${islot(u.item,1)}<small>${u.recipe_src==="pack KubeJS"?"Linggango's own recipe (replaces the mod's)":"Crafting Table"}</small></div>
-<table class="sumings"><tr><th>Ingredient</th><th>Where to get it</th></tr>${u.ings.map(x=>`<tr><td>${x.id.startsWith("#")?"":islot(x.id)} ${x.id.startsWith("#")?esc(x.n):ilink(x.id,x.n)}</td><td>${esc(x.from||"common material")}</td></tr>`).join("")}</table>`+(u.infinite&&u.infinite.recipe?`<h3>Reusable version: ${esc(u.infinite.name)}</h3><p>Unbreakable, so it summons the boss again and again (handy for farming its drops once the first-kill damage cap is gone).</p><div class="sumcraft">${sumGrid(u.infinite.recipe)}<span class="arr">→</span>${islot(u.infinite.item,1)}<small>Crafting Table</small></div>`:""):`<p>${esc(u.name)} has no recipe: ${esc(u.info)}</p>`}</section>`}
+<table class="sumings"><tr><th>Ingredient</th><th>Where to get it</th></tr>${u.ings.map(x=>`<tr><td>${islot(x.id.startsWith("#")?(TAGI[x.id.slice(1)]||x.id.slice(1)):x.id)} ${x.id.startsWith("#")?esc(x.n):ilink(x.id,x.n)}</td><td>${esc(x.from||"common material")}</td></tr>`).join("")}</table>`+(u.infinite&&u.infinite.recipe?`<h3>Reusable version: ${esc(u.infinite.name)}</h3><p>Unbreakable, so it summons the boss again and again (handy for farming its drops once the first-kill damage cap is gone).</p><div class="sumcraft">${sumGrid(u.infinite.recipe)}<span class="arr">→</span>${islot(u.infinite.item,1)}<small>Crafting Table</small></div>`:""):`<p>${esc(u.name)} has no recipe: ${esc(u.info)}</p>`}</section>`}
 function bossList(){
  document.title="Bosses · Linggango Wiki";
  const ks=ORDER.map(a=>PB[a]).filter(Boolean);
  el("main").innerHTML=`${crumb("Bosses")}<h1>Bosses</h1><p class="lede">Every Keeper in fight order, with the Warden, the Wither and the Ender Dragon where your gear can take them. Each card shows what summons it; open one for the full summon guide and recipe.</p>
-<div class="blist">${ks.map(k=>{const a=bossPath(k),v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item,itn=v?v.name:u&&u.name;return `<a class="bcardl" href="#boss/${k}" style="--tc:${ACT[a][2]}">${emblem(a,"sm")}<span><b>${esc(bossName(k))}</b><small>Opens ${esc(actL(a))} · ${D.filter(d=>d.t===a).length} curios</small>${it?`<small class="bsum">${img(it)} ${esc(itn)}</small>`:""}</span></a>`}).join("")}</div>`}
+<div class="blist">${ks.map(k=>{const a=bossPath(k),v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item,itn=v?v.name:u&&u.name;return `<a class="bcardl" href="#boss/${k}" style="--tc:${ACT[a][2]}">${emblem(a,"sm")}<span><b>${esc(bossName(k))}</b><small>Opens ${esc(actL(a))}</small>${it?`<small class="bsum">${img(it)} ${esc(itn)}</small>`:""}</span></a>`}).join("")}</div>`}
 function bossPage(k){
  const a=bossPath(k);if(a===undefined){bossList();return}
  const nm=bossName(k),i=ORDER.indexOf(a),row=ACTS[BOSS_ACT[k]],xs=D.filter(d=>d.t===a).sort((p,q)=>(isMust(q)-isMust(p))||(q.r-p.r));
@@ -6083,9 +6091,7 @@ ${row?`<small class="bnote"><span>Weak to:</span> ${esc(row[2])}</small>`:""}</d
 <div class="bpg">
 ${summonHtml(k)}
 ${row&&row[5]&&row[5]!=="—"?`<section class="s"><h2>Good to know</h2><p>${esc(pathText(row[5]))}</p></section>`:""}
-<section class="s"><h2>What beating it unlocks</h2><p>${unlockText(k,a)}</p></section>
 ${side.length?`<section class="s"><h2>Side bosses at this point</h2><div class="tw"><table><tr><th>Boss</th><th>Where / notes</th><th>Useful drops</th></tr>${side.map(r=>`<tr><td><b>${esc(r[0])}</b></td><td>${esc(pathText(r[3]).replace(/[^;]*\\d+\\s*(dmg|damage|armor)[^;]*;?\\s*/gi,"").trim()||"—")}</td><td>${r[4].slice(0,5).map(id=>ilink(id)).join(", ")||"—"}</td></tr>`).join("")}</table></div></section>`:""}
-<section class="s"><h2>Curios it unlocks (${xs.length})</h2><div class="cards">${xs.map((d,j)=>gcard(d,j)).join("")}</div></section>
 <p class="bnav">${prev!==undefined?`<a href="#boss/${PB[prev]}">← ${esc(bossName(PB[prev]))}</a>`:"<span></span>"}${next!==undefined?`<a href="#boss/${PB[next]}">${esc(bossName(PB[next]))} →</a>`:""}</p></div>`}
 
 function mechPage(){
@@ -6528,7 +6534,7 @@ function modPage(m){
 
 function home(xs,asTable){
  let h=`${crumb("The Path")}<h1 class="qb">The Path</h1>
- <p class="lede">Every curio in base Linggango V6.6.5b4, tiered by how hard it really is to get: the Keeper that unlocks it, the vanilla boss it needs (Warden, Wither, Ender Dragon), drop chances, pickaxe tier and trait farming. Inside each act, ★ Must-Have items come first, then the rarest.</p>
+ <p class="lede">Every curio, grouped by the Act you can get it in.</p>
   <div class="legend"><span><i class="lgr"></i>Frame colour: rarity, brighter = rarer</span><span><i class="slk lg" style="--si:url(${slotIcon("Ring")})"></i>Curio slot it goes in</span><span><b class="lgn">16</b>Variants merged into one tile</span><span><b class="lgs">★</b>Must-Have: get it first</span><span>${rqb({rq:"Curses"}," lg")}Needs the Seven Curses or Virtues ring</span></div>
  ${fbar(xs.length,D.length)}${xs.length?"":`<p class="note">No curios match these filters. Remove one above or clear them all.</p>`}`;
  seedBg("path"+st.a,xs.filter(d=>d.r>=4));
@@ -6562,7 +6568,7 @@ function page(d){
  const rqLock=d.rq?`<p class="lede"><span class="badge lockb">🔒 RING-LOCKED</span>Only for bearers of the <a href="#i${BYID[RQRING[d.rq]].ix}">${rqName(d)}</a>: you need that ring to craft or use this curio.</p>`:"";
  const must=isMust(d)?`<div class="mh-banner"><span class="mhs">★</span><div><b>Must-Have</b><p>${!/etching|charm_of_looting/.test(d.id)?"It adds curio slots, so you can wear more curios at once: every other relic on this wiki gets better with it.":/etching/.test(d.id)?"An Etching turns one of your Catastrophe Scroll curses into a blessing and is an ingredient for most Celestial Artifacts relics.":"A Looting Charm unlocks L2 Hostility trait drops; without the right tier worn, trait mobs drop nothing extra."} Get it as soon as ${esc(actL(d.t))} opens and keep it in every build. Base power rating: <b>${RN[d.br]}</b>.</p></div></div>`:"";
  const scarce=d.sca?`<div class="mh-banner sca"><span class="mhs">⛏</span><div><b>Scarce Act 0 material</b><p>Daemonium and Iridium need a high-tier pickaxe to mine, but Terramity structures can drop them in chests. That makes this craftable early with luck, so it is rated one rarity higher than other Act 0 curios.</p></div></div>`:"";
- secs.push(["get",loot?"Where it drops":"How to get it",`${must}${scarce}<ol class="how">${d.src.map(x=>`<li>${fmt(x)}</li>`).join("")}</ol>${d.why.length?`<div class="whyb"><b>Why it sits on ${esc(actL(d.t))}</b><ul>${d.why.map(w=>`<li>${fmt(w)}</li>`).join("")}</ul></div>`:""}${lock}${rqLock}<p class="note">${d.a===-1?"Dropped by L2 Hostility mobs depending on their level, not tied to a boss milestone.":d.a!==d.t?`Earliest with luck: ${actL(d.a)}. Realistic: ${actL(d.t)} (${ACT[d.t][1]}).`:`Available from ${actL(d.t)} (${ACT[d.t][1]}).`}</p>`]);
+ secs.push(["get",loot?"Where it drops":"How to get it",`${must}${scarce}<ol class="how">${d.src.map(x=>`<li>${fmt(x)}</li>`).join("")}</ol>${lock}${rqLock}<p class="note">${d.a===-1?"Dropped by L2 Hostility mobs depending on their level, not tied to a boss milestone.":d.a!==d.t?`Earliest with luck: ${actL(d.a)}. Realistic: ${actL(d.t)} (${ACT[d.t][1]}).`:`Available from ${actL(d.t)} (${ACT[d.t][1]}).`}</p>`]);
  {const ev=evoSec(d);if(ev)secs.push(["evo","Evolution",ev])}
  const rel=d.tg.map((t,j)=>[t,d.st[j],d.sr&&d.sr[j]]),relic=rel.filter(r=>r[0]==="relic"),other=rel.filter(r=>r[0]!=="relic");
  let sh="";
@@ -6587,7 +6593,6 @@ function page(d){
  const bar=(v,l)=>`<div class="sg" style="grid-template-columns:150px 1fr;margin:4px 0"><span>${l}</span><div class="bar"><i style="width:${Math.round(Math.min(5,Math.max(0,v))*20)}%;background:var(--rc);opacity:.55"></i><span>${(+v).toFixed(1)} / 5</span></div></div>`;
   const same=D.filter(x=>x!==d&&x.m===d.m&&x.t===d.t).slice(0,8);
  if(same.length)secs.push(["related","Same mod, same Act",cards(same)]);
- secs.push(["raw","Raw pack data",`<details class="raw"><summary>Show the original data this page was written from</summary><p><b>Source line:</b> <code>${esc(d.src0||"")}</code></p>${(d.sr||[]).filter(Boolean).length?`<p><b>Config / code lines:</b></p><ul>${d.sr.filter(Boolean).map(x=>`<li><code>${esc(x)}</code></li>`).join("")}</ul>`:""}<p><b>Item ID:</b> <code>${esc(d.id)}</code></p></details>`]);
  const ic=slotImg(d);
  // slot neighbours
  const s0=d.sl[0],sx=s0?byRank(D.filter(x=>x.sl.includes(s0))):[],si=sx.indexOf(d),pv=sx[si-1],nx=sx[si+1];
