@@ -1,0 +1,149 @@
+{
+"gates": {
+"5": [
+"16k Crafting Storage",
+"16k ME Fluid Storage Cell",
+"16k ME Item Storage Cell",
+"16k ME Storage Component",
+"16k Portable Fluid Cell",
+"16k Portable Item Cell",
+"1k Crafting Storage",
+"4k Crafting Storage",
+"Crafting Card",
+"Crafting Co-Processing Unit",
+"Crafting Monitor",
+"Crafting Unit",
+"ME Controller",
+"ME P2P Tunnel",
+"ME Pattern Access Terminal",
+"ME Pattern Encoding Terminal",
+"ME Pattern Provider",
+"ME Pattern Provider",
+"ME Wireless Access Point",
+"Magnet Card",
+"Matter Cannon",
+"Molecular Assembler",
+"Not So Mysterious Cube",
+"Wireless Crafting Terminal",
+"Wireless Pattern Access Terminal",
+"Wireless Pattern Encoding Terminal",
+"Wireless Terminal"
+],
+"7": [
+"256k Crafting Storage",
+"256k ME DISK Drive",
+"256k ME Fluid Storage Cell",
+"256k ME Item Storage Cell",
+"256k ME Storage Component",
+"256k Portable Fluid Cell",
+"256k Portable Item Cell"
+],
+"6": [
+"16k ME DISK Drive",
+"1k ME DISK Drive",
+"4k ME DISK Drive",
+"64k Crafting Storage",
+"64k ME DISK Drive",
+"64k ME Fluid Storage Cell",
+"64k ME Item Storage Cell",
+"64k ME Storage Component",
+"64k Portable Fluid Cell",
+"64k Portable Item Cell",
+"Export Card",
+"Insert Card",
+"ME DISK Housing",
+"ME Quantum Link Chamber",
+"ME Quantum Ring",
+"Matter Condenser",
+"Quantum Bridge Card",
+"Spatial Anchor",
+"Spatial IO Port",
+"Spatial Pylon"
+],
+"4": [
+"1k Portable Fluid Cell",
+"1k Portable Item Cell",
+"4k Portable Fluid Cell",
+"4k Portable Item Cell",
+"Cell Workbench",
+"Crystal Resonance Generator",
+"Energy Acceptor",
+"Energy Acceptor",
+"Entropy Manipulator",
+"Growth Accelerator",
+"Inscriber",
+"Inscriber Calculation Press",
+"Inscriber Engineering Press",
+"Inscriber Logic Press",
+"Inscriber Silicon Press",
+"ME Annihilation Plane",
+"ME Chest",
+"ME Crafting Terminal",
+"ME Drive",
+"ME Export Bus",
+"ME Formation Plane",
+"ME IO Port",
+"ME Import Bus",
+"ME Interface",
+"ME Interface",
+"ME Storage Bus",
+"ME Terminal",
+"Vibration Chamber"
+]
+},
+"cells": [
+{
+"t": "1k",
+"bytes": 1024,
+"bpt": 8,
+"drain": 0.5
+},
+{
+"t": "4k",
+"bytes": 4096,
+"bpt": 32,
+"drain": 1.0
+},
+{
+"t": "16k",
+"bytes": 16384,
+"bpt": 128,
+"drain": 1.5
+},
+{
+"t": "64k",
+"bytes": 65536,
+"bpt": 512,
+"drain": 2.0
+},
+{
+"t": "256k",
+"bytes": 262144,
+"bpt": 2048,
+"drain": 2.5
+}
+],
+"types_item": 63,
+"types_fluid": 18,
+"per_byte_item": 8,
+"per_byte_fluid_mb": 8000,
+"disk": {
+"tiers": [
+"1k",
+"4k",
+"16k",
+"64k",
+"256k"
+],
+"per_k": 1000
+},
+"fe_ratio": 0.5,
+"wireless_range": 16,
+"channels": "default",
+"curio": [
+"Wireless Crafting Terminal",
+"Wireless Pattern Access Terminal",
+"Wireless Pattern Encoding Terminal",
+"Wireless Universal Terminal"
+]
+}

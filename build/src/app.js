@@ -164,12 +164,58 @@ ${side.length?`<section class="s"><h2>Side bosses at this point</h2><div class="
 <p class="bnav">${prev!==undefined?`<a href="#boss/${PB[prev]}">← ${esc(bossName(PB[prev]))}</a>`:"<span></span>"}${next!==undefined?`<a href="#boss/${PB[next]}">${esc(bossName(PB[next]))} →</a>`:""}</p></div>`}
 
 function mechPage(){
- guide();document.title="Pack mechanics · Linggango Wiki";
- const m=el("main");
- m.querySelectorAll('a[href="#guide"]').forEach(a=>a.setAttribute("href","#mechanics"));
- const h1=m.querySelector("h1");if(h1)h1.textContent="Pack mechanics";
- const c=m.querySelector(".crumb");if(c)c.innerHTML=`<a href="#">Home</a> / Pack mechanics`;
- const w=document.createTreeWalker(m,NodeFilter.SHOW_TEXT);let n;while((n=w.nextNode()))if(/\bActs?\b/.test(n.nodeValue))n.nodeValue=pathText(n.nodeValue);
+ document.title="Mechanics · Linggango Wiki";
+ const G=GOETY,A=AE2,TY=Object.entries(G.types),cnt=G.counts;
+ const tName=t=>(G.types[t]||{name:t}).name.replace(/ Rituals?$/,"");
+ const act=a=>a?esc(actL(a)):"—";
+ const kindL={craft:"Craft",enchant:"Enchant",summon:"Summon",summon_tamed:"Summon",summon_tamed_no_variant:"Summon",convert:"Convert",convert_tamed:"Convert",convert_complete_tamed:"Convert",locate:"Locate",teleport:"Teleport"};
+ const gate=Object.entries(G.base_gate).filter(([,v])=>v).map(([k,v])=>`${esc(k)} (${act(v)})`).join(", ");
+ const rows=G.rituals.map(r=>`<tr data-ty="${esc(r.type||"")}" data-k="${esc(kindL[r.kind]||r.kind)}" data-q="${esc((r.out+" "+r.act+" "+r.ings.join(" ")).toLowerCase())}"><td>${r.out_id&&IC[r.out_id]?islot(r.out_id)+" ":""}<b>${r.out_id&&BYID[r.out_id]?ilink(r.out_id,r.out):esc(r.out)}</b>${r.xp?` <small>· ${r.xp} XP levels</small>`:""}</td><td>${esc(tName(r.type))}</td><td>${esc(r.act)}</td><td>${r.ings.map(esc).join(", ")}</td><td class="num">${r.soul??"—"}</td><td>${[r.research?`Research: ${esc(G.research[r.research]||r.research)}`:"",r.sacrifice?`Sacrifice: ${esc(r.sacrifice)}`:"",r.gate?`Locked until ${act(r.gate)}`:""].filter(Boolean).join("<br>")||"—"}</td></tr>`).join("");
+ const cells=A.cells.map(c=>`<tr><td><b>${c.t}</b></td><td class="num">${c.bytes.toLocaleString()}</td><td class="num">${c.bpt}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-63*c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_fluid_mb/1000).toLocaleString()} B</td><td class="num">${c.drain}</td></tr>`).join("");
+ const gates=Object.entries(A.gates).sort((a,b)=>a[0]-b[0]).map(([a,xs])=>`<tr><td><b>${act(+a)}</b><br><small>after ${esc(GK[a]||"")}</small></td><td>${xs.map(esc).join(", ")}</td></tr>`).join("");
+ el("main").innerHTML=`${crumb("Mechanics")}<h1>Mechanics</h1>
+<p class="lede">Two systems explained in full, read from the mods and the Linggango pack files: Goety's Dark Rituals and AE2 storage.</p>
+<nav class="mtabs"><a href="#mechanics" data-go="m-goety">Goety rituals</a><a href="#mechanics" data-go="m-ae2">AE2 storage</a></nav>
+<section class="s" id="m-goety"><h2>Goety: Dark Rituals</h2>
+<div class="steps">
+<div><b>1 · Soul Energy</b><p>Make a <b>Totem of Roots</b> (sticks, Ectoplasm, Lapis Lazuli), later the <b>Totem of Souls</b>. Kill mobs with the totem in your hotbar or a Charm slot to fill it with Soul Energy; villagers give the most.</p></div>
+<div><b>2 · Cursed Cage + Dark Altar</b><p>Put the totem in a <b>Cursed Cage</b> and place the <b>Dark Altar</b> directly on top of it. The altar draws Soul Energy from the cage while a ritual runs.</p></div>
+<div><b>3 · Pedestals and blocks</b><p>Place <b>Pedestals</b> within ${G.range} blocks of the altar and put the ingredients on them. Then build what the ritual type asks for (table below) anywhere in that ${G.range}-block radius: order and pattern don't matter, only the count. Shift-right-click the altar with an empty hand to show the radius.</p></div>
+<div><b>4 · Start it</b><p>Right-click the altar with the <b>activation item</b>. Fill the pedestals first; the ritual fails on missing, extra or wrong items, not enough Soul Energy or a missing block requirement.</p></div>
+</div>
+<p class="note">In Linggango the Goety chapter opens after the Iron Colossus, but the ritual blocks are locked behind the Gold tier: ${gate}. So rituals start in Act III. Some rituals also need a <b>research</b>, learned by reading the matching scroll, or a <b>sacrifice</b> killed in range during the ritual.</p>
+<h3>Ritual types</h3>
+<div class="rtypes">${TY.map(([k,t])=>`<div class="rtype">${t.img?`<img src="data:image/webp;base64,${t.img}" alt="${esc(t.name)} example layout" loading="lazy">`:""}<b>${esc(t.name)}</b><small>${cnt[k]||0} rituals</small><ul>${t.req.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}</div>
+<h3>Every ritual in the pack (${G.rituals.length})</h3>
+<p class="note">From Goety ${"and its addons (Goety Revelation, Goety Delight, Goety & Cataclysm, Goety Hostility)"}, plus the pack's own datapack recipes; rituals the pack removes are left out. Soul = Soul Energy drained over the ritual.</p>
+<div class="rflt"><input id="rq" type="search" placeholder="Find a ritual, item or ingredient…"><select id="rt"><option value="">All types</option>${TY.map(([k,t])=>`<option value="${esc(k)}">${esc(t.name)}</option>`).join("")}</select><select id="rk"><option value="">All kinds</option>${["Craft","Enchant","Summon","Convert","Locate","Teleport"].map(k=>`<option>${k}</option>`).join("")}</select><span id="rn"></span></div>
+<div class="tw rtw"><table class="rtab"><tr><th>Result</th><th>Type</th><th>Activation item</th><th>Ingredients (on pedestals)</th><th>Soul</th><th>Also needs</th></tr>${rows}</table></div>
+</section>
+<section class="s" id="m-ae2"><h2>AE2 storage</h2>
+<p>Applied Energistics 2 (15.4.10) with AE2 Things, AE2 Wireless Terminals and Insert/Export Card. In Linggango its parts open with the Keepers:</p>
+<div class="tw"><table><tr><th>Opens at</th><th>AE2 parts that unlock</th></tr>${gates}</table></div>
+<p class="note">1k and 4k storage cells and their components are not locked, but the ME Drive and ME Chest that read them open at ${act(4)}, so AE2 really starts there. The ME Controller only opens at ${act(5)}.</p>
+<h3>Getting started</h3>
+<ul>
+<li><b>Certus Quartz</b>: besides growing it, Linggango adds a recipe: Nether Quartz + Light Blue Dye → Certus Quartz Crystal.</li>
+<li><b>Inscriber presses</b> spawn in meteorites (pack config keeps this on), or use the Inscriber recipes once you have one set.</li>
+<li><b>Power</b>: an Energy Acceptor turns FE into AE at the pack's ratio of 1 FE = ${A.fe_ratio} AE (2 FE per AE).</li>
+<li><b>Before the Controller</b> (${act(4)}): a network without a controller is ad-hoc and carries at most 8 channels in total, so keep it to 8 channel-using devices (drives, terminals, buses, interfaces).</li>
+<li><b>With a Controller</b> (${act(5)}): normal cable carries 8 channels, dense cable 32, and each controller face feeds 32. Channel mode is the AE2 default.</li>
+</ul>
+<h3>How much a cell holds</h3>
+<p>A cell has a byte budget. Every <b>item type</b> stored costs a fixed number of bytes before any items go in, then each byte holds ${A.per_byte_item} items (or ${A.per_byte_fluid_mb.toLocaleString()} mB of fluid). Item cells take up to ${A.types_item} types, fluid cells ${A.types_fluid}. So one type fills a cell best; many types eat the budget.</p>
+<div class="tw"><table><tr><th>Cell</th><th>Bytes</th><th>Bytes per type</th><th>Items, 1 type</th><th>Items, 63 types</th><th>Fluid, 1 type</th><th>Idle drain (AE/t)</th></tr>${cells}</table></div>
+<h3>ME DISK Drives (AE2 Things)</h3>
+<p>A DISK drive counts items one by one with <b>no type limit and no per-type cost</b>: a ${A.disk.tiers[0]} DISK holds ${(A.disk.per_k).toLocaleString()} items of any mix, a 256k DISK ${(256*A.disk.per_k).toLocaleString()}. Items only, no fluids. The contents are saved with the world under the drive's ID, so a full drive stays light to carry. Use them for messy mixed storage, normal cells for bulk single items.</p>
+<p class="note">Linggango makes them expensive: each DISK drive needs 2 Quartz Glass, 3 Quantum Entangled Singularities, 2 Netherite Ingots, a Nether Star and the matching AE2 storage component (pack recipe; the DISK Housing swaps the component for an empty slot), and they open at ${act(6)} (256k at ${act(7)}).</p>
+<h3>Wireless and curios</h3>
+<p>The wireless range is ${A.wireless_range} blocks around a Wireless Access Point before boosters. These terminals can be worn in the Curio slot, so you can use them without holding them: ${A.curio.map(esc).join(", ")}. The plain Wireless Terminal can't.</p>
+</section>`;
+ const q=el("rq"),t=el("rt"),kk=el("rk"),rs=[...el("main").querySelectorAll(".rtab tr[data-ty]")];
+ const f=()=>{const v=q.value.trim().toLowerCase();let n=0;rs.forEach(r=>{const ok=(!t.value||r.dataset.ty===t.value)&&(!kk.value||r.dataset.k===kk.value)&&(!v||r.dataset.q.includes(v));r.hidden=!ok;n+=ok});el("rn").textContent=`${n} of ${rs.length}`};
+ [q,t,kk].forEach(x=>x.addEventListener("input",f));f();
+ el("main").querySelectorAll(".mtabs [data-go]").forEach(a=>a.onclick=e=>{e.preventDefault();el(a.dataset.go).scrollIntoView({behavior:"smooth"})});
 }
 
 const rIngr=x=>{const c={};x.gr.c.forEach(e=>{if(e&&e[0])c[e[0]]=(c[e[0]]||0)+1});return Object.entries(c)};
