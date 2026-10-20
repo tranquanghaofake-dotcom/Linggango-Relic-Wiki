@@ -87,3 +87,10 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 - Path pages show the boss with a boss bar above its stats. Curio cards are dark tooltip-style entries with the name in its rarity colour.
 - 3D now runs only on Path pages: the Keeper on the home hero and the WebGL portrait snapshots are gone (emblems use the Keeper's signature drop icon). The floating relic background is off.
 - Desktop and laptop only (1280–1920 px). Below 900 px the layout stacks so it stays usable, but it is not designed for phones.
+
+## v7 (merge: v5 wiki + gear + game UI)
+- Base is now the newest wiki: the v5 the user uploaded plus the weapon and armor tier lists from branch `claude/laughing-mccarthy-82nfi5` (commit 6a05c82). v6's game UI and the v5 fixes were ported onto it. Earlier work on this branch had started from the older 17 Oct wiki by mistake.
+- Sources: `build/src/` (template.html, v5.css, data.js, gear_data.js, fx3d.js, app.js, gear.js) split out of that branch's built HTML, plus `build/style.game.css`. `python3 build/build.py` writes `index.html` and `dist/`; `--raw` builds the v5 look without the skin. Gear data is regenerated with `build/gear/build.sh` (needs the pack zip and jars).
+- Naming: the progression as a whole is **The Path**; each stage is an **Act** (Act 0–I, Act II … Warden Act, Ender Dragon Act).
+- Game skin now also covers Gear (tier rows of inventory slots, stone-button filters), Builder (slots as item slots), Bosses (boss bar, GUI cards) and Mechanics (GUI tables).
+- Fixes: opening a `#gear…`, `#g…` or `#gs…` link directly showed the tier list (gear.js loaded after the first render; the first render now runs after it). Boss list showed "⚔ null" damage for the Ender Dragon. Raw ids in boss notes, lowercase ledes, copy fallback, 3D framing, title in head, dark color-scheme, as in v5/v6.
