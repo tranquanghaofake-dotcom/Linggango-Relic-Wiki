@@ -148,13 +148,24 @@ function bossList(){
  el("main").innerHTML=`${crumb("Bosses")}<h1>Bosses</h1><p class="lede">Every Keeper in fight order, with the Warden, the Wither and the Ender Dragon where your gear can take them. Each card shows what summons it; open one for the full summon guide and recipe.</p>
 <div class="blist">${ks.map(k=>{const a=bossPath(k),v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item,itn=v?v.name:u&&u.name;return `<a class="bcardl" href="#boss/${k}" style="--tc:${ACT[a][2]}">${emblem(a,"sm")}<span><b>${esc(bossName(k))}</b><small>Opens ${esc(actL(a))}</small>${it?`<small class="bsum">${img(it)} ${esc(itn)}</small>`:""}</span></a>`}).join("")}</div>`}
 const ATG={melee:"⚔",proj:"➶",aoe:"◎",summon:"☠",move:"➜",buff:"✦"};
-const atype=d=>/summon|spawns? (a|an|\d|two|three|four|five|six|minions?)|calls? /i.test(d)?"summon":/throws|shoots|fires|projectile|bolt|orb|beam|laser|arrow/i.test(d)?"proj":/ground|area|around it|within \d+ blocks|ring|circle|shockwave|explo/i.test(d)?"aoe":/teleport|dash|charge|leap|jumps|flies/i.test(d)?"move":/heals?|regenerat|resistance|shield|buff/i.test(d)?"buff":"melee";
+const atype=d=>/summon|spawns? (a|an|\d|two|three|four|five|six|minions?)|calls? /i.test(d)?"summon":/throws|shoots|fires|projectile|bolt|orb|beam|laser|arrow/i.test(d)?"proj":/ground|area|around it|within \d+ blocks|ring|circle|shockwave|explo/i.test(d)?"aoe":/teleport|dash|charge|leap|jumps|flies/i.test(d)?"move":/heals?|regenerat|gains? resistance|buffs? itself/i.test(d)?"buff":"melee";
 function bossInfoHtml(k){const b=typeof BINFO!=="undefined"&&BINFO[k];if(!b)return "";
  const di=id=>BIMG[id]?`<img alt="" src="${BIMG[id]}">`:(IC[id]?img(id):"");
  const drops=b.drops.length?`<section class="s"><h2>Drops</h2><div class="bdrops">${b.drops.map(d=>`<div class="bdrop${d.via==="treasure bag"?" bag":""}"><span class="slot">${di(d.id)}</span><b>${BYID[d.id]?ilink(d.id,d.n):esc(d.n)}</b><span class="bch">${esc(d.chance)}</span>${d.count&&d.count!=="1"?`<small>×${esc(d.count)}</small>`:""}${d.note?`<small class="bnt">${esc(d.note)}</small>`:""}</div>`).join("")}</div><p class="note">Gold frame: dropped straight on death. Plain: inside the Treasure Bag (right-click it).</p></section>`:"";
  const ph=b.ph.filter(p=>p.at.length),multi=ph.length>1;
  const atk=ph.length?`<section class="s"><h2>Attacks</h2>${ph.map((p,i)=>`${multi?`<h3>${esc(p.e.replace(/_/g," ").replace(/\b(\w)/g,c=>c.toUpperCase()))}</h3>`:""}<div class="batks">${p.at.map(a=>{const im=a.img?BIMG["g:"+a.img]:a.ic?BIMG[a.ic]:null;return `<div class="batk">${im?`<img class="bai" alt="" src="${im}">`:`<span class="bai bai0 ${atype(a.d)}">${ATG[atype(a.d)]}</span>`}<div><b>${esc(a.n)}</b>${a.ph?`<small class="bph">${esc(a.ph)}</small>`:""}<p>${esc(a.d)}</p></div></div>`}).join("")}</div>`).join("")}</section>`:"";
  return atk+drops}
+function sidePage(n){const b=typeof SIDEB!=="undefined"&&SIDEB[n],r=(typeof BOSSR!=="undefined"?BOSSR:[]).find(x=>x[0]===n);if(!b){location.replace("#home");return}
+ document.title=n+" · Linggango Wiki";const a=r?r[1]:0,pi=typeof PIMG!=="undefined"?PIMG.side[n]:null;
+ const di=id=>IC[id]?img(id):(typeof BIMG!=="undefined"&&BIMG[id]?`<img alt="" src="${BIMG[id]}">`:"");
+ el("main").innerHTML=`${crumb('<a href="#home">The Path</a>',esc(n))}<h1>${esc(n)}</h1>
+<div class="sbhero" style="--tc:${ACT[a][2]}">${b.img?`<img class="sbimg" alt="" src="${b.img}">`:`<span class="sbimg">${emblem(a,"lg")}</span>`}<div class="sbtx"><span class="sbmod">${esc(b.mod||"")}</span><b>Optional side boss</b><span>Fight it with <a href="#act/${a}">${esc(actL(a))}</a> gear</span></div>${pi?`<img class="sbarena" alt="Arena" src="${pi}">`:""}</div>
+<div class="bpg">
+<section class="s"><h2>Where to find it</h2><p class="sbfind">${esc(b.find||"")}</p></section>
+${b.attacks&&b.attacks.length?`<section class="s"><h2>Attacks</h2><div class="batks">${b.attacks.map(x=>`<div class="batk"><span class="bai bai0 ${atype(x.desc)}">${ATG[atype(x.desc)]}</span><div><b>${esc(x.name)}</b><p>${esc(x.desc)}</p></div></div>`).join("")}</div></section>`:""}
+${b.drops&&b.drops.length?`<section class="s"><h2>Drops</h2><div class="bdrops">${b.drops.map(x=>`<div class="bdrop bag"><span class="slot">${di(x.id)}</span><b>${BYID[x.id]?ilink(x.id,x.n):esc(x.n)}</b><span class="bch">${esc(x.chance||"")}</span></div>`).join("")}</div>${b.drops_note?`<p class="note">${esc(b.drops_note)}</p>`:""}<p class="note">Chances are estimated from the loot table rolls.</p></section>`:""}
+${b.sources&&b.sources.length?`<p class="note">Sources: ${b.sources.map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/,"").split("/")[0])}</a>`).join(" · ")}</p>`:""}
+</div>`}
 function bossPage(k){
  const a=bossPath(k);if(a===undefined){bossList();return}
  const nm=bossName(k),i=ORDER.indexOf(a),row=ACTS[BOSS_ACT[k]],xs=D.filter(d=>d.t===a).sort((p,q)=>(isMust(q)-isMust(p))||(q.r-p.r));
@@ -558,7 +569,7 @@ function hubHome(){
  <section class="gui"><h2 class="gt">The Path</h2><p class="gs">Left: the main line. Right: optional side bosses for that Act (hover for tips).</p>
  <div class="ptree">${path.map(a=>{const sb=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(r=>r[1]===a&&!/Keeper/.test(r[0])&&!/^(Warden|Wither|Ender Dragon)\b/.test(r[0]));
   const pi=typeof PIMG!=="undefined"?PIMG:{side:{},act:{}},ti=pi.act[String(a)];
-  return `<div class="prow" style="--tc:${ACT[a][2]}">${node(a)}<div class="pmain">${ti?`<img class="ptitle" alt="${esc(actL(a))}" src="${ti}">`:""}<div class="pside">${sb.length?[...sb].sort((x,y)=>!!pi.side[y[0]]-!!pi.side[x[0]]).map(r=>{const im=pi.side[r[0]];return im?`<span class="pbc" title="${esc(pathText(r[3]||""))}"><img alt="" src="${im}"><b>${esc(r[0])}</b></span>`:`<span class="pb" title="${esc(pathText(r[3]||""))}">${r[4]&&r[4][0]&&IC[r[4][0]]?img(r[4][0]):""}${esc(r[0])}</span>`}).join(""):'<span class="pnone">No side bosses</span>'}</div></div></div>`}).join("")}</div>
+  return `<div class="prow" style="--tc:${ACT[a][2]}">${node(a)}<div class="pmain">${ti?`<img class="ptitle" alt="${esc(actL(a))}" src="${ti}">`:""}<div class="pside">${sb.length?[...sb].sort((x,y)=>(!!pi.side[y[0]]||!!(typeof SIDEB!=="undefined"&&SIDEB[y[0]]&&SIDEB[y[0]].img))-(!!pi.side[x[0]]||!!(typeof SIDEB!=="undefined"&&SIDEB[x[0]]&&SIDEB[x[0]].img))).map(r=>{const sb2=typeof SIDEB!=="undefined"&&SIDEB[r[0]],rim=sb2&&sb2.img,im=pi.side[r[0]],hr=sb2?` href="#side/${enc(r[0])}"`:"";return rim||im?`<a class="pbc${rim?" rnd":""}"${hr} title="${esc(pathText(r[3]||""))}">${im?`<img class="bg" alt="" src="${im}">`:""}${rim?`<img class="fg" alt="" src="${rim}">`:""}<b>${esc(r[0])}</b></a>`:`<a class="pb"${hr} title="${esc(pathText(r[3]||""))}">${r[4]&&r[4][0]&&IC[r[4][0]]?img(r[4][0]):""}${esc(r[0])}</a>`}).join(""):'<span class="pnone">No side bosses</span>'}</div></div></div>`}).join("")}</div>
  ${D.some(d=>d.t===-1)?`<p class="gs side">Side Act: <a href="#act/-1">L2 Artifacts</a>, dropped by L2 Hostility mobs by level, outside the Keeper order.</p>`:""}</section>
 ${typeof GE!=="undefined"?`<section class="gui"><h2 class="gt">Equipment</h2><p class="gs">${GE.filter(g=>g.k!=="armor").length} weapons and ${GS.length} armor sets from the pack, ranked for each playstyle at every Act. The best melee weapon of each Act: <a href="#gear">open the tier list</a></p>
  <div class="hotbar gearbar">${ORDER.filter(a=>a!=-1).map(a=>{const t=gTiers(a,"ME","w"),g=t.length&&t[0][1][0];return g?`<a class="slot big" href="#gear/${a}/ME/w" data-t="g${g.ix}" aria-label="${esc(actL(a))}: ${esc(g.n)}">${gImg(g)}<span class="sl-n">${esc(ACT[a][0])}</span></a>`:""}).join("")}</div></section>`:""}
@@ -798,7 +809,7 @@ function render(){
   if(mm){const v=mm[2],f=mm[1]==="mod"?"mod":"slot";st.q=`${f}:${/\s/.test(v)?`"${v}"`:v}`;el("q").value=st.q;location.replace("#home");return}}
  document.body.classList.toggle("hub",h===""||h==="#");
  // curio filters and index only make sense next to curio lists
- document.body.classList.toggle("noside",h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics");
+ document.body.classList.toggle("noside",h.startsWith("#side/")||h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics");
  if(innerWidth<=760&&(h.startsWith("#i")||h==="#guide")){el("side").classList.add("closed");el("fold").setAttribute("aria-expanded","false")}
  const soft=SOFT;SOFT=false;const mn=el("main");if(!soft){mn.classList.remove("enter");void mn.offsetWidth;mn.classList.add("enter")}
  const m=h.match(/^#(slot|act|mod)\/(.+)$/);
@@ -807,6 +818,7 @@ function render(){
  else if(h==="#bosses")bossList();
  else if(h.startsWith("#boss/"))bossPage(h.slice(6));
  else if(h==="#mechanics")mechPage();
+ else if(h.startsWith("#side/"))sidePage(h.slice(6));
  else if(m)hubList(m[1],m[2]);
  else if(h==="#mods")hubList("mods");
  else if(h.startsWith("#i")&&D[+h.slice(2)]){page(D[+h.slice(2)]);recipeTree(D[+h.slice(2)])}

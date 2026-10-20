@@ -196,3 +196,14 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 - **Curio tiles:** 32px art with a black outline. A gentle bob runs only while a tile is on screen (`.vis`). The tile grid uses `content-visibility`.
 - **Mechanics:** Goety and AE2 "getting started" are now icon flows with short captions. Block icons are rendered from Java block models (`build/pack_audit/mkicons.py`).
 - Guide books: 339 practical tips from the mods' own Patchouli books are shown as "From the guide book" on curio and gear pages, from books such as the Simply Swords Runic Grimoire, the Goety Black Book, the Ars Nouveau Worn Notebook, Enigmatic Legacy and Blood Magic. The extractor is `build/pack_audit/guides.py`. Lore-only entries are filtered out; the data is in `build/patches/guides.json`.
+
+## v19: Side boss pages
+- 61 side bosses each have a page at `#side/<name>`, linked from the cards on The Path. Each page has:
+  - where to find or summon the boss, including recipes from the jars;
+  - 2–5 attacks, taken from the official mod wikis or the jar's lang file;
+  - drops from the jar or pack loot tables, with chances estimated from the rolls;
+  - sources;
+  - a 3D render (37 bosses: 25 GeckoLib renders, 12 from official wikis), next to the pack's arena screenshot where one exists.
+- Data is in `build/patches/side_bosses.json`; the scripts are in `build/pack_audit/side_bosses/`.
+- Still missing: images for 24 Java-model bosses, and attacks for the Shadow Wizards.
+- 57 drop-item icons were added with `mkicons.py`.
