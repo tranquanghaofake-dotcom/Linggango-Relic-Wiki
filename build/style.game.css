@@ -277,9 +277,9 @@ h1.h-em{display:flex;align-items:center;gap:14px}
 .ip-main{min-width:0;display:grid;gap:24px;align-content:start}
 .ip-sec{padding:18px 20px 20px;scroll-margin-top:90px}
 .ip-sec>h2{margin:0 0 12px}
-.how{margin:0;padding:0;list-style:none;counter-reset:h;display:grid;gap:8px}
-.how li{counter-increment:h;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;padding:8px 10px;background:var(--gui2);box-shadow:inset 2px 2px 0 rgba(0,0,0,.45),inset -2px -2px 0 rgba(255,255,255,.07)}
-.how li::before{content:counter(h);display:grid;place-items:center;width:24px;height:24px;font:700 13px var(--disp);color:#fff;background:var(--btn);box-shadow:0 0 0 2px #000,inset 1px 1px 0 var(--btn-hi),inset -1px -2px 0 var(--btn-lo)}
+ol.how{margin:0;padding:0;list-style:none;counter-reset:howc;display:grid;gap:8px}
+ol.how li{counter-increment:howc;position:relative;display:block;padding:9px 12px 9px 46px;line-height:1.55;background:var(--gui2);box-shadow:inset 2px 2px 0 rgba(0,0,0,.45),inset -2px -2px 0 rgba(255,255,255,.07)}
+ol.how li::before{content:counter(howc);position:absolute;left:10px;top:8px;display:grid;place-items:center;width:24px;height:24px;font:700 13px var(--body);color:#fff;background:var(--btn);box-shadow:0 0 0 2px #000,inset 1px 1px 0 var(--btn-hi),inset -1px -2px 0 var(--btn-lo)}
 .whyb{margin:12px 0 0;padding:12px 14px;background:#b9b9b9;box-shadow:inset 2px 2px 0 rgba(0,0,0,.2),inset -2px -2px 0 rgba(255,255,255,.07)}
 .whyb b{font:700 15px var(--disp)}
 .whyb ul{margin:6px 0 0;padding-left:20px}
@@ -547,3 +547,5 @@ body{background:radial-gradient(1200px 600px at 70% -10%,rgba(120,80,200,.12),tr
 .ip-info dt,.ip-info dd{border-top-color:var(--gui-line)}
 #tip .slot{background:var(--slot);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi),0 0 0 1px color-mix(in srgb,var(--rc) 60%,transparent),0 0 12px color-mix(in srgb,var(--rc) 35%,transparent)}
 ::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:var(--gui-hi);box-shadow:inset 0 0 0 2px var(--gui)}::-webkit-scrollbar-track{background:var(--gui-lo)}
+
+.ph.gph{font-size:20px;line-height:1;opacity:.55;filter:grayscale(.3)}
