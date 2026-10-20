@@ -38,7 +38,7 @@ def base_css():
 
 style = base_css() if "--raw" in sys.argv else base_css() + "\n" + read(B / "style.game.css")
 html = read(S / "template.html").replace("{{STYLE}}", "<style>\n" + style + "\n</style>")
-for name in ["data.js", "gear_data.js", "fx3d.js", "app.js", "gear.js"]:
+for name in ["data.js", "gear_data.js", "wiki_data.js", "fx3d.js", "app.js", "gear.js"]:
     html = html.replace("{{%s}}" % name, read(S / name))
 for out in (ROOT / "index.html", ROOT / "dist" / "Linggango_Relic_Wiki.html"):
     out.parent.mkdir(exist_ok=True)

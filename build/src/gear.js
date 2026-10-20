@@ -51,7 +51,7 @@ function gearPage(h){
  const m=h.match(/^#gear(?:\/([\d.]+))?(?:\/(\w\w))?(?:\/([wa]))?/);if(m){if(m[1]!=null)GSTATE.a=+m[1];if(m[2])GSTATE.r=m[2];if(m[3])GSTATE.w=m[3]}
  if(!ORDER.includes(+GSTATE.a))GSTATE.a=0;if(GSTATE.w==="w"&&GSTATE.r==="TA")GSTATE.r="ME";
  try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){}
- const {a,r,w}=GSTATE;document.title=`Gear tier list · ${actL(a)} · Linggango Relic Wiki`;
+ const {a,r,w}=GSTATE;document.title=`Gear tier list · ${actL(a)} · Linggango Wiki`;
  const roles=Object.keys(GROLE).filter(k=>w==="a"||k!=="TA");
  const tiers=gTiers(a,r,w),pool=tiers.reduce((n,x)=>n+x[1].length,0);
  const go=(A,R,W)=>`#gear/${A}/${R}/${W}`;
@@ -93,7 +93,7 @@ const gLoot=t=>{const [ns,p]=t.split(":");const parts=p.split("/");const kind=pa
  return (kind==="entities"?"Dropped by "+what:kind==="chests"?"Found in chests: "+what:kind==="gameplay"?"Gameplay loot: "+what:"Loot table: "+p.replace(/[_/]/g," "))+" ("+ns+")"};
 function gTimeline(g){const r=gMain(g),w=g.ps?"a":"w";const acts=ORDER.filter(x=>x!=-1&&oiA(x)>=oiA(g.a));
  return `<div class="gtime">${acts.map(x=>{const t=gTierOf(g,x,r,w);const i=GTIER.findIndex(z=>z[0]===t);return `<a href="#gear/${x}/${r}/${w}" style="--tc:${ACT[x][2]};--gc:${i>=0?GTIER[i][2]:"#555"}" title="${esc(actL(x))}: ${t||"below D"} for ${GROLE[r]}"><b>${t||"–"}</b><small>${esc(ACT[x][0])}</small></a>`}).join("")}</div>`}
-function gearItemPage(g){document.title=g.n+" · Linggango Relic Wiki";seedBg("g"+g.ix,[]);
+function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix,[]);
  const r=gMain(g),rows=gStats(g),bon=gBonus(g),set=g.k==="armor"?GS.find(s=>s.p.includes(g.id)):null;
  el("main").innerHTML=`${crumb('<a href="#gear">Gear</a>',esc(g.n))}<article class="gpage" style="--tc:${ACT[g.a][2]};${tex(g.a)}">
  <header class="gph"><span class="gbig">${img(g.id)}</span><div><h1>${esc(g.n)}</h1><p class="gsub">${esc(GKIND[g.k])}${g.sl?" · "+GSLOT[g.sl]:""} · <a href="#mod/${enc(MODN(g.ns))}">${esc(MODN(g.ns))}</a> · <code>${esc(g.id)}</code></p>
@@ -103,7 +103,7 @@ function gearItemPage(g){document.title=g.n+" · Linggango Relic Wiki";seedBg("g
  <section class="gbox"><h2>Tier by Act</h2>${set?`<p class="note">The ${esc(set.n)} set as ${GROLE[gMain(set)]} armor, compared with every set usable at each Act.</p>${gTimeline(set)}`:`<p class="note">${GROLE[r]} weapons, compared with everything usable at each Act.</p>${gTimeline(g)}`}
  ${set?`<h3>Set</h3><a class="gsetl" href="#gs${set.ix}" data-t="s${set.ix}">${gImg(set)}<span>${esc(set.n)} · ${set.ps.length} piece${set.ps.length>1?"s":""}</span></a>`:""}</section></div>
  <section class="gbox"><h2>How to get</h2>${gSrcText(g)}</section></article>`;decorate()}
-function gearSetPage(s){document.title=s.n+" set · Linggango Relic Wiki";seedBg("gs"+s.ix,[]);const r=gMain(s);
+function gearSetPage(s){document.title=s.n+" set · Linggango Wiki";seedBg("gs"+s.ix,[]);const r=gMain(s);
  el("main").innerHTML=`${crumb('<a href="#gear/'+GSTATE.a+'/TA/a">Gear</a>',esc(s.n))}<article class="gpage" style="--tc:${ACT[s.a][2]};${tex(s.a)}">
  <header class="gph"><span class="gbig">${gImg(s)}</span><div><h1>${esc(s.n)} set</h1><p class="gsub">${s.ps.length} piece${s.ps.length>1?"s":""} · <a href="#mod/${enc(MODN(s.k.split(":")[0]))}">${esc(MODN(s.k.split(":")[0]))}</a></p>
  <p class="gact"><span class="gx">${emblem(s.a,"xs")}</span>${esc(actL(s.a))}</p></div></header>

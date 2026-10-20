@@ -552,8 +552,8 @@ body{background:radial-gradient(1200px 600px at 70% -10%,rgba(120,80,200,.12),tr
 
 /* ---------- tiles: no ingredient corner mark, no gold pulse, lighter rendering ---------- */
 .t .ct,.t .sh{display:none!important}
-.t>img,.t .aimg{width:40px!important;height:40px!important}
-.t .aimg img{width:40px!important}
+.t>img,.t .aimg{width:32px!important;height:32px!important}
+.t .aimg img{width:32px!important}
 /* the gold pulse animated a drop-shadow filter on every rare tile (a full repaint per frame); keep the static glow */
 .tier.seen .t.r4>img,.tier.seen .t.r5>img,.tier.seen .t.r6>img{animation-name:mvA!important;animation-duration:3.4s!important}
 /* skip layout and paint of tiers and tiles that are off screen; animations there stop with them */
@@ -587,3 +587,29 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .bsb .bx.on .bxr:hover{color:#ff6b6b!important}
 .bsb .bx.on.late,.bsb .bx.on.over{box-shadow:inset 0 0 0 2px #e0565b}
 .gin .gn{font:700 12px var(--body);color:var(--gui-link);margin-right:2px}
+
+/* tiles: crisp 2× pixels (16 px textures at 32 px), smooth idle float, lift + 3× zoom on hover */
+.t>img,.t .aimg{image-rendering:pixelated!important;transform-origin:50% 60%;transition:transform .18s cubic-bezier(.2,.8,.2,1),filter .18s}
+@keyframes tfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.tier.seen .t>img,.tier.seen .t .aimg{animation:tfloat 3.2s ease-in-out infinite!important;animation-delay:calc(var(--i,0)*-137ms)!important}
+.t{transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s}
+.t:hover,.t:focus-visible{transform:translateY(-3px);z-index:5}
+.t:hover>img,.t:hover .aimg,.t:focus-visible>img{animation-play-state:paused!important;transform:scale(1.5)!important;filter:drop-shadow(0 3px 0 rgba(0,0,0,.55)) drop-shadow(0 0 6px color-mix(in srgb,var(--rc2,#fff) 70%,transparent))!important}
+.t.vis>img,.t.vis .aimg{will-change:transform}
+@media (prefers-reduced-motion:reduce){.tier.seen .t>img,.tier.seen .t .aimg{animation:none!important}.t,.t>img{transition:none}}
+/* boss summon guide */
+.sumhead{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.sumhead>div>b{font:700 17px var(--body);color:#fff}
+.sumhead p{margin:6px 0 0}
+.sumg h3{font:700 15px var(--body);color:#fff;margin:18px 0 10px}
+.sumcraft{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.sumcraft .arr{font:700 26px var(--body);color:var(--gui-mute)}
+.sumcraft small{color:var(--gui-mute)}
+.sgrid{display:grid;grid-template-columns:repeat(3,40px);gap:2px;padding:6px;background:var(--gui2);box-shadow:inset 2px 2px 0 rgba(0,0,0,.45)}
+.sgrid .slot.sm img{width:24px;height:24px}
+.sumings{margin-top:12px;border-collapse:collapse;width:100%;max-width:760px}
+.sumings th{text-align:left;font:600 12.5px var(--body);color:var(--gui-mute);padding:4px 8px}
+.sumings td{padding:5px 8px;border-top:1px solid var(--gui-line);vertical-align:middle}
+.sumings td .slot{vertical-align:middle;margin-right:6px}
+.bsum{display:flex;align-items:center;gap:6px;margin-top:6px;color:var(--gui-ink)!important}
+.bsum img{width:20px;height:20px}
