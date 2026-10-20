@@ -16,14 +16,13 @@
  <div class="sbhead"><span class="count" id="cnt"></span><button class="ghost" id="reset">Clear filters</button></div>
  <details class="grp" open><summary>Role</summary><div class="chips" id="fc"></div></details>
  <details class="grp" open><summary>Rarity</summary><div class="chips" id="fr"></div></details>
- <details class="grp"><summary>Element</summary><div class="chips" id="fe"></div></details>
- <details class="grp"><summary>Mechanic</summary><div class="chips" id="fl"></div></details>
- <details class="grp"><summary>Brutality seasoning</summary><div class="chips" id="fsp"></div></details>
- <details class="grp"><summary>Source, mod, slot</summary><div class="chips" id="fg"></div>
+ <details class="grp"><summary>Spell element</summary><div class="chips" id="fe"></div></details>
+ <details class="grp" open><summary>Mechanic</summary><div class="chips" id="fl"></div><div class="chips" id="fsp" hidden></div></details>
+ <details class="grp" hidden><summary>Source, mod, slot</summary><div class="chips" id="fg"></div>
  <select id="fm" aria-label="Filter by mod"><option value="">All mods</option></select>
  <select id="fs" aria-label="Filter by slot"><option value="">All slots</option></select>
  <select id="fa" aria-label="Up to Act"><option value="">All Acts</option></select></details>
- <details class="grp" open><summary>Index</summary><ul class="idx" id="idx"></ul></details>
+ <details class="grp" hidden><summary>Index</summary><ul class="idx" id="idx"></ul></details>
  </div>
 </aside>
 <main id="main"></main>

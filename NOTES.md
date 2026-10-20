@@ -183,3 +183,15 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
   - Warden, Wither, Dragon and Act XII emblems now use Armageddon items.
   - The footer is a 4-column credits block on every page.
   - Removed: Raw pack data, "Why it sits on", the boss curio lists, and the HP on vanilla Act headers.
+
+## v18: Split site build, filters, curio page, Mechanics flow
+- **Site build:** `build.py` now writes a 20 kB `index.html` that loads content-hashed `static/*.js|css` files, so browsers cache them and a rebuild always loads fresh. `dist/` stays one self-contained file. `CLAUDE.md` is updated to match.
+- **Sidebar:** Index and Source/Mod/Slot are hidden (the Path search bar covers them). The groups are now:
+  - **Spell element:** spell schools only (Fire Spell Power and the like; not fire immunity).
+  - **Mechanic:** secondary stats read from the effect text (Lifesteal, Armor pierce, Crit, Dodge, Cooldown, Mana, Minions, Reach, Thorns, Damage reduction, Bleed, Rage, Luck/loot, Mining), with the Brutality seasoning tag folded in.
+- **Curio pages:**
+  - Stats are a clean bullet list, with the source shown in the hover title.
+  - Removed "Same mod, same Act" (duplicate of the slot list) and "Wearing two" (already in the side box).
+  - The breadcrumb reads Home / The Path / Act.
+- **Curio tiles:** 32px art with a black outline. A gentle bob runs only while a tile is on screen (`.vis`). The tile grid uses `content-visibility`.
+- **Mechanics:** Goety and AE2 "getting started" are now icon flows with short captions. Block icons are rendered from Java block models (`build/pack_audit/mkicons.py`).

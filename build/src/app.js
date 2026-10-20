@@ -182,16 +182,16 @@ function mechPage(){
  const cells=A.cells.map(c=>`<tr><td><b>${c.t}</b></td><td class="num">${c.bytes.toLocaleString()}</td><td class="num">${c.bpt}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-63*c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_fluid_mb/1000).toLocaleString()} B</td><td class="num">${c.drain}</td></tr>`).join("");
  const gates=Object.entries(A.gates).sort((a,b)=>a[0]-b[0]).map(([a,xs])=>`<tr><td><b>${act(+a)}</b><br><small>after ${esc(GK[a]||"")}</small></td><td>${xs.map(esc).join(", ")}</td></tr>`).join("");
  el("main").innerHTML=`${crumb("Mechanics")}<h1>Mechanics</h1>
-<p class="lede">Two systems explained in full, read from the mods and the Linggango pack files: Goety's Dark Rituals and AE2 storage.</p>
+
 <nav class="mtabs"><a href="#mechanics" data-go="m-goety">Goety rituals</a><a href="#mechanics" data-go="m-ae2">AE2 storage</a></nav>
 <section class="s" id="m-goety"><h2>Goety: Dark Rituals</h2>
-<div class="steps">
-<div><b>1 · Soul Energy</b><p>Make a <b>Totem of Roots</b> (sticks, Ectoplasm, Lapis Lazuli), later the <b>Totem of Souls</b>. Kill mobs with the totem in your hotbar or a Charm slot to fill it with Soul Energy; villagers give the most.</p></div>
-<div><b>2 · Cursed Cage + Dark Altar</b><p>Put the totem in a <b>Cursed Cage</b> and place the <b>Dark Altar</b> directly on top of it. The altar draws Soul Energy from the cage while a ritual runs.</p></div>
-<div><b>3 · Pedestals and blocks</b><p>Place <b>Pedestals</b> within ${G.range} blocks of the altar and put the ingredients on them. Then build what the ritual type asks for (table below) anywhere in that ${G.range}-block radius: order and pattern don't matter, only the count. Shift-right-click the altar with an empty hand to show the radius.</p></div>
-<div><b>4 · Start it</b><p>Right-click the altar with the <b>activation item</b>. Fill the pedestals first; the ritual fails on missing, extra or wrong items, not enough Soul Energy or a missing block requirement.</p></div>
+<div class="flow">
+<div class="fst">${islot("goety:totem_of_souls",1)}<b>1. Fill a totem</b><span>Kill mobs with a Totem of Roots / Souls in your hotbar</span></div><i class="far">→</i>
+<div class="fst">${islot("goety:cursed_cage",1)}${islot("goety:dark_altar",1)}<b>2. Cage + Altar</b><span>Totem in the Cursed Cage, Dark Altar on top</span></div><i class="far">→</i>
+<div class="fst">${islot("goety:pedestal",1)}<b>3. Pedestals</b><span>Ingredients on Pedestals within ${G.range} blocks, plus the blocks the ritual type needs</span></div><i class="far">→</i>
+<div class="fst">${islot("goety:dark_wand",1)}<b>4. Activate</b><span>Right-click the altar with the activation item</span></div>
 </div>
-<p class="note">In Linggango the Goety chapter opens after the Iron Colossus, but the ritual blocks are locked behind the Gold tier: ${gate}. So rituals start in Act III. Some rituals also need a <b>research</b>, learned by reading the matching scroll, or a <b>sacrifice</b> killed in range during the ritual.</p>
+<div class="kchips"><span>🔒 Ritual blocks open at <b>${act(3)}</b></span><span>📜 Some rituals need a <b>research scroll</b></span><span>🗡 Some need a <b>sacrifice</b> in range</span><span>✖ Wrong or extra items = ritual fails</span></div>
 <h3>Ritual types</h3>
 <div class="rtypes">${TY.map(([k,t])=>`<div class="rtype">${t.img?`<img src="data:image/webp;base64,${t.img}" alt="${esc(t.name)} example layout" loading="lazy">`:""}<b>${esc(t.name)}</b><small>${cnt[k]||0} rituals</small><ul>${t.req.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`).join("")}</div>
 <h3>Every ritual in the pack (${G.rituals.length})</h3>
@@ -204,13 +204,13 @@ function mechPage(){
 <div class="tw"><table><tr><th>Opens at</th><th>AE2 parts that unlock</th></tr>${gates}</table></div>
 <p class="note">1k and 4k storage cells and their components are not locked, but the ME Drive and ME Chest that read them open at ${act(4)}, so AE2 really starts there. The ME Controller only opens at ${act(5)}.</p>
 <h3>Getting started</h3>
-<ul>
-<li><b>Certus Quartz</b>: besides growing it, Linggango adds a recipe: Nether Quartz + Light Blue Dye → Certus Quartz Crystal.</li>
-<li><b>Inscriber presses</b> spawn in meteorites (pack config keeps this on), or use the Inscriber recipes once you have one set.</li>
-<li><b>Power</b>: an Energy Acceptor turns FE into AE at the pack's ratio of 1 FE = ${A.fe_ratio} AE (2 FE per AE).</li>
-<li><b>Before the Controller</b> (${act(4)}): a network without a controller is ad-hoc and carries at most 8 channels in total, so keep it to 8 channel-using devices (drives, terminals, buses, interfaces).</li>
-<li><b>With a Controller</b> (${act(5)}): normal cable carries 8 channels, dense cable 32, and each controller face feeds 32. Channel mode is the AE2 default.</li>
-</ul>
+<div class="flow">
+<div class="fst">${islot("ae2:certus_quartz_crystal",1)}<b>Certus Quartz</b><span>Grow it, or Nether Quartz + Light Blue Dye</span></div>
+<div class="fst">${islot("ae2:inscriber",1)}<b>Presses</b><span>Found in meteorites</span></div>
+<div class="fst">${islot("ae2:energy_acceptor",1)}<b>Power</b><span>1 FE = ${A.fe_ratio} AE</span></div>
+<div class="fst">${islot("ae2:drive",1)}<b>${act(4)}: Drive</b><span>No Controller yet: max 8 channels total</span></div>
+<div class="fst">${islot("ae2:controller",1)}<b>${act(5)}: Controller</b><span>Cable 8 · dense 32 · each face 32 channels</span></div>
+</div>
 <h3>How much a cell holds</h3>
 <p>A cell has a byte budget. Every <b>item type</b> stored costs a fixed number of bytes before any items go in, then each byte holds ${A.per_byte_item} items (or ${A.per_byte_fluid_mb.toLocaleString()} mB of fluid). Item cells take up to ${A.types_item} types, fluid cells ${A.types_fluid}. So one type fills a cell best; many types eat the budget.</p>
 <div class="tw"><table><tr><th>Cell</th><th>Bytes</th><th>Bytes per type</th><th>Items, 1 type</th><th>Items, 63 types</th><th>Fluid, 1 type</th><th>Idle drain (AE/t)</th></tr>${cells}</table></div>
@@ -492,9 +492,15 @@ function pass(d,skip){
 const chipEls={c:[],r:[],g:[],x:[]};
 function chips(id,map,key){const box=el(id);for(const k in map){const b=document.createElement("button");b.className="chip"+(key==="r"?" r"+k:"");b.dataset.k=k;b.innerHTML=esc(map[k])+'<span class="n"></span>';
  b.onclick=()=>{const a=st[key],i=a.indexOf(k);i<0?a.push(k):a.splice(i,1);refresh()};box.appendChild(b);chipEls[key].push(b)}}
+/* sidebar tags, read from each curio's effect text: spell schools (not elemental damage or immunities) and secondary stats the Role filter doesn't cover */
+{const SCH=/\b(Aqua|Lightning|Eldritch|Ender|Fire|Holy|Nature|Blood|Evocation|Ice|Geo|Annihilation) (?:spell|magic)/gi;
+ const MECH=[["Lifesteal",/lifesteal|life steal|of (?:the )?damage (?:dealt )?as health/i],["Armor pierce",/armor pierc|armor penetrat|lethality|ignores?[^.;]*armor/i],["Crit",/\bcrit/i],["Dodge",/dodge/i],["Attack speed",/attack speed/i],["Cooldown",/cooldown/i],["Mana",/\bmana\b/i],["Minions",/minion|summon damage|whip/i],["Reach",/reach/i],["Thorns / reflect",/thorns|reflect/i],["Damage reduction",/damage taken|less damage|damage resistance/i],["Knockback resist",/knockback resistance/i],["Bleed",/bleed|hemorrhage/i],["Rage",/\brage\b/i],["Luck / loot",/\bluck\b|looting|drop chance/i],["Mining",/mining speed|fortune/i]];
+ D.forEach(d=>{const keep=d.mt.filter(t=>(t.startsWith("l:")||t.startsWith("s:"))&&t!=="l:Luck"),t=new Set(keep.map(x=>x.startsWith("s:")?"l:Brutality seasoning":x)),fx=d.fx||"";
+  for(const m of fx.matchAll(SCH))t.add("e:"+m[1][0].toUpperCase()+m[1].slice(1).toLowerCase());
+  for(const [n,re] of MECH)if(re.test(fx))t.add("l:"+n);d.mt=[...t]})}
 {const all={};D.forEach(d=>d.mt.forEach(t=>all[t]=(all[t]||0)+1));
  const grp=p=>Object.fromEntries(Object.keys(all).filter(t=>t.startsWith(p)).sort((a,b)=>all[b]-all[a]).map(t=>[t,t.slice(2)]));
- chips("fe",grp("e:"),"x");chips("fl",grp("l:"),"x");chips("fsp",grp("s:"),"x")}
+ chips("fe",grp("e:"),"x");chips("fl",grp("l:"),"x");chips("fsp",grp("s:"),"x");st.x=st.x.filter(k=>all[k])}
 chips("fr",Object.fromEntries(RN.map((n,i)=>[i,n])),"r");chips("fc",ROLE,"c");chips("fg",{Craft:"Craft",Loot:"Loot"},"g");
 const nb=document.createElement("button");nb.className="chip";nb.textContent="Added mods";nb.onclick=()=>{st.nw=!st.nw;refresh()};el("fg").appendChild(nb);
 function opts(id,vals){const s=el(id);vals.forEach(([v,t])=>s.add(new Option(t,v)))}
@@ -651,9 +657,9 @@ function page(d){
  let sh="";
  if(RL[d.id])secs.push(["levels","Relic levels",rlPanel(d.id)]);
  if(relic.length&&!RL[d.id])sh+=`<div class="tw"><table><thead><tr><th>Stat</th><th>On pickup (random)</th><th>Max upgrade</th></tr></thead><tbody>${relic.map(r=>relicRows(r[1])).join("")}</tbody></table></div>`;
- if(other.length)sh+=`<div class="tw" style="margin-top:8px">${(()=>{const one=new Set(other.map(o=>o[0])).size===1,HD=/^(passive effect|active ability|when worn|when equipped|set bonus|abilities?)\s*:?$/i;const tg=(t,raw)=>`<span class="tg${t==="pack"?" pack":""}" title="${esc(TAGT[t]||"")}${raw?" · raw: "+esc(raw):""}">${TAGN[t]||t}</span>`;return `<table class="stt"><thead><tr><th>Effect</th>${one?"":"<th>Source</th>"}</tr></thead><tbody>${other.map(([t,s,raw])=>HD.test(String(s).trim())?`<tr class="sth"><td colspan="2">${fmt(s)}</td></tr>`:`<tr><td>${fmt(s)}</td>${one?"":`<td>${tg(t,raw)}</td>`}</tr>`).join("")}</tbody></table>${one?`<p class="stsrc">Source: ${tg(other[0][0],"")}</p>`:""}`})()}</div>`;
+ if(other.length){const HD=/^(passive effect|active ability|when worn|when equipped|set bonus|abilities?)\s*:?$/i;
+  sh+=`<ul class="fxl">${other.map(([t,x,raw])=>HD.test(String(x).trim())?`<li class="fxh">${fmt(x)}</li>`:`<li title="Source: ${esc(TAGN[t]||t)}${raw?" · "+esc(raw):""}">${fmt(x)}</li>`).join("")}</ul>`}
  if(sh)secs.push(["stats","Stats",sh]);
- if(SK.i[d.id])secs.push(["stack","Wearing two",skSec(d)]);
  if(d.gr){const g=d.gr,grid=g.l===0&&!/shapeless/i.test(g.st),stn=g.st.replace(/\s*\(shapeless\)/i,"");
   // one entry per distinct ingredient, in first-seen order, with how many cells it fills
   const ing=[],seen={};g.c.forEach(c=>{if(!c)return;const k=c[0]+"|"+c[1];if(!seen[k]){seen[k]={c,n:0};ing.push(seen[k])}seen[k].n++});
@@ -669,13 +675,12 @@ function page(d){
  if(d.uid.length)secs.push(["uses","Used to craft",`<div class="cards">${d.uid.map(o=>{const t=BYID[o];return `<a class="card"${t?` href="#i${t.ix}" data-t="${t.ix}"`:""}>${img(o)}<span>${esc(NM[o]||o)}${t?"":' <span class="meta">(not a curio)</span>'}</span></a>`}).join("")}</div>`]);
  const bar=(v,l)=>`<div class="sg" style="grid-template-columns:150px 1fr;margin:4px 0"><span>${l}</span><div class="bar"><i style="width:${Math.round(Math.min(5,Math.max(0,v))*20)}%;background:var(--rc);opacity:.55"></i><span>${(+v).toFixed(1)} / 5</span></div></div>`;
   const same=D.filter(x=>x!==d&&x.m===d.m&&x.t===d.t).slice(0,8);
- if(same.length)secs.push(["related","Same mod, same Act",cards(same)]);
  const ic=slotImg(d);
  // slot neighbours
  const s0=d.sl[0],sx=s0?byRank(D.filter(x=>x.sl.includes(s0))):[],si=sx.indexOf(d),pv=sx[si-1],nx=sx[si+1];
  const near=sx.filter(x=>x!==d).slice(Math.max(0,si-4),Math.max(0,si-4)+8);
  el("main").innerHTML=`<div class="ip r${d.r}" data-mf="${F[0]}">
- <header class="ip-hero"><div class="ip-htext"><div class="ip-crumb"><a href="#">Home</a> / <a href="#mod/${enc(d.m)}">${esc(d.m)}</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>
+ <header class="ip-hero"><div class="ip-htext"><div class="crumb ip-crumb"><a href="#">Home</a> / <a href="#home">The Path</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>
  <h1 class="ip-title">${isMust(d)?'<span class="mstar">★</span>':""}${esc(d.n)}</h1><p class="ip-lead">${fmt(d.fx)}</p>
  <p class="ip-meta"><span class="ip-fam">${esc(d.m)}</span><span>${rLabel(d)}</span><span>${esc(slot)}</span><span>${loot?"Loot":"Craft"}</span>${d.nw?"<span>added mod</span>":""}</p></div>
 </header>

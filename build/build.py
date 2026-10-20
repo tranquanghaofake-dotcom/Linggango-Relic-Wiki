@@ -37,10 +37,33 @@ def base_css():
     return css
 
 style = base_css() if "--raw" in sys.argv else base_css() + "\n" + read(B / "style.game.css")
-html = read(S / "template.html").replace("{{STYLE}}", "<style>\n" + style + "\n</style>")
-for name in ["data.js", "gear_data.js", "wiki_data.js", "fx3d.js", "app.js", "gear.js"]:
+import hashlib
+tpl = read(S / "template.html")
+NAMES = ["data.js", "gear_data.js", "wiki_data.js", "fx3d.js", "app.js", "gear.js"]
+
+# dist: one self-contained file for offline use
+html = tpl.replace("{{STYLE}}", "<style>\n" + style + "\n</style>")
+for name in NAMES:
     html = html.replace("{{%s}}" % name, read(S / name))
-for out in (ROOT / "index.html", ROOT / "dist" / "Linggango_Relic_Wiki.html"):
-    out.parent.mkdir(exist_ok=True)
-    out.write_text(html, encoding="utf-8")
-print(ROOT / "index.html", round(len(html.encode()) / 1e6, 2), "MB")
+dist = ROOT / "dist" / "Linggango_Relic_Wiki.html"
+dist.parent.mkdir(exist_ok=True)
+dist.write_text(html, encoding="utf-8")
+
+# site: a small index.html plus content-hashed files in static/, so browsers cache them
+# and a rebuild always loads the new version
+A = ROOT / "static"
+A.mkdir(exist_ok=True)
+for old in A.glob("*"):
+    old.unlink()
+def put(name, text):
+    h = hashlib.sha1(text.encode()).hexdigest()[:10]
+    stem, ext = name.rsplit(".", 1)
+    fn = f"{stem}.{h}.{ext}"
+    (A / fn).write_text(text, encoding="utf-8")
+    return "static/" + fn
+site = tpl.replace("{{STYLE}}", '<link rel="stylesheet" href="%s">' % put("style.css", style))
+for name in NAMES:
+    site = site.replace("<script>\n{{%s}}\n</script>" % name, '<script defer src="%s"></script>' % put(name, read(S / name)))
+assert "{{" not in site, "template slot left unfilled"
+(ROOT / "index.html").write_text(site, encoding="utf-8")
+print("index.html", round(len(site.encode()) / 1e3, 1), "kB + static/;", dist, round(len(html.encode()) / 1e6, 2), "MB")
