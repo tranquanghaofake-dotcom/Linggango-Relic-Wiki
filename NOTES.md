@@ -195,3 +195,4 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
   - The breadcrumb reads Home / The Path / Act.
 - **Curio tiles:** 32px art with a black outline. A gentle bob runs only while a tile is on screen (`.vis`). The tile grid uses `content-visibility`.
 - **Mechanics:** Goety and AE2 "getting started" are now icon flows with short captions. Block icons are rendered from Java block models (`build/pack_audit/mkicons.py`).
+- Guide books: 339 practical tips from the mods' own Patchouli books are shown as "From the guide book" on curio and gear pages, from books such as the Simply Swords Runic Grimoire, the Goety Black Book, the Ars Nouveau Worn Notebook, Enigmatic Legacy and Blood Magic. The extractor is `build/pack_audit/guides.py`. Lore-only entries are filtered out; the data is in `build/patches/guides.json`.

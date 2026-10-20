@@ -644,6 +644,7 @@ function relicRows(line){
   rows+=m?`<tr><td>${esc(m[1])}</td><td class="num">${esc(m[2])}</td><td class="num">${m[3]?`${esc(m[4])} <span class="meta">(lv ${m[3]})</span>`:"—"}</td></tr>`:`<tr><td colspan="3">${esc(s)}</td></tr>`});
  if(note)rows+=`<tr><td colspan="3" class="meta">${esc(note)}</td></tr>`;return rows}
 
+const guideHtml=g=>`<div class="gbk">${g.i?`<img alt="" src="${g.i}">`:""}<div><small>📖 ${esc(g.b)} · ${esc(g.e)}</small><p>${esc(g.t)}</p></div></div>`;
 function page(d){
  document.title=d.n+" · Linggango Wiki";seedBg("item"+d.m,D.filter(x=>x.m===d.m));
  const F=mf(d.m),slot=d.sl.join(", ")||"—",loot=d.g==="Loot",secs=[];
@@ -652,6 +653,7 @@ function page(d){
  const must=isMust(d)?`<div class="mh-banner"><span class="mhs">★</span><div><b>Must-Have</b><p>${!/etching|charm_of_looting/.test(d.id)?"It adds curio slots, so you can wear more curios at once: every other relic on this wiki gets better with it.":/etching/.test(d.id)?"An Etching turns one of your Catastrophe Scroll curses into a blessing and is an ingredient for most Celestial Artifacts relics.":"A Looting Charm unlocks L2 Hostility trait drops; without the right tier worn, trait mobs drop nothing extra."} Get it as soon as ${esc(actL(d.t))} opens and keep it in every build. Base power rating: <b>${RN[d.br]}</b>.</p></div></div>`:"";
  const scarce=d.sca?`<div class="mh-banner sca"><span class="mhs">⛏</span><div><b>Scarce Act 0 material</b><p>Daemonium and Iridium need a high-tier pickaxe to mine, but Terramity structures can drop them in chests. That makes this craftable early with luck, so it is rated one rarity higher than other Act 0 curios.</p></div></div>`:"";
  secs.push(["get",loot?"Where it drops":"How to get it",`${must}${scarce}<ol class="how">${d.src.map(x=>`<li>${fmt(x)}</li>`).join("")}</ol>${lock}${rqLock}<p class="note">${d.a===-1?"Dropped by L2 Hostility mobs depending on their level, not tied to a boss milestone.":d.a!==d.t?`Earliest with luck: ${actL(d.a)}. Realistic: ${actL(d.t)} (${ACT[d.t][1]}).`:`Available from ${actL(d.t)} (${ACT[d.t][1]}).`}</p>`]);
+ {const gu=typeof GUIDE!=="undefined"&&GUIDE[d.id];if(gu)secs.push(["guide","From the guide book",guideHtml(gu)])}
  {const ev=evoSec(d);if(ev)secs.push(["evo","Evolution",ev])}
  const rel=d.tg.map((t,j)=>[t,d.st[j],d.sr&&d.sr[j]]),relic=rel.filter(r=>r[0]==="relic"),other=rel.filter(r=>r[0]!=="relic");
  let sh="";

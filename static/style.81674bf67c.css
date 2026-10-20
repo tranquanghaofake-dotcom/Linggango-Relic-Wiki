@@ -2099,3 +2099,6 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .fst>.slot{display:inline-grid}.fst b{font:700 15px var(--body);color:#fff}.fst span{font-size:13px;line-height:1.4;color:#bdb9cc}
 .far{align-self:center;font-style:normal;font-size:26px;color:#ffd84a}
 .kchips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}.kchips span{padding:6px 12px;border-radius:999px;background:#ffffff0d;border:1px solid #ffffff1a;font-size:13.5px}
+.gbk{display:flex;gap:14px;align-items:flex-start;padding:12px 14px;border-radius:10px;background:linear-gradient(135deg,#2a2216,#1b1923);border:1px solid #c9a35a55}
+.gbk img{flex:none;max-width:220px;max-height:150px;border-radius:6px;image-rendering:pixelated;background:#0005}
+.gbk small{display:block;color:#d9bd84;font-size:12px;margin-bottom:4px}.gbk p{margin:0;font-size:14.5px;line-height:1.5}
