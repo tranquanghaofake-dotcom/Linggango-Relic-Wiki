@@ -590,8 +590,8 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 
 /* tiles: crisp 2× pixels (16 px textures at 32 px), smooth idle float, lift + 3× zoom on hover */
 .t>img,.t .aimg{image-rendering:pixelated!important;transform-origin:50% 60%;transition:transform .18s cubic-bezier(.2,.8,.2,1),filter .18s}
-@keyframes tfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-.tier.seen .t>img,.tier.seen .t .aimg{animation:tfloat 3.2s ease-in-out infinite!important;animation-delay:calc(var(--i,0)*-137ms)!important}
+@keyframes tfloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-3px,0)}}
+.tier.seen .t>img,.tier.seen .t .aimg{animation:tfloat 3.6s cubic-bezier(.45,0,.55,1) infinite!important;will-change:transform;backface-visibility:hidden;animation-delay:calc(var(--i,0)*-137ms)!important}
 .t{transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s}
 .t:hover,.t:focus-visible{transform:translateY(-3px);z-index:5}
 .t:hover>img,.t:hover .aimg,.t:focus-visible>img{animation-play-state:paused!important;transform:scale(1.5)!important;filter:drop-shadow(0 3px 0 rgba(0,0,0,.55)) drop-shadow(0 0 6px color-mix(in srgb,var(--rc2,#fff) 70%,transparent))!important}
@@ -655,3 +655,5 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .gui>.gt::before{content:"";width:6px;height:1em;border-radius:2px;background:linear-gradient(var(--yellow,#ffd84a),#ff8a3d)}
 .ptree{background:linear-gradient(90deg,#0b0a10,#15121c)}
 .prow{border-bottom:1px solid #ffffff10}
+
+.t:hover>img,.t:hover .aimg{filter:drop-shadow(0 0 6px color-mix(in srgb,var(--rc,#fff) 70%,transparent)) brightness(1.12)}

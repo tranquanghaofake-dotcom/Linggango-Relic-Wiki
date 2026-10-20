@@ -1968,8 +1968,8 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 
 /* tiles: crisp 2× pixels (16 px textures at 32 px), smooth idle float, lift + 3× zoom on hover */
 .t>img,.t .aimg{image-rendering:pixelated!important;transform-origin:50% 60%;transition:transform .18s cubic-bezier(.2,.8,.2,1),filter .18s}
-@keyframes tfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-.tier.seen .t>img,.tier.seen .t .aimg{animation:tfloat 3.2s ease-in-out infinite!important;animation-delay:calc(var(--i,0)*-137ms)!important}
+@keyframes tfloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-3px,0)}}
+.tier.seen .t>img,.tier.seen .t .aimg{animation:tfloat 3.6s cubic-bezier(.45,0,.55,1) infinite!important;will-change:transform;backface-visibility:hidden;animation-delay:calc(var(--i,0)*-137ms)!important}
 .t{transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s}
 .t:hover,.t:focus-visible{transform:translateY(-3px);z-index:5}
 .t:hover>img,.t:hover .aimg,.t:focus-visible>img{animation-play-state:paused!important;transform:scale(1.5)!important;filter:drop-shadow(0 3px 0 rgba(0,0,0,.55)) drop-shadow(0 0 6px color-mix(in srgb,var(--rc2,#fff) 70%,transparent))!important}
@@ -2033,6 +2033,8 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .gui>.gt::before{content:"";width:6px;height:1em;border-radius:2px;background:linear-gradient(var(--yellow,#ffd84a),#ff8a3d)}
 .ptree{background:linear-gradient(90deg,#0b0a10,#15121c)}
 .prow{border-bottom:1px solid #ffffff10}
+
+.t:hover>img,.t:hover .aimg{filter:drop-shadow(0 0 6px color-mix(in srgb,var(--rc,#fff) 70%,transparent)) brightness(1.12)}
 
 </style>
 <header class="top">
@@ -6538,7 +6540,7 @@ function home(xs,asTable){
   const CO=Object.keys(ROLE);
   const ys=[...xs].sort((p,q)=>{const k=st.sort;const r=k==="a"?p.a-q.a:k==="t"?p.t-q.t:k==="r"?(p.r-q.r||p.sc-q.sc):k==="c"?CO.indexOf(p.c)-CO.indexOf(q.c):String(p[k]).localeCompare(String(q[k]));return r*st.dir});
   h+=`<div class="tw"><table><thead><tr><th></th>${COLS.map(([k,t])=>`<th><button class="ghost" data-s="${k}">${t}${st.sort===k?(st.dir>0?" ▲":" ▼"):""}</button></th>`).join("")}</tr></thead><tbody>${ys.map(d=>`<tr><td data-t="${d.ix}">${img(d.id)}</td><td><a href="#i${d.ix}" data-t="${d.ix}">${esc(d.n)}</a></td><td class="r${d.r}"><i class="rdot"></i>${RN[d.r]}</td><td>${d.ro.map(k=>ROLE[k]).join(", ")}</td><td class="num">${ACT[d.t][0]}</td><td class="num">${ACT[d.a][0]}</td><td>${d.g}</td><td>${esc(d.m)}</td><td>${esc(d.fx)}</td></tr>`).join("")}</tbody></table></div>`}
- h+=`<p class="note"><b>Unofficial fan wiki</b>: not made or endorsed by the Linggango pack author or the mod authors. Data read from the pack files (recipes, loot tables, KubeJS, config, curio tags) and the mod jars, updated 14 Oct 2026; acts and rarity re-rated 17 Oct 2026; names, slots, Keeper locks, recipes, mob drops and pack rules re-checked against Linggango V6.6.5b4 and its 476 jars on 20 Oct 2026. Drop and chest chances are the loot tables as shipped, without the optional difficulty modifiers (Lean Drops, No Cheese, Horrible Scavenger). <b>Rarity is this wiki's rating</b> (power, act, gate and scarcity), not the in-game name colour; ★ Must-Have marks the Looting Charms and every curio that adds curio slots. Only mods shipped with the base pack are listed. The Warden and Wither acts are this wiki's suggested order 🔍; the pack does not gate them. The Ender Dragon is required before the Elvenite Paladin, because the Paladin's summon item needs tears from the Dragon's treasure bag.</p>`;
+ h+=`<p class="note"><b>Unofficial fan wiki</b>: not made or endorsed by the Linggango pack author or the mod authors. Item art, textures and models belong to their mod authors and are shown here for reference only. A few icons come from the <a href="https://wiki.aidancbrady.com" target="_blank" rel="noopener">Official Mekanism Wiki</a> and the <a href="https://alexscaves.wiki.gg" target="_blank" rel="noopener">Alex's Caves Wiki</a> (CC BY-SA 4.0). Data read from the pack files (recipes, loot tables, KubeJS, config, curio tags) and the mod jars, updated 14 Oct 2026; acts and rarity re-rated 17 Oct 2026; names, slots, Keeper locks, recipes, mob drops and pack rules re-checked against Linggango V6.6.5b4 and its 476 jars on 20 Oct 2026. Drop and chest chances are the loot tables as shipped, without the optional difficulty modifiers (Lean Drops, No Cheese, Horrible Scavenger). <b>Rarity is this wiki's rating</b> (power, act, gate and scarcity), not the in-game name colour; ★ Must-Have marks the Looting Charms and every curio that adds curio slots. Only mods shipped with the base pack are listed. The Warden and Wither acts are this wiki's suggested order 🔍; the pack does not gate them. The Ender Dragon is required before the Elvenite Paladin, because the Paladin's summon item needs tears from the Dragon's treasure bag.</p>`;
  el("main").innerHTML=h;decorate();fbind();
  el("main").querySelectorAll("th button").forEach(b=>b.onclick=()=>{const k=b.dataset.s;st.dir=st.sort===k?-st.dir:1;st.sort=k;render()});
 }

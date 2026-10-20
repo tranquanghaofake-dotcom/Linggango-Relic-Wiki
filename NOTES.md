@@ -164,3 +164,8 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 - Gear pages show a verdict line under the title: best tier, the Acts where it holds that tier, and when to replace the item.
 - Travel Optics level variants are named "(Lv 1/2/3)". Gear tiles show larger icons.
 - Home: removed "Vanilla bosses on the Path"; panels and headings are tinted.
+
+## v16
+- Ars Nouveau Spell Bow icon rendered from its GeckoLib model, so all 180 gear items now have an icon.
+- Footer credits the mod authors for item art, and the Mekanism and Alex's Caves wikis (CC BY-SA 4.0) for the icons taken from them.
+- Curio tile float animation: GPU translate, softer easing, and a rarity-coloured glow on hover.
