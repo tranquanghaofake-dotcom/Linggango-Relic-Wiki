@@ -1,0 +1,198 @@
+{
+"alexscaves:primordial_helmet": [
+7,
+"alexscaves:tough_hide"
+],
+"alexscaves:primordial_pants": [
+7,
+"alexscaves:tough_hide"
+],
+"alexscaves:primordial_tunic": [
+7,
+"alexscaves:tough_hide"
+],
+"armageddon_mod:eclipsium_edge": [
+6,
+"armageddon_mod:ender_dragon_bone"
+],
+"armageddon_mod:eclipsium_reaper": [
+6,
+"armageddon_mod:ender_dragon_bone"
+],
+"armageddon_mod:hollow_axe": [
+8,
+"armageddon_mod:spirit_of_despair"
+],
+"armageddon_mod:staff_of_the_cosmos": [
+8,
+"armageddon_mod:cosmos_shard"
+],
+"armageddon_mod:the_doom_caller_bell": [
+8,
+"armageddon_mod:spiritof_chaos"
+],
+"armageddon_mod:the_rift_piercer": [
+4,
+"armageddon_mod:spiritof_dread"
+],
+"armageddon_mod:unstable_axe": [
+8,
+"armageddon_mod:spiritof_chaos"
+],
+"armageddon_mod:woe_splitter": [
+8,
+"armageddon_mod:doom_powder"
+],
+"ars_elemental:air_boots": [
+6,
+"ars_nouveau:air_essence"
+],
+"ars_elemental:air_hat": [
+6,
+"ars_nouveau:air_essence"
+],
+"ars_elemental:air_leggings": [
+6,
+"ars_nouveau:air_essence"
+],
+"ars_elemental:air_robes": [
+6,
+"ars_nouveau:air_essence"
+],
+"ars_nouveau:spell_bow": [
+6,
+"ars_nouveau:manipulation_essence"
+],
+"ars_nouveau:spell_crossbow": [
+6,
+"ars_nouveau:manipulation_essence"
+],
+"born_in_chaos_v1:nut_hammer": [
+4,
+"born_in_chaos_v1:dark_metal_nugget"
+],
+"born_in_chaos_v1:sweet_axe": [
+3,
+"born_in_chaos_v1:holiday_candy"
+],
+"brutality:old_gpu": [
+7,
+"terramity:conductite"
+],
+"composite_material:dungeon_axe": [
+6,
+"composite_material:dungeon_steel_ingot"
+],
+"composite_material:dungeon_hammer": [
+6,
+"composite_material:dungeon_steel_ingot"
+],
+"composite_material:dungeon_sword": [
+6,
+"composite_material:dungeon_steel_ingot"
+],
+"composite_material:scapegoat": [
+6,
+"composite_material:dungeon_steel_ingot"
+],
+"create:potato_cannon": [
+2,
+"create:precision_mechanism"
+],
+"experienceobelisk:cognitive_bow": [
+4,
+"experienceobelisk:cognitive_alloy"
+],
+"goety:diamond_ice_axe": [
+4,
+"goety:pale_steel_ingot"
+],
+"goety:hunters_bow": [
+2,
+"goety:cursed_ingot"
+],
+"goety:iron_ice_axe": [
+4,
+"goety:pale_steel_ingot"
+],
+"goety:reinforced_ice_axe": [
+4,
+"goety:pale_steel_ingot"
+],
+"goetydelight:false_proverbs": [
+6,
+"goety:void_echo"
+],
+"irons_spellbooks:wandering_magician_boots": [
+5,
+"irons_spellbooks:arcane_essence"
+],
+"irons_spellbooks:wandering_magician_chestplate": [
+5,
+"irons_spellbooks:arcane_essence"
+],
+"irons_spellbooks:wandering_magician_helmet": [
+5,
+"irons_spellbooks:arcane_essence"
+],
+"irons_spellbooks:wandering_magician_leggings": [
+5,
+"irons_spellbooks:arcane_essence"
+],
+"legendary_monsters:axe_of_lightning": [
+7,
+"legendary_monsters:air_rune"
+],
+"legendary_monsters:chorus_cannon": [
+5,
+"legendary_monsters:infected_chorus_fruit"
+],
+"legendary_monsters:fiery_jaw": [
+6,
+"legendary_monsters:lava_eaters_skin"
+],
+"legendary_monsters:sand_cannon": [
+4,
+"legendary_monsters:crystal_of_sandstorm"
+],
+"legendary_monsters:the_tesseract": [
+10,
+"legendary_monsters:portal_shard"
+],
+"legendary_spellbooks:stormmancer_boots": [
+7,
+"legendary_monsters:air_rune"
+],
+"legendary_spellbooks:stormmancer_hood": [
+7,
+"legendary_monsters:air_rune"
+],
+"legendary_spellbooks:stormmancer_leggings": [
+7,
+"legendary_monsters:air_rune"
+],
+"legendary_spellbooks:stormmancer_robe": [
+7,
+"legendary_monsters:air_rune"
+],
+"lethality:broken_biome_blade": [
+6,
+"terramity:ruby_sword"
+],
+"mekanism:free_runners": [
+4,
+"mekanism:energy_tablet"
+],
+"mowziesmobs:wrought_axe": [
+4,
+"born_in_chaos_v1:bone_handle"
+],
+"mowziesmobs:wrought_helmet": [
+2,
+"armageddon_mod:colossal_iron_ingot"
+],
+"opposing_force:tesla_bow": [
+4,
+"opposing_force:deep_silk"
+]
+}

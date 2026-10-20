@@ -635,3 +635,15 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .rtab td .slot{vertical-align:middle}
 .rtab tr[hidden]{display:none}
 .rflt select{width:auto!important;flex:none}
+.gout{align-self:center;padding:4px 10px;border-radius:8px;border:1px dashed var(--line);color:var(--mut,#999);font:600 12px var(--body,inherit)}
+.ptree{display:grid;gap:0;padding:14px 16px;background:#000 var(--v-b_stone,none) 0 0/48px 48px}
+.prow{position:relative;display:grid;grid-template-columns:150px 1fr;gap:14px;align-items:center;padding:10px 0}
+.prow:not(:last-child)::after{content:"";position:absolute;left:74px;top:calc(50% + 40px);height:calc(100% - 60px);border-left:3px solid var(--tc);opacity:.7}
+.pside{position:relative;display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;border-left:3px dashed var(--tc);border-radius:0 8px 8px 0;background:color-mix(in srgb,var(--tc) 10%,transparent)}
+.pb{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:999px;border:1px solid color-mix(in srgb,var(--tc) 55%,#333);background:#141018;color:#eee;font:500 13px var(--body)}
+.pb img{width:18px;height:18px;image-rendering:pixelated}
+.pnone{color:#999;font:italic 12px var(--body)}
+@media(max-width:600px){.prow{grid-template-columns:96px 1fr}.prow:not(:last-child)::after{left:47px}}
+.ptree .adv::before,.ptree .adv::after{display:none}
+.ptree .pside{align-self:center;min-height:40px;align-content:center}
+.ptree .pnone{color:#cfcfcf;background:#0008;padding:2px 8px;border-radius:6px;font-style:italic}

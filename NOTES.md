@@ -147,3 +147,10 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 - Item page: the art is centred (a leftover `inset:18%` pushed it down-right); the first chip names the mod instead of the frame-style family ("ARCANE", "Relic").
 - Mods page and mod pages: the family label ("Relic" on Terra Curio, Artifacts…, "Goety" on Covenant of the Seven) is gone.
 - Gear "How to get": recipe types read as ingredients ("A Armor Upgrade a_ A Armor Upgrade") are filtered out, stations have real names (Armor upgrade (Adam's Ars Plus), Goety ritual, Enchanting Apparatus…), ingredient counts are shown (4× Frost Soul) and tags read "any hood".
+
+## v14: Unofficial wiki, boss guides, mechanics, gear logic, Path tree
+- Renamed to "Linggango Wiki (Unofficial)" with a fan-wiki disclaimer; Curio browser and Mod pages removed (old links redirect to the search).
+- Bosses: HP/damage dropped; each page has a summoning guide (item, where to use it, recipe grid, ingredient sources, Infinite version). Data: `build/patches/summons.json`.
+- Mechanics now covers only Goety rituals (all 479, filterable) and AE2 storage, from the Black Book and AE2 bytecode (`goety.json`, `ae2.json`, written to `build/src/wiki_data.js` by `wiki_data.py`).
+- Gear: new `gear_gate.py`. It moves 49 items to the Act where their modded material opens (e.g. Old GPU needs Conductite, so Act VII). Tiers are now set by how close an item is to the best one at that Act (S ≥85%, A ≥70%, B ≥55%, C ≥40%). The Tier by Act strip ends with "Outclassed from …".
+- Home: "Advancements" wording is gone. The Path is drawn as a main line with each Act's side bosses and elites (from BOSSR) as branches.

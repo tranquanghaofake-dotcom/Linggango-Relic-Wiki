@@ -2,7 +2,8 @@
 /* GE: weapons and armor pieces, GS: armor sets (built by build/gear/gear_data.py from the pack files) */
 const GROLE={ME:"Melee",RA:"Ranged",MA:"Mage",SU:"Summon",TA:"Tank"};
 const GKIND={melee:"Melee weapon",ranged:"Ranged weapon",magic:"Staff / magic weapon",armor:"Armor"};
-/* tier = share of the list ranked above: top 6% S, next 14% A, 20% B, 25% C, rest D (ties share a tier) */
+/* tier = score as a share of the best score at that Act: S ≥85%, A ≥70%, B ≥55%, C ≥40%, else D */
+const GTIER_R=[.85,.7,.55,.4,0];
 const GTIER=[["S",.06,"#ff5f6d"],["A",.2,"#ffb347"],["B",.4,"#ffe066"],["C",.65,"#7bd88f"],["D",1.01,"#7aa7ff"]];
 const GSLOT={HELMET:"Head",CHESTPLATE:"Chest",LEGGINGS:"Legs",BOOTS:"Feet"};
 const GATTR={attack_damage:"Attack Damage",attack_speed:"Attack Speed",armor:"Armor",armor_toughness:"Armor Toughness",max_health:"Max Health",
@@ -37,7 +38,8 @@ function gPool(a,r,w){const ia=oiA(+a);
 const GTC=new Map();
 function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const xs=gPool(a,r,w);let out=[];
  if(xs.length){const n=xs.length,b=GTIER.map(()=>[]);let prev=null,pt=0;
-  xs.forEach((g,i)=>{let t=GTIER.findIndex(([,f])=>i<Math.max(1,Math.round(f*n)));if(t<0)t=GTIER.length-1;if(prev!=null&&g.sc[r]===prev)t=pt;b[t].push(g);prev=g.sc[r];pt=t});
+  // tier = how close an item is to the best one usable at this Act, so old gear slides down as better gear opens
+  const top=xs[0].sc[r]||1;xs.forEach(g=>{const q=g.sc[r]/top;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;b[t].push(g)});
   out=GTIER.map(([t],i)=>[t,b[i]])}
  GTC.set(key,out);return out}
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
@@ -70,7 +72,7 @@ function gearPage(h){
  <li><b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does.</li>
  <li><b>Ranged, Mage, Summon weapons</b>: their bonuses (arrow damage, spell power, mana, cooldowns, summon damage) plus their gate. Bow and gun damage is set in each mod's code at shot time, so these are estimates.</li>
  <li><b>Armor sets</b>: the four pieces added together. Tank = armor + 0.8 × toughness + ½ × max health + knockback resistance and damage-taken reduction. Melee / Ranged / Mage / Summon also count that role's bonuses.</li>
- <li>Tiers rank each item against the rest of the same list: the top 6% are S, the next 14% A, then 20% B, 25% C and the rest D, so every Act has a short S row however strong its best item is. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.</li></ul></details></div></div>`;
+ <li>Tiers compare each item with the best one usable at that Act: S is within 85% of it, A within 70%, B within 55%, C within 40%, the rest D. When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.</li></ul></details></div></div>`;
  const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};
  seedBg("gear"+a,[]);decorate();
 }
@@ -91,8 +93,11 @@ const gStation=t=>{t=String(t);const m={"minecraft:crafting_shaped":"Crafting Ta
  return m[t]||t.replace(/^kubejs:/,"Pack recipe: ").split(":").pop().replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase())};
 const gLoot=t=>{const [ns,p]=t.split(":");const parts=p.split("/");const kind=parts[0];const what=parts.slice(1).join(" ").replace(/_/g," ");
  return (kind==="entities"?"Dropped by "+what:kind==="chests"?"Found in chests: "+what:kind==="gameplay"?"Gameplay loot: "+what:"Loot table: "+p.replace(/[_/]/g," "))+" ("+ns+")"};
-function gTimeline(g){const r=gMain(g),w=g.ps?"a":"w";const acts=ORDER.filter(x=>x!=-1&&oiA(x)>=oiA(g.a));
- return `<div class="gtime">${acts.map(x=>{const t=gTierOf(g,x,r,w);const i=GTIER.findIndex(z=>z[0]===t);return `<a href="#gear/${x}/${r}/${w}" style="--tc:${ACT[x][2]};--gc:${i>=0?GTIER[i][2]:"#555"}" title="${esc(actL(x))}: ${t||"below D"} for ${GROLE[r]}"><b>${t||"–"}</b><small>${esc(ACT[x][0])}</small></a>`}).join("")}</div>`}
+function gTimeline(g){const r=gMain(g),w=g.ps?"a":"w";let acts=ORDER.filter(x=>x!=-1&&oiA(x)>=oiA(g.a)),out=null;
+ {const ts=acts.map(x=>gTierOf(g,x,r,w)),k=ts.findIndex((t,i)=>i>0&&(!t||t==="D"));if(k>0){out=acts[k];acts=acts.slice(0,k)}}
+ const tail=out!=null?`<span class="gout" title="From ${esc(actL(out))} on it is D tier or below: replace it.">Outclassed from ${esc(ACT[out][0])}</span>`:"";
+ const mg=g.mg?`<p class="note">Needs ${ilink(g.mg[1])}, which the pack only opens at ${esc(actL(g.mg[0]))}, so it is listed from there.</p>`:"";
+ return mg+`<div class="gtime">${acts.map(x=>{const t=gTierOf(g,x,r,w);const i=GTIER.findIndex(z=>z[0]===t);return `<a href="#gear/${x}/${r}/${w}" style="--tc:${ACT[x][2]};--gc:${i>=0?GTIER[i][2]:"#555"}" title="${esc(actL(x))}: ${t||"below D"} for ${GROLE[r]}"><b>${t||"–"}</b><small>${esc(ACT[x][0])}</small></a>`}).join("")}${tail}</div>`}
 function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix,[]);
  const r=gMain(g),rows=gStats(g),bon=gBonus(g),set=g.k==="armor"?GS.find(s=>s.p.includes(g.id)):null;
  el("main").innerHTML=`${crumb('<a href="#gear">Gear</a>',esc(g.n))}<article class="gpage" style="--tc:${ACT[g.a][2]};${tex(g.a)}">
