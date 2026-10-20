@@ -87,8 +87,8 @@ function buildPage(h){
    else b+=`<button class="bx${xt}${BPICK===k?" sel":""}" data-pick="${esc(k)}" aria-label="Add ${esc(k)} curio"${xt?' title="Bonus slot from an equipped curio"':""}>+</button>`}
   return `<div class="bslot"><div class="bsh"><b>${esc(k)}</b><span class="${have.length>cap?"bad":""}">${have.length}/${cap}</span>${caps[k]>SLOT_BASE[k]?`<em>+${caps[k]-SLOT_BASE[k]}</em>`:""}</div><div class="bsb">${b}</div></div>`};
  const stats=Object.entries(tot).filter(([,v])=>v).sort((a,b)=>a[0].localeCompare(b[0]));
- const pages=[["stats","Build","Stat totals",`${stats.length?`<table>${stats.map(([k,v])=>`<tr><td>${esc(k.replace(/ %$/,""))}</td><td class="num ${v<0?"neg":""}">${v>0?"+":""}${v}${/ %$/.test(k)?"%":""}</td></tr>`).join("")}</table>`:`<p class="note">Add curios to see totals.</p>`}
-<p class="note">Only flat "+N Stat" lines are added up, and a second copy counts only if its bonus stacks${Object.values(lf).some(v=>v<1)?", and ladder-reduced curios count at their reduced share":""}. Effects, conditions and multipliers are on the Effects page instead.</p>`]];
+ const pages=[["stats","Build","Stat totals",`${stats.length?`<table>${stats.map(([k,v])=>`<tr><td>${esc(k.replace(/ %$/," (%)"))}</td><td class="num ${v<0?"neg":""}">${v>0?"+":""}${v}${/ %$/.test(k)?"%":""}</td></tr>`).join("")}</table>`:`<p class="note">Add curios to see totals.</p>`}
+<p class="note">Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks${Object.values(lf).some(v=>v<1)?", and ladder-reduced curios count at their reduced share":""}. Conditional effects and ×multipliers are not summed: see the Effects tab.</p>`]];
  bKeys().filter(k=>RL[rlId(k)]).forEach(k=>{const id=rlId(k),c=k.split("#")[1]||(bWorn(id)>1?1:0);pages.push(["rl:"+k,"Relic levels",BYID[id].n+(c?" #"+c:""),rlPanel(k,true)+`<p class="note">Slots a relic adds count its lowest roll.</p>`,id])});
  if(eq.length)pages.push(["fx","Build","Effects",`<ul>${uq.map(id=>{const d=BYID[id],n=bWorn(id);const k=Object.keys(BS.s).find(k=>BS.s[k].includes(id)),nx=(evo().to[id]||[]).filter(t=>bFits(BYID[t],k));return `<li><a href="#i${d.ix}" data-t="${d.ix}">${esc(d.n)}</a>${n>1?` ×${n}${SK.i[id]?" "+skTag(id):""}`:""}: ${esc(d.fx)}${lf[id]<1?` <span class="sk sk-${lf[id]?"l":"n"}" title="Outranked by a better ${esc(SK.i[id].l[0])} curio in this build">${esc(SK.i[id].l[0])} ladder: ${lf[id]?pct(lf[id])+" strength":"switched off"}</span>`:""}${nx.map(t=>` <button class="chip" data-evo="${esc(k)}|${esc(id)}|${esc(t)}">Evolve → ${esc(BYID[t].n)}</button>`).join("")}</li>`}).join("")}</ul>`]);
  el("main").innerHTML=`${crumb("Build planner")}<h1>Build planner</h1>
@@ -129,7 +129,7 @@ function bossPage(k){
  const a=bossPath(k);if(a===undefined){bossList();return}
  const s=bst(k),nm=bossName(k),i=ORDER.indexOf(a),row=ACTS[BOSS_ACT[k]],xs=D.filter(d=>d.t===a).sort((p,q)=>(isMust(q)-isMust(p))||(q.r-p.r));
  const prev=ORDER.slice(0,i).reverse().find(x=>PB[x]),next=ORDER.slice(i+1).find(x=>PB[x]);
- const side=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(r=>r[1]===ORDER[i-1]&&!/Keeper/.test(r[0]));
+ const side=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(r=>r[1]===ORDER[i-1]&&!/Keeper/.test(r[0])&&!/^(Warden|Wither|Ender Dragon)\b/.test(r[0]));
  document.title=`${nm} · Linggango Relic Wiki`;
  const ph=s&&s.phases?s.phases.map((p,j)=>`<tr><td>${s.phases.length>1?"Phase "+(j+1):"Stats"}</td><td class="num">${Math.round(p.base.hp).toLocaleString()}</td><td class="num">${p.pre_hardmode?Math.round(p.pre_hardmode.hp).toLocaleString():"—"}</td><td class="num">${p.hardmode?Math.round(p.hardmode.hp).toLocaleString():"—"}</td><td class="num">${p.base.armor}</td><td class="num">${p.base.dmg}${p.hardmode&&p.hardmode.dmg!==p.base.dmg?" → "+p.hardmode.dmg:""}</td></tr>`).join(""):"";
  el("main").innerHTML=`${crumb(`<a href="#bosses">Bosses</a>`,esc(nm))}<h1>${esc(nm)}</h1>
@@ -457,7 +457,7 @@ const slotKey=n=>{const k=n.toLowerCase();return SLA[k]||k.replace(/ /g,"_")};
 const slotIcon=(n,t)=>{const k=slotKey(n),b=(UI[t?"cslotT":"cslot"]||{})[k],c=t?k+"~":k;if(!b)return "";if(!SLU[c])SLU[c]=URL.createObjectURL(new Blob([Uint8Array.from(atob(b),c=>c.charCodeAt(0))],{type:"image/png"}));return SLU[c]};
 const slk=d=>{const u=slotIcon(d.sl[0]||"",1);return u?`<i class="slk" style="--si:url(${u})" title="${esc(d.sl.join(" / "))} slot"></i>`:`<i class="slk tx" title="${esc(d.sl.join(" / "))} slot">${esc((d.sl[0]||"?").slice(0,2))}</i>`};
 const tile=(d,i=99)=>`<a style="--i:${i}" class="t c${d.c} r${d.r}${d.g==="Loot"?" L":""}${d.inv?" inv":""}" data-mf="${mf(d.m)[0]}" href="#i${d.ix}" data-t="${d.ix}" aria-label="${esc(d.n)}">${AN[d.id]?`<span class="aimg" data-an="${esc(d.id)}">${img(d.id)}</span>`:img(d.id)}${d.k>1?`<span class="kv">${d.k}</span>`:""}${isMust(d)?'<span class="star" aria-label="Must-Have">★</span>':""}${rqb(d)}${slk(d)}</a>`;
-const gcard=(d,i)=>`<a class="gc r${d.r}" style="--i:${Math.min(i,40)}" href="#i${d.ix}" data-t="${d.ix}"><span class="ak">${ACT[d.t][0]}</span><span class="rk">${isMust(d)?"★ Must-Have":RN[d.r]}</span><span class="pic">${img(d.id)}</span><b>${esc(d.n)}</b><small>${esc(d.sl.join(", "))} · ${esc(d.m)}</small></a>`;
+const gcard=(d,i)=>`<a class="gc r${d.r}" style="--i:${Math.min(i,40)}" href="#i${d.ix}" data-t="${d.ix}"><span class="pic">${img(d.id)}</span><b>${esc(d.n)}</b><small>${esc(d.sl.join(", "))} · ${esc(d.m)}</small><span class="gm"><span class="rk">${isMust(d)?"★ Must-Have":RN[d.r]}</span><span class="ak">${esc(actL(d.t))}</span></span></a>`;
 const rbar=xs=>`<span class="bar5">${RNS.map(i=>{const n=xs.filter(d=>d.r===i).length;return n?`<i style="flex:${n};background:${RC[i]}"></i>`:""}).join("")}</span>`;
 const cards=xs=>`<div class="cards">${xs.map(x=>`<a class="card" href="#i${x.ix}" data-t="${x.ix}">${img(x.id)}<span>${esc(x.n)}</span></a>`).join("")}</div>`;
 const crumb=(...p)=>`<div class="crumb"><a href="#">Home</a> / ${p.join(" / ")}</div>`;
@@ -509,7 +509,7 @@ function hubList(kind,key){
  else if(kind==="act"){const a=+key;xs=D.filter(d=>d.t===a);title=actL(a);cr="The Path";lede=`${ACT[a][1].charAt(0).toUpperCase()+ACT[a][1].slice(1)}.${a!=-1?` Next boss: ${ACTN[a]}.`:""} Must-Have ★ items first, then rarest first.`;const bk=PB[a],bs=bst(bk);hero=`<div class="lhero big" style="--tc:${ACT[a][2]};${tex(a)}">${bk&&B3[bk]?`<div class="stage" data-boss="${bk}"></div>`:emblem(a,"lg")}${bs?`<div class="bcard"><b>${esc(bs.name)}</b><i class="bossbar" aria-hidden="true"><i></i></i><small>Defeat it to open ${esc(actL(a))}</small><div class="bstat"><span><i class="ai" style="--ai:var(--v-gui_heart)"></i>${Math.round(bs.effective.hp).toLocaleString()} HP</span><span><i class="ai" style="--ai:var(--v-gui_armor)"></i>${bs.effective.armor} armor</span>${bs.effective.dmg!=null?`<span><i class="ai" style="--ai:var(--v-fx_strength)"></i>${+(+bs.effective.dmg).toFixed(1)} damage</span>`:""}</div><small class="bnote">${esc((bs.summon||"").replace(/\s*\([a-z0-9_]+:[a-z0-9_/]+\)/g,""))}${bs.rules&&bs.rules.some(r=>/Hardmode/i.test(r))?" · Hardmode stats (×2.1 HP and damage)":""}</small></div>`:""}${VBOSS[a]?`<p class="lhv">${esc(VBI[VBOSS[a]].sum)} ${fmt(VBI[VBOSS[a]].line)} <span class="vbp">${esc(VBI[VBOSS[a]].pack)}</span> <a href="${VBI[VBOSS[a]].url}" target="_blank" rel="noopener">Minecraft Wiki ↗</a></p>`:""}</div>`;
   bar=`<div class="brw-bar">${ORDER.filter(a=>D.some(d=>d.t===a)).map(b=>`<a href="#act/${b}"${b===a?' aria-current="page"':""}>${actL(b)}</a>`).join("")}</div>`}
  else if(kind==="mod"){modPage(key);return}
- else{document.title="Mods · Linggango Relic Wiki";const ms=[...MODS].sort((a,b)=>b[1].length-a[1].length);el("main").innerHTML=`${crumb("Mods")}<h1 class="qb">Mods</h1><p class="lede">${MODS.length} mods with curios in the pack, each framed in its own style.</p><div class="mgrid">${ms.map(([m,xs])=>{const F=mf(m),top=byRank(xs).filter(d=>IC[d.id]).slice(0,4);return `<a class="mcard" data-mf="${F[0]}" href="#mod/${enc(m)}"><span class="mbg"></span><span class="mic">${top.map(d=>img(d.id)).join("")}</span><b>${esc(m)}</b><span class="fam">${F[2]}</span><small>${xs.length} curio${xs.length===1?"":"s"}${minfo(m)?" · official page":""}</small></a>`}).join("")}</div>`;return}
+ else{document.title="Mods · Linggango Relic Wiki";const ms=[...MODS].sort((a,b)=>b[1].length-a[1].length);el("main").innerHTML=`${crumb("Mods")}<h1 class="qb">Mods</h1><p class="lede">${MODS.length} mods with curios in the pack, biggest first. Each page lists its curios, slots and the Acts they unlock in.</p><div class="mgrid">${ms.map(([m,xs])=>{const F=mf(m),top=byRank(xs).filter(d=>IC[d.id]).slice(0,4);return `<a class="mcard" data-mf="${F[0]}" href="#mod/${enc(m)}"><span class="mbg"></span><span class="mic">${top.map(d=>img(d.id)).join("")}</span><b>${esc(m)}</b><small>${xs.length} curio${xs.length===1?"":"s"}${minfo(m)?" · official page":""}</small></a>`}).join("")}</div>`;return}
  const all=xs.length;xs=byRank(xs.filter(d=>pass(d)));document.title=title+" · Linggango Relic Wiki";seedBg(kind+key,xs);
  let shown=60;
  const draw=()=>{el("gl").innerHTML=xs.slice(0,shown).map(gcard).join("");el("bc").innerHTML=xs.length?`Showing <b>1–${Math.min(shown,xs.length)}</b> of <b>${xs.length}</b> curios${all>xs.length?` · ${all-xs.length} hidden by filters`:""}`:`No curios here match these filters.`;el("mr").hidden=shown>=xs.length};
@@ -527,7 +527,7 @@ function modPage(m){
  const links=I?`<a class="mbtn" href="${I[1]}" target="_blank" rel="noopener">CurseForge ↗</a>`:`<a class="mbtn" href="https://www.curseforge.com/minecraft/search?search=${enc(m)}" target="_blank" rel="noopener">Search on CurseForge ↗</a>`;
  el("main").innerHTML=`<div class="mp" data-mf="${F[0]}">${crumb('<a href="#mods">Mods</a>',esc(m))}
  <section class="mhero"><span class="mbg"></span><span class="mwm" aria-hidden="true"></span>
-  <div class="mht"><span class="fam">${F[2]}</span><h1>${esc(m)}</h1>${I?`<p class="mby">by ${esc(I[0])}</p><p>${esc(I[2])}</p>`:`<p>${xs.length} curios from this mod are in Linggango.</p>`}<div class="mlinks">${links}</div></div>
+  <div class="mht"><h1>${esc(m)}</h1>${I?`<p class="mby">by ${esc(I[0])}</p><p>${esc(I[2])}</p>`:`<p>${xs.length} curios from this mod are in Linggango.</p>`}<div class="mlinks">${links}</div></div>
   <div class="mshow">${hero.map((d,i)=>`<a class="ms r${d.r}" style="--i:${i}" href="#i${d.ix}" data-t="${d.ix}">${img(d.id)}</a>`).join("")}</div></section>
  <div class="mstat">
   <div class="mbox"><h3>Curios</h3><b class="big">${xs.length}</b><div class="rmix">${rc.map((n,i)=>n?`<i class="r${i}" style="flex:${n}" title="${RN[i]}: ${n}"></i>`:"").join("")}</div><small>${rc.map((n,i)=>n?`${RN[i]} ${n}`:"").filter(Boolean).join(" · ")}</small></div>
@@ -608,7 +608,7 @@ function page(d){
  el("main").innerHTML=`<div class="ip r${d.r}" data-mf="${F[0]}">
  <header class="ip-hero"><div class="ip-htext"><div class="ip-crumb"><a href="#">Home</a> / <a href="#mod/${enc(d.m)}">${esc(d.m)}</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>
  <h1 class="ip-title">${isMust(d)?'<span class="mstar">★</span>':""}${esc(d.n)}</h1><p class="ip-lead">${fmt(d.fx)}</p>
- <p class="ip-meta"><span class="ip-fam">${F[2]}</span><span>${rLabel(d)}</span><span>${esc(slot)}</span><span>${loot?"Loot":"Craft"}</span>${d.nw?"<span>added mod</span>":""}</p></div>
+ <p class="ip-meta"><span class="ip-fam">${esc(d.m)}</span><span>${rLabel(d)}</span><span>${esc(slot)}</span><span>${loot?"Loot":"Craft"}</span>${d.nw?"<span>added mod</span>":""}</p></div>
 </header>
  <div class="ip-body"><div class="ip-main">${secs.map(x=>`<section class="s ip-sec" id="s-${x[0]}"><h2>${x[1]}</h2>${x[2]}</section>`).join("")}
  ${s0?`<section class="sib"><h2>More ${esc(s0)} curios <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">see all ${sx.length} →</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>← Previous in ${esc(s0)}</small>${esc(pv.n)}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>Next in ${esc(s0)} →</small>${esc(nx.n)}</a>`:""}</nav></section>`:""}</div>
@@ -718,6 +718,8 @@ function render(){
  save();const xs=refreshSide();const h=decodeURIComponent(location.hash);
  if(["#bang","#ngoai","#table","#unobtainable","#guide"].includes(h)){location.replace("#home");return}
  document.body.classList.toggle("hub",h===""||h==="#");
+ // curio filters and index only make sense next to curio lists
+ document.body.classList.toggle("noside",h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics");
  if(innerWidth<=760&&(h.startsWith("#i")||h==="#guide")){el("side").classList.add("closed");el("fold").setAttribute("aria-expanded","false")}
  const soft=SOFT;SOFT=false;const mn=el("main");if(!soft){mn.classList.remove("enter");void mn.offsetWidth;mn.classList.add("enter")}
  const m=h.match(/^#(slot|act|mod)\/(.+)$/);

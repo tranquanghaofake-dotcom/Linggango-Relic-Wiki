@@ -135,3 +135,15 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 - Tile icons 48 → 40 px so they sit inside the slot with a margin (animated sprites keep their frame crop).
 - Removed the gold pulse on rare tiles: it animated a `drop-shadow` filter on every Legendary/Mythic/Must-Have icon, a full repaint each frame. The static glow stays. The hover shine sweep (`.sh`) is gone too.
 - Speed with the same look: tile icons only animate while on screen (one IntersectionObserver, plus a MutationObserver so tiles added later are watched); off-screen tiers skip layout and paint (`content-visibility:auto`). Home page in this GPU-less container: 13 fps → about 45–53 fps.
+
+## v13 (logic and layout sweep)
+- Boss stats now apply the pack's `kubejs/data/linggango/attributesetter/entity/entitybalance.json` overrides (BASE replaces, ADDITION adds), then the Armageddon HP bonus, then Hardmode ×2.1 for bosses after the Dragon (`build/patches/boss_stats.py`, file copied to `build/patches/entitybalance.json`). Before, the boss cards showed the mod's own values: Warden 500 HP / 0 armor (pack: 700 / 20 / 35 dmg), Wither 300 / 4 / 2 (pack: 500 / 20 / 32), Zoranth 16 armor / 28 dmg (pack: 50 / 20), Sanghor 70 dmg (pack 42 → 88.2 in Hardmode). The boss-route notes already had the pack values, so the two now agree.
+- Small text and numbers use the body face: the pixel face drew 9 like 3, 5 like 8 and 2 like 8 (readers saw "Sanghor 387 HP", "Warden 800 HP"). The pixel face stays on headings.
+- Pack mechanics tables: zebra rows were light grey with light text; now dark.
+- Bosses, boss pages and Pack mechanics drop the curio filter sidebar (`body.noside`), which did nothing there.
+- Curio list cards rebuilt: icon | name, slot · mod, then rarity and Act chips. Before, v5 and the skin both pinned the Act numeral and the rarity badge over the name, and Mythic showed an empty red box (badge text in the badge colour).
+- Builder: a filled slot is one chip (icon + name | ×) instead of two overlapping 54 px squares; stat totals label percentage lines "(%)" so "Armor +4" and "Armor (%) −50%" read as two different bonuses; the note points to the Effects tab (there is no Effects page).
+- Boss page: "Side bosses to farm before it" no longer lists the Wither and Ender Dragon under the Warden; the Hardmode assumption note is gone where Hardmode does not apply.
+- Item page: the art is centred (a leftover `inset:18%` pushed it down-right); the first chip names the mod instead of the frame-style family ("ARCANE", "Relic").
+- Mods page and mod pages: the family label ("Relic" on Terra Curio, Artifacts…, "Goety" on Covenant of the Seven) is gone.
+- Gear "How to get": recipe types read as ingredients ("A Armor Upgrade a_ A Armor Upgrade") are filtered out, stations have real names (Armor upgrade (Adam's Ars Plus), Goety ritual, Enchanting Apparatus…), ingredient counts are shown (4× Frost Soul) and tags read "any hood".
