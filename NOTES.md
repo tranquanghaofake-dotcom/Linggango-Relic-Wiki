@@ -129,3 +129,9 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 - Item page "How to get it" no longer wraps one word per line (the step was a grid, so every inline piece became a cell); step numbers use the body font (the pixel font drew 2 like 8). `ol.how` selectors because v5.css's `ol.how li` outranked the skin.
 - Footer notes the re-check against the pack (20 Oct 2026).
 - Left: chest chances for Artifacts / Iron's Spells sub-tables (they are rolled through parent tables, so a flat read overstates them; `build/pack_audit/chests.py` shows the raw values only); 148 loot-only curios whose source is code (Suspicious Bag, MCreator bag procedures, Enigmatic Die) are unchecked; 3D icons for the 61 GeckoLib items could be rendered with `build/geo2three.js` later.
+
+## v12 (tiles: cleaner and faster)
+- Removed the bottom-left "used to craft another curio" mark from tiles (and its legend entry); the item page still lists what each curio is used in.
+- Tile icons 48 → 40 px so they sit inside the slot with a margin (animated sprites keep their frame crop).
+- Removed the gold pulse on rare tiles: it animated a `drop-shadow` filter on every Legendary/Mythic/Must-Have icon, a full repaint each frame. The static glow stays. The hover shine sweep (`.sh`) is gone too.
+- Speed with the same look: tile icons only animate while on screen (one IntersectionObserver, plus a MutationObserver so tiles added later are watched); off-screen tiers skip layout and paint (`content-visibility:auto`). Home page in this GPU-less container: 13 fps → about 45–53 fps.

@@ -549,3 +549,15 @@ body{background:radial-gradient(1200px 600px at 70% -10%,rgba(120,80,200,.12),tr
 ::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-thumb{background:var(--gui-hi);box-shadow:inset 0 0 0 2px var(--gui)}::-webkit-scrollbar-track{background:var(--gui-lo)}
 
 .ph.gph{font-size:20px;line-height:1;opacity:.55;filter:grayscale(.3)}
+
+/* ---------- tiles: no ingredient corner mark, no gold pulse, lighter rendering ---------- */
+.t .ct,.t .sh{display:none!important}
+.t>img,.t .aimg{width:40px!important;height:40px!important}
+.t .aimg img{width:40px!important}
+/* the gold pulse animated a drop-shadow filter on every rare tile (a full repaint per frame); keep the static glow */
+.tier.seen .t.r4>img,.tier.seen .t.r5>img,.tier.seen .t.r6>img{animation-name:mvA!important;animation-duration:3.4s!important}
+/* skip layout and paint of tiers and tiles that are off screen; animations there stop with them */
+.tier{content-visibility:auto;contain-intrinsic-size:auto 420px}
+.t{contain:layout style}
+.t>img,.t .aimg,.t .aimg img{animation-play-state:paused!important}
+.t.vis>img,.t.vis .aimg,.t.vis .aimg img{animation-play-state:running!important}

@@ -456,7 +456,7 @@ const SLU={};
 const slotKey=n=>{const k=n.toLowerCase();return SLA[k]||k.replace(/ /g,"_")};
 const slotIcon=(n,t)=>{const k=slotKey(n),b=(UI[t?"cslotT":"cslot"]||{})[k],c=t?k+"~":k;if(!b)return "";if(!SLU[c])SLU[c]=URL.createObjectURL(new Blob([Uint8Array.from(atob(b),c=>c.charCodeAt(0))],{type:"image/png"}));return SLU[c]};
 const slk=d=>{const u=slotIcon(d.sl[0]||"",1);return u?`<i class="slk" style="--si:url(${u})" title="${esc(d.sl.join(" / "))} slot"></i>`:`<i class="slk tx" title="${esc(d.sl.join(" / "))} slot">${esc((d.sl[0]||"?").slice(0,2))}</i>`};
-const tile=(d,i=99)=>`<a style="--i:${i}" class="t c${d.c} r${d.r}${d.g==="Loot"?" L":""}${d.inv?" inv":""}" data-mf="${mf(d.m)[0]}" href="#i${d.ix}" data-t="${d.ix}" aria-label="${esc(d.n)}">${AN[d.id]?`<span class="aimg" data-an="${esc(d.id)}">${img(d.id)}</span>`:img(d.id)}${d.k>1?`<span class="kv">${d.k}</span>`:""}${d.uid.length?CT:""}${isMust(d)?'<span class="star" aria-label="Must-Have">★</span>':""}${rqb(d)}${slk(d)}<span class="sh" style="--dl:${(d.ix*.37%5).toFixed(2)}s"></span></a>`;
+const tile=(d,i=99)=>`<a style="--i:${i}" class="t c${d.c} r${d.r}${d.g==="Loot"?" L":""}${d.inv?" inv":""}" data-mf="${mf(d.m)[0]}" href="#i${d.ix}" data-t="${d.ix}" aria-label="${esc(d.n)}">${AN[d.id]?`<span class="aimg" data-an="${esc(d.id)}">${img(d.id)}</span>`:img(d.id)}${d.k>1?`<span class="kv">${d.k}</span>`:""}${isMust(d)?'<span class="star" aria-label="Must-Have">★</span>':""}${rqb(d)}${slk(d)}</a>`;
 const gcard=(d,i)=>`<a class="gc r${d.r}" style="--i:${Math.min(i,40)}" href="#i${d.ix}" data-t="${d.ix}"><span class="ak">${ACT[d.t][0]}</span><span class="rk">${isMust(d)?"★ Must-Have":RN[d.r]}</span><span class="pic">${img(d.id)}</span><b>${esc(d.n)}</b><small>${esc(d.sl.join(", "))} · ${esc(d.m)}</small></a>`;
 const rbar=xs=>`<span class="bar5">${RNS.map(i=>{const n=xs.filter(d=>d.r===i).length;return n?`<i style="flex:${n};background:${RC[i]}"></i>`:""}).join("")}</span>`;
 const cards=xs=>`<div class="cards">${xs.map(x=>`<a class="card" href="#i${x.ix}" data-t="${x.ix}">${img(x.id)}<span>${esc(x.n)}</span></a>`).join("")}</div>`;
@@ -542,7 +542,7 @@ function modPage(m){
 function home(xs,asTable){
  let h=`${crumb("The Path")}<h1 class="qb">The Path</h1>
  <p class="lede">Every curio in base Linggango V6.6.5b4, tiered by how hard it really is to get: the Keeper that unlocks it, the vanilla boss it needs (Warden, Wither, Ender Dragon), drop chances, pickaxe tier and trait farming. Inside each act, ★ Must-Have items come first, then the rarest.</p>
-  <div class="legend"><span><i class="ct lg"></i>Used to craft another curio</span><span><i class="lgr"></i>Frame colour: rarity, brighter = rarer</span><span><i class="slk lg" style="--si:url(${slotIcon("Ring")})"></i>Curio slot it goes in</span><span><b class="lgn">16</b>Variants merged into one tile</span><span><b class="lgs">★</b>Must-Have: get it first</span><span>${rqb({rq:"Curses"}," lg")}Needs the Seven Curses or Virtues ring</span></div>
+  <div class="legend"><span><i class="lgr"></i>Frame colour: rarity, brighter = rarer</span><span><i class="slk lg" style="--si:url(${slotIcon("Ring")})"></i>Curio slot it goes in</span><span><b class="lgn">16</b>Variants merged into one tile</span><span><b class="lgs">★</b>Must-Have: get it first</span><span>${rqb({rq:"Curses"}," lg")}Needs the Seven Curses or Virtues ring</span></div>
  ${fbar(xs.length,D.length)}${xs.length?"":`<p class="note">No curios match these filters. Remove one above or clear them all.</p>`}`;
  seedBg("path"+st.a,xs.filter(d=>d.r>=4));
  if(!asTable){
@@ -700,7 +700,12 @@ function outside(){
 /* ---------- router ---------- */
 let snapQ=Promise.resolve();
 const tierIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("seen");tierIO.unobserve(e.target)}}),{rootMargin:"200px"});
+// tile icons only animate while on screen: hundreds of off-screen bobbing icons cost a frame each
+const tileIO=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle("vis",e.isIntersecting)),{rootMargin:"120px"});
+const watchTiles=r=>r.querySelectorAll&&r.querySelectorAll("a.t:not([data-vo])").forEach(t=>{t.dataset.vo=1;tileIO.observe(t)});
+new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches("a.t:not([data-vo])")){n.dataset.vo=1;tileIO.observe(n)}else watchTiles(n)}))).observe(document.documentElement,{childList:true,subtree:true});
 function decorate(r=document){
+ watchTiles(r);
  r.querySelectorAll(".tier:not(.seen):not([data-io])").forEach(t=>{t.dataset.io=1;tierIO.observe(t)});
  const hero=r.querySelector(".hero:not([data-done])");
  if(hero){hero.dataset.done=1;if(UI.bg){hero.classList.add("real");hero.style.setProperty("--hbg",`url(data:image/jpeg;base64,${UI.bg})`)}const w=hero.querySelector("img.wm");if(w&&UI.logo)w.src="data:image/png;base64,"+UI.logo}
