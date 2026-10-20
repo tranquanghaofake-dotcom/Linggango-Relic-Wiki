@@ -53,13 +53,13 @@ function gearPage(h){
  const m=h.match(/^#gear(?:\/([\d.]+))?(?:\/(\w\w))?(?:\/([wa]))?/);if(m){if(m[1]!=null)GSTATE.a=+m[1];if(m[2])GSTATE.r=m[2];if(m[3])GSTATE.w=m[3]}
  if(!ORDER.includes(+GSTATE.a))GSTATE.a=0;if(GSTATE.w==="w"&&GSTATE.r==="TA")GSTATE.r="ME";
  try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){}
- const {a,r,w}=GSTATE;document.title=`Gear tier list · ${actL(a)} · Linggango Wiki`;
+ const {a,r,w}=GSTATE;document.title=`Equipment tier list · ${actL(a)} · Linggango Wiki`;
  const roles=Object.keys(GROLE).filter(k=>w==="a"||k!=="TA");
  const tiers=gTiers(a,r,w),pool=tiers.reduce((n,x)=>n+x[1].length,0);
  const go=(A,R,W)=>`#gear/${A}/${R}/${W}`;
  const q=GSTATE.q.trim().toLowerCase();
- el("main").innerHTML=`${crumb("Gear")}<div class="gear">
- <div class="ghead" style="--tc:${ACT[a][2]};${tex(a)}"><span class="gem">${emblem(a,"lg")}</span><div><h1>Gear tier list</h1>
+ el("main").innerHTML=`${crumb("Equipment")}<div class="gear">
+ <div class="ghead" style="--tc:${ACT[a][2]};${tex(a)}"><span class="gem">${emblem(a,"lg")}</span><div><h1>Equipment tier list</h1>
  <p class="lede">The best weapons and armor sets for each playstyle at <b>${esc(actL(a))}</b>: everything you can use once ${a==0?"you start":esc(UNL[a]||"")+" is beaten"}, ranked against the best you have at that point.</p></div></div>
  <nav class="gacts" aria-label="Act">${ORDER.filter(x=>x!=-1).map(x=>`<a href="${go(x,r,w)}" style="--tc:${ACT[x][2]}"${x===+a?' aria-current="page"':""} title="${esc(actF(x))}"><span class="gx">${emblem(x,"xs")}</span><b>${esc(ACT[x][0])}</b></a>`).join("")}</nav>
  <div class="gbar"><div class="gseg" role="tablist" aria-label="Weapons or armor">${[["w","⚔ Weapons"],["a","🛡 Armor sets"]].map(([k,t])=>`<a role="tab" href="${go(a,w===k?r:(k==="w"&&r==="TA"?"ME":r),k)}"${k===w?' aria-selected="true"':""}>${t}</a>`).join("")}</div>
@@ -105,8 +105,8 @@ function gVerdict(g){const r=gMain(g),w=g.ps?"a":"w",acts=ORDER.filter(x=>x!=-1&
  return `<p class="gverd" style="--gc:${bt[2]}"><b>${bt[0]}</b><span><strong>${best<=1?"Worth using":best<=2?"Usable":"Weak"}</strong> as ${GROLE[r]} gear: ${bt[0]} tier at ${span}.${k>0?` Replace it by Act ${esc(ACT[acts[k]][0])}.`:""}</span></p>`}
 function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix,[]);
  const r=gMain(g),rows=gStats(g),bon=gBonus(g),set=g.k==="armor"?GS.find(s=>s.p.includes(g.id)):null;
- el("main").innerHTML=`${crumb('<a href="#gear">Gear</a>',esc(g.n))}<article class="gpage" style="--tc:${ACT[g.a][2]};${tex(g.a)}">
- <header class="gph"><span class="gbig">${img(g.id)}</span><div><h1>${esc(g.n)}</h1><p class="gsub">${esc(GKIND[g.k])}${g.sl?" · "+GSLOT[g.sl]:""} · <a href="#mod/${enc(MODN(g.ns))}">${esc(MODN(g.ns))}</a> · <code>${esc(g.id)}</code></p>
+ el("main").innerHTML=`${crumb('<a href="#gear">Equipment</a>',esc(g.n))}<article class="gpage" style="--tc:${ACT[g.a][2]};${tex(g.a)}">
+ <header class="gph">${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?`<img class="garm" alt="" src="${ARMR[set.k]}">`:""}<span class="gbig">${img(g.id)}</span><div><h1>${esc(g.n)}</h1><p class="gsub">${esc(GKIND[g.k])}${g.sl?" · "+GSLOT[g.sl]:""} · <a href="#mod/${enc(MODN(g.ns))}">${esc(MODN(g.ns))}</a> · <code>${esc(g.id)}</code></p>
  <p class="gact"><span class="gx">${emblem(g.a,"xs")}</span>${esc(actL(g.a))}${g.ga?` · 🔒 locked until ${esc(GATEN[g.ga])} falls (Linggango progression tag)`:""}</p>${gVerdict(set||g)}</div></header>
  <div class="gcols"><section class="gbox"><h2>Stats</h2>${rows.length?`<table class="gst">${rows.map(([ic,n,v,s])=>`<tr><td>${ic?`<i class="ai" style="--ai:var(--v-${ic})"></i>`:""}${n}</td><td class="num">${v}</td><td><span class="tg ${s}">${s==="code"?"Read from the mod":"Pack"}</span></td></tr>`).join("")}${g.sc.ME!=null&&!g.est?`<tr class="dps"><td>Damage per second</td><td class="num">${gRound(g.sc.ME)}</td><td><span class="tg auto">Wiki estimate</span></td></tr>`:""}</table>`:`<p class="note">Base ${g.k==="armor"?"armor":"damage"} is computed in this mod's code at run time; the wiki could not read it, so this item is ranked by its gate.</p>`}
  ${bon.length?`<h3>Bonuses</h3><ul class="gbon">${bon.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul><p class="note">From the mod's own modifiers and the Linggango <i>attributesetter</i> rebalance, added on top of the base stats.</p>`:""}</section>
@@ -114,8 +114,8 @@ function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix
  ${set?`<h3>Set</h3><a class="gsetl" href="#gs${set.ix}" data-t="s${set.ix}">${gImg(set)}<span>${esc(set.n)} · ${set.ps.length} piece${set.ps.length>1?"s":""}</span></a>`:""}</section></div>
  <section class="gbox"><h2>How to get</h2>${gSrcText(g)}</section></article>`;decorate()}
 function gearSetPage(s){document.title=s.n+" set · Linggango Wiki";seedBg("gs"+s.ix,[]);const r=gMain(s);
- el("main").innerHTML=`${crumb('<a href="#gear/'+GSTATE.a+'/TA/a">Gear</a>',esc(s.n))}<article class="gpage" style="--tc:${ACT[s.a][2]};${tex(s.a)}">
- <header class="gph"><span class="gbig">${gImg(s)}</span><div><h1>${esc(s.n)} set</h1><p class="gsub">${s.ps.length} piece${s.ps.length>1?"s":""} · <a href="#mod/${enc(MODN(s.k.split(":")[0]))}">${esc(MODN(s.k.split(":")[0]))}</a></p>
+ el("main").innerHTML=`${crumb('<a href="#gear/'+GSTATE.a+'/TA/a">Equipment</a>',esc(s.n))}<article class="gpage" style="--tc:${ACT[s.a][2]};${tex(s.a)}">
+ <header class="gph">${typeof ARMR!=="undefined"&&ARMR[s.k]?`<img class="garm" alt="${esc(s.n)} worn" src="${ARMR[s.k]}">`:`<span class="gbig">${gImg(s)}</span>`}<div><h1>${esc(s.n)} set</h1><p class="gsub">${s.ps.length} piece${s.ps.length>1?"s":""} · <a href="#mod/${enc(MODN(s.k.split(":")[0]))}">${esc(MODN(s.k.split(":")[0]))}</a></p>
  <p class="gact"><span class="gx">${emblem(s.a,"xs")}</span>${esc(actL(s.a))}</p></div></header>
  <div class="gcols"><section class="gbox"><h2>Full set</h2><table class="gst">${s.kn?`<tr><td><i class="ai" style="--ai:var(--v-gui_armor)"></i>Armor</td><td class="num">${gRound(s.arm)}</td></tr><tr><td><i class="ai" style="--ai:var(--v-fx_resistance)"></i>Toughness</td><td class="num">${gRound(s.tough)}</td></tr>`:`<tr><td colspan="2" class="note">Base armor is computed in code the wiki could not read.</td></tr>`}${s.hp?`<tr><td><i class="ai" style="--ai:var(--v-gui_heart)"></i>Max Health</td><td class="num">${s.hp>0?"+":""}${gRound(s.hp)}</td></tr>`:""}${s.kbr?`<tr><td>Knockback Resistance</td><td class="num">${gRound(s.kbr)}</td></tr>`:""}${s.dtk?`<tr><td>Damage taken</td><td class="num">${s.dtk>0?"−":"+"}${gRound(Math.abs(s.dtk)*100)}%</td></tr>`:""}</table>
  <h3>Pieces</h3><div class="gpcs">${s.ps.map(p=>`<a href="#g${p.ix}" data-t="g${p.ix}">${img(p.id)}<span>${esc(p.n)}</span><small>${p.arm!=null?gRound(p.arm)+" armor":""}${gBonus(p).length?" · "+gBonus(p).slice(0,2).join(", "):""}</small></a>`).join("")}</div></section>
@@ -147,7 +147,7 @@ function gearBest(a){const cell=(r,w)=>{const t=gTiers(a,r,w);const s=t.length?t
  const T0=showTip;showTip=function(n){const k=n.dataset.t;if(k&&/^[gs]\d/.test(k))gearTip(n);else T0(n)};
  const H0=hubList;hubList=function(kind,key){H0(kind,key);if(kind==="act"){const a=+key,x=el("main").querySelector(".lhero");if(a!=-1&&x)x.insertAdjacentHTML("afterend",gearBest(a));decorate()}};
  const HH=hubHome;hubHome=function(){HH();const p=el("main").querySelector(".pillars");
-  if(p){const ic=GE.find(g=>g.k==="melee"&&g.a===12&&IC[g.id])||GE.find(g=>IC[g.id]);p.insertAdjacentHTML("beforeend",`<a class="pil" href="#gear"><span class="ic">${ic?img(ic.id):""}</span><span><h3>Gear tier list</h3><p>Weapons and armor sets for Melee, Ranged, Mage, Summon and Tank, Act by Act.</p></span></a>`)}
-  const acts=el("main").querySelector(".acts");if(acts){acts.closest("div")&&acts.insertAdjacentHTML("afterend",`<div class="hsec"><div><h2>Gear tier list</h2><p>${GE.filter(g=>g.k!=="armor").length} weapons and ${GS.length} armor sets from the pack, ranked for each playstyle at every Act.</p></div><a href="#gear">Open →</a></div><div class="gstrip">${ORDER.filter(a=>a!=-1).map(a=>{const t=gTiers(a,"ME","w"),g=t.length&&t[0][1][0];return `<a href="#gear/${a}/ME/w" style="--tc:${ACT[a][2]}" title="${esc(actL(a))}"${g?` data-t="g${g.ix}"`:""}>${g?gImg(g):""}<b>${esc(ACT[a][0])}</b></a>`}).join("")}</div>`)}};
+  if(p){const ic=GE.find(g=>g.k==="melee"&&g.a===12&&IC[g.id])||GE.find(g=>IC[g.id]);p.insertAdjacentHTML("beforeend",`<a class="pil" href="#gear"><span class="ic">${ic?img(ic.id):""}</span><span><h3>Equipment tier list</h3><p>Weapons and armor sets for Melee, Ranged, Mage, Summon and Tank, Act by Act.</p></span></a>`)}
+  const acts=el("main").querySelector(".acts");if(acts){acts.closest("div")&&acts.insertAdjacentHTML("afterend",`<div class="hsec"><div><h2>Equipment tier list</h2><p>${GE.filter(g=>g.k!=="armor").length} weapons and ${GS.length} armor sets from the pack, ranked for each playstyle at every Act.</p></div><a href="#gear">Open →</a></div><div class="gstrip">${ORDER.filter(a=>a!=-1).map(a=>{const t=gTiers(a,"ME","w"),g=t.length&&t[0][1][0];return `<a href="#gear/${a}/ME/w" style="--tc:${ACT[a][2]}" title="${esc(actL(a))}"${g?` data-t="g${g.ix}"`:""}>${g?gImg(g):""}<b>${esc(ACT[a][0])}</b></a>`}).join("")}</div>`)}};
 }
 render();decorate();

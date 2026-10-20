@@ -169,3 +169,17 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 - Ars Nouveau Spell Bow icon rendered from its GeckoLib model, so all 180 gear items now have an icon.
 - Footer credits the mod authors for item art, and the Mekanism and Alex's Caves wikis (CC BY-SA 4.0) for the icons taken from them.
 - Curio tile float animation: GPU translate, softer easing, and a rarity-coloured glow on hover.
+
+## v17: Boss attacks and drops, armor renders, pack art, curio tiles
+- **Boss pages:**
+  - Attacks and drops now come from the decompiled Armageddon procedures (`*OnEntityTickUpdate`, `*EntityDies`, `*TreasureBagRightclicked`). The tables are in `build/patches/boss_info.json`, made by `build/pack_audit/boss_prep.py`.
+  - Drop chances are taken from the code; the JEI treasurebag configs are only what JEI displays.
+  - Attacks have projectile renders or an icon for the attack type.
+- **Armor sets:** 126 sets are rendered worn on a Steve model with three.js, from vanilla-style armor layer textures or GeckoLib armor geo (`armor_prep.py`, `armor_render.html/.js`). 40 broken renders were dropped.
+- **Pack art on The Path:** the pack's own Act title strips, plus side-boss screenshots for 30 side bosses (`build/patches/pack_imgs.json`). The quest text itself is encrypted (LGQ1) and was not decrypted.
+- **Curio tiles:** 64px, 42px icon on a rarity-tinted radial backdrop. The idle float animation is gone; there is a single hover transform.
+- **Other changes:**
+  - Gear is renamed Equipment.
+  - Warden, Wither, Dragon and Act XII emblems now use Armageddon items.
+  - The footer is a 4-column credits block on every page.
+  - Removed: Raw pack data, "Why it sits on", the boss curio lists, and the HP on vanilla Act headers.

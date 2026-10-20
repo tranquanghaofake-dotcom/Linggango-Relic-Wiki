@@ -1,0 +1,28 @@
+<!doctype html><html><body style="margin:0;background:transparent">
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';import {buildGeo} from './geo2three.js';
+const R=new THREE.WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true});R.setSize(320,400);R.setClearColor(0,0);document.body.appendChild(R.domElement);
+const L=new THREE.TextureLoader();
+const tx=async b=>{const t=await L.loadAsync('data:image/png;base64,'+b);t.magFilter=t.minFilter=THREE.NearestFilter;t.colorSpace=THREE.SRGBColorSpace;return t};
+const bone=(name,pivot,cubes,rot)=>({name,pivot,rotation:rot,cubes});
+const C=(o,s,uv,inf,m)=>({origin:o,size:s,uv,inflate:inf||0,mirror:!!m});
+const POSE={ra:[0,0,6],la:[0,0,-6],rl:[0,0,1.5],ll:[0,0,-1.5]};
+function biped(w,h,parts,inf,skin){const b=[];
+ if(parts.head)b.push(bone('head',[0,24,0],[C([-4,24,-4],[8,8,8],[0,0],inf)]));
+ if(parts.body)b.push(bone('body',[0,24,0],[C([-4,12,-2],[8,12,4],[16,16],inf)]));
+ if(parts.arms){b.push(bone('rarm',[-5,22,0],[C([-8,12,-2],[4,12,4],[40,16],inf)],POSE.ra));b.push(bone('larm',[5,22,0],[C([4,12,-2],[4,12,4],skin?[32,48]:[40,16],inf,!skin)],POSE.la))}
+ if(parts.legs){b.push(bone('rleg',[-1.9,12,0],[C([-3.9,0,-2],[4,12,4],[0,16],inf)],POSE.rl));b.push(bone('lleg',[1.9,12,0],[C([-0.1,0,-2],[4,12,4],skin?[16,48]:[0,16],inf,!skin)],POSE.ll))}
+ return {format_version:'1.12.0','minecraft:geometry':[{description:{identifier:'geometry.b',texture_width:w,texture_height:h},bones:b}]}}
+window.renderArmor=async(d,steve)=>{
+ const S=new THREE.Scene();S.add(new THREE.AmbientLight(0xffffff,1.9));const dl=new THREE.DirectionalLight(0xffffff,1.7);dl.position.set(3,5,6);S.add(dl);
+ const o=new THREE.Group();const st=await tx(steve);o.add(buildGeo(biped(64,64,{head:1,body:1,arms:1,legs:1},0,true),st,{faceCamera:false}));
+ if(d.mode==='biped'){const t1=await tx(d.l1),t2=await tx(d.l2);const h1=t1.image.height,w1=t1.image.width;
+  o.add(buildGeo(biped(64,32*w1/64>=h1?32:64,{head:1,body:1,arms:1,legs:1},1.0),t1,{faceCamera:false,texW:w1*64/w1,texH:h1*64/w1}));
+  o.add(buildGeo(biped(64,32,{body:1,legs:1},0.5),t2,{faceCamera:false,texW:64,texH:t2.image.height*64/t2.image.width}));}
+ else{const t=await tx(d.tex);o.add(buildGeo(d.geo,t,{faceCamera:false,transparent:true}))}
+ o.rotation.y=Math.PI-0.55;S.add(o);
+ const b=new THREE.Box3().setFromObject(o),sz=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3());const k=Math.max(sz.x*1.25,sz.y)/2*1.05;
+ const cam=new THREE.OrthographicCamera(c.x-k*0.8,c.x+k*0.8,c.y+k,c.y-k,-100,100);cam.position.set(0,0,50);cam.rotation.x=0;R.render(S,cam);return R.domElement.toDataURL('image/png')}
+window.ready=true;
+</script></body></html>
