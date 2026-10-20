@@ -95,6 +95,20 @@ FX = {
  "traveloptics:bottled_raincloud": "Rainfall talent: becomes acid rain that strips enemy buffs and inflicts Corroded; +2 s duration",
  "confluence:magic_quiver": "+10% arrow damage, +20% arrow speed; 20% chance not to consume arrows",
  "confluence:molten_quiver": "+15% arrow damage, +20% arrow speed; wooden arrows catch fire for 5 s; +5% damage to burning mobs; 20% chance not to consume arrows",
+ "artifacts:feral_claws": "+40% attack speed",
+ "artifacts:power_glove": "+4 attack damage",
+ "artifacts:crystal_heart": "+10 max health",
+ "artifacts:running_shoes": "+40% movement speed and +step height while sprinting",
+ "artifacts:digging_claws": "+3.2 mining speed; bare hands mine like an iron-tier tool",
+ "artifacts:anglers_hat": "+1 Luck of the Sea and +1 Lure when fishing",
+ "artifacts:lucky_scarf": "+1 Fortune level on mined blocks",
+ "artifacts:superstitious_hat": "+1 Looting level on killed mobs",
+ "artifacts:snorkel": "Breathe underwater for 15 s (the pack turns off the infinite option)",
+ "artifacts:vampiric_glove": "Melee hits heal you for part of the damage, at most 3 health per hit (pack gamerule; the mod's default is 6)",
+ "goety:warlock_robe": "+85% magic damage resistance; arthropods are neutral to you; chance not to use up Wartful Eggs",
+ "goety:witch_robe": "+85% magic damage resistance; press a key to open the brewing stand built into the robe",
+ "covenant_of_the_seven:serendipity_feast": "Rapidly gain hunger and saturation at noon; +armor from hunger level, +toughness from saturation; lowers the Third Burden's damage-reduction penalty cap by 10% (Seven Virtues)",
+ "brutality:envy": "+Max health equal to half the gap between the nearest player's max health (within 10 blocks) and your health",
 }
 s = P.read_text(encoding="utf-8")
 D, end = json.JSONDecoder().raw_decode(s, 8)
