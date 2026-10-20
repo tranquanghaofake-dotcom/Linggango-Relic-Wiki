@@ -154,3 +154,13 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 - Mechanics now covers only Goety rituals (all 479, filterable) and AE2 storage, from the Black Book and AE2 bytecode (`goety.json`, `ae2.json`, written to `build/src/wiki_data.js` by `wiki_data.py`).
 - Gear: new `gear_gate.py`. It moves 49 items to the Act where their modded material opens (e.g. Old GPU needs Conductite, so Act VII). Tiers are now set by how close an item is to the best one at that Act (S ≥85%, A ≥70%, B ≥55%, C ≥40%). The Tier by Act strip ends with "Outclassed from …".
 - Home: "Advancements" wording is gone. The Path is drawn as a main line with each Act's side bosses and elites (from BOSSR) as branches.
+
+## v15: Gear icons, verdicts, home cleanup
+- 114 of the 115 gear items without an icon now have one:
+  - 53 use flat textures from the jars (`*_inventory`, `*_gui`, `*_icon`, or a resolved `layer0`).
+  - 54 are 3D renders: GeckoLib geo, plus 3 Java block-element models, rendered with three.js in headless Chromium (`build/pack_audit/icon2.py`, `icon3.py`, `geo_icon_render.html/.js`).
+  - 7 come from the official mod wikis: the Mekanism Jetpack, Free Runners and Scuba gear (wiki.aidancbrady.com) and the Alex's Caves Raygun (alexscaves.wiki.gg). These items use code-built models.
+  - Ars Nouveau Spell Bow still has none.
+- Gear pages show a verdict line under the title: best tier, the Acts where it holds that tier, and when to replace the item.
+- Travel Optics level variants are named "(Lv 1/2/3)". Gear tiles show larger icons.
+- Home: removed "Vanilla bosses on the Path"; panels and headings are tinted.

@@ -495,7 +495,7 @@ ol.how li::before{content:counter(howc);position:absolute;left:10px;top:8px;disp
 .gtiles{gap:0;padding:12px}
 .gtl{width:84px;padding:6px 2px 6px;border:0;border-radius:0;background:none;color:var(--gui-ink);transition:none}
 .gtl:hover,.gtl:focus-visible{transform:none;box-shadow:none;background:rgba(255,255,255,.4)}
-.gtl img,.gtl .ph{width:54px;height:54px;padding:11px;background:var(--slot);box-shadow:inset 3px 3px 0 var(--slot-lo),inset -3px -3px 0 var(--slot-hi)}
+.gtl img,.gtl .ph{width:54px;height:54px;padding:6px;background:var(--slot);box-shadow:inset 3px 3px 0 var(--slot-lo),inset -3px -3px 0 var(--slot-hi)}
 .gtl span{font:500 12px/1.2 var(--body);color:var(--gui-ink)}
 .gnew{font:700 10px var(--body);color:#000;background:var(--yellow);box-shadow:1px 1px 0 #000;border-radius:0}
 .gpc{font:700 12px var(--body);color:#fff;text-shadow:2px 2px 0 #3f3f3f;background:none}
@@ -647,3 +647,11 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .ptree .adv::before,.ptree .adv::after{display:none}
 .ptree .pside{align-self:center;min-height:40px;align-content:center}
 .ptree .pnone{color:#cfcfcf;background:#0008;padding:2px 8px;border-radius:6px;font-style:italic}
+.gverd{display:flex;align-items:center;gap:10px;margin:10px 0 0;padding:8px 12px;border-radius:8px;background:color-mix(in srgb,var(--gc) 14%,#0006);border:1px solid color-mix(in srgb,var(--gc) 55%,transparent);font:500 14px/1.4 var(--body)}
+.gverd>b{flex:none;width:30px;height:30px;display:grid;place-items:center;border-radius:6px;background:var(--gc);color:#1b1320;font:700 16px var(--disp)}
+/* less monotone: tint panels and headings */
+.gui{background:linear-gradient(180deg,color-mix(in srgb,var(--accent,#7aa7ff) 9%,transparent),transparent 120px),var(--gui2,#22202a)}
+.gui>.gt{display:flex;align-items:center;gap:8px}
+.gui>.gt::before{content:"";width:6px;height:1em;border-radius:2px;background:linear-gradient(var(--yellow,#ffd84a),#ff8a3d)}
+.ptree{background:linear-gradient(90deg,#0b0a10,#15121c)}
+.prow{border-bottom:1px solid #ffffff10}

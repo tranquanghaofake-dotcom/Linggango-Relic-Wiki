@@ -98,11 +98,16 @@ function gTimeline(g){const r=gMain(g),w=g.ps?"a":"w";let acts=ORDER.filter(x=>x
  const tail=out!=null?`<span class="gout" title="From ${esc(actL(out))} on it is D tier or below: replace it.">Outclassed from ${esc(ACT[out][0])}</span>`:"";
  const mg=g.mg?`<p class="note">Needs ${ilink(g.mg[1])}, which the pack only opens at ${esc(actL(g.mg[0]))}, so it is listed from there.</p>`:"";
  return mg+`<div class="gtime">${acts.map(x=>{const t=gTierOf(g,x,r,w);const i=GTIER.findIndex(z=>z[0]===t);return `<a href="#gear/${x}/${r}/${w}" style="--tc:${ACT[x][2]};--gc:${i>=0?GTIER[i][2]:"#555"}" title="${esc(actL(x))}: ${t||"below D"} for ${GROLE[r]}"><b>${t||"–"}</b><small>${esc(ACT[x][0])}</small></a>`}).join("")}${tail}</div>`}
+function gVerdict(g){const r=gMain(g),w=g.ps?"a":"w",acts=ORDER.filter(x=>x!=-1&&oiA(x)>=oiA(g.a)),ts=acts.map(x=>gTierOf(g,x,r,w));
+ const rank=t=>t?GTIER.findIndex(z=>z[0]===t):9,best=Math.min(...ts.map(rank));if(best>=9)return "";
+ const on=acts.filter((x,i)=>rank(ts[i])===best),k=ts.findIndex((t,i)=>i>0&&(!t||t==="D")),bt=GTIER[best];
+ const span=on.length>1?`Acts ${esc(ACT[on[0]][0])}–${esc(ACT[on[on.length-1]][0])}`:`Act ${esc(ACT[on[0]][0])}`;
+ return `<p class="gverd" style="--gc:${bt[2]}"><b>${bt[0]}</b><span><strong>${best<=1?"Worth using":best<=2?"Usable":"Weak"}</strong> as ${GROLE[r]} gear: ${bt[0]} tier at ${span}.${k>0?` Replace it by Act ${esc(ACT[acts[k]][0])}.`:""}</span></p>`}
 function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix,[]);
  const r=gMain(g),rows=gStats(g),bon=gBonus(g),set=g.k==="armor"?GS.find(s=>s.p.includes(g.id)):null;
  el("main").innerHTML=`${crumb('<a href="#gear">Gear</a>',esc(g.n))}<article class="gpage" style="--tc:${ACT[g.a][2]};${tex(g.a)}">
  <header class="gph"><span class="gbig">${img(g.id)}</span><div><h1>${esc(g.n)}</h1><p class="gsub">${esc(GKIND[g.k])}${g.sl?" · "+GSLOT[g.sl]:""} · <a href="#mod/${enc(MODN(g.ns))}">${esc(MODN(g.ns))}</a> · <code>${esc(g.id)}</code></p>
- <p class="gact"><span class="gx">${emblem(g.a,"xs")}</span>${esc(actL(g.a))}${g.ga?` · 🔒 locked until ${esc(GATEN[g.ga])} falls (Linggango progression tag)`:""}</p></div></header>
+ <p class="gact"><span class="gx">${emblem(g.a,"xs")}</span>${esc(actL(g.a))}${g.ga?` · 🔒 locked until ${esc(GATEN[g.ga])} falls (Linggango progression tag)`:""}</p>${gVerdict(set||g)}</div></header>
  <div class="gcols"><section class="gbox"><h2>Stats</h2>${rows.length?`<table class="gst">${rows.map(([ic,n,v,s])=>`<tr><td>${ic?`<i class="ai" style="--ai:var(--v-${ic})"></i>`:""}${n}</td><td class="num">${v}</td><td><span class="tg ${s}">${s==="code"?"Read from the mod":"Pack"}</span></td></tr>`).join("")}${g.sc.ME!=null&&!g.est?`<tr class="dps"><td>Damage per second</td><td class="num">${gRound(g.sc.ME)}</td><td><span class="tg auto">Wiki estimate</span></td></tr>`:""}</table>`:`<p class="note">Base ${g.k==="armor"?"armor":"damage"} is computed in this mod's code at run time; the wiki could not read it, so this item is ranked by its gate.</p>`}
  ${bon.length?`<h3>Bonuses</h3><ul class="gbon">${bon.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul><p class="note">From the mod's own modifiers and the Linggango <i>attributesetter</i> rebalance, added on top of the base stats.</p>`:""}</section>
  <section class="gbox"><h2>Tier by Act</h2>${set?`<p class="note">The ${esc(set.n)} set as ${GROLE[gMain(set)]} armor, compared with every set usable at each Act.</p>${gTimeline(set)}`:`<p class="note">${GROLE[r]} weapons, compared with everything usable at each Act.</p>${gTimeline(g)}`}

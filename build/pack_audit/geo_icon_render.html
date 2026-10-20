@@ -1,0 +1,36 @@
+<!doctype html><html><body style="margin:0;background:transparent">
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';import {buildGeo} from './geo2three.js';
+const R=new THREE.WebGLRenderer({alpha:true,antialias:false,preserveDrawingBuffer:true});R.setSize(128,128);R.setClearColor(0,0);document.body.appendChild(R.domElement);
+window.render=async(geo,tex)=>{const t=await new THREE.TextureLoader().loadAsync('data:image/png;base64,'+tex);t.magFilter=t.minFilter=THREE.NearestFilter;t.colorSpace=THREE.SRGBColorSpace;
+ const S=new THREE.Scene();S.add(new THREE.AmbientLight(0xffffff,2.2));const d=new THREE.DirectionalLight(0xffffff,1.6);d.position.set(2,3,4);S.add(d);
+ const m=buildGeo(geo,t,{faceCamera:false});const piv=new THREE.Group();piv.add(m);
+ let b=new THREE.Box3().setFromObject(m),sz=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3());m.position.sub(c);
+ // lay the long axis diagonally like a Minecraft item icon
+ const ax=sz.x>=sz.y&&sz.x>=sz.z?'x':sz.y>=sz.z?'y':'z';
+ if(ax==='x')piv.rotation.z=Math.PI/4;else if(ax==='y')piv.rotation.z=-Math.PI/4;else{piv.rotation.y=Math.PI/2;piv.rotation.z=Math.PI/4}
+ const thin=Math.min(sz.x,sz.y,sz.z);if(thin===sz.x&&ax!=='x'){piv.rotation.y=Math.PI/2}
+ const o=new THREE.Group();o.add(piv);o.rotation.y=0.35;o.rotation.x=0.2;S.add(o);
+ b=new THREE.Box3().setFromObject(o);sz=b.getSize(new THREE.Vector3());c=b.getCenter(new THREE.Vector3());const k=Math.max(sz.x,sz.y)/2*1.06;
+ const cam=new THREE.OrthographicCamera(c.x-k,c.x+k,c.y+k,c.y-k,-100,100);cam.position.z=50;R.render(S,cam);return R.domElement.toDataURL('image/png')}
+
+window.renderJava=async(els,texs,gui)=>{const L=new THREE.TextureLoader(),T={};for(const [k,v] of Object.entries(texs)){if(!v)continue;const t=await L.loadAsync('data:image/png;base64,'+v);t.magFilter=t.minFilter=THREE.NearestFilter;t.colorSpace=THREE.SRGBColorSpace;T[k]=t}
+ const S=new THREE.Scene();S.add(new THREE.AmbientLight(0xffffff,2.2));const d=new THREE.DirectionalLight(0xffffff,1.6);d.position.set(2,3,4);S.add(d);
+ const root=new THREE.Group();const F={east:[0,[1,0,0]],west:[1,[-1,0,0]],up:[2,[0,1,0]],down:[3,[0,-1,0]],south:[4,[0,0,1]],north:[5,[0,0,-1]]};
+ for(const e of els){const [x1,y1,z1]=e.from,[x2,y2,z2]=e.to;const g=new THREE.BoxGeometry(Math.max(x2-x1,.01),Math.max(y2-y1,.01),Math.max(z2-z1,.01));
+  const mats=[];const uv=g.attributes.uv;
+  for(const [n,[i]] of Object.entries(F)){const f=(e.faces||{})[n];if(!f){mats[i]=new THREE.MeshBasicMaterial({visible:false});continue}
+   const key=(f.texture||'').replace('#','');const t=T[key]||Object.values(T)[0];mats[i]=new THREE.MeshLambertMaterial({map:t,alphaTest:.1,side:THREE.DoubleSide});
+   let [u1,v1,u2,v2]=f.uv||[0,0,16,16];const iw=t?t.image.width:16,ih=t?t.image.height:16,sc=16; // uv in 0..16
+   const fh=t&&t.image.height>t.image.width?t.image.width/t.image.height:1;
+   const U=a=>a/sc,V=b=>1-(b/sc)*fh;let q=[[U(u1),V(v1)],[U(u2),V(v1)],[U(u1),V(v2)],[U(u2),V(v2)]];
+   const r=((f.rotation||0)/90)%4;for(let k=0;k<r;k++)q=[q[2],q[0],q[3],q[1]];
+   for(let k=0;k<4;k++)uv.setXY(i*4+k,q[k][0],q[k][1])}
+  const m=new THREE.Mesh(g,mats);m.position.set((x1+x2)/2-8,(y1+y2)/2-8,(z1+z2)/2-8);
+  if(e.rotation&&e.rotation.angle){const o=e.rotation.origin.map(v=>v-8),p=new THREE.Group();p.position.set(...o);m.position.sub(new THREE.Vector3(...o));p.add(m);p.rotation[e.rotation.axis]=e.rotation.angle*Math.PI/180;root.add(p)}else root.add(m)}
+ const o=new THREE.Group();o.add(root);const rr=(gui&&gui.rotation)||[30,225,0];o.rotation.order='XYZ';o.rotation.set(rr[0]*Math.PI/180,rr[1]*Math.PI/180,rr[2]*Math.PI/180);S.add(o);
+ const b=new THREE.Box3().setFromObject(o),sz=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3()),k=Math.max(sz.x,sz.y)/2*1.06;
+ const cam=new THREE.OrthographicCamera(c.x-k,c.x+k,c.y+k,c.y-k,-100,100);cam.position.z=50;R.render(S,cam);return R.domElement.toDataURL('image/png')}
+window.ready=true;
+</script></body></html>
