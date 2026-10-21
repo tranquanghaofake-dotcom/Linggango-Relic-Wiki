@@ -244,3 +244,8 @@ I stopped the check partway and applied what it had found (`build/pack_audit/ver
 - **Goety Necro and Nameless staves** are now Summon.
 - **Acts:** Rift Piercer and Woe Splitter 9; Eclipsium Edge, Tesseract and Enderitium 6.3; Old GPU 7.
 - **Not fixed yet:** Summonity armor values from its config, Hazenn's Stuff armor spell attributes, Soulslike trick-weapon pairs, Mowzie's per-item tool config.
+
+## v22.2 — boss list follows the quest book
+- Side bosses now = The Path main line + the quest book "Bosses" chapter (decrypted LGQ1 quests). Dropped: Yeti, Naga, Vizier, Super/Ultra Sniffer, Forgotten Guardian, Infernal Dragon, Gob, Nameless Guardian, Virtue, and 39 extra bosses not in the book.
+- Added Chorusling, Bone Chimera; Endersent fixed to Legendary Monsters; Mutant Enderman to the End act.
+- Apollyon (Goety Revelation) is the end-game boss: Act XII, with the Black Book sabbath ritual.

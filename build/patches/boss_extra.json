@@ -1,1 +1,130 @@
-[["Tongbi, the Sculptor", 4, "", "Climb the Sculptor's spire (a tall stone pillar in mountain/badlands biomes) and pass his trial at the top", ["mowziesmobs:sculptor_staff", "mowziesmobs:geomancer_beads", "mowziesmobs:geomancer_belt"], "Mowzie's Mobs", "mowziesmobs:sculptor"], ["Sandworm", 3, "", "Deserts (Bosses'Rise natural boss)", [], "Bosses' Rise", "block_factorys_bosses:sandworm"], ["Possessed Paladin", 6, "", "Legendary Monsters haunted structure (Possessed Paladin arena)", ["legendary_monsters:soul_great_sword", "legendary_monsters:corrupted_soul"], "Legendary Monsters", "legendary_monsters:posessed_paladin"], ["Withered Abomination", 5, "", "Nether (soul sand valley / fortress areas)", ["legendary_monsters:withered_bone"], "Legendary Monsters", "legendary_monsters:withered_abomination"], ["Lava Eater", 5, "", "Nether lava oceans", ["legendary_monsters:lava_eaters_skin"], "Legendary Monsters", "legendary_monsters:lava_eater"], ["Warped Fungussus", 5, "", "Warped Forest (Nether)", ["legendary_monsters:warped_mushroom_cap_part"], "Legendary Monsters", "legendary_monsters:warped_fungussus"], ["Shulker Mimic", 6, "", "End cities", [], "Legendary Monsters", "legendary_monsters:shulker_mimic"], ["Wilden Chimera", 4, "", "Ritual of Summon Wilden on a Ritual Brazier", ["ars_nouveau:ritual_wilden_summon", "ars_nouveau:wilden_tribute"], "Ars Nouveau", "ars_nouveau:wilden_boss"], ["Amethyst Crab", 4, "", "Beaches (rare natural spawn)", ["cataclysm:amethyst_crab_shell", "cataclysm:amethyst_crab_meat"], "L_Ender's Cataclysm", "cataclysm:amethyst_crab"], ["Aptrgangr", 5, "", "Frosted Prison (snowy overworld) depths", ["cataclysm:black_steel_ingot", "cataclysm:strange_key"], "L_Ender's Cataclysm", "cataclysm:aptrgangr"], ["Kobolediator", 6, "", "Cursed Pyramid / Kobolediator arena in deserts", ["cataclysm:ancient_metal_ingot", "cataclysm:kobolediator_skull"], "L_Ender's Cataclysm", "cataclysm:kobolediator"], ["Wadjet", 6, "", "Cursed Pyramid in deserts", ["cataclysm:ancient_metal_ingot"], "L_Ender's Cataclysm", "cataclysm:wadjet"], ["Ender Golem", 6, "", "Ruined Citadel (End)", ["cataclysm:void_core"], "L_Ender's Cataclysm", "cataclysm:ender_golem"], ["Ignited Berserker", 7, "", "Burning Arena (Nether)", ["cataclysm:dying_ember"], "L_Ender's Cataclysm", "cataclysm:ignited_berserker"], ["Clawdian", 7, "", "Ocean, around the Sunken City / Acropolis", ["cataclysm:chitin_claw", "cataclysm:lacrima"], "L_Ender's Cataclysm", "cataclysm:clawdian"], ["Dark Doppelganger", 7, "", "Read a Summon Scroll at night", ["darkdoppelganger:summon_scroll", "darkdoppelganger:doppelganger_ring", "darkdoppelganger:elder_necklace"], "Dark Doppelganger", "darkdoppelganger:dark_doppelganger"], ["Fairkeepers Boros & Ouros", 4, "", "Dungeon Now Loading Fairkeeper dungeon; Fairkeeper Serpent Caller", ["dungeonnowloading:fairkeeper_serpent_caller"], "Dungeon Now Loading", "dungeonnowloading:fairkeeper_boros"], ["Chaos Spawner", 4, "", "Chaos Spawner dungeon (Dungeon Now Loading)", ["dungeonnowloading:chaotic_hexahedron", "dungeonnowloading:spawner_blade", "dungeonnowloading:spawner_fragment"], "Dungeon Now Loading", "dungeonnowloading:chaos_spawner"], ["Crone", 3, "", "Witch huts / Goety crone encounter", ["goety:treasure_pouch"], "Goety", "goety:crone"], ["Skull Lord", 3, "", "Goety graveyard / crypt", ["goety:treasure_pouch", "minecraft:skeleton_skull"], "Goety", "goety:skull_lord"], ["Minister", 4, "", "Goety illager raids / outposts", ["goety:treasure_pouch"], "Goety", "goety:minister"], ["Brood Mother", 4, "", "Goety spider nests in caves", ["goety:venomous_fang", "goety:spider_nest", "goety:treasure_pouch"], "Goety", "goety:brood_mother"], ["Redstone Golem", 4, "", "Goety Redstone structures / summoned by illagers", ["goety:treasure_pouch", "minecraft:diamond"], "Goety", "goety:hostile_redstone_golem"], ["Heresiarch", 5, "", "Goety heretic cult structures", ["goety:treasure_pouch"], "Goety", "goety:heresiarch"], ["Wither Necromancer", 5, "", "Nether fortresses", ["goety:withered_manuscript", "goety:forbidden_piece", "minecraft:netherite_scrap"], "Goety", "goety:wither_necromancer"], ["Wight", 5, "", "Goety haunted areas", ["goety:shadow_essence", "goety:ectoplasm"], "Goety", "goety:wight"], ["Wildfire", 5, "", "Nether fortresses (Wildfire Statue)", ["goety:blazing_helm", "minecraft:netherite_scrap"], "Goety Hostility", "goetyhostility:wildfire"], ["Endersent", 6, "", "The End", ["minecraft:ender_pearl", "goety:treasure_pouch"], "Goety", "goety:endersent"], ["Ender Keeper", 6, "", "The End", ["goety:void_echo", "goety:treasure_pouch"], "Goety", "goety:ender_keeper"], ["Apollyon", 8, "", "1/100 chance when performing the Apostle ritual in the Nether, or the Broken Halo ritual", [], "Goety Revelation", "goety_revelation:summon_apollyon"], ["Mutant Zombie / Creeper / Skeleton", 3, "", "Rare natural spawns wherever their vanilla mobs spawn", ["mutantmonsters:hulk_hammer", "mutantmonsters:mutant_skeleton_skull"], "Mutant Monsters", "mutantmonsters:mutant_zombie"], ["Mutant Enderman", 4, "", "Rare natural spawn where Endermen spawn", [], "Mutant Monsters", "mutantmonsters:mutant_enderman"], ["Enraged Dead King", 7, "", "Upgraded Dead King encounter (T.O Magic 'n Extras)", ["irons_spellbooks:legendary_ink", "irons_spellbooks:necronomicon_spell_book", "irons_spellbooks:blood_staff"], "T.O Magic 'n Extras", "traveloptics:enraged_dead_king"], ["The Hollow Man", 8, "", "Macabre dungeons", [], "Macabre", "macabre:the_hollow_man"], ["Gargamaw, the Grotesque Consumer", 9, "", "False Idol Gargamaw shrine (Macabre worldgen)", ["macabre:gargamaw_trophy", "macabre:gargamaw_pack"], "Macabre", "macabre:gargamaw"], ["Gomoria, the Fleshmonger Monk", 9, "", "False Idol Gomoria shrine", ["macabre:gomoria_trophy", "macabre:gomoria_heart", "macabre:gomoria_pack"], "Macabre", "macabre:gomoria"], ["Valamon, the Corpse Butcher", 9, "", "False Idol Valamon shrine", ["macabre:valamon_trophy", "macabre:valamon_heart", "macabre:valamon_pack"], "Macabre", "macabre:valamon"], ["Morphegor, the Splitting Tyrant", 9, "", "False Idol Morphegor shrine", ["macabre:morphegor_trophy", "macabre:morphegor_heart", "macabre:morphegor_pack"], "Macabre", "macabre:morphegor"], ["Baal, the Motionless Calamity", 9, "", "False Idol Baal shrine", ["macabre:baal_trophy", "macabre:baal_heart", "macabre:baal_pack"], "Macabre", "macabre:baal"], ["Dead Horn", 7, "", "Dodo's Mobs structure", [], "Dodo's Mobs", "dodosmobs:dead_horn"], ["Void Worm", 6, "", "Throw a Mysterious Worm into the void in the End", ["alexsmobs:mysterious_worm", "alexsmobs:void_worm_mandible", "alexsmobs:void_worm_eye"], "Alex's Mobs", "alexsmobs:void_worm"], ["Cruncher", 5, "", "Hatch a Cruncher Egg / feed Cruncher Pellets", [], "Species", "species:cruncher"], ["Archmages (Adam, Cade, Cameron, Josh, Matthew, Nick, Ryan)", 4, "", "Ritual of Summon Mage", ["adamsarsplus:ritual_mage_summon", "adamsarsplus:void_soul", "adamsarsplus:flame_soul"], "Adam's Ars Plus", "adamsarsplus:adam"], ["Mahoraga", 6, "", "Summoned through Adam's Ars Plus (Ten Shadows)", ["adamsarsplus:generals_wheel"], "Adam's Ars Plus", "adamsarsplus:mahoraga"], ["Masticator", 5, "", "The Undergarden", [], "The Undergarden", "undergarden:masticator"], ["Stalker", 6, "", "Ancient temples in the Otherside", ["deeperdarker:soul_crystal"], "Deeper and Darker", "deeperdarker:stalker"], ["The Black Charro", 5, "", "Altar of the Dead (Myths & Legends)", ["mythsandlegends:altar_of_the_dead", "mythsandlegends:umbras_whisper"], "Myths & Legends", "mythsandlegends:black_charro"], ["Warborn Aegis", 4, "", "Myths & Legends structure", [], "Myths & Legends", "mythsandlegends:warborn_aegis"], ["Elder Guardian", 3, "", "Ocean monuments", ["minecraft:sponge"], "Minecraft", "minecraft:elder_guardian"]]
+[
+ [
+  "Tongbi, the Sculptor",
+  4,
+  "",
+  "Climb the Sculptor's spire (a tall stone pillar in mountain/badlands biomes) and pass his trial at the top",
+  [
+   "mowziesmobs:sculptor_staff",
+   "mowziesmobs:geomancer_beads",
+   "mowziesmobs:geomancer_belt"
+  ],
+  "Mowzie's Mobs",
+  "mowziesmobs:sculptor"
+ ],
+ [
+  "Possessed Paladin",
+  6,
+  "",
+  "Legendary Monsters haunted structure (Possessed Paladin arena)",
+  [
+   "legendary_monsters:soul_great_sword",
+   "legendary_monsters:corrupted_soul"
+  ],
+  "Legendary Monsters",
+  "legendary_monsters:posessed_paladin"
+ ],
+ [
+  "Withered Abomination",
+  5,
+  "",
+  "Nether (soul sand valley / fortress areas)",
+  [
+   "legendary_monsters:withered_bone"
+  ],
+  "Legendary Monsters",
+  "legendary_monsters:withered_abomination"
+ ],
+ [
+  "Lava Eater",
+  5,
+  "",
+  "Nether lava oceans",
+  [
+   "legendary_monsters:lava_eaters_skin"
+  ],
+  "Legendary Monsters",
+  "legendary_monsters:lava_eater"
+ ],
+ [
+  "Shulker Mimic",
+  6,
+  "",
+  "End cities",
+  [],
+  "Legendary Monsters",
+  "legendary_monsters:shulker_mimic"
+ ],
+ [
+  "Dark Doppelganger",
+  7,
+  "",
+  "Read a Summon Scroll at night",
+  [
+   "darkdoppelganger:summon_scroll",
+   "darkdoppelganger:doppelganger_ring",
+   "darkdoppelganger:elder_necklace"
+  ],
+  "Dark Doppelganger",
+  "darkdoppelganger:dark_doppelganger"
+ ],
+ [
+  "Redstone Golem",
+  4,
+  "",
+  "Goety Redstone structures / summoned by illagers",
+  [
+   "goety:treasure_pouch",
+   "minecraft:diamond"
+  ],
+  "Goety",
+  "goety:hostile_redstone_golem"
+ ],
+ [
+  "Endersent",
+  6,
+  "",
+  "The End",
+  [],
+  "Legendary Monsters",
+  "legendary_monsters:endersent"
+ ],
+ [
+  "Apollyon",
+  12,
+  "",
+  "End-game Goety boss. Sabbath ritual from The Black Book (Revelation section): Broken Halo, Nether Star, Pure Unholy Blood, Witch Hat, Crone Hat, Dragon's Breath, Forbidden Scroll, Essence of Shadow, Warlock Sash, Unalloyed Golden Apple, Ruby of Souls, Heart of the Night, Infernal Tome. Fight it in the Overworld and the Nether. Repeat summons use its Doom Medal.",
+  [
+   "goety_revelation:broken_halo"
+  ],
+  "Goety Revelation",
+  "goety_revelation:apollyon"
+ ],
+ [
+  "Mutant Enderman",
+  6,
+  "",
+  "The End (quest book: Void Entities); rare where Endermen spawn",
+  [],
+  "Mutant Monsters",
+  "mutantmonsters:mutant_enderman"
+ ],
+ [
+  "Chorusling",
+  6,
+  "",
+  "The End (quest book: Void Entities)",
+  [],
+  "Legendary Monsters",
+  "legendary_monsters:chorusling"
+ ],
+ [
+  "Bone Chimera",
+  5,
+  "",
+  "Overworld, underground",
+  [],
+  "Dodo's Mobs",
+  "dodosmobs:bone_chimera"
+ ]
+]
