@@ -216,3 +216,7 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
   - Tile and gear icons snap to whole device pixels (`--ip`/`--ip2`, set from `devicePixelRatio`), so 16px art stays crisp at Windows 125%/150% scaling.
   - Script errors show in a red box at the bottom left (`#jserr`), so a screenshot shows what broke.
 - **Home Equipment bar:** consecutive Acts that share the same best weapon merge into one slot (e.g. "VII+").
+- v20.1 fixes:
+  - Equipment search crashed on armor sets, which have no `id` field (gear.js `gSearch`). This was the PC error `reading 'includes'`.
+  - The Act page hero no longer repeats the boss page. It now shows the pack's Act title strip, plus links to the boss that opens the Act and to the next boss.
+  - Animated curio strips show one frame at a time and are no longer squashed.

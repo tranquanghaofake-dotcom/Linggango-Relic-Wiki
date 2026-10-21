@@ -76,7 +76,7 @@ function gearPage(h){
  const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};
  seedBg("gear"+a,[]);decorate();
 }
-function gSearch(q,a){const xs=[...GE.filter(g=>g.k!=="armor"),...GS].filter(g=>g.n.toLowerCase().includes(q)||g.id.includes(q)).slice(0,80);
+function gSearch(q,a){const xs=[...GE.filter(g=>g.k!=="armor"),...GS].filter(g=>g.n.toLowerCase().includes(q)||(g.id||g.k||"").includes(q)).slice(0,80);
  return `<div class="gtiles gsr">${xs.length?xs.map(g=>gTile(g,a)).join(""):'<p class="note">Nothing matches.</p>'}</div>`}
 /* main role of an item: the one it scores in, preferring the role named by its kind */
 const gMain=g=>{const k=Object.keys(g.sc);return g.ps?(k.filter(x=>x!=="TA").sort((p,q)=>(g.off[q]||0)-(g.off[p]||0))[0]||"TA"):(k[0]||"ME")};

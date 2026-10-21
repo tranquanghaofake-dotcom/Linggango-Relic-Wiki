@@ -2131,6 +2131,18 @@ a.pbc,a.pb{text-decoration:none;color:inherit;cursor:pointer}
 .nic{width:22px;height:22px;flex:none;image-rendering:pixelated;vertical-align:middle;margin-right:4px}
 .nch .nic{margin:0}
 .rtype .nchs{margin-top:6px}
+.actban{display:grid;gap:12px;margin:6px 0 16px;padding:14px 18px;border-radius:12px;background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 18%,#17151d),#17151d);border:1px solid color-mix(in srgb,var(--tc) 40%,transparent)}
+.ptitle.big{height:30px}
+.actbs{display:flex;flex-wrap:wrap;gap:10px}
+.actb{display:flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border-radius:10px;background:#0006;border:1px solid #ffffff18;color:inherit;text-decoration:none}
+.actb:hover{border-color:var(--tc)}.actb small{display:block;font-size:11.5px;color:#aaa}.actb b{font:700 15px var(--body)}.actb i{font-style:normal;margin-left:8px;color:var(--tc);font-weight:700;font-size:13px}
+/* animated sprite strips: show one frame, never squash the strip */
+.tier .t .aimg{display:block;overflow:hidden;width:var(--ip,32px)!important;height:var(--ip,32px)!important}
+.tier .t .aimg img{width:var(--ip,32px)!important;height:auto!important;max-height:none!important}
+.tier .t .aimg{position:relative}
+.tier .t .aimg.anim>img:not(.strip){opacity:0}
+.tier .t .aimg.anim img.strip{position:absolute!important;left:0;top:0;width:100%!important;height:calc(var(--n)*100%)!important;max-height:none!important;filter:none!important;animation:stripY var(--ms) steps(var(--n)) infinite!important;animation-play-state:paused!important}
+.tier .t.vis .aimg.anim img.strip{animation-play-state:running!important}
 
 </style>
 <header class="top">
@@ -6642,7 +6654,9 @@ function hubList(kind,key){
  if(kind==="slot"){const rf=key.includes("?r=")?+key.split("?r=")[1]:null;key=key.split("?")[0];xs=key==="*"?D:D.filter(d=>d.sl.includes(key));if(rf!=null)xs=xs.filter(d=>d.r===rf);
   title=key==="*"?(rf!=null?`All ${RN[rf]} curios`:"All curios"):`${key} slot`;cr="Slot";if(key!=="*")lede=`Every curio worn in the ${key} slot, rarest first.${!SLOT_BASE[key]?` Players start with no ${key} slot: a curio or its own mod has to add one.`:""}`;
   bar=`<div class="brw-bar">${BIGSLOTS.map(([s])=>`<a href="#slot/${enc(s)}"${s===key?' aria-current="page"':""}>${esc(s)}</a>`).join("")}</div>`}
- else if(kind==="act"){const a=+key;xs=D.filter(d=>d.t===a);title=actL(a);cr="The Path";lede=`${ACT[a][1].charAt(0).toUpperCase()+ACT[a][1].slice(1)}.${a!=-1?` Next boss: ${ACTN[a]}.`:""} Must-Have ★ items first, then rarest first.`;const bk=PB[a],bs=bst(bk);hero=`<div class="lhero big" style="--tc:${ACT[a][2]};${tex(a)}">${bk&&B3[bk]?`<div class="stage" data-boss="${bk}"></div>`:emblem(a,"lg")}${bs?`<div class="bcard"><b>${esc(bs.name)}</b><i class="bossbar" aria-hidden="true"><i></i></i><small>Defeat it to open ${esc(actL(a))}</small><div class="bstat"><span><i class="ai" style="--ai:var(--v-gui_heart)"></i>${Math.round(bs.effective.hp).toLocaleString()} HP</span><span><i class="ai" style="--ai:var(--v-gui_armor)"></i>${bs.effective.armor} armor</span>${bs.effective.dmg!=null?`<span><i class="ai" style="--ai:var(--v-fx_strength)"></i>${+(+bs.effective.dmg).toFixed(1)} damage</span>`:""}</div><small class="bnote">${esc((bs.summon||"").replace(/\s*\([a-z0-9_]+:[a-z0-9_/]+\)/g,""))}${bs.rules&&bs.rules.some(r=>/Hardmode/i.test(r))?" · Hardmode stats (×2.1 HP and damage)":""}</small></div>`:""}${VBOSS[a]?`<p class="lhv">${esc(VBI[VBOSS[a]].sum)} ${fmt(VBI[VBOSS[a]].line)} <span class="vbp">${esc(VBI[VBOSS[a]].pack)}</span> <a href="${VBI[VBOSS[a]].url}" target="_blank" rel="noopener">Minecraft Wiki ↗</a></p>`:""}</div>`;
+ else if(kind==="act"){const a=+key;xs=D.filter(d=>d.t===a);title=actL(a);cr="The Path";lede=`${ACT[a][1].charAt(0).toUpperCase()+ACT[a][1].slice(1)}.${a!=-1?` Next boss: ${ACTN[a]}.`:""} Must-Have ★ items first, then rarest first.`;const bk=PB[a],nb=NEXTB[a],ti=typeof PIMG!=="undefined"&&PIMG.act[String(a)];
+  const bl=(k,l)=>k?`<a class="actb" href="#boss/${k}">${emblem(bossPath(k),"sm")}<span><small>${l}</small><b>${esc(bossName(k))}</b></span><i>Guide →</i></a>`:"";
+  hero=`<div class="actban" style="--tc:${ACT[a][2]}">${ti?`<img class="ptitle big" alt="" src="${ti}">`:""}<div class="actbs">${bl(bk,"Opened by beating")}${bl(nb,"Next boss")}</div></div>`;
   bar=`<div class="brw-bar">${ORDER.filter(a=>D.some(d=>d.t===a)).map(b=>`<a href="#act/${b}"${b===a?' aria-current="page"':""}>${actL(b)}</a>`).join("")}</div>`}
  else if(kind==="mod"){modPage(key);return}
  else{document.title="Mods · Linggango Wiki";const ms=[...MODS].sort((a,b)=>b[1].length-a[1].length);el("main").innerHTML=`${crumb("Mods")}<h1 class="qb">Mods</h1><p class="lede">${MODS.length} mods with curios in the pack, biggest first. Each page lists its curios, slots and the Acts they unlock in.</p><div class="mgrid">${ms.map(([m,xs])=>{const F=mf(m),top=byRank(xs).filter(d=>IC[d.id]).slice(0,4);return `<a class="mcard" data-mf="${F[0]}" href="#mod/${enc(m)}"><span class="mbg"></span><span class="mic">${top.map(d=>img(d.id)).join("")}</span><b>${esc(m)}</b><small>${xs.length} curio${xs.length===1?"":"s"}${minfo(m)?" · official page":""}</small></a>`}).join("")}</div>`;return}
@@ -7008,7 +7022,7 @@ function gearPage(h){
  const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};
  seedBg("gear"+a,[]);decorate();
 }
-function gSearch(q,a){const xs=[...GE.filter(g=>g.k!=="armor"),...GS].filter(g=>g.n.toLowerCase().includes(q)||g.id.includes(q)).slice(0,80);
+function gSearch(q,a){const xs=[...GE.filter(g=>g.k!=="armor"),...GS].filter(g=>g.n.toLowerCase().includes(q)||(g.id||g.k||"").includes(q)).slice(0,80);
  return `<div class="gtiles gsr">${xs.length?xs.map(g=>gTile(g,a)).join(""):'<p class="note">Nothing matches.</p>'}</div>`}
 /* main role of an item: the one it scores in, preferring the role named by its kind */
 const gMain=g=>{const k=Object.keys(g.sc);return g.ps?(k.filter(x=>x!=="TA").sort((p,q)=>(g.off[q]||0)-(g.off[p]||0))[0]||"TA"):(k[0]||"ME")};
