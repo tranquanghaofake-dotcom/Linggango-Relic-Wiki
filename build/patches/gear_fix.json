@@ -40,7 +40,14 @@
 "mekanism:jetpack": 5,
 "mekanism:jetpack_armored": 6,
 "mekanism:scuba_mask": 4,
-"mekanism:scuba_tank": 4
+"mekanism:scuba_tank": 4,
+"armageddon_mod:the_rift_piercer": 9,
+"armageddon_mod:woe_splitter": 9,
+"armageddon_mod:eclipsium_edge": 6.3,
+"legendary_monsters:the_tesseract": 6.3,
+"legendary_monsters:enderitium_sword": 6.3,
+"legendary_monsters:enderitium_axe": 6.3,
+"brutality:old_gpu": 7
 },
 "note": {
 "alexscaves:gingerbread_boots": "?No recipe or loot table found: likely a code-only drop. Verify in game.",

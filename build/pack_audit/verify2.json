@@ -1,0 +1,2089 @@
+[
+ {
+  "id": "minecraft:netherite_sword",
+  "field": "dmg",
+  "table": 8.0,
+  "actual": 8.0,
+  "evidence": "mc_client.jar cgc(Items): new SwordItem(Tiers.NETHERITE, 3, -2.4F); cho(Tiers) NETHERITE attackDamageBonus 4.0 -> 1+4+3 = 8",
+  "fix": null
+ },
+ {
+  "id": "minecraft:netherite_sword",
+  "field": "spd",
+  "table": 1.6,
+  "actual": 1.6,
+  "evidence": "SwordItem speed arg -2.4F -> 4-2.4 = 1.6",
+  "fix": null
+ },
+ {
+  "id": "minecraft:netherite_sword",
+  "field": "at",
+  "table": {
+   "attack_damage": [
+    6.0,
+    0.0
+   ],
+   "armor_shred": [
+    0.03,
+    0.0
+   ],
+   "crit_chance": [
+    0.03,
+    0.0
+   ],
+   "crit_damage": [
+    0.0,
+    0.03
+   ]
+  },
+  "actual": {
+   "attack_damage": [
+    6.0,
+    0.0
+   ],
+   "armor_shred": [
+    0.03,
+    0.0
+   ],
+   "crit_chance": [
+    0.03,
+    0.0
+   ],
+   "crit_damage": [
+    0.0,
+    0.03
+   ]
+  },
+  "evidence": "attributesetter minecraft_weapon_rebalance.json (only file naming this id)",
+  "fix": null
+ },
+ {
+  "id": "minecraft:iron_axe",
+  "field": "dmg",
+  "table": 9.0,
+  "actual": 9.0,
+  "evidence": "cgc: new AxeItem(Tiers.IRON, 6.0F, -3.1F); IRON bonus 2.0 -> 1+2+6 = 9",
+  "fix": null
+ },
+ {
+  "id": "minecraft:iron_axe",
+  "field": "spd",
+  "table": 0.9,
+  "actual": 0.9,
+  "evidence": "4-3.1 = 0.9",
+  "fix": null
+ },
+ {
+  "id": "minecraft:iron_axe",
+  "field": "at",
+  "table": {
+   "attack_damage": [
+    -1.0,
+    0.0
+   ],
+   "attack_knockback": [
+    0.25,
+    0.0
+   ]
+  },
+  "actual": {
+   "attack_damage": [
+    -1.0,
+    0.0
+   ],
+   "attack_knockback": [
+    0.25,
+    0.0
+   ]
+  },
+  "evidence": "minecraft_weapon_rebalance.json",
+  "fix": null
+ },
+ {
+  "id": "minecraft:trident",
+  "field": "dmg",
+  "table": 9.0,
+  "actual": 9.0,
+  "evidence": "chr(TridentItem) ctor: 'Tool modifier' attack_damage 8.0d -> 1+8 = 9",
+  "fix": null
+ },
+ {
+  "id": "minecraft:trident",
+  "field": "spd",
+  "table": 1.1,
+  "actual": 1.1,
+  "evidence": "'Tool modifier' attack_speed -2.9d -> 1.1",
+  "fix": null
+ },
+ {
+  "id": "minecraft:trident",
+  "field": "at",
+  "table": {
+   "attack_damage": [
+    6.0,
+    0.0
+   ]
+  },
+  "actual": {
+   "attack_damage": [
+    6.0,
+    0.0
+   ]
+  },
+  "evidence": "minecraft_weapon_rebalance.json",
+  "fix": null
+ },
+ {
+  "id": "minecraft:diamond_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   8,
+   2,
+   0
+  ],
+  "actual": [
+   8,
+   2.0,
+   0.0
+  ],
+  "evidence": "cdl(ArmorMaterials) DIAMOND: EnumMap lambda boots3/legs6/chest8/helmet3, toughness fconst_2, kbr fconst_0",
+  "fix": null
+ },
+ {
+  "id": "minecraft:diamond_chestplate",
+  "field": "at",
+  "table": {
+   "max_health": [
+    2.47,
+    0.0
+   ],
+   "attack_damage": [
+    0.0,
+    0.0069
+   ],
+   "attack_speed": [
+    0.0,
+    0.0049
+   ],
+   "damage_taken": [
+    -0.03,
+    0.0
+   ],
+   "roll_count": [
+    1.0,
+    0.0
+   ],
+   "spell_power": [
+    0.0,
+    0.03
+   ],
+   "cast_time_reduction": [
+    0.0,
+    0.03
+   ],
+   "mana_regen": [
+    0.0,
+    0.03
+   ]
+  },
+  "actual": "same",
+  "evidence": "minecraft_armor_rebalance.json (hp 2.0, damage_taken -0.03, roll_count 1, spell_power/cast_time/mana_regen x0.03) + gear_baseline_profiles_2.json (hp 0.47, atk x0.0069, aspd x0.0049)",
+  "fix": null
+ },
+ {
+  "id": "soulsweapons:bloodthirster",
+  "field": "dmg",
+  "table": 8.0,
+  "actual": 8.0,
+  "evidence": "WeaponRegistry: new Bloodthirster(ModToolMaterials.CRIMSON_INGOT) -> ModdedSword(tier,(int)bloodthirster_damage, speed) -> SwordItem(tier, dmg, -(4-speed)); CRIMSON_INGOT attackDamageBonus -1.0; config/soulsweapons/soulsweapons.json bloodthirster_damage 8.0 -> 1-1+8 = 8",
+  "fix": null
+ },
+ {
+  "id": "soulsweapons:bloodthirster",
+  "field": "spd",
+  "table": 1.6,
+  "actual": 1.6,
+  "evidence": "bloodthirster_attack_speed 1.6 (pack config == jar default)",
+  "fix": null
+ },
+ {
+  "id": "soulsweapons:bloodthirster",
+  "field": "at",
+  "table": {
+   "critical_strike_damage": [
+    0.12,
+    0.0
+   ],
+   "attack_speed": [
+    0.0,
+    0.08
+   ]
+  },
+  "actual": "same",
+  "evidence": "weapon_class_profiles_10.json; no code modifiers in Bloodthirster",
+  "fix": null
+ },
+ {
+  "id": "soulsweapons:draugr",
+  "field": "dmg",
+  "table": null,
+  "actual": 1.0,
+  "evidence": "Draugr ctor uses (int)ConfigConstructor.draugr_normal_damage (jar default 1.0f); the pack soulsweapons.json only has the stale key 'draugr_damage_at_night': 11.0, which MidnightConfig ignores. Tier MOONSTONE_OR_VERGLAS bonus -1 -> tooltip 1-1+1 = 1.0 by day; NIGHT_BONUS BasicStatBoost adds draugr_bonus_damage_at_night 10 (+0.5/level) at night -> 11. Table dropped it as 'bad' only because of the dmg<=1 sanity filter",
+  "fix": "dmg 1.0, spd 1.6 (11 at night); drop the bad flag or note the night bonus"
+ },
+ {
+  "id": "soulsweapons:draugr",
+  "field": "spd",
+  "table": null,
+  "actual": 1.6,
+  "evidence": "draugr_attack_speed 1.6",
+  "fix": "spd 1.6"
+ },
+ {
+  "id": "soulsweapons:chungus_staff",
+  "field": "dmg",
+  "table": 9.0,
+  "actual": 9.0,
+  "evidence": "ChungusStaff extends ModdedSword, tier MOONSTONE_OR_VERGLAS (-1), chungus_staff_damage 9.0 -> 9",
+  "fix": null
+ },
+ {
+  "id": "soulsweapons:chungus_staff",
+  "field": "spd",
+  "table": 1.1,
+  "actual": 1.1,
+  "evidence": "chungus_staff_attack_speed 1.1",
+  "fix": null
+ },
+ {
+  "id": "soulsweapons:chungus_staff",
+  "field": "at",
+  "table": {
+   "spell_power": [
+    0.0,
+    0.28
+   ],
+   "cooldown_reduction": [
+    0.0,
+    0.08
+   ]
+  },
+  "actual": "same",
+  "evidence": "weapon_class_profiles_10.json",
+  "fix": null
+ },
+ {
+  "id": "soulsweapons:chungus_staff",
+  "field": "rc",
+  "table": "crafting_shaped blaze_rod/egg/chungus_emerald",
+  "actual": "recipe removed",
+  "evidence": "pack soulsweapons.json disable_recipe_chungus_staff: true -> ItemRegistry.registerItemRemovableRecipe puts soulsweapons:chungus_staff into RecipeHandler.RECIPE_IDS=true; RecipeManagerMixin drops it. Only source left: loot soulsweapons:gameplay/chungus_bartering",
+  "fix": "drop rc (same for forlorn_scythe disable_recipe_forlorn_scythe:true and kraken_slayer disable_recipe_kraken_slayer_bow:true)"
+ },
+ {
+  "id": "soulsweapons:soul_ingot_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   7,
+   0.0,
+   0.0
+  ],
+  "actual": [
+   7,
+   0.0,
+   0.0
+  ],
+  "evidence": "ModArmorMaterials.SOUL_INGOT protection=ConfigConstructor.soul_ingot_armor_points {3,5,7,3} (pack config same), index by EquipmentSlot FEET0/LEGS1/CHEST2/HEAD3 -> chest 7; toughness 0.0, kbr 0.0",
+  "fix": null
+ },
+ {
+  "id": "soulsweapons:soul_ingot_chestplate",
+  "field": "at",
+  "table": {
+   "max_health": [
+    9.0,
+    0.0
+   ],
+   "damage_taken": [
+    -0.075,
+    0.0
+   ],
+   "knockback_resistance": [
+    0.25,
+    0.0
+   ]
+  },
+  "actual": "same",
+  "evidence": "gear_authored_profiles_5.json",
+  "fix": null
+ },
+ {
+  "id": "cataclysm:ancient_spear",
+  "field": "dmg",
+  "table": 9.5,
+  "actual": 9.5,
+  "evidence": "Ancient_Spear ctor: MAINHAND map 'Tool modifier' attack_damage 8.5 ADDITION (base UUID) -> 1+8.5",
+  "fix": null
+ },
+ {
+  "id": "cataclysm:ancient_spear",
+  "field": "spd",
+  "table": 1.4,
+  "actual": 1.4,
+  "evidence": "attack_speed (double)-2.6f -> 1.4",
+  "fix": null
+ },
+ {
+  "id": "cataclysm:ancient_spear",
+  "field": "at",
+  "table": {
+   "attack_damage": [
+    13.5,
+    0.0
+   ],
+   "entity_reach": [
+    0.3,
+    0.0
+   ],
+   "critical_strike_damage": [
+    0.08,
+    0.0
+   ],
+   "attack_speed": [
+    0.0,
+    0.06
+   ]
+  },
+  "actual": {
+   "attack_damage": [
+    13.5,
+    0.0
+   ],
+   "entity_reach": [
+    1.8,
+    0.0
+   ],
+   "critical_strike_damage": [
+    0.08,
+    0.0
+   ],
+   "attack_speed": [
+    0.0,
+    0.06
+   ]
+  },
+  "evidence": "code MAINHAND map also adds forge:entity_reach +1.5 ADDITION (BASE_ENTITY_INTERACTION_RANGE_ID); pack cataclysm.json attack_damage +13.5, weapon_class_profiles_3.json reach +0.3/crit dmg +0.08/aspd x0.06",
+  "fix": "entity_reach add 1.8 (code 1.5 + pack 0.3)"
+ },
+ {
+  "id": "cataclysm:athame",
+  "field": "dmg",
+  "table": 5.0,
+  "actual": 5.0,
+  "evidence": "Athame overrides getAttributeModifiers(MAINHAND) with its own map: attack_damage 4.0 -> 1+4 = 5 (SwordItem(STONE,3,0f) values are discarded; coincidentally also 5)",
+  "fix": null
+ },
+ {
+  "id": "cataclysm:athame",
+  "field": "spd",
+  "table": 4.0,
+  "actual": 2.2,
+  "evidence": "own map attack_speed (double)-1.8f -> 4-1.8 = 2.2; the table read the unused SwordItem super arg 0.0f",
+  "fix": "spd 2.2"
+ },
+ {
+  "id": "cataclysm:athame",
+  "field": "at",
+  "table": {
+   "critical_strike_damage": [
+    0.03,
+    0.0
+   ],
+   "attack_speed": [
+    0.0,
+    0.02
+   ]
+  },
+  "actual": {
+   "critical_strike_damage": [
+    0.03,
+    0.0
+   ],
+   "attack_speed": [
+    0.0,
+    0.02
+   ],
+   "entity_reach": [
+    -1.0,
+    0.0
+   ]
+  },
+  "evidence": "own map adds forge:entity_reach -1.0 ADDITION; pack weapon_class_profiles_3.json",
+  "fix": "add entity_reach -1.0"
+ },
+ {
+  "id": "cataclysm:cursium_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   10,
+   4.0,
+   0.05
+  ],
+  "actual": [
+   10,
+   4.0,
+   0.05
+  ],
+  "evidence": "Armortier.CURSIUM {5,10,8,5} by Type.ordinal (HELMET0,CHEST1,LEGS2,BOOTS3), toughness 4.0, kbr 0.05; no getAttributeModifiers override",
+  "fix": null
+ },
+ {
+  "id": "cataclysm:cursium_chestplate",
+  "field": "at",
+  "table": {
+   "lifesteal": [
+    0.06,
+    0.0
+   ],
+   "max_health": [
+    6.0,
+    0.0
+   ]
+  },
+  "actual": "same",
+  "evidence": "gear_authored_profiles_6.json",
+  "fix": null
+ },
+ {
+  "id": "cataclysm:ignitium_helmet",
+  "field": "arm/tough/kbr",
+  "table": [
+   6,
+   4.0,
+   0.15
+  ],
+  "actual": [
+   6,
+   4.0,
+   0.15
+  ],
+  "evidence": "Armortier.IGNITIUM {6,11,9,6}, toughness 4.0, kbr 0.15",
+  "fix": null
+ },
+ {
+  "id": "cataclysm:ignitium_helmet",
+  "field": "at",
+  "table": {
+   "armor": [
+    3.0,
+    0.0
+   ],
+   "armor_toughness": [
+    3.0,
+    0.0
+   ],
+   "attack_speed": [
+    0.0,
+    0.05
+   ],
+   "attack_damage": [
+    0.0,
+    0.05
+   ],
+   "fire_spell_power": [
+    0.0,
+    0.1
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ],
+   "max_health": [
+    2.0,
+    0.0
+   ],
+   "max_mana": [
+    45.0,
+    0.0
+   ]
+  },
+  "actual": "same",
+  "evidence": "catacylsm_armor_rebalance.json (8 entries)",
+  "fix": null
+ },
+ {
+  "id": "minecraft:netherite_sword",
+  "field": "at.attack_damage(runtime)",
+  "table": [
+   6.0,
+   0.0
+  ],
+  "actual": [
+   11.0,
+   0.0
+  ],
+  "evidence": "linggango_tweaks-5.85 BrutalityWeaponTweaks.onAttributeModifier (EventPriority.LOWEST, applies to ALL items, not just brutality): item is in forge:netherite_tools (Armageddon jar tag) -> floor 18; ADDITION dmg so far = 7 (tier4+3) + 6 (attributesetter) = 13; aspd 4-2.4=1.6, dpsCap=(18+1)*1.8=34.2 -> target=min(18, 34.2/1.6-1=20.4)=18 -> adds 'Brutality Tier Floor' +5. Real tooltip 19 attack damage, table implies 8+6=14",
+  "fix": "at.attack_damage add 11 (6 pack + 5 tier floor); effective damage 19"
+ },
+ {
+  "id": "minecraft:iron_axe",
+  "field": "at.attack_damage(runtime)",
+  "table": [
+   -1.0,
+   0.0
+  ],
+  "actual": [
+   -1.0,
+   0.0
+  ],
+  "evidence": "forge:iron_tools floor 6; ADDITION sum 8-1=7 >= target min(6,(7*1.8)/0.9-1=13)=6 -> no floor modifier",
+  "fix": null
+ },
+ {
+  "id": "minecraft:trident",
+  "field": "at.attack_damage(runtime)",
+  "table": [
+   6.0,
+   0.0
+  ],
+  "actual": [
+   6.0,
+   0.0
+  ],
+  "evidence": "not in any forge:*_tools gate tag -> no floor",
+  "fix": null
+ },
+ {
+  "id": "soulsweapons:bloodthirster",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   17.0,
+   0.0
+  ],
+  "evidence": "linggango_tweaks SoulsWeaponsTweaks: WEAPON_DAMAGE_BUFFS bloodthirster +8.0 ('SoulsWeapons Tweaks Buff', MAINHAND, any soulsweapons item with an attack_damage modifier); then BrutalityWeaponTweaks floor (LOWEST): in forge:elvenite_tools -> floor 24, ADDITION sum 7+8=15, aspd 1.6 -> target min(24, 25*1.8/1.6-1=27.1)=24 -> +9. Effective tooltip 25 vs table 8",
+  "fix": "at.attack_damage add 17 (8 souls tweak + 9 tier floor); effective damage 25"
+ },
+ {
+  "id": "soulsweapons:draugr",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   18.0,
+   0.0
+  ],
+  "evidence": "SoulsWeaponsTweaks default buff +3.0 (draugr not in map); forge:netherite_tools floor 18: sum 0+3=3 -> +15. Effective day tooltip 19 (night bonus +10 is a separate BasicStatBoost on top)",
+  "fix": "dmg 1.0 base + at.attack_damage add 18 -> 19"
+ },
+ {
+  "id": "soulsweapons:chungus_staff",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   42.0,
+   0.0
+  ],
+  "evidence": "SoulsWeaponsTweaks chungus_staff +6.0; in forge:helionite_tools -> floor 50: sum 8+6=14, aspd 1.1, target min(50, 51*1.8/1.1-1=82.5)=50 -> +36. Effective tooltip 51",
+  "fix": "at.attack_damage add 42; effective damage 51 (a Helionite-gated 'magic' staff that out-hits most melee)"
+ },
+ {
+  "id": "cataclysm:ancient_spear",
+  "field": "at.attack_damage(runtime)",
+  "table": [
+   13.5,
+   0.0
+  ],
+  "actual": [
+   13.5,
+   0.0
+  ],
+  "evidence": "forge:netherite_tools floor 18 < sum 8.5+13.5=22 -> no floor",
+  "fix": null
+ },
+ {
+  "id": "cataclysm:athame",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   0.7273,
+   0.0
+  ],
+  "evidence": "forge:iron_tools floor 6; aspd 2.2 (own map) -> target min(6, 7*1.8/2.2-1=4.727)=4.727; sum 4 -> +0.727 -> tooltip 5.73",
+  "fix": "at.attack_damage add 0.73"
+ },
+ {
+  "id": "terramity:sword_of_the_imprisoned",
+  "field": "dmg",
+  "table": 32.0,
+  "actual": 32.0,
+  "evidence": "SwordOfTheImprisonedItem: SwordItem(anon Tier getAttackDamageBonus 28.0f, 3, -3.2f) -> 1+28+3",
+  "fix": null
+ },
+ {
+  "id": "terramity:sword_of_the_imprisoned",
+  "field": "spd",
+  "table": 0.8,
+  "actual": 0.8,
+  "evidence": "-3.2f -> 0.8",
+  "fix": null
+ },
+ {
+  "id": "terramity:sword_of_the_imprisoned",
+  "field": "at.attack_damage(runtime)",
+  "table": [
+   3.0,
+   0.0
+  ],
+  "actual": [
+   13.0,
+   0.0
+  ],
+  "evidence": "attributesetter terramity_weapon_rebalance.json +3; linggango_tweaks TerramityWeaponTweaks (all terramity MAINHAND items): ADDITION sum >=30 -> 'Terramity Bonus Damage' +10; forge:voiderite_tools floor 31 < 44 -> none. Effective 45 vs table 35",
+  "fix": "at.attack_damage add 13"
+ },
+ {
+  "id": "terramity:murasama",
+  "field": "dmg",
+  "table": 16.0,
+  "actual": 16.0,
+  "evidence": "MurasamaItem: anon Tier bonus 12.0f, SwordItem int 3 -> 16",
+  "fix": null
+ },
+ {
+  "id": "terramity:murasama",
+  "field": "spd",
+  "table": 1.8,
+  "actual": 1.8,
+  "evidence": "-2.2f -> 1.8",
+  "fix": null
+ },
+ {
+  "id": "terramity:murasama",
+  "field": "at.attack_damage(runtime)",
+  "table": [
+   5.0,
+   0.0
+  ],
+  "actual": [
+   25.0,
+   0.0
+  ],
+  "evidence": "pack +5; TerramityWeaponTweaks +4 or +5 (threshold 20 on the running sum; depends on whether attributesetter's NORMAL listener ran first); then BrutalityWeaponTweaks floor: forge:bloody_tools floor 40, aspd 1.8 -> target min(40, 41*1.8/1.8-1=40)=40 -> tops the sum up to 40 either way. Effective tooltip 41 vs table 21",
+  "fix": "at.attack_damage add 25; effective damage 41"
+ },
+ {
+  "id": "terramity:unholy_lance",
+  "field": "dmg",
+  "table": 16.0,
+  "actual": 16.0,
+  "evidence": "UnholyLanceItem extends Item, getAttributeModifiers(MAINHAND) puts 'Item modifier' attack_damage 15.0 (base UUID) -> 16",
+  "fix": null
+ },
+ {
+  "id": "terramity:unholy_lance",
+  "field": "spd",
+  "table": 1.6,
+  "actual": 1.6,
+  "evidence": "'Item modifier' attack_speed -2.4 -> 1.6",
+  "fix": null
+ },
+ {
+  "id": "terramity:unholy_lance",
+  "field": "at.attack_damage(runtime)",
+  "table": [
+   4.0,
+   0.0
+  ],
+  "actual": [
+   8.0,
+   0.0
+  ],
+  "evidence": "pack +4; TerramityWeaponTweaks sum 15(+4)<20 and >=8 -> +4; forge:netherite_tools floor 18 < 23 -> none. Effective 24 vs 20",
+  "fix": "at.attack_damage add 8"
+ },
+ {
+  "id": "terramity:nyxium_knight_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   12,
+   5.0,
+   0.3
+  ],
+  "actual": [
+   12,
+   5.0,
+   0.3
+  ],
+  "evidence": "NyxiumKnightItem anon ArmorMaterial getDefenseForType {6,10,12,6}[EquipmentSlot index FEET0..HEAD3] -> chest 12, toughness 5.0f, kbr 0.3f",
+  "fix": null
+ },
+ {
+  "id": "terramity:nyxium_knight_chestplate",
+  "field": "at",
+  "table": {
+   "fire_spell_power": [
+    0.0,
+    0.15
+   ],
+   "attack_damage": [
+    0.0,
+    0.1
+   ],
+   "fire_magic_resist": [
+    0.0,
+    0.15
+   ],
+   "max_mana": [
+    100.0,
+    0.0
+   ]
+  },
+  "actual": "same",
+  "evidence": "gear_authored_profiles_6.json; terramity tweak is MAINHAND only",
+  "fix": null
+ },
+ {
+  "id": "brutality:old_gpu",
+  "field": "dmg",
+  "table": 27.0,
+  "actual": 27.0,
+  "evidence": "BrutalityModItems: new OldGpuAxe(Tiers.DIAMOND, 23.0f, -2.5f) -> BrutalityAxeItem -> AxeItem: 1+3+23 = 27",
+  "fix": null
+ },
+ {
+  "id": "brutality:old_gpu",
+  "field": "spd",
+  "table": 1.5,
+  "actual": 1.5,
+  "evidence": "-2.5f -> 1.5",
+  "fix": null
+ },
+ {
+  "id": "brutality:old_gpu",
+  "field": "at",
+  "table": {},
+  "actual": {
+   "entity_reach": [
+    2.0,
+    0.0
+   ]
+  },
+  "evidence": "OldGpuAxe.getAttributeModifiers(slot, stack) adds forge:entity_reach +2.0 'Reach bonus' in MAINHAND; no pack entries; untagged so no tier floor",
+  "fix": "add entity_reach +2.0"
+ },
+ {
+  "id": "brutality:old_gpu",
+  "field": "a (absurd tier)",
+  "table": 0,
+  "actual": ">= 6.1 (plausibly 7)",
+  "evidence": "listed at Act 0 with 27 damage, 1.5 speed, +2 reach (an S at the start). Its recipe needs terramity:conductite (= 4 iridium + terramity:black_matter + 4 circuit boards; the pack's only black_matter recipe, kubejs mods/terramity/recipes.js, needs terramity:warden_soul which drops from the Warden, Act 6.1; else bedrock_black_matter_ore) plus terramity:conductite_upgrade_smithing_template (no recipe, drops from ultra_sniffer/trial_guardian). Every conductite tool/armor is Elvenite-gated (Act VII), but old_gpu has no gate tag so the table resolved conductite as Act 0",
+  "fix": "set a to the conductite act (6.1 Warden at the least; 7 to match conductite gear) or give conductite a material act"
+ },
+ {
+  "id": "brutality:royal_guardian_sword",
+  "field": "dmg",
+  "table": 55.0,
+  "actual": 55.0,
+  "evidence": "new RoyalGuardianSword(Tiers.NETHERITE, 50.0f, -3.5f) -> BrutalitySwordItem -> SwordItem(tier,(int)50,-3.5) -> 1+4+50",
+  "fix": null
+ },
+ {
+  "id": "brutality:royal_guardian_sword",
+  "field": "spd",
+  "table": 0.5,
+  "actual": 0.5,
+  "evidence": "-3.5f -> 0.5",
+  "fix": null
+ },
+ {
+  "id": "brutality:royal_guardian_sword",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   15.0,
+   0.0
+  ],
+  "evidence": "linggango_tweaks BrutalityWeaponTweaks OVERRIDES royal_guardian_sword=70.0 -> target 69 vs ADDITION sum 54 -> +15 'Brutality Tier Floor'. Effective tooltip 70",
+  "fix": "at.attack_damage add 15; effective 70"
+ },
+ {
+  "id": "brutality:royal_guardian_sword",
+  "field": "at",
+  "table": {
+   "critical_strike_damage": [
+    0.24,
+    0.0
+   ],
+   "attack_speed": [
+    0.0,
+    0.16
+   ]
+  },
+  "actual": {
+   "critical_strike_damage": [
+    0.24,
+    0.0
+   ],
+   "attack_speed": [
+    0.0,
+    0.16
+   ],
+   "entity_reach": [
+    14.0,
+    0.0
+   ],
+   "attack_damage": [
+    15.0,
+    0.0
+   ]
+  },
+  "evidence": "RoyalGuardianSword.getAttributeModifiers adds forge:entity_reach +14.0 'Reach bonus'; pack weapon_class_profiles_3.json",
+  "fix": "add entity_reach +14, attack_damage +15"
+ },
+ {
+  "id": "brutality:royal_guardian_sword",
+  "field": "rc",
+  "table": "2 recipes: kubejs:shaped + brutality jar crafting_shaped (reverium_sword, nyxium_greatsword, exodium_sword, decayed_bedrock)",
+  "actual": "kubejs:shaped only",
+  "evidence": "kubejs server_scripts/mods/brutality/recipes.js: e.remove({ id: 'brutality:royal_guardian_sword' })",
+  "fix": "drop the jar recipe from rc"
+ },
+ {
+  "id": "brutality:atomic_judgement",
+  "field": "dmg",
+  "table": 10.0,
+  "actual": 10.0,
+  "evidence": "new AtomicJudgementHammer(Tiers.NETHERITE, 5, -3.0f) -> BrutalityHammerItem: attackDamage = 5 + 4.0, own 'Weapon modifier' map -> 1+9",
+  "fix": null
+ },
+ {
+  "id": "brutality:atomic_judgement",
+  "field": "spd",
+  "table": 1.0,
+  "actual": 1.0,
+  "evidence": "'Weapon modifier' attack_speed -3.0 -> 1.0",
+  "fix": null
+ },
+ {
+  "id": "brutality:atomic_judgement",
+  "field": "at",
+  "table": {},
+  "actual": {
+   "stun_chance": [
+    0.0,
+    0.1
+   ],
+   "attack_damage": [
+    15.0,
+    0.0
+   ]
+  },
+  "evidence": "BrutalityHammerItem map also has brutality:stun_chance +0.1 MULTIPLY_BASE; tier floor: forge:elvenite_tools floor 24, sum 9, aspd 1.0 -> target min(24, 25*1.8/1-1=44)=24 -> +15. Effective 25 vs table 10",
+  "fix": "at.attack_damage add 15; stun_chance x0.1"
+ },
+ {
+  "id": "brutality:terra_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   8,
+   3.0,
+   0.1
+  ],
+  "actual": [
+   8,
+   3.0,
+   0.1
+  ],
+  "evidence": "BrutalityArmorMaterials.TERRA protection lambda BOOTS3/LEGS6/CHEST8/HELMET3, toughness 3.0f, kbr 0.1f",
+  "fix": null
+ },
+ {
+  "id": "brutality:terra_chestplate",
+  "field": "at",
+  "table": {
+   "max_health": [
+    12.0,
+    0.0
+   ],
+   "damage_taken": [
+    -0.1,
+    0.0
+   ]
+  },
+  "actual": {
+   "max_health": [
+    12.0,
+    0.0
+   ],
+   "damage_taken": [
+    -0.1,
+    0.0
+   ],
+   "knockback_resistance": "x0.25 MULTIPLY_TOTAL"
+  },
+  "evidence": "TerraArmorItem.getAttributeModifiers(own slot) adds 'KB Resist buff' knockback_resistance 0.25 MULTIPLY_TOTAL; pack gear_authored_profiles_5.json",
+  "fix": "note kbr x1.25 (minor)"
+ },
+ {
+  "id": "simplyswords:diamond_halberd",
+  "field": "dmg",
+  "table": 10.0,
+  "actual": 10.0,
+  "evidence": "ItemsRegistry: SimplySwordsSwordItem(Tiers.DIAMOND, (int)(diamond_damageModifier 3 + halberd_positive 3 - halberd_negative 0), halberd_attackSpeed); values from config/simplyswords_main/weapon_attributes.json5 (Config.safeValueFetch reads that file) -> 1+3+6",
+  "fix": null
+ },
+ {
+  "id": "simplyswords:diamond_halberd",
+  "field": "spd",
+  "table": 1.2,
+  "actual": 1.2,
+  "evidence": "halberd_attackSpeed -2.8 -> 1.2",
+  "fix": null
+ },
+ {
+  "id": "simplyswords:diamond_halberd",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   5.0,
+   0.0
+  ],
+  "evidence": "BrutalityWeaponTweaks floor: forge:diamond_tools 14, sum 9, aspd 1.2 -> target min(14, 15*1.8/1.2-1=21.5)=14 -> +5. Effective 15",
+  "fix": "at.attack_damage add 5"
+ },
+ {
+  "id": "simplyswords:netherite_cutlass",
+  "field": "dmg",
+  "table": 8.0,
+  "actual": 8.0,
+  "evidence": "SimplySwordsNetheriteSwordItem(Tiers.NETHERITE, (int)(3+0-0), cutlass_attackSpeed -2.0) -> 1+4+3",
+  "fix": null
+ },
+ {
+  "id": "simplyswords:netherite_cutlass",
+  "field": "spd",
+  "table": 2.0,
+  "actual": 2.0,
+  "evidence": "-2.0 -> 2.0",
+  "fix": null
+ },
+ {
+  "id": "simplyswords:netherite_cutlass",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   9.1,
+   0.0
+  ],
+  "evidence": "forge:netherite_tools floor 18, aspd 2.0 -> target min(18, 19*1.8/2.0-1=16.1)=16.1; sum 7 -> +9.1. Effective 17.1 vs table 8",
+  "fix": "at.attack_damage add 9.1"
+ },
+ {
+  "id": "simplyswords:soulpyre",
+  "field": "dmg",
+  "table": 13.0,
+  "actual": 13.0,
+  "evidence": "SoulPyreSwordItem(ModToolMaterial.UNIQUE attackDamage 5.0f, (int)soulpyre_damageModifier 7) -> 1+5+7; no attribute overrides (simply_swords_overhaul only patches behaviour)",
+  "fix": null
+ },
+ {
+  "id": "simplyswords:soulpyre",
+  "field": "spd",
+  "table": 1.0,
+  "actual": 1.0,
+  "evidence": "soulpyre_attackSpeed -3.0",
+  "fix": null
+ },
+ {
+  "id": "simplyswords:soulpyre",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   6.0,
+   0.0
+  ],
+  "evidence": "forge:netherite_tools floor 18, aspd 1.0 -> target 18; sum 12 -> +6. Effective 19",
+  "fix": "at.attack_damage add 6"
+ },
+ {
+  "id": "simplyswords:dormant_relic",
+  "field": "dmg",
+  "table": 9.0,
+  "actual": 9.0,
+  "evidence": "DormantRelicSwordItem(UNIQUE 5.0, (int)sunfire_damageModifier 3, sunfire_attackSpeed -2.4) -> 1+5+3",
+  "fix": null
+ },
+ {
+  "id": "simplyswords:dormant_relic",
+  "field": "spd",
+  "table": 1.6,
+  "actual": 1.6,
+  "evidence": "-2.4 -> 1.6",
+  "fix": null
+ },
+ {
+  "id": "simplyswords:dormant_relic",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   10.0,
+   0.0
+  ],
+  "evidence": "forge:netherite_tools floor 18, aspd 1.6 -> target 18; sum 8 -> +10. Effective 19; pack weapon_class_profiles_9.json spell_power x0.14 / cdr x0.04 match the table",
+  "fix": "at.attack_damage add 10"
+ },
+ {
+  "id": "armageddon_mod:the_rift_piercer",
+  "field": "dmg",
+  "table": 16.0,
+  "actual": 16.0,
+  "evidence": "TheRiftPiercerItem: SwordItem(anon Tier bonus 12.0f, 3, -2.6f) -> 1+12+3",
+  "fix": null
+ },
+ {
+  "id": "armageddon_mod:the_rift_piercer",
+  "field": "spd",
+  "table": 1.4,
+  "actual": 1.4,
+  "evidence": "-2.6f",
+  "fix": null
+ },
+ {
+  "id": "armageddon_mod:the_rift_piercer",
+  "field": "a/ga (absurd tier)",
+  "table": [
+   0,
+   0
+  ],
+  "actual": [
+   9,
+   9
+  ],
+  "evidence": "pack config/armageddon_mod_config.toml cataclysmic_tier_tools_restricted_addition = [the_chaosphere_blade, the_rift_piercer] ('blocked until The Calamities are defeated'); recipe needs armageddon_mod:calamitous_core + spiritof_dread, both only from TheCalamitiesTreasureBagRightclickedOnBlockProcedure. The table puts a 16-damage sword at Act 0 (its sibling the_chaosphere_blade is at 8)",
+  "fix": "ga 9 (Calamities), a 9"
+ },
+ {
+  "id": "armageddon_mod:eclipsium_edge",
+  "field": "dmg",
+  "table": 15.5,
+  "actual": 15.5,
+  "evidence": "EclipsiumEdgeItem: anon Tier bonus 11.5f, int 3, -2.9f -> 15.5",
+  "fix": null
+ },
+ {
+  "id": "armageddon_mod:eclipsium_edge",
+  "field": "spd",
+  "table": 1.1,
+  "actual": 1.1,
+  "evidence": "-2.9f",
+  "fix": null
+ },
+ {
+  "id": "armageddon_mod:eclipsium_edge",
+  "field": "at",
+  "table": {
+   "attack_damage": [
+    5.0,
+    0.0
+   ]
+  },
+  "actual": {
+   "attack_damage": [
+    5.0,
+    0.0
+   ]
+  },
+  "evidence": "armageddon_weapon_rebalance.json +5; untagged, no floor",
+  "fix": null
+ },
+ {
+  "id": "armageddon_mod:eclipsium_edge",
+  "field": "a",
+  "table": 5,
+  "actual": 6.3,
+  "evidence": "recipe needs armageddon_mod:ender_dragon_bone, which only comes from the Ender Dragon treasure bag (WhenEnderDragonDieProcedure -> EnderDragonTreasurebagRightclickedOnBlockProcedure gives ENDER_DRAGON_BONE)",
+  "fix": "a 6.3"
+ },
+ {
+  "id": "armageddon_mod:staff_of_the_abyss",
+  "field": "dmg",
+  "table": 8.0,
+  "actual": 8.0,
+  "evidence": "StaffOfTheAbyssItem: SwordItem(anon Tier 4.0f, 3, -3.0f) -> 8",
+  "fix": null
+ },
+ {
+  "id": "armageddon_mod:staff_of_the_abyss",
+  "field": "spd",
+  "table": 1.0,
+  "actual": 1.0,
+  "evidence": "-3.0f",
+  "fix": null
+ },
+ {
+  "id": "armageddon_mod:staff_of_the_abyss",
+  "field": "k",
+  "table": "magic",
+  "actual": "magic",
+  "evidence": "StaffOfTheAbyssRightclickedProcedure only spawns ABYSSAL_BALL projectile, no minion",
+  "fix": null
+ },
+ {
+  "id": "armageddon_mod:staff_of_the_abyss",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   11.0,
+   0.0
+  ],
+  "evidence": "forge:netherite_tools floor 18, sum 7, aspd 1.0 -> +11; effective 19",
+  "fix": "at.attack_damage add 11"
+ },
+ {
+  "id": "armageddon_mod:helionite_armor_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   15,
+   15.0,
+   0.1
+  ],
+  "actual": [
+   15,
+   15.0,
+   0.1
+  ],
+  "evidence": "HelioniteArmorItem anon ArmorMaterial defense {9,14,15,11}[FEET0,LEGS1,CHEST2,HEAD3] -> 15, toughness 15.0f, kbr 0.1f",
+  "fix": null
+ },
+ {
+  "id": "armageddon_mod:helionite_armor_chestplate",
+  "field": "at",
+  "table": {
+   "armor": [
+    -1.0,
+    0.0
+   ],
+   "armor_toughness": [
+    -6.0,
+    0.0
+   ],
+   "knockback_resistance": [
+    0.15,
+    0.0
+   ],
+   "attack_speed": [
+    0.0,
+    0.0625
+   ],
+   "attack_damage": [
+    0.0,
+    0.0675
+   ],
+   "holy_spell_power": [
+    0.0,
+    0.15
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ],
+   "max_mana": [
+    130.0,
+    0.0
+   ],
+   "movement_speed": [
+    0.0,
+    0.05
+   ],
+   "max_health": [
+    1.2,
+    0.0
+   ]
+  },
+  "actual": "same",
+  "evidence": "armageddon_armor_rebalance.json (9 entries) + gear_baseline_profiles_1.json (hp 1.2, atk x0.0175, aspd x0.0125)",
+  "fix": null
+ },
+ {
+  "id": "summonity:sanguine_staff",
+  "field": "k",
+  "table": "summon",
+  "actual": "summon",
+  "evidence": "SanguineStaffItem extends SummoningItem(ModEntities.SUMMONED_SANGUINE_BAT, summonity-common.toml staffs.sanguine damage 4.0, cooldown 10); useOn spawns the minion via spawnMinion",
+  "fix": null
+ },
+ {
+  "id": "summonity:constellation_whip",
+  "field": "k",
+  "table": "summon",
+  "actual": "whip (does not summon)",
+  "evidence": "WhipItem/ConstellationWhipItem only spawn the whip strike entity ModEntities.CONSTELLATION_WHIP and set/clear minion focus; no minion is created. Same for amethyst/soul/magma/hemorrhage/spinal whips and goety_revelation spectre/venomous_spider whips (BaseWhipItem). It is summoner-class gear (holding a staff or whip avoids unarmedMinionDamageMultiplier 0.5)",
+  "fix": "keep in the Summon role if the role means summoner gear, but do not describe these 9 whips as summoning; they command minions"
+ },
+ {
+  "id": "summonity:constellation_whip",
+  "field": "dmg/spd",
+  "table": [
+   null,
+   null
+  ],
+  "actual": [
+   12.3,
+   1.0
+  ],
+  "evidence": "summonity-common.toml whips.constellation damage 12.3, attackSpeed 1.0 (WhipItem puts attack_speed modifier configuredAttackSpeed-4), range 13",
+  "fix": "optional: dmg 12.3 (whip hit), spd 1.0"
+ },
+ {
+  "id": "summonity:sniffer_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   3,
+   0,
+   0
+  ],
+  "actual": [
+   14.0,
+   5.0,
+   0.0
+  ],
+  "evidence": "SnifferArmorItem.getAttributeModifiers(slot, stack) REPLACES the material values with config: summonity-common.toml [armor.sniffer.chestplate] armor 14.0, toughness 5.0, minionSlots +1.0 (returns an empty map for other slots). The table read the unused ArmorMaterial",
+  "fix": "arm 14, tough 5"
+ },
+ {
+  "id": "summonity:sniffer_chestplate",
+  "field": "at",
+  "table": {
+   "summon_damage": [
+    0.0,
+    0.2
+   ],
+   "max_health": [
+    9.0,
+    0.0
+   ],
+   "damage_taken": [
+    -0.05,
+    0.0
+   ]
+  },
+  "actual": {
+   "summon_damage": [
+    0.0,
+    0.2
+   ],
+   "max_health": [
+    9.0,
+    0.0
+   ],
+   "damage_taken": [
+    -0.05,
+    0.0
+   ],
+   "minion_slots": [
+    1.0,
+    0.0
+   ]
+  },
+  "evidence": "gear_authored_profiles_8.json + code minion_slots +1",
+  "fix": "add minion_slots +1"
+ },
+ {
+  "id": "summonity:*_armor (family)",
+  "field": "arm/tough",
+  "table": "sniffer 1/3/2/1 t0; spider 1/3/2/1 t0; obsidian 1/3/2/1 t0; virentium_summoner 4/9/7/4 t3",
+  "actual": "sniffer 8/14/11/8 t4,5,4,4; spider 4/9/7/4 t2.5; obsidian 3/7/5/3 t1.5; virentium_summoner 6/11/9/6 t3 (helmet/chest/legs/boots)",
+  "evidence": "Obsidian/Spider/VirentiumSummoner/SnifferArmorItem all build armor/toughness/minion_slots from SummonityConfig armor balance (summonity-common.toml [armor.*])",
+  "fix": "use the config values for all 16 summonity armor pieces (and add minion_slots)"
+ },
+ {
+  "id": "goety:philosophers_mace",
+  "field": "dmg",
+  "table": 9.0,
+  "actual": 9.0,
+  "evidence": "PhilosophersMaceItem: 'Tool modifier' attack_damage ItemConfig.PhilosophersMaceDamage - 1; config/goety/goety-items.toml philosophersMaceDamage 9.0 -> tooltip 9",
+  "fix": null
+ },
+ {
+  "id": "goety:philosophers_mace",
+  "field": "spd",
+  "table": 1.6,
+  "actual": 1.6,
+  "evidence": "(double)-2.4f",
+  "fix": null
+ },
+ {
+  "id": "goety:philosophers_mace",
+  "field": "at",
+  "table": {},
+  "actual": {},
+  "evidence": "no attributesetter entry; not in any forge:*_tools tag (gate comes from linggango_tweaks:gated), so no tier floor",
+  "fix": null
+ },
+ {
+  "id": "goety:nameless_staff",
+  "field": "dmg",
+  "table": 6.0,
+  "actual": 6.0,
+  "evidence": "NamelessStaff -> DarkStaff(ItemConfig.NamelessStaffDamage, NECROMANCY): 'Tool modifier' damage-1; goety-items.toml namelessStaffDamage 6.0",
+  "fix": null
+ },
+ {
+  "id": "goety:nameless_staff",
+  "field": "spd",
+  "table": 1.6,
+  "actual": 1.6,
+  "evidence": "DarkStaff(damage, type) -> attackSpeed -2.4",
+  "fix": null
+ },
+ {
+  "id": "goety:nameless_staff",
+  "field": "k",
+  "table": "magic",
+  "actual": "summon",
+  "evidence": "SpellType.NECROMANCY staff; necromancy school is mostly servant summons (Zombie/Skeleton/Wraith/Vanguard/Blackguard/Phantom spells). ZombieSpell: if staff is NAMELESS_STAFF -> 7 ZombieServants per cast, other necromancy staff (rightStaff) -> 2-5, else 1",
+  "fix": "k summon"
+ },
+ {
+  "id": "goety:necro_staff",
+  "field": "k",
+  "table": "magic",
+  "actual": "summon",
+  "evidence": "ModItems: new DarkStaff(ItemConfig.NecroStaffDamage, SpellType.NECROMANCY); rightStaff() boosts necromancy summons to 2-5 servants per cast",
+  "fix": "k summon"
+ },
+ {
+  "id": "goety:dark_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   8,
+   2.0,
+   0.3
+  ],
+  "actual": [
+   8,
+   2.0,
+   0.3
+  ],
+  "evidence": "ModArmorMaterials.DARK reads ItemConfig: goety-items.toml darkArmorChest 8, darkArmorToughness 2.0, darkArmorKnockResist 0.3",
+  "fix": null
+ },
+ {
+  "id": "goety:dark_chestplate",
+  "field": "at",
+  "table": {
+   "spell_power": [
+    0.0,
+    0.05
+   ],
+   "max_health": [
+    8.0,
+    0.0
+   ],
+   "soul_discount": [
+    0.1,
+    0.0
+   ],
+   "cast_time_reduction": [
+    0.0,
+    0.05
+   ]
+  },
+  "actual": "same",
+  "evidence": "goety_armor_rebalance.json",
+  "fix": null
+ },
+ {
+  "id": "mysticalagriculture:supremium_sword",
+  "field": "dmg",
+  "table": 24.0,
+  "actual": 24.0,
+  "evidence": "ModItems: EssenceSwordItem(ModItemTier.SUPREMIUM attackDamage 20.0f) -> Cucumber BaseSwordItem(tier) defaults int 3, -2.4f; getAttributeModifiers uses getAttackDamage()=3+20 -> 1+23",
+  "fix": null
+ },
+ {
+  "id": "mysticalagriculture:supremium_sword",
+  "field": "spd",
+  "table": 1.6,
+  "actual": 1.6,
+  "evidence": "-2.4f",
+  "fix": null
+ },
+ {
+  "id": "mysticalagriculture:supremium_sword",
+  "field": "rc (obtainable)",
+  "table": "cucumber:shaped_transfer_damage (supremium_gemstone, supremium_ingot, imperium_sword)",
+  "actual": "no recipe, no loot -> unobtainable",
+  "evidence": "kubejs server_scripts/mods/mysticalagriculture/recipes.js: removed.forEach(id => e.remove({ output: id })) lists every inferium/prudentium/tertium/imperium/supremium/awakened_supremium sword, axe, bow, crossbow, helmet, chestplate, leggings, boots (48 of the 51 MA entries in the table; only the 3 soulium daggers survive)",
+  "fix": "drop the 48 MA gear entries (and their sets) from GE/GS"
+ },
+ {
+  "id": "mysticalagriculture:awakened_supremium_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   12,
+   3.5,
+   0.1
+  ],
+  "actual": [
+   12,
+   3.5,
+   0.1
+  ],
+  "evidence": "ModArmorMaterial.AWAKENED_SUPREMIUM {6,12,10,8}[Type.ordinal HELMET0,CHEST1,LEGS2,BOOTS3], toughness 3.5f, kbr 0.1f; EssenceChestplateItem rebuilds the same values (+augments)",
+  "fix": null
+ },
+ {
+  "id": "mysticalagriculture:awakened_supremium_chestplate",
+  "field": "rc (obtainable)",
+  "table": "jar recipe",
+  "actual": "recipe removed by pack (e.remove({output})) -> unobtainable",
+  "evidence": "same kubejs removal list",
+  "fix": "drop from GE and GS"
+ },
+ {
+  "id": "l2complements:sculkium_sword",
+  "field": "dmg",
+  "table": 9.0,
+  "actual": 9.0,
+  "evidence": "LCMats.SCULKIUM ToolStats(durability 2000, speed 8, base_damage 9, base_speed 1.2f, enchant 15); l2damagetracker-0.4.4 (jar-in-jar) GenItemVanillaType.genGenericTool: dmg = Tools.SWORD.getDamage(9)=round(9*1.0) - 1 = 8, ForgeTier attack bonus 0 -> tooltip 9",
+  "fix": null
+ },
+ {
+  "id": "l2complements:sculkium_sword",
+  "field": "spd",
+  "table": 1.9,
+  "actual": 1.9,
+  "evidence": "Tools.SWORD speed_scale 1.6: round(1.2*1.6*10)*0.1 = 1.9",
+  "fix": null
+ },
+ {
+  "id": "l2complements:sculkium_sword",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   14.68,
+   0.0
+  ],
+  "evidence": "BrutalityWeaponTweaks floor: forge:elvenite_tools 24, aspd 1.9 -> target min(24, 25*1.8/1.9-1=22.68); sum 8 -> +14.68. Effective 23.7 vs table 9",
+  "fix": "at.attack_damage add 14.68"
+ },
+ {
+  "id": "l2complements:eternium_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   8,
+   10.0,
+   1.0
+  ],
+  "actual": [
+   8,
+   10.0,
+   1.0
+  ],
+  "evidence": "LCMats.ETERNIUM ArmorStats(9999, {3,6,8,3}, tough 10.0f, kb 1.0f); l2damagetracker ArmorMat.getDefenseForType indexes by EquipmentSlot index (FEET0..HEAD3) -> chest 8; GenericArmorItem adds nothing for eternium",
+  "fix": null
+ },
+ {
+  "id": "l2complements:eternium_chestplate",
+  "field": "at",
+  "table": {
+   "max_health": [
+    9.0,
+    0.0
+   ],
+   "damage_taken": [
+    -0.1,
+    0.0
+   ]
+  },
+  "actual": "same",
+  "evidence": "gear_authored_profiles_4.json",
+  "fix": null
+ },
+ {
+  "id": "irons_spellbooks:boreal_blade",
+  "field": "dmg",
+  "table": 31.0,
+  "actual": 16.0,
+  "evidence": "ItemRegistry: 'boreal_blade' = new MagicSwordItem(ExtendedWeaponTier.ICE_GREATSWORD(2031, damage 15.0f, speed -3.1f)). ExtendedSwordItem(tier) calls super SwordItem(tier,(int)tier.damage, tier.speed) (that internal value 15+15=30 is never shown) but overrides getAttributeModifiers(MAINHAND) -> defaultModifiers 'Weapon modifier' attack_damage = tier.getAttackDamageBonus() = 15.0 -> tooltip 16. The table double-counted the tier",
+  "fix": "dmg 16"
+ },
+ {
+  "id": "irons_spellbooks:boreal_blade",
+  "field": "spd",
+  "table": 0.9,
+  "actual": 0.9,
+  "evidence": "'Weapon modifier' attack_speed -3.1 -> 0.9",
+  "fix": null
+ },
+ {
+  "id": "irons_spellbooks:boreal_blade",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": null,
+  "evidence": "forge:diamond_tools floor 14 < ADDITION sum 15 -> no floor",
+  "fix": null
+ },
+ {
+  "id": "irons_spellbooks:*ExtendedSwordItem (family)",
+  "field": "dmg",
+  "table": "magehunter 13, spellbreaker 19, keeper_flamberge 21, legionnaire_flamberge 21, amethyst_rapier 15, hellrazor 25, decrepit_scythe 21, twilight_gale 25",
+  "actual": "magehunter 7, spellbreaker 10, keeper_flamberge 11, legionnaire_flamberge 11, amethyst_rapier 8, hellrazor 13, decrepit_scythe 11, twilight_gale 13",
+  "evidence": "same ExtendedSwordItem/MagicSwordItem pattern: tooltip = 1 + ExtendedWeaponTier damage (METAL_MAGEHUNTER 6, SPELLBREAKER 9, DECREPIT_FLAMBERGE 10, LEGIONNAIRE_FLAMBERGE 10, AMETHYST_RAPIER 7, HELLRAZOR 12, DECREPIT_SCYTHE 10, TWILIGHT_GALE 12); table = 1 + 2x tier damage",
+  "fix": "halve the tier part: dmg = 1 + tier damage for every ISS ExtendedSwordItem (then re-apply the forge:*_tools floor where tagged)"
+ },
+ {
+  "id": "macabre:abhorrent_armor_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   21,
+   6.5,
+   1.0
+  ],
+  "actual": [
+   21,
+   6.5,
+   1.0
+  ],
+  "evidence": "AbhorrentArmorItem anon ArmorMaterial defense {15,20,21,15}[FEET0,LEGS1,CHEST2,HEAD3] -> 21, toughness 6.5f, kbr 1.0f (a single piece really gives 21 armor; AttributeFix is in the pack)",
+  "fix": null
+ },
+ {
+  "id": "macabre:abhorrent_armor_chestplate",
+  "field": "at",
+  "table": {
+   "max_health": [
+    18.0,
+    0.0
+   ],
+   "lifesteal": [
+    0.06,
+    0.0
+   ],
+   "damage_taken": [
+    -0.05,
+    0.0
+   ]
+  },
+  "actual": "same",
+  "evidence": "gear_authored_profiles_6.json; MacabreTweaks is MAINHAND weapons only",
+  "fix": null
+ },
+ {
+  "id": "hazennstuff:alchemist_supreme_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   8.0,
+   3.0,
+   2.0
+  ],
+  "actual": [
+   8.0,
+   3.0,
+   2.0
+  ],
+  "evidence": "AlchemistSupremeArmorItem -> HnSImbuableArmorItem -> HnSArmorItem(HnSArmorMaterial.EVOMANCER: schoolArmorMap(3,8,6,3), toughness 3.0f, knockbackResistance 2.0f). kbr 2.0 per piece is literal but the attribute caps at 1.0",
+  "fix": null
+ },
+ {
+  "id": "hazennstuff:alchemist_supreme_chestplate",
+  "field": "at",
+  "table": {
+   "healing_received": [
+    0.1,
+    0.0
+   ]
+  },
+  "actual": {
+   "healing_received": [
+    0.1,
+    0.0
+   ],
+   "max_mana": [
+    204.0,
+    0.0
+   ],
+   "evocation_spell_power": [
+    0.0,
+    0.15
+   ],
+   "eldritch_spell_power": [
+    0.0,
+    0.05
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "evidence": "HnSArmorItem ctor copies material.getAdditionalAttributes() into ARMOR_ATTRIBUTES (EVOMANCER: Max Mana +204 ADDITION, Evocation Power x0.15, Eldritch Power x0.05, Base Power x0.15); pack gear_authored_profiles_4.json adds healing_received 0.1. The table misses all 4 code bonuses (affects every HnS armor piece: Mage scores too low)",
+  "fix": "add the HnSArmorMaterial additionalAttributes to at for all hazennstuff armor"
+ },
+ {
+  "id": "simplymore:brassturn",
+  "field": "dmg",
+  "table": 8.0,
+  "actual": 8.0,
+  "evidence": "ModItemsRegistry: BrassturnItem(SIMPLY_MORE_UNIQUE attackDamage 5.0f, getBrassturnDamage()-6 = 8-6 = 2, getBrassturnMaxSwingSpeed() = 3.8-4 = -0.2) -> 1+5+2 = 8 (config/simplymore/weapon_attributes.json5 brassturnDamage 8, brassturnMaxSwingSpeed 3.8)",
+  "fix": null
+ },
+ {
+  "id": "simplymore:brassturn",
+  "field": "spd",
+  "table": 3.8,
+  "actual": "0.6 fresh/oxidised .. 3.8 fully scraped",
+  "evidence": "BrassturnItem.getAttributeModifiers(stack, MAINHAND) adds attack_speed oxidisation*((3.4+(-0.2))/-16) = -0.2 per oxidisation level; getOxidisation() starts at 16 for a new stack (-3.2 -> 0.6), every hit adds +1 (cap 16), holding right-click scrapes it down. 3.8 is only the best case",
+  "fix": "spd 0.6 (default tooltip), note up to 3.8 when scraped; melee score with 3.8 is inflated ~6x"
+ },
+ {
+  "id": "simplymore:brassturn",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": "+1 .. +11",
+  "evidence": "forge:netherite_tools floor 18 with ADDITION sum 7: at aspd 0.6 target 18 (+11), at aspd 3.8 target min(18, 34.2/3.8-1=8) (+1)",
+  "fix": "at.attack_damage add 11 at the default 0.6 speed"
+ },
+ {
+  "id": "lethality:diamond_bafs",
+  "field": "dmg",
+  "table": 13.0,
+  "actual": 13.0,
+  "evidence": "DiamondBAFSItem: SwordItem(Tiers.DIAMOND, 9, -3.4f) -> 1+3+9",
+  "fix": null
+ },
+ {
+  "id": "lethality:diamond_bafs",
+  "field": "spd",
+  "table": 0.6,
+  "actual": 0.6,
+  "evidence": "-3.4f",
+  "fix": null
+ },
+ {
+  "id": "lethality:diamond_bafs",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   5.0,
+   0.0
+  ],
+  "evidence": "linggango_tweaks BafsWeaponTweaks: every lethality *_bafs/*_bafpb (and pickle_paddle) gets 'Lethality Bonus Damage' +5 MAINHAND (and Slowness on hit); LethalityWeaponTweaks skips BAFS. forge:diamond_tools floor 14 < 17 -> none. Effective 18 vs 13",
+  "fix": "at.attack_damage add 5"
+ },
+ {
+  "id": "composite_material:dungeon_sword",
+  "field": "dmg",
+  "table": 7.0,
+  "actual": 7.0,
+  "evidence": "ItemRegistry: DungeonSword(ItemTier.DUNGEON = ForgeTier(3,1024,8.0f, attackDamageBonus 4.0f,15), 2, -2.4f) -> 1+4+2; DungeonSword only forwards to SwordItem (the pack's DungeonSwordMathTweak mixin targets DungeonSwordReinforced, not this item)",
+  "fix": null
+ },
+ {
+  "id": "composite_material:dungeon_sword",
+  "field": "spd",
+  "table": 1.6,
+  "actual": 1.6,
+  "evidence": "-2.4f",
+  "fix": null
+ },
+ {
+  "id": "composite_material:dungeon_sword",
+  "field": "at",
+  "table": {},
+  "actual": {},
+  "evidence": "no attributesetter entry; not in a forge:*_tools tag -> no floor",
+  "fix": null
+ },
+ {
+  "id": "traveloptics:cursed_wraithblade_level_three",
+  "field": "dmg",
+  "table": 4.0,
+  "actual": 18.0,
+  "evidence": "CursedWraithbladeLevelThree -> LevelTwo -> LevelOne -> CursedWraithbladeItem -> UnbreakableGeoMagicSword -> GeoMagicSwordItem -> ISS MagicSwordItem/ExtendedSwordItem(tier, double attackDamage, double attackSpeed, additionalAttributes): super SwordItem(tier, 3, -2.4f) is a dummy, getAttributeModifiers returns defaultModifiers with attack_damage 17.0*cursedWraithbladeDamageMultiplier; config/traveloptics/traveloptics-weapons.toml damage_multiplier 1.0 -> tooltip 18. The table read the dummy 3/-2.4 (all 14 traveloptics *_level_three weapons show the same 4.0/1.6 placeholder)",
+  "fix": "dmg 18; re-read every traveloptics GeoMagicSword from its CursedWraithbladeItem-style ctor"
+ },
+ {
+  "id": "traveloptics:cursed_wraithblade_level_three",
+  "field": "spd",
+  "table": 1.6,
+  "actual": 1.3,
+  "evidence": "attack_speed -2.7*attack_speed_multiplier 1.0 -> 1.3",
+  "fix": "spd 1.3"
+ },
+ {
+  "id": "traveloptics:cursed_wraithblade_level_three",
+  "field": "at",
+  "table": {},
+  "actual": {
+   "ice_spell_power": [
+    0.0,
+    0.15
+   ],
+   "eldritch_spell_power": [
+    0.0,
+    0.05
+   ],
+   "max_mana": [
+    0.0,
+    0.15
+   ],
+   "attack_damage": [
+    14.0,
+    0.0
+   ]
+  },
+  "evidence": "additionalAttributes in the ctor (ICE x0.15, ELDRITCH x0.05, MAX_MANA x0.15 MULTIPLY_BASE, config multipliers 1.0); BrutalityWeaponTweaks floor: forge:voiderite_tools 31, aspd 1.3 -> target min(31, 32*1.8/1.3-1=43.3)=31, sum 17 -> +14. Effective 32",
+  "fix": "add the 3 spell modifiers and the +14 floor"
+ },
+ {
+  "id": "traveloptics:*_level_three (family)",
+  "field": "dmg/spd",
+  "table": "4.0/1.6 for abyssal_tidecaller, charged_sands, cursed_wraithblade, flames_of_eldritch, galenic_polarizer, gauntlet_of_extinction, harbingers_wrath, infernal_devastator, mechanized_wraithblade, scourge_of_the_sands, stellothorn, the_obliterator, thorns_of_oblivion, voidstrike_reaper",
+  "actual": "per-weapon values from each base class ctor x traveloptics-weapons.toml multipliers (e.g. cursed_wraithblade 18/1.3); flames_of_eldritch is further replaced by linggango_tweaks FlamesOfEldritchBuffHandler: removes damage/speed and sets Evo Damage 34/44/54/64 (+1) with speed -2.4/-1.6 and +2 reach by evo level",
+  "evidence": "GeoMagicSwordItem uses the ExtendedSwordItem(tier,double,double,map,props) ctor whose SwordItem super args are fixed 3/-2.4",
+  "fix": "re-derive all 14"
+ },
+ {
+  "id": "born_in_chaos_v1:darkwarblade",
+  "field": "dmg",
+  "table": 20.0,
+  "actual": 20.0,
+  "evidence": "BornInChaosV1ModItems: darkwarblade = BroadswordDestructionItem: SwordItem(anon Tier bonus 16.0f, 3, -3.2f) -> 1+16+3",
+  "fix": null
+ },
+ {
+  "id": "born_in_chaos_v1:darkwarblade",
+  "field": "spd",
+  "table": 0.8,
+  "actual": 0.8,
+  "evidence": "-3.2f",
+  "fix": null
+ },
+ {
+  "id": "born_in_chaos_v1:darkwarblade",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": null,
+  "evidence": "forge:netherite_tools floor 18 < sum 19 -> none; pack weapon_class_profiles_3.json crit dmg/aspd match",
+  "fix": null
+ },
+ {
+  "id": "legendary_monsters:axe_of_lightning",
+  "field": "dmg",
+  "table": 15.5,
+  "actual": 13.0,
+  "evidence": "Axe_Of_LightningItem overrides getAttributeModifiers(MAINHAND) with its own map: attack_damage 12.0 * AxeOfLightningDamageMultiplier (legendary_monsters-common.toml 1.0) -> tooltip 13. The table used the AxeItem super args (12.5f + tier)",
+  "fix": "dmg 13"
+ },
+ {
+  "id": "legendary_monsters:axe_of_lightning",
+  "field": "spd",
+  "table": 1.2,
+  "actual": 1.2,
+  "evidence": "-2.8 * speed multiplier 1.0",
+  "fix": null
+ },
+ {
+  "id": "legendary_monsters:axe_of_lightning",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   4.0,
+   0.0
+  ],
+  "evidence": "linggango_tweaks LegendaryTweaks: every legendary_monsters item gets 'Legendary Damage Buff' in MAINHAND (axe_of_lightning +4, enderitium sword/axe +10, default +2); untagged so no floor. Effective 17 at Act 0 (recipe: iron + legendary_monsters:air_rune from the cloud_golem)",
+  "fix": "at.attack_damage add 4"
+ },
+ {
+  "id": "mowziesmobs:wrought_axe",
+  "field": "dmg",
+  "table": 9.0,
+  "actual": 9.0,
+  "evidence": "ItemWroughtAxe -> MowzieAxeItem.getAttributeModifiers: attack_damage = AXE_OF_A_THOUSAND_METALS.toolConfig attack_damage - 1; mowziesmobs-common.toml attack_damage 9.0 -> tooltip 9",
+  "fix": null
+ },
+ {
+  "id": "mowziesmobs:wrought_axe",
+  "field": "spd",
+  "table": 0.9,
+  "actual": 0.9,
+  "evidence": "attack_speed 0.9 (config) - 4",
+  "fix": null
+ },
+ {
+  "id": "mowziesmobs:spear / naga_fang_dagger / earthrend_gauntlet / sculptor_staff",
+  "field": "dmg/spd",
+  "table": "9.0/0.9 for all four",
+  "actual": "spear 5.0/1.6, naga_fang_dagger 3.0/2.0, earthrend_gauntlet 6.0/1.2, sculptor_staff 3.0/1.0",
+  "evidence": "MowzieToolItem.getAttributeModifiers reads each item's own getConfig(): TOOLS_AND_ABILITIES.SPEAR / NAGA_FANG_DAGGER / EARTHREND_GAUNTLET / SCULPTOR_STAFF tool_config in mowziesmobs-common.toml. The table copied the wrought axe values onto every Mowzie tool",
+  "fix": "use the per-item tool_config values"
+ },
+ {
+  "id": "alexscaves:extinction_spear",
+  "field": "dmg",
+  "table": 9.0,
+  "actual": 9.0,
+  "evidence": "ExtinctionSpearItem extends alexscaves SpearItem(props, 8.0): defaultModifiers 'Tool modifier' attack_damage 8.0 -> 9",
+  "fix": null
+ },
+ {
+  "id": "alexscaves:extinction_spear",
+  "field": "spd",
+  "table": 1.0,
+  "actual": 1.0,
+  "evidence": "SpearItem attack_speed -3.0 -> 1.0",
+  "fix": null
+ },
+ {
+  "id": "alexscaves:extinction_spear",
+  "field": "at.attack_damage(runtime)",
+  "table": [
+   11.0,
+   0.0
+  ],
+  "actual": [
+   32.0,
+   0.0
+  ],
+  "evidence": "pack alexscave.json +11, weapon_class_profiles_1.json reach/crit/aspd; then BrutalityWeaponTweaks floor: forge:bloody_tools 40, aspd 1.0 -> target 40, sum 19 -> +21. Effective 41 vs table 20",
+  "fix": "at.attack_damage add 32"
+ },
+ {
+  "id": "undergarden:cloggrum_battleaxe",
+  "field": "dmg",
+  "table": 11.0,
+  "actual": 11.0,
+  "evidence": "UGItems: BattleaxeItem(UGItemTiers.CLOGGRUM bonus 3.0f, 7, -3.4f); getAttributeModifiers(MAINHAND) returns 'Weapon modifier' attack_damage super.getDamage() = 7+3 -> 11",
+  "fix": null
+ },
+ {
+  "id": "undergarden:cloggrum_battleaxe",
+  "field": "spd",
+  "table": 0.6,
+  "actual": 0.6,
+  "evidence": "(double)-3.4f",
+  "fix": null
+ },
+ {
+  "id": "undergarden:cloggrum_battleaxe",
+  "field": "at",
+  "table": {
+   "attack_knockback": [
+    4.0,
+    0.0
+   ]
+  },
+  "actual": {
+   "attack_knockback": [
+    4.0,
+    0.0
+   ]
+  },
+  "evidence": "code attack_knockback +4.0 in the same map; no pack entry; floor see next",
+  "fix": null
+ },
+ {
+  "id": "goety_revelation:ender_keeper_sword",
+  "field": "dmg",
+  "table": 25.0,
+  "actual": 25.0,
+  "evidence": "GoetyRevelation-2.3.1 jar-in-jar [Forge]RevelationFix-1.20.1-4.0: EnderKeeperSword -> ModSwordItem(Tiers.NETHERITE, 20, -3.5f): attackDamage = 20+4 -> 'Weapon modifier' 24 -> 25",
+  "fix": null
+ },
+ {
+  "id": "goety_revelation:ender_keeper_sword",
+  "field": "spd",
+  "table": 0.5,
+  "actual": 0.5,
+  "evidence": "-3.5f",
+  "fix": null
+ },
+ {
+  "id": "goety_revelation:ender_keeper_sword",
+  "field": "at",
+  "table": {
+   "critical_strike_damage": [
+    0.15,
+    0.0
+   ],
+   "attack_speed": [
+    0.0,
+    0.1
+   ]
+  },
+  "actual": {
+   "critical_strike_damage": [
+    0.15,
+    0.0
+   ],
+   "attack_speed": [
+    0.0,
+    0.1
+   ],
+   "entity_reach": [
+    3.0,
+    0.0
+   ]
+  },
+  "evidence": "EnderKeeperSword.injectExtraAttributes puts forge:entity_reach +3.0 into the MAINHAND map; pack weapon_class_profiles_5.json",
+  "fix": "add entity_reach +3"
+ },
+ {
+  "id": "goety_revelation:ender_keeper_sword",
+  "field": "at.attack_damage(runtime)",
+  "table": null,
+  "actual": [
+   7.0,
+   0.0
+  ],
+  "evidence": "BrutalityWeaponTweaks floor: forge:voiderite_tools 31, aspd 0.5 -> target min(31, 32*1.8/0.5-1=114)=31, sum 24 -> +7. Effective 32",
+  "fix": "at.attack_damage add 7"
+ },
+ {
+  "id": "immersive_armors:bone_chestplate",
+  "field": "arm/tough/kbr",
+  "table": [
+   3,
+   null,
+   null
+  ],
+  "actual": [
+   3,
+   0.0,
+   0.0
+  ],
+  "evidence": "Items.BONE_ARMOR ExtendedArmorMaterial('bone').protectionAmount(1,3,2,1) (head,chest,legs,feet) -> chest 3; no toughness()/knockbackReduction() -> 0; config/immersive_armors.json overwriteValues {}",
+  "fix": "tough 0, kbr 0 (cosmetic: null shown as unknown)"
+ },
+ {
+  "id": "immersive_armors:bone_chestplate",
+  "field": "at",
+  "table": {
+   "movement_speed": [
+    0.0,
+    0.02
+   ],
+   "armor": [
+    -2.0,
+    0.0
+   ]
+  },
+  "actual": {
+   "movement_speed": [
+    0.0,
+    0.02
+   ],
+   "armor": [
+    -2.0,
+    0.0
+   ]
+  },
+  "evidence": "ExtendedArmorItem 'Armor movement speed' -weight = +0.02 MULTIPLY_TOTAL; pack immersive_toughness_rebalance.json armor -2 (net armor 1)",
+  "fix": null
+ },
+ {
+  "id": "(30 items) stale jar recipes",
+  "field": "rc",
+  "table": "jar recipe kept next to the pack's kubejs replacement",
+  "actual": "jar recipe removed by e.remove({id}) in kubejs server_scripts",
+  "evidence": "brutality:depth_crusher, brutality:royal_guardian_sword, cataclysm:ancient_spear, celestisynth:keres, composite_material allay_steel/amethyst/echoium/etherite armor (15 pieces), enigmaticlegacy:eldritch_pan, l2complements sculkium helmet/chestplate/leggings/boots (generated_tools/sculkium/craft/*), lethality broken_biome_blade/gamblers_blade/horseless_headless_horsemanns_headtaker/midas_touch/nightmare_sword, terramity:basic_rifle (basic_rifle_recipe). gear_data takes the earliest act over all listed recipes, so a removed cheaper recipe can make 'a' too early",
+  "fix": "drop recipes whose id the kubejs scripts remove, then recompute a"
+ },
+ {
+  "id": "(48 items) mysticalagriculture gear",
+  "field": "present in GE",
+  "table": "listed (a 5 / 8)",
+  "actual": "unobtainable",
+  "evidence": "kubejs mods/mysticalagriculture/recipes.js removes by output every inferium..awakened_supremium sword/axe/bow/crossbow/helmet/chestplate/leggings/boots; no loot tables",
+  "fix": "remove from GE and their 6 sets from GS"
+ },
+ {
+  "id": "soulsweapons trick-weapon pairs",
+  "field": "lv (form variants)",
+  "table": "separate entries: kirkhammer (a2) + silver_sword (a2, no recipe); holy_moonlight_sword (a10) + holy_moonlight_greatsword (a10, no recipe); simons_bowblade (ranged a6) + simons_blade (melee a6, no recipe)",
+  "actual": "one physical weapon each, switched in hand",
+  "evidence": "soulslike-weaponry data/soulsweapons/trickweapons/item_mappings.json maps kirkhammer<->silver_sword, holy_greatsword->silver_sword, holy_moonlight_greatsword<->holy_moonlight_sword, simons_bowblade<->simons_blade (SwitchTrickWeaponC2S / TrickWeaponUtil.getMappedItem); the forms without a recipe exist only through the switch",
+  "fix": "merge each pair into one entry (keep the stronger form as main, list the other in lv)"
+ },
+ {
+  "id": "simplymore:mimicry_cutlass + simplymore:mimicry_quarterstaff",
+  "field": "lv (form variants)",
+  "table": "two entries ('Mimi-Cry' melee + 'Mimi-Cry' magic), both with no recipe/loot",
+  "actual": "two of the 25 forms of one Mimi-Cry weapon",
+  "evidence": "ModItemsRegistry MIMICRY_ITEMS map (longsword, twinblade, ... cutlass, ..., quarterstaff, deer_horns); 'mimicry' itself is a RemovedItem pointing to MIMICRY_LONGSWORD; same display name in lang",
+  "fix": "merge into one 'Mimi-Cry' entry (or drop: no recipe or loot in rec)"
+ },
+ {
+  "id": "goety:wild_staff",
+  "field": "k",
+  "table": "magic",
+  "actual": "borderline (6 of 12 wild spells summon)",
+  "evidence": "goety magic/spells/wild: Carrion, Hunting, Leaping, Mauling, Slimy, Whisper spells create servants; the staff (SpellType.WILD) boosts them via rightStaff(). Necromancy is 8/11 (necro_staff, nameless_staff -> summon); void 4/14, nether 3/11, others <=1 stay magic",
+  "fix": "optional: summon"
+ },
+ {
+  "id": "(magic scan) other staffs",
+  "field": "k",
+  "table": "magic",
+  "actual": "magic",
+  "evidence": "checked eeeabsmobs:immortal_staff (ImmortalStaffAbility spawns EntityShamanBomb projectile), darkermagic:whisper_staff (ISS SpellContainer), enigmaticaddons:extradimensional_scepter (PermanentItemEntity), armageddon staff_of_the_abyss (ABYSSAL_BALL): none create minions",
+  "fix": null
+ },
+ {
+  "id": "(systemic) linggango_tweaks runtime damage",
+  "field": "at.attack_damage",
+  "table": "attributesetter only",
+  "actual": "attributesetter + linggango_tweaks ItemAttributeModifierEvent handlers",
+  "evidence": "linggango_tweaks-5.85: BrutalityWeaponTweaks (LOWEST, every item in forge:iron..helionite_tools: tops ADDITION attack damage up to min(floor, (floor+1)*1.8/aspd - 1), floors 6/8/11/14/18/24/31/40/50; overrides royal_guardian_sword 70, amaterasu/tsukuyomi 17; skips BrutalityTrident/Throwing items), TerramityWeaponTweaks (+3/+4/+5/+10 by base damage), SoulsWeaponsTweaks (+3 default, per-item map up to +28), LegendaryTweaks (+2 default, enderitium +10, tesseract +25; annihilator armor +3 armor +2 toughness per piece), MacabreTweaks (9 items +3..+45), EEEABTweaks (+6 eeeabsmobs tiered/trident), BafsWeaponTweaks (+5 bafs/pickle_paddle), LethalityWeaponTweaks (+10 base, up to +60 nightmare_sword). Estimated from table values: 770 of the 924 weapons with a damage number get extra damage the table does not show (596 from the floor alone, 174 with a namespace bonus); the floor flattens every Act so most gated weapons reach the same per-Act damage",
+  "fix": "model these handlers in gear_data.collect (after attributesetter; floor last) before scoring"
+ },
+ {
+  "id": "legendary_monsters:annihilator_* (4 pieces)",
+  "field": "at.armor/armor_toughness",
+  "table": "none (chestplate at: crit dmg, hp, atk x0.05)",
+  "actual": "+3 armor, +2 toughness per piece",
+  "evidence": "linggango_tweaks LegendaryTweaks.onAttributes: ANNIHILATOR_ARMOR helmet/chestplate/leggings/boots get 'Legendary Armor Buff' +3.0 armor and 'Legendary Toughness Buff' +2.0 toughness in their own slot (set: +12 armor, +8 toughness)",
+  "fix": "add armor +3, armor_toughness +2 to each annihilator piece"
+ },
+ {
+  "id": "soulsweapons:chaos_robes",
+  "field": "at.armor/armor_toughness",
+  "table": "none",
+  "actual": "+1 armor, +1 toughness",
+  "evidence": "linggango_tweaks SoulsWeaponsTweaks: chaos_robes in CHEST gets 'Chaos Robes Armor Buff' +1 armor and +1 toughness",
+  "fix": "add armor +1, armor_toughness +1"
+ },
+ {
+  "id": "legendary_monsters:the_tesseract",
+  "field": "a (absurd tier)",
+  "table": 0,
+  "actual": ">= 6.3 (End)",
+  "evidence": "recipe: bottle_of_annihilation (space_station chests / End mobs; space_station_biomes = end_highlands/midlands/small_end_islands) + portal_shard (only loot_tables/entities/the_obliterator) + enderitium_ingot (9 enderitium_gem from enderitium_ore, biome_modifier add_enderitium_ore biomes #minecraft:is_end). Table shows it at Act 0 with 14 damage; LegendaryTweaks adds +25 (the_tesseract) -> 39 effective at Act 0. The annihilator armor made from the same portal_shard sits at Act 10",
+  "fix": "a 6.3 at the least (End ores/loot resolve to Act 0 in item_act; give End-only ore drops and End structure loot act 6.3)"
+ },
+ {
+  "id": "legendary_monsters:enderitium_sword / enderitium_axe",
+  "field": "a",
+  "table": 5,
+  "actual": 6.3,
+  "evidence": "enderitium_ingot <- enderitium_gem <- enderitium_ore, generated only in #minecraft:is_end (forge/biome_modifier/add_enderitium_ore.json); Diamond gate tag (Act 5) is lower than the material",
+  "fix": "a 6.3"
+ },
+ {
+  "id": "armageddon_mod:woe_splitter",
+  "field": "a (absurd tier)",
+  "table": 0,
+  "actual": 9,
+  "evidence": "recipe needs armageddon_mod:doom_powder, given only by TheBringerOfDoomTreasureBagRightclickedOnBlockProcedure; the bag drops from the wiki's 'discord' boss (boss_info.json discord drops, KEEPER_ENT discord = 9). Listed at Act 0 with 14 damage",
+  "fix": "a 9"
+ },
+ {
+  "id": "armageddon_mod:the_rift_piercer",
+  "field": "a (cross-check)",
+  "table": 0,
+  "actual": 9,
+  "evidence": "calamitous_core and spiritof_dread come from armageddon_mod:the_calamities_treasure_bag, also a 'discord' drop (boss_info.json) -> Act 9, consistent with the config's cataclysmic tier block",
+  "fix": "a 9, ga 9"
+ }
+]

@@ -233,3 +233,14 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 - **Set scoring:** a role set scores (1 + offence) × defence. Melee offence is the expected damage multiplier: damage% × speed% × crit, where the two crit systems' chance is capped at 100% and a crit adds +50% plus crit damage. Knockback resistance is capped at 100%. Topaz goes from far above everything at Act IV to top at Act IV–V only, and is outclassed later.
 - **Gear pages** fold flat armor and damage modifiers into the base line, matching the in-game tooltip (Topaz Leggings: 5 armor, 1 toughness). Brutality's critical_strike values show raw, as in game.
 - 179 new gear icons, from jar textures and three.js renders.
+
+## v22.1: Fixes from the independent stat check
+I stopped the check partway and applied what it had found (`build/pack_audit/verify2.json`: about 170 checks, most of them matching the table).
+- **Runtime tweaks.** The pack's own linggango_tweaks mod changes damage while the game runs, and the wiki now models it. Per-mod flat buffs: Terramity +3/4/5/10, Soulslike per-weapon (+3 default), Lethality, EEEAB +6, Macabre and Legendary. Then BrutalityWeaponTweaks raises every forge:<tier>_tools weapon to a floor of min(floor, (floor+1)·1.8/speed − 1), with floors 6/8/11/14/18/24/31/40/50 and overrides for Royal Guardian Sword, Amaterasu and Tsukuyomi. Annihilator armor gets +3 armor and +2 toughness; Chaos Robes get +1/+1. Examples: Netherite Sword 19, Royal Guardian Sword 70, Unholy Lance 24.
+- **Iron's Spellbooks swords** read 1 + tier damage; they were double-counted before (Boreal Blade 31 → 16).
+- **Travel Optics magic weapons** no longer show the wrong 4.0/1.6 they had before (Cursed Wraithblade Lv 3 shows 18/1.3).
+- **Athame** speed is 2.2.
+- **Mystical Agriculture gear** is removed: KubeJS deletes every recipe for it. Jar recipes the pack removes are also dropped from Chungus Staff, Forlorn Scythe, Kraken Slayer and Royal Guardian Sword.
+- **Goety Necro and Nameless staves** are now Summon.
+- **Acts:** Rift Piercer and Woe Splitter 9; Eclipsium Edge, Tesseract and Enderitium 6.3; Old GPU 7.
+- **Not fixed yet:** Summonity armor values from its config, Hazenn's Stuff armor spell attributes, Soulslike trick-weapon pairs, Mowzie's per-item tool config.
