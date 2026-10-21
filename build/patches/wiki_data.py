@@ -15,5 +15,6 @@ out += "const ARMR=" + json.dumps(J("armor_renders.json"), separators=(",", ":")
 out += "const GUIDE=" + json.dumps(J("guides.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const SIDEB=" + json.dumps(J("side_bosses.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const NAMEID=" + json.dumps(J("name_ids.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
+out += "const BEXTRA=" + json.dumps(J("boss_extra.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 (H.parent / "src" / "wiki_data.js").write_text(out, encoding="utf-8")
 print("wiki_data.js", len(out) // 1024, "kB")
