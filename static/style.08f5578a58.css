@@ -2142,3 +2142,10 @@ a.pbc,a.pb{text-decoration:none;color:inherit;cursor:pointer}
 .pbc .fgi{position:absolute;right:10px;top:8px;width:44px;height:44px;display:grid;place-items:center}
 .pbc .fgi img{width:44px;height:44px;image-rendering:pixelated;filter:drop-shadow(1px 0 0 #000) drop-shadow(-1px 0 0 #000) drop-shadow(0 1px 0 #000) drop-shadow(0 -1px 0 #000) drop-shadow(0 4px 4px #000a)}
 .pbc:hover .fgi{transform:scale(1.12);transition:transform .15s}
+/* Path v3: Act node sits at the top of its row next to the title; one continuous spine on the left */
+.ptree{position:relative}
+.ptree::before{content:"";position:absolute;left:calc(16px + 60px);top:40px;bottom:40px;width:3px;background:linear-gradient(#9fb3a6,#c7ccd1,#f0cf5f,#7bd88f,#ff9a6a,#b48cff,#c77dff,#ffd84a);opacity:.55;border-radius:2px}
+.prow{grid-template-columns:120px 1fr!important;align-items:start!important;padding:14px 0!important}
+.prow::after{display:none!important}
+.prow>.adv{position:sticky;top:76px;z-index:1;background:#0b0a10;border-radius:12px;padding:6px 0}
+.pmain{padding-top:4px}
