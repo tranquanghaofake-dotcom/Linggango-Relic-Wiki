@@ -744,3 +744,12 @@ a.pbc,a.pb{text-decoration:none;color:inherit;cursor:pointer}
 .sbhero .sbimg{height:260px;width:auto;max-width:360px;object-fit:contain;filter:drop-shadow(0 10px 18px #000c)}
 .sbtx{display:grid;gap:6px}.sbtx .sbmod{font:700 12px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--tc)}.sbtx b{font:700 22px var(--body)}.sbtx span{color:#cfcbe0}
 .sbhero .sbarena{width:420px;max-width:none;margin:0;border-radius:10px;border:1px solid #ffffff22}
+#jserr{position:fixed;left:16px;bottom:16px;z-index:9999;max-width:min(720px,90vw);padding:10px 14px;border-radius:8px;background:#5a1420;border:1px solid #ff6b7a;color:#fff;font:13px/1.4 ui-monospace,monospace;cursor:pointer;box-shadow:0 8px 24px #000a}
+.tier .t>img,.tier .t .aimg,.tier .t .aimg img{width:var(--ip,32px)!important;height:var(--ip,32px)!important}
+.gtl img{width:var(--ip2,48px)!important;height:var(--ip2,48px)!important;padding:4px!important;box-sizing:content-box}
+.nchs{display:flex;flex-wrap:wrap;gap:4px 6px}
+.nch{display:inline-flex;align-items:center;gap:5px;padding:2px 8px 2px 3px;border-radius:6px;background:#ffffff0b;border:1px solid #ffffff12;font-size:13px;line-height:1.2;white-space:nowrap}
+.nch b{color:#ffd84a;font-weight:700}
+.nic{width:22px;height:22px;flex:none;image-rendering:pixelated;vertical-align:middle;margin-right:4px}
+.nch .nic{margin:0}
+.rtype .nchs{margin-top:6px}

@@ -207,3 +207,12 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
 - Data is in `build/patches/side_bosses.json`; the scripts are in `build/pack_audit/side_bosses/`.
 - Still missing: images for 24 Java-model bosses, and attacks for the Shadow Wizards.
 - 57 drop-item icons were added with `mkicons.py`.
+
+## v20: Warden and Wither as side bosses, icons for Goety/AE2, PC pixel sizing
+- **Warden and Wither:** now optional side bosses in Act VI. At load, their curios and gear (Acts 6.1/6.2) fold into Act VI, and ORDER skips those Acts. Both stay on the Bosses page, marked "Side boss", and appear as cards in the Act VI branch of The Path.
+- **Goety and AE2 text → icons:** ritual ingredients, activation items, ritual-type block requirements and the AE2 unlock lists now show icon chips. Names map to item ids through every jar's lang file (`build/patches/name_ids.json`); 244 icons were added, most of them rendered from block models.
+- **Invisible items:** Invisibility Ring and Anklen't get a black-outline "glass" icon, so you can see them.
+- **PC sizing and debugging:**
+  - Tile and gear icons snap to whole device pixels (`--ip`/`--ip2`, set from `devicePixelRatio`), so 16px art stays crisp at Windows 125%/150% scaling.
+  - Script errors show in a red box at the bottom left (`#jserr`), so a screenshot shows what broke.
+- **Home Equipment bar:** consecutive Acts that share the same best weapon merge into one slot (e.g. "VII+").
