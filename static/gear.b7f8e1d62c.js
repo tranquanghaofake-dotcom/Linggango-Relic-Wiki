@@ -49,6 +49,7 @@ const GSTATE={a:0,r:"ME",w:"w",q:""};let GALL=false;
 document.addEventListener("click",e=>{if(e.target.closest("[data-gall]")){GALL=true;const y=scrollY;gearPage(location.hash);scrollTo(0,y)}});
 let GLASTH="";
 try{Object.assign(GSTATE,JSON.parse(localStorage.getItem("lgw-gear")||"{}"))}catch(e){}
+GSTATE.q="";
 function gearPage(h){
  const m=h.match(/^#gear(?:\/([\d.]+))?(?:\/(\w\w))?(?:\/([wa]))?/);if(m){if(m[1]!=null)GSTATE.a=+m[1];if(m[2])GSTATE.r=m[2];if(m[3])GSTATE.w=m[3]}
  if(!ORDER.includes(+GSTATE.a))GSTATE.a=0;if(GSTATE.w==="w"&&GSTATE.r==="TA")GSTATE.r="ME";
@@ -64,7 +65,7 @@ function gearPage(h){
  <nav class="gacts" aria-label="Act">${ORDER.filter(x=>x!=-1).map(x=>`<a href="${go(x,r,w)}" style="--tc:${ACT[x][2]}"${x===+a?' aria-current="page"':""} title="${esc(actF(x))}"><span class="gx">${emblem(x,"xs")}</span><b>${esc(ACT[x][0])}</b></a>`).join("")}</nav>
  <div class="gbar"><div class="gseg" role="tablist" aria-label="Weapons or armor">${[["w","⚔ Weapons"],["a","🛡 Armor sets"]].map(([k,t])=>`<a role="tab" href="${go(a,w===k?r:(k==="w"&&r==="TA"?"ME":r),k)}"${k===w?' aria-selected="true"':""}>${t}</a>`).join("")}</div>
  <div class="gseg roles" role="tablist" aria-label="Playstyle">${roles.map(k=>`<a role="tab" href="${go(a,k,w)}" style="--rc:${ROLE_C[k]||"#8a8f99"}"${k===r?' aria-selected="true"':""}>${GROLE[k]}</a>`).join("")}</div>
- <input id="gq" type="search" placeholder="Find a weapon or set…" value="${esc(GSTATE.q)}" aria-label="Find gear"></div>
+ <input id="gq" type="search" autocomplete="off" name="gearq" placeholder="Find a weapon or set…" value="${esc(GSTATE.q)}" aria-label="Find gear"></div>
  ${q?gSearch(q,a):`<div class="gtl-list">${tiers.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>Show ${xs.length-48} more</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join(""):`<p class="note">No ${w==="a"?"armor":"weapons"} for ${GROLE[r]} unlocked by ${esc(actL(a))} yet.</p>`}</div>`}
  <div class="gfoot"><p><b>${pool}</b> ${w==="a"?"sets":"weapons"} usable at ${esc(actL(a))}. <i class="gnew">NEW</i> unlocks at this Act. Faded tiles are <b>estimated</b>: their numbers are computed in code the wiki could not read, so they are ranked by their Keeper gate.</p>
  <details class="ghow"><summary>How the tiers are worked out</summary><ul>

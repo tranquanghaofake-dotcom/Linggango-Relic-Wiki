@@ -220,3 +220,4 @@ python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
   - Equipment search crashed on armor sets, which have no `id` field (gear.js `gSearch`). This was the PC error `reading 'includes'`.
   - The Act page hero no longer repeats the boss page. It now shows the pack's Act title strip, plus links to the boss that opens the Act and to the next boss.
   - Animated curio strips show one frame at a time and are no longer squashed.
+- v20.2: The Equipment search no longer restores a saved query (browser autofill had put a URL into it, which hid every item), and the box is now `autocomplete=off`. Side bosses with no render on The Path show a biome-block background (mud, sand, ice, netherrack, prismarine…) plus their drop item.

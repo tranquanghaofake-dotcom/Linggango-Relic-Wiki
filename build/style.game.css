@@ -765,3 +765,8 @@ a.pbc,a.pb{text-decoration:none;color:inherit;cursor:pointer}
 .tier .t .aimg.anim>img:not(.strip){opacity:0}
 .tier .t .aimg.anim img.strip{position:absolute!important;left:0;top:0;width:100%!important;height:calc(var(--n)*100%)!important;max-height:none!important;filter:none!important;animation:stripY var(--ms) steps(var(--n)) infinite!important;animation-play-state:paused!important}
 .tier .t.vis .aimg.anim img.strip{animation-play-state:running!important}
+.pbc.ibg{background:#111}
+.pbc.ibg .bg{opacity:.9}
+.pbc .fgi{position:absolute;right:10px;top:8px;width:44px;height:44px;display:grid;place-items:center}
+.pbc .fgi img{width:44px;height:44px;image-rendering:pixelated;filter:drop-shadow(1px 0 0 #000) drop-shadow(-1px 0 0 #000) drop-shadow(0 1px 0 #000) drop-shadow(0 -1px 0 #000) drop-shadow(0 4px 4px #000a)}
+.pbc:hover .fgi{transform:scale(1.12);transition:transform .15s}
