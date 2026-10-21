@@ -777,3 +777,4 @@ a.pbc,a.pb{text-decoration:none;color:inherit;cursor:pointer}
 .prow::after{display:none!important}
 .prow>.adv{position:sticky;top:76px;z-index:1;background:#0b0a10;border-radius:12px;padding:6px 0}
 .pmain{padding-top:4px}
+.gob{padding:8px 12px;border-radius:8px;background:#1f3a24;border:1px solid #4caf6a66}.gob.bad{background:#3a1a1f;border-color:#ff6b7a66}.gob.unk{background:#3a331a;border-color:#ffd84a55}

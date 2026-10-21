@@ -1,0 +1,5543 @@
+[
+ {
+  "id": "ad_astra:jet_suit",
+  "name": "Jet Suit",
+  "kind": "armor",
+  "slot": null,
+  "mod": "ad_astra",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 10,
+  "evidence": [
+   "class:JetSuitItem/armor"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "ad_astra:jet_suit_boots",
+  "name": "Jet Suit Boots",
+  "kind": "armor",
+  "slot": "BOOTS",
+  "mod": "ad_astra",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 10,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ad_astra:jet_suit_helmet",
+  "name": "Jet Suit Helmet",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "ad_astra",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 10,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ad_astra:jet_suit_pants",
+  "name": "Jet Suit Pants",
+  "kind": "armor",
+  "slot": "LEGGINGS",
+  "mod": "ad_astra",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 10,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ad_astra:netherite_space_boots",
+  "name": "Netherite Space Boots",
+  "kind": "armor",
+  "slot": "BOOTS",
+  "mod": "ad_astra",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 9,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ad_astra:netherite_space_helmet",
+  "name": "Netherite Space Helmet",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "ad_astra",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 9,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ad_astra:netherite_space_pants",
+  "name": "Netherite Space Pants",
+  "kind": "armor",
+  "slot": "LEGGINGS",
+  "mod": "ad_astra",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 9,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ad_astra:space_boots",
+  "name": "Space Boots",
+  "kind": "armor",
+  "slot": "BOOTS",
+  "mod": "ad_astra",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:ad_astra:chests/village/moon/blacksmith"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ad_astra:space_helmet",
+  "name": "Space Helmet",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "ad_astra",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:ad_astra:chests/village/moon/blacksmith"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ad_astra:space_pants",
+  "name": "Space Pants",
+  "kind": "armor",
+  "slot": "LEGGINGS",
+  "mod": "ad_astra",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:ad_astra:chests/village/moon/blacksmith"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ad_astra:zip_gun",
+  "name": "Zip Gun",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "ad_astra",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ae2:certus_quartz_axe",
+  "name": "Certus Quartz Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "ae2",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "ae2:certus_quartz_sword",
+  "name": "Certus Quartz Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "ae2",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "ae2:fluix_axe",
+  "name": "Fluix Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "ae2",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:FluixAxeItem/melee",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "ae2:fluix_sword",
+  "name": "Fluix Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "ae2",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "class:FluixSwordItem/melee",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "ae2:matter_cannon",
+  "name": "Matter Cannon",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "ae2",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ae2:nether_quartz_axe",
+  "name": "Nether Quartz Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "ae2",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "ae2:nether_quartz_sword",
+  "name": "Nether Quartz Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "ae2",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "alexscaves:galena_gauntlet",
+  "name": "Galena Gauntlet",
+  "kind": "melee",
+  "slot": null,
+  "mod": "alexscaves",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "tag:minecraft:weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "alexscaves:limestone_spear",
+  "name": "Limestone Spear",
+  "kind": "melee",
+  "slot": null,
+  "mod": "alexscaves",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:alexscaves:chests/caveman_house"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "alexscaves:magic_conch",
+  "name": "Magic Conch",
+  "kind": "melee",
+  "slot": null,
+  "mod": "alexscaves",
+  "obtain": [
+   "loot:alexscaves:gameplay/deep_one_knight_barter"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "tag:minecraft:weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "alexscaves:ortholance",
+  "name": "Ortholance",
+  "kind": "melee",
+  "slot": null,
+  "mod": "alexscaves",
+  "obtain": [
+   "loot:alexscaves:gameplay/deep_one_knight_barter"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "alexscaves:primitive_club",
+  "name": "Primitive Club",
+  "kind": "melee",
+  "slot": null,
+  "mod": "alexscaves",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:alexscaves:chests/caveman_house"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name",
+   "tag:minecraft:weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "alexscaves:sea_staff",
+  "name": "Sea Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "alexscaves",
+  "obtain": [
+   "loot:alexscaves:gameplay/deep_one_mage_barter"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name",
+   "tag:minecraft:weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "alexscaves:sharpened_candy_cane",
+  "name": "Sharpened Candy Cane",
+  "kind": "melee",
+  "slot": null,
+  "mod": "alexscaves",
+  "obtain": [
+   "loot:alexscaves:entities/caniac"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "alexscaves:sugar_staff",
+  "name": "Sugar Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "alexscaves",
+  "obtain": [
+   "loot:alexscaves:entities/licowitch"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "alexscaves:totem_of_possession",
+  "name": "Totem of Possession",
+  "kind": "melee",
+  "slot": null,
+  "mod": "alexscaves",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "tag:minecraft:weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "alexsmobs:falconry_hood",
+  "name": "Falconry Hood",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "alexsmobs",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "alexsmobs:hemolymph_blaster",
+  "name": "Hemolymph Blaster",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "alexsmobs",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "alexsmobs:straddle_helmet",
+  "name": "Straddlite Tack",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "alexsmobs",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "animus:runic_sentient_scythe",
+  "name": "Runic Sentient Scythe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "animus",
+  "obtain": [
+   "recipe:bloodmagic:array"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "armageddon_mod:echo_of_discord",
+  "name": "\u00a75Echo Of Discord",
+  "kind": "melee",
+  "slot": null,
+  "mod": "armageddon_mod",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "armageddon_mod:iron_colossus_arm",
+  "name": "Eternal Steel Hammer",
+  "kind": "melee",
+  "slot": null,
+  "mod": "armageddon_mod",
+  "obtain": [
+   "loot:armageddon_mod:gameplay/iron_colossus_treasure_bag"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "armageddon_mod:stone_throwing_dagger",
+  "name": "Stone Throwing Dagger",
+  "kind": "melee",
+  "slot": null,
+  "mod": "armageddon_mod",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "armageddon_mod:wooden_throwing_dagger",
+  "name": "Wooden Throwing Dagger",
+  "kind": "melee",
+  "slot": null,
+  "mod": "armageddon_mod",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ars_additions:advanced_dominion_wand",
+  "name": "Advanced Dominion Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "ars_additions",
+  "obtain": [
+   "recipe:ars_nouveau:enchanting_apparatus"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ars_nouveau:dominion_wand",
+  "name": "Dominion Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "ars_nouveau",
+  "obtain": [
+   "recipe:ars_nouveau:enchanting_apparatus",
+   "loot:idas:chests/archmages_tower/archmages_tower_treasure"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ars_nouveau:lingering_flask_cannon",
+  "name": "Lingering Flask Cannon",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "ars_nouveau",
+  "obtain": [
+   "recipe:ars_nouveau:enchanting_apparatus"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "ars_nouveau:splash_flask_cannon",
+  "name": "Splash Flask Cannon",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "ars_nouveau",
+  "obtain": [
+   "recipe:ars_nouveau:enchanting_apparatus"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "biomancy:despoil_sickle",
+  "name": "Flesh Plunderer",
+  "kind": "melee",
+  "slot": null,
+  "mod": "biomancy",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name",
+   "tag:forge:tools/swords",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "biomeswevegone:cooked_white_puffball_cap",
+  "name": "Cooked White Puffball Cap",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "biomeswevegone",
+  "obtain": [
+   "recipe:minecraft:smelting"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "biomeswevegone:music_disc_pixie_club",
+  "name": "Music Disc",
+  "kind": "melee",
+  "slot": null,
+  "mod": "biomeswevegone",
+  "obtain": [
+   "loot:biomeswevegone:chests/village/forgotten/cartographer(+2)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "biomeswevegone:white_puffball_cap",
+  "name": "White Puffball Cap",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "biomeswevegone",
+  "obtain": [
+   "loot:biomeswevegone:blocks/white_puffball(+1)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "block_factorys_bosses:dragon_skull",
+  "name": "block_factorys_bosses:dragon_skull",
+  "kind": "armor",
+  "slot": null,
+  "mod": "block_factorys_bosses",
+  "obtain": [
+   "loot:block_factorys_bosses:blocks/dragon_skull(+1)"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "attributesetter:armor",
+   "tag:minecraft:head_armor"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "bloodmagic:amethystthrowingdagger",
+  "name": "Amethyst Throwing Dagger",
+  "kind": "melee",
+  "slot": null,
+  "mod": "bloodmagic",
+  "obtain": [
+   "recipe:bloodmagic:soulforge"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "bloodmagic:daggerofsacrifice",
+  "name": "Dagger of Sacrifice",
+  "kind": "melee",
+  "slot": null,
+  "mod": "bloodmagic",
+  "obtain": [
+   "recipe:bloodmagic:altar"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "bloodmagic:sacrificialdagger",
+  "name": "Sacrificial Knife",
+  "kind": "melee",
+  "slot": null,
+  "mod": "bloodmagic",
+  "obtain": [
+   "recipe:kubejs:shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "bloodmagic:soulscythe",
+  "name": "Sentient Scythe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "bloodmagic",
+  "obtain": [
+   "recipe:bloodmagic:soulforge",
+   "loot:bloodmagic:chests/standard_dungeon/enchanting_loot"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name",
+   "tag:forge:tools/scythes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "bloodmagic:throwing_dagger",
+  "name": "Iron Throwing Dagger",
+  "kind": "melee",
+  "slot": null,
+  "mod": "bloodmagic",
+  "obtain": [
+   "recipe:bloodmagic:soulforge"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "bloodmagic:throwing_dagger_syringe",
+  "name": "Syringe Throwing Dagger",
+  "kind": "melee",
+  "slot": null,
+  "mod": "bloodmagic",
+  "obtain": [
+   "recipe:bloodmagic:soulforge"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "bloodmagic:tippedamethystthrowingdagger",
+  "name": "Tipped Amethyst Throwing Dagger",
+  "kind": "melee",
+  "slot": null,
+  "mod": "bloodmagic",
+  "obtain": [
+   "recipe:bloodmagic:arc_potion"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "born_in_chaos_v1:bonescaller_staff",
+  "name": "\u00a76Bonescaller Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "born_in_chaos_v1",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "brutality:absolute_zero",
+  "name": "Absolute Zero",
+  "kind": "melee",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:beach_ball",
+  "name": "Beach Ball",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:blast_barrel",
+  "name": "Blast Barrel",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:bouncy_dynamite",
+  "name": "Bouncy Dynamite",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shapeless"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:cavendish",
+  "name": "Cavendish",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:cinder_block",
+  "name": "Cinder Block",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shapeless"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:crimson_delight",
+  "name": "Crimson Delight",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:deck_of_fate",
+  "name": "Deck Of Fate",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:dynamite",
+  "name": "Dynamite",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:golden_phoenix",
+  "name": "Golden Phoenix",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:holy_hand_grenade",
+  "name": "Holy Hand Grenade",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:ice_cube",
+  "name": "Ice Cube",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:overclocked_toaster",
+  "name": "Overclocked Toaster",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:perfume_bottle",
+  "name": "Perfume Bottle",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:permafrost_cube",
+  "name": "Permafrost Cube",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:sticky_bomb",
+  "name": "Sticky Bomb",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:sticky_dynamite",
+  "name": "Sticky Dynamite",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shapeless"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "brutality:winter_melon",
+  "name": "Winter Melon",
+  "kind": "thrown",
+  "slot": null,
+  "mod": "brutality",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:astrape",
+  "name": "Astrape",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:ceraunus",
+  "name": "Ceraunus",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:gauntlet_of_bulwark",
+  "name": "Gauntlet of Bulwark",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "recipe:cataclysm:weapon_fusion"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:gauntlet_of_guard",
+  "name": "Gauntlet of Guard",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "loot:cataclysm:entities/ender_guardian"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:gauntlet_of_maelstrom",
+  "name": "Gauntlet of Maelstrom",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "recipe:cataclysm:weapon_fusion"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:infernal_forge",
+  "name": "Infernal Forge",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "loot:cataclysm:entities/netherite_monstrosity"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:meat_shredder",
+  "name": "Meat Shredder",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "tag:forge:tools/axe"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "cataclysm:soul_render",
+  "name": "Soul Render",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:tools/axe"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:the_annihilator",
+  "name": "The Annihilator",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:the_immolator",
+  "name": "The Immolator",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "recipe:cataclysm:weapon_fusion"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:the_incinerator",
+  "name": "The Incinerator",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:tools/swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:tidal_claws",
+  "name": "Tidal Claws",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "loot:cataclysm:entities/the_leviathan"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cataclysm:void_forge",
+  "name": "Void Forge",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cataclysm",
+  "obtain": [
+   "recipe:cataclysm:weapon_fusion"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "celestial_core:guardian_ocean_axe",
+  "name": "Guardian Ocean Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "celestial_core",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "celestial_core:guardian_ocean_sword",
+  "name": "Guardian Ocean Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "celestial_core",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "celestial_core:sakura_axe",
+  "name": "Sakura Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "celestial_core",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "celestial_core:sakura_sword",
+  "name": "Sakura Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "celestial_core",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "celestial_core:virtual_gold_axe",
+  "name": "Virtual Gold Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "celestial_core",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "celestial_core:virtual_gold_sword",
+  "name": "Virtual Gold Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "celestial_core",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "cnb:cactem_spear",
+  "name": "Cactem Spear",
+  "kind": "melee",
+  "slot": null,
+  "mod": "cnb",
+  "obtain": [
+   "loot:cnb:entities/cactem"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "composite_material:etherite_wand",
+  "name": "Etherite Sublime Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "composite_material",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "deeperdarker:sonorous_staff",
+  "name": "Sonorous Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "deeperdarker",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "dodosmobs:amalgam_claws",
+  "name": "Amalgam Claws",
+  "kind": "melee",
+  "slot": null,
+  "mod": "dodosmobs",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "dungeonnowloading:scepter_of_sealed_chaos",
+  "name": "Scepter of Sealed Chaos",
+  "kind": "melee",
+  "slot": null,
+  "mod": "dungeonnowloading",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "dungeonnowloading:spawner_blade",
+  "name": "Spawner Blade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "dungeonnowloading",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:dungeonnowloading:chests/labyrinth/rewards/materials(+1)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "enigmaticaddons:extradimensional_scepter",
+  "name": "Scepter of Extradimension",
+  "kind": "magic",
+  "slot": null,
+  "mod": "enigmaticaddons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "enigmaticaddons:ichor_spear",
+  "name": "Ichor Spear",
+  "kind": "melee",
+  "slot": null,
+  "mod": "enigmaticaddons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "enigmaticaddons:quartz_scepter",
+  "name": "Magic Quartz Scepter",
+  "kind": "magic",
+  "slot": null,
+  "mod": "enigmaticaddons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "enigmaticaddons:void_tome",
+  "name": "Tome of Void",
+  "kind": "magic",
+  "slot": null,
+  "mod": "enigmaticaddons",
+  "obtain": [
+   "recipe:kubejs:shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "enigmaticlegacy:the_infinitum",
+  "name": "The Infinitum",
+  "kind": "melee",
+  "slot": null,
+  "mod": "enigmaticlegacy",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "experienceobelisk:attunement_staff",
+  "name": "Staff of Attunement",
+  "kind": "magic",
+  "slot": null,
+  "mod": "experienceobelisk",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:abyss_staff",
+  "name": "Abyss Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:blazing_helm",
+  "name": "Blazing Helm",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "goety",
+  "obtain": [
+   "loot:goetyhostility:entities/wildfire"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:dark_wand",
+  "name": "Dark Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:frost_staff",
+  "name": "Frost Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:geo_staff",
+  "name": "Geo Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:infernal_tome",
+  "name": "Infernal Tome",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual",
+   "loot:goety:entities/heretic(+2)"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:nameless_staff",
+  "name": "Nameless Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:necro_staff",
+  "name": "Necro Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:nether_staff",
+  "name": "Nether Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:ominous_staff",
+  "name": "Ominous Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:philosophers_mace",
+  "name": "Philosopher's Mace",
+  "kind": "melee",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:storm_staff",
+  "name": "Storm Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:void_staff",
+  "name": "Void Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:wild_staff",
+  "name": "Wild Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety:wind_staff",
+  "name": "Wind Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goety",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety_revelation:apollyon_robe",
+  "name": "Apollyon Robe",
+  "kind": "armor",
+  "slot": "CHESTPLATE",
+  "mod": "goety_revelation",
+  "obtain": [
+   "recipe:goety:cursed_infuser_recipes"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "goety_revelation:bow_of_revelation",
+  "name": "Apocalyptic Longbow",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "goety_revelation",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 9,
+  "evidence": [
+   "tag:forge:tools/bows"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "goety_revelation:eerie_axe",
+  "name": "Eerie Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "goety_revelation",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:forge:tools/axes",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "goety_revelation:ender_keeper_sword",
+  "name": "Ender Keeper(WIP)",
+  "kind": "melee",
+  "slot": null,
+  "mod": "goety_revelation",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "goety_revelation:gungnir",
+  "name": "Gungnir",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "goety_revelation",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:tools/tridents"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "goety_revelation:spectre_whip",
+  "name": "Spectre Whip",
+  "kind": "melee",
+  "slot": null,
+  "mod": "goety_revelation",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:forge:tools/scythe"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "goety_revelation:valettein",
+  "name": "Valettein",
+  "kind": "melee",
+  "slot": null,
+  "mod": "goety_revelation",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:tools/swords",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "goety_revelation:venomous_spider_whip",
+  "name": "Venomous Spider Whip",
+  "kind": "melee",
+  "slot": null,
+  "mod": "goety_revelation",
+  "obtain": [
+   "recipe:goety:ritual"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:forge:tools/scythe"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "goetydelight:sugar_scepter",
+  "name": "Sugar scepter",
+  "kind": "magic",
+  "slot": null,
+  "mod": "goetydelight",
+  "obtain": [
+   "recipe:farmersdelight:cooking"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "immersive_aircraft:heavy_crossbow",
+  "name": "Heavy Crossbow",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "immersive_aircraft",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name",
+   "tag:immersive_aircraft:weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "immersive_aircraft:rotary_cannon",
+  "name": "Rotary Cannon",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "immersive_aircraft",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name",
+   "tag:immersive_aircraft:weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "immersiveengineering:bannerpattern_hammer",
+  "name": "Banner Pattern",
+  "kind": "melee",
+  "slot": null,
+  "mod": "immersiveengineering",
+  "obtain": [
+   "recipe:immersiveengineering:blueprint"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "immersiveengineering:gunpart_hammer",
+  "name": "Revolver Hammer",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "immersiveengineering",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:immersiveengineering:entities/commando"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "immersiveengineering:windmill_blade",
+  "name": "Windmill Blade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "immersiveengineering",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "industrialforegoing:infinity_trident",
+  "name": "Infinity Trident",
+  "kind": "melee",
+  "slot": null,
+  "mod": "industrialforegoing",
+  "obtain": [
+   "recipe:industrialforegoing:dissolution_chamber"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "irons_spellbooks:blood_staff",
+  "name": "The Blood Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "irons_spellbooks",
+  "obtain": [
+   "loot:irons_spellbooks:entities/dead_king(+1)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "irons_spellbooks:graybeard_staff",
+  "name": "Graybeard Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "irons_spellbooks",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "irons_spellbooks:ice_staff",
+  "name": "Ice Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "irons_spellbooks",
+  "obtain": [
+   "recipe:minecraft:crafting_shapeless"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "justdirethings:blazejet_wand",
+  "name": "Blazejet Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "justdirethings",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "justdirethings:eclipsegate_wand",
+  "name": "Eclipsegate Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "justdirethings",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "justdirethings:polymorphic_wand",
+  "name": "Polymorphic Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "justdirethings",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "justdirethings:portal_gun",
+  "name": "Portal Gun",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "justdirethings",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "justdirethings:time_wand",
+  "name": "Time Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "justdirethings",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "justdirethings:upgrade_hammer",
+  "name": "Upgrade: Hammer",
+  "kind": "melee",
+  "slot": null,
+  "mod": "justdirethings",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "justdirethings:voidshift_wand",
+  "name": "Voidshift Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "justdirethings",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "l2complements:diffusion_wand",
+  "name": "Diffusion Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "l2complements:eternium_axe",
+  "name": "Eternium Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "l2complements:eternium_sword",
+  "name": "Eternium Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "l2complements:hellfire_wand",
+  "name": "Hellfire Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "l2complements:poseidite_axe",
+  "name": "Poseidite Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "l2complements:poseidite_sword",
+  "name": "Poseidite Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "l2complements:scepter_of_boreas",
+  "name": "Scepter of Boreas",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "l2complements:scepter_of_helios",
+  "name": "Scepter of Helios",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "l2complements:sculkium_axe",
+  "name": "Sculkium Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "l2complements:sculkium_sword",
+  "name": "Sculkium Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "l2complements:shulkerate_axe",
+  "name": "Shulkerate Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "l2complements:shulkerate_sword",
+  "name": "Shulkerate Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "l2complements:totemic_gold_axe",
+  "name": "Totemic Gold Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "l2complements:totemic_gold_sword",
+  "name": "Totemic Gold Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "l2complements:winterstorm_wand",
+  "name": "Winterstorm Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "l2complements",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "l2hostility:witch_wand",
+  "name": "Witch Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "l2hostility",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "legendary_monsters:knights_sword_blade_half",
+  "name": "Knight's Sword Blade Half",
+  "kind": "melee",
+  "slot": null,
+  "mod": "legendary_monsters",
+  "obtain": [
+   "loot:legendary_monsters:entities/haunted_knight"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "legendary_monsters:mossy_hammer",
+  "name": "Mossy Hammer",
+  "kind": "melee",
+  "slot": null,
+  "mod": "legendary_monsters",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "legendary_monsters:somber_key_blade",
+  "name": "Somber Key Blade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "legendary_monsters",
+  "obtain": [
+   "loot:legendary_monsters:entities/beheaded_knight"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "legendary_monsters:withered_scythe",
+  "name": "Withered Scythe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "legendary_monsters",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "linggango_tweaks:luminosity_wand",
+  "name": "Luminosity Wand",
+  "kind": "magic",
+  "slot": null,
+  "mod": "linggango_tweaks",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "linggango_tweaks:rebirth_tome",
+  "name": "Tome of Rebirth",
+  "kind": "magic",
+  "slot": null,
+  "mod": "linggango_tweaks",
+  "obtain": [
+   "recipe:minecraft:crafting_shapeless"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "linggango_tweaks:swampbuster",
+  "name": "River-Prawn Greatclaw",
+  "kind": "melee",
+  "slot": null,
+  "mod": "linggango_tweaks",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "macabre:bonedagger",
+  "name": "Bone Dagger",
+  "kind": "melee",
+  "slot": null,
+  "mod": "macabre",
+  "obtain": [
+   "loot:macabre:blocks/dun_loot"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "macabre:chanisword",
+  "name": "\u00a7dStiff Chainsword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "macabre",
+  "obtain": [
+   "recipe:minecraft:crafting_shapeless"
+  ],
+  "act_guess": 11,
+  "evidence": [
+   "attributesetter",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "macabre:true_gorescythe",
+  "name": "\u00a7cSoaked Gorescythe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "macabre",
+  "obtain": [
+   "recipe:minecraft:crafting_shapeless"
+  ],
+  "act_guess": 11,
+  "evidence": [
+   "attributesetter",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "macabre:tumor_crown",
+  "name": "\u00a7fTumor Crown",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "macabre",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "mahoutsukai:dagger",
+  "name": "Dagger",
+  "kind": "melee",
+  "slot": null,
+  "mod": "mahoutsukai",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:DaggerItem/melee",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "mahoutsukai:hammer",
+  "name": "Hammer",
+  "kind": "melee",
+  "slot": null,
+  "mod": "mahoutsukai",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:HammerItem/tiered"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "mcwroofs:roofing_hammer",
+  "name": "Roofing Hammer",
+  "kind": "melee",
+  "slot": null,
+  "mod": "mcwroofs",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "meetyourfight:cocktail_shotgun",
+  "name": "J\u00e4gershot",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "meetyourfight",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "meetyourfight:dredged_cannonade",
+  "name": "Dredged Cannonade",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "meetyourfight",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "meetyourfight:phantasmal_rifle",
+  "name": "Phantasmal Rifle",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "meetyourfight",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "mekanism:atomic_disassembler",
+  "name": "Atomic Disassembler",
+  "kind": "melee",
+  "slot": null,
+  "mod": "mekanism",
+  "obtain": [
+   "recipe:mekanism:mek_data"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "mekanism:meka_tool",
+  "name": "Meka-Tool",
+  "kind": "melee",
+  "slot": null,
+  "mod": "mekanism",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 11,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "mekanismgenerators:turbine_blade",
+  "name": "Turbine Blade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "mekanismgenerators",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "mekaweapons:katana_blade",
+  "name": "Katana Blade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "mekaweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "mekaweapons:meka_gun",
+  "name": "Meka-Gun",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "mekaweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "mekaweapons:mekatana",
+  "name": "Meka-Tana",
+  "kind": "melee",
+  "slot": null,
+  "mod": "mekaweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:bow",
+  "name": "minecraft:bow",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "loot:ati_structures:chests/archer_chest(+42)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "tag:forge:bows"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "minecraft:chainmail_boots",
+  "name": "minecraft:chainmail_boots",
+  "kind": "armor",
+  "slot": "BOOTS",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:artifacts:chests/campsite_chest(+22)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armors",
+   "tag:forge:armors/boots"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:chainmail_chestplate",
+  "name": "minecraft:chainmail_chestplate",
+  "kind": "armor",
+  "slot": "CHESTPLATE",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:artifacts:chests/campsite_chest(+33)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armors",
+   "tag:forge:armors/chestplates"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:chainmail_helmet",
+  "name": "minecraft:chainmail_helmet",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:artifacts:chests/campsite_chest(+21)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armors",
+   "tag:forge:armors/helmets"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:chainmail_leggings",
+  "name": "minecraft:chainmail_leggings",
+  "kind": "armor",
+  "slot": "LEGGINGS",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:artifacts:chests/campsite_chest(+12)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armors",
+   "tag:forge:armors/leggings"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:crossbow",
+  "name": "minecraft:crossbow",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:mekanism:nucleosynthesizing",
+   "loot:ati_structures:chests/archer_chest(+82)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "tag:forge:crossbows"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "minecraft:diamond_axe",
+  "name": "minecraft:diamond_axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:artifacts:chests/campsite_chest(+34)"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:axes",
+   "tag:forge:tools/axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:diamond_boots",
+  "name": "minecraft:diamond_boots",
+  "kind": "armor",
+  "slot": "BOOTS",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:ati_structures:chests/archer_chest(+69)"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/diamond",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:diamond_chestplate",
+  "name": "minecraft:diamond_chestplate",
+  "kind": "armor",
+  "slot": "CHESTPLATE",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:ati_structures:chests/archer_chest(+78)"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/diamond",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:diamond_helmet",
+  "name": "minecraft:diamond_helmet",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:ati_structures:chests/archer_chest(+81)"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/diamond",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:diamond_leggings",
+  "name": "minecraft:diamond_leggings",
+  "kind": "armor",
+  "slot": "LEGGINGS",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:ati_structures:chests/archer_chest(+61)"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/diamond",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:diamond_sword",
+  "name": "minecraft:diamond_sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:ati_structures:chests/archer_chest(+74)"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:golden_axe",
+  "name": "minecraft:golden_axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:artifacts:chests/campsite_chest(+24)"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:axes",
+   "tag:forge:tools/axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:golden_boots",
+  "name": "minecraft:golden_boots",
+  "kind": "armor",
+  "slot": "BOOTS",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:ati_structures:chests/archer_chest(+31)"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/gold",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:golden_chestplate",
+  "name": "minecraft:golden_chestplate",
+  "kind": "armor",
+  "slot": "CHESTPLATE",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:ati_structures:chests/archer_chest(+41)"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/gold",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:golden_helmet",
+  "name": "minecraft:golden_helmet",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:ati_structures:chests/armory(+35)"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/gold",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:golden_leggings",
+  "name": "minecraft:golden_leggings",
+  "kind": "armor",
+  "slot": "LEGGINGS",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:ati_structures:chests/archer_chest(+31)"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/gold",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:golden_sword",
+  "name": "minecraft:golden_sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:ati_structures:chests/armory(+36)"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:iron_axe",
+  "name": "minecraft:iron_axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:artifacts:chests/campsite_chest(+78)"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:axes",
+   "tag:forge:tools/axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:iron_boots",
+  "name": "minecraft:iron_boots",
+  "kind": "armor",
+  "slot": "BOOTS",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:alexscaves:chests/magnetic_ruins(+98)"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "attributesetter",
+   "attributesetter:armor",
+   "tag:forge:armor",
+   "tag:forge:armor/iron"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:iron_chestplate",
+  "name": "minecraft:iron_chestplate",
+  "kind": "armor",
+  "slot": "CHESTPLATE",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:artifacts:chests/campsite_chest(+96)"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/iron",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:iron_helmet",
+  "name": "minecraft:iron_helmet",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:alexscaves:chests/underground_cabin(+95)"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "attributesetter",
+   "attributesetter:armor",
+   "tag:forge:armor",
+   "tag:forge:armor/iron"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:iron_leggings",
+  "name": "minecraft:iron_leggings",
+  "kind": "armor",
+  "slot": "LEGGINGS",
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:artifacts:chests/campsite_chest(+91)"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/iron",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:iron_sword",
+  "name": "minecraft:iron_sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:ati_structures:chests/archer_chest2(+114)"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:leather_boots",
+  "name": "minecraft:leather_boots",
+  "kind": "armor",
+  "slot": "BOOTS",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:alexscaves:gameplay/deep_one_knight_barter(+25)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armors",
+   "tag:forge:armors/boots"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:leather_chestplate",
+  "name": "minecraft:leather_chestplate",
+  "kind": "armor",
+  "slot": "CHESTPLATE",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:ati_structures:chests/archer_chest2(+26)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armors",
+   "tag:forge:armors/chestplates"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:leather_helmet",
+  "name": "minecraft:leather_helmet",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:alexscaves:gameplay/deep_one_knight_barter(+36)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armors",
+   "tag:forge:armors/helmets"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:leather_leggings",
+  "name": "minecraft:leather_leggings",
+  "kind": "armor",
+  "slot": "LEGGINGS",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:ati_structures:chests/armory(+20)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armors",
+   "tag:forge:armors/leggings"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:netherite_axe",
+  "name": "minecraft:netherite_axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:bloodmagic:chests/mines/decent_loot(+3)"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:axes",
+   "tag:forge:tools/axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:netherite_boots",
+  "name": "minecraft:netherite_boots",
+  "kind": "armor",
+  "slot": "BOOTS",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:bloodmagic:chests/mines/decent_loot(+3)"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/netherite",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:netherite_chestplate",
+  "name": "minecraft:netherite_chestplate",
+  "kind": "armor",
+  "slot": "CHESTPLATE",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:bloodmagic:chests/mines/decent_loot(+3)"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/netherite",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:netherite_helmet",
+  "name": "minecraft:netherite_helmet",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:bloodmagic:chests/mines/decent_loot(+3)"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/netherite",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:netherite_leggings",
+  "name": "minecraft:netherite_leggings",
+  "kind": "armor",
+  "slot": "LEGGINGS",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:bloodmagic:chests/mines/decent_loot(+3)"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armor",
+   "tag:forge:armor/netherite",
+   "tag:forge:armors"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:netherite_sword",
+  "name": "minecraft:netherite_sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:bloodmagic:chests/mines/decent_loot(+10)"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:stone_axe",
+  "name": "minecraft:stone_axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:betterdungeons:zombie_dungeon/chests/common(+5)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:axes",
+   "tag:forge:tools/axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:stone_sword",
+  "name": "minecraft:stone_sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:ati_structures:chests/archer_chest2(+15)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:trident",
+  "name": "minecraft:trident",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:alexscaves:gameplay/deep_one_knight_barter(+12)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:turtle_helmet",
+  "name": "minecraft:turtle_helmet",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "minecraft",
+  "obtain": [
+   "loot:ati_structures:chests/armory(+4)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "tag:forge:armor",
+   "tag:forge:armors",
+   "tag:forge:armors/helmets",
+   "tag:forge:head_armor"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "minecraft:wooden_axe",
+  "name": "minecraft:wooden_axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:crafting_shapeless",
+   "loot:ati_structures:chests/copper_storage(+2)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:axes",
+   "tag:forge:tools/axes"
+  ],
+  "hidden_in_jei": true,
+  "confidence": "high"
+ },
+ {
+  "id": "minecraft:wooden_sword",
+  "name": "minecraft:wooden_sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "minecraft",
+  "obtain": [
+   "recipe:minecraft:crafting_shapeless",
+   "loot:ati_structures:chests/armory(+9)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:swords"
+  ],
+  "hidden_in_jei": true,
+  "confidence": "high"
+ },
+ {
+  "id": "mutantmonsters:mutant_skeleton_skull",
+  "name": "Mutant Skeleton Skull",
+  "kind": "armor",
+  "slot": null,
+  "mod": "mutantmonsters",
+  "obtain": [
+   "loot:mutantmonsters:blocks/mutant_skeleton_skull(+1)"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armors/helmets"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "mysticalagriculture:hostile_soulium_dagger",
+  "name": "mysticalagriculture:hostile_soulium_dagger",
+  "kind": "melee",
+  "slot": null,
+  "mod": "mysticalagriculture",
+  "obtain": [
+   "recipe:mysticalagriculture:infusion"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "tag:forge:tools/swords",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "mysticalagriculture:passive_soulium_dagger",
+  "name": "mysticalagriculture:passive_soulium_dagger",
+  "kind": "melee",
+  "slot": null,
+  "mod": "mysticalagriculture",
+  "obtain": [
+   "recipe:mysticalagriculture:infusion"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "tag:forge:tools/swords",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "mysticalagriculture:soulium_dagger",
+  "name": "Soulium Dagger",
+  "kind": "melee",
+  "slot": null,
+  "mod": "mysticalagriculture",
+  "obtain": [
+   "recipe:cucumber:shaped_transfer_damage"
+  ],
+  "act_guess": 3,
+  "evidence": [
+   "class:SouliumDaggerItem/melee",
+   "name",
+   "tag:forge:tools/swords",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:depth_axe",
+  "name": "Soulstrider's Handaxe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:depth_chest",
+  "name": "Soulstrider's Chestplate",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:depth_shoes",
+  "name": "Soulstrider's Shoes",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:depth_sword",
+  "name": "Soulstrider's Blade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:infused_iron_axe",
+  "name": "Botanist's Handaxe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:infused_iron_chest",
+  "name": "Botanist's Chestplate",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:infused_iron_shoes",
+  "name": "Botanist's Shoes",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:infused_iron_sword",
+  "name": "Botanist's Blade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:light_staff",
+  "name": "Staff of Baldur",
+  "kind": "magic",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "naturesaura:sky_axe",
+  "name": "Skyseeker's Handaxe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:axes"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:sky_chest",
+  "name": "Skyseeker's Chestplate",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:sky_shoes",
+  "name": "Skyseeker's Shoes",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "naturesaura:sky_sword",
+  "name": "Skyseeker's Blade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "naturesaura",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "netherexp:pump_charge_shotgun",
+  "name": "Pump-Charge Shotgun",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "netherexp",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:PumpChargeShotgunItem/ranged",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "netherexp:sanctum_compass",
+  "name": "Sanctum Locator Compass",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "netherexp",
+  "obtain": [
+   "loot:netherexp:chests/chapel"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:SanctumCompassItem/ranged"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "netherexp:shotgun_core",
+  "name": "Shotgun Core",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "netherexp",
+  "obtain": [
+   "loot:netherexp:brazier_chest/exposed(+1)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "netherexp:shotgun_fist",
+  "name": "Shotgun-Fist",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "netherexp",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:ShotgunFistItem/ranged",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "quark:forgotten_hat",
+  "name": "Forgotten Hat",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "quark",
+  "obtain": [
+   "loot:dungeons_arise:chests/bandit_towers/bandit_towers_barrels(+4)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "attributesetter",
+   "class:ForgottenHatItem/armor",
+   "tag:forge:armors/helmets"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "quark:hammer",
+  "name": "Hammer",
+  "kind": "melee",
+  "slot": null,
+  "mod": "quark",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:HammerItem/tiered"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "refined_mod:flame_tongue_sword",
+  "name": "FlameTongue",
+  "kind": "melee",
+  "slot": null,
+  "mod": "refined_mod",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:FlameTongueSword/melee",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "refined_mod:hunters_bow",
+  "name": "Hunters Bow",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "refined_mod",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:HuntersBow/ranged",
+   "class:HuntersBowItem/ranged",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "refined_mod:summer_rain_sword",
+  "name": "Summerrain",
+  "kind": "melee",
+  "slot": null,
+  "mod": "refined_mod",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:SummerRainSword/melee",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "saintsdragons:blood_tempest_katana",
+  "name": "Blood Tempest Katana",
+  "kind": "melee",
+  "slot": null,
+  "mod": "saintsdragons",
+  "obtain": [
+   "recipe:saintsdragons:draconic_crucible"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "name",
+   "tag:forge:tools/swords",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "saintsdragons:dragonlord_sword",
+  "name": "Dragonlord Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "saintsdragons",
+  "obtain": [
+   "recipe:saintsdragons:draconic_crucible"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "name",
+   "tag:forge:tools/swords",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:arkenplate",
+  "name": "Arkenplate",
+  "kind": "armor",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:Arkenplate/armor",
+   "tag:forge:armors/chestplates",
+   "tag:forge:chest_armor"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:bloodlust",
+  "name": "Bloodlust",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "class:Bloodlust/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:bloodthirster",
+  "name": "Bloodthirster",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:Bloodthirster/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:bluemoon_greatsword",
+  "name": "Bluemoon Greatsword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:BluemoonGreatsword/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:bluemoon_shortsword",
+  "name": "Bluemoon Shortsword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "class:BluemoonShortsword/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:chaos_robes",
+  "name": "Cape of Chaos",
+  "kind": "armor",
+  "slot": "CHESTPLATE",
+  "mod": "soulsweapons",
+  "obtain": [
+   "loot:soulsweapons:entities/chaos_monarch"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:ChaosRobes/armor",
+   "name",
+   "tag:forge:armors/chestplates"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:comet_spear",
+  "name": "Comet Spear",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "class:CometSpear/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:crucible_sword",
+  "name": "Crucible Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 10,
+  "evidence": [
+   "attributesetter",
+   "class:CrucibleSword/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:dark_moon_greatsword",
+  "name": "Dark Moon Greatsword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 10,
+  "evidence": [
+   "attributesetter",
+   "class:DarkMoonGreatsword/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:darkin_blade",
+  "name": "The Darkin Blade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:soulsweapons:entities/accursed_lord_boss"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:DarkinBlade/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:darkin_scythe_pre",
+  "name": "The Darkin Scythe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:DarkinScythePre/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:dawnbreaker",
+  "name": "Dawnbreaker",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:soulsweapons:entities/day_stalker"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "class:Dawnbreaker/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:dragonbane",
+  "name": "Dragonbane",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "class:Dragonbane/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:dragonslayer_swordspear",
+  "name": "Dragonslayer Swordspear",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:DragonslayerSwordspear/melee",
+   "name",
+   "tag:arsenal:tridents"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:draugr",
+  "name": "Draugr",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:soulsweapons:entities/draugr_boss"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "class:Draugr/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:draupnir_spear",
+  "name": "Draupnir Spear",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:DraupnirSpear/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:empowered_dawnbreaker",
+  "name": "Genesis Fracture",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:EmpoweredDawnbreaker/melee",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:enhanced_arkenplate",
+  "name": "Infused Arkenplate",
+  "kind": "armor",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:EnhancedArkenplate/armor",
+   "tag:forge:armors/chestplates",
+   "tag:forge:chest_armor"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:enhanced_withered_chest",
+  "name": "Infused Hallowheart",
+  "kind": "armor",
+  "slot": "CHESTPLATE",
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armors/chestplates",
+   "tag:forge:chest_armor"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:excalibur",
+  "name": "Excalibur",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:Excalibur/melee",
+   "class:ExcaliburItem/melee",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:featherlight",
+  "name": "Featherlight",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "class:Featherlight/melee",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:forlorn_scythe",
+  "name": "Scythe of the Forlorn",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:soulsweapons:entities/night_prowler"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:ForlornScythe/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:freyr_sword",
+  "name": "Sword of Freyr",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 5,
+  "evidence": [
+   "attributesetter",
+   "class:FreyrSword/melee",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:frostmourne",
+  "name": "Frostmourne",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:Frostmourne/melee",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:galeforce",
+  "name": "Galeforce",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "tag:arsenal:ranged_weapons",
+   "tag:forge:tools/bows"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "soulsweapons:glaive_of_hodir",
+  "name": "Glaive of Hodir",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "class:GlaiveOfHodir/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:guts_sword",
+  "name": "Heap of Raw Iron",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:holy_greatsword",
+  "name": "Ludwig's Holy Blade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:holy_moonlight_sword",
+  "name": "Holy Moonlight Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 10,
+  "evidence": [
+   "attributesetter",
+   "class:HolyMoonlightSword/melee",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:kirkhammer",
+  "name": "Kirkhammer",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 2,
+  "evidence": [
+   "attributesetter",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:kraken_slayer",
+  "name": "Kraken Slayer Spear Bow",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "tag:arsenal:ranged_weapons",
+   "tag:forge:tools/bows"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "soulsweapons:leviathan_axe",
+  "name": "Leviathan Axe",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:LeviathanAxe/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:lich_bane",
+  "name": "Lich Bane",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:LichBane/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:master_sword",
+  "name": "Master Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:MasterSword/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:mehrunes_razor",
+  "name": "Mehrunes' Razor",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "class:MehrunesRazor/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:mjolnir",
+  "name": "Mj\u00f6lnir",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:Mjolnir/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:moonlight_greatsword",
+  "name": "Moonlight Greatsword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform",
+   "loot:soulsweapons:entities/moonknight"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:MoonlightGreatsword/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:moonlight_shortsword",
+  "name": "Moonlight Shortsword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:MoonlightShortsword/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:moonveil",
+  "name": "Moonveil",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "class:Moonveil/melee",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:nightfall",
+  "name": "Nightfall",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:soulsweapons:entities/returning_knight"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:Nightfall/melee",
+   "class:NightfallItem/melee",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:nightlords_sword",
+  "name": "Sword of the Nightlord",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:NightlordsSword/melee",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:nights_edge_item",
+  "name": "Night's Edge",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:NightsEdgeItem/melee",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:pure_moonlight_greatsword",
+  "name": "Pure Moonlight Greatsword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 10,
+  "evidence": [
+   "attributesetter",
+   "class:PureMoonlightGreatsword/melee",
+   "name",
+   "tag:arsenal:big_weapons"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:rageblade",
+  "name": "Guinsoo's Rageblade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:RagebladeItem/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:simons_bowblade",
+  "name": "Simon's Bowblade",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "tag:arsenal:ranged_weapons",
+   "tag:forge:tools/bows"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "tag-only"
+ },
+ {
+  "id": "soulsweapons:skofnung",
+  "name": "Skofnung",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:smithing_transform"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:Skofnung/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:soul_reaper",
+  "name": "Soul Reaper",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:soulsweapons:entities/night_prowler"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "class:SoulReaper/melee",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:sting",
+  "name": "Sting",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "class:Sting/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:supernova",
+  "name": "Supernova",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter",
+   "class:Supernova/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:tonitrus",
+  "name": "Tonitrus",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "class:Tonitrus/melee",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:translucent_double_greatsword",
+  "name": "Translucent Double-Edged Greatsword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:translucent_glaive",
+  "name": "Translucent Glaive",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:translucent_sword",
+  "name": "Translucent Sword",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "name",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:whirligig_sawblade",
+  "name": "Whirligig Sawblade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 4,
+  "evidence": [
+   "attributesetter",
+   "class:WhirligigSawblade/melee",
+   "tag:arsenal:tridents",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:withered_chest",
+  "name": "Hallowheart",
+  "kind": "armor",
+  "slot": "CHESTPLATE",
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 8,
+  "evidence": [
+   "attributesetter",
+   "tag:forge:armors/chestplates",
+   "tag:forge:chest_armor"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "soulsweapons:withered_wabbajack",
+  "name": "Withered Wabbajack",
+  "kind": "melee",
+  "slot": null,
+  "mod": "soulsweapons",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:soulsweapons:entities/chaos_monarch"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "class:WitheredWabbajack/melee",
+   "tag:arsenal:big_weapons",
+   "tag:minecraft:swords"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "storagedrawers:balance_fill_upgrade",
+  "name": "Balanced Fill Upgrade",
+  "kind": "melee",
+  "slot": null,
+  "mod": "storagedrawers",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "summonity:carved_mask",
+  "name": "Carved Mask",
+  "kind": "armor",
+  "slot": "HELMET",
+  "mod": "summonity",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "summonity:leather_whip",
+  "name": "Leather Whip",
+  "kind": "melee",
+  "slot": null,
+  "mod": "summonity",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "summonity:slime_staff",
+  "name": "Slime Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "summonity",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "supplementaries:slingshot",
+  "name": "Slingshot",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "supplementaries",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:idas:chests/ancient_statue/ancient_statue_treasure_jungle(+20)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:SlingshotItem/ranged"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "terramity:basic_pistol",
+  "name": "Basic Pistol",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "terramity",
+  "obtain": [
+   "recipe:kubejs:shaped",
+   "loot:terramity:blocks/barrel_gun_loot(+1)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "terramity:devastation",
+  "name": "Devastation",
+  "kind": "melee",
+  "slot": null,
+  "mod": "terramity",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 10,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "terramity:flare_gun",
+  "name": "Flare Gun",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "terramity",
+  "obtain": [
+   "recipe:minecraft:crafting_shapeless",
+   "loot:terramity:blocks/barrel_gun_loot(+2)"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "terramity:flintlock_pistol",
+  "name": "Flintlock Pistol",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "terramity",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped",
+   "loot:terramity:blocks/barrel_gun_loot"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "terramity:handcannon",
+  "name": "Handcannon",
+  "kind": "ranged",
+  "slot": null,
+  "mod": "terramity",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "class:HandCannonItem/ranged",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "terramity:hellfire_flurry",
+  "name": "Hellfire Flurry",
+  "kind": "melee",
+  "slot": null,
+  "mod": "terramity",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 7,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "terramity:hellrok_gigaton_hammer",
+  "name": "Hellrok Gigaton Hammer",
+  "kind": "melee",
+  "slot": null,
+  "mod": "terramity",
+  "obtain": [
+   "loot:terramity:entities/hellrok"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter",
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "terramity:lightning_staff",
+  "name": "Lightning Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "terramity",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "terramity:perish_staff",
+  "name": "Perish Staff",
+  "kind": "magic",
+  "slot": null,
+  "mod": "terramity",
+  "obtain": [
+   "loot:terramity:entities/trial_guardian"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "tiered:pyrekings_edict",
+  "name": "Pyreking's Edict",
+  "kind": "melee",
+  "slot": null,
+  "mod": "tiered",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "class:PyrekingsEdictItem/melee"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "weapon:fightersfist",
+  "name": "Fighter's fist",
+  "kind": "melee",
+  "slot": null,
+  "mod": "weapon",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 6,
+  "evidence": [
+   "attributesetter"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "high"
+ },
+ {
+  "id": "weapon:iaikatanas",
+  "name": "Iai Tachi\u30fbSheath",
+  "kind": "melee",
+  "slot": null,
+  "mod": "weapon",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ },
+ {
+  "id": "weapon:swordcanes",
+  "name": "Sword Cane (Offhand)",
+  "kind": "melee",
+  "slot": null,
+  "mod": "weapon",
+  "obtain": [
+   "recipe:minecraft:crafting_shaped"
+  ],
+  "act_guess": 0,
+  "evidence": [
+   "name"
+  ],
+  "hidden_in_jei": false,
+  "confidence": "name-only"
+ }
+]
