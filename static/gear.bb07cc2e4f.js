@@ -1,13 +1,13 @@
 /* ---------- gear: weapons and armor per Act and playstyle, with tier lists ---------- */
 /* GE: weapons and armor pieces, GS: armor sets (built by build/gear/gear_data.py from the pack files) */
 const GROLE={ME:"Melee",RA:"Ranged",MA:"Mage",SU:"Summon",TA:"Tank"};
-const GKIND={melee:"Melee weapon",ranged:"Ranged weapon",magic:"Staff / magic weapon",armor:"Armor"};
+const GKIND={melee:"Melee weapon",ranged:"Ranged weapon",magic:"Staff / magic weapon",summon:"Summon weapon",armor:"Armor"};
 /* tier = score as a share of the best score at that Act: S ≥85%, A ≥70%, B ≥55%, C ≥40%, else D */
 const GTIER_R=[.85,.7,.55,.4,0];
 const GTIER=[["S",.06,"#ff5f6d"],["A",.2,"#ffb347"],["B",.4,"#ffe066"],["C",.65,"#7bd88f"],["D",1.01,"#7aa7ff"]];
 const GSLOT={HELMET:"Head",CHESTPLATE:"Chest",LEGGINGS:"Legs",BOOTS:"Feet"};
 const GATTR={attack_damage:"Attack Damage",attack_speed:"Attack Speed",armor:"Armor",armor_toughness:"Armor Toughness",max_health:"Max Health",
- knockback_resistance:"Knockback Resistance",movement_speed:"Speed",luck:"Luck",critical_strike_chance:"Crit Chance",critical_strike_damage:"Crit Damage",
+ knockback_resistance:"Knockback Resistance",movement_speed:"Speed",luck:"Luck",critical_strike_chance:"Critical Chance",critical_strike_damage:"Critical Damage",
  crit_chance:"Crit Chance",crit_damage:"Crit Damage",lifesteal:"Lifesteal",life_steal:"Life Steal",entity_reach:"Reach",damage_taken:"Damage Taken",
  spell_power:"Spell Power",max_mana:"Max Mana",cooldown_reduction:"Cooldown Reduction",cast_time_reduction:"Cast Time Reduction",summon_damage:"Summon Damage",
  arrow_damage:"Arrow Damage",draw_speed:"Draw Speed",healing_received:"Healing Received",dodge_chance:"Dodge Chance",mining_speed:"Mining Speed",
@@ -15,8 +15,9 @@ const GATTR={attack_damage:"Attack Damage",attack_speed:"Attack Speed",armor:"Ar
 const gAttr=k=>GATTR[k]||k.replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
 const gRound=v=>Math.round(v*100)/100;
 /* "+12% Spell Power" / "+2 Attack Damage", the way the game words AttributeModifier operations */
-const gMod=(k,add,mul)=>{const p=[];const pct=/chance|damage_taken|lifesteal|life_steal|crit_damage|critical_strike_damage|healing|dodge|reduction|shred/.test(k)&&Math.abs(add)<=2;
- if(add)p.push((add>0?"+":"")+(pct?gRound(add*100)+"%":gRound(add))+" "+gAttr(k));
+/* Brutality's critical_strike_* attributes show their raw value in game ("+0.01 Critical Chance"), so they are not turned into percents */
+const gMod=(k,add,mul)=>{const p=[];const pct=/chance|damage_taken|lifesteal|life_steal|crit_damage|healing|dodge|reduction|shred/.test(k)&&!/^critical_strike/.test(k)&&Math.abs(add)<=2;
+ if(add)p.push((add>0?"+":"")+(pct?gRound(add*100)+"%":/^critical_strike/.test(k)?+add.toFixed(2):gRound(add))+" "+gAttr(k));
  if(mul)p.push((mul>0?"+":"")+gRound(mul*100)+"% "+gAttr(k));return p};
 const GBY={};GE.forEach((g,i)=>{g.ix=i;GBY[g.id]=g});GS.forEach((s,i)=>{s.ix=i;s.ps=s.p.map(id=>GBY[id]).filter(Boolean)});
 const gIcon=g=>g.ps?(g.ps.find(p=>p.sl==="CHESTPLATE")||g.ps[0]):g;
@@ -28,8 +29,9 @@ const GEST={};
  for(const k in by){const v=by[k].sort((a,b)=>a-b);GEST[k]=v[Math.floor(v.length*.6)]}
  const all=Object.values(by).flat().sort((a,b)=>a-b),med=all[Math.floor(all.length/2)]||1;
  GE.forEach(g=>{if(g.k==="melee"&&g.sc.ME==null){g.sc.ME=GEST[g.ga]||med;g.est=1}
-  /* ranged / magic: the pack's gate ladder is the power ladder, so later gates rank higher */
-  if(g.k==="ranged"||g.k==="magic"){g.est=1;for(const r in g.sc)g.sc[r]=g.sc[r]*(1+.3*oiA(g.ga||0))}})}
+  /* ranged / magic / summon: their power lives in spells and projectiles the wiki cannot read, so the pack's
+     unlock ladder stands in for it: later Acts rank higher */
+  if(g.k==="ranged"||g.k==="magic"||g.k==="summon"){g.est=1;for(const r in g.sc)g.sc[r]=g.sc[r]*(1+.3*oiA(Math.max(g.ga||0,g.a||0)))}})}
 GS.forEach(s=>{if(!s.kn)s.est=1});
 /* pool for Act a, role r: everything unlocked at or before a */
 function gPool(a,r,w){const ia=oiA(+a);
@@ -77,15 +79,20 @@ function gearPage(h){
  const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};
  seedBg("gear"+a,[]);decorate();
 }
-function gSearch(q,a){const xs=[...GE.filter(g=>g.k!=="armor"),...GS].filter(g=>g.n.toLowerCase().includes(q)||(g.id||g.k||"").includes(q)).slice(0,80);
+function gSearch(q,a){const xs=[...GE.filter(g=>g.k!=="armor"),...GS].filter(g=>g.n.toLowerCase().includes(q)||(g.id||g.k||"").includes(q)||(g.lv||[]).some(x=>x.includes(q))).slice(0,80);
  return `<div class="gtiles gsr">${xs.length?xs.map(g=>gTile(g,a)).join(""):'<p class="note">Nothing matches.</p>'}</div>`}
 /* main role of an item: the one it scores in, preferring the role named by its kind */
 const gMain=g=>{const k=Object.keys(g.sc);return g.ps?(k.filter(x=>x!=="TA").sort((p,q)=>(g.off[q]||0)-(g.off[p]||0))[0]||"TA"):(k[0]||"ME")};
+/* the tooltip's base lines already include flat (+N) armor/damage modifiers from the mod and the pack's rebalance,
+   so they are folded in here and left out of the bonus list: Topaz Leggings read 5 armor, 1 toughness, as in game */
+const GFOLD={armor:["arm","armor"],weapon:["dmg","spd"]};
+const gAdd=(g,k)=>(g.at[k]||[0,0])[0];
 function gStats(g){const rows=[];
- if(g.k==="armor"){if(g.arm!=null)rows.push(["gui_armor","Armor",gRound(g.arm),"code"]);if(g.tough)rows.push(["fx_resistance","Armor Toughness",gRound(g.tough),"code"]);if(g.kbr)rows.push(["","Knockback Resistance",gRound(g.kbr*10)/1,"code"])}
- else{if(g.dmg!=null)rows.push(["fx_strength","Attack Damage",gRound(g.dmg),"code"]);if(g.spd!=null)rows.push(["fx_haste","Attack Speed",gRound(g.spd),"code"])}
+ if(g.k==="armor"){if(g.arm!=null)rows.push(["gui_armor","Armor",gRound(g.arm+gAdd(g,"armor")),"code"]);const t=(g.tough||0)+gAdd(g,"armor_toughness");if(t)rows.push(["fx_resistance","Armor Toughness",gRound(t),"code"]);const kb=(g.kbr||0)+gAdd(g,"knockback_resistance");if(kb)rows.push(["","Knockback Resistance",gRound(kb*10),"code"])}
+ else{if(g.dmg!=null)rows.push(["fx_strength","Attack Damage",gRound(g.dmg+gAdd(g,"attack_damage")),"code"]);if(g.spd!=null)rows.push(["fx_haste","Attack Speed",gRound(g.spd+gAdd(g,"attack_speed")),"code"])}
  return rows}
-function gBonus(g){return Object.entries(g.at).filter(([k])=>!(g.k!=="armor"&&g.dmg!=null&&false)).flatMap(([k,[a,m]])=>gMod(k,a,m))}
+function gBonus(g){const fold=g.k==="armor"?(g.arm!=null?["armor","armor_toughness","knockback_resistance"]:[]):[g.dmg!=null?"attack_damage":"",g.spd!=null?"attack_speed":""];
+ return Object.entries(g.at).flatMap(([k,[a,m]])=>gMod(k,fold.includes(k)?0:a,m))}
 function gSrcText(g){const o=[];
  g.rc.forEach(r=>{const ing=[...new Set(r.i)].filter(x=>x!==r.t&&!/^(minecraft:crafting_|goety:(craft|ritual)$|ars_nouveau:enchanting_apparatus$)/.test(x)).slice(0,9);o.push(`<div class="grc"><span class="grt">${esc(gStation(r.t))}</span>${ing.map(x=>{const n=r.i.filter(y=>y===x).length,c=n>1?`<b class="gn">${n}×</b>`:"";return x.startsWith("#")?`<span class="gin tag" title="${esc(x)}">${c}any ${esc(x.split(":")[1].split("/").pop().replace(/_/g," "))}</span>`:`<a class="gin" ${GBY[x]?`href="#g${GBY[x].ix}" data-t="g${GBY[x].ix}"`:BYID[x]?`href="#i${BYID[x].ix}" data-t="${BYID[x].ix}"`:""}>${img(x)}${c}<span>${esc(BYID[x]?BYID[x].n:NM[x]||nmI(x))}</span></a>`}).join("")}</div>`)});
  g.lt.forEach(t=>o.push(`<div class="glt">${esc(gLoot(t))}</div>`));
@@ -113,7 +120,7 @@ function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix
  ${bon.length?`<h3>Bonuses</h3><ul class="gbon">${bon.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul><p class="note">From the mod's own modifiers and the Linggango <i>attributesetter</i> rebalance, added on top of the base stats.</p>`:""}</section>
  <section class="gbox"><h2>Tier by Act</h2>${set?`<p class="note">The ${esc(set.n)} set as ${GROLE[gMain(set)]} armor, compared with every set usable at each Act.</p>${gTimeline(set)}`:`<p class="note">${GROLE[r]} weapons, compared with everything usable at each Act.</p>${gTimeline(g)}`}
  ${set?`<h3>Set</h3><a class="gsetl" href="#gs${set.ix}" data-t="s${set.ix}">${gImg(set)}<span>${esc(set.n)} · ${set.ps.length} piece${set.ps.length>1?"s":""}</span></a>`:""}</section></div>
- ${typeof GUIDE!=="undefined"&&GUIDE[g.id]?`<section class="gbox"><h2>From the guide book</h2>${guideHtml(GUIDE[g.id])}</section>`:""}<section class="gbox"><h2>How to get</h2>${g.ob?`<p class="gob${g.ob[0]==="!"?" bad":g.ob[0]==="?"?" unk":""}">${esc(g.ob.replace(/^[!?]/,""))}</p>`:""}${gSrcText(g)}</section></article>`;decorate()}
+ ${typeof GUIDE!=="undefined"&&GUIDE[g.id]?`<section class="gbox"><h2>From the guide book</h2>${guideHtml(GUIDE[g.id])}</section>`:""}${g.lv&&g.lv.length?`<section class="gbox"><h2>Other levels and forms</h2><p class="note">This page shows the strongest version. The same weapon also exists as: ${g.lv.map(x=>`<code>${esc(x)}</code>`).join(", ")}.</p></section>`:""}<section class="gbox"><h2>How to get</h2>${g.ob?`<p class="gob${g.ob[0]==="!"?" bad":g.ob[0]==="?"?" unk":""}">${esc(g.ob.replace(/^[!?]/,""))}</p>`:""}${gSrcText(g)}</section></article>`;decorate()}
 function gearSetPage(s){document.title=s.n+" set · Linggango Wiki";seedBg("gs"+s.ix,[]);const r=gMain(s);
  el("main").innerHTML=`${crumb('<a href="#gear/'+GSTATE.a+'/TA/a">Equipment</a>',esc(s.n))}<article class="gpage" style="--tc:${ACT[s.a][2]};${tex(s.a)}">
  <header class="gph">${typeof ARMR!=="undefined"&&ARMR[s.k]?`<img class="garm" alt="${esc(s.n)} worn" src="${ARMR[s.k]}">`:`<span class="gbig">${gImg(s)}</span>`}<div><h1>${esc(s.n)} set</h1><p class="gsub">${s.ps.length} piece${s.ps.length>1?"s":""} · <a href="#mod/${enc(MODN(s.k.split(":")[0]))}">${esc(MODN(s.k.split(":")[0]))}</a></p>

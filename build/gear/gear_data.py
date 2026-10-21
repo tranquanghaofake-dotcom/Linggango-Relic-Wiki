@@ -34,6 +34,23 @@ for tag, ids in rec['tags'].items():
             a = GATE_ACT[m.group(1)]
             if i not in gate or oi(a) > oi(gate[i]): gate[i] = a
 
+# the pack's own gate tags (linggango_tweaks:gated/<tier>), read straight from the overrides; tags can nest
+GT = {'iron': 2, 'gold': 3, 'emerald': 4, 'diamond': 5, 'netherite': 6, 'elvenite': 7, 'voiderite': 8, 'cataclysm': 9, 'blood': 10, 'sun': 11}
+def tag_items(vals, d=0):
+    out = []
+    for v in vals:
+        v = v['id'] if isinstance(v, dict) else v
+        if v.startswith('#'):
+            if d < 4: out += tag_items(tagmap0.get(v[1:], []), d + 1)
+        else: out.append(v)
+    return out
+tagmap0 = dict(rec['tags'])
+for f in glob.glob(S + '/pack/src/overrides/kubejs/data/linggango_tweaks/tags/items/gated/*.json'):
+    tagmap0['linggango_tweaks:gated/' + f.rsplit('/', 1)[1][:-5]] = json.load(open(f)).get('values', [])
+for tier, a in GT.items():
+    for i in tag_items(tagmap0.get('linggango_tweaks:gated/' + tier, [])):
+        if i not in gate or oi(a) > oi(gate[i]): gate[i] = a
+
 # materials: vanilla progression gates the pack does not tag (dimension / vanilla boss), plus relic acts
 MAT = {}
 for i in ['minecraft:netherite_scrap', 'minecraft:netherite_ingot', 'minecraft:ancient_debris', 'minecraft:blaze_rod', 'minecraft:blaze_powder',
@@ -191,6 +208,54 @@ for i in sorted(ids):
     g['cls'] = b.get('cls', [])[:3]
     GE.append(g)
 
+# ---------- not weapons ----------
+# the wide scan also picks up spell foci, blood orbs, utility wands and launchers; a magic or ranged entry must look like a
+# weapon (staff, wand, scepter, tome, magic sword, bow/gun) unless the wiki already listed it before the wide scan
+OLDIDS = set(json.load(open(S + '/old_ids.json'))) if glob.glob(S + '/old_ids.json') else set()
+WEAP = re.compile(r'Staff|Wand|Scepter|Tome|Sword|Claymore|Spear|Bow|Crossbow|Gun|Cannon|Launcher|Railgun|Summon|Whip|Gungnir|Shotgun')
+NOTWEAP = re.compile(r'dominion|attunement|flask_cannon|portal_gun|zip_gun|fishing_rod|bloodorb|teleposer|upgradetome|mold_rod|blazejet|eclipsegate|voidshift|time_wand|polymorphic_wand$|_focus$')
+def weaponish(g):
+    if g['id'] in OLDIDS: return True
+    p = g['id'].split(':')[1]
+    if NOTWEAP.search(p): return False
+    return bool(WEAP.search(' '.join(g.get('cls') or [])))
+before = len(GE)
+NOTGEAR = re.compile(r'turbine_blade|sanctum_compass|daggerofsacrifice|_sickle$|^(diamond|inferium|prudentium|tertium|imperium|supremium|awakened_supremium)_scythe$')
+GE = [g for g in GE if not (g['k'] != 'armor' and g['id'] not in OLDIDS and NOTGEAR.search(g['id'].split(':')[1]))]
+GE = [g for g in GE if g['k'] in ('armor', 'melee') or weaponish(g)]
+print('not weapons dropped', before - len(GE))
+
+# ---------- summon weapons ----------
+# summoning staffs (Summonity SummoningItem), summon whips (Summonity WhipItem, Goety Revelation BaseWhipItem) and summon foci;
+# melee whips that only pull or bleed (Alex's Mobs tendon whip, Macabre gut whip) stay melee
+def is_summon(g):
+    cls = g.get('cls') or []
+    p = g['id'].split(':')[1]
+    if g['k'] == 'armor' or 'dominion' in p: return False
+    return any(c in ('SummoningItem', 'WhipItem', 'BaseWhipItem') or c.startswith('Summon') for c in cls) or bool(re.search(r'summon|minion', p))
+for g in GE:
+    if is_summon(g): g['k'] = 'summon'
+
+# ---------- level / form variants: one entry, highest level ----------
+LV = {'one': 1, 'two': 2, 'three': 3}
+def vkey(g):
+    m = re.match(r'(.+)_level_(one|two|three)$', g['id'])
+    return (m.group(1), LV[m.group(2)]) if m else (g['id'], 0)
+groups = collections.defaultdict(list)
+for g in GE:
+    groups[(g['ns'], g['n'], g['k'])].append(g)
+drop = set()
+for key, gs in groups.items():
+    if len(gs) < 2 or key[2] == 'armor': continue
+    def rank(g):
+        b = base.get(g['id'], {})
+        return (vkey(g)[1], oi(g['a']), (g.get('dmg') or 0) * (g.get('spd') or 1), len(g['at']))
+    gs.sort(key=rank, reverse=True)
+    keep = gs[0]; keep['lv'] = [x['id'] for x in gs[1:]]
+    drop.update(keep['lv'])
+GE = [g for g in GE if g['id'] not in drop]
+print('variants merged', len(drop))
+
 # ---------- armor sets ----------
 SLOTW = r'(helmet|chestplate|leggings|boots|hood|robe|cap|tunic|pants|crown|mask|greaves|sabatons|hat|chest|legs|feet|head|armor|armour|helm|plate|leggins|shoes|robes)'
 def setkey(i):
@@ -213,14 +278,22 @@ def melee_score(g):
     cc = sumk(g, r'crit(ical)?_(strike_)?chance'); cd = sumk(g, r'crit(ical)?_(strike_)?damage') + sumk(g, r'crit(ical)?_(strike_)?damage', 'mul')
     ls = sumk(g, r'life_?steal')
     return hit * spd * (1 + min(cc, 1) * (0.5 + cd)) * (1 + 0.5 * ls) * (1 + 0.05 * A(g, 'entity_reach'))
-def role_off(g):
-    """offence bonus per role from attributes (fractions)"""
+def off_of(at):
+    """offence bonus per role from summed attributes {attr:[add,mul]} (fractions of extra output)"""
+    def sk(rx, part=0): return sum(v[part] for k, v in at.items() if re.search(rx, k))
+    def a(k, part=0): v = at.get(k); return v[part] if v else 0.0
     o = {}
-    o['MA'] = sumk(g, r'spell_power|spell_potency', 'mul') + sumk(g, r'spell_power|spell_potency') + 0.5 * sumk(g, r'cooldown_reduction|cast_time', 'mul') + sumk(g, r'max_mana') / 200 + 0.5 * sumk(g, r'mana_regen', 'mul')
-    o['SU'] = sumk(g, SUMMON.pattern, 'mul') + sumk(g, SUMMON.pattern) * (0.05 if True else 1)
-    o['RA'] = sumk(g, RANGED.pattern, 'mul') + sumk(g, RANGED.pattern)
-    o['ME'] = A(g, 'attack_damage', 'mul') + A(g, 'attack_speed', 'mul') + sumk(g, r'crit') * 0.5 + sumk(g, r'life_?steal') + A(g, 'attack_damage') / 10
+    o['MA'] = sk(r'spell_power|spell_potency', 1) + sk(r'spell_power|spell_potency') + 0.5 * sk(r'cooldown_reduction|cast_time', 1) + sk(r'max_mana') / 200 + 0.5 * sk(r'mana_regen', 1)
+    o['SU'] = sk(SUMMON.pattern, 1) + sk(SUMMON.pattern) * 0.05
+    o['RA'] = sk(RANGED.pattern, 1) + sk(RANGED.pattern)
+    # melee: expected damage multiplier. Two crit systems exist (attributeslib crit_* and brutality critical_strike_*);
+    # their chances add up but a hit can only crit once, so chance is capped at 100%; a crit adds +50% plus crit damage.
+    cc = min(1.0, sk(r'crit(ical)?_(strike_)?(chance|rate)') + sk(r'crit(ical)?_(strike_)?(chance|rate)', 1))
+    cd = sk(r'crit(ical)?_(strike_)?damage') + sk(r'crit(ical)?_(strike_)?damage', 1)
+    mult = (1 + a('attack_damage', 1)) * (1 + a('attack_speed', 1)) * (1 + cc * (0.5 + cd)) * (1 + 0.5 * sk(r'life_?steal'))
+    o['ME'] = mult - 1 + a('attack_damage') / 10
     return {k: max(0.0, v) for k, v in o.items()}
+def role_off(g): return off_of(g['at'])
 for g in GE:
     sc = {}
     off = role_off(g)
@@ -232,6 +305,8 @@ for g in GE:
     elif g['k'] == 'magic':
         sc['MA'] = round(1 + off['MA'] * 2, 3)
         if off['SU'] > 0: sc['SU'] = round(1 + off['SU'] * 2, 3)
+    elif g['k'] == 'summon':
+        sc['SU'] = round(1 + off['SU'] * 2 + 0.02 * (g.get('dmg') or 0), 3)
     g['off'] = {k: round(v, 3) for k, v in off.items() if v > 0.0005}
     g['sc'] = sc
 SETS = []
@@ -240,15 +315,19 @@ for k, ps in sorted(sets.items()):
     arm = sum((g.get('arm') or 0) + A(g, 'armor') for g in ps); tough = sum((g.get('tough') or 0) + A(g, 'armor_toughness') for g in ps)
     hp = sum(A(g, 'max_health') for g in ps); kbr = sum((g.get('kbr') or 0) + A(g, 'knockback_resistance') for g in ps)
     dtk = -sum(A(g, 'damage_taken') + A(g, 'damage_taken', 'mul') for g in ps)
-    off = collections.Counter()
+    at = collections.defaultdict(lambda: [0.0, 0.0])
     for g in ps:
-        for r, v in g['off'].items(): off[r] += v
-    defense = arm + 0.8 * tough + 0.5 * hp + 10 * kbr + 60 * max(0, dtk)
+        for k2, v in g['at'].items(): at[k2][0] += v[0]; at[k2][1] += v[1]
+    off = off_of(at)
+    # defence: armor, toughness, health, knockback resistance and flat damage reduction
+    # knockback resistance is capped at 100% in game, whatever a mod's material says
+    defense = arm + 0.8 * tough + 0.5 * hp + 10 * min(1.0, kbr) + 60 * max(0, dtk)
     known = any(g.get('arm') is not None for g in ps)
     act = max((g['a'] for g in ps), key=oi)
+    # a role set is worth (1 + its offence for that role) x how much it keeps you alive
     sc = {'TA': round(defense, 3)}
     for r, v in off.items():
-        if v > 0.02: sc[r] = round(v * 100 + defense * 0.25, 3)
+        if v > 0.02: sc[r] = round((1 + v) * defense, 3)
     ws = [p['n'].split() for p in ps]; pre = []
     for col in zip(*ws):
         if all(w == col[0] for w in col): pre.append(col[0])
