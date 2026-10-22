@@ -7,7 +7,9 @@
   [
    "mowziesmobs:sculptor_staff",
    "mowziesmobs:geomancer_beads",
-   "mowziesmobs:geomancer_belt"
+   "mowziesmobs:geomancer_belt",
+   "mowziesmobs:geomancer_robe",
+   "mowziesmobs:geomancer_sandals"
   ],
   "Mowzie's Mobs",
   "mowziesmobs:sculptor"
@@ -16,7 +18,7 @@
   "Possessed Paladin",
   6,
   "",
-  "Legendary Monsters haunted structure (Possessed Paladin arena)",
+  "Overworld, any biome",
   [
    "legendary_monsters:soul_great_sword",
    "legendary_monsters:corrupted_soul"
@@ -48,10 +50,13 @@
  ],
  [
   "Shulker Mimic",
-  6,
+  6.3,
   "",
   "End cities",
-  [],
+  [
+   "legendary_monsters:large_shulker_shell",
+   "minecraft:shulker_shell"
+  ],
   "Legendary Monsters",
   "legendary_monsters:shulker_mimic"
  ],
@@ -61,7 +66,10 @@
   "",
   "Read a Summon Scroll at night",
   [
-   "darkdoppelganger:summon_scroll",
+   "minecraft:nether_star",
+   "minecraft:echo_shard",
+   "minecraft:diamond_block",
+   "darkdoppelganger:summons_necklace",
    "darkdoppelganger:doppelganger_ring",
    "darkdoppelganger:elder_necklace"
   ],
@@ -82,10 +90,12 @@
  ],
  [
   "Endersent",
-  6,
+  6.3,
   "",
   "The End",
-  [],
+  [
+   "legendary_monsters:chorus_crystal"
+  ],
   "Legendary Monsters",
   "legendary_monsters:endersent"
  ],
@@ -95,14 +105,14 @@
   "",
   "End-game Goety boss. Sabbath ritual from The Black Book (Revelation section): Broken Halo, Nether Star, Pure Unholy Blood, Witch Hat, Crone Hat, Dragon's Breath, Forbidden Scroll, Essence of Shadow, Warlock Sash, Unalloyed Golden Apple, Ruby of Souls, Heart of the Night, Infernal Tome. Fight it in the Overworld and the Nether. Repeat summons use its Doom Medal.",
   [
-   "goety_revelation:broken_halo"
+   "goety_revelation:doom_medal"
   ],
   "Goety Revelation",
   "goety_revelation:apollyon"
  ],
  [
   "Mutant Enderman",
-  6,
+  6.3,
   "",
   "The End (quest book: Void Entities); rare where Endermen spawn",
   [],
@@ -111,10 +121,12 @@
  ],
  [
   "Chorusling",
-  6,
+  6.3,
   "",
   "The End (quest book: Void Entities)",
-  [],
+  [
+   "legendary_monsters:infected_chorus_fruit"
+  ],
   "Legendary Monsters",
   "legendary_monsters:chorusling"
  ],
@@ -123,7 +135,9 @@
   5,
   "",
   "Overworld, underground",
-  [],
+  [
+   "dodosmobs:chimera_claw"
+  ],
   "Dodo's Mobs",
   "dodosmobs:bone_chimera"
  ]
