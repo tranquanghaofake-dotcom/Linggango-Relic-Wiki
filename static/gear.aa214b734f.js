@@ -67,10 +67,15 @@ const GOFF={
  /* Apothic arrow_damage / draw_speed are percent attributes (base 1); gun_damage is +1 on a shot of about 12 */
  RA:at=>(1+gS2(at,/^(arrow_damage|projectile_damage|bow_damage)$/)+gS(at,/^gun_damage$/,0)/12)*(1+gS2(at,/draw_speed$/))
   *(1+Math.min(1,gS2(at,/^(crit_chance|crit_rate|bow_crit_chance)$/))*(.5+gS2(at,/^crit_damage$/))),
- /* spell power and the best single school (a mage builds around one), x cast rate from cooldowns, x mana (saturating: +300 mana = +25%) */
- MA:at=>{let sch=0;for(const k in at)if(/_spell_power$/.test(k)&&k!=="spell_power")sch=Math.max(sch,at[k][1]);const m=gS(at,/^max_mana$/,0);
-  return (1+gS2(at,/^(spell_power|spell_potency)$/)+sch+gS(at,/spell_damage$/,0)/5)/(1-Math.min(.6,gS(at,/^cooldown_reduction$/,1)))
-   *(1+.5*gS(at,/^cast_time_reduction$/,1)+gS(at,/^casting_speed$/,0))*(1+.5*m/(m+300))*(1+.3*Math.min(1,gS(at,/mana_regen$/,1)))},
+ /* two spell systems, and a mage casts with one: the better of
+    Iron's: spell power + the best single school (a mage builds around one), x cast rate from cooldowns, x mana (saturating: +300 = +25%), x regen;
+    Ars Nouveau: flat spell damage against the Act's typical hit (like melee flat damage), x Ars mana */
+ MA:(at,a)=>{let sch=0;for(const k in at)if(/_spell_power$/.test(k)&&k!=="spell_power")sch=Math.max(sch,at[k][1]);
+  const mana=m=>1+.5*m/(m+300),m=gS(at,/^max_mana$/,0);
+  const iron=(1+gS2(at,/^(spell_power|spell_potency)$/)+sch)/(1-Math.min(.6,gS(at,/^cooldown_reduction$/,1)))
+   *(1+.5*gS(at,/^cast_time_reduction$/,1)+gS(at,/^casting_speed$/,0))*mana(m)*(1+.3*Math.min(1,gS(at,/^mana_regen$/,1)));
+  const ars=(1+gS(at,/spell_damage$/,0)/gFront(a).hit)*mana(gS(at,/^ars_nouveau\.perk\.max_mana$/,0));
+  return Math.max(iron,ars)},
  /* summon damage (percent), each extra minion slot +25% */
  SU:at=>(1+gS(at,/summon|minion_damage|servant|sentry/,1)+.05*gS(at,/summon_damage|servant|sentry/,0))*(1+.25*gS(at,/^minion_slots$/,0))};
 const gOff=(g,r,a)=>GOFF[r](g.at||{},a);
@@ -118,8 +123,10 @@ function gSetScore(s,r,a){const key=s.ix+r+a;let v=GSC.get(key);
 GS.forEach(s=>{s.sc={};for(const r of ["ME","RA","MA","SU"])s.sc[r]=gSetScore(s,r,s.a)});
 /* an item's score for a role at an Act: weapons have one score; a set's depends on the Act (the hit it faces, the HP and hit it adds to) */
 const gScore=(g,r,a)=>g.ps?gSetScore(g,r,a):g.sc[r];
-/* hidden from the lists (search still finds them): items the pack disables, creative-only items */
-const gHidden=g=>(g.ob&&g.ob[0]==="!")||/creative only/i.test(g.n);
+/* hidden from the lists (search still finds them): items the pack disables, creative-only items
+   (Iron's Gold Crown: +10000 mana, +100% spell power, 75% cooldown, a creative/supporter item) */
+const GCREATIVE=new Set(["irons_spellbooks:gold_crown"]);
+const gHidden=g=>(g.ob&&g.ob[0]==="!")||/creative only/i.test(g.n)||(g.ps?g.p:[g.id]).some(id=>GCREATIVE.has(id));
 /* pool for Act a, role r: everything unlocked at or before a */
 function gPool(a,r,w){const ia=oiA(+a);
  const xs=(w==="a"?GS:GE.filter(g=>g.k!=="armor")).filter(g=>g.sc[r]!=null&&oiA(g.a)<=ia&&!gHidden(g));
@@ -162,7 +169,7 @@ function gearPage(h){
  <li><b>Act</b>: the Keeper gate from Linggango's own progression tags (<code>forge:iron_tools</code> … <code>forge:helionite_armor</code>): gear tagged Diamond is locked until Eldorath falls, and so on. Gear with no tag sits at the Act of its hardest ingredient or drop (Nether materials need Act V, a Nether Star the Wither, End loot the Ender Dragon).</li>
  <li><b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does. Better Combat clears the target's hurt cooldown on every hit, so fast weapons are not capped at two hits a second. Staves, spears and gunblades whose melee damage is readable are ranked here too.</li>
  <li><b>Ranged, Mage, Summon weapons</b>: bow, gun and spell damage is set in each mod's code at shot time, so it cannot be read. They sit on the pack's power curve at the Act they unlock: the ten best melee weapons get about ${Math.round((GSTEP-1)*100)}% stronger per Act (fitted over all Acts), so an item one Act behind the frontier is at ${Math.round(100/GSTEP)}%, three behind at ${Math.round(100/GSTEP**3)}%. Then up to +10% for how hard it is to get (a boss drop or a many-part recipe over a one-ingredient craft), times its readable bonuses for the role (below).</li>
- <li><b>Armor sets</b>: score = output bonus × effective health<sup>k</sup>, the damage you deal times how long you last. Effective health uses Apothic Attributes' armor rule (damage × a/(a + armor), a = 10 for hits under 20, 10 + (hit − 20)/2 above) against the attack damage of the Keeper that ends the Act (10 at Act 0, 30 at Act VI, 50 at Act XII), on top of 20 + 4 HP per Act from your other gear, × damage-taken reduction and dodge. Toughness only blunts armor shred in this pack, so it counts little. k = 1 for Melee, 0.7 Ranged, 0.6 Mage and Summon (fighting at range, you take fewer hits). Output bonus: Melee attack damage (flat bonus against the Act's typical weapon hit), attack speed, crit, lifesteal; Ranged arrow damage, draw speed, crit; Mage spell power + the best single school, × cast rate from cooldown reduction, × mana (+300 mana = +25%); Summon summon damage and +25% per extra minion slot. A plain set is the fallback in every list; a set built for the role beats it. Sets whose armor is computed in code get the median of their Act.</li>
+ <li><b>Armor sets</b>: score = output bonus × effective health<sup>k</sup>, the damage you deal times how long you last. Effective health uses Apothic Attributes' armor rule (damage × a/(a + armor), a = 10 for hits under 20, 10 + (hit − 20)/2 above) against the attack damage of the Keeper that ends the Act (10 at Act 0, 30 at Act VI, 50 at Act XII), on top of 20 + 4 HP per Act from your other gear, × damage-taken reduction and dodge. Toughness only blunts armor shred in this pack, so it counts little. k = 1 for Melee, 0.7 Ranged, 0.6 Mage and Summon (fighting at range, you take fewer hits). Output bonus: Melee attack damage (flat bonus against the Act's typical weapon hit), attack speed, crit, lifesteal; Ranged arrow damage, draw speed, crit; Mage: the better of Iron's (spell power + the best single school, × cast rate from cooldown reduction, × mana: +300 mana = +25%) and Ars Nouveau (flat spell damage against the Act's typical hit, × mana); Summon summon damage and +25% per extra minion slot. A plain set is the fallback in every list; a set built for the role beats it. Sets whose armor is computed in code get the median of their Act.</li>
  <li>Tiers compare each item with the best one usable at that Act: S is within 85% of it, A within 70%, B within 55%, C within 40%, the rest D; under 25% it is left off the list (search still finds it). When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.</li></ul></details></div></div>`;
  const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};
  seedBg("gear"+a,[]);decorate();

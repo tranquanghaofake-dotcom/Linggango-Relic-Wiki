@@ -34,6 +34,7 @@ See `ARCHITECTURE.md` for how the pieces fit and why.
 Four playstyles: Melee, Ranged, Mage, Summon (Tank was retired in v22.11; defense is part of every score). Rules read from the pack's jars:
 Better Combat `allow_fast_attacks` (default on) clears hurt cooldowns, so melee DPS = hit × speed with no cap; Apothic Attributes armor is
 damage × a/(a+armor), a = 10 under 20 damage, 10+(dmg−20)/2 above, and toughness only weakens armor shred/pierce.
+Base stats: `patches/gear_runtime.py` lays the pack's in-game dump (`gear_runtime.json`, from `kubejs/server_scripts/dump_gear.js`) over the jar reading for 1760 items; re-run `/kubejs custom_command dump_gear` and convert `kubejs/gear_dump.json` when the pack updates.
 Melee weapons: DPS (`gMelee`); any weapon with readable melee damage (staves, spears) is also a Melee candidate. Ranged / Mage / Summon weapons
 have no readable damage, so `gEstScore` puts them on the power curve `GSTEP^rung` (GSTEP fitted at load time on the top-10 melee DPS per Act,
 ≈1.20), + up to 10% for how hard they are to get, × their role bonus (`GOFF`). Armor sets: score(set, role, Act) = `GOFF[role]` × EHP^k

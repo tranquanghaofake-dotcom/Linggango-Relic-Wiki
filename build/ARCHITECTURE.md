@@ -18,7 +18,7 @@ src/*.js + v5.css + style.game.css + template.html ──► build.py ──► 
 ## Where each decision lives
 | Decision | Single place |
 |---|---|
-| What an item's raw stats and bonuses are | `patches/gearlib.py` (`off_of`, `set_facts`), fed by the extraction and the overlays in `patches/` |
+| What an item's raw stats and bonuses are | the game itself where the pack's dump has the item (`patches/gear_runtime.json`, stage `gear_runtime`), else the jar extraction and the overlays in `patches/`; combined by `patches/gearlib.py` (`off_of`, `set_facts`) |
 | What those facts are worth (DPS, defense, tiers) | `src/gear.js` only |
 | Which Act an item belongs to | gate tags + recipes (extraction), then `gear_gate`, `gear_fix`, `boss_order.gear`; finally snapped onto `ORDER` in `gear_pipeline.py` |
 | Boss order and drop Acts | `patches/boss_order.py` from `boss_graph.json` (the quest book) |

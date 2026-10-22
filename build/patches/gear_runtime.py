@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Stage 6. Attribute modifiers read inside the running game replace the ones read from the jars (build/patches/gear_runtime.json).
 
-The pack ships its own dump: serverpack 6.6.5b4 has kubejs/server_scripts/dump_gear.js, which calls ItemStack.getAttributeModifiers
-for every tiered tool/armor tag and every ArmorItem and writes kubejs/gear_dump.json. That is what the game applies, after the
+The pack has its own dump script: kubejs/server_scripts/dump_gear.js (run in game with /kubejs custom_command dump_gear) calls
+ItemStack.getAttributeModifiers for every tiered tool/armor tag and every ArmorItem and writes kubejs/gear_dump.json. Re-run it and
+convert the file when the pack updates (the copy shipped inside serverpack 6.6.5b4 was older than the pack's own configs). That is what the game applies, after the
 attributesetter rebalance and the linggango_tweaks ItemAttributeModifierEvent handlers (per-mod buffs, tier damage floor), so for
 every item in it the static extraction, the jar overlays (gear_stats) and the modelled tweaks (gear_data.py runtime_bonus) are
 superseded. Items not in the dump (mostly bows, guns, staves without a tier tag) keep the static values, and so do an all-zero dump
