@@ -1,0 +1,379 @@
+{
+"alexscaves:pure_darkness": [
+"alexscaves:entities/forsaken"
+],
+"alexscaves:tectonic_shard": [
+"alexscaves:entities/luxtructosaurus"
+],
+"born_in_chaos_v1:pumpkinhandgun": [
+"born_in_chaos_v1:entities/lord_pumpkinhead_head"
+],
+"born_in_chaos_v1:soulbane": [
+"born_in_chaos_v1:entities/lord_pumpkinhead_head"
+],
+"bosses_of_mass_destruction:ancient_anima": [
+"bosses_of_mass_destruction:entities/lich"
+],
+"bosses_of_mass_destruction:crystal_fruit": [
+"bosses_of_mass_destruction:entities/void_blossom"
+],
+"bosses_of_mass_destruction:void_thorn": [
+"bosses_of_mass_destruction:entities/void_blossom"
+],
+"cataclysm:essence_of_the_storm": [
+"cataclysm:entities/scylla"
+],
+"cataclysm:gauntlet_of_guard": [
+"cataclysm:entities/ender_guardian"
+],
+"cataclysm:infernal_forge": [
+"cataclysm:entities/netherite_monstrosity"
+],
+"cataclysm:lava_power_cell": [
+"cataclysm:entities/netherite_monstrosity",
+"goety_cataclysm:entities/netherite_monstrosity"
+],
+"cataclysm:monstrous_horn": [
+"cataclysm:entities/netherite_monstrosity"
+],
+"cataclysm:music_disc_ancient_remnant": [
+"cataclysm:entities/ancient_remnant"
+],
+"cataclysm:music_disc_ender_guardian": [
+"cataclysm:entities/ender_guardian"
+],
+"cataclysm:music_disc_ignis": [
+"cataclysm:entities/ignis"
+],
+"cataclysm:music_disc_maledictus": [
+"cataclysm:entities/maledictus"
+],
+"cataclysm:music_disc_netherite_monstrosity": [
+"cataclysm:entities/netherite_monstrosity"
+],
+"cataclysm:music_disc_scylla": [
+"cataclysm:entities/scylla"
+],
+"cataclysm:music_disc_the_harbinger": [
+"cataclysm:entities/the_harbinger"
+],
+"cataclysm:music_disc_the_leviathan": [
+"cataclysm:entities/the_leviathan"
+],
+"cataclysm:remnant_skull": [
+"cataclysm:entities/ancient_remnant",
+"cataclysm:entities/modern_remnant"
+],
+"cataclysm:sandstorm_in_a_bottle": [
+"cataclysm:entities/ancient_remnant"
+],
+"cataclysm:tidal_claws": [
+"cataclysm:entities/the_leviathan"
+],
+"darkdoppelganger:doppelganger_ring": [
+"darkdoppelganger:entities/dark_doppelganger"
+],
+"darkdoppelganger:elder_necklace": [
+"darkdoppelganger:entities/dark_doppelganger"
+],
+"darkdoppelganger:summons_necklace": [
+"darkdoppelganger:entities/dark_doppelganger"
+],
+"dodosmobs:chimera_claw": [
+"dodosmobs:entities/bone_chimera"
+],
+"eeeabsmobs:ancient_drive_crystal": [
+"eeeabsmobs:entities/realm_warden",
+"eeeabsmobs:entities/relic_annihilator",
+"eeeabsmobs:entities/relic_earthshaker"
+],
+"eeeabsmobs:chain_gear": [
+"eeeabsmobs:entities/relic_annihilator"
+],
+"eeeabsmobs:guardian_cube": [
+"eeeabsmobs:entities/realm_warden"
+],
+"eeeabsmobs:heart_of_pagan": [],
+"eeeabsmobs:realm_warden_theme_music_disc": [
+"eeeabsmobs:entities/realm_warden"
+],
+"eeeabsmobs:soul_summon_necklace": [],
+"fdbosses:divine_gear": [
+"fdbosses:entities/geburah"
+],
+"fdbosses:fire_and_ice_core": [
+"fdbosses:entities/malkuth"
+],
+"fdbosses:justice_core": [
+"fdbosses:entities/geburah"
+],
+"fdbosses:lightning_core": [
+"fdbosses:entities/chesed"
+],
+"fdbosses:malkuth_fist": [
+"fdbosses:entities/malkuth"
+],
+"fdbosses:phase_sphere": [
+"fdbosses:entities/chesed"
+],
+"goety:music_disc_apostle": [
+"goety:entities/apostle",
+"goety:entities/apostle_2"
+],
+"goety:music_disc_vizier": [
+"goety:entities/vizier"
+],
+"goety:treasure_pouch": [
+"goety:entities/apostle",
+"goety:entities/brood_mother",
+"goety:entities/crone",
+"goety:entities/ender_keeper",
+"goety:entities/endersent",
+"goety:entities/heresiarch",
+"goety:entities/hostile_redstone_golem",
+"goety:entities/hostile_redstone_monstrosity",
+"goety:entities/minister",
+"goety:entities/skull_lord",
+"goety:entities/vizier",
+"goety:entities/wither_necromancer",
+"goetyhostility:entities/wildfire"
+],
+"goety_revelation:doom_medal": [],
+"irons_spellbooks:betrayer_signet": [
+"irons_spellbooks:entities/fire_boss"
+],
+"irons_spellbooks:blood_staff": [
+"irons_spellbooks:entities/dead_king",
+"traveloptics:entities/enraged_dead_king"
+],
+"irons_spellbooks:decrepit_scythe": [
+"irons_spellbooks:entities/fire_boss"
+],
+"irons_spellbooks:divine_soulshard": [
+"irons_spellbooks:entities/fire_boss"
+],
+"legendary_monsters:air_rune": [
+"legendary_monsters:entities/cloud_golem"
+],
+"legendary_monsters:anchor_handle": [
+"legendary_monsters:entities/ancient_guardian"
+],
+"legendary_monsters:chorus_crystal": [
+"legendary_monsters:entities/endersent"
+],
+"legendary_monsters:corrupted_soul": [
+"legendary_monsters:entities/posessed_paladin"
+],
+"legendary_monsters:crystal_of_sandstorm": [
+"legendary_monsters:entities/dune_sentinel"
+],
+"legendary_monsters:dinosaur_bone": [
+"legendary_monsters:entities/skeletosaurus"
+],
+"legendary_monsters:frozen_rune": [
+"legendary_monsters:entities/frostbitten_golem"
+],
+"legendary_monsters:infected_chorus_fruit": [
+"legendary_monsters:entities/chorusling"
+],
+"legendary_monsters:large_shulker_shell": [
+"legendary_monsters:entities/shulker_mimic"
+],
+"legendary_monsters:lava_eaters_skin": [
+"legendary_monsters:entities/lava_eater"
+],
+"legendary_monsters:nature_crystal": [
+"legendary_monsters:entities/overgrown_colossus"
+],
+"legendary_monsters:portal_shard": [
+"legendary_monsters:entities/the_obliterator"
+],
+"legendary_monsters:soul_great_sword": [
+"legendary_monsters:entities/posessed_paladin"
+],
+"legendary_monsters:withered_bone": [
+"legendary_monsters:entities/withered_abomination"
+],
+"meetyourfight:fortunes_favor": [
+"meetyourfight:entities/dame_fortuna"
+],
+"meetyourfight:mossy_tooth": [
+"meetyourfight:entities/swampjaw"
+],
+"meetyourfight:phantoplasm": [
+"meetyourfight:entities/bellringer"
+],
+"meetyourfight:violet_bloom": [
+"meetyourfight:entities/rosalyne"
+],
+"mowziesmobs:ice_crystal": [
+"mowziesmobs:entities/frostmaw"
+],
+"mowziesmobs:music_disc_petiole": [
+"mowziesmobs:entities/frostmaw"
+],
+"mowziesmobs:naga_fang": [
+"mowziesmobs:entities/naga"
+],
+"mowziesmobs:sol_visage": [
+"mowziesmobs:entities/umvuthi"
+],
+"soulsweapons:arkenstone": [
+"soulsweapons:entities/returning_knight"
+],
+"soulsweapons:blood_vial_recipe_page": [
+"soulsweapons:entities/chaos_monarch"
+],
+"soulsweapons:chaos_crown": [
+"soulsweapons:entities/chaos_monarch"
+],
+"soulsweapons:chaos_robes": [
+"soulsweapons:entities/chaos_monarch"
+],
+"soulsweapons:essence_of_eventide": [
+"soulsweapons:entities/night_shade"
+],
+"soulsweapons:essence_of_luminescence": [
+"soulsweapons:entities/moonknight"
+],
+"soulsweapons:lord_soul_dark": [
+"soulsweapons:entities/night_shade"
+],
+"soulsweapons:lord_soul_day_stalker": [
+"soulsweapons:entities/day_stalker"
+],
+"soulsweapons:lord_soul_night_prowler": [
+"soulsweapons:entities/night_prowler"
+],
+"soulsweapons:lord_soul_rose": [
+"soulsweapons:entities/returning_knight"
+],
+"soulsweapons:lord_soul_void": [
+"soulsweapons:entities/chaos_monarch"
+],
+"soulsweapons:lord_soul_white": [
+"soulsweapons:entities/moonknight"
+],
+"soulsweapons:withered_demon_heart": [
+"soulsweapons:entities/accursed_lord_boss"
+],
+"terramity:angel_feather": [
+"terramity:entities/virtue"
+],
+"terramity:archangel_halo": [
+"terramity:entities/virtue"
+],
+"terramity:belt_of_the_gnome_king": [
+"terramity:entities/gob"
+],
+"terramity:chthonic_shell_casing": [
+"terramity:entities/gundalf"
+],
+"terramity:dragon_band": [
+"terramity:entities/ultra_sniffer"
+],
+"terramity:energized_core": [
+"terramity:entities/trial_guardian"
+],
+"terramity:evil_king_armor_boots": [
+"terramity:entities/super_sniffer"
+],
+"terramity:evil_king_armor_chestplate": [
+"terramity:entities/super_sniffer"
+],
+"terramity:evil_king_armor_helmet": [
+"terramity:entities/super_sniffer"
+],
+"terramity:evil_king_armor_leggings": [
+"terramity:entities/super_sniffer"
+],
+"terramity:fortunes_favor": [
+"terramity:entities/gundalf"
+],
+"terramity:giant_dungeon_slab": [
+"terramity:entities/trial_guardian"
+],
+"terramity:giant_sniffers_hoof": [
+"terramity:entities/super_sniffer"
+],
+"terramity:gobs_claymore": [
+"terramity:entities/gob"
+],
+"terramity:gobs_gilded_hat_helmet": [
+"terramity:entities/gob"
+],
+"terramity:gold_medal": [
+"terramity:entities/gundalf"
+],
+"terramity:guardian_grimoire": [
+"terramity:entities/trial_guardian"
+],
+"terramity:guardians_hand": [
+"terramity:entities/trial_guardian"
+],
+"terramity:guided_energy_blast": [
+"terramity:entities/super_sniffer"
+],
+"terramity:gundalfs_hat_helmet": [
+"terramity:entities/gundalf"
+],
+"terramity:hermit_bean": [
+"terramity:entities/super_sniffer",
+"terramity:entities/ultra_sniffer"
+],
+"terramity:kamehameha": [
+"terramity:entities/ultra_sniffer"
+],
+"terramity:malediction_bracelets": [
+"terramity:entities/gundalf"
+],
+"terramity:music_sheet_of_the_gnome_king": [
+"terramity:entities/gob"
+],
+"terramity:music_sheet_of_the_legendary_super_sniffer": [
+"terramity:entities/super_sniffer"
+],
+"terramity:music_sheet_of_the_omnipotent_ultra_sniffer": [
+"terramity:entities/ultra_sniffer"
+],
+"terramity:music_sheet_of_the_shadow_wizards": [
+"terramity:entities/gundalf"
+],
+"terramity:music_sheet_of_the_trial_guardian": [
+"terramity:entities/trial_guardian"
+],
+"terramity:occult_fabric": [
+"terramity:entities/conjurling",
+"terramity:entities/gatmancer",
+"terramity:entities/gundalf"
+],
+"terramity:perish_staff": [
+"terramity:entities/trial_guardian"
+],
+"terramity:spiteful_soul": [
+"minecraft:entities/villager",
+"terramity:entities/hellrok",
+"terramity:entities/trial_guardian"
+],
+"terramity:super_sniffers_pelt": [
+"terramity:entities/super_sniffer"
+],
+"terramity:swag_glasses": [
+"terramity:entities/gundalf"
+],
+"terramity:ultra_sniffer_fur": [
+"terramity:entities/ultra_sniffer"
+],
+"terramity:ultra_sniffers_pelt": [
+"terramity:entities/ultra_sniffer"
+],
+"traveloptics:cradle_of_will": [
+"traveloptics:entities/the_nightwarden"
+],
+"traveloptics:stellothorn": [
+"traveloptics:entities/the_nightwarden"
+],
+"traveloptics:withered_excrucis": [
+"traveloptics:entities/the_nightwarden"
+]
+}

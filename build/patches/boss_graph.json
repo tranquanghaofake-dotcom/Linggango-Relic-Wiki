@@ -1,0 +1,261 @@
+{
+"dep": {
+"Dune Sentinel": [
+"Bellringer"
+],
+"Ancient Guardian": [
+"Dame Fortuna"
+],
+"Overgrown Colossus": [
+"Void Blossom"
+],
+"Frostbitten Golem": [
+"Dune Sentinel"
+],
+"Withered Abomination": [
+"Skeletosaurus"
+],
+"Lava Eater": [
+"Corpse Warlock"
+],
+"Frostmaw": [
+"Dame Fortuna"
+],
+"Umvuthi": [
+"Frostmaw"
+],
+"Ferrous Wroughtnaut": [
+"Swampjaw"
+],
+"Swampjaw": [],
+"Dame Fortuna": [
+"Bellringer"
+],
+"Bellringer": [
+"Ferrous Wroughtnaut"
+],
+"Tongbi, the Sculptor": [
+"Umvuthi"
+],
+"Rosalyne": [
+"Warden"
+],
+"Skeletosaurus": [
+"Tongbi, the Sculptor"
+],
+"Corpse Warlock": [
+"Rosalyne"
+],
+"Dead King": [
+"Corpse Warlock"
+],
+"Wither": [
+"Dead King"
+],
+"Warden": [
+"Umvuthi"
+],
+"Possessed Paladin": [],
+"Cumulonimbus": [
+"Possessed Paladin"
+],
+"Scylla": [
+"Cumulonimbus"
+],
+"Netherite Monstrosity": [
+"Scylla"
+],
+"Lord Pumpkinhead": [
+"Netherite Monstrosity"
+],
+"Forsaken": [
+"Lord Pumpkinhead"
+],
+"Luxtructosaurus": [
+"Scylla"
+],
+"Trial Guardian": [],
+"Obsidilith": [
+"Trial Guardian"
+],
+"Void Blossom": [
+"Lich"
+],
+"Lich": [
+"Obsidilith"
+],
+"Gauntlet": [
+"Void Blossom"
+],
+"Underworld Knight": [
+"Ignis"
+],
+"Endersent": [
+"Gauntlet"
+],
+"Chorusling": [
+"Gauntlet"
+],
+"Shulker Mimic": [
+"Gauntlet"
+],
+"Mutant Enderman": [
+"Gauntlet"
+],
+"The Harbinger": [
+"Forsaken",
+"Gundalf, Circe, Merlin (Shadow Wizards)"
+],
+"Ender Guardian": [
+"The Harbinger"
+],
+"Ancient Remnant": [
+"Ender Guardian"
+],
+"The Leviathan": [
+"Geburah"
+],
+"Ignis": [
+"Dark Doppelganger"
+],
+"Maledictus": [
+"The Leviathan"
+],
+"The Nightwarden": [
+"The Obliterator"
+],
+"Chesed": [
+"Cumulonimbus",
+"Realm Warden"
+],
+"Malkuth": [
+"Netherite Monstrosity"
+],
+"Apollyon": [],
+"Dark Doppelganger": [
+"The Nightwarden"
+],
+"Immortal": [
+"Maledictus"
+],
+"Redstone Monstrosity": [
+"Redstone Golem"
+],
+"Redstone Golem": [
+"Frostmaw"
+],
+"Bone Chimera": [
+"Rosalyne"
+],
+"Apostle": [
+"Underworld Knight"
+],
+"Gundalf, Circe, Merlin (Shadow Wizards)": [
+"Chorusling",
+"Endersent",
+"Mutant Enderman",
+"Shulker Mimic"
+],
+"Tyros (fire boss)": [
+"Corpse Warlock"
+],
+"The Obliterator": [
+"The Leviathan"
+],
+"Geburah": [
+"Ancient Remnant"
+],
+"Relic Annihilator": [
+"Wither"
+],
+"Realm Warden": [
+"Relic Annihilator"
+],
+"Draugr → Night Shade": [],
+"Returning Knight": [],
+"Chaos Monarch": [],
+"Accursed Lord": [],
+"Moonknight": [
+"Draugr → Night Shade"
+],
+"Day Stalker": [
+"Accursed Lord",
+"Chaos Monarch",
+"Moonknight",
+"Returning Knight"
+],
+"Night Prowler": [
+"Accursed Lord",
+"Chaos Monarch",
+"Moonknight",
+"Returning Knight"
+]
+},
+"dim": {
+"Dune Sentinel": 0,
+"Ancient Guardian": 0,
+"Overgrown Colossus": 0,
+"Frostbitten Golem": 0,
+"Withered Abomination": 5,
+"Lava Eater": 5,
+"Frostmaw": 0,
+"Umvuthi": 0,
+"Ferrous Wroughtnaut": 0,
+"Swampjaw": 0,
+"Dame Fortuna": 0,
+"Bellringer": 0,
+"Tongbi, the Sculptor": 0,
+"Rosalyne": 0,
+"Skeletosaurus": 5,
+"Corpse Warlock": 5,
+"Dead King": 0,
+"Wither": 0,
+"Warden": 0,
+"Possessed Paladin": 0,
+"Cumulonimbus": 0,
+"Scylla": 0,
+"Netherite Monstrosity": 5,
+"Lord Pumpkinhead": 0,
+"Forsaken": 0,
+"Luxtructosaurus": 0,
+"Trial Guardian": 0,
+"Obsidilith": 6.3,
+"Void Blossom": 0,
+"Lich": 0,
+"Gauntlet": 5,
+"Underworld Knight": 5,
+"Endersent": 6.3,
+"Chorusling": 6.3,
+"Shulker Mimic": 6.3,
+"Mutant Enderman": 6.3,
+"The Harbinger": 0,
+"Ender Guardian": 6.3,
+"Ancient Remnant": 0,
+"The Leviathan": 0,
+"Ignis": 5,
+"Maledictus": 0,
+"The Nightwarden": 6.3,
+"Chesed": 0,
+"Malkuth": 0,
+"Apollyon": 0,
+"Dark Doppelganger": 6.3,
+"Immortal": 0,
+"Redstone Monstrosity": 0,
+"Redstone Golem": 0,
+"Bone Chimera": 0,
+"Apostle": 0,
+"Gundalf, Circe, Merlin (Shadow Wizards)": 5,
+"Tyros (fire boss)": 5,
+"The Obliterator": 6.3,
+"Geburah": 6.3,
+"Relic Annihilator": 0,
+"Realm Warden": 0,
+"Draugr → Night Shade": 0,
+"Returning Knight": 0,
+"Chaos Monarch": 0,
+"Accursed Lord": 5,
+"Moonknight": 0,
+"Day Stalker": 0,
+"Night Prowler": 0
+}
+}

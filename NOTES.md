@@ -260,3 +260,9 @@ I stopped the check partway and applied what it had found (`build/pack_audit/ver
 - Crawled all 3831 routes (hub, Acts, bosses, side bosses, curios, gear items/sets, tier lists, hover tips): no broken <img>, no script errors.
 - Added ~60 missing icons (jar item/block textures, tag aliases, composited Terramity fluid buckets, enchanted book for enchantments). `forge:nbt` and texture-path ingredients no longer render as letter tiles.
 - Left as letters (3D-only or no texture): force_field, tartaric_foundry, nightmare_stalker_skull, laser_amplifier, antimatter, Mystical Agriculture mob chunks.
+
+## v23 — linked ordering: quest book → bosses → drops → gear
+- `boss_graph.json`: the quest book's Bosses chapter as a dependency graph (who each quest needs, dimension).
+- `boss_order.py` (new patch): boss Act = consistent with that graph (never before its parents or its dimension: Nether V, End 6.3; chain depth spreads II–X; pulled down to its earliest dependant first). Wither/Warden/Apollyon fixed. Writes `boss_acts.json` → `BACT` in the app.
+  - e.g. Ferrous Wroughtnaut VIII → III (2nd quest in the chain), Scylla VIII → V, Lord Pumpkinhead IX → V, Possessed Paladin VI → IV, Ignis VII → IX, Apostle VII → X.
+- Drops follow their boss: gear with a loot table `entities/<boss>` (Gob's Gilded Hat 0 → VII, Geomancer set 0 → V, Sol Visage 0 → IV, Gundalf's Hat 0 → 6.3); gear crafted from boss-only items (`boss_only_items.json`, built from the pack's recipes + loot tables) follows them; set Act = latest piece; pure side-boss curio drops sit at the boss's Act.
