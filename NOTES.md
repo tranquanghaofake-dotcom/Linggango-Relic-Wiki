@@ -276,3 +276,8 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Armor sets with two pieces for one slot** (Fireblossom Crown/Helmet, Wizard hats, Chaos hats) now count only the better piece.
 - **Caveat:** Hazen mage sets now score far above Iron's Spellbooks sets of the same Act because Iron's own armor still has no mana/spell-power attributes in the table (same cause as the open "mage armor without spell stats" item). Fixing that needs the Iron's material attributes read the same way.
 - Crawled all 2019 gear pages and 321 sets: no empty pages, broken images or script errors.
+
+## v22.6 — boss backgrounds
+- Audit of The Path: 63 of 65 side-boss cards had a landscape background. Chorusling (Legendary Monsters gallery shot of the End) and Bone Chimera (Dodo's Mobs dungeon shot) were the two added in v22.2 without one; both now have a 229×200 webp in `pack_imgs.json` (`build/pack_audit/boss_bg_extra.py`).
+- Near-black scenes (Warden, Forsaken, Masticator, Stalker, Dead King) are real dark biomes or dungeons and were left as is.
+- Hazard: `build/pack_audit/boss_audit/enum.py` shadows the stdlib `enum` when a script runs from that folder (it breaks `import json`). Run those scripts from elsewhere or rename it.
