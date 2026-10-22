@@ -502,8 +502,8 @@ const BIGSLOTS=SLOTS.filter(s=>s[1].length>=7);
 const MODS=(()=>{const c={};D.forEach(d=>(c[d.m]=c[d.m]||[]).push(d));return Object.entries(c).sort((a,b)=>a[0].localeCompare(b[0]))})();
 
 /* ---------- filter state ---------- */
-const st={c:[],g:[],r:[],x:[],m:"",s:"",a:"",q:"",nw:false,sort:"a",dir:1,cl:[],rl:0,rq:-1};
-try{const o=JSON.parse(localStorage.getItem("lgw2")||"{}");for(const k in st)if(k in o)st[k]=o[k]}catch(e){}
+const st={c:[],g:[],r:[],x:[],m:"",s:"",a:"",q:"",nw:false,sort:"a",dir:1,cl:[],op:null,rl:0,rq:-1};
+try{const o=JSON.parse(localStorage.getItem("lgw2")||"{}");for(const k in st)if(k in o)st[k]=o[k]}catch(e){}st.cl=[];
 st.c=st.c.filter(k=>k in ROLE);
 const save=()=>{try{localStorage.setItem("lgw2",JSON.stringify(st))}catch(e){}};
 function pass(d,skip){
@@ -679,15 +679,20 @@ function modPage(m){
  ${fa.map(([a,ys])=>`<section class="mact" style="--tc:${ACT[a][2]}"><h2>${emblem(a,"xs")}<span>${actL(a)}</span>${esc(ACT[a][1])}<small>${ys.length}</small></h2><div class="gridc">${ys.map(gcard).join("")}</div></section>`).join("")}</div>`;fbind()
 }
 
-function home(xs,asTable){
+/* The Path opens one Act by default (the reader's "I'm here" Act, else Act 0–I); a closed Act's tiles are only built when it opens.
+   With filters on, every Act with matches is open unless closed by hand (st.cl). */
+let pathXs=[];
+const tierOpen=a=>fOn()?!st.cl.includes(a):(st.op||[pHere()??ORDER[0]]).includes(a);
+const tierTiles=ys=>ys.length?ys.map((d,i)=>tile(d,i)).join(""):'<span class="empty">No items match the filters.</span>';
+function home(xs,asTable){pathXs=xs;
  let h=`${crumb("The Path")}<h1 class="qb">The Path</h1>
  <p class="lede">Every curio, grouped by the Act you can get it in.</p>
   <div class="legend"><span><i class="lgr"></i>Frame colour: rarity, brighter = rarer</span><span><i class="slk lg" style="--si:url(${slotIcon("Ring")})"></i>Curio slot it goes in</span><span><b class="lgn">16</b>Variants merged into one tile</span><span><b class="lgs">★</b>Must-Have: get it first</span><span>${rqb({rq:"Curses"}," lg")}Needs the Seven Curses or Virtues ring</span></div>
  ${fbar(xs.length,D.length)}${xs.length?"":`<p class="note">No curios match these filters. Remove one above or clear them all.</p>`}`;
  seedBg("path"+st.a,xs.filter(d=>d.r>=4));
  if(!asTable){
-  for(const a of ORDER){if(st.a!==""&&a>+st.a)continue;const ys=xs.filter(d=>d.t===a);if((a===-1||fOn())&&!ys.length)continue;const cl=st.cl.includes(a);
-   h+=`<section class="tier${cl?" closed":""}${VBOSS[a]?" vb":""}" style="--tc:${ACT[a][2]};${tex(a)}" id="p${String(a).replace(".","_")}"><button class="tl" data-tier="${a}" aria-expanded="${!cl}"><span class="tlem">${emblem(a)}</span><span class="ta">${actL(a)}</span><small>${esc(ACT[a][1])}</small>${a==-1?"":`<span class="tn">next: ${esc(ACTN[a]||"")}</span>`}<span class="rs">${RNS.map(i=>{const n=ys.filter(d=>d.r===i).length;return n?`<i class="r${i}" style="flex:${n}" title="${RN[i]}: ${n}"></i>`:""}).join("")}</span><small>${count(ys)} items</small></button><div class="tiles">${ys.length?ys.map((d,i)=>tile(d,i)).join(""):'<span class="empty">No items match the filters.</span>'}</div></section>`}
+  for(const a of ORDER){if(st.a!==""&&a>+st.a)continue;const ys=xs.filter(d=>d.t===a);if((a===-1||fOn())&&!ys.length)continue;const cl=!tierOpen(a);
+   h+=`<section class="tier${cl?" closed":""}${VBOSS[a]?" vb":""}" style="--tc:${ACT[a][2]};${tex(a)}" id="p${String(a).replace(".","_")}"><button class="tl" data-tier="${a}" aria-expanded="${!cl}"><span class="tlem">${emblem(a)}</span><span class="ta">${actL(a)}</span><small>${esc(ACT[a][1])}</small>${a==-1?"":`<span class="tn">next: ${esc(ACTN[a]||"")}</span>`}<span class="rs">${RNS.map(i=>{const n=ys.filter(d=>d.r===i).length;return n?`<i class="r${i}" style="flex:${n}" title="${RN[i]}: ${n}"></i>`:""}).join("")}</span><small>${count(ys)} items</small></button><div class="tiles">${cl?"":tierTiles(ys)}</div></section>`}
  }else{
   const COLS=[["n","Curio"],["r","Rarity"],["c","Role"],["t","Tier"],["a","Usable from"],["g","Source"],["m","Mod"],["fx","Effect"]];
   const CO=Object.keys(ROLE);
@@ -956,7 +961,10 @@ document.addEventListener("click",e=>{
  if(e.target.id==="clr2"){resetFilters();return}
  const go=e.target.closest("[data-go]");if(go){e.preventDefault();el(go.dataset.go).scrollIntoView({behavior:RM?"auto":"smooth",block:"start"});return}
  if(e.target.closest("[data-top]")){e.preventDefault();scrollTo({top:0,behavior:RM?"auto":"smooth"});return}
- const tl=e.target.closest(".tl[data-tier]");if(tl){const a=+tl.dataset.tier,i=st.cl.indexOf(a);i<0?st.cl.push(a):st.cl.splice(i,1);save();const s=tl.parentNode;s.classList.toggle("closed");tl.setAttribute("aria-expanded",!s.classList.contains("closed"))}
+ const tl=e.target.closest(".tl[data-tier]");if(tl){const a=+tl.dataset.tier,open=!tierOpen(a);
+  if(fOn()){const i=st.cl.indexOf(a);open?st.cl.splice(i,1):st.cl.push(a)}else{const o=st.op||[pHere()??ORDER[0]];st.op=open?[...o,a]:o.filter(x=>x!==a)}save();
+  const s=tl.parentNode,t=s.querySelector(".tiles");if(open&&!t.childElementCount){t.innerHTML=tierTiles(pathXs.filter(d=>d.t===a));decorate(s)}
+  s.classList.toggle("closed",!open);tl.setAttribute("aria-expanded",open)}
 });
 document.addEventListener("keydown",e=>{if(location.hash.startsWith("#i")&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&(e.key==="ArrowLeft"||e.key==="ArrowRight")){const a=[...document.querySelectorAll(".pnx a")].find(x=>x.textContent.includes(e.key==="ArrowLeft"?"Previous":"Next"));if(a){location.hash=a.getAttribute("href")}}if(e.key==="Escape")hideTip();if(e.key==="/"&&document.activeElement!==el("q")){e.preventDefault();el("q").focus()}});
 {const b=document.createElement("button");b.id="totop";b.setAttribute("aria-label","Back to top");b.textContent="↑";b.onclick=()=>scrollTo({top:0,behavior:RM?"auto":"smooth"});document.body.appendChild(b);
