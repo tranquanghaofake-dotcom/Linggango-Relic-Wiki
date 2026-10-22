@@ -315,7 +315,30 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - `check.js`: no Tank role, every set score finite and positive for every role and Act, fitted step within 1.05–1.3.
 - **Assumptions to revisit:** pack config could override Apothic's formula or Better Combat's fast attacks (not in the repo); Arion's hit (12) and Act VIII (50, the Discord's forms) are interpolated; 10% shred, 20+4 HP/Act and the k weights are judgement.
 
-## v22.12 — runtime gear stats: stage ready, waiting for a fresh dump
+## v24 — interaction layer (desktop): quick search, page transitions, loading screen
+- **Quick search** (`build/src/ux.js`, new): the header and title-screen search boxes now list results as you type, across curios, weapons, armor pieces, armor sets, Keepers, side bosses and the five sections. Results are grouped, the matched part is underlined, curio names keep their rarity colour, and hovering a row shows the usual tooltip. ↑/↓ move, Enter opens, Esc closes, Ctrl/⌘ K or / focuses the box. The last row still filters The Path by the text (old behaviour). On The Path itself the header box keeps filtering the grid live. Focusing the empty box lists the last 8 pages opened (stored in this browser only).
+- Before, the header box only searched curios and jumped to The Path on the first keystroke, so gear and bosses could not be found from it.
+- **Page transitions:** moving between sections cross-fades with the View Transitions API (header stays put); switches inside a page (Equipment Act or playstyle, Path filters) redraw in place, and Equipment tiles deal in row by row. Off under `prefers-reduced-motion` and in browsers without the API.
+- **Loading screen:** the page used to stay blank while ~16 MB of data loaded on the first visit. It now shows a loading bar that counts the data files as they arrive (indeterminate in the offline file).
+- **Header:** the section you are in is marked in the nav (green pressed button, as for other selected buttons); the bar turns to frosted glass once the page scrolls.
+- **Title screen:** one entrance (logo, then search and menu buttons).
+- All new surfaces use the vanilla item-tooltip look (near-black violet, violet gradient border). Mobile is not redesigned (desktop/laptop target, as since v6).
+
+## v25 — Vercel agent skills, guideline audit, shared-element transitions
+- Installed `vercel-labs/agent-skills` (`npx skills add`, 9 skills in `.claude/skills/`, `skills-lock.json`). Used: **web-design-guidelines** (audit below) and **vercel-react-view-transitions** (its patterns, applied with plain `startViewTransition` since the wiki has no React). The React, React Native and Vercel deploy skills do not apply to this site.
+- **Bug fixed:** on Mechanics the ritual cards' ingredient icons were stretched to ~120 px over their own text (`.rtype img`, meant for the scene picture, also caught the 22 px chip icons).
+- **Audit fixes:** skip link to the content; search fields get `name`, `autocomplete="off"`, `spellcheck="false"` and placeholders ending in “…”; the curio count announces changes (`aria-live`); headings balance their lines, numbers use tabular figures; `touch-action: manipulation`; the brand name is `translate="no"`. Not done: explicit `width`/`height` on every icon `<img>` (they are sized by CSS in hundreds of contexts and decode from in-memory blobs, so there is no layout shift to fix). Kept sentence case for headings and buttons (the wiki's own style) over the guideline's Title Case.
+- **Shared element:** the icon you click (a Path tile, an Equipment tile, a quick-search row) grows into the item page's big art, and flies back to its tile when you go back. **Previous/Next** on curio pages (buttons or ←/→) slide the page the way you are going.
+- **Boss pages:** the boss bar fills as the page opens. **Build planner:** each slot row shows the game's curio slot icon; empty rows are dimmed so filled ones read first; slot labels no longer wrap.
+
+## v26 — The Path as an interactive map (home page)
+- The home page's long Act list (≈3000 px) is now a map: 13 advancement frames on an XP bar, and one panel for the selected Act. Click an Act or use ←/→/Home/End; the panel slides the way you move.
+- Each panel: Act title strip, what opens it, curio / Must-Have / side-boss counts, the Keeper to beat next (links to its boss page), the best melee weapon at that Act (from the Equipment ranking), the side-boss cards (unchanged), and “See N curios”, “See gear”.
+- **“I'm here”** marks your run (this browser only, `localStorage` key `lgw-here`): the XP bar fills to that Act, reached Acts get the gold obtained-advancement frame, later Acts fade, and the map opens on your Act next time.
+- All 13 panels are in the page (others `hidden`), so `check.js` still finds all 65 side-boss cards; their background pictures load lazily when a panel opens.
+- The map's numbers use the body face: the pixel face misreads digits (156 looked like 186), as found in v13.
+
+## v27 — runtime gear stats: stage ready, waiting for a fresh dump
 - Serverpack 6.6.5b4 ships `kubejs/server_scripts/dump_gear.js` and its output `kubejs/gear_dump.json` (ItemStack.getAttributeModifiers per slot, in game). Copied to `build/patches/gear_runtime.json`; `patches/gear_runtime.py` applies it (dump replaces the jar reading; all-zero dumps = NBT stats and missing damage/speed lines keep the jar values).
 - **Not in the chain yet:** the shipped dump predates the pack's `gear_authored_profiles_1..8` (≈630 items): 1027 of their modifiers are absent and 386 differ in value. The other 57 attributesetter files match (3444 modifiers exact), so the method is right and the file is stale. Next: run `/kubejs custom_command dump_gear` on 6.6.5b4, replace the JSON, add `gear_runtime.apply` after `gear_stats.apply` in `gear_pipeline.py`.
 - Confirmed wiki errors (dump and current config agree): Iron's Spellbooks chestplates 10 armor / 5 toughness (wiki 8/0), Travel Optics toughness 4 (wiki 0.2), Gomoria Leggings 31 armor (wiki 0). Build output unchanged in this commit.

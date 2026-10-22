@@ -778,3 +778,193 @@ a.pbc,a.pb{text-decoration:none;color:inherit;cursor:pointer}
 .prow>.adv{position:sticky;top:76px;z-index:1;background:#0b0a10;border-radius:12px;padding:6px 0}
 .pmain{padding-top:4px}
 .gob{padding:8px 12px;border-radius:8px;background:#1f3a24;border:1px solid #4caf6a66}.gob.bad{background:#3a1a1f;border-color:#ff6b7a66}.gob.unk{background:#3a331a;border-color:#ffd84a55}
+
+/* ================= v24: interaction layer (ux.js, page transitions) =================
+   One look for every new surface: the vanilla item tooltip (near-black violet, 2px violet gradient border).
+   Motion only answers an action (open, switch, navigate), except the one title-screen entrance. */
+:root{--tt-bg:rgba(16,0,16,.96);--tt-b1:#5000ff;--tt-b2:#28007f;--ease-out:cubic-bezier(.2,.8,.2,1);--ease-pop:cubic-bezier(.2,1.25,.4,1)}
+
+/* header: glass once content slides under it */
+.top{transition:background-color .2s,box-shadow .2s}
+body.scrolled .top{background:rgba(29,28,34,.82);-webkit-backdrop-filter:blur(12px) saturate(1.3);backdrop-filter:blur(12px) saturate(1.3);
+ box-shadow:0 2px 0 #000,0 10px 30px rgba(0,0,0,.45)}
+.top .nav .mcb[aria-current]{color:#fff}
+
+/* loading screen, shown until app.js draws the first page */
+body:has(.boot) #side{display:none}
+body:has(.boot) .shell{grid-template-columns:minmax(0,1fr)}
+.boot{display:grid;justify-items:center;align-content:center;gap:14px;min-height:62vh;text-align:center}
+.boot-t{margin:0;font:700 22px var(--disp,monospace);color:#fff;text-shadow:2px 2px 0 #3f3f3f}
+.boot-bar{position:relative;width:min(360px,80vw);height:12px;background:#000;box-shadow:0 0 0 2px #555;overflow:hidden}
+.boot-bar i{position:absolute;inset:0;background:var(--xp,#80ff20);box-shadow:inset 0 -3px 0 rgba(0,0,0,.25);transform-origin:left;transform:scaleX(.08);transition:transform .35s var(--ease-out)}
+.boot-bar:not(.det) i{width:30%;animation:bootRun 1.1s ease-in-out infinite}
+.boot-s{margin:0;max-width:44ch;font-size:13px;color:var(--mute,#aaa7b4)}
+@keyframes bootRun{0%{transform:translateX(-100%)}100%{transform:translateX(340%)}}
+
+/* page transitions (View Transitions API): the header stays put, the page under it changes */
+.top{view-transition-name:top}
+#side{view-transition-name:side}
+::view-transition-old(root){animation:vtOut .12s ease-in both}
+::view-transition-new(root){animation:vtIn .26s var(--ease-out) .08s both}
+@keyframes vtOut{to{opacity:0}}
+@keyframes vtIn{from{opacity:0;transform:translateY(10px)}}
+
+/* title screen: one entrance, logo first, then the menu */
+body.hub .title-scr .wm{animation:logoIn .8s var(--ease-pop) both}
+body.hub .title-scr .splash{animation-delay:.55s}
+body.hub .title-scr .hsearch,body.hub .title-scr .tbtns>*{animation:menuIn .42s var(--ease-out) both}
+body.hub .title-scr .hsearch{animation-delay:.28s}
+body.hub .title-scr .tbtns>:nth-child(1){animation-delay:.34s}
+body.hub .title-scr .tbtns>:nth-child(2){animation-delay:.39s}
+body.hub .title-scr .tbtns>:nth-child(3){animation-delay:.42s}
+body.hub .title-scr .tbtns>:nth-child(4){animation-delay:.45s}
+body.hub .title-scr .tbtns>:nth-child(5){animation-delay:.48s}
+@keyframes logoIn{from{opacity:0;transform:translateY(-18px) scale(.94)}}
+@keyframes menuIn{from{opacity:0;transform:translateY(8px)}}
+.title-scr .mcb{transition:background-color .1s,transform .12s var(--ease-out)}
+.title-scr .tbtns .mcb:hover{transform:translateY(-1px)}
+
+/* Equipment: tiles deal in, row by row, when the Act or playstyle changes */
+.gtl-list.deal .gtiles>a,.gtiles.gsr.deal>a{animation:dealIn .34s var(--ease-pop) both;animation-delay:calc(var(--n,0) * 14ms)}
+@keyframes dealIn{from{opacity:0;transform:translateY(6px) scale(.9)}}
+.gacts a{transition:transform .12s var(--ease-out),background-color .1s}
+.gacts a:hover{transform:translateY(-2px)}
+
+/* quick search */
+#qs{position:fixed;z-index:55;overflow:auto;overscroll-behavior:contain;padding:6px;color:#fff;background:var(--tt-bg);
+ border:2px solid;border-image:linear-gradient(var(--tt-b1),var(--tt-b2)) 1;
+ box-shadow:0 0 0 2px #100010,0 18px 44px rgba(0,0,0,.6);scrollbar-width:thin;scrollbar-color:#3c2a6e transparent;transform-origin:50% 0}
+#qs.in{animation:qsIn .16s var(--ease-out) both}
+@keyframes qsIn{from{opacity:0;transform:translateY(-6px) scale(.985)}}
+#qs .qg{display:flex;justify-content:space-between;align-items:baseline;padding:10px 10px 4px;font:600 12px var(--body);color:#9d8fc4;letter-spacing:.02em}
+#qs .qg:first-child{padding-top:4px}
+#qs .qg em{font-style:normal;color:#6f6496}
+#qs .qr{display:grid;grid-template-columns:36px minmax(0,1fr);align-items:center;gap:12px;padding:6px 10px;color:#fff;text-decoration:none;border-radius:2px}
+#qs .qr.on{background:rgba(255,255,255,.1);box-shadow:inset 2px 0 0 var(--yellow)}
+#qs .qic{display:grid;place-items:center;width:36px;height:36px;background:var(--slot);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi);overflow:hidden}
+#qs .qic img{width:26px;height:26px;object-fit:contain}
+#qs .qic .emb{transform:scale(.8)}
+#qs .qpg{font:700 16px var(--disp);color:var(--yellow)}
+#qs .qtx{display:grid;min-width:0}
+#qs .qtx b{font:600 14px/1.3 var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:1px 1px 0 #000}
+#qs .qtx small{font-size:12px;color:#a59cbd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#qs mark{background:none;color:inherit;text-decoration:underline;text-decoration-color:var(--yellow);text-decoration-thickness:2px;text-underline-offset:3px}
+#qs .qall{margin-top:6px;border-top:1px solid #2a1a4a;padding-top:10px;border-radius:0}
+#qs .qall b{color:var(--yellow)}
+#qs .qnone{margin:6px 10px 2px;font-size:13px;color:#cfc7e6}
+#qs .qkeys{display:flex;gap:16px;margin:8px 0 0;padding:8px 10px 2px;border-top:1px solid #2a1a4a;font-size:12px;color:#8a80a8}
+#qs kbd{display:inline-block;min-width:18px;margin-right:3px;padding:0 4px;font:600 11px/17px var(--body);text-align:center;color:#ddd;background:#2a2533;box-shadow:inset 0 -2px 0 #000,0 0 0 1px #000}
+
+@media (prefers-reduced-motion:reduce){
+ body.hub .title-scr .wm,body.hub .title-scr .hsearch,body.hub .title-scr .tbtns>*,.gtl-list.deal .gtiles>a,.gtiles.gsr.deal>a,#qs.in,.boot-bar i{animation:none!important}
+ ::view-transition-old(root),::view-transition-new(root){animation:none!important}
+ .top,.gacts a,.title-scr .mcb{transition:none}
+}
+
+/* ================= v25: guideline pass (Web Interface Guidelines) and fixes ================= */
+/* Mechanics: ritual cards size their scene picture with `.rtype img`, which also caught the 22px ingredient icons in the chips
+   and stretched them over the text */
+.rtype .nch img.nic{width:22px;height:22px;aspect-ratio:auto;object-fit:contain;box-shadow:none;image-rendering:pixelated}
+h1,h2,h3,.gt{text-wrap:balance}
+.lede,.gs,p{text-wrap:pretty}
+.count,.fn,.chip span,.sl-n,.adv em,.tcorner,table td,.bnum,.gfoot b{font-variant-numeric:tabular-nums}
+a,button,summary,input,select,label{touch-action:manipulation}
+.skip{position:fixed;left:16px;top:-60px;z-index:100;padding:10px 16px;font:600 14px var(--body);color:#000;background:var(--yellow);box-shadow:0 0 0 2px #000;transition:top .15s}
+.skip:focus{top:12px}
+#main:focus:not(:focus-visible){outline:0}
+/* shared art: the clicked icon grows into the page's big art; pixel art stays crisp while it scales */
+::view-transition-group(art){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,.85,.25,1);z-index:2}
+::view-transition-old(art),::view-transition-new(art){height:100%;object-fit:contain;image-rendering:pixelated;animation-duration:.42s}
+/* Previous / Next on item pages: an ordered sequence, so the page slides the way you are going */
+html[data-vt=next]::view-transition-old(root){animation:.16s ease-in both vtFade reverse,.32s ease-in-out both vtToL}
+html[data-vt=next]::view-transition-new(root){animation:.22s ease-out .1s both vtFade,.32s ease-in-out both vtFromR}
+html[data-vt=prev]::view-transition-old(root){animation:.16s ease-in both vtFade reverse,.32s ease-in-out both vtToR}
+html[data-vt=prev]::view-transition-new(root){animation:.22s ease-out .1s both vtFade,.32s ease-in-out both vtFromL}
+@keyframes vtFade{from{opacity:0}}
+@keyframes vtToL{to{transform:translateX(-48px)}}@keyframes vtToR{to{transform:translateX(48px)}}
+@keyframes vtFromR{from{transform:translateX(48px)}}@keyframes vtFromL{from{transform:translateX(-48px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+/* boss pages: the boss bar fills as the page opens, the way it does when a boss spawns in game */
+.lhero .bossbar>i{transform-origin:left;animation:bossFill 1.2s .25s cubic-bezier(.25,.8,.25,1) both}
+@keyframes bossFill{from{transform:scaleX(0)}}
+/* build planner: each row carries the game's own curio slot icon; empty rows step back so filled ones read first */
+.bsh{display:flex;align-items:center;gap:8px}
+.bsh .bsi{width:24px;height:24px;flex:none;image-rendering:pixelated;opacity:.85}
+.bslot:not(.has) .bsh b{color:var(--gui-mute)}
+.bslot:not(.has) .bsh .bsi{opacity:.45}
+.bsb button.bx:not(.on){color:#7d7891;transition:color .1s,background-color .1s}
+.bsb button.bx:not(.on):hover{color:#ffffa0}
+.bslot.has{background:linear-gradient(90deg,rgba(128,255,32,.05),transparent 40%)}
+@media (prefers-reduced-motion:reduce){.lhero .bossbar>i{animation:none!important}}
+.bslot{grid-template-columns:170px minmax(0,1fr);align-items:center}
+.bsh{white-space:nowrap;min-width:0}
+.bsh b{overflow:hidden;text-overflow:ellipsis}
+
+/* ================= v26: The Path as an interactive map (home page) =================
+   Advancement frames on an XP bar; the panel below holds the selected Act. */
+.pmap .pmh{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.pmap .pmh .gs{max-width:68ch}
+.prun{margin:0 0 14px;font:600 13px var(--body);color:var(--xp);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ptrack{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:4px;margin:8px 0 0;padding:14px 8px 18px;
+ background:rgba(0,0,0,.35);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
+.pxp{position:absolute;left:calc(100% / var(--n) / 2 + 8px);right:calc(100% / var(--n) / 2 + 8px);top:41px;height:8px;background:#000;box-shadow:0 0 0 2px #2a2733}
+.pxp i{position:absolute;inset:0;background:linear-gradient(#b7ff7a,var(--xp) 45%,#4c9b12);transform-origin:left;transform:scaleX(0);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.pxp::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(100% / 18 - 2px),rgba(0,0,0,.5) calc(100% / 18 - 2px) calc(100% / 18))}
+.pn{position:relative;z-index:1;display:grid;justify-items:center;gap:6px;padding:0;background:none;border:0;cursor:pointer;color:var(--gui-mute);font:600 13px var(--body)}
+.pn .pfr{display:grid;place-items:center;width:52px;height:52px;background:#3b3846;
+ box-shadow:0 0 0 2px #000,inset 2px 2px 0 #6b6680,inset -2px -2px 0 #1a1820;transition:transform .15s cubic-bezier(.2,1.3,.4,1),background-color .2s,box-shadow .2s}
+.pn .pfr .emb{transform:scale(.9)}
+.pn b{font:600 13px/1.1 var(--body);white-space:nowrap}
+.pn.ch .pfr{clip-path:polygon(50% 0,62% 14%,82% 8%,86% 30%,100% 50%,86% 70%,82% 92%,62% 86%,50% 100%,38% 86%,18% 92%,14% 70%,0 50%,14% 30%,18% 8%,38% 14%);width:60px;height:60px;margin:-4px 0}
+/* reached Acts get the obtained-advancement gold frame, the Act you are on pulses once */
+.pn.done .pfr,.pn.here .pfr{background:#c9a227;box-shadow:0 0 0 2px #000,inset 2px 2px 0 #ffe27a,inset -2px -2px 0 #6e5410}
+.pn.done b{color:#e9d27c}
+.pn.here b{color:var(--xp)}
+.pn.here .pfr{animation:hereIn .6s cubic-bezier(.2,1.3,.4,1)}
+.pn.ahead .pfr{filter:saturate(.35) brightness(.7)}
+.pn.ahead b{color:#77738a}
+.pn:hover .pfr{transform:translateY(-3px)}
+.pn[aria-selected=true] .pfr{transform:translateY(-3px) scale(1.08);box-shadow:0 0 0 2px #fff,0 0 0 4px #000,0 8px 18px rgba(0,0,0,.5),inset 2px 2px 0 rgba(255,255,255,.35),inset -2px -2px 0 rgba(0,0,0,.4)}
+.pn[aria-selected=true] b{color:#fff}
+.pn[aria-selected=true]::after{content:"";position:absolute;bottom:-19px;left:50%;width:14px;height:14px;background:var(--gui);transform:translateX(-50%) rotate(45deg);box-shadow:-2px -2px 0 #000}
+.pn:focus-visible{outline:none}
+.pn:focus-visible .pfr{outline:2px solid var(--ring);outline-offset:4px}
+@keyframes hereIn{40%{transform:scale(1.18)}}
+
+.ppanel{position:relative;margin:18px 0 0;padding:20px 22px 22px;border-radius:2px;
+ background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 14%,var(--gui2)),var(--gui2) 55%);box-shadow:0 0 0 2px #000,inset 4px 0 0 var(--tc)}
+.pph{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 0 16px}
+.pph .ptitle{height:30px;width:auto;image-rendering:auto}
+.pph h3{font:700 22px var(--disp);color:var(--tc)}
+.pph p{margin:0;color:var(--gui-mute);font-size:14px}
+.ppg{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;align-items:start}
+.ppl{display:grid;gap:12px}
+.pstat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0}
+.pstat div{padding:8px 10px;background:rgba(0,0,0,.35);box-shadow:inset 2px 2px 0 var(--slot-lo)}
+.pstat dt{font-size:12px;color:var(--gui-mute)}
+.pstat dd{margin:0;font:700 22px/1.2 var(--disp);color:#fff;font-variant-numeric:tabular-nums}
+.pnext{display:flex;align-items:center;gap:12px;padding:8px 10px;color:#fff;text-decoration:none;background:rgba(0,0,0,.25);box-shadow:0 0 0 2px #000;transition:background-color .12s}
+a.pnext:hover{background:var(--btn-hover);color:#ffffa0}
+.pnext small{display:block;font-size:12px;color:var(--gui-mute)}
+a.pnext:hover small{color:#dfe3ff}
+.pnext b{font:600 14px/1.3 var(--body)}
+.pnext.end{margin:0;opacity:.75}
+.pbtn{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.pbtn .phere[aria-pressed=true]{background:#3c7d1e;box-shadow:0 0 0 2px #000,inset 2px 2px 0 #79c84a,inset -2px -3px 0 #1d4310}
+.ppanel .pside{display:flex;flex-wrap:wrap;gap:8px;align-content:start}
+.ppanel .pnone{margin:0;color:var(--gui-mute);font-style:italic}
+/* switching Acts: the panel slides the way the track moves */
+::view-transition-group(ppanel){animation-duration:.3s}
+html[data-pvt=next]::view-transition-old(ppanel){animation:.14s ease-in both vtFade reverse,.3s ease-in-out both vtToL}
+html[data-pvt=next]::view-transition-new(ppanel){animation:.2s ease-out .08s both vtFade,.3s ease-in-out both vtFromR}
+html[data-pvt=prev]::view-transition-old(ppanel){animation:.14s ease-in both vtFade reverse,.3s ease-in-out both vtToR}
+html[data-pvt=prev]::view-transition-new(ppanel){animation:.2s ease-out .08s both vtFade,.3s ease-in-out both vtFromL}
+@media (max-width:1100px){.ppg{grid-template-columns:1fr}.pn b{font-size:11px}.pn .pfr{width:40px;height:40px}.pn.ch .pfr{width:46px;height:46px}.pxp{top:35px}}
+@media (max-width:760px){.ptrack{display:flex;overflow-x:auto;gap:10px;scrollbar-width:none}.pn{flex:none;width:56px}.pxp{display:none}.pmap .pmh{display:block}}
+@media (prefers-reduced-motion:reduce){.pxp i,.pn .pfr{transition:none}.pn.here .pfr{animation:none}}
+/* the pixel face draws 5 like 8 and 9 like 3 (see v13), so the map's numbers use the body face */
+.pstat dd{font:700 22px/1.2 var(--body)}
+.pn[aria-selected=true] .pfr{filter:none}
+.pbtn{display:grid;grid-template-columns:1fr 1fr}
+.pbtn .mcb{white-space:normal;text-align:center;min-height:38px}
+.pbtn .phere{grid-column:1/-1}
