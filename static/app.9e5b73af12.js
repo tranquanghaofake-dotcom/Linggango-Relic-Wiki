@@ -434,7 +434,7 @@ const ICU={};
 const icu=id=>{let u=ICU[id];if(!u&&IC[id]){const b=atob(IC[id]),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);u=ICU[id]=URL.createObjectURL(new Blob([a],{type:"image/png"}))}return u};
 let GEK=null;
 const phGlyph=id=>{if(!GEK&&typeof GE!=="undefined"){GEK={};GE.forEach(g=>GEK[g.id]=g)}const g=GEK&&GEK[id];if(!g)return null;return g.k==="armor"?({HELMET:"⛑",CHESTPLATE:"🛡",LEGGINGS:"👖",BOOTS:"👢"}[g.sl]||"🛡"):"⚔"};
-const img=(id,cls)=>{if(IC[id])return `<img alt="" decoding="async" src="${icu(id)}"${cls?` class="${cls}"`:""}>`;const gl=phGlyph(id);return gl?`<span class="ph gph" title="No flat icon: this item only has a 3D model in its mod">${gl}</span>`:`<span class="ph">${esc((NM[id]||id.split(":")[1]||"?").slice(0,2))}</span>`};
+const img=(id,cls)=>{if(/^forge:(partial_)?nbt$|textures\//.test(id))return "";if(IC[id])return `<img alt="" decoding="async" src="${icu(id)}"${cls?` class="${cls}"`:""}>`;const gl=phGlyph(id);return gl?`<span class="ph gph" title="No flat icon: this item only has a 3D model in its mod">${gl}</span>`:`<span class="ph" data-id="${esc(id)}">${esc((NM[id]||id.split(":")[1]||"?").slice(0,2))}</span>`};
 const nmI=id=>NM[id]||id.split(":")[1].replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
 const ACTN={"-1":"L2 Artifacts",0:"Iron Colossus",2:"The Goblin Lord",3:"Arion",4:"Eldorath",5:"Zoranth the Forgotten",6:"The Ender Dragon",6.3:"The Elvenite Paladin",7:"Vaedric",8:"The Discord",9:"Sanghor",10:"Zoranth Newborn",11:"Nyxaris",12:"the end"};
 const actL=a=>ACT[a][3]||"Act "+ACT[a][0];

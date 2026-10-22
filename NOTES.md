@@ -255,3 +255,8 @@ I stopped the check partway and applied what it had found (`build/pack_audit/ver
 - Curios: new patch `curio_gate.py` — keeper-gated curios can no longer sit at Act 0 via the random-loot rule (8 items); Oddeyes Glasses Act VIII; Void Crown/Robe after the Dragon.
 - Equipment: fixed 5 weapons whose unknown speed read as 4.0; set Act = latest piece; "!"-hidden items left out of tier lists.
 - Still open (needs the gear generator re-run): Cataclysm and other plain-Item weapons dropped, Iron's staffs missing, mage armor without spell stats, split armor sets, unscored weapons.
+
+## v22.4 — image audit
+- Crawled all 3831 routes (hub, Acts, bosses, side bosses, curios, gear items/sets, tier lists, hover tips): no broken <img>, no script errors.
+- Added ~60 missing icons (jar item/block textures, tag aliases, composited Terramity fluid buckets, enchanted book for enchantments). `forge:nbt` and texture-path ingredients no longer render as letter tiles.
+- Left as letters (3D-only or no texture): force_field, tartaric_foundry, nightmare_stalker_skull, laser_amplifier, antimatter, Mystical Agriculture mob chunks.
