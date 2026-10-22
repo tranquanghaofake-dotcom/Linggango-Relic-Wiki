@@ -20,9 +20,9 @@
 3. Add a short entry to `NOTES.md` on `workspace` (e.g. `git worktree add ../ws workspace`), commit, push `workspace`.
 
 ## Design
-- A clean wiki with the game's identity: pixel face for headings, the vanilla tooltip palette, rarity colours, item slots.
-- No looping animation (exceptions: an item's own animated texture, the loading bar). No drop shadows, glows, bevelled buttons or hover lift/zoom; state is shown by colour and one border.
-- Do not build what the reader cannot see yet (The Path builds a collapsed Act's tiles when it opens).
+- The look is Minecraft's own GUI: bevelled containers, stone buttons, inset item slots, the vanilla tooltip, advancement frames, the boss bar, and the motion that goes with them. It is deliberate; keep it.
+- Do not flatten or strip it. A pass that removed the bevels, shadows and animations was reverted at the user's request (it read as plain, not clean). Any change to the overall look needs the user's approval first.
+- Do not build what the reader cannot see yet: The Path opens one Act (the reader's "I'm here" Act, else Act 0–I) and builds a collapsed Act's tiles when it opens.
 - Desktop and laptop first.
 
 ## Content
