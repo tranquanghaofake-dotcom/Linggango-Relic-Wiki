@@ -5,12 +5,8 @@ The task prompt is in `PROMPT.md`; every path or rarity change is listed in `bui
 
 ## Rebuild
 
-```bash
-python3 build/transform.py   # data: paths, rarity, plain-English text, vanilla textures → build/out/data.js
-python3 build/build.py       # assemble dist/Linggango_Relic_Wiki.html
-```
-
-`original/` keeps the uploaded file untouched; `transform.py` always reads from it.
+See `build/README.md`. In short: `bash build/patches/apply_all.sh` (patches, then `build.py`), then `bash build/check.sh`.
+`original/` keeps the uploaded file untouched; `build/transform.py` was the one-off that made the first `data.js` from it.
 
 ## What changed
 
@@ -280,4 +276,9 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 ## v22.6 — boss backgrounds
 - Audit of The Path: 63 of 65 side-boss cards had a landscape background. Chorusling (Legendary Monsters gallery shot of the End) and Bone Chimera (Dodo's Mobs dungeon shot) were the two added in v22.2 without one; both now have a 229×200 webp in `pack_imgs.json` (`build/pack_audit/boss_bg_extra.py`).
 - Near-black scenes (Warden, Forsaken, Masticator, Stalker, Dead King) are real dark biomes or dungeons and were left as is.
-- Hazard: `build/pack_audit/boss_audit/enum.py` shadows the stdlib `enum` when a script runs from that folder (it breaks `import json`). Run those scripts from elsewhere or rename it.
+- Hazard fixed: `boss_audit/enum.py` shadowed the stdlib `enum` when a script ran from that folder (it broke `import json`); renamed to `enum_jars.py`.
+
+## v22.7 — build architecture
+- `build/README.md`: data flow, source vs generated files, patch rules, weak spots. The old "Rebuild" section here pointed at `transform.py` and was stale.
+- `build/check.sh` + `build/check.js` (new): patches idempotent and output reproducible (the committed tree is a fixed point of `apply_all.sh`), no script errors, 2019 gear pages and 321 sets render, all 65 Path boss cards have a background. Replaces the throwaway crawl scripts.
+- Not done: `src/fx3d.js` is a bundle (three.js r169 + `fx3d.src.js`) whose build command is not recorded and whose bundler is not installed here, so it cannot be rebuilt from source yet; `gear.js` still monkey-patches `app.js` globals.
