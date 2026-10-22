@@ -1,6 +1,6 @@
-import json
+import json, os
 def load():
-    s=open('/home/user/Linggango-Relic-Wiki/build/src/gear_data.js').read()
+    s=open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'src', 'gear_data.js')).read()
     dec=json.JSONDecoder()
     GE,i=dec.raw_decode(s,9)
     GS,j=dec.raw_decode(s,i+4)

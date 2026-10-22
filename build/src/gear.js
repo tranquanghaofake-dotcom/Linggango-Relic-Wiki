@@ -43,6 +43,16 @@ function gSrc(g){const lt=g.lt||[],rc=g.rc||[];
  return lt.length?.5:.3}
 /* Ranged, Mage, Summon weapons: unlock rung x up to +10% for how hard it is to get x its readable bonuses */
 function gEstScore(g,r){const rung=gLad(oiA(g.a)>oiA(g.ga||0)?g.a:g.ga);return Math.pow(GSTEP,rung)*(1+.1*gSrc(g))*(1+gEff((g.off||{})[r]||0))}
+/* melee: damage per second = (base + bonus) x speed, x crit (chance capped at 100%: +50% plus crit damage), x lifesteal and reach */
+const gSumk=(g,rx,part=0)=>{let t=0;for(const k in g.at)if(rx.test(k))t+=g.at[k][part];return t};
+function gMelee(g){const a=k=>g.at[k]||[0,0];
+ const hit=(g.dmg+a("attack_damage")[0])*(1+a("attack_damage")[1]),spd=Math.max(.25,(g.spd||1.6)+a("attack_speed")[0])*(1+a("attack_speed")[1]);
+ const cc=gSumk(g,/crit(ical)?_(strike_)?chance/),cd=gSumk(g,/crit(ical)?_(strike_)?damage/)+gSumk(g,/crit(ical)?_(strike_)?damage/,1);
+ return hit*spd*(1+Math.min(cc,1)*(.5+cd))*(1+.5*gSumk(g,/life_?steal/))*(1+.05*a("entity_reach")[0])}
+const gR3=v=>Math.round(v*1000)/1000;
+/* the roles a weapon is listed for follow from its kind; a staff that also buffs minions is listed for Summon too */
+const gKindRoles=g=>g.k==="melee"?["ME"]:g.k==="ranged"?["RA"]:g.k==="summon"?["SU"]:["MA"].concat((g.off||{}).SU>0?["SU"]:[]);
+GE.forEach(g=>{g.sc={};if(g.k!=="armor")gKindRoles(g).forEach(r=>g.sc[r]=null);if(g.k==="melee"&&g.dmg!=null)g.sc.ME=gR3(gMelee(g))});
 /* melee weapons whose base damage lives in code we could not read: estimated from same-gate weapons */
 const GEST={};
 {const by={};GE.filter(g=>g.k==="melee"&&g.sc.ME!=null).forEach(g=>(by[g.ga]=by[g.ga]||[]).push(g.sc.ME));
@@ -55,11 +65,12 @@ const GEST={};
    and a set with real bonuses for the role beats it. Mages lose the most by wearing plain armor, melee nothing. */
 const GFIT={TA:1,ME:1,RA:.9,SU:.8,MA:.65};
 const GROBE=/robe|crown|hat|hood|cowl|mask/;
-{const kn=GS.filter(s=>s.kn&&s.sc.TA>0),med={};
- const medAt=a=>{const k=oiA(a);if(med[k]==null){let v=kn.filter(s=>oiA(s.a)<=k&&oiA(s.a)>=k-1).map(s=>s.sc.TA).sort((x,y)=>x-y);if(!v.length)v=kn.map(s=>s.sc.TA).sort((x,y)=>x-y);med[k]=v[Math.floor(v.length/2)]||1}return med[k]};
- GS.forEach(s=>{let d=s.sc.TA||0;const robe=s.p.some(id=>GROBE.test(id.split(":")[1]));
+const gDefense=s=>s.arm+.8*s.tough+.5*s.hp+10*Math.min(1,s.kbr)+60*Math.max(0,s.dtk);
+{GS.forEach(s=>s.d=gDefense(s));const kn=GS.filter(s=>s.kn&&s.d>0),med={};
+ const medAt=a=>{const k=oiA(a);if(med[k]==null){let v=kn.filter(s=>oiA(s.a)<=k&&oiA(s.a)>=k-1).map(s=>s.d).sort((x,y)=>x-y);if(!v.length)v=kn.map(s=>s.d).sort((x,y)=>x-y);med[k]=v[Math.floor(v.length/2)]||1}return med[k]};
+ GS.forEach(s=>{let d=s.d;const robe=s.p.some(id=>GROBE.test(id.split(":")[1]));
   if(!s.kn||d<=0){d=medAt(s.a)*(robe?.7:.8);s.est=1}   // base armor unreadable: the typical set of its Act (robes a little lighter)
-  const sc={TA:s.kn&&s.sc.TA>0?d:0};
+  const sc={TA:s.kn&&s.d>0?d:0};
   for(const r of ["ME","RA","MA","SU"]){const own=gEff((s.off||{})[r]||0),fit=r==="MA"&&robe&&!s.kn?1:GFIT[r];sc[r]=gRound(d*fit*(1+own))}
   s.sc=sc;s.rl=["TA"].concat(["ME","RA","MA","SU"].filter(r=>(s.off||{})[r]>.02))})}
 GS.forEach(s=>{if(!s.kn)s.est=1});
@@ -172,22 +183,10 @@ function gearTip(n){const k=n.dataset.t,isSet=k[0]==="s",g=isSet?GS[+k.slice(1)]
  <div class="tbd">${rows.length?`<ul class="tst">${rows.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${bon.length?`<ul class="tst">${bon.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${g.est?'<p class="tsrc">≈ ranked by when you get it (base stats not readable)</p>':""}${g.ga?`<p class="tlock">🔒 Locked until ${esc(GATEN[g.ga])} falls</p>`:""}<p class="twhere">${esc(actL(g.a))}</p></div>
  <div class="tft"><span class="tmod">${esc(MODN((g.id||g.k).split(":")[0]))}</span><span class="trt">${gRoles(g).map(r=>GROLE[r]).join(" · ")}</span></div></div>`;
  if(lastAct)lastAct.classList.remove("act");lastAct=null;const first=!tip.classList.contains("on");place(n);tip.classList.add("on");if(first)tip.classList.add("in")}
-/* best gear of an Act, for the Act pages and the hub */
-function gearBest(a){const cell=(r,w)=>{const t=gTiers(a,r,w);const s=t.length?t[0][1]:[];const nw=s.filter(g=>g.a===+a);const pick=(nw.length?nw:s).slice(0,3);
-  return pick.length?`<div class="gbc"><a class="gbr" href="#gear/${a}/${r}/${w}" style="--rc:${ROLE_C[r]||"#8a8f99"}">${GROLE[r]}</a><div class="gbt">${pick.map(g=>gTile(g,a)).join("")}</div></div>`:""};
- const W=["ME","RA","MA","SU"].map(r=>cell(r,"w")).join(""),A=["TA","ME","RA","MA","SU"].map(r=>cell(r,"a")).join("");
- return `<section class="gbest"><div class="hsec"><div><h2>Best gear at ${esc(actL(a))}</h2><p>S-tier weapons and armor sets for each playstyle once this Act opens. New unlocks first.</p></div><a href="#gear/${a}/ME/w">Full tier list →</a></div>
- <div class="gbg"><div><h3>⚔ Weapons</h3>${W||'<p class="note">No new weapons.</p>'}</div><div><h3>🛡 Armor sets</h3>${A||'<p class="note">No armor yet.</p>'}</div></div></section>`}
-/* ---------- hooks into the wiki's router, tooltip and pages ---------- */
-{const R0=render;render=function(){const h=decodeURIComponent(location.hash);if(h!==GLASTH){GALL=false;GLASTH=h}
-  document.body.classList.toggle("gearv",h.startsWith("#gear")||/^#gs?\d+$/.test(h));
-  if(h.startsWith("#gear")||/^#gs?\d+$/.test(h)){save();refreshSide();document.body.classList.remove("hub");const mn=el("main");mn.classList.remove("enter");void mn.offsetWidth;mn.classList.add("enter");
-   if(h.startsWith("#gear"))gearPage(h);else if(h.startsWith("#gs")&&GS[+h.slice(3)])gearSetPage(GS[+h.slice(3)]);else if(GE[+h.slice(2)])gearItemPage(GE[+h.slice(2)]);else gearPage("#gear");scrollTo(0,0);return}
-  R0()};
- const T0=showTip;showTip=function(n){const k=n.dataset.t;if(k&&/^[gs]\d/.test(k))gearTip(n);else T0(n)};
- const H0=hubList;hubList=function(kind,key){H0(kind,key);if(kind==="act"){const a=+key,x=el("main").querySelector(".lhero");if(a!=-1&&x)x.insertAdjacentHTML("afterend",gearBest(a));decorate()}};
- const HH=hubHome;hubHome=function(){HH();const p=el("main").querySelector(".pillars");
-  if(p){const ic=GE.find(g=>g.k==="melee"&&g.a===12&&IC[g.id])||GE.find(g=>IC[g.id]);p.insertAdjacentHTML("beforeend",`<a class="pil" href="#gear"><span class="ic">${ic?img(ic.id):""}</span><span><h3>Equipment tier list</h3><p>Weapons and armor sets for Melee, Ranged, Mage, Summon and Tank, Act by Act.</p></span></a>`)}
-  const acts=el("main").querySelector(".acts");if(acts){acts.closest("div")&&acts.insertAdjacentHTML("afterend",`<div class="hsec"><div><h2>Equipment tier list</h2><p>${GE.filter(g=>g.k!=="armor").length} weapons and ${GS.length} armor sets from the pack, ranked for each playstyle at every Act.</p></div><a href="#gear">Open →</a></div><div class="gstrip">${ORDER.filter(a=>a!=-1).map(a=>{const t=gTiers(a,"ME","w"),g=t.length&&t[0][1][0];return `<a href="#gear/${a}/ME/w" style="--tc:${ACT[a][2]}" title="${esc(actL(a))}"${g?` data-t="g${g.ix}"`:""}>${g?gImg(g):""}<b>${esc(ACT[a][0])}</b></a>`}).join("")}</div>`)}};
-}
-render();decorate();
+/* ---------- hooks into the wiki's router, tooltip and pages (app.js EXT) ---------- */
+EXT.route.push(h=>{if(h!==GLASTH){GALL=false;GLASTH=h}
+  const mine=h.startsWith("#gear")||/^#gs?\d+$/.test(h);document.body.classList.toggle("gearv",mine);
+  if(!mine)return false;
+  save();refreshSide();document.body.classList.remove("hub");const mn=el("main");mn.classList.remove("enter");void mn.offsetWidth;mn.classList.add("enter");
+  if(h.startsWith("#gear"))gearPage(h);else if(h.startsWith("#gs")&&GS[+h.slice(3)])gearSetPage(GS[+h.slice(3)]);else if(GE[+h.slice(2)])gearItemPage(GE[+h.slice(2)]);else gearPage("#gear");scrollTo(0,0);return true});
+EXT.tip.push(n=>{const k=n.dataset.t;if(k&&/^[gs]\d/.test(k)){gearTip(n);return true}return false});

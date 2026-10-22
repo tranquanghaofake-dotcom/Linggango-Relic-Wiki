@@ -291,3 +291,12 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Early mage:** +12 weapons the extraction skipped (Graybeard Staff, Artificer's Cane, Ice Staff, Blood Staff, Ars Novice/Mage's/Archmage Spell Book, Pumpkin Staff, Sonorous Staff, two pistols, Railgun). Act 0 Mage went from 1 to 5 options. Lord Pumpkinhead's loot table (`entities/pumpkinhead`) now maps to the boss.
 - **Not done:** Iron's spell books are curios, not weapons, so they are not ranked; the Ars books and Railgun have no icon; ranged/mage damage is still not read from code, so within one Act most weapons share a tier.
 
+## v22.9 — anti-"organic architecture" refactor
+- **One place for scoring:** DPS, defense and tiers are computed only in `src/gear.js`. The Python side produces facts (`patches/gearlib.py`: `off_of`, `set_facts`, shared by `gear_stats.py` and `gear/gear_data.py`); the old `sc` scores in the table, `gear_fix` and `gear_stats` are gone. Tier lists before/after are identical except float-tie order inside a tier.
+- **Gear is a pure pipeline:** `patches/gear_pipeline.py` builds `gear_data.js` in memory from `gear_table.json` + overlays and writes it once (stages are functions: extra → gate → fix → stats → boss_order.gear). Icons and mod names, which only lived inside the generated file, are source JSON now (`gear_icons.json`, `gear_names.json`). Acts are snapped onto `ORDER` at the end. The `sx` re-run markers are not needed.
+- **Invariants in `check.js`:** Acts and gates in `ORDER`, finite scores, melee DPS > 0, ≥3 weapons per playstyle and ≥5 armor sets at every Act (SU ≥2 from Act II), nothing listed before its Act.
+- **No monkey-patching:** `gear.js` registers `EXT.route` / `EXT.tip` handlers in `app.js`; the initial render is in `app.js` (`DOMContentLoaded`). Found and removed dead hooks: the Act, mod and slot pages redirect to #home, so the home-page equipment strip and the per-Act "Best gear" block had not shown for a while (CSS `.gbest`, `.gstrip` is still there).
+- **fx3d.js is reproducible:** `bash build/fx3d_build.sh [--check]` (esbuild 0.25.5 + three 0.169.0 pinned in `build/package.json`) gives the committed bundle byte for byte.
+- **Docs and CI:** `build/ARCHITECTURE.md`, README rewritten, `.github/workflows/check.yml` runs `check.sh`, then fails if committed outputs differ from what the build produces.
+- **Left:** curio `data.js` is still patched in place by ten scripts (no source table); `app.js` is one big file of globals.
+

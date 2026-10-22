@@ -825,7 +825,7 @@ function decorate(r=document){
  r.querySelectorAll("[data-boss]:not([data-live])").forEach(el=>{el.dataset.live=1;const r=el.getBoundingClientRect();window.Boss3D&&Boss3D.snapshot(el.dataset.boss,Math.round(r.width)||300,Math.round(r.height)||300).then(u=>{if(u&&el.isConnected)el.innerHTML=`<img alt="" src="${u}" style="width:100%;height:100%;object-fit:contain">`}).catch(()=>{})});
  r.querySelectorAll("[data-an]:not([data-done])").forEach(el=>{el.dataset.done=1;const a=AN[el.dataset.an];if(!a)return;el.style.setProperty("--n",a[1]);el.style.setProperty("--ms",(a[1]*a[2])+"ms");el.insertAdjacentHTML("beforeend",`<img class="strip" alt="" src="data:image/png;base64,${a[0]}">`);el.classList.add("anim")});
 }
-function render(){
+function renderBase(){
  save();const xs=refreshSide();const h=decodeURIComponent(location.hash);
  if(["#bang","#ngoai","#table","#unobtainable","#guide"].includes(h)){location.replace("#home");return}
  // the Curios and Mods pages are gone: their links open The Path filtered to that mod or slot
@@ -849,6 +849,13 @@ function render(){
  else{document.title="Tier list · Linggango Wiki";home(xs,false)}
  if(!soft&&!h.startsWith("#home")&&!h.startsWith("#build")&&h!=="#table")scrollTo(0,0);
 }
+/* extension points: a feature file (gear.js) registers handlers here instead of reassigning these functions, so script load order stops mattering.
+   route(h) runs first on every render, and a handler that returns true has drawn the page; tip(n) likewise for tooltips;
+   (gear.js once also hooked the hub pages; the Act, mod and slot pages are gone, so those hooks were dead and were removed.) */
+const EXT={route:[],tip:[]};
+function render(){if(!EXT.route.some(f=>f(decodeURIComponent(location.hash))))renderBase()}
+function showTip(n){if(!EXT.tip.some(f=>f(n)))showTipBase(n)}
+document.addEventListener("DOMContentLoaded",()=>{render();decorate()});
 function refresh(){const h=decodeURIComponent(location.hash);if(h==="#home"||/^#(slot|act|mod)\//.test(h)){SOFT=true;render()}else location.hash="#home"}
 addEventListener("hashchange",()=>{hideTip();window.Boss3D&&Boss3D.unmountAll();render();decorate()});
 
@@ -865,7 +872,7 @@ const RCV=/^(Craft|Combine|Infuse|Perform|Upgrade|Imbue|Forge)\b/;
 const rcName=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||c[0]):"Any "+(c[1].split(":")[1]||c[1]).replace(/_/g," ");
 const tipRecipe=d=>{const g=d.gr,shaped=g.l===0&&!/shapeless/i.test(g.st),cs=shaped?g.c:g.c.filter(Boolean);
  return `<div class="trcp"><div class="trg" style="grid-template-columns:repeat(${shaped?g.w:Math.min(cs.length,5)},18px)">${cs.map(c=>`<i class="trc"${c?` title="${esc(rcName(c))}"`:""}>${c?(c[0]?img(c[0]):"<b>#</b>"):""}</i>`).join("")}</div><i class="tra" aria-hidden="true">→</i><i class="trc out">${img(d.id)}${g.n>1?`<b>${g.n}</b>`:""}</i><span class="trs">${esc(g.st.replace(/\s*\(shapeless\)/i,""))}</span></div>`};
-function showTip(n){const d=D[+n.dataset.t];if(!d)return;tipFor=n;const F=mf(d.m),P=pal(d),nc=d.ig&&d.ig[1]!=="rainbow"?d.ig[1]:"#FFFFFF";
+function showTipBase(n){const d=D[+n.dataset.t];if(!d)return;tipFor=n;const F=mf(d.m),P=pal(d),nc=d.ig&&d.ig[1]!=="rainbow"?d.ig[1]:"#FFFFFF";
  tip.className="to r"+d.r+(tip.classList.contains("on")?" on":"");tip.dataset.mf=F[0];
  tip.style.setProperty("--c1",P[0]);tip.style.setProperty("--c2",P[1]);tip.style.setProperty("--c3",P[2]);
  const stats=d.st.map((x,j)=>[d.tg[j],x]).filter(([t,x])=>t!=="relic"&&x.length<110&&!/^(When worn|Passive Effect|Hold Shift)/i.test(x)).slice(0,5);

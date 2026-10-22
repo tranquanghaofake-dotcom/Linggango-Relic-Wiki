@@ -1,0 +1,19 @@
+name: check
+on: [push, pull_request]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - name: Playwright (Chromium)
+        run: npm install -g playwright && npx playwright install --with-deps chromium
+      - name: check.sh (patches idempotent, build reproducible, pages and invariants)
+        run: NODE_PATH=$(npm root -g) bash build/check.sh
+      - name: Committed outputs match the sources
+        run: git diff --exit-code -- index.html static dist build/src
+      - name: fx3d.js bundle is reproducible
+        run: bash build/fx3d_build.sh --check

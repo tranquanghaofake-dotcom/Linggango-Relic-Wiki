@@ -1,7 +1,7 @@
 """Merge code stats (gear_base.json), pack attribute overrides (attributesetter), Keeper gates (progression_lock),
 recipes/loot (rec.json) and names (lang.json) into the wiki's gear table GE.
 Act numbers follow the wiki ladder: 0, 2 (after Iron Colossus) ... 12."""
-import sys, json, glob, re, collections, math
+import sys, os, json, glob, re, collections, math
 S = sys.argv[1]; OUT = sys.argv[2]
 base = json.load(open(S + '/gear_base.json'))
 gates = json.load(open(S + '/gates.json'))
@@ -130,9 +130,6 @@ def kind(i, b):
 
 # attributes -> (role, weight) for armor/weapon role reading
 def attr_key(a): return a.split(':')[-1].replace('generic.', '')
-SPELL = re.compile(r'spell_power|spell_potency|mana|cast_time|cooldown_reduction|spell_resist|ars_nouveau|mana_regen')
-SUMMON = re.compile(r'summon|minion|servant|sentry')
-RANGED = re.compile(r'arrow|projectile|draw_speed|bow_|ranged')
 MELEE = re.compile(r'attack_damage|attack_speed|crit|life_steal|lifesteal|armor_shred|armor_pierce|entity_reach|sweep')
 
 def collect(i, b):
@@ -337,76 +334,25 @@ sets = collections.defaultdict(list)
 for g in GE:
     if g['k'] == 'armor': sets[setkey(g['id'])].append(g)
 
-# ---------- scoring ----------
-def A(g, k, part='add'):
-    v = g['at'].get(k); return v[0 if part == 'add' else 1] if v else 0.0
-def sumk(g, rx, part='add'):
-    return sum(v[0 if part == 'add' else 1] for k, v in g['at'].items() if re.search(rx, k))
-def melee_score(g):
-    if g.get('dmg') is None: return None
-    hit = (g['dmg'] + A(g, 'attack_damage')) * (1 + A(g, 'attack_damage', 'mul'))
-    spd = max(0.25, (g.get('spd') or 1.6) + A(g, 'attack_speed')) * (1 + A(g, 'attack_speed', 'mul'))
-    cc = sumk(g, r'crit(ical)?_(strike_)?chance'); cd = sumk(g, r'crit(ical)?_(strike_)?damage') + sumk(g, r'crit(ical)?_(strike_)?damage', 'mul')
-    ls = sumk(g, r'life_?steal')
-    return hit * spd * (1 + min(cc, 1) * (0.5 + cd)) * (1 + 0.5 * ls) * (1 + 0.05 * A(g, 'entity_reach'))
-def off_of(at):
-    """offence bonus per role from summed attributes {attr:[add,mul]} (fractions of extra output)"""
-    def sk(rx, part=0): return sum(v[part] for k, v in at.items() if re.search(rx, k))
-    def a(k, part=0): v = at.get(k); return v[part] if v else 0.0
-    o = {}
-    o['MA'] = sk(r'spell_power|spell_potency', 1) + sk(r'spell_power|spell_potency') + 0.5 * sk(r'cooldown_reduction|cast_time', 1) + sk(r'max_mana') / 200 + 0.5 * sk(r'mana_regen', 1)
-    o['SU'] = sk(SUMMON.pattern, 1) + sk(SUMMON.pattern) * 0.05
-    o['RA'] = sk(RANGED.pattern, 1) + sk(RANGED.pattern)
-    # melee: expected damage multiplier. Two crit systems exist (attributeslib crit_* and brutality critical_strike_*);
-    # their chances add up but a hit can only crit once, so chance is capped at 100%; a crit adds +50% plus crit damage.
-    cc = min(1.0, sk(r'crit(ical)?_(strike_)?(chance|rate)') + sk(r'crit(ical)?_(strike_)?(chance|rate)', 1))
-    cd = sk(r'crit(ical)?_(strike_)?damage') + sk(r'crit(ical)?_(strike_)?damage', 1)
-    mult = (1 + a('attack_damage', 1)) * (1 + a('attack_speed', 1)) * (1 + cc * (0.5 + cd)) * (1 + 0.5 * sk(r'life_?steal'))
-    o['ME'] = mult - 1 + a('attack_damage') / 10
-    return {k: max(0.0, v) for k, v in o.items()}
-def role_off(g): return off_of(g['at'])
+# ---------- facts (scoring is src/gear.js's job) ----------
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'patches'))  # gearlib.py; build.sh copies it next to this file
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from gearlib import A, off_of, set_facts
 for g in GE:
-    sc = {}
-    off = role_off(g)
-    if g['k'] == 'melee':
-        m = melee_score(g)
-        if m is not None: sc['ME'] = round(m, 3)
-    elif g['k'] == 'ranged':
-        sc['RA'] = round(1 + off['RA'] * 2 + 0.3 * sumk(g, r'crit'), 3)
-    elif g['k'] == 'magic':
-        sc['MA'] = round(1 + off['MA'] * 2, 3)
-        if off['SU'] > 0: sc['SU'] = round(1 + off['SU'] * 2, 3)
-    elif g['k'] == 'summon':
-        sc['SU'] = round(1 + off['SU'] * 2 + 0.02 * (g.get('dmg') or 0), 3)
+    off = off_of(g['at'])
     g['off'] = {k: round(v, 3) for k, v in off.items() if v > 0.0005}
-    g['sc'] = sc
 SETS = []
 for k, ps in sorted(sets.items()):
     ps.sort(key=lambda g: ['HELMET', 'CHESTPLATE', 'LEGGINGS', 'BOOTS', None].index(g.get('sl')) if g.get('sl') in ('HELMET', 'CHESTPLATE', 'LEGGINGS', 'BOOTS') else 4)
-    arm = sum((g.get('arm') or 0) + A(g, 'armor') for g in ps); tough = sum((g.get('tough') or 0) + A(g, 'armor_toughness') for g in ps)
-    hp = sum(A(g, 'max_health') for g in ps); kbr = sum((g.get('kbr') or 0) + A(g, 'knockback_resistance') for g in ps)
-    dtk = -sum(A(g, 'damage_taken') + A(g, 'damage_taken', 'mul') for g in ps)
-    at = collections.defaultdict(lambda: [0.0, 0.0])
-    for g in ps:
-        for k2, v in g['at'].items(): at[k2][0] += v[0]; at[k2][1] += v[1]
-    off = off_of(at)
-    # defence: armor, toughness, health, knockback resistance and flat damage reduction
-    # knockback resistance is capped at 100% in game, whatever a mod's material says
-    defense = arm + 0.8 * tough + 0.5 * hp + 10 * min(1.0, kbr) + 60 * max(0, dtk)
     known = any(g.get('arm') is not None for g in ps)
     act = max((g['a'] for g in ps), key=oi)
-    # a role set is worth (1 + its offence for that role) x how much it keeps you alive
-    sc = {'TA': round(defense, 3)}
-    for r, v in off.items():
-        if v > 0.02: sc[r] = round((1 + v) * defense, 3)
     ws = [p['n'].split() for p in ps]; pre = []
     for col in zip(*ws):
         if all(w == col[0] for w in col): pre.append(col[0])
         else: break
     name = ' '.join(pre) if pre and len(ps) > 1 else re.sub(r'\s+(Helmet|Chestplate|Leggings|Boots|Hood|Robe|Cap|Tunic|Pants|Crown|Mask|Greaves|Sabatons|Hat)$', '', ps[0]['n'])
     name = re.sub(r"\s+(Armor|Armour)$", '', name).strip() or ps[0]['n']
-    SETS.append({'k': k, 'n': name, 'p': [g['id'] for g in ps], 'a': act, 'arm': round(arm, 2), 'tough': round(tough, 2), 'hp': round(hp, 2),
-                 'kbr': round(kbr, 3), 'dtk': round(dtk, 3), 'off': {r: round(v, 3) for r, v in off.items() if v > 0.0005}, 'sc': sc, 'kn': known})
+    SETS.append({'k': k, 'n': name, 'p': [g['id'] for g in ps], 'a': act, **set_facts(ps), 'kn': known})
 json.dump({'GE': GE, 'GS': SETS}, open(OUT, 'w'))
 c = collections.Counter(g['k'] for g in GE)
 print('gear', len(GE), dict(c), 'sets', len(SETS), 'skipped', dict(skipped))

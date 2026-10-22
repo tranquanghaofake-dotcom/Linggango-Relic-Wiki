@@ -4,7 +4,7 @@
 #   srv/libraries/.../server-1.20.1-*-srg.jar (from the Forge 47.4.20 installer, --installServer)
 set -euo pipefail
 W=$(cd "$1" && pwd); H=$(cd "$(dirname "$0")" && pwd)
-mkdir -p "$W/scripts" && cp "$H"/{mjvm.py,gear_extract.py,gear_data.py,recipes.py,icons.py} "$W/scripts/"
+mkdir -p "$W/scripts" && cp "$H"/{mjvm.py,gear_extract.py,gear_data.py,recipes.py,icons.py} "$H"/../patches/gearlib.py "$W/scripts/"
 cd "$W"
 python3 "$H/prep.py" "$W"                      # gates.json, ns2jar.json, lang.json, targets.json, gns.json, relic_acts.json
 python3 scripts/recipes.py "$W"                # rec.json

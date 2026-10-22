@@ -1,0 +1,6 @@
+{
+  "name": "linggango-wiki-build",
+  "private": true,
+  "description": "Only for src/fx3d.js (the boss-model WebGL bundle): bash build/fx3d_build.sh. Everything else is plain Python and Node-free.",
+  "devDependencies": { "esbuild": "0.25.5", "three": "0.169.0" }
+}
