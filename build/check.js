@@ -27,8 +27,12 @@ const { chromium } = require('playwright'), path = require('path');
       for (const r in g.sc) if (!Number.isFinite(g.sc[r])) bad.push('score ' + id + ' ' + r);
     }
     for (const g of GE) if (g.k === 'melee' && g.dmg != null && !(g.sc.ME > 0)) bad.push('dps ' + g.id);
+    if ('TA' in GROLE) bad.push('Tank role is back');                   // retired: four playstyles only
+    // a set's score is a function of the Act it is judged at: finite and positive for every role and Act
+    for (const s of GS) for (const r in GROLE) for (const a of acts) if (!(gScore(s, r, a) > 0)) bad.push(`set score ${s.k} ${r} ${a}`);
+    if (!(GSTEP > 1.05 && GSTEP < 1.3)) bad.push('power curve ' + GSTEP);
     // every playstyle keeps real options at every Act (Ranged armor once stopped at Act V, Mage weapons had one pick at Act 0)
-    const need = {w: {ME: 3, RA: 3, MA: 3, SU: 0}, a: {TA: 5, ME: 5, RA: 5, MA: 5, SU: 5}};
+    const need = {w: {ME: 3, RA: 3, MA: 3, SU: 0}, a: {ME: 5, RA: 5, MA: 5, SU: 5}};
     for (const w in need) for (const r in need[w]) for (const a of acts) {
       const n = gTiers(a, r, w).reduce((s, t) => s + t[1].length, 0), min = r === 'SU' && a >= 2 ? 2 : need[w][r];
       if (n < min) bad.push(`list ${w}/${r}/Act ${a}: ${n}`);

@@ -29,7 +29,7 @@ src/*.js + v5.css + style.game.css + template.html ──► build.py ──► 
 ## Why it is shaped like this
 - **Facts and judgement are separate.** Python extracts and combines facts; the ranking is a pure function of them in the browser, so a weight can be changed (and the golden lists compared) without regenerating data.
 - **Generated files are written once from sources.** An earlier design patched `gear_data.js` in place seventeen times; order mattered silently and the generated file was also the source of icons and names. Now every input is a JSON file and `gear_pipeline.py` is a list of functions.
-- **Estimates are labelled.** Bow, gun and spell damage lives in mod code the wiki cannot read. Those weapons are ranked by unlock rung plus a small how-hard-to-get term, and shown faded. The constants (`GSTEP` 1.13, 10% source term, `GFIT`, `GFLOOR` .25) are judgement, not data; change them in `gear.js` and read `check.js` invariants.
+- **Estimates are labelled.** Bow, gun and spell damage lives in mod code the wiki cannot read. Those weapons are ranked by unlock rung plus a small how-hard-to-get term, and shown faded. `GSTEP` is fitted on melee data at load time; the game rules (Apothic armor, Better Combat hit rate) and Keeper hits (`GHIT`) are read from the pack; the rest (10% source term, survival weights `GSURV`, 20 + 4 HP per Act, 10% assumed shred, the mana and minion-slot values in `GOFF`, `GFLOOR` .25) is judgement, not data; change it in `gear.js` and read `check.js` invariants.
 - **Every bug found becomes an invariant** in `check.js` (an Act of 6.1 once put a battleaxe at Act 0; Ranged armor once ended at Act V).
 
 ## Checks

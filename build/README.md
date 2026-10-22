@@ -31,10 +31,15 @@ See `ARCHITECTURE.md` for how the pieces fit and why.
 - `check.js` has invariants (Acts in `ORDER`, finite scores, enough options per playstyle and Act, nothing listed before its Act). A bug found in the data gets an invariant there.
 
 ## How gear is ranked (src/gear.js)
-Melee: DPS from the pack data (`gMelee`). Ranged / Mage / Summon weapons have no readable damage, so `gEstScore` ranks them by unlock rung (+13% per Act),
-+ up to 10% for how hard they are to get (boss drop, recipe size) and their readable bonuses (saturating at +100%). Armor sets: every set is a
-candidate in every role, score = defense × role fit (Melee 1, Ranged .9, Summon .8, Mage .65) × (1 + saturated role bonus); sets with unreadable
-armor get the median defense of their Act. Tiers are the ratio to the best item at the Act (S ≥85%, A ≥70%, B ≥55%, C ≥40%); under 25% is not listed.
+Four playstyles: Melee, Ranged, Mage, Summon (Tank was retired in v22.11; defense is part of every score). Rules read from the pack's jars:
+Better Combat `allow_fast_attacks` (default on) clears hurt cooldowns, so melee DPS = hit × speed with no cap; Apothic Attributes armor is
+damage × a/(a+armor), a = 10 under 20 damage, 10+(dmg−20)/2 above, and toughness only weakens armor shred/pierce.
+Melee weapons: DPS (`gMelee`); any weapon with readable melee damage (staves, spears) is also a Melee candidate. Ranged / Mage / Summon weapons
+have no readable damage, so `gEstScore` puts them on the power curve `GSTEP^rung` (GSTEP fitted at load time on the top-10 melee DPS per Act,
+≈1.20), + up to 10% for how hard they are to get, × their role bonus (`GOFF`). Armor sets: score(set, role, Act) = `GOFF[role]` × EHP^k
+(k: Melee 1, Ranged .7, Mage .6, Summon .6), EHP against the Act's Keeper hit (`GHIT`, from entitybalance.json) on top of 20 + 4 HP per Act;
+so set scores depend on the Act (`gScore`). Sets with unreadable armor get the median armor/toughness/HP of their Act. Tiers are the ratio to
+the best item at the Act (S ≥85%, A ≥70%, B ≥55%, C ≥40%); under 25% is not listed; creative-only items are hidden.
 `patches/gear_extra.json` (made by `gear/extra.py` from `gear/extra_ids.json`) adds plain-Item weapons the extraction skips; Iron's armor material
 attributes come from `pack_audit/iss_armor.py` (javap on `ExtendedArmorMaterials`) via `gear_stats.json`; icons that need a 3D render come from `pack_audit/weapon_icons/`.
 

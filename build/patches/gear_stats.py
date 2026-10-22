@@ -6,7 +6,7 @@
   - Mowzie's tools: each reads its own tool_config (the table had copied the wrought axe onto all of them).
   - Soulslike trick weapons: Kirkhammer/Silver Sword, Holy Moonlight Sword/Greatsword and Simon's Bowblade/Blade are one
     weapon each, switched in hand, so they become one entry (the stronger form, the other listed in `lv`).
-Offence facts (`off`) and set totals are recomputed with gearlib, the same code gear_data.py uses; nothing is scored here (src/gear.js does). Stage 5."""
+Offence facts (`off`) and set totals (with their summed attributes `at`) are recomputed with gearlib, the same code gear_data.py uses; nothing is scored here (src/gear.js does). Stage 5."""
 import json, pathlib, re
 from gearlib import off_of, set_facts
 H = pathlib.Path(__file__).resolve().parent
@@ -57,10 +57,8 @@ def apply(st):
         GE = [g for g in GE if g["id"] != b["id"]]; by.pop(b["id"])
     st["GE"] = GE
 
-    # armor sets that contain a touched piece, or two pieces for one slot (Fireblossom Crown/Helmet, Wizard and Chaos hats are
-    # alternatives: only the better one counts, the way you can only wear one)
+    # set totals are recomputed for every set from its pieces as they stand now (touched pieces included); two pieces for one slot
+    # (Fireblossom Crown/Helmet, Wizard and Chaos hats) are alternatives: set_facts counts only the better one, the way you can only wear one
     for t in GS:
         ps = [by[x] for x in t["p"] if x in by]
-        dup = len({g.get("sl") or g["id"] for g in ps}) < len(ps)
-        if not dup and not any(x["id"] in touched for x in ps): continue
-        t.update(set_facts(ps))
+        if ps: t.update(set_facts(ps))

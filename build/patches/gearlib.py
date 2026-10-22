@@ -31,7 +31,7 @@ def worn(ps):
     return [g for _, g in best.values()]
 
 def set_facts(ps):
-    """totals of an armor set's worn pieces: the facts gear.js scores"""
+    """totals of an armor set's worn pieces: the facts gear.js scores (`at` = summed attributes {attr: [add, mul]})"""
     ps = worn(ps)
     at = {}
     for g in ps:
@@ -42,4 +42,5 @@ def set_facts(ps):
             "tough": round(sum((g.get("tough") or 0) + A(g, "armor_toughness") for g in ps), 2),
             "hp": round(sum(A(g, "max_health") for g in ps), 2),
             "kbr": round(sum((g.get("kbr") or 0) + A(g, "knockback_resistance") for g in ps), 3),
-            "dtk": round(dtk, 3), "off": {r: round(v, 3) for r, v in off.items() if v > 0.0005}}
+            "dtk": round(dtk, 3), "off": {r: round(v, 3) for r, v in off.items() if v > 0.0005},
+            "at": {k: [round(v[0], 4), round(v[1], 4)] for k, v in sorted(at.items()) if v[0] or v[1]}}
