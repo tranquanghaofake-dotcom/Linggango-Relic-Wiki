@@ -361,3 +361,9 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Flat:** buttons and panels have one border and change colour for state; no bevel insets, drop shadows, glows or hover lift/zoom. Path tile icons lost their 4-way outline filter (also a paint cost on ~1300 images). Item slots keep their inset (that is the slot, not decoration). Text shadow only on text over a picture.
 - **The Path:** opens the reader's "I'm here" Act, else Act 0–I; the others are collapsed and their tiles are built only when opened (`st.op` in `lgw2`; first view 615 tiles instead of 1327). With any filter on, every Act with matches opens; closing one then is session-only (`st.cl`).
 - **Repo:** `main` keeps the site, the build and the pack-extraction scripts; notes, plans, prompts, the transform/migration history, screenshots and the agent skills moved to this orphan `workspace` branch, same paths. `CLAUDE.md` rewritten for that split; CI runs on `main` only.
+
+## v31 — the flat UI is reverted; The Path change stays
+- The user found the v30 flat pass plain rather than clean, and that it lost the Minecraft feel. `v5.css` and `style.game.css` are back to v29 byte for byte (same `static/style.b34d63b07f.css` hash): bevels, shadows, glows and all animations return.
+- Kept from v30: The Path opens one Act (“I'm here”, else Act 0–I) and builds collapsed Acts on open; the repo split (`main` = site and build, `workspace` = notes).
+- `CLAUDE.md`: the GUI look is deliberate; do not flatten it; changes to the overall look need the user's approval.
+- Misa's points on looping animation and shadows are therefore not addressed; if they come back, ask the user before changing anything.
