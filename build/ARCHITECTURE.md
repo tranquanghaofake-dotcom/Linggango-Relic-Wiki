@@ -9,7 +9,7 @@ the CurseForge pack (476 jars + configs)
    ▼
 build/patches/*.json  ── the committed facts: extraction table, acts, gates, notes, icons, names
    │  patches/*.py
-   ├─► src/data.js        curios (patched in place, see below)
+   ├─► src/data.js        curios: hand-maintained source; boss_stats / boss_order derive into it (migrations/ = how it got here)
    ├─► src/gear_data.js   gear_pipeline.py: table → stages → one write
    └─► src/wiki_data.js   bosses, rituals, guides, images (wiki_data.py)
 src/*.js + v5.css + style.game.css + template.html ──► build.py ──► index.html + static/ + dist/
@@ -36,4 +36,4 @@ src/*.js + v5.css + style.game.css + template.html ──► build.py ──► 
 `bash build/check.sh`: the patch chain is idempotent and the committed outputs are what it produces; then, in Chromium, no script errors, the invariants above, every gear and set page renders without broken images, every Path boss card has a background. `.github/workflows/check.yml` runs it on every push.
 
 ## Not done / known debt
-See "Known weak spots" in `README.md` (curio `data.js`, the large `app.js`, dead Act/mod pages).
+See "Known weak spots" in `README.md` (two in-place passes on `data.js`, the large `app.js`, dead Act/mod pages).

@@ -18,14 +18,14 @@ src/*.js, v5.css, style.game.css, template.html ──► build.py ──► ind
 | `src/app.js`, `src/gear.js`, `src/template.html`, `src/v5.css`, `style.game.css` | hand-written |
 | `patches/*.json`, `patches/gear_*.py`, `patches/gearlib.py` | gear facts and the rules that combine them; edit these to change facts |
 | `src/gear_data.js`, `src/wiki_data.js` | generated in one pass from JSON (`gear_pipeline.py`, `wiki_data.py`); nothing reads them back |
-| `src/data.js` (curios) | the one file still rewritten in place by its patches (`moreartifacts`, `text`, `fx_numbers`, `pack_facts`, `curio_gate`, `tag_reps`, `recipe_notes`, `drops`, `tc_chests`, `boss_stats`, `boss_order`); see the weak spots |
+| `src/data.js` (curios) | **source**, hand-maintained (it cannot be regenerated: `transform.py` gives a different file). `boss_stats.py` and `boss_order.py` derive values into it in place; the nine one-time edits that shaped it are kept in `migrations/` |
 | `src/fx3d.js` | bundle of `fx3d.src.js` + `geo2three.js` + three.js r169: `bash build/fx3d_build.sh` (esbuild, reproduces it byte for byte; `--check` verifies) |
 | `index.html`, `static/`, `dist/` | build output, never edited |
 See `ARCHITECTURE.md` for how the pieces fit and why.
 
 ## Rules
 - Every patch is idempotent (`check.sh` runs the chain twice and compares bytes).
-- Order lives in one place: `patches/apply_all.sh` for the curio patches, the stage list at the top of `patches/gear_pipeline.py` for gear.
+- Order lives in one place: `patches/apply_all.sh` (boss_stats, boss_order, gear_pipeline, wiki_data), and the stage list at the top of `patches/gear_pipeline.py` for gear.
 - Gear is built in memory from `gear_table.json` + overlays and written once. Do not add a patch that reads `gear_data.js` back: add a stage function `apply(st)` to the pipeline.
 - Scoring exists once, in `src/gear.js`. Python only produces facts (`patches/gearlib.py`: `off_of`, `set_facts`).
 - `check.js` has invariants (Acts in `ORDER`, finite scores, enough options per playstyle and Act, nothing listed before its Act). A bug found in the data gets an invariant there.
@@ -44,7 +44,7 @@ Run those scripts from a folder that has no file named like a stdlib module (`en
 `transform.py` is the one-off that turned `original/` into the first `data.js`; it is kept for history, not for rebuilding.
 
 ## Known weak spots
-- `data.js` (curios) is still source and output at once: ten patches edit it in place and there is no table to rebuild it from (`transform.py` was a one-off). The same treatment gear got (a source JSON, stages as functions, one write) is the next refactor.
+- `data.js` is source but two derived passes (`boss_stats`, `boss_order` curio part) still edit it in place; moving those into overlay JSON like gear would finish the job. Its 5 MB of embedded icons make diffs unreadable.
 - `app.js` is one 900-line file with globals; `gear.js` now plugs in through `EXT` (route and tooltip hooks), so load order only needs `app.js` first.
 - The Act, mod and slot pages are gone (they redirect to #home); some CSS for them (`.gbest`, `.gstrip`) is dead.
 - The data files are 5 MB each of JS; the site loads them as cached static files, but the first visit is heavy.

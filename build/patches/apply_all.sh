@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Re-apply every data patch to build/src/data.js in order (each one is idempotent), then build.
+# Derived data, then build. boss_stats and boss_order edit src/data.js in place (idempotent); gear_pipeline and wiki_data write their files from JSON.
+# The one-time curio edits are in build/migrations (applied already; not run here).
 set -e; H=$(cd "$(dirname "$0")" && pwd)
-for p in moreartifacts text fx_numbers pack_facts curio_gate tag_reps recipe_notes drops tc_chests boss_stats boss_order gear_pipeline wiki_data; do python3 "$H/$p.py"; done
+for p in boss_stats boss_order gear_pipeline wiki_data; do python3 "$H/$p.py"; done
 python3 "$H/../build.py"

@@ -300,3 +300,7 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Docs and CI:** `build/ARCHITECTURE.md`, README rewritten, `.github/workflows/check.yml` runs `check.sh`, then fails if committed outputs differ from what the build produces.
 - **Left:** curio `data.js` is still patched in place by ten scripts (no source table); `app.js` is one big file of globals.
 
+## v22.10 — curio data.js: decided, not refactored into a pipeline
+- Tried to rebuild `data.js` from `transform.py` + the patch chain: the result is 1 MB smaller and different (boss tables and other edits were made to `data.js` directly), so it is **source**, not output. The nine one-time edits (`moreartifacts`, `text`, `fx_numbers`, `pack_facts`, `curio_gate`, `tag_reps`, `recipe_notes`, `drops`, `tc_chests`) moved to `build/migrations/` as a record (all no-ops on today's file) and no longer run in `apply_all.sh`. Build output is byte-identical.
+- Still in place: `boss_stats`, `boss_order` (curio Acts), which derive from changing inputs.
+
