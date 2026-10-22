@@ -7,6 +7,8 @@ generated file back. Stages run in the order below, each is a function on {GE, G
   4 gear_fix            audit fixes: gated Acts, source notes, attack speeds (gear_fix.json)
   5 gear_stats          attributes the extraction could not read: Summonity / Hazen / Iron's armor, Mowzie tools, trick pairs
   6 boss_order.gear     boss drops sit at their boss's Act
+  (gear_runtime.py is ready but not in the chain: gear_runtime.json is the dump shipped in serverpack 6.6.5b4, which predates the
+   pack's gear_authored_profiles_*; it goes in once a fresh /kubejs custom_command dump_gear replaces it)
   then every Act is snapped onto the wiki's Acts
 Scoring is not here: src/gear.js ranks from the facts these stages leave."""
 import json, pathlib

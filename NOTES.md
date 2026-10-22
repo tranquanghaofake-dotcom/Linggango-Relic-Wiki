@@ -314,3 +314,8 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Set facts now carry their summed attributes (`at`, from `gearlib.set_facts`, recomputed for every set in `gear_stats`); all other facts unchanged.
 - `check.js`: no Tank role, every set score finite and positive for every role and Act, fitted step within 1.05–1.3.
 - **Assumptions to revisit:** pack config could override Apothic's formula or Better Combat's fast attacks (not in the repo); Arion's hit (12) and Act VIII (50, the Discord's forms) are interpolated; 10% shred, 20+4 HP/Act and the k weights are judgement.
+
+## v22.12 — runtime gear stats: stage ready, waiting for a fresh dump
+- Serverpack 6.6.5b4 ships `kubejs/server_scripts/dump_gear.js` and its output `kubejs/gear_dump.json` (ItemStack.getAttributeModifiers per slot, in game). Copied to `build/patches/gear_runtime.json`; `patches/gear_runtime.py` applies it (dump replaces the jar reading; all-zero dumps = NBT stats and missing damage/speed lines keep the jar values).
+- **Not in the chain yet:** the shipped dump predates the pack's `gear_authored_profiles_1..8` (≈630 items): 1027 of their modifiers are absent and 386 differ in value. The other 57 attributesetter files match (3444 modifiers exact), so the method is right and the file is stale. Next: run `/kubejs custom_command dump_gear` on 6.6.5b4, replace the JSON, add `gear_runtime.apply` after `gear_stats.apply` in `gear_pipeline.py`.
+- Confirmed wiki errors (dump and current config agree): Iron's Spellbooks chestplates 10 armor / 5 toughness (wiki 8/0), Travel Optics toughness 4 (wiki 0.2), Gomoria Leggings 31 armor (wiki 0). Build output unchanged in this commit.
