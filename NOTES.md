@@ -323,3 +323,10 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Header:** the section you are in is marked in the nav (green pressed button, as for other selected buttons); the bar turns to frosted glass once the page scrolls.
 - **Title screen:** one entrance (logo, then search and menu buttons).
 - All new surfaces use the vanilla item-tooltip look (near-black violet, violet gradient border). Mobile is not redesigned (desktop/laptop target, as since v6).
+
+## v25 — Vercel agent skills, guideline audit, shared-element transitions
+- Installed `vercel-labs/agent-skills` (`npx skills add`, 9 skills in `.claude/skills/`, `skills-lock.json`). Used: **web-design-guidelines** (audit below) and **vercel-react-view-transitions** (its patterns, applied with plain `startViewTransition` since the wiki has no React). The React, React Native and Vercel deploy skills do not apply to this site.
+- **Bug fixed:** on Mechanics the ritual cards' ingredient icons were stretched to ~120 px over their own text (`.rtype img`, meant for the scene picture, also caught the 22 px chip icons).
+- **Audit fixes:** skip link to the content; search fields get `name`, `autocomplete="off"`, `spellcheck="false"` and placeholders ending in “…”; the curio count announces changes (`aria-live`); headings balance their lines, numbers use tabular figures; `touch-action: manipulation`; the brand name is `translate="no"`. Not done: explicit `width`/`height` on every icon `<img>` (they are sized by CSS in hundreds of contexts and decode from in-memory blobs, so there is no layout shift to fix). Kept sentence case for headings and buttons (the wiki's own style) over the guideline's Title Case.
+- **Shared element:** the icon you click (a Path tile, an Equipment tile, a quick-search row) grows into the item page's big art, and flies back to its tile when you go back. **Previous/Next** on curio pages (buttons or ←/→) slide the page the way you are going.
+- **Boss pages:** the boss bar fills as the page opens. **Build planner:** each slot row shows the game's curio slot icon; empty rows are dimmed so filled ones read first; slot labels no longer wrap.

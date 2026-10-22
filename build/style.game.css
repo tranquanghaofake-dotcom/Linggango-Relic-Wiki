@@ -860,3 +860,42 @@ body.hub .title-scr .tbtns>:nth-child(5){animation-delay:.48s}
  ::view-transition-old(root),::view-transition-new(root){animation:none!important}
  .top,.gacts a,.title-scr .mcb{transition:none}
 }
+
+/* ================= v25: guideline pass (Web Interface Guidelines) and fixes ================= */
+/* Mechanics: ritual cards size their scene picture with `.rtype img`, which also caught the 22px ingredient icons in the chips
+   and stretched them over the text */
+.rtype .nch img.nic{width:22px;height:22px;aspect-ratio:auto;object-fit:contain;box-shadow:none;image-rendering:pixelated}
+h1,h2,h3,.gt{text-wrap:balance}
+.lede,.gs,p{text-wrap:pretty}
+.count,.fn,.chip span,.sl-n,.adv em,.tcorner,table td,.bnum,.gfoot b{font-variant-numeric:tabular-nums}
+a,button,summary,input,select,label{touch-action:manipulation}
+.skip{position:fixed;left:16px;top:-60px;z-index:100;padding:10px 16px;font:600 14px var(--body);color:#000;background:var(--yellow);box-shadow:0 0 0 2px #000;transition:top .15s}
+.skip:focus{top:12px}
+#main:focus:not(:focus-visible){outline:0}
+/* shared art: the clicked icon grows into the page's big art; pixel art stays crisp while it scales */
+::view-transition-group(art){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,.85,.25,1);z-index:2}
+::view-transition-old(art),::view-transition-new(art){height:100%;object-fit:contain;image-rendering:pixelated;animation-duration:.42s}
+/* Previous / Next on item pages: an ordered sequence, so the page slides the way you are going */
+html[data-vt=next]::view-transition-old(root){animation:.16s ease-in both vtFade reverse,.32s ease-in-out both vtToL}
+html[data-vt=next]::view-transition-new(root){animation:.22s ease-out .1s both vtFade,.32s ease-in-out both vtFromR}
+html[data-vt=prev]::view-transition-old(root){animation:.16s ease-in both vtFade reverse,.32s ease-in-out both vtToR}
+html[data-vt=prev]::view-transition-new(root){animation:.22s ease-out .1s both vtFade,.32s ease-in-out both vtFromL}
+@keyframes vtFade{from{opacity:0}}
+@keyframes vtToL{to{transform:translateX(-48px)}}@keyframes vtToR{to{transform:translateX(48px)}}
+@keyframes vtFromR{from{transform:translateX(48px)}}@keyframes vtFromL{from{transform:translateX(-48px)}}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
+/* boss pages: the boss bar fills as the page opens, the way it does when a boss spawns in game */
+.lhero .bossbar>i{transform-origin:left;animation:bossFill 1.2s .25s cubic-bezier(.25,.8,.25,1) both}
+@keyframes bossFill{from{transform:scaleX(0)}}
+/* build planner: each row carries the game's own curio slot icon; empty rows step back so filled ones read first */
+.bsh{display:flex;align-items:center;gap:8px}
+.bsh .bsi{width:24px;height:24px;flex:none;image-rendering:pixelated;opacity:.85}
+.bslot:not(.has) .bsh b{color:var(--gui-mute)}
+.bslot:not(.has) .bsh .bsi{opacity:.45}
+.bsb button.bx:not(.on){color:#7d7891;transition:color .1s,background-color .1s}
+.bsb button.bx:not(.on):hover{color:#ffffa0}
+.bslot.has{background:linear-gradient(90deg,rgba(128,255,32,.05),transparent 40%)}
+@media (prefers-reduced-motion:reduce){.lhero .bossbar>i{animation:none!important}}
+.bslot{grid-template-columns:170px minmax(0,1fr);align-items:center}
+.bsh{white-space:nowrap;min-width:0}
+.bsh b{overflow:hidden;text-overflow:ellipsis}

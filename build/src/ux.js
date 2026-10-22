@@ -96,6 +96,9 @@ box.addEventListener("click",e=>{const r=e.target.closest(".qr");if(!r)return;e.
 document.addEventListener("focusout",e=>{if(e.target===QS.inp)setTimeout(()=>{if(document.activeElement!==QS.inp)close()},120)});
 addEventListener("resize",()=>QS.open&&place());
 
+/* skip link: focus the page content without touching the hash (the hash is the router) */
+document.addEventListener("click",e=>{if(e.target.closest(".skip")){e.preventDefault();const m=el("main");m.focus();m.scrollIntoView()}});
+
 /* ---------- wiring ---------- */
 addEventListener("hashchange",()=>{close();markNav();dealGear();remember();
  // the header box shows the curio filter, not a lookup typed on another page
