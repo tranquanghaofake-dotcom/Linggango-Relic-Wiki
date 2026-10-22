@@ -330,3 +330,10 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Audit fixes:** skip link to the content; search fields get `name`, `autocomplete="off"`, `spellcheck="false"` and placeholders ending in “…”; the curio count announces changes (`aria-live`); headings balance their lines, numbers use tabular figures; `touch-action: manipulation`; the brand name is `translate="no"`. Not done: explicit `width`/`height` on every icon `<img>` (they are sized by CSS in hundreds of contexts and decode from in-memory blobs, so there is no layout shift to fix). Kept sentence case for headings and buttons (the wiki's own style) over the guideline's Title Case.
 - **Shared element:** the icon you click (a Path tile, an Equipment tile, a quick-search row) grows into the item page's big art, and flies back to its tile when you go back. **Previous/Next** on curio pages (buttons or ←/→) slide the page the way you are going.
 - **Boss pages:** the boss bar fills as the page opens. **Build planner:** each slot row shows the game's curio slot icon; empty rows are dimmed so filled ones read first; slot labels no longer wrap.
+
+## v26 — The Path as an interactive map (home page)
+- The home page's long Act list (≈3000 px) is now a map: 13 advancement frames on an XP bar, and one panel for the selected Act. Click an Act or use ←/→/Home/End; the panel slides the way you move.
+- Each panel: Act title strip, what opens it, curio / Must-Have / side-boss counts, the Keeper to beat next (links to its boss page), the best melee weapon at that Act (from the Equipment ranking), the side-boss cards (unchanged), and “See N curios”, “See gear”.
+- **“I'm here”** marks your run (this browser only, `localStorage` key `lgw-here`): the XP bar fills to that Act, reached Acts get the gold obtained-advancement frame, later Acts fade, and the map opens on your Act next time.
+- All 13 panels are in the page (others `hidden`), so `check.js` still finds all 65 side-boss cards; their background pictures load lazily when a panel opens.
+- The map's numbers use the body face: the pixel face misreads digits (156 looked like 186), as found in v13.

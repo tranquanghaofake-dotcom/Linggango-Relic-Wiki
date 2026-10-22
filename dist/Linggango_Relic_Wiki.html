@@ -2278,6 +2278,75 @@ html[data-vt=prev]::view-transition-new(root){animation:.22s ease-out .1s both v
 .bsh{white-space:nowrap;min-width:0}
 .bsh b{overflow:hidden;text-overflow:ellipsis}
 
+/* ================= v26: The Path as an interactive map (home page) =================
+   Advancement frames on an XP bar; the panel below holds the selected Act. */
+.pmap .pmh{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.pmap .pmh .gs{max-width:68ch}
+.prun{margin:0 0 14px;font:600 13px var(--body);color:var(--xp);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ptrack{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:4px;margin:8px 0 0;padding:14px 8px 18px;
+ background:rgba(0,0,0,.35);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
+.pxp{position:absolute;left:calc(100% / var(--n) / 2 + 8px);right:calc(100% / var(--n) / 2 + 8px);top:41px;height:8px;background:#000;box-shadow:0 0 0 2px #2a2733}
+.pxp i{position:absolute;inset:0;background:linear-gradient(#b7ff7a,var(--xp) 45%,#4c9b12);transform-origin:left;transform:scaleX(0);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.pxp::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(100% / 18 - 2px),rgba(0,0,0,.5) calc(100% / 18 - 2px) calc(100% / 18))}
+.pn{position:relative;z-index:1;display:grid;justify-items:center;gap:6px;padding:0;background:none;border:0;cursor:pointer;color:var(--gui-mute);font:600 13px var(--body)}
+.pn .pfr{display:grid;place-items:center;width:52px;height:52px;background:#3b3846;
+ box-shadow:0 0 0 2px #000,inset 2px 2px 0 #6b6680,inset -2px -2px 0 #1a1820;transition:transform .15s cubic-bezier(.2,1.3,.4,1),background-color .2s,box-shadow .2s}
+.pn .pfr .emb{transform:scale(.9)}
+.pn b{font:600 13px/1.1 var(--body);white-space:nowrap}
+.pn.ch .pfr{clip-path:polygon(50% 0,62% 14%,82% 8%,86% 30%,100% 50%,86% 70%,82% 92%,62% 86%,50% 100%,38% 86%,18% 92%,14% 70%,0 50%,14% 30%,18% 8%,38% 14%);width:60px;height:60px;margin:-4px 0}
+/* reached Acts get the obtained-advancement gold frame, the Act you are on pulses once */
+.pn.done .pfr,.pn.here .pfr{background:#c9a227;box-shadow:0 0 0 2px #000,inset 2px 2px 0 #ffe27a,inset -2px -2px 0 #6e5410}
+.pn.done b{color:#e9d27c}
+.pn.here b{color:var(--xp)}
+.pn.here .pfr{animation:hereIn .6s cubic-bezier(.2,1.3,.4,1)}
+.pn.ahead .pfr{filter:saturate(.35) brightness(.7)}
+.pn.ahead b{color:#77738a}
+.pn:hover .pfr{transform:translateY(-3px)}
+.pn[aria-selected=true] .pfr{transform:translateY(-3px) scale(1.08);box-shadow:0 0 0 2px #fff,0 0 0 4px #000,0 8px 18px rgba(0,0,0,.5),inset 2px 2px 0 rgba(255,255,255,.35),inset -2px -2px 0 rgba(0,0,0,.4)}
+.pn[aria-selected=true] b{color:#fff}
+.pn[aria-selected=true]::after{content:"";position:absolute;bottom:-19px;left:50%;width:14px;height:14px;background:var(--gui);transform:translateX(-50%) rotate(45deg);box-shadow:-2px -2px 0 #000}
+.pn:focus-visible{outline:none}
+.pn:focus-visible .pfr{outline:2px solid var(--ring);outline-offset:4px}
+@keyframes hereIn{40%{transform:scale(1.18)}}
+
+.ppanel{position:relative;margin:18px 0 0;padding:20px 22px 22px;border-radius:2px;
+ background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 14%,var(--gui2)),var(--gui2) 55%);box-shadow:0 0 0 2px #000,inset 4px 0 0 var(--tc)}
+.pph{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 0 16px}
+.pph .ptitle{height:30px;width:auto;image-rendering:auto}
+.pph h3{font:700 22px var(--disp);color:var(--tc)}
+.pph p{margin:0;color:var(--gui-mute);font-size:14px}
+.ppg{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;align-items:start}
+.ppl{display:grid;gap:12px}
+.pstat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0}
+.pstat div{padding:8px 10px;background:rgba(0,0,0,.35);box-shadow:inset 2px 2px 0 var(--slot-lo)}
+.pstat dt{font-size:12px;color:var(--gui-mute)}
+.pstat dd{margin:0;font:700 22px/1.2 var(--disp);color:#fff;font-variant-numeric:tabular-nums}
+.pnext{display:flex;align-items:center;gap:12px;padding:8px 10px;color:#fff;text-decoration:none;background:rgba(0,0,0,.25);box-shadow:0 0 0 2px #000;transition:background-color .12s}
+a.pnext:hover{background:var(--btn-hover);color:#ffffa0}
+.pnext small{display:block;font-size:12px;color:var(--gui-mute)}
+a.pnext:hover small{color:#dfe3ff}
+.pnext b{font:600 14px/1.3 var(--body)}
+.pnext.end{margin:0;opacity:.75}
+.pbtn{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.pbtn .phere[aria-pressed=true]{background:#3c7d1e;box-shadow:0 0 0 2px #000,inset 2px 2px 0 #79c84a,inset -2px -3px 0 #1d4310}
+.ppanel .pside{display:flex;flex-wrap:wrap;gap:8px;align-content:start}
+.ppanel .pnone{margin:0;color:var(--gui-mute);font-style:italic}
+/* switching Acts: the panel slides the way the track moves */
+::view-transition-group(ppanel){animation-duration:.3s}
+html[data-pvt=next]::view-transition-old(ppanel){animation:.14s ease-in both vtFade reverse,.3s ease-in-out both vtToL}
+html[data-pvt=next]::view-transition-new(ppanel){animation:.2s ease-out .08s both vtFade,.3s ease-in-out both vtFromR}
+html[data-pvt=prev]::view-transition-old(ppanel){animation:.14s ease-in both vtFade reverse,.3s ease-in-out both vtToR}
+html[data-pvt=prev]::view-transition-new(ppanel){animation:.2s ease-out .08s both vtFade,.3s ease-in-out both vtFromL}
+@media (max-width:1100px){.ppg{grid-template-columns:1fr}.pn b{font-size:11px}.pn .pfr{width:40px;height:40px}.pn.ch .pfr{width:46px;height:46px}.pxp{top:35px}}
+@media (max-width:760px){.ptrack{display:flex;overflow-x:auto;gap:10px;scrollbar-width:none}.pn{flex:none;width:56px}.pxp{display:none}.pmap .pmh{display:block}}
+@media (prefers-reduced-motion:reduce){.pxp i,.pn .pfr{transition:none}.pn.here .pfr{animation:none}}
+/* the pixel face draws 5 like 8 and 9 like 3 (see v13), so the map's numbers use the body face */
+.pstat dd{font:700 22px/1.2 var(--body)}
+.pn[aria-selected=true] .pfr{filter:none}
+.pbtn{display:grid;grid-template-columns:1fr 1fr}
+.pbtn .mcb{white-space:normal;text-align:center;min-height:38px}
+.pbtn .phere{grid-column:1/-1}
+
 </style>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
@@ -6757,6 +6826,45 @@ function activeBar(){const P=[];
  return P.length?`<div class="act-bar" role="group" aria-label="Active filters">${P.map(([k,v,t])=>`<button class="pill" data-k="${k}" data-v="${esc(v)}" aria-label="Remove filter ${esc(t)}">${esc(t)}<b aria-hidden="true">×</b></button>`).join("")}<button class="ghost" id="clr2">Clear all</button></div>`:""}
 
 /* ---------- views ---------- */
+/* The Path on the home page: a track of Act frames on an XP bar, and one panel per Act (side bosses, next Keeper, best weapon).
+   "I'm here" marks your run in this browser; the bar fills to it and the Acts after it fade. */
+const PHKEY="lgw-here";
+const pHere=()=>{try{const v=localStorage.getItem(PHKEY);return v===null?null:+v}catch(e){return null}};
+function pSide(a){const pi=typeof PIMG!=="undefined"?PIMG:{side:{},act:{}};
+ let sb=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(r=>r[1]===a&&!/Keeper/.test(r[0])&&!/^(Ender Dragon)\b/.test(r[0]));if(a===6&&!sb.some(r=>r[0]==="Warden"))sb=[["Warden",6,"","Ancient City: shriek three Sculk Shriekers to call it",[]],...sb];
+ return sb.length?[...sb].sort((x,y)=>(!!pi.side[y[0]]||!!(typeof SIDEB!=="undefined"&&SIDEB[y[0]]&&SIDEB[y[0]].img))-(!!pi.side[x[0]]||!!(typeof SIDEB!=="undefined"&&SIDEB[x[0]]&&SIDEB[x[0]].img))).map(r=>{const sb2=typeof SIDEB!=="undefined"&&SIDEB[r[0]],rim=sb2&&sb2.img,im=pi.side[r[0]]||(rim&&pi.scene&&pi.scene[r[0]]),vk=r[0]==="Warden"?"warden":r[0]==="Wither"?"wither":null,hr=vk?` href="#boss/${vk}"`:sb2?` href="#side/${enc(r[0])}"`:"";return rim||im?`<a class="pbc${rim?" rnd":""}"${hr} title="${esc(pathText(r[3]||""))}">${im||(pi.scene&&pi.scene[r[0]])?`<img class="bg" alt="" loading="lazy" src="${im||pi.scene[r[0]]}">`:""}${rim?`<img class="fg" alt="" src="${rim}">`:""}<b>${esc(r[0])}</b></a>`:(()=>{const bg=(pi.scene&&pi.scene[r[0]])||(pi.biome&&pi.biome[r[0]]),it=[sb2&&sb2.summon].concat(r[4]||[],sb2&&sb2.drops?sb2.drops.map(x=>x.id):[]).find(x=>x&&IC[x]);return `<a class="pbc ibg"${hr} title="${esc(pathText(r[3]||""))}">${bg?`<img class="bg" alt="" loading="lazy" src="${bg}">`:""}${it?`<span class="fgi">${img(it)}</span>`:""}<b>${esc(r[0])}</b></a>`})()}).join(""):""}
+function pPanel(a,i,path){const xs=D.filter(d=>d.t===a),m=xs.filter(isMust).length,nb=NEXTB[a],sides=pSide(a),ti=typeof PIMG!=="undefined"&&PIMG.act[String(a)];
+ const nSide=(sides.match(/class="pbc/g)||[]).length,gt=typeof gTiers==="function"&&gTiers(a,"ME","w"),bw=gt&&gt.length&&gt[0][1][0];
+ return `<div class="ppanel" id="pp-${i}" role="tabpanel" aria-labelledby="pn-${i}" style="--tc:${ACT[a][2]};${tex(a)}"${i?" hidden":""}>
+ <div class="pph">${ti?`<img class="ptitle" alt="${esc(actL(a))}" src="${ti}">`:`<h3>${esc(actL(a))}</h3>`}<p>${a?`Opens when ${esc(UNL[a])} falls.`:"Where every run starts: no Keeper to beat yet."}</p></div>
+ <div class="ppg"><div class="ppl">
+  <dl class="pstat"><div><dt>Curios</dt><dd>${xs.length}</dd></div><div><dt>Must-Have</dt><dd>${m}</dd></div><div><dt>Side bosses</dt><dd>${nSide}</dd></div></dl>
+  ${nb?`<a class="pnext" href="#boss/${nb}">${emblem(bossPath(nb)??a,"sm")}<span><small>Keeper to beat next</small><b>${esc(bossName(nb))}</b></span></a>`:`<p class="pnext end"><span><small>Keeper to beat next</small><b>None: this is the last Act</b></span></p>`}
+  ${bw?`<a class="pnext" href="#g${bw.ix}" data-t="g${bw.ix}"><span class="slot sm">${gImg(bw)}</span><span><small>Best melee weapon here</small><b>${esc(bw.n)}</b></span></a>`:""}
+  <div class="pbtn"><a class="mcb" href="#act/${a}">See ${xs.length} curios</a><a class="mcb" href="#gear/${a}/ME/w">See gear</a><button class="mcb phere" type="button" data-here="${a}" aria-pressed="false">I'm here</button></div>
+ </div><div class="pside">${sides||'<p class="pnone">No side bosses at this Act. Gear up for the Keeper.</p>'}</div></div></div>`}
+function pathMap(path){
+ return `<section class="gui pmap" id="pmap"><div class="pmh"><div><h2 class="gt">The Path</h2><p class="gs">Pick an Act to see what it opens and who guards it. Press “I'm here” on the Act you reached and the map follows your run.</p></div><p class="prun" id="prun" aria-live="polite"></p></div>
+ <div class="ptrack" role="tablist" aria-label="Acts of The Path" style="--n:${path.length}"><div class="pxp" aria-hidden="true"><i id="pxpf"></i></div>
+ ${path.map((a,i)=>`<button type="button" role="tab" class="pn${VBOSS[a]?" ch":""}" id="pn-${i}" data-i="${i}" aria-controls="pp-${i}" aria-selected="${!i}" tabindex="${i?-1:0}" style="--tc:${ACT[a][2]}" title="${esc(actF(a))}"><span class="pfr">${emblem(a,"sm")}</span><b>${esc(ACT[a][0])}</b></button>`).join("")}</div>
+ ${path.map((a,i)=>pPanel(a,i,path)).join("")}
+ ${D.some(d=>d.t===-1)?`<p class="gs side">Side Act: <a href="#act/-1">L2 Artifacts</a>, dropped by L2 Hostility mobs by level, outside the Keeper order.</p>`:""}</section>`}
+function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...map.querySelectorAll(".pn")],pans=[...map.querySelectorAll(".ppanel")];let cur=0;
+ const paint=()=>{const h=pHere(),hi=h===null?-1:path.indexOf(h);
+  tabs.forEach((t,i)=>{t.classList.toggle("done",hi>=0&&i<hi);t.classList.toggle("here",i===hi);t.classList.toggle("ahead",hi>=0&&i>hi)});
+  el("pxpf").style.transform=`scaleX(${hi<0?0:(hi+.5)/path.length})`;
+  map.querySelectorAll(".phere").forEach(b=>{const on=+b.dataset.here===h;b.setAttribute("aria-pressed",on);b.textContent=on?"✓ You are here":"I'm here"});
+  el("prun").textContent=hi<0?"":`Your run: ${actL(h)}, Act ${hi+1} of ${path.length}`};
+ const sel=(i,focus)=>{if(i===cur){if(focus)tabs[i].focus();return}const was=cur,dir=i>was?"next":"prev";cur=i;const swap=()=>{tabs.forEach((t,k)=>{t.setAttribute("aria-selected",k===i);t.tabIndex=k===i?0:-1});pans.forEach((p,k)=>p.hidden=k!==i);decorate(pans[i])};
+  if(focus)tabs[i].focus();
+  if(RM||!document.startViewTransition){swap();return}
+  pans[was].style.viewTransitionName="ppanel";document.documentElement.dataset.pvt=dir;
+  const t=document.startViewTransition(()=>{pans.forEach(p=>p.style.viewTransitionName="");swap();pans[i].style.viewTransitionName="ppanel"});
+  t.finished.finally(()=>{pans[i].style.viewTransitionName="";delete document.documentElement.dataset.pvt})};
+ map.addEventListener("click",e=>{const t=e.target.closest(".pn");if(t){sel(+t.dataset.i);return}
+  const b=e.target.closest(".phere");if(b){const a=+b.dataset.here;try{pHere()===a?localStorage.removeItem(PHKEY):localStorage.setItem(PHKEY,a)}catch(e){}paint()}});
+ map.querySelector(".ptrack").addEventListener("keydown",e=>{const k={ArrowRight:1,ArrowLeft:-1,Home:-99,End:99}[e.key];if(!k)return;e.preventDefault();sel(Math.max(0,Math.min(path.length-1,k===-99?0:k===99?path.length-1:cur+k)),true)});
+ const h=pHere(),hi=h===null?-1:path.indexOf(h);paint();if(hi>0){pans[0].hidden=true;tabs[0].setAttribute("aria-selected","false");tabs[0].tabIndex=-1;pans[hi].hidden=false;tabs[hi].setAttribute("aria-selected","true");tabs[hi].tabIndex=0;cur=hi}}
 function hubHome(){
  document.title="Linggango Wiki";document.body.classList.add("hub");
  const pick=byRank(D.filter(d=>d.r===5)).slice(0,8),news=D.filter(d=>d.nw).slice(-10).reverse();
@@ -6767,11 +6875,7 @@ function hubHome(){
  <form class="hsearch" id="hs" role="search"><input id="hq" type="search" name="hubq" spellcheck="false" placeholder="Search curios, gear, bosses…" aria-label="Search curios" autocomplete="off"></form>
  <nav class="tbtns" aria-label="Wiki sections"><a class="mcb wide" href="#home">The Path</a><a class="mcb" href="#gear">Equipment</a><a class="mcb" href="#build">Build planner</a><a class="mcb" href="#bosses">Bosses</a><a class="mcb" href="#mechanics">Mechanics</a></nav>
  <p class="tcorner l">Linggango V6.6.5b4<br>Linggango Wiki</p><p class="tcorner r">${TOTAL} curios · ${MODS.length} mods<br>${D.filter(d=>d.gk).length} Keeper-gated</p></section>
- <section class="gui"><h2 class="gt">The Path</h2><p class="gs">Left: the main line. Right: optional side bosses for that Act (hover for tips).</p>
- <div class="ptree">${path.map(a=>{let sb=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(r=>r[1]===a&&!/Keeper/.test(r[0])&&!/^(Ender Dragon)\b/.test(r[0]));if(a===6&&!sb.some(r=>r[0]==="Warden"))sb=[["Warden",6,"","Ancient City: shriek three Sculk Shriekers to call it",[]],...sb];
-  const pi=typeof PIMG!=="undefined"?PIMG:{side:{},act:{}},ti=pi.act[String(a)];
-  return `<div class="prow" style="--tc:${ACT[a][2]}">${node(a)}<div class="pmain">${ti?`<img class="ptitle" alt="${esc(actL(a))}" src="${ti}">`:""}<div class="pside">${sb.length?[...sb].sort((x,y)=>(!!pi.side[y[0]]||!!(typeof SIDEB!=="undefined"&&SIDEB[y[0]]&&SIDEB[y[0]].img))-(!!pi.side[x[0]]||!!(typeof SIDEB!=="undefined"&&SIDEB[x[0]]&&SIDEB[x[0]].img))).map(r=>{const sb2=typeof SIDEB!=="undefined"&&SIDEB[r[0]],rim=sb2&&sb2.img,im=pi.side[r[0]]||(rim&&pi.scene&&pi.scene[r[0]]),vk=r[0]==="Warden"?"warden":r[0]==="Wither"?"wither":null,hr=vk?` href="#boss/${vk}"`:sb2?` href="#side/${enc(r[0])}"`:"";return rim||im?`<a class="pbc${rim?" rnd":""}"${hr} title="${esc(pathText(r[3]||""))}">${im||(pi.scene&&pi.scene[r[0]])?`<img class="bg" alt="" src="${im||pi.scene[r[0]]}">`:""}${rim?`<img class="fg" alt="" src="${rim}">`:""}<b>${esc(r[0])}</b></a>`:(()=>{const bg=(pi.scene&&pi.scene[r[0]])||(pi.biome&&pi.biome[r[0]]),it=[sb2&&sb2.summon].concat(r[4]||[],sb2&&sb2.drops?sb2.drops.map(x=>x.id):[]).find(x=>x&&IC[x]);return `<a class="pbc ibg"${hr} title="${esc(pathText(r[3]||""))}">${bg?`<img class="bg" alt="" src="${bg}">`:""}${it?`<span class="fgi">${img(it)}</span>`:""}<b>${esc(r[0])}</b></a>`})()}).join(""):'<span class="pnone">No side bosses</span>'}</div></div></div>`}).join("")}</div>
- ${D.some(d=>d.t===-1)?`<p class="gs side">Side Act: <a href="#act/-1">L2 Artifacts</a>, dropped by L2 Hostility mobs by level, outside the Keeper order.</p>`:""}</section>
+ ${pathMap(path)}
 ${typeof GE!=="undefined"?`<section class="gui"><h2 class="gt">Equipment</h2><p class="gs">${GE.filter(g=>g.k!=="armor").length} weapons and ${GS.length} armor sets from the pack, ranked for each playstyle at every Act. Best melee weapon as you progress:</p>
  <div class="hotbar gearbar">${(()=>{const runs=[];ORDER.filter(a=>a!=-1).forEach(a=>{const t=gTiers(a,"ME","w"),g=t.length&&t[0][1][0];if(!g)return;const l=runs[runs.length-1];if(l&&l.g===g)l.b=a;else runs.push({g,a,b:a})});
  return runs.map(({g,a,b})=>`<a class="slot big" href="#gear/${a}/ME/w" data-t="g${g.ix}" aria-label="${esc(actL(a))}${b!==a?" to "+esc(actL(b)):""}: ${esc(g.n)}">${gImg(g)}<span class="sl-n">${esc(ACT[a][0])}${b!==a?"+":""}</span></a>`).join("")})()}</div></section>`:""}
@@ -6784,7 +6888,7 @@ ${typeof GE!=="undefined"?`<section class="gui"><h2 class="gt">Equipment</h2><p 
  <div class="hcols">
  ${news.length?`<section class="gui"><h2 class="gt">Recently added</h2><p class="gs">From Wizard Terra Curios, Curios of Calamity and Ars Extensions.</p><ul class="latest">${news.map(d=>`<li><a href="#i${d.ix}" data-t="${d.ix}"><span class="slot sm">${img(d.id)}</span><span>${esc(d.n)}</span><span class="meta">${esc(d.m)}</span></a></li>`).join("")}</ul></section>`:""}
 </div>`;
- el("hs").onsubmit=e=>{e.preventDefault();const v=el("hq").value.trim();if(!v)return;el("q").value=v;st.q=v.toLowerCase();location.hash="#home"};
+ pathMapWire(path);el("hs").onsubmit=e=>{e.preventDefault();const v=el("hq").value.trim();if(!v)return;el("q").value=v;st.q=v.toLowerCase();location.hash="#home"};
 }
 
 

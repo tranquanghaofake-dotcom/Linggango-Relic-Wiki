@@ -2271,3 +2271,72 @@ html[data-vt=prev]::view-transition-new(root){animation:.22s ease-out .1s both v
 .bslot{grid-template-columns:170px minmax(0,1fr);align-items:center}
 .bsh{white-space:nowrap;min-width:0}
 .bsh b{overflow:hidden;text-overflow:ellipsis}
+
+/* ================= v26: The Path as an interactive map (home page) =================
+   Advancement frames on an XP bar; the panel below holds the selected Act. */
+.pmap .pmh{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.pmap .pmh .gs{max-width:68ch}
+.prun{margin:0 0 14px;font:600 13px var(--body);color:var(--xp);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ptrack{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:4px;margin:8px 0 0;padding:14px 8px 18px;
+ background:rgba(0,0,0,.35);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
+.pxp{position:absolute;left:calc(100% / var(--n) / 2 + 8px);right:calc(100% / var(--n) / 2 + 8px);top:41px;height:8px;background:#000;box-shadow:0 0 0 2px #2a2733}
+.pxp i{position:absolute;inset:0;background:linear-gradient(#b7ff7a,var(--xp) 45%,#4c9b12);transform-origin:left;transform:scaleX(0);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.pxp::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(100% / 18 - 2px),rgba(0,0,0,.5) calc(100% / 18 - 2px) calc(100% / 18))}
+.pn{position:relative;z-index:1;display:grid;justify-items:center;gap:6px;padding:0;background:none;border:0;cursor:pointer;color:var(--gui-mute);font:600 13px var(--body)}
+.pn .pfr{display:grid;place-items:center;width:52px;height:52px;background:#3b3846;
+ box-shadow:0 0 0 2px #000,inset 2px 2px 0 #6b6680,inset -2px -2px 0 #1a1820;transition:transform .15s cubic-bezier(.2,1.3,.4,1),background-color .2s,box-shadow .2s}
+.pn .pfr .emb{transform:scale(.9)}
+.pn b{font:600 13px/1.1 var(--body);white-space:nowrap}
+.pn.ch .pfr{clip-path:polygon(50% 0,62% 14%,82% 8%,86% 30%,100% 50%,86% 70%,82% 92%,62% 86%,50% 100%,38% 86%,18% 92%,14% 70%,0 50%,14% 30%,18% 8%,38% 14%);width:60px;height:60px;margin:-4px 0}
+/* reached Acts get the obtained-advancement gold frame, the Act you are on pulses once */
+.pn.done .pfr,.pn.here .pfr{background:#c9a227;box-shadow:0 0 0 2px #000,inset 2px 2px 0 #ffe27a,inset -2px -2px 0 #6e5410}
+.pn.done b{color:#e9d27c}
+.pn.here b{color:var(--xp)}
+.pn.here .pfr{animation:hereIn .6s cubic-bezier(.2,1.3,.4,1)}
+.pn.ahead .pfr{filter:saturate(.35) brightness(.7)}
+.pn.ahead b{color:#77738a}
+.pn:hover .pfr{transform:translateY(-3px)}
+.pn[aria-selected=true] .pfr{transform:translateY(-3px) scale(1.08);box-shadow:0 0 0 2px #fff,0 0 0 4px #000,0 8px 18px rgba(0,0,0,.5),inset 2px 2px 0 rgba(255,255,255,.35),inset -2px -2px 0 rgba(0,0,0,.4)}
+.pn[aria-selected=true] b{color:#fff}
+.pn[aria-selected=true]::after{content:"";position:absolute;bottom:-19px;left:50%;width:14px;height:14px;background:var(--gui);transform:translateX(-50%) rotate(45deg);box-shadow:-2px -2px 0 #000}
+.pn:focus-visible{outline:none}
+.pn:focus-visible .pfr{outline:2px solid var(--ring);outline-offset:4px}
+@keyframes hereIn{40%{transform:scale(1.18)}}
+
+.ppanel{position:relative;margin:18px 0 0;padding:20px 22px 22px;border-radius:2px;
+ background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 14%,var(--gui2)),var(--gui2) 55%);box-shadow:0 0 0 2px #000,inset 4px 0 0 var(--tc)}
+.pph{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:0 0 16px}
+.pph .ptitle{height:30px;width:auto;image-rendering:auto}
+.pph h3{font:700 22px var(--disp);color:var(--tc)}
+.pph p{margin:0;color:var(--gui-mute);font-size:14px}
+.ppg{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;align-items:start}
+.ppl{display:grid;gap:12px}
+.pstat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0}
+.pstat div{padding:8px 10px;background:rgba(0,0,0,.35);box-shadow:inset 2px 2px 0 var(--slot-lo)}
+.pstat dt{font-size:12px;color:var(--gui-mute)}
+.pstat dd{margin:0;font:700 22px/1.2 var(--disp);color:#fff;font-variant-numeric:tabular-nums}
+.pnext{display:flex;align-items:center;gap:12px;padding:8px 10px;color:#fff;text-decoration:none;background:rgba(0,0,0,.25);box-shadow:0 0 0 2px #000;transition:background-color .12s}
+a.pnext:hover{background:var(--btn-hover);color:#ffffa0}
+.pnext small{display:block;font-size:12px;color:var(--gui-mute)}
+a.pnext:hover small{color:#dfe3ff}
+.pnext b{font:600 14px/1.3 var(--body)}
+.pnext.end{margin:0;opacity:.75}
+.pbtn{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.pbtn .phere[aria-pressed=true]{background:#3c7d1e;box-shadow:0 0 0 2px #000,inset 2px 2px 0 #79c84a,inset -2px -3px 0 #1d4310}
+.ppanel .pside{display:flex;flex-wrap:wrap;gap:8px;align-content:start}
+.ppanel .pnone{margin:0;color:var(--gui-mute);font-style:italic}
+/* switching Acts: the panel slides the way the track moves */
+::view-transition-group(ppanel){animation-duration:.3s}
+html[data-pvt=next]::view-transition-old(ppanel){animation:.14s ease-in both vtFade reverse,.3s ease-in-out both vtToL}
+html[data-pvt=next]::view-transition-new(ppanel){animation:.2s ease-out .08s both vtFade,.3s ease-in-out both vtFromR}
+html[data-pvt=prev]::view-transition-old(ppanel){animation:.14s ease-in both vtFade reverse,.3s ease-in-out both vtToR}
+html[data-pvt=prev]::view-transition-new(ppanel){animation:.2s ease-out .08s both vtFade,.3s ease-in-out both vtFromL}
+@media (max-width:1100px){.ppg{grid-template-columns:1fr}.pn b{font-size:11px}.pn .pfr{width:40px;height:40px}.pn.ch .pfr{width:46px;height:46px}.pxp{top:35px}}
+@media (max-width:760px){.ptrack{display:flex;overflow-x:auto;gap:10px;scrollbar-width:none}.pn{flex:none;width:56px}.pxp{display:none}.pmap .pmh{display:block}}
+@media (prefers-reduced-motion:reduce){.pxp i,.pn .pfr{transition:none}.pn.here .pfr{animation:none}}
+/* the pixel face draws 5 like 8 and 9 like 3 (see v13), so the map's numbers use the body face */
+.pstat dd{font:700 22px/1.2 var(--body)}
+.pn[aria-selected=true] .pfr{filter:none}
+.pbtn{display:grid;grid-template-columns:1fr 1fr}
+.pbtn .mcb{white-space:normal;text-align:center;min-height:38px}
+.pbtn .phere{grid-column:1/-1}
