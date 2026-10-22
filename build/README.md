@@ -26,6 +26,14 @@ src/*.js, v5.css, style.game.css, template.html ──► build.py ──► ind
 - Order matters and lives in one place, `patches/apply_all.sh`. Gear: `gear_rebuild` (reset from the table) → `gear_icons` → `gear_gate` → `gear_fix` → `gear_stats` → `boss_stats` → `boss_order`.
 - Scoring formulas exist twice: `gear/gear_data.py` (full extraction) and `patches/gear_stats.py` (recompute for patched items). Change one, change the other.
 
+## How gear is ranked (src/gear.js)
+Melee: DPS from the pack data. Ranged / Mage / Summon weapons have no readable damage, so `gEstScore` ranks them by unlock rung (+13% per Act),
++ up to 10% for how hard they are to get (boss drop, recipe size) and their readable bonuses (saturating at +100%). Armor sets: every set is a
+candidate in every role, score = defense × role fit (Melee 1, Ranged .9, Summon .8, Mage .65) × (1 + saturated role bonus); sets with unreadable
+armor get the median defense of their Act. Tiers are the ratio to the best item at the Act (S ≥85%, A ≥70%, B ≥55%, C ≥40%); under 25% is not listed.
+`patches/gear_extra.json` (made by `gear/extra.py` from `gear/extra_ids.json`) adds plain-Item weapons the extraction skips; Iron's armor material
+attributes come from `pack_audit/iss_armor.py` (javap on `ExtendedArmorMaterials`) via `gear_stats.json`.
+
 ## Regenerating from the pack
 `gear/` (see `gear/wide/README.md`) and `pack_audit/` (see its README) read the pack's 476 jars and write the JSON in `patches/`. They need the pack downloaded (`gear/dl.py`) and are not part of the daily loop.
 Run those scripts from a folder that has no file named like a stdlib module (`enum.py` used to shadow `enum` and break `import json`; it is now `boss_audit/enum_jars.py`).

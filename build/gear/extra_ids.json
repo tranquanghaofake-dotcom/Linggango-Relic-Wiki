@@ -1,0 +1,6 @@
+{
+ "magic": ["irons_spellbooks:graybeard_staff", "irons_spellbooks:artificer_cane", "irons_spellbooks:ice_staff", "irons_spellbooks:blood_staff",
+  "ars_nouveau:novice_spell_book", "ars_nouveau:apprentice_spell_book", "ars_nouveau:archmage_spell_book",
+  "born_in_chaos_v1:pumpkinstaffa", "deeperdarker:sonorous_staff"],
+ "ranged": ["terramity:flintlock_pistol", "terramity:basic_pistol", "immersiveengineering:railgun"]
+}

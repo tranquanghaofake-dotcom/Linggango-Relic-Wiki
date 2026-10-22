@@ -2,6 +2,7 @@
 """Gear stats the full extraction could not read (build/patches/gear_stats.json; the checks are in pack_audit/verify2.json):
   - Summonity armor: armor, toughness and minion slots come from summonity-common.toml, not the ArmorMaterial.
   - Hazen 'N Stuff armor: every piece also carries its HnSArmorMaterial attributes (mana, spell power, cast time...).
+  - Iron's Spellbooks armor: every piece also carries its ExtendedArmorMaterials attributes (125-150 mana, spell power, school power).
   - Mowzie's tools: each reads its own tool_config (the table had copied the wrought axe onto all of them).
   - Soulslike trick weapons: Kirkhammer/Silver Sword, Holy Moonlight Sword/Greatsword and Simon's Bowblade/Blade are one
     weapon each, switched in hand, so they become one entry (the stronger form, the other listed in `lv`).
@@ -48,7 +49,7 @@ def rescore(g):
 def add_at(g, k, flat, mul):
     a = g["at"].setdefault(k, [0.0, 0.0]); a[0] = round(a[0] + flat, 4); a[1] = round(a[1] + mul, 4)
 
-n = {"sum": 0, "hns": 0, "mow": 0, "pair": 0}
+n = {"sum": 0, "hns": 0, "iss": 0, "mow": 0, "pair": 0}
 touched = set()
 for g in GE:
     ns, p = g["id"].split(":")
@@ -65,6 +66,11 @@ for g in GE:
         if key:
             for k, (f, mu) in D["hns_materials"][D["hns_item_material"][key]].items(): add_at(g, k, f, mu)
             g["sx"] = 1; n["hns"] += 1; touched.add(g["id"])
+    elif ns == "irons_spellbooks":
+        key = max((k for k in D["iss_item_material"] if p.startswith(k)), key=len, default=None)
+        if key:
+            for k, (f, mu) in D["iss_materials"][D["iss_item_material"][key]].items(): add_at(g, k, f, mu)
+            g["sx"] = 1; n["iss"] += 1; touched.add(g["id"])
     elif ns == "mowziesmobs" and p in D["mowzie_tools"]:
         g["dmg"], g["spd"] = D["mowzie_tools"][p]; g["sx"] = 1; n["mow"] += 1; touched.add(g["id"])
 for g in GE:
@@ -113,4 +119,4 @@ s = s[:i] + json.dumps(GE, separators=(",", ":"), ensure_ascii=False) + s[e1:]
 j = s.index("GS=") + 3; _, e2 = json.JSONDecoder().raw_decode(s, j)
 s = s[:j] + json.dumps(GS, separators=(",", ":"), ensure_ascii=False) + s[e2:]
 P.write_text(s, encoding="utf-8")
-print("gear_stats: %(sum)d Summonity armor, %(hns)d Hazen armor, %(mow)d Mowzie tools, %(pair)d trick pairs merged" % n)
+print("gear_stats: %(sum)d Summonity armor, %(hns)d Hazen armor, %(iss)d Iron's armor, %(mow)d Mowzie tools, %(pair)d trick pairs merged" % n)

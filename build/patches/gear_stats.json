@@ -1,5 +1,5 @@
 {
- "_doc": "Gear stats the first extraction missed. Sources: Hazen 'N Stuff 1.1.2 HnSArmorMaterial.<clinit> (additional attributes, applied to every piece by HnSArmorItem); summonity-common.toml [armor.*] (SnifferArmorItem etc. replace the material values with these); mowziesmobs-common.toml tools_and_abilities.*.tool_config (MowzieToolItem reads each item's own config); soulslike-weaponry data/soulsweapons/trickweapons/item_mappings.json.",
+ "_doc": "Gear stats the first extraction missed. Sources: Hazen 'N Stuff 1.1.2 HnSArmorMaterial.<clinit> (additional attributes, applied to every piece by HnSArmorItem); summonity-common.toml [armor.*] (SnifferArmorItem etc. replace the material values with these); mowziesmobs-common.toml tools_and_abilities.*.tool_config (MowzieToolItem reads each item's own config); soulslike-weaponry data/soulsweapons/trickweapons/item_mappings.json. Iron's Spellbooks 3.15.6 ExtendedArmorMaterials.<clinit> (getAdditionalAttributes: every piece gets them, ExtendedArmorItem.platformHandleDefaultModifiers), parsed with javap by build/pack_audit/iss_armor.py.",
  "hns_materials": {
   "PYROMANCER": {
    "max_mana": [
@@ -455,5 +455,221 @@
    "other": "soulsweapons:simons_bowblade",
    "note": "Crafted as Simon's Bowblade; swap to the blade in hand (trick weapon)."
   }
- ]
+ ],
+ "iss_materials": {
+  "TARNISHED": {
+   "max_mana": [
+    150.0,
+    0.0
+   ],
+   "mana_regen": [
+    0.0,
+    0.25
+   ],
+   "attack_damage": [
+    0.0,
+    -0.15
+   ]
+  },
+  "WANDERING_MAGICIAN": {
+   "max_mana": [
+    25.0,
+    0.0
+   ]
+  },
+  "PUMPKIN": {
+   "max_mana": [
+    75.0,
+    0.0
+   ]
+  },
+  "PYROMANCER": {
+   "max_mana": [
+    125.0,
+    0.0
+   ],
+   "fire_spell_power": [
+    0.0,
+    0.1
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ]
+  },
+  "ARCHEVOKER": {
+   "max_mana": [
+    125.0,
+    0.0
+   ],
+   "evocation_spell_power": [
+    0.0,
+    0.1
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ]
+  },
+  "CULTIST": {
+   "max_mana": [
+    125.0,
+    0.0
+   ],
+   "blood_spell_power": [
+    0.0,
+    0.1
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ]
+  },
+  "PRIEST": {
+   "max_mana": [
+    125.0,
+    0.0
+   ],
+   "holy_spell_power": [
+    0.0,
+    0.1
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ]
+  },
+  "CRYOMANCER": {
+   "max_mana": [
+    125.0,
+    0.0
+   ],
+   "ice_spell_power": [
+    0.0,
+    0.1
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ]
+  },
+  "SHADOWWALKER": {
+   "max_mana": [
+    125.0,
+    0.0
+   ],
+   "ender_spell_power": [
+    0.0,
+    0.1
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ]
+  },
+  "PLAGUED": {
+   "max_mana": [
+    125.0,
+    0.0
+   ],
+   "nature_spell_power": [
+    0.0,
+    0.1
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ]
+  },
+  "ELECTROMANCER": {
+   "max_mana": [
+    125.0,
+    0.0
+   ],
+   "lightning_spell_power": [
+    0.0,
+    0.1
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ]
+  },
+  "NETHERITE_BATTLEMAGE": {
+   "max_mana": [
+    125.0,
+    0.0
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ]
+  },
+  "PALADIN": {
+   "max_mana": [
+    150.0,
+    0.0
+   ],
+   "spell_power": [
+    0.0,
+    0.1
+   ]
+  },
+  "INFERNAL_SORCERER": {
+   "max_mana": [
+    150.0,
+    0.0
+   ],
+   "spell_power": [
+    0.0,
+    0.1
+   ]
+  },
+  "BOOTS_OF_SPEED": {
+   "max_mana": [
+    150.0,
+    0.0
+   ],
+   "spell_power": [
+    0.0,
+    0.1
+   ],
+   "casting_movespeed": [
+    0.0,
+    0.6
+   ],
+   "movement_speed": [
+    0.0,
+    0.25
+   ]
+  },
+  "WIZARD": {
+   "max_mana": [
+    125.0,
+    0.0
+   ],
+   "spell_power": [
+    0.0,
+    0.05
+   ]
+  }
+ },
+ "iss_item_material": {
+  "archevoker_": "ARCHEVOKER",
+  "cryomancer_": "CRYOMANCER",
+  "cultist_": "CULTIST",
+  "electromancer_": "ELECTROMANCER",
+  "infernal_sorcerer_": "INFERNAL_SORCERER",
+  "netherite_mage_": "NETHERITE_BATTLEMAGE",
+  "paladin_": "PALADIN",
+  "plagued_": "PLAGUED",
+  "priest_": "PRIEST",
+  "pumpkin_": "PUMPKIN",
+  "pyromancer_": "PYROMANCER",
+  "shadowwalker_": "SHADOWWALKER",
+  "speed_boots": "BOOTS_OF_SPEED",
+  "tarnished_": "TARNISHED",
+  "wandering_magician_": "WANDERING_MAGICIAN",
+  "wizard_": "WIZARD"
+ }
 }

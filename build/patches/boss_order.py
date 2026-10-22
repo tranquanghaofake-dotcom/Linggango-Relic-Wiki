@@ -58,6 +58,7 @@ ENT.update({"terramity:gob": 7, "terramity:virtue": 9, "terramity:super_sniffer"
             "terramity:enchanter_merlin": A.get("Gundalf, Circe, Merlin (Shadow Wizards)", 6.3),
             "mowziesmobs:naga": 4, "block_factorys_bosses:yeti": 3, "block_factorys_bosses:infernal_dragon": 6,
             "eeeabsmobs:nameless_guardian": 7, "goety:vizier": 5, "undergarden:forgotten_guardian": 6})
+ENT["born_in_chaos_v1:pumpkinhead"] = A.get("Lord Pumpkinhead", 5)   # the loot table is named without "lord_"
 # How curio sources name a boss ("Dropped by The Dead King") -> its Act
 NAME = {n.split(" (")[0].split(" →")[0].split(",")[0]: a for n, a in A.items() if n in dep and n not in FIX}
 NAME.update({"The Dead King": A["Dead King"], "Enraged Dead King": A["Dead King"], "Archmage Gundalf": A["Gundalf, Circe, Merlin (Shadow Wizards)"],

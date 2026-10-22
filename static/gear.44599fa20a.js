@@ -4,6 +4,8 @@ const GROLE={ME:"Melee",RA:"Ranged",MA:"Mage",SU:"Summon",TA:"Tank"};
 const GKIND={melee:"Melee weapon",ranged:"Ranged weapon",magic:"Staff / magic weapon",summon:"Summon weapon",armor:"Armor"};
 /* tier = score as a share of the best score at that Act: S ≥85%, A ≥70%, B ≥55%, C ≥40%, else D */
 const GTIER_R=[.85,.7,.55,.4,0];
+/* gear under a quarter of the best at an Act is left off its list (still found by search and on its own page) */
+const GFLOOR=.25;
 const GTIER=[["S",.06,"#ff5f6d"],["A",.2,"#ffb347"],["B",.4,"#ffe066"],["C",.65,"#7bd88f"],["D",1.01,"#7aa7ff"]];
 const GSLOT={HELMET:"Head",CHESTPLATE:"Chest",LEGGINGS:"Legs",BOOTS:"Feet"};
 const GATTR={attack_damage:"Attack Damage",attack_speed:"Attack Speed",armor:"Armor",armor_toughness:"Armor Toughness",max_health:"Max Health",
@@ -22,16 +24,44 @@ const gMod=(k,add,mul)=>{const p=[];const pct=/chance|damage_taken|lifesteal|lif
 const GBY={};GE.forEach((g,i)=>{g.ix=i;GBY[g.id]=g});GS.forEach((s,i)=>{s.ix=i;s.ps=s.p.map(id=>GBY[id]).filter(Boolean)});
 const gIcon=g=>g.ps?(g.ps.find(p=>p.sl==="CHESTPLATE")||g.ps[0]):g;
 const gImg=g=>img(gIcon(g).id);
-const oiA=a=>ORDER.indexOf(a);
-/* weapons whose base damage lives in code we could not read: estimated from same-gate weapons */
+/* ORDER holds the wiki's Acts only; data from the pack can carry Warden / Wither steps (6.1, 6.2): they count as the last Act below them */
+const oiA=a=>{const i=ORDER.indexOf(a);return i>=0?i:ORDER.reduce((n,x,k)=>x<=a?k:n,0)};
+/* ---------- how the lists are scored ----------
+   Melee: damage per second (gear_data.py). Everything else cannot be read from the jars, so it is ranked by what it takes to get it. */
+/* progression ladder: one step per Act; Warden / Wither / Dragon are three thirds of a step */
+const GLAD={0:0,2:1,3:2,4:3,5:4,6:5,6.1:5.33,6.2:5.67,6.3:6,7:7,8:8,9:9,10:10,11:11,12:12};
+const gLad=a=>GLAD[a]!=null?GLAD[a]:oiA(a);
+/* each Act is worth +13%: an item one Act behind the frontier is at 88% of it, three behind 68% (tier B), seven behind 41% */
+const GSTEP=1.13;
+/* bonuses saturate (+100% is the most a stat line is worth): Hazen sets with 800 mana do not outrun everything else by 5x */
+const gEff=v=>v>0?v/(1+v):0;
+/* how hard an item is to get, 0..1: boss and mob drops 1, crafted from many parts up to 1, chest or unknown loot lower */
+const GNOISE=/^(minecraft:crafting_|goety:(craft|ritual)$|ars_nouveau:enchanting_apparatus$)/;
+function gSrc(g){const lt=g.lt||[],rc=g.rc||[];
+ if(lt.some(t=>/:entities\//.test(t)))return 1;
+ if(rc.length){const n=new Set((rc[0].i||[]).filter(x=>x!==rc[0].t&&!GNOISE.test(x))).size;return Math.min(1,Math.max(0,(n-1)/8))}
+ return lt.length?.5:.3}
+/* Ranged, Mage, Summon weapons: unlock rung x up to +10% for how hard it is to get x its readable bonuses */
+function gEstScore(g,r){const rung=gLad(oiA(g.a)>oiA(g.ga||0)?g.a:g.ga);return Math.pow(GSTEP,rung)*(1+.1*gSrc(g))*(1+gEff((g.off||{})[r]||0))}
+/* melee weapons whose base damage lives in code we could not read: estimated from same-gate weapons */
 const GEST={};
 {const by={};GE.filter(g=>g.k==="melee"&&g.sc.ME!=null).forEach(g=>(by[g.ga]=by[g.ga]||[]).push(g.sc.ME));
  for(const k in by){const v=by[k].sort((a,b)=>a-b);GEST[k]=v[Math.floor(v.length*.6)]}
  const all=Object.values(by).flat().sort((a,b)=>a-b),med=all[Math.floor(all.length/2)]||1;
  GE.forEach(g=>{if(g.k==="melee"&&g.sc.ME==null){g.sc.ME=GEST[g.ga]||med;g.est=1}
-  /* ranged / magic / summon: their power lives in spells and projectiles the wiki cannot read, so the pack's
-     unlock ladder stands in for it: later Acts rank higher */
-  if(g.k==="ranged"||g.k==="magic"||g.k==="summon"){g.est=1;for(const r in g.sc)g.sc[r]=g.sc[r]*(1+.3*oiA(Math.max(g.ga||0,g.a||0)))}})}
+  if(g.k==="ranged"||g.k==="magic"||g.k==="summon"){g.est=1;for(const r in g.sc)g.sc[r]=gRound(gEstScore(g,r)*100)}})}
+/* armor sets: defense (armor, toughness, health, knockback, damage reduction) x how well the set fits the role x its bonuses.
+   Every set can be worn by every role: a plain set without bonuses scores its defense x the fit, so there is always something to pick,
+   and a set with real bonuses for the role beats it. Mages lose the most by wearing plain armor, melee nothing. */
+const GFIT={TA:1,ME:1,RA:.9,SU:.8,MA:.65};
+const GROBE=/robe|crown|hat|hood|cowl|mask/;
+{const kn=GS.filter(s=>s.kn&&s.sc.TA>0),med={};
+ const medAt=a=>{const k=oiA(a);if(med[k]==null){let v=kn.filter(s=>oiA(s.a)<=k&&oiA(s.a)>=k-1).map(s=>s.sc.TA).sort((x,y)=>x-y);if(!v.length)v=kn.map(s=>s.sc.TA).sort((x,y)=>x-y);med[k]=v[Math.floor(v.length/2)]||1}return med[k]};
+ GS.forEach(s=>{let d=s.sc.TA||0;const robe=s.p.some(id=>GROBE.test(id.split(":")[1]));
+  if(!s.kn||d<=0){d=medAt(s.a)*(robe?.7:.8);s.est=1}   // base armor unreadable: the typical set of its Act (robes a little lighter)
+  const sc={TA:s.kn&&s.sc.TA>0?d:0};
+  for(const r of ["ME","RA","MA","SU"]){const own=gEff((s.off||{})[r]||0),fit=r==="MA"&&robe&&!s.kn?1:GFIT[r];sc[r]=gRound(d*fit*(1+own))}
+  s.sc=sc;s.rl=["TA"].concat(["ME","RA","MA","SU"].filter(r=>(s.off||{})[r]>.02))})}
 GS.forEach(s=>{if(!s.kn)s.est=1});
 /* pool for Act a, role r: everything unlocked at or before a */
 function gPool(a,r,w){const ia=oiA(+a);
@@ -41,7 +71,7 @@ const GTC=new Map();
 function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const xs=gPool(a,r,w);let out=[];
  if(xs.length){const n=xs.length,b=GTIER.map(()=>[]);let prev=null,pt=0;
   // tier = how close an item is to the best one usable at this Act, so old gear slides down as better gear opens
-  const top=xs[0].sc[r]||1;xs.forEach(g=>{const q=g.sc[r]/top;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;b[t].push(g)});
+  const top=xs[0].sc[r]||1;xs.forEach(g=>{const q=g.sc[r]/top;if(q<GFLOOR)return;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;b[t].push(g)});
   out=GTIER.map(([t],i)=>[t,b[i]])}
  GTC.set(key,out);return out}
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
@@ -69,20 +99,22 @@ function gearPage(h){
  <div class="gseg roles" role="tablist" aria-label="Playstyle">${roles.map(k=>`<a role="tab" href="${go(a,k,w)}" style="--rc:${ROLE_C[k]||"#8a8f99"}"${k===r?' aria-selected="true"':""}>${GROLE[k]}</a>`).join("")}</div>
  <input id="gq" type="search" autocomplete="off" name="gearq" placeholder="Find a weapon or set…" value="${esc(GSTATE.q)}" aria-label="Find gear"></div>
  ${q?gSearch(q,a):`<div class="gtl-list">${tiers.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>Show ${xs.length-48} more</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join(""):`<p class="note">No ${w==="a"?"armor":"weapons"} for ${GROLE[r]} unlocked by ${esc(actL(a))} yet.</p>`}</div>`}
- <div class="gfoot"><p><b>${pool}</b> ${w==="a"?"sets":"weapons"} usable at ${esc(actL(a))}. <i class="gnew">NEW</i> unlocks at this Act. Faded tiles are <b>estimated</b>: their numbers are computed in code the wiki could not read, so they are ranked by their Keeper gate.</p>
+ <div class="gfoot"><p><b>${pool}</b> ${w==="a"?"sets":"weapons"} usable at ${esc(actL(a))}. <i class="gnew">NEW</i> unlocks at this Act. Faded tiles are <b>estimated</b>: their damage is computed in code the wiki could not read, so they are ranked by when and how you get them (see below).</p>
  <details class="ghow"><summary>How the tiers are worked out</summary><ul>
  <li><b>Act</b>: the Keeper gate from Linggango's own progression tags (<code>forge:iron_tools</code> … <code>forge:helionite_armor</code>): gear tagged Diamond is locked until Eldorath falls, and so on. Gear with no tag sits at the Act of its hardest ingredient or drop (Nether materials need Act V, a Nether Star the Wither, End loot the Ender Dragon).</li>
  <li><b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does.</li>
- <li><b>Ranged, Mage, Summon weapons</b>: their bonuses (arrow damage, spell power, mana, cooldowns, summon damage) plus their gate. Bow and gun damage is set in each mod's code at shot time, so these are estimates.</li>
- <li><b>Armor sets</b>: the four pieces added together. Tank = armor + 0.8 × toughness + ½ × max health + knockback resistance and damage-taken reduction. Melee / Ranged / Mage / Summon also count that role's bonuses.</li>
- <li>Tiers compare each item with the best one usable at that Act: S is within 85% of it, A within 70%, B within 55%, C within 40%, the rest D. When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.</li></ul></details></div></div>`;
+ <li><b>Ranged, Mage, Summon weapons</b>: bow, gun and spell damage is set in each mod's code at shot time, so it cannot be read. They are ranked by <i>when</i> you can get them: every Act is worth +13% (an item one Act behind the frontier sits at 88%, three behind at 68%), plus up to +10% for how hard it is to get (a boss drop or a recipe with many parts over a one-ingredient craft), times its readable bonuses (spell power, cooldown, arrow damage, summon damage). A bonus line saturates: it can at most double an item.</li>
+ <li><b>Armor sets</b>: defense = armor + 0.8 × toughness + ½ × max health + knockback resistance and damage-taken reduction, for the four pieces together. Tank is the defense. For Melee, Ranged, Mage and Summon every set is a candidate: score = defense × fit × (1 + bonus), with fit 1.0 Melee, 0.9 Ranged, 0.8 Summon, 0.65 Mage (plain armor costs a mage the most), and bonus = the role's bonuses (spell power, mana, cooldown, arrow damage, summon damage, crit…) saturating at +100%. So a plain set is always there as a fallback, and a set built for the role beats it. Iron's, Hazen and Goety mage sets include the mana and spell power their code adds to every piece.</li>
+ <li>Tiers compare each item with the best one usable at that Act: S is within 85% of it, A within 70%, B within 55%, C within 40%, the rest D; under 25% it is left off the list (search still finds it). When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.</li></ul></details></div></div>`;
  const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};
  seedBg("gear"+a,[]);decorate();
 }
 function gSearch(q,a){const xs=[...GE.filter(g=>g.k!=="armor"),...GS].filter(g=>g.n.toLowerCase().includes(q)||(g.id||g.k||"").includes(q)||(g.lv||[]).some(x=>x.includes(q))).slice(0,80);
  return `<div class="gtiles gsr">${xs.length?xs.map(g=>gTile(g,a)).join(""):'<p class="note">Nothing matches.</p>'}</div>`}
 /* main role of an item: the one it scores in, preferring the role named by its kind */
-const gMain=g=>{const k=Object.keys(g.sc);return g.ps?(k.filter(x=>x!=="TA").sort((p,q)=>(g.off[q]||0)-(g.off[p]||0))[0]||"TA"):(k[0]||"ME")};
+const gMain=g=>{const k=Object.keys(g.sc);if(!g.ps)return k[0]||"ME";const b=k.filter(x=>x!=="TA").sort((p,q)=>(g.off[q]||0)-(g.off[p]||0))[0];return b&&(g.off[b]||0)>.02?b:"TA"};
+/* roles an item is worth listing for: a set with no bonus for a role is only a fallback there, so it is not advertised */
+const gRoles=g=>g.ps?g.rl:Object.keys(g.sc);
 /* the tooltip's base lines already include flat (+N) armor/damage modifiers from the mod and the pack's rebalance,
    so they are folded in here and left out of the bonus list: Topaz Leggings read 5 armor, 1 toughness, as in game */
 const GFOLD={armor:["arm","armor"],weapon:["dmg","spd"]};
@@ -127,7 +159,7 @@ function gearSetPage(s){document.title=s.n+" set · Linggango Wiki";seedBg("gs"+
  <p class="gact"><span class="gx">${emblem(s.a,"xs")}</span>${esc(actL(s.a))}</p></div></header>
  <div class="gcols"><section class="gbox"><h2>Full set</h2><table class="gst">${s.kn?`<tr><td><i class="ai" style="--ai:var(--v-gui_armor)"></i>Armor</td><td class="num">${gRound(s.arm)}</td></tr><tr><td><i class="ai" style="--ai:var(--v-fx_resistance)"></i>Toughness</td><td class="num">${gRound(s.tough)}</td></tr>`:`<tr><td colspan="2" class="note">Base armor is computed in code the wiki could not read.</td></tr>`}${s.hp?`<tr><td><i class="ai" style="--ai:var(--v-gui_heart)"></i>Max Health</td><td class="num">${s.hp>0?"+":""}${gRound(s.hp)}</td></tr>`:""}${s.kbr?`<tr><td>Knockback Resistance</td><td class="num">${gRound(s.kbr)}</td></tr>`:""}${s.dtk?`<tr><td>Damage taken</td><td class="num">${s.dtk>0?"−":"+"}${gRound(Math.abs(s.dtk)*100)}%</td></tr>`:""}</table>
  <h3>Pieces</h3><div class="gpcs">${s.ps.map(p=>`<a href="#g${p.ix}" data-t="g${p.ix}">${img(p.id)}<span>${esc(p.n)}</span><small>${p.arm!=null?gRound(p.arm)+" armor":""}${gBonus(p).length?" · "+gBonus(p).slice(0,2).join(", "):""}</small></a>`).join("")}</div></section>
- <section class="gbox"><h2>Tier by Act</h2><p class="note">As a ${GROLE[r]} set.</p>${gTimeline(s)}<p class="note">${Object.keys(s.sc).map(k=>GROLE[k]).join(", ")} lists include this set.</p></section></div></article>`;decorate()}
+ <section class="gbox"><h2>Tier by Act</h2><p class="note">As a ${GROLE[r]} set.</p>${gTimeline(s)}<p class="note">${gRoles(s).map(k=>GROLE[k]).join(", ")} bonuses count for this set; every set also shows up in each playstyle's list at its defense, ranked below sets built for it.</p></section></div></article>`;decorate()}
 const GATEN={2:"Iron Colossus",3:"the Goblin Lord",4:"Arion",5:"Eldorath",6:"Zoranth the Forgotten",7:"the Elvenite Paladin",8:"Vaedric",10:"Sanghor",11:"Zoranth Newborn"};
 const MODN=ns=>(MODS.find(([m,xs])=>xs.some(d=>d.id.startsWith(ns+":")))||[GNS[ns]||ns.replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase())])[0];
 /* tooltip for gear tiles: same frame as the relic tooltip */
@@ -135,10 +167,10 @@ function gearTip(n){const k=n.dataset.t,isSet=k[0]==="s",g=isSet?GS[+k.slice(1)]
  const P=GTIER.map(x=>x[2]),c=ACT[g.a][2];tip.className="to gtip"+(tip.classList.contains("on")?" on":"");delete tip.dataset.mf;
  tip.style.setProperty("--c1",c);tip.style.setProperty("--c2",c+"aa");tip.style.setProperty("--c3","#1a1420");
  const rows=isSet?(g.kn?[`${gRound(g.arm)} Armor`,`${gRound(g.tough)} Armor Toughness`]:[]).concat(g.hp?[`+${gRound(g.hp)} Max Health`]:[]):gStats(g).map(([,n,v])=>`${v} ${n}`);
- const bon=isSet?Object.entries(g.off).map(([r,v])=>`+${gRound(v*100)}% ${GROLE[r]} bonuses`):gBonus(g).slice(0,6);
+ const bon=isSet?Object.entries(g.off).map(([r,v])=>`+${gRound(gEff(v)*100)}% ${GROLE[r]} bonuses`):gBonus(g).slice(0,6);
  tip.innerHTML=`<div class="tbox"><div class="tfr"></div><div class="thd"><span class="tslot"><span class="aimg">${gImg(g)}</span></span><div class="tht"><div class="tnm">${esc(g.n)}${isSet?" set":""}</div><div class="tsub">${isSet?g.ps.length+(g.ps.length>1?" pieces":" piece"):esc(GKIND[g.k])+(g.sl?" · "+GSLOT[g.sl]:"")}</div></div></div>
- <div class="tbd">${rows.length?`<ul class="tst">${rows.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${bon.length?`<ul class="tst">${bon.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${g.est?'<p class="tsrc">≈ ranked by its Keeper gate (base stats not readable)</p>':""}${g.ga?`<p class="tlock">🔒 Locked until ${esc(GATEN[g.ga])} falls</p>`:""}<p class="twhere">${esc(actL(g.a))}</p></div>
- <div class="tft"><span class="tmod">${esc(MODN((g.id||g.k).split(":")[0]))}</span><span class="trt">${Object.keys(g.sc).map(r=>GROLE[r]).join(" · ")}</span></div></div>`;
+ <div class="tbd">${rows.length?`<ul class="tst">${rows.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${bon.length?`<ul class="tst">${bon.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${g.est?'<p class="tsrc">≈ ranked by when you get it (base stats not readable)</p>':""}${g.ga?`<p class="tlock">🔒 Locked until ${esc(GATEN[g.ga])} falls</p>`:""}<p class="twhere">${esc(actL(g.a))}</p></div>
+ <div class="tft"><span class="tmod">${esc(MODN((g.id||g.k).split(":")[0]))}</span><span class="trt">${gRoles(g).map(r=>GROLE[r]).join(" · ")}</span></div></div>`;
  if(lastAct)lastAct.classList.remove("act");lastAct=null;const first=!tip.classList.contains("on");place(n);tip.classList.add("on");if(first)tip.classList.add("in")}
 /* best gear of an Act, for the Act pages and the hub */
 function gearBest(a){const cell=(r,w)=>{const t=gTiers(a,r,w);const s=t.length?t[0][1]:[];const nw=s.filter(g=>g.a===+a);const pick=(nw.length?nw:s).slice(0,3);
