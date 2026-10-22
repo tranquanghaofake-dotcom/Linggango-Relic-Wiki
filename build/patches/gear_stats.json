@@ -1,0 +1,459 @@
+{
+ "_doc": "Gear stats the first extraction missed. Sources: Hazen 'N Stuff 1.1.2 HnSArmorMaterial.<clinit> (additional attributes, applied to every piece by HnSArmorItem); summonity-common.toml [armor.*] (SnifferArmorItem etc. replace the material values with these); mowziesmobs-common.toml tools_and_abilities.*.tool_config (MowzieToolItem reads each item's own config); soulslike-weaponry data/soulsweapons/trickweapons/item_mappings.json.",
+ "hns_materials": {
+  "PYROMANCER": {
+   "max_mana": [
+    204.0,
+    0.0
+   ],
+   "fire_spell_power": [
+    0.0,
+    0.15
+   ],
+   "eldritch_spell_power": [
+    0.0,
+    0.05
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "CRYOMANCER": {
+   "max_mana": [
+    204.0,
+    0.0
+   ],
+   "ice_spell_power": [
+    0.0,
+    0.15
+   ],
+   "eldritch_spell_power": [
+    0.0,
+    0.05
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "ELECTROMANCER": {
+   "max_mana": [
+    204.0,
+    0.0
+   ],
+   "lightning_spell_power": [
+    0.0,
+    0.15
+   ],
+   "eldritch_spell_power": [
+    0.0,
+    0.05
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "BOTAMANCER": {
+   "max_mana": [
+    204.0,
+    0.0
+   ],
+   "nature_spell_power": [
+    0.0,
+    0.15
+   ],
+   "eldritch_spell_power": [
+    0.0,
+    0.05
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "ENDERMANCER": {
+   "max_mana": [
+    204.0,
+    0.0
+   ],
+   "ender_spell_power": [
+    0.0,
+    0.15
+   ],
+   "eldritch_spell_power": [
+    0.0,
+    0.05
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "SANGUINEMANCER": {
+   "max_mana": [
+    204.0,
+    0.0
+   ],
+   "blood_spell_power": [
+    0.0,
+    0.15
+   ],
+   "eldritch_spell_power": [
+    0.0,
+    0.05
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "HOLYMANCER": {
+   "max_mana": [
+    204.0,
+    0.0
+   ],
+   "holy_spell_power": [
+    0.0,
+    0.15
+   ],
+   "eldritch_spell_power": [
+    0.0,
+    0.05
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "EVOMANCER": {
+   "max_mana": [
+    204.0,
+    0.0
+   ],
+   "evocation_spell_power": [
+    0.0,
+    0.15
+   ],
+   "eldritch_spell_power": [
+    0.0,
+    0.05
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "ELDRITCHMANCER": {
+   "max_mana": [
+    204.0,
+    0.0
+   ],
+   "eldritch_spell_power": [
+    0.0,
+    0.2
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "PYRIUM": {},
+  "PYRIUM_BATTLEMAGE": {
+   "max_mana": [
+    200.0,
+    0.0
+   ],
+   "casting_movespeed": [
+    0.0,
+    0.15
+   ],
+   "cast_time_reduction": [
+    0.0,
+    0.15
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "MITHRIL_BATTLEMAGE": {
+   "max_mana": [
+    200.0,
+    0.0
+   ],
+   "casting_movespeed": [
+    0.0,
+    0.15
+   ],
+   "cooldown_reduction": [
+    0.0,
+    0.15
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "LEGIONNAIRE_RULER": {
+   "max_mana": [
+    300.0,
+    0.0
+   ],
+   "fire_spell_power": [
+    0.0,
+    0.15
+   ],
+   "cast_time_reduction": [
+    0.0,
+    0.05
+   ],
+   "summon_damage": [
+    0.0,
+    0.1
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "LEGIONNAIRE_COMMANDER": {
+   "max_mana": [
+    150.0,
+    0.0
+   ],
+   "fire_spell_power": [
+    0.0,
+    0.1
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "ATLAS": {
+   "max_mana": [
+    200.0,
+    0.0
+   ],
+   "evocation_spell_power": [
+    0.0,
+    0.15
+   ],
+   "nature_spell_power": [
+    0.0,
+    0.15
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "FIREBLOSSOM": {
+   "max_mana": [
+    200.0,
+    0.0
+   ],
+   "fire_spell_power": [
+    0.0,
+    0.15
+   ],
+   "nature_spell_power": [
+    0.0,
+    0.15
+   ],
+   "spell_power": [
+    0.0,
+    0.15
+   ]
+  },
+  "FIREBLOSSOM_CROWN": {
+   "max_mana": [
+    400.0,
+    0.0
+   ],
+   "fire_spell_power": [
+    0.0,
+    0.25
+   ],
+   "nature_spell_power": [
+    0.0,
+    0.25
+   ],
+   "spell_power": [
+    0.0,
+    0.25
+   ]
+  },
+  "FIREBLOSSOM_HELMET": {
+   "max_mana": [
+    200.0,
+    0.0
+   ],
+   "fire_spell_power": [
+    0.0,
+    0.05
+   ],
+   "nature_spell_power": [
+    0.0,
+    0.05
+   ],
+   "spell_power": [
+    0.0,
+    0.1
+   ]
+  }
+ },
+ "hns_item_material": {
+  "alchemist_supreme": "EVOMANCER",
+  "atlas": "ATLAS",
+  "blazeborne": "PYROMANCER",
+  "creaking_sorcerer": "BOTAMANCER",
+  "cryogenic_ruler": "CRYOMANCER",
+  "ender_dragon": "ENDERMANCER",
+  "flesh_mass": "SANGUINEMANCER",
+  "hazel": "PYROMANCER",
+  "how_did_you_find_the_hazel": "PYROMANCER",
+  "infestation": "ELDRITCHMANCER",
+  "legionnaire_commander": "LEGIONNAIRE_COMMANDER",
+  "legionnaire_ruler": "LEGIONNAIRE_RULER",
+  "mithril_battlemage": "MITHRIL_BATTLEMAGE",
+  "pyrium_battlemage": "PYRIUM_BATTLEMAGE",
+  "pyrium": "PYRIUM",
+  "seraph": "HOLYMANCER",
+  "thunder_prowler": "ELECTROMANCER",
+  "fireblossom_battlemage_crown": "FIREBLOSSOM_CROWN",
+  "fireblossom_battlemage_helmet": "FIREBLOSSOM_HELMET",
+  "fireblossom_battlemage": "FIREBLOSSOM"
+ },
+ "summonity_armor": {
+  "sniffer": {
+   "helmet": [
+    8,
+    4,
+    1
+   ],
+   "chestplate": [
+    14,
+    5,
+    1
+   ],
+   "leggings": [
+    11,
+    4,
+    1
+   ],
+   "boots": [
+    8,
+    4,
+    1
+   ]
+  },
+  "spider": {
+   "helmet": [
+    4,
+    2.5,
+    0
+   ],
+   "chestplate": [
+    9,
+    2.5,
+    1
+   ],
+   "leggings": [
+    7,
+    2.5,
+    1
+   ],
+   "boots": [
+    4,
+    2.5,
+    0
+   ]
+  },
+  "obsidian": {
+   "helmet": [
+    3,
+    1.5,
+    0
+   ],
+   "chestplate": [
+    7,
+    1.5,
+    1
+   ],
+   "leggings": [
+    5,
+    1.5,
+    0
+   ],
+   "boots": [
+    3,
+    1.5,
+    0
+   ]
+  },
+  "virentium_summoner": {
+   "helmet": [
+    6,
+    3,
+    1
+   ],
+   "chestplate": [
+    11,
+    3,
+    1
+   ],
+   "leggings": [
+    9,
+    3,
+    1
+   ],
+   "boots": [
+    6,
+    3,
+    0
+   ]
+  }
+ },
+ "mowzie_tools": {
+  "spear": [
+   5.0,
+   1.6
+  ],
+  "naga_fang_dagger": [
+   3.0,
+   2.0
+  ],
+  "earthrend_gauntlet": [
+   6.0,
+   1.2
+  ],
+  "sculptor_staff": [
+   3.0,
+   1.0
+  ],
+  "wrought_axe": [
+   9.0,
+   0.9
+  ]
+ },
+ "trick_pairs": [
+  {
+   "main": "soulsweapons:silver_sword",
+   "other": "soulsweapons:kirkhammer",
+   "note": "Crafted as the Kirkhammer; swap forms in hand (trick weapon)."
+  },
+  {
+   "main": "soulsweapons:holy_moonlight_sword",
+   "other": "soulsweapons:holy_moonlight_greatsword",
+   "note": "Crafted as the Holy Moonlight Sword; swap to the greatsword in hand (trick weapon)."
+  },
+  {
+   "main": "soulsweapons:simons_blade",
+   "other": "soulsweapons:simons_bowblade",
+   "note": "Crafted as Simon's Bowblade; swap to the blade in hand (trick weapon)."
+  }
+ ]
+}

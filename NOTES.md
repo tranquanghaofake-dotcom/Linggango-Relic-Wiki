@@ -266,3 +266,13 @@ I stopped the check partway and applied what it had found (`build/pack_audit/ver
 - `boss_order.py` (new patch): boss Act = consistent with that graph (never before its parents or its dimension: Nether V, End 6.3; chain depth spreads II–X; pulled down to its earliest dependant first). Wither/Warden/Apollyon fixed. Writes `boss_acts.json` → `BACT` in the app.
   - e.g. Ferrous Wroughtnaut VIII → III (2nd quest in the chain), Scylla VIII → V, Lord Pumpkinhead IX → V, Possessed Paladin VI → IV, Ignis VII → IX, Apostle VII → X.
 - Drops follow their boss: gear with a loot table `entities/<boss>` (Gob's Gilded Hat 0 → VII, Geomancer set 0 → V, Sol Visage 0 → IV, Gundalf's Hat 0 → 6.3); gear crafted from boss-only items (`boss_only_items.json`, built from the pack's recipes + loot tables) follows them; set Act = latest piece; pure side-boss curio drops sit at the boss's Act.
+
+## v22.5 — the four "not fixed yet" gear items from v22.1
+New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); scores and set totals use the same formulas as `gear_data.py`.
+- **Summonity armor** now reads `summonity-common.toml [armor.*]` (the item classes replace the material values with it): Sniffer 8/14/11/8 armor, toughness 4–5; Spider 4/9/7/4; Obsidian 3/7/5/3; Virentium 6/11/9/6. Pieces with a minion slot get `minion_slots` (counts as Summon offence).
+- **Hazen 'N Stuff armor:** all 70 pieces carry their `HnSArmorMaterial` attributes (read from the jar's static init; `HnSArmorItem` applies them to every piece): Max Mana +150–400, school and base spell power, cast time / cooldown, summon damage. Item → material follows the item classes.
+- **Mowzie's tools** use their own `tool_config`: Spear 5/1.6, Naga Fang Dagger 3/2.0, Earthrend Gauntlet 6/1.2, Sculptor Staff 3/1.0 (Wrought Axe 9/0.9 was right).
+- **Soulslike trick weapons** (from `trickweapons/item_mappings.json`): Kirkhammer ↔ Silver Sword, Holy Moonlight Sword ↔ Greatsword, Simon's Bowblade ↔ Blade are one weapon each. One entry (the stronger form), the other in "Other levels and forms", recipe kept. Holy Greatsword is not a pair (it maps one way to the Silver Sword).
+- **Armor sets with two pieces for one slot** (Fireblossom Crown/Helmet, Wizard hats, Chaos hats) now count only the better piece.
+- **Caveat:** Hazen mage sets now score far above Iron's Spellbooks sets of the same Act because Iron's own armor still has no mana/spell-power attributes in the table (same cause as the open "mage armor without spell stats" item). Fixing that needs the Iron's material attributes read the same way.
+- Crawled all 2019 gear pages and 321 sets: no empty pages, broken images or script errors.
