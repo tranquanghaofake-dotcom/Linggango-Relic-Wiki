@@ -1,5 +1,7 @@
 name: check
-on: [push, pull_request]
+on:
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
 jobs:
   check:
     runs-on: ubuntu-latest

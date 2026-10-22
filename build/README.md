@@ -10,7 +10,7 @@ src/*.js, v5.css, style.game.css, template.html ──► build.py ──► ind
 1. Edit a source: `src/app.js`, `src/gear.js`, `src/ux.js`, `src/template.html`, `src/v5.css`, `style.game.css`, or a data file in `patches/`.
 2. `bash build/patches/apply_all.sh`: runs every patch in order, then `build.py`.
 3. `bash build/check.sh`: patches idempotent and build reproducible, no script errors, every gear page and set page renders, every Path boss card has a background. Needs Chromium via `playwright` (`NODE_PATH=$(npm root -g)`).
-4. Add a line to `NOTES.md`, commit `index.html` with `static/` (and `dist/`), push.
+4. Commit `index.html` with `static/` (and `dist/`), push to `main`. The session note goes to `NOTES.md` on the `workspace` branch.
 
 ## What is source and what is generated
 | File | Kind |
@@ -18,7 +18,7 @@ src/*.js, v5.css, style.game.css, template.html ──► build.py ──► ind
 | `src/app.js`, `src/gear.js`, `src/ux.js`, `src/template.html`, `src/v5.css`, `style.game.css` | hand-written |
 | `patches/*.json`, `patches/gear_*.py`, `patches/gearlib.py` | gear facts and the rules that combine them; edit these to change facts |
 | `src/gear_data.js`, `src/wiki_data.js` | generated in one pass from JSON (`gear_pipeline.py`, `wiki_data.py`); nothing reads them back |
-| `src/data.js` (curios) | **source**, hand-maintained (it cannot be regenerated: `transform.py` gives a different file). `boss_stats.py` and `boss_order.py` derive values into it in place; the nine one-time edits that shaped it are kept in `migrations/` |
+| `src/data.js` (curios) | **source**, hand-maintained (it cannot be regenerated). `boss_stats.py` and `boss_order.py` derive values into it in place; the one-time edits that shaped it are kept on the `workspace` branch (`build/migrations/`) |
 | `src/fx3d.js` | bundle of `fx3d.src.js` + `geo2three.js` + three.js r169: `bash build/fx3d_build.sh` (esbuild, reproduces it byte for byte; `--check` verifies) |
 | `index.html`, `static/`, `dist/` | build output, never edited |
 See `ARCHITECTURE.md` for how the pieces fit and why.
@@ -47,7 +47,7 @@ attributes come from `pack_audit/iss_armor.py` (javap on `ExtendedArmorMaterials
 ## Regenerating from the pack
 `gear/` (see `gear/wide/README.md`) and `pack_audit/` (see its README) read the pack's 476 jars and write the JSON in `patches/`. They need the pack downloaded (`gear/dl.py`) and are not part of the daily loop.
 Run those scripts from a folder that has no file named like a stdlib module (`enum.py` used to shadow `enum` and break `import json`; it is now `boss_audit/enum_jars.py`).
-`transform.py` is the one-off that turned `original/` into the first `data.js`; it is kept for history, not for rebuilding.
+`original/` is the v5 wiki the first `data.js` came from; `gear/prep.py` still reads it. The one-off `transform.py` that did the conversion is on the `workspace` branch.
 
 ## Known weak spots
 - `data.js` is source but two derived passes (`boss_stats`, `boss_order` curio part) still edit it in place; moving those into overlay JSON like gear would finish the job. Its 5 MB of embedded icons make diffs unreadable.
