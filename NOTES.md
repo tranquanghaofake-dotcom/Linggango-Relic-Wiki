@@ -345,3 +345,8 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Visible results: Travel Optics mage sets lead Mage armor from Act VII; HF Meowrasama (speed 4.48: no base speed modifier) and Flames of Eldritch Lv 3 (+64 attack damage) are the top Melee DPS at Acts IX–XII. These are the game's numbers, not estimates.
 - Mage armor now takes the better of two spell systems (Iron's multipliers, or Ars Nouveau flat spell damage against the Act's typical hit) instead of adding Ars damage /5, which made Adam's Ars Plus sets +320%.
 - Iron's Gold Crown (+10000 mana, creative/supporter item) is hidden from the lists.
+
+## v28 — tools to measure Ranged / Mage / Summon weapons in game
+- `build/pack_audit/kubejs/`: `dump_gear_all.js` (attribute modifiers of every item, for the ~190 staves, bows, guns and summon weapons the pack's dump skips), a damage logger (`dmg_logger.js` startup + `dmg_logger_commands.js`) that records final damage on target dummies per held item, split into direct / projectile / minion / dot, and `dmg_queue.json` (71 weapons: 40 Ranged, 13 Mage, 18 Summon). See `build/pack_audit/README.md`.
+- Not run yet: written for KubeJS 2001.6.5 (the pack's version) and syntax-checked, but no game runs in this environment. Next: the user runs them; their JSON goes into the gear pipeline (attributes via gear_runtime, measured damage as a new fact for gEstScore).
+

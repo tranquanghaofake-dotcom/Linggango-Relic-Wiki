@@ -1,0 +1,431 @@
+{
+ "_note": "Weapons to measure with dmg_logger.js, in order (Act, then Ranged/Mage/Summon). /kubejs custom_command dmg_next gives the next one.",
+ "items": [
+  {
+   "id": "macabre:blaster",
+   "name": "Blaster",
+   "role": "RA",
+   "act": 0
+  },
+  {
+   "id": "minecraft:bow",
+   "name": "Bow",
+   "role": "RA",
+   "act": 0
+  },
+  {
+   "id": "minecraft:crossbow",
+   "name": "Crossbow",
+   "role": "RA",
+   "act": 0
+  },
+  {
+   "id": "refined_mod:hunters_bow",
+   "name": "Hunters Bow",
+   "role": "RA",
+   "act": 0
+  },
+  {
+   "id": "too_many_bows:emerald_sage_bow",
+   "name": "Emerald Sage Bow",
+   "role": "RA",
+   "act": 2
+  },
+  {
+   "id": "create:potato_cannon",
+   "name": "Potato Cannon",
+   "role": "RA",
+   "act": 2
+  },
+  {
+   "id": "terramity:blunderbuss",
+   "name": "Blunderbuss",
+   "role": "RA",
+   "act": 2
+  },
+  {
+   "id": "too_many_bows:burnt_relic",
+   "name": "Burnt Relic",
+   "role": "RA",
+   "act": 2
+  },
+  {
+   "id": "goety:dark_wand",
+   "name": "Dark Wand",
+   "role": "MA",
+   "act": 2
+  },
+  {
+   "id": "summonity:parrot_staff",
+   "name": "Parrot Staff",
+   "role": "SU",
+   "act": 2
+  },
+  {
+   "id": "summonity:spinal_whip",
+   "name": "Spinal Whip",
+   "role": "SU",
+   "act": 2
+  },
+  {
+   "id": "too_many_bows:aethers_call",
+   "name": "Aether's Call",
+   "role": "RA",
+   "act": 3
+  },
+  {
+   "id": "too_many_bows:astral_bound",
+   "name": "Astral Bound",
+   "role": "RA",
+   "act": 3
+  },
+  {
+   "id": "too_many_bows:dark_bow",
+   "name": "Dark Bow",
+   "role": "RA",
+   "act": 3
+  },
+  {
+   "id": "too_many_bows:spectral_whisper",
+   "name": "Spectral Whisper",
+   "role": "RA",
+   "act": 3
+  },
+  {
+   "id": "summonity:gnome_staff",
+   "name": "Gnome Hat on a Stick",
+   "role": "SU",
+   "act": 3
+  },
+  {
+   "id": "summonity:conductive_staff",
+   "name": "Conductive Staff",
+   "role": "SU",
+   "act": 3
+  },
+  {
+   "id": "biomancy:caustic_gunblade",
+   "name": "Caustic Gunblade",
+   "role": "RA",
+   "act": 4
+  },
+  {
+   "id": "goety:hunters_bow",
+   "name": "Hunter's Bow",
+   "role": "RA",
+   "act": 4
+  },
+  {
+   "id": "dungeonnowloading:vertex_bow",
+   "name": "Vertex Bow",
+   "role": "RA",
+   "act": 4
+  },
+  {
+   "id": "opposing_force:tesla_bow",
+   "name": "Tesla Bow",
+   "role": "RA",
+   "act": 4
+  },
+  {
+   "id": "summonity:spider_staff",
+   "name": "Spider Staff",
+   "role": "SU",
+   "act": 4
+  },
+  {
+   "id": "summonity:amethyst_whip",
+   "name": "Amethyst Whip",
+   "role": "SU",
+   "act": 4
+  },
+  {
+   "id": "terramity:elite_rifle",
+   "name": "Elite Rifle",
+   "role": "RA",
+   "act": 5
+  },
+  {
+   "id": "l2archery:eagle_bow",
+   "name": "Eagle Bow",
+   "role": "RA",
+   "act": 5
+  },
+  {
+   "id": "immersiveengineering:railgun",
+   "name": "Railgun",
+   "role": "RA",
+   "act": 5
+  },
+  {
+   "id": "ae2:matter_cannon",
+   "name": "Matter Cannon",
+   "role": "RA",
+   "act": 5
+  },
+  {
+   "id": "goety:infernal_tome",
+   "name": "Infernal Tome",
+   "role": "MA",
+   "act": 5
+  },
+  {
+   "id": "born_in_chaos_v1:pumpkinstaffa",
+   "name": "Pumpkin Staff",
+   "role": "MA",
+   "act": 5
+  },
+  {
+   "id": "naturesaura:light_staff",
+   "name": "Staff of Baldur",
+   "role": "MA",
+   "act": 5
+  },
+  {
+   "id": "composite_material:obsidian_wand",
+   "name": "Obsidian Gilded Wand",
+   "role": "MA",
+   "act": 5
+  },
+  {
+   "id": "summonity:cherry_blossom_staff",
+   "name": "Cherry Blossom Staff",
+   "role": "SU",
+   "act": 5
+  },
+  {
+   "id": "summonity:crystal_scepter",
+   "name": "Crystal Scepter",
+   "role": "SU",
+   "act": 5
+  },
+  {
+   "id": "too_many_bows:arcane_bow",
+   "name": "Arcane Bow",
+   "role": "RA",
+   "act": 6
+  },
+  {
+   "id": "mekaweapons:meka_gun",
+   "name": "Meka-Gun",
+   "role": "RA",
+   "act": 6
+  },
+  {
+   "id": "l2archery:flame_bow",
+   "name": "Blazing Bow",
+   "role": "RA",
+   "act": 6
+  },
+  {
+   "id": "l2archery:storm_bow",
+   "name": "Approaching Storm",
+   "role": "RA",
+   "act": 6
+  },
+  {
+   "id": "eeeabsmobs:immortal_staff",
+   "name": "Immortal Staff",
+   "role": "MA",
+   "act": 6
+  },
+  {
+   "id": "deeperdarker:sonorous_staff",
+   "name": "Sonorous Staff",
+   "role": "MA",
+   "act": 6
+  },
+  {
+   "id": "summonity:fairy_staff",
+   "name": "Fairy Staff",
+   "role": "SU",
+   "act": 6
+  },
+  {
+   "id": "l2archery:ender_aim_bow",
+   "name": "Ender Bow",
+   "role": "RA",
+   "act": 6.3
+  },
+  {
+   "id": "animus:hellforged_bow",
+   "name": "Hellforged Bow",
+   "role": "RA",
+   "act": 6.3
+  },
+  {
+   "id": "animus:sentient_bow",
+   "name": "Sentient Bow",
+   "role": "RA",
+   "act": 6.3
+  },
+  {
+   "id": "legendary_monsters:chorus_cannon",
+   "name": "Chorus Cannon",
+   "role": "RA",
+   "act": 6.3
+  },
+  {
+   "id": "summonity:shulkling_staff",
+   "name": "Shulkling Staff",
+   "role": "SU",
+   "act": 6.3
+  },
+  {
+   "id": "enigmaticaddons:dragon_bow",
+   "name": "Dragon Breath Bow",
+   "role": "RA",
+   "act": 7
+  },
+  {
+   "id": "l2archery:gaia_bow",
+   "name": "Bless of Gaia",
+   "role": "RA",
+   "act": 7
+  },
+  {
+   "id": "l2archery:wind_bow",
+   "name": "Bless of Favonius",
+   "role": "RA",
+   "act": 7
+  },
+  {
+   "id": "l2archery:winter_bow",
+   "name": "Ever Freezing Night",
+   "role": "RA",
+   "act": 7
+  },
+  {
+   "id": "justdirethings:polymorphic_wand_v2",
+   "name": "Advanced Polymorphic Wand",
+   "role": "MA",
+   "act": 7
+  },
+  {
+   "id": "summonity:sculk_mite_staff",
+   "name": "Sculk Mite Staff",
+   "role": "SU",
+   "act": 7
+  },
+  {
+   "id": "l2archery:sun_bow",
+   "name": "Bless of Helios",
+   "role": "RA",
+   "act": 8
+  },
+  {
+   "id": "terramity:meteor_cannon",
+   "name": "Meteor Cannon",
+   "role": "RA",
+   "act": 8
+  },
+  {
+   "id": "celestisynth:rainfall_serenity",
+   "name": "Rainfall Serenity",
+   "role": "RA",
+   "act": 8
+  },
+  {
+   "id": "composite_material:lacerator",
+   "name": "Lacerator",
+   "role": "RA",
+   "act": 8
+  },
+  {
+   "id": "traveloptics:abyssal_tidecaller_level_three",
+   "name": "Abyssal Tidecaller (Lv 3)",
+   "role": "MA",
+   "act": 8
+  },
+  {
+   "id": "traveloptics:scourge_of_the_sands_level_three",
+   "name": "Scourge Of The Sands (Lv 3)",
+   "role": "MA",
+   "act": 8
+  },
+  {
+   "id": "traveloptics:thorns_of_oblivion_level_three",
+   "name": "Thorns Of Oblivion (Lv 3)",
+   "role": "MA",
+   "act": 8
+  },
+  {
+   "id": "composite_material:sonic_boom_wand",
+   "name": "Sonic Boom Wand",
+   "role": "MA",
+   "act": 8
+  },
+  {
+   "id": "summonity:hemorrhage",
+   "name": "Hemorrhage",
+   "role": "SU",
+   "act": 8
+  },
+  {
+   "id": "summonity:imp_staff",
+   "name": "Imp Staff",
+   "role": "SU",
+   "act": 8
+  },
+  {
+   "id": "summonity:magma_whip",
+   "name": "Magma Whip",
+   "role": "SU",
+   "act": 8
+  },
+  {
+   "id": "brutality:providence",
+   "name": "Providence",
+   "role": "RA",
+   "act": 9
+  },
+  {
+   "id": "goety_revelation:bow_of_revelation",
+   "name": "Apocalyptic Longbow",
+   "role": "RA",
+   "act": 10
+  },
+  {
+   "id": "terramity:antimatter_rifle",
+   "name": "Antimatter Rifle",
+   "role": "RA",
+   "act": 10
+  },
+  {
+   "id": "summonity:stardust_dragon_staff",
+   "name": "Stardust Dragon Staff",
+   "role": "SU",
+   "act": 10
+  },
+  {
+   "id": "terramity:railgun",
+   "name": "Railgun",
+   "role": "RA",
+   "act": 11
+  },
+  {
+   "id": "composite_material:reinforced_book",
+   "name": "Reinforced Book",
+   "role": "MA",
+   "act": 11
+  },
+  {
+   "id": "summonity:sanguine_staff",
+   "name": "Sanguine Staff",
+   "role": "SU",
+   "act": 11
+  },
+  {
+   "id": "summonity:constellation_whip",
+   "name": "Constellation",
+   "role": "SU",
+   "act": 11
+  },
+  {
+   "id": "summonity:soul_whip",
+   "name": "Soul Whip",
+   "role": "SU",
+   "act": 11
+  }
+ ]
+}
