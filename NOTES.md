@@ -249,3 +249,9 @@ I stopped the check partway and applied what it had found (`build/pack_audit/ver
 - Side bosses now = The Path main line + the quest book "Bosses" chapter (decrypted LGQ1 quests). Dropped: Yeti, Naga, Vizier, Super/Ultra Sniffer, Forgotten Guardian, Infernal Dragon, Gob, Nameless Guardian, Virtue, and 39 extra bosses not in the book.
 - Added Chorusling, Bone Chimera; Endersent fixed to Legendary Monsters; Mutant Enderman to the End act.
 - Apollyon (Goety Revelation) is the end-game boss: Act XII, with the Black Book sabbath ritual.
+
+## v22.3 — three-page audit (curio, equipment, boss)
+- Bosses: End-only bosses moved after the Dragon (6.3), Skeletosaurus to Act V, drops from loot tables, Cumulonimbus name/entity.
+- Curios: new patch `curio_gate.py` — keeper-gated curios can no longer sit at Act 0 via the random-loot rule (8 items); Oddeyes Glasses Act VIII; Void Crown/Robe after the Dragon.
+- Equipment: fixed 5 weapons whose unknown speed read as 4.0; set Act = latest piece; "!"-hidden items left out of tier lists.
+- Still open (needs the gear generator re-run): Cataclysm and other plain-Item weapons dropped, Iron's staffs missing, mage armor without spell stats, split armor sets, unscored weapons.

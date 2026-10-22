@@ -35,7 +35,7 @@ const GEST={};
 GS.forEach(s=>{if(!s.kn)s.est=1});
 /* pool for Act a, role r: everything unlocked at or before a */
 function gPool(a,r,w){const ia=oiA(+a);
- const xs=(w==="a"?GS:GE.filter(g=>g.k!=="armor")).filter(g=>g.sc[r]!=null&&oiA(g.a)<=ia);
+ const xs=(w==="a"?GS:GE.filter(g=>g.k!=="armor")).filter(g=>g.sc[r]!=null&&oiA(g.a)<=ia&&!(g.ob&&g.ob[0]==="!"));
  return xs.sort((p,q)=>q.sc[r]-p.sc[r])}
 const GTC=new Map();
 function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const xs=gPool(a,r,w);let out=[];
