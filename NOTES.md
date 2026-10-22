@@ -350,3 +350,7 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - `build/pack_audit/kubejs/`: `dump_gear_all.js` (attribute modifiers of every item, for the ~190 staves, bows, guns and summon weapons the pack's dump skips), a damage logger (`dmg_logger.js` startup + `dmg_logger_commands.js`) that records final damage on target dummies per held item, split into direct / projectile / minion / dot, and `dmg_queue.json` (71 weapons: 40 Ranged, 13 Mage, 18 Summon). See `build/pack_audit/README.md`.
 - Not run yet: written for KubeJS 2001.6.5 (the pack's version) and syntax-checked, but no game runs in this environment. Next: the user runs them; their JSON goes into the gear pipeline (attributes via gear_runtime, measured damage as a new fact for gEstScore).
 
+
+## v29 — plan: every wiki number from the game
+- `build/RUNTIME_PLAN.md`: source ranking (game export > pack files > jar reading > external sites, never shown as numbers), a gap table per area (175 of 1328 curios still have "?"/"…" stat lines; boss special attacks, loot with global loot modifiers, recipes after KubeJS are not runtime yet), one `lgw_export` KubeJS bundle (meta, gear, curios, client tooltips and names, recipes, tags, bosses, loot) plus the v28 damage logger, import stages with freshness checks and diff reports, phases P1–P6.
+- minecraft-guides.com checked: 55 of the pack's 446 mods, mod defaults not pack values (Cocktail Cutlass 7 there, 12 in game), reconstructed tooltips. Reference only.
