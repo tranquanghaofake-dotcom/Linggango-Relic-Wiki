@@ -857,7 +857,13 @@ function render(){if(!EXT.route.some(f=>f(decodeURIComponent(location.hash))))re
 function showTip(n){if(!EXT.tip.some(f=>f(n)))showTipBase(n)}
 document.addEventListener("DOMContentLoaded",()=>{render();decorate()});
 function refresh(){const h=decodeURIComponent(location.hash);if(h==="#home"||/^#(slot|act|mod)\//.test(h)){SOFT=true;render()}else location.hash="#home"}
-addEventListener("hashchange",()=>{hideTip();window.Boss3D&&Boss3D.unmountAll();render();decorate()});
+/* page change: a cross-fade between sections (View Transitions, where the browser has them); switches inside one page
+   (an Equipment Act, a Path filter) redraw in place so the controls you just pressed do not blink */
+const pageOf=h=>(decodeURIComponent(h).match(/^#(gear|gs|g|build|bosses|boss|side|mechanics|home|act|slot|mod|i)/)||[,"hub"])[1];
+let lastHash=location.hash;
+addEventListener("hashchange",()=>{const a=pageOf(lastHash),b=pageOf(location.hash);lastHash=location.hash;
+ const go=()=>{hideTip();window.Boss3D&&Boss3D.unmountAll();render();decorate()};
+ if(RM||!document.startViewTransition||(a===b&&!/^(i|g|gs|boss|side)$/.test(a)))go();else document.startViewTransition(go)});
 
 /* ---------- tooltip ---------- */
 const tip=document.createElement("div");tip.id="tip";tip.setAttribute("role","tooltip");document.body.appendChild(tip);

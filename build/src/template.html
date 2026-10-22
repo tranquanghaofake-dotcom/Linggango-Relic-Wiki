@@ -25,7 +25,11 @@
  <details class="grp" hidden><summary>Index</summary><ul class="idx" id="idx"></ul></details>
  </div>
 </aside>
-<main id="main"></main>
+<main id="main"><div class="boot" role="status"><p class="boot-t">Loading the wiki</p><div class="boot-bar"><i id="bootp"></i></div><p class="boot-s" id="boots">The first visit downloads every curio, weapon and boss. After that it opens from cache.</p></div></main>
+<script>/* loading bar: counts the data files as they arrive (the offline file has them inline, so its bar just runs) */
+(()=>{if(!window.PerformanceObserver)return;let n=0;try{new PerformanceObserver(l=>{const all=document.querySelectorAll('script[src*="static/"]').length;
+ for(const e of l.getEntries())if(/\/static\/.*\.js$/.test(e.name))n++;const b=document.getElementById("bootp");if(b&&all){b.parentNode.classList.add("det");b.style.transform="scaleX("+Math.min(1,n/all)+")"}}).observe({type:"resource",buffered:true})}catch(e){}})();
+</script>
 </div>
 <footer class="sfoot">
  <div><h4>Unofficial fan wiki</h4><p>Not made or endorsed by the Linggango pack author or any mod author. Built for Linggango V6.6.5b4 (476 mods).</p></div>
@@ -51,6 +55,9 @@
 </script>
 <script>
 {{gear.js}}
+</script>
+<script>
+{{ux.js}}
 </script>
 
 </body></html>

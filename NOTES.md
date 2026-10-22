@@ -314,3 +314,12 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Set facts now carry their summed attributes (`at`, from `gearlib.set_facts`, recomputed for every set in `gear_stats`); all other facts unchanged.
 - `check.js`: no Tank role, every set score finite and positive for every role and Act, fitted step within 1.05–1.3.
 - **Assumptions to revisit:** pack config could override Apothic's formula or Better Combat's fast attacks (not in the repo); Arion's hit (12) and Act VIII (50, the Discord's forms) are interpolated; 10% shred, 20+4 HP/Act and the k weights are judgement.
+
+## v24 — interaction layer (desktop): quick search, page transitions, loading screen
+- **Quick search** (`build/src/ux.js`, new): the header and title-screen search boxes now list results as you type, across curios, weapons, armor pieces, armor sets, Keepers, side bosses and the five sections. Results are grouped, the matched part is underlined, curio names keep their rarity colour, and hovering a row shows the usual tooltip. ↑/↓ move, Enter opens, Esc closes, Ctrl/⌘ K or / focuses the box. The last row still filters The Path by the text (old behaviour). On The Path itself the header box keeps filtering the grid live. Focusing the empty box lists the last 8 pages opened (stored in this browser only).
+- Before, the header box only searched curios and jumped to The Path on the first keystroke, so gear and bosses could not be found from it.
+- **Page transitions:** moving between sections cross-fades with the View Transitions API (header stays put); switches inside a page (Equipment Act or playstyle, Path filters) redraw in place, and Equipment tiles deal in row by row. Off under `prefers-reduced-motion` and in browsers without the API.
+- **Loading screen:** the page used to stay blank while ~16 MB of data loaded on the first visit. It now shows a loading bar that counts the data files as they arrive (indeterminate in the offline file).
+- **Header:** the section you are in is marked in the nav (green pressed button, as for other selected buttons); the bar turns to frosted glass once the page scrolls.
+- **Title screen:** one entrance (logo, then search and menu buttons).
+- All new surfaces use the vanilla item-tooltip look (near-black violet, violet gradient border). Mobile is not redesigned (desktop/laptop target, as since v6).

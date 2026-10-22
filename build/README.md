@@ -7,7 +7,7 @@ src/*.js, v5.css, style.game.css, template.html ──► build.py ──► ind
 ```
 
 ## Daily loop
-1. Edit a source: `src/app.js`, `src/gear.js`, `src/template.html`, `src/v5.css`, `style.game.css`, or a data file in `patches/`.
+1. Edit a source: `src/app.js`, `src/gear.js`, `src/ux.js`, `src/template.html`, `src/v5.css`, `style.game.css`, or a data file in `patches/`.
 2. `bash build/patches/apply_all.sh`: runs every patch in order, then `build.py`.
 3. `bash build/check.sh`: patches idempotent and build reproducible, no script errors, every gear page and set page renders, every Path boss card has a background. Needs Chromium via `playwright` (`NODE_PATH=$(npm root -g)`).
 4. Add a line to `NOTES.md`, commit `index.html` with `static/` (and `dist/`), push.
@@ -15,7 +15,7 @@ src/*.js, v5.css, style.game.css, template.html ──► build.py ──► ind
 ## What is source and what is generated
 | File | Kind |
 |---|---|
-| `src/app.js`, `src/gear.js`, `src/template.html`, `src/v5.css`, `style.game.css` | hand-written |
+| `src/app.js`, `src/gear.js`, `src/ux.js`, `src/template.html`, `src/v5.css`, `style.game.css` | hand-written |
 | `patches/*.json`, `patches/gear_*.py`, `patches/gearlib.py` | gear facts and the rules that combine them; edit these to change facts |
 | `src/gear_data.js`, `src/wiki_data.js` | generated in one pass from JSON (`gear_pipeline.py`, `wiki_data.py`); nothing reads them back |
 | `src/data.js` (curios) | **source**, hand-maintained (it cannot be regenerated: `transform.py` gives a different file). `boss_stats.py` and `boss_order.py` derive values into it in place; the nine one-time edits that shaped it are kept in `migrations/` |
