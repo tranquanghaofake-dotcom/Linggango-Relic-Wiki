@@ -1,0 +1,783 @@
+{
+ "#": {
+  "elements": 572,
+  "scales": {
+   "small 0.56": 1,
+   "big-bg 1": 1,
+   "big-bg fit": 1,
+   "big 0.65": 1,
+   "small 1.8": 12,
+   "small 0.9": 1,
+   "big 0.5": 1,
+   "small 2": 9,
+   "small 1.5": 23,
+   "small-bg 1": 3,
+   "small-bg fit": 57,
+   "small 1.86": 19,
+   "small 1.42": 1,
+   "small 0.62": 1,
+   "small 0.46": 1
+  },
+  "smoothSmallPixelArt": 0,
+  "smoothSample": [],
+  "colours": 31,
+  "nearDuplicatePairs": 12,
+  "nearSample": [
+   [
+    "rgb(230, 227, 218)",
+    "rgb(224, 224, 224)"
+   ],
+   [
+    "rgb(241, 239, 232)",
+    "rgb(244, 241, 232)"
+   ],
+   [
+    "rgb(244, 241, 232)",
+    "rgb(255, 244, 230)"
+   ],
+   [
+    "rgb(236, 233, 243)",
+    "rgb(232, 227, 238)"
+   ],
+   [
+    "rgb(46, 43, 56)",
+    "rgb(42, 40, 51)"
+   ],
+   [
+    "rgb(167, 163, 182)",
+    "rgb(166, 158, 178)"
+   ],
+   [
+    "rgba(0, 0, 0, 0.35)",
+    "color(srgb 0.627647 0.273333 0.306863)"
+   ],
+   [
+    "rgba(0, 0, 0, 0.25)",
+    "color(srgb 0.627647 0.273333 0.306863)"
+   ],
+   [
+    "rgb(22, 21, 27)",
+    "rgb(27, 22, 34)"
+   ],
+   [
+    "rgb(216, 212, 228)",
+    "rgb(217, 211, 224)"
+   ],
+   [
+    "rgba(0, 0, 0, 0.55)",
+    "color(srgb 0.627647 0.273333 0.306863)"
+   ],
+   [
+    "rgb(0, 0, 0)",
+    "color(srgb 0.627647 0.273333 0.306863)"
+   ]
+  ],
+  "fonts": 15,
+  "fontSample": [
+   [
+    "\"Be Vietnam Pro\" 15px",
+    400
+   ],
+   [
+    "\"Be Vietnam Pro\" 13px",
+    88
+   ],
+   [
+    "\"Be Vietnam Pro\" 12px",
+    25
+   ],
+   [
+    "\"Be Vietnam Pro\" 14px",
+    15
+   ],
+   [
+    "\"Be Vietnam Pro\" 16px",
+    9
+   ],
+   [
+    "\"Be Vietnam Pro\" 12.5px",
+    8
+   ],
+   [
+    "\"Be Vietnam Pro\" 13.5px",
+    8
+   ],
+   [
+    "\"Pixelify Sans\" 18px",
+    5
+   ],
+   [
+    "\"Be Vietnam Pro\" 10px",
+    4
+   ],
+   [
+    "\"Be Vietnam Pro\" 22px",
+    3
+   ]
+  ]
+ },
+ "#home": {
+  "elements": 1361,
+  "scales": {
+   "small 0.56": 1,
+   "small-bg 1": 2,
+   "small-bg fit": 25,
+   "small 1.86": 16,
+   "small 0.75": 1,
+   "small 2.5": 1,
+   "small-bg 2": 9,
+   "small 2": 366,
+   "small 1": 3
+  },
+  "smoothSmallPixelArt": 0,
+  "smoothSample": [],
+  "colours": 39,
+  "nearDuplicatePairs": 36,
+  "nearSample": [
+   [
+    "rgb(230, 227, 218)",
+    "rgb(224, 224, 224)"
+   ],
+   [
+    "rgb(241, 239, 232)",
+    "rgb(238, 238, 238)"
+   ],
+   [
+    "rgb(236, 233, 243)",
+    "rgb(238, 238, 238)"
+   ],
+   [
+    "rgb(58, 55, 70)",
+    "rgb(59, 56, 72)"
+   ],
+   [
+    "rgb(58, 55, 70)",
+    "rgb(59, 59, 59)"
+   ],
+   [
+    "rgb(26, 26, 26)",
+    "rgb(18, 21, 29)"
+   ],
+   [
+    "rgb(26, 26, 26)",
+    "rgb(21, 25, 36)"
+   ],
+   [
+    "rgb(18, 21, 29)",
+    "rgb(21, 25, 36)"
+   ],
+   [
+    "rgb(26, 31, 43)",
+    "rgb(21, 25, 36)"
+   ],
+   [
+    "rgb(0, 0, 0)",
+    "color(srgb 0.45 0.370588 0.0547059)"
+   ],
+   [
+    "rgb(0, 0, 0)",
+    "color(srgb 0.45 0.3 0)"
+   ],
+   [
+    "rgb(0, 0, 0)",
+    "color(srgb 0.45 0.15 0.45)"
+   ]
+  ],
+  "fonts": 15,
+  "fontSample": [
+   [
+    "\"Be Vietnam Pro\" 15px",
+    863
+   ],
+   [
+    "\"Be Vietnam Pro\" 8px",
+    336
+   ],
+   [
+    "\"Be Vietnam Pro\" 12px",
+    78
+   ],
+   [
+    "\"Be Vietnam Pro\" 13px",
+    55
+   ],
+   [
+    "\"Be Vietnam Pro\" 12.5px",
+    9
+   ],
+   [
+    "\"Be Vietnam Pro\" 14px",
+    8
+   ],
+   [
+    "\"Pixelify Sans\" 20px",
+    2
+   ],
+   [
+    "\"Be Vietnam Pro\" 10px",
+    2
+   ],
+   [
+    "Arial 13.3333px",
+    2
+   ],
+   [
+    "\"Pixelify Sans\" 22px",
+    1
+   ]
+  ]
+ },
+ "#gear": {
+  "elements": 328,
+  "scales": {
+   "small 0.56": 2,
+   "small-bg 1": 1,
+   "small 3.5": 32,
+   "small-bg fit": 24,
+   "small 1.86": 10,
+   "small 1.13": 12,
+   "small 1.17": 2,
+   "big 0.44": 2,
+   "small 2.33": 1,
+   "small 2.43": 2
+  },
+  "smoothSmallPixelArt": 0,
+  "smoothSample": [],
+  "colours": 25,
+  "nearDuplicatePairs": 5,
+  "nearSample": [
+   [
+    "rgb(230, 227, 218)",
+    "rgb(224, 224, 224)"
+   ],
+   [
+    "rgb(18, 21, 29)",
+    "rgb(22, 21, 27)"
+   ],
+   [
+    "rgb(18, 21, 29)",
+    "rgba(15, 14, 20, 0.8)"
+   ],
+   [
+    "rgb(228, 224, 236)",
+    "rgb(232, 230, 240)"
+   ],
+   [
+    "rgb(236, 233, 243)",
+    "rgb(232, 230, 240)"
+   ]
+  ],
+  "fonts": 11,
+  "fontSample": [
+   [
+    "\"Be Vietnam Pro\" 15px",
+    148
+   ],
+   [
+    "\"Be Vietnam Pro\" 13px",
+    104
+   ],
+   [
+    "\"Be Vietnam Pro\" 12px",
+    55
+   ],
+   [
+    "\"Be Vietnam Pro\" 14px",
+    7
+   ],
+   [
+    "\"Pixelify Sans\" 36px",
+    5
+   ],
+   [
+    "\"Pixelify Sans\" 20px",
+    2
+   ],
+   [
+    "\"Be Vietnam Pro\" 16px",
+    2
+   ],
+   [
+    "ui-monospace 13px",
+    2
+   ],
+   [
+    "\"Pixelify Sans\" 22px",
+    1
+   ],
+   [
+    "\"Pixelify Sans\" 30px",
+    1
+   ]
+  ]
+ },
+ "#build": {
+  "elements": 407,
+  "scales": {
+   "small 0.56": 1,
+   "small-bg 1": 1,
+   "small-bg fit": 54,
+   "small 1.5": 25
+  },
+  "smoothSmallPixelArt": 0,
+  "smoothSample": [],
+  "colours": 33,
+  "nearDuplicatePairs": 8,
+  "nearSample": [
+   [
+    "rgb(230, 227, 218)",
+    "rgb(224, 224, 224)"
+   ],
+   [
+    "rgb(236, 233, 243)",
+    "rgb(232, 230, 240)"
+   ],
+   [
+    "rgb(58, 55, 70)",
+    "rgb(59, 56, 72)"
+   ],
+   [
+    "rgb(167, 163, 182)",
+    "rgb(169, 166, 184)"
+   ],
+   [
+    "rgb(26, 26, 26)",
+    "rgb(18, 21, 29)"
+   ],
+   [
+    "rgb(18, 21, 29)",
+    "rgba(15, 14, 20, 0.8)"
+   ],
+   [
+    "rgb(228, 224, 236)",
+    "rgb(232, 230, 240)"
+   ],
+   [
+    "rgb(189, 189, 189)",
+    "rgb(187, 187, 187)"
+   ]
+  ],
+  "fonts": 12,
+  "fontSample": [
+   [
+    "\"Be Vietnam Pro\" 15px",
+    175
+   ],
+   [
+    "\"Be Vietnam Pro\" 13px",
+    107
+   ],
+   [
+    "\"Be Vietnam Pro\" 12px",
+    57
+   ],
+   [
+    "\"Be Vietnam Pro\" 20px",
+    43
+   ],
+   [
+    "\"Be Vietnam Pro\" 14px",
+    9
+   ],
+   [
+    "\"Pixelify Sans\" 13px",
+    8
+   ],
+   [
+    "\"Pixelify Sans\" 20px",
+    2
+   ],
+   [
+    "\"Be Vietnam Pro\" 13.5px",
+    2
+   ],
+   [
+    "\"Pixelify Sans\" 22px",
+    1
+   ],
+   [
+    "\"Pixelify Sans\" 30px",
+    1
+   ]
+  ]
+ },
+ "#bosses": {
+  "elements": 424,
+  "scales": {
+   "small 0.56": 1,
+   "small-bg 1": 1,
+   "small-bg fit": 140,
+   "small 1.86": 12,
+   "small 0.93": 1,
+   "small 1.98": 1,
+   "small 2": 13,
+   "small 1.25": 12,
+   "small 0.63": 1,
+   "small 1": 1,
+   "small 1.33": 1
+  },
+  "smoothSmallPixelArt": 0,
+  "smoothSample": [],
+  "colours": 22,
+  "nearDuplicatePairs": 5,
+  "nearSample": [
+   [
+    "rgb(230, 227, 218)",
+    "rgb(224, 224, 224)"
+   ],
+   [
+    "rgb(18, 21, 29)",
+    "rgba(15, 14, 20, 0.8)"
+   ],
+   [
+    "rgb(228, 224, 236)",
+    "rgb(232, 230, 240)"
+   ],
+   [
+    "rgb(236, 233, 243)",
+    "rgb(232, 230, 240)"
+   ],
+   [
+    "rgb(167, 163, 182)",
+    "rgb(169, 166, 184)"
+   ]
+  ],
+  "fonts": 11,
+  "fontSample": [
+   [
+    "\"Be Vietnam Pro\" 15px",
+    238
+   ],
+   [
+    "\"Be Vietnam Pro\" 14px",
+    77
+   ],
+   [
+    "\"Be Vietnam Pro\" 12px",
+    61
+   ],
+   [
+    "\"Be Vietnam Pro\" 13px",
+    22
+   ],
+   [
+    "\"Be Vietnam Pro\" 16px",
+    15
+   ],
+   [
+    "\"Be Vietnam Pro\" 13.5px",
+    4
+   ],
+   [
+    "\"Pixelify Sans\" 20px",
+    2
+   ],
+   [
+    "\"Be Vietnam Pro\" 10px",
+    2
+   ],
+   [
+    "\"Pixelify Sans\" 22px",
+    1
+   ],
+   [
+    "\"Pixelify Sans\" 30px",
+    1
+   ]
+  ]
+ },
+ "#mechanics": {
+  "elements": 335,
+  "scales": {
+   "small 0.56": 1,
+   "small-bg 1": 1,
+   "small-bg fit": 26,
+   "small 1.86": 8,
+   "small 2.5": 1,
+   "small 0.63": 3,
+   "big 0.31": 1,
+   "big-bg fit": 1,
+   "big 1.2": 16,
+   "small 1.38": 11,
+   "small 0.34": 11,
+   "small 0.69": 8,
+   "big 0.48": 1
+  },
+  "smoothSmallPixelArt": 0,
+  "smoothSample": [],
+  "colours": 22,
+  "nearDuplicatePairs": 2,
+  "nearSample": [
+   [
+    "rgb(230, 227, 218)",
+    "rgb(224, 224, 224)"
+   ],
+   [
+    "rgb(18, 21, 29)",
+    "rgb(22, 21, 27)"
+   ]
+  ],
+  "fonts": 13,
+  "fontSample": [
+   [
+    "\"Be Vietnam Pro\" 15px",
+    176
+   ],
+   [
+    "\"Be Vietnam Pro\" 13px",
+    107
+   ],
+   [
+    "\"Be Vietnam Pro\" 12.5px",
+    18
+   ],
+   [
+    "\"Be Vietnam Pro\" 13.5px",
+    14
+   ],
+   [
+    "\"Be Vietnam Pro\" 14px",
+    9
+   ],
+   [
+    "\"Be Vietnam Pro\" 26px",
+    3
+   ],
+   [
+    "\"Pixelify Sans\" 20px",
+    2
+   ],
+   [
+    "\"Pixelify Sans\" 22px",
+    1
+   ],
+   [
+    "\"Be Vietnam Pro\" 12px",
+    1
+   ],
+   [
+    "\"Pixelify Sans\" 30px",
+    1
+   ]
+  ]
+ },
+ "#mods": {
+  "elements": 1361,
+  "scales": {
+   "small 0.56": 1,
+   "small-bg 1": 2,
+   "small-bg fit": 25,
+   "small 1.86": 16,
+   "small 0.75": 1,
+   "small 2.5": 1,
+   "small-bg 2": 9,
+   "small 2": 366,
+   "small 1": 3
+  },
+  "smoothSmallPixelArt": 0,
+  "smoothSample": [],
+  "colours": 39,
+  "nearDuplicatePairs": 36,
+  "nearSample": [
+   [
+    "rgb(230, 227, 218)",
+    "rgb(224, 224, 224)"
+   ],
+   [
+    "rgb(241, 239, 232)",
+    "rgb(238, 238, 238)"
+   ],
+   [
+    "rgb(236, 233, 243)",
+    "rgb(238, 238, 238)"
+   ],
+   [
+    "rgb(58, 55, 70)",
+    "rgb(59, 56, 72)"
+   ],
+   [
+    "rgb(58, 55, 70)",
+    "rgb(59, 59, 59)"
+   ],
+   [
+    "rgb(26, 26, 26)",
+    "rgb(18, 21, 29)"
+   ],
+   [
+    "rgb(26, 26, 26)",
+    "rgb(21, 25, 36)"
+   ],
+   [
+    "rgb(18, 21, 29)",
+    "rgb(21, 25, 36)"
+   ],
+   [
+    "rgb(26, 31, 43)",
+    "rgb(21, 25, 36)"
+   ],
+   [
+    "rgb(0, 0, 0)",
+    "color(srgb 0.45 0.370588 0.0547059)"
+   ],
+   [
+    "rgb(0, 0, 0)",
+    "color(srgb 0.45 0.3 0)"
+   ],
+   [
+    "rgb(0, 0, 0)",
+    "color(srgb 0.45 0.15 0.45)"
+   ]
+  ],
+  "fonts": 15,
+  "fontSample": [
+   [
+    "\"Be Vietnam Pro\" 15px",
+    863
+   ],
+   [
+    "\"Be Vietnam Pro\" 8px",
+    336
+   ],
+   [
+    "\"Be Vietnam Pro\" 12px",
+    78
+   ],
+   [
+    "\"Be Vietnam Pro\" 13px",
+    55
+   ],
+   [
+    "\"Be Vietnam Pro\" 12.5px",
+    9
+   ],
+   [
+    "\"Be Vietnam Pro\" 14px",
+    8
+   ],
+   [
+    "\"Pixelify Sans\" 20px",
+    2
+   ],
+   [
+    "\"Be Vietnam Pro\" 10px",
+    2
+   ],
+   [
+    "Arial 13.3333px",
+    2
+   ],
+   [
+    "\"Pixelify Sans\" 22px",
+    1
+   ]
+  ]
+ },
+ "#i76": {
+  "elements": 280,
+  "scales": {
+   "small 0.56": 1,
+   "small 2.25": 8,
+   "small-bg fit": 8,
+   "small 10": 1,
+   "small 1.5": 1
+  },
+  "smoothSmallPixelArt": 0,
+  "smoothSample": [],
+  "colours": 50,
+  "nearDuplicatePairs": 46,
+  "nearSample": [
+   [
+    "rgb(230, 227, 218)",
+    "rgb(224, 224, 224)"
+   ],
+   [
+    "rgb(230, 227, 218)",
+    "rgb(221, 221, 221)"
+   ],
+   [
+    "rgb(224, 224, 224)",
+    "rgb(221, 221, 221)"
+   ],
+   [
+    "rgb(8, 8, 11)",
+    "rgb(12, 11, 16)"
+   ],
+   [
+    "rgb(8, 8, 11)",
+    "rgb(11, 14, 20)"
+   ],
+   [
+    "rgb(241, 239, 232)",
+    "rgb(236, 235, 240)"
+   ],
+   [
+    "rgb(18, 21, 29)",
+    "rgb(22, 21, 27)"
+   ],
+   [
+    "rgb(18, 21, 29)",
+    "rgba(15, 14, 20, 0.8)"
+   ],
+   [
+    "rgb(236, 235, 240)",
+    "rgb(236, 233, 243)"
+   ],
+   [
+    "rgb(236, 235, 240)",
+    "rgb(231, 227, 236)"
+   ],
+   [
+    "rgb(236, 235, 240)",
+    "rgb(232, 230, 240)"
+   ],
+   [
+    "rgba(16, 0, 16, 0.85)",
+    "rgb(12, 11, 16)"
+   ]
+  ],
+  "fonts": 16,
+  "fontSample": [
+   [
+    "\"Be Vietnam Pro\" 14px",
+    98
+   ],
+   [
+    "\"Be Vietnam Pro\" 15px",
+    88
+   ],
+   [
+    "\"Be Vietnam Pro\" 13px",
+    34
+   ],
+   [
+    "\"Be Vietnam Pro\" 12px",
+    24
+   ],
+   [
+    "\"Be Vietnam Pro\" 12.5px",
+    11
+   ],
+   [
+    "\"Be Vietnam Pro\" 13.5px",
+    8
+   ],
+   [
+    "\"Pixelify Sans\" 12.5px",
+    4
+   ],
+   [
+    "\"Pixelify Sans\" 20px",
+    3
+   ],
+   [
+    "\"Pixelify Sans\" 18px",
+    2
+   ],
+   [
+    "\"Be Vietnam Pro\" 16px",
+    2
+   ]
+  ]
+ },
+ "errors": []
+}
