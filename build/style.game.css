@@ -1407,3 +1407,49 @@ body.qbg{background:linear-gradient(rgba(13,13,13,.5),rgba(13,13,13,.5)),var(--r
 .tier .tl{background:linear-gradient(180deg,color-mix(in srgb,var(--tc,#555) 28%,rgba(26,24,32,.72)),rgba(26,24,32,.9) 70%),var(--tex) 0 0/32px 32px;image-rendering:pixelated}
 .tier .tl:hover{background:linear-gradient(180deg,color-mix(in srgb,var(--tc,#555) 36%,rgba(26,24,32,.6)),rgba(26,24,32,.82) 70%),var(--tex) 0 0/32px 32px}
 .tier:not(.closed) .tl{background:linear-gradient(180deg,color-mix(in srgb,var(--tc,#555) 28%,rgba(26,24,32,.72)),rgba(26,24,32,.92) 260px),var(--tex) 0 0/32px 32px}
+
+/* ================= v43: pixel restore, pass 1 (same look; integer pixel scales; tiles and tier list evened out) =================
+   Measured with docs/superpowers/specs/2026-10-27-wiki-overhaul/restore/scales.js (workspace). To be folded into the
+   consolidated stylesheet in a later pass; until then this block is the last word on these components. */
+
+/* curio tiles: square pixel tiles, a 2 px rarity edge (one texel), flat fill; no rounded corners, soft glows or spinning rings.
+   :is(.tier,.tiles) a.t outranks the older .tier .t rules (two classes and an element). */
+:is(.tier,.tiles) a.t{border:0!important;border-radius:0!important;
+ background:color-mix(in srgb,var(--rc) 12%,#1d1b25)!important;
+ box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--rc) 70%,#000),inset 4px 4px 0 rgba(0,0,0,.35)!important}
+:is(.tier,.tiles) a.t.L{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--rc) 70%,#000),inset 4px 4px 0 rgba(0,0,0,.35),inset 0 -4px 0 var(--loot)!important}
+:is(.tier,.tiles) a.t::before,:is(.tier,.tiles) a.t::after,:is(.tier,.tiles) a.t .sh{display:none!important}
+:is(.tier,.tiles) a.t:hover::after{display:block!important;content:"";position:absolute;inset:2px;background:rgba(255,255,255,.3);border-radius:0;pointer-events:none}
+:is(.tier,.tiles) a.t>img,:is(.tier,.tiles) a.t .aimg,:is(.tier,.tiles) a.t .aimg img{width:32px!important;height:32px!important}
+:is(.tier,.tiles) a.t:hover>img,:is(.tier,.tiles) a.t:hover .aimg,:is(.tier,.tiles) a.t:focus-visible>img{transform:none!important}
+:is(.tier,.tiles) a.t .glint{width:32px!important;height:32px!important}
+/* framed tiles (Legendary: silver; Mythic and Must-Have: gold): the frame is the tile's only edge, and its window sits on the
+   tile's centre, where the icon is. Silver 28x29 has its 16x16 window at (8,8); gold 24x28 at (4,7); both drawn at x2. */
+:is(.tier,.tiles) a.t.r4{background:var(--rt-lg_frame_silver) 0 0/56px 58px no-repeat,linear-gradient(#16151b,#16151b) 16px 16px/32px 32px no-repeat!important;box-shadow:none!important}
+:is(.tier,.tiles) a.t:is(.r5,.r6){background:var(--rt-lg_frame_gold) 8px 2px/48px 56px no-repeat,linear-gradient(#16151b,#16151b) 16px 16px/32px 32px no-repeat!important;box-shadow:none!important}
+:is(.tier,.tiles) a.t .star{right:2px!important;top:2px!important}
+
+/* Equipment: 16 px art at x2 in a 48 px slot (it filled the slot at x3); every tier is a full-width row; names take two lines
+   in every tile so the rows line up; tier letters in Silkscreen (Pixelify draws B like 8 and C like O) */
+.gtl img,.gtl .ph{width:32px!important;height:32px!important;padding:8px!important}
+.gtl span{min-height:2.4em}
+.gtl-list{flex-direction:column!important;flex-wrap:nowrap!important}
+.gtl-list>.grow{flex:none!important;width:100%}
+.gear .grow>.glet{font-family:Silkscreen,var(--disp)!important;font-weight:400!important}
+.gtl.wpn::after{top:30px}
+
+/* integer scales elsewhere (16 px art at x1, x2 or x3) */
+.emb{--s:48px}.emb.sm,.h3d.sm{--s:32px}.emb.xs,.h3d.xs{--s:16px}.emb.lg,.h3d.lg{--s:48px}
+.pn .pfr .emb,.ip-ih .ip-slot .emb{transform:none}
+.slot.sm img,.sgrid .slot.sm img{width:32px;height:32px}
+.slot.big img{width:48px;height:48px}
+.room .rfr img,.room .rfr .aimg,.room .rfr .ph{width:round(nearest,calc(var(--b) * .66),16px);height:round(nearest,calc(var(--b) * .66),16px)}
+.gc .pic img{width:32px!important;height:32px!important}
+.ip-ih .ip-slot img,.ip-ih .ip-slot .aimg{width:32px;height:32px}
+.bsum img{width:16px;height:16px}
+.nic,.rtype .nch img.nic{width:16px;height:16px}
+.bsh .bsi{width:16px;height:16px}
+.logo .coin{width:32px;height:32px}
+.rqb{width:20px;height:20px}.t .rqb img,.rqb img{width:16px!important;height:16px!important}
+.gx>*{transform:none}
+.slot.big img{width:32px;height:32px}

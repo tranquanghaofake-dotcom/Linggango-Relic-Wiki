@@ -26,7 +26,7 @@ function dealGear(){const h=location.hash;if(!/^#gear/.test(h)){lastGear="";retu
 /* ---------- quick search ---------- */
 const QS={open:false,inp:null,items:[],sel:0,idx:null};
 const box=document.createElement("div");box.id="qs";box.setAttribute("role","listbox");box.setAttribute("aria-label","Search results");box.hidden=true;document.body.appendChild(box);
-const PAGES=[["The Path","#home","Every curio by the Act you can get it in"],["Equipment","#gear","Weapon and armor tier lists"],["Build planner","#build","Plan curio slots and see stat totals"],["Bosses","#bosses","Keepers in fight order, with summon guides"],["Mechanics","#mechanics","Goety rituals and AE2 storage"]];
+const PAGES=[["Curios","#home","Every curio by the Act you can get it in"],["Equipment","#gear","Weapon and armor tier lists"],["Build planner","#build","Plan curio slots and see stat totals"],["Bosses","#bosses","Keepers in fight order, with summon guides"],["Mechanics","#mechanics","Goety rituals and AE2 storage"]];
 function index(){if(QS.idx)return QS.idx;const o=[];
  const add=(n,h,ic,meta,kind,w,c,t)=>o.push({n,l:n.toLowerCase(),h,ic,meta,kind,w,c,t});
  PAGES.forEach(([n,h,m])=>add(n,h,()=>'<span class="qpg" aria-hidden="true">'+n[0]+"</span>",m,"Page",3));
@@ -60,7 +60,7 @@ function draw(q){const gs=search(q);QS.items=[];let html="";
   xs.forEach(e=>{const i=QS.items.length;QS.items.push(e);html+=row(e,i,q)})});
  const nc=D.filter(d=>{const s=st.q;st.q=q.trim();const r=qMatch(d);st.q=s;return r}).length;
  const i=QS.items.length;QS.items.push({h:"#home",path:true});
- html+=`<a class="qr qall" role="option" id="qr${i}" href="#home" data-i="${i}"><span class="qic"><span class="qpg" aria-hidden="true">⌕</span></span><span class="qtx"><b>${nc?`Show the ${nc} curios that mention “${esc(q.trim())}” on The Path`:`Filter The Path by “${esc(q.trim())}”`}</b><small>Keeps the search as a filter you can refine</small></span></a>`;
+ html+=`<a class="qr qall" role="option" id="qr${i}" href="#home" data-i="${i}"><span class="qic"><span class="qpg" aria-hidden="true">⌕</span></span><span class="qtx"><b>${nc?`Show the ${nc} curios that mention “${esc(q.trim())}” in Curios`:`Filter Curios by “${esc(q.trim())}”`}</b><small>Keeps the search as a filter you can refine</small></span></a>`;
  if(gs.length===0)html=`<p class="qnone">Nothing is called “${esc(q.trim())}”. Try part of a name, a mod, or a stat.</p>`+html;
  html+=KEYS;
  box.innerHTML=html;QS.sel=0;mark()}
@@ -78,7 +78,7 @@ const isQ=t=>t&&(t.id==="q"||t.id==="hq");
 const hq=el("q"),oldInput=hq.oninput;hq.oninput=null;
 hq.setAttribute("aria-autocomplete","list");hq.setAttribute("aria-expanded","false");
 document.addEventListener("input",e=>{const t=e.target;if(!isQ(t))return;
- // on The Path the header box filters the grid in place, as before; elsewhere it looks things up
+ // on Curios (#home) the header box filters the grid in place, as before; elsewhere it looks things up
  if(t.id==="q"&&onPath()){close();oldInput&&oldInput.call(t,e);return}
  if(!t.value.trim()){if(recent.length){open(t);if(drawRecent())return}close();return}
  open(t);draw(t.value)});

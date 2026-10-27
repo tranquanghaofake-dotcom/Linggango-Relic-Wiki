@@ -27,5 +27,6 @@
 
 ## Content
 - Naming: the progression as a whole is "The Path"; each stage is an "Act" (Act 0–I, Act II, … Warden Act).
+- The curio list page (`#home`) is called "Curios" (nav, breadcrumbs, title); "The Path" names the progression map on the hub and the Acts, not that page.
 - Numbers come from the game export first, then pack files, then the jar reading. External sites are reference only. Estimates are labelled as estimates.
 - The wiki text stays in English; the user reads Vietnamese, so talk to them in Vietnamese.

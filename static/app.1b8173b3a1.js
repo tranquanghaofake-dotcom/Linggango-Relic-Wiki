@@ -171,7 +171,7 @@ function sidePage(n){const b=typeof SIDEB!=="undefined"&&SIDEB[n],r=(typeof BOSS
  const di=id=>IC[id]?img(id):(typeof BIMG!=="undefined"&&BIMG[id]?`<img alt="" src="${BIMG[id]}">`:"");
  const same=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(x=>x[1]===a&&SIDEB[x[0]]).map(x=>["#side/"+enc(x[0]),esc(x[0]),x[0]===n]);
  const src=`${b.src_note?`<p class="note">Source: ${esc(b.src_note)}</p>`:""}${b.sources&&b.sources.length?`<p class="note">Sources: ${b.sources.map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/,"").split("/")[0])}</a>`).join(" · ")}</p>`:""}`;
- el("main").innerHTML=article({cls:"r0 bossart",style:`--tc:${ACT[a][2]};--rc:${ACT[a][2]}`,crumb:crumb('<a href="#home">The Path</a>',esc(n)),title:esc(n),
+ el("main").innerHTML=article({cls:"r0 bossart",style:`--tc:${ACT[a][2]};--rc:${ACT[a][2]}`,crumb:crumb('<a href="#home">Curios</a>',esc(n)),title:esc(n),
   lead:`An optional side boss${b.mod?` from ${esc(b.mod)}`:""}. Fight it with <a href="#act/${a}">${esc(actL(a))}</a> gear.`,
   secs:[["find","Where to find it",`<p class="sbfind">${esc(b.find||"")}</p>${sl?`<p class="sbsoul">${img("linggango_tweaks:boss_soul")}<span><b>Boss Soul</b> · drops its soul, which can go into the ${esc(sl[0])}, the summon for ${esc(sl[1])}.</span></p>`:""}${pi?`<figure class="sbfig"><img class="sbarena" alt="Where it is fought" src="${pi}"></figure>`:""}`],
    b.attacks&&b.attacks.length&&["atk","Attacks",`<div class="batks">${b.attacks.map(x=>`<div class="batk"><span class="bai bai0 ${atype(x.desc)}">${ATG[atype(x.desc)]}</span><div><b>${esc(x.name)}</b><p>${esc(x.desc)}</p></div></div>`).join("")}</div>`],
@@ -660,7 +660,7 @@ const pHere=()=>{try{const v=localStorage.getItem(PHKEY);return v===null?null:+v
 /* Title screen: one button carries the reader's run ("I'm here"), the rest of the wiki is in the top bar */
 const hereBtns=()=>{const h=pHere(),ok=h!==null&&ACT[h]&&ORDER.includes(h);
  return ok?`<a class="mcb wide" href="#home">Continue: ${esc(actL(h))}</a><a class="mcb" href="#gear/${h}/ME/w">Gear at ${esc(actL(h))}</a><a class="mcb" href="#build">Build planner</a>`
-  :`<a class="mcb wide" href="#home">Start The Path</a><a class="mcb" href="#gear">Equipment</a><a class="mcb" href="#build">Build planner</a>`};
+  :`<a class="mcb wide" href="#home">Browse curios</a><a class="mcb" href="#gear">Equipment</a><a class="mcb" href="#build">Build planner</a>`};
 function pSide(a){const pi=typeof PIMG!=="undefined"?PIMG:{side:{},act:{}};
  let sb=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(r=>r[1]===a&&!/Keeper/.test(r[0])&&!/^(Ender Dragon)\b/.test(r[0]));if(a===6&&!sb.some(r=>r[0]==="Warden"))sb=[["Warden",6,"","Ancient City: shriek three Sculk Shriekers to call it",[]],...sb];
  return sb.length?[...sb].sort((x,y)=>(!!pi.side[y[0]]||!!(typeof SIDEB!=="undefined"&&SIDEB[y[0]]&&SIDEB[y[0]].img))-(!!pi.side[x[0]]||!!(typeof SIDEB!=="undefined"&&SIDEB[x[0]]&&SIDEB[x[0]].img))).map(r=>{const sb2=typeof SIDEB!=="undefined"&&SIDEB[r[0]],rim=sb2&&sb2.img,im=pi.side[r[0]]||(rim&&pi.scene&&pi.scene[r[0]]),vk=r[0]==="Warden"?"warden":r[0]==="Wither"?"wither":null,hr=vk?` href="#boss/${vk}"`:sb2?` href="#side/${enc(r[0])}"`:"";return rim||im?`<a class="pbc${rim?" rnd":""}"${hr} title="${esc(pathText(r[3]||""))}">${im||(pi.scene&&pi.scene[r[0]])?`<img class="bg" alt="" loading="lazy" src="${im||pi.scene[r[0]]}">`:""}${rim?`<img class="fg" alt="" src="${rim}">`:""}<b>${esc(r[0])}</b></a>`:(()=>{const bg=(pi.scene&&pi.scene[r[0]])||(pi.biome&&pi.biome[r[0]]),it=[sb2&&sb2.summon].concat(r[4]||[],sb2&&sb2.drops?sb2.drops.map(x=>x.id):[]).find(x=>x&&IC[x]);return `<a class="pbc ibg"${hr} title="${esc(pathText(r[3]||""))}">${bg?`<img class="bg" alt="" loading="lazy" src="${bg}">`:""}${it?`<span class="fgi">${img(it)}</span>`:""}<b>${esc(r[0])}</b></a>`})()}).join(""):""}
@@ -732,7 +732,7 @@ function hubList(kind,key){
  if(kind==="slot"){const rf=key.includes("?r=")?+key.split("?r=")[1]:null;key=key.split("?")[0];xs=key==="*"?D:D.filter(d=>d.sl.includes(key));if(rf!=null)xs=xs.filter(d=>d.r===rf);
   title=key==="*"?(rf!=null?`All ${RN[rf]} curios`:"All curios"):`${key} slot`;cr="Slot";if(key!=="*")lede=`Every curio worn in the ${key} slot, rarest first.${!SLOT_BASE[key]?` Players start with no ${key} slot: a curio or its own mod has to add one.`:""}`;
   bar=`<div class="brw-bar">${BIGSLOTS.map(([s])=>`<a href="#slot/${enc(s)}"${s===key?' aria-current="page"':""}>${esc(s)}</a>`).join("")}</div>`}
- else if(kind==="act"){const a=+key;xs=D.filter(d=>d.t===a);title=actL(a);cr="The Path";lede=`${ACT[a][1].charAt(0).toUpperCase()+ACT[a][1].slice(1)}.${a!=-1?` Next boss: ${ACTN[a]}.`:""} Must-Have ★ items first, then rarest first.`;const bk=PB[a],nb=NEXTB[a],ti=typeof PIMG!=="undefined"&&PIMG.act[String(a)];
+ else if(kind==="act"){const a=+key;xs=D.filter(d=>d.t===a);title=actL(a);cr="Curios";lede=`${ACT[a][1].charAt(0).toUpperCase()+ACT[a][1].slice(1)}.${a!=-1?` Next boss: ${ACTN[a]}.`:""} Must-Have ★ items first, then rarest first.`;const bk=PB[a],nb=NEXTB[a],ti=typeof PIMG!=="undefined"&&PIMG.act[String(a)];
   const bl=(k,l)=>k?`<a class="actb" href="#boss/${k}">${emblem(bossPath(k),"sm")}<span><small>${l}</small><b>${esc(bossName(k))}</b></span><i>Guide →</i></a>`:"";
   hero=`<div class="actban" style="--tc:${ACT[a][2]}">${ti?`<img class="ptitle big" alt="" src="${ti}">`:""}<div class="actbs">${bl(bk,"Opened by beating")}${bl(nb,"Next boss")}</div></div>`;
   bar=`<div class="brw-bar">${ORDER.filter(a=>D.some(d=>d.t===a)).map(b=>`<a href="#act/${b}"${b===a?' aria-current="page"':""}>${actL(b)}</a>`).join("")}</div>`}
@@ -773,7 +773,7 @@ let pathXs=[];
 const tierOpen=a=>fOn()?!st.cl.includes(a):(st.op||[pHere()??ORDER[0]]).includes(a);
 const tierTiles=ys=>ys.length?ys.map((d,i)=>tile(d,i)).join(""):'<span class="empty">No items match the filters.</span>';
 function home(xs,asTable){pathXs=xs;
- let h=`${crumb("The Path")}${room("library",D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).map(d=>rCurio(d,esc(ACT[d.t][0]),1)),{head:`<h1 class="qb">The Path</h1>
+ let h=`${crumb("Curios")}${room("library",D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).map(d=>rCurio(d,esc(ACT[d.t][0]),1)),{head:`<h1 class="qb">Curios</h1>
  <p class="lede">Every curio, grouped by the Act you can get it in. On the wall: the Must-Have curios, in the order their Acts open.</p>`,cols:8,label:"Must-Have curios"})}
   <div class="legend lgl"><span title="Frame colour: rarity, brighter = rarer"><i class="lgr"></i>Rarity</span><span title="Curio slot it goes in"><i class="slk lg" style="--si:url(${slotIcon("Ring")})"></i>Slot</span><span title="Variants merged into one tile"><b class="lgn">16</b>Variants</span><span title="Must-Have: get it first"><b class="lgs">★</b>Must-Have</span><span title="Needs the Seven Curses or Virtues ring">${rqb({rq:"Curses"}," lg")}Curses ring</span></div>
  ${fbar(xs.length,D.length)}${xs.length?"":`<p class="note">No curios match these filters. Remove one above or clear them all.</p>`}`;
@@ -840,7 +840,7 @@ function page(d){
  const art=`<div class="ip-art"><span class="ip-badge">${RN[d.r]}</span><div class="ip-stage" style="${tex(d.t)}">${envFx(d.t)}<span class="orb" aria-hidden="true">${[0,1,2,3,4,5].map(i=>`<i style="--k:${i};--sp:var(--v-${MFSP[F[0]]||"p_glint"})"></i>`).join("")}</span><div class="ip-icon framed">${ic}${glint(d)}</div></div><span class="ip-mini">${ic}</span><span class="ip-path" title="${esc(actL(d.t))}">${emblem(d.t,"xs")}</span></div>`;
  const sib=s0?`<section class="sib"><h2>More ${esc(s0)} curios <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">see all ${sx.length} →</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>← Previous in ${esc(s0)}</small>${esc(pv.n)}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>Next in ${esc(s0)} →</small>${esc(nx.n)}</a>`:""}</nav></section>`:"";
  el("main").innerHTML=article({cls:"r"+d.r,data:` data-mf="${F[0]}"`,
-  crumb:`<div class="crumb ip-crumb"><a href="#">Home</a> / <a href="#home">The Path</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>`,
+  crumb:`<div class="crumb ip-crumb"><a href="#">Home</a> / <a href="#home">Curios</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>`,
   pre:isMust(d)?'<span class="mstar">★</span>':"",title:esc(d.n),lead:fmt(d.fx),
   meta:`<span class="ip-fam">${esc(d.m)}</span><span>${rLabel(d)}</span><span>${esc(slot)}</span><span>${loot?"Loot":"Craft"}</span>${d.nw?"<span>new in 6.6.6</span>":""}`,
   secs,after:sib,art,
