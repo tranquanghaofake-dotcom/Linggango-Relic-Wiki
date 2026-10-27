@@ -25,6 +25,7 @@ src/*.js + v5.css + style.game.css + template.html ──► build.py ──► 
 | Icons | `patches/gear_icons.json` (a source file; `null` = no icon) |
 | Order of gear stages | the tuple in `gear_pipeline.py` |
 | How the front end plugs together | `EXT` in `app.js` (route / tooltip hooks); `build.py` `NAMES` for file order |
+| How a section header looks (rooms) | `room()` in `app.js` for the items; `.room[data-room=…]` in `style.game.css` for blocks and light; `ROOMT` textures from `pack_audit/scenes.py` |
 | How a detail page is laid out | `article()` in `app.js` (title and lead, sections, infobox, contents, navbox, pack version); `wikiNav()` for the wiki-wide navbox; `PACKV` for the pack version |
 
 ## Why it is shaped like this

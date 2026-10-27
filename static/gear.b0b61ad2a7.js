@@ -157,8 +157,8 @@ function gearPage(h){
  const go=(A,R,W)=>`#gear/${A}/${R}/${W}`;
  const q=GSTATE.q.trim().toLowerCase();
  el("main").innerHTML=`${crumb("Equipment")}<div class="gear">
- <div class="ghead" style="--tc:${ACT[a][2]};${tex(a)}"><span class="gem">${emblem(a,"lg")}</span><div><h1>Equipment tier list</h1>
- <p class="lede">The best weapons and armor sets for each playstyle at <b>${esc(actL(a))}</b>: everything you can use once ${a==0?"you start":esc(UNL[a]||"")+" is beaten"}, ranked against the best you have at that point.</p></div></div>
+ ${room("forge",tiers.flatMap(([t,xs])=>xs.map(g=>({h:gHref(g),i:gImg(g),t:(g.ps?"s":"g")+g.ix,n:g.n,l:esc(t)}))).slice(0,10),{head:`<span class="gem">${emblem(a,"lg")}</span><div><h1>Equipment tier list</h1>
+ <p class="lede">The best weapons and armor sets for each playstyle at <b>${esc(actL(a))}</b>: everything you can use once ${a==0?"you start":esc(UNL[a]||"")+" is beaten"}, ranked against the best you have at that point.</p></div>`,min:5,cols:5,label:"Best at this Act"})}
  <nav class="gacts" aria-label="Act">${ORDER.filter(x=>x!=-1).map(x=>`<a href="${go(x,r,w)}" style="--tc:${ACT[x][2]}"${x===+a?' aria-current="page"':""} title="${esc(actF(x))}"><span class="gx">${emblem(x,"xs")}</span><b>${esc(ACT[x][0])}</b></a>`).join("")}</nav>
  <div class="gbar"><div class="gseg" role="tablist" aria-label="Weapons or armor">${[["w","⚔ Weapons"],["a","🛡 Armor sets"]].map(([k,t])=>`<a role="tab" href="${go(a,r,k)}"${k===w?' aria-selected="true"':""}>${t}</a>`).join("")}</div>
  <div class="gseg roles" role="tablist" aria-label="Playstyle">${roles.map(k=>`<a role="tab" href="${go(a,k,w)}" style="--rc:${ROLE_C[k]||"#8a8f99"}"${k===r?' aria-selected="true"':""}>${GROLE[k]}</a>`).join("")}</div>
@@ -214,7 +214,7 @@ function gVerdict(g){const r=gMain(g),w=g.ps?"a":"w",acts=ORDER.filter(x=>x!=-1&
 const gStatTable=(g,rows)=>rows.length?`<table class="gst">${rows.map(([ic,n,v,s])=>`<tr><td>${ic?`<i class="ai" style="--ai:var(--v-${ic})"></i>`:""}${n}</td><td class="num">${v}</td><td><span class="tg ${s}">${s==="code"?"Read from the mod":"Pack"}</span></td></tr>`).join("")}${g.sc.ME!=null&&g.dmg!=null?`<tr class="dps"><td>Damage per second</td><td class="num">${gRound(g.sc.ME)}</td><td><span class="tg auto">Wiki estimate</span></td></tr>`:""}</table>`:`<p class="note">Base ${g.k==="armor"?"armor":"damage"} is computed in this mod's code at run time; the wiki could not read it, so this item is ranked by its gate.</p>`;
 /* the best tier of a playstyle at an Act, for the navbox */
 const gTop=(a,r,w,not)=>{const t=gTiers(a,r,w)[0];return t?t[1].filter(x=>x!==not).slice(0,10).map(x=>[gHref(x),esc(x.n)]):[]};
-const gArtBox=(g,set)=>`<div class="ip-art"><div class="ip-stage" style="${tex(g.a)}"><div class="ip-icon">${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?`<img class="garm" alt="${esc(set.n)} worn" src="${ARMR[set.k]}">`:`<span class="gbig">${img(g.ps?gIcon(g).id:g.id)}</span>`}</div></div></div>`;
+const gArtBox=(g,set)=>`<div class="ip-art"><div class="ip-stage" style="${tex(g.a)}"><div class="ip-icon${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?"":" framed"}">${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?`<img class="garm" alt="${esc(set.n)} worn" src="${ARMR[set.k]}">`:`<span class="gbig">${img(g.ps?gIcon(g).id:g.id)}</span>`}</div></div></div>`;
 function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix,[]);
  const r=gMain(g),rows=gStats(g),bon=gBonus(g),set=g.k==="armor"?GS.find(s=>s.p.includes(g.id)):null,w=set?"a":"w",mod=MODN(g.ns);
  el("main").innerHTML=article({cls:"r0 gearart",style:`--tc:${ACT[g.a][2]};${tex(g.a)}`,crumb:crumb('<a href="#gear">Equipment</a>',esc(g.n)),title:esc(g.n),

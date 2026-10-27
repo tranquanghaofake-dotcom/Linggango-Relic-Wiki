@@ -99,8 +99,8 @@ function buildPage(h){
 <p class="note">Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks${Object.values(lf).some(v=>v<1)?", and ladder-reduced curios count at their reduced share":""}. Conditional effects and ×multipliers are not summed: see the Effects tab.</p>`]];
  bKeys().filter(k=>RL[rlId(k)]).forEach(k=>{const id=rlId(k),c=k.split("#")[1]||(bWorn(id)>1?1:0);pages.push(["rl:"+k,"Relic levels",BYID[id].n+(c?" #"+c:""),rlPanel(k,true)+`<p class="note">Slots a relic adds count its lowest roll.</p>`,id])});
  if(eq.length)pages.push(["fx","Build","Effects",`<ul>${uq.map(id=>{const d=BYID[id],n=bWorn(id);const k=Object.keys(BS.s).find(k=>BS.s[k].includes(id)),nx=(evo().to[id]||[]).filter(t=>bFits(BYID[t],k));return `<li><a href="#i${d.ix}" data-t="${d.ix}">${esc(d.n)}</a>${n>1?` ×${n}${SK.i[id]?" "+skTag(id):""}`:""}: ${esc(d.fx)}${lf[id]<1?` <span class="sk sk-${lf[id]?"l":"n"}" title="Outranked by a better ${esc(SK.i[id].l[0])} curio in this build">${esc(SK.i[id].l[0])} ladder: ${lf[id]?pct(lf[id])+" strength":"switched off"}</span>`:""}${nx.map(t=>` <button class="chip" data-evo="${esc(k)}|${esc(id)}|${esc(t)}">Evolve → ${esc(BYID[t].n)}</button>`).join("")}</li>`}).join("")}</ul>`]);
- el("main").innerHTML=`${crumb("Build planner")}<h1>Build planner</h1>
-<p class="lede">Pick the furthest Act you've reached, then fill your curio slots. Slot counts are the base pack's player slots; curios that add slots raise them, and the Curio slot takes any accessory. Hover any curio for its tooltip; click it to see its recipe tree, and use × to take it off.</p>
+ el("main").innerHTML=`${crumb("Build planner")}${room("armory",uq.map(id=>rCurio(BYID[id])),{head:`<h1>Build planner</h1>
+<p class="lede">Pick the furthest Act you've reached, then fill your curio slots. Slot counts are the base pack's player slots; curios that add slots raise them, and the Curio slot takes any accessory. Hover any curio for its tooltip; click it to see its recipe tree, and use × to take it off.</p>`,min:8,cols:8,label:"Your build"})}
 <div class="bbar"><label>Progress <select id="bp">${ORDER.map(a=>`<option value="${a}"${a===BS.p?" selected":""}>${esc(actL(a))}${a?" · "+esc(ACT[a][1]):""}</option>`).join("")}</select></label>
 <span class="bpre">Starter build: ${Object.entries(ROLE).map(([k,v])=>`<button class="chip" data-preset="${k}">${v}</button>`).join("")}</span>
 <span class="bact"><button class="chip" id="bcopy">Copy link</button><button class="chip" id="bclr">Clear</button></span></div>
@@ -156,7 +156,7 @@ ${u.recipe?`<h3>Crafting the ${esc(u.name)}</h3><div class="sumcraft">${sumGrid(
 function bossList(){
  document.title="Bosses · Linggango Wiki";
  const ks=ORDER.map(a=>PB[a]).filter(Boolean);ks.splice(ks.indexOf("zoranth_forgotten")+1,0,"warden","wither");
- el("main").innerHTML=`${crumb("Bosses")}<h1>Bosses</h1><p class="lede">Every Keeper in fight order, with the Warden, the Wither and the Ender Dragon where your gear can take them. Each card shows what summons it; open one for the full summon guide and recipe.</p>
+ el("main").innerHTML=`${crumb("Bosses")}${room("crypt",ks.map(k=>{const v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item;return it?{h:"#boss/"+k,i:img(it),n:`${bossName(k)}: summoned with ${v?v.name:u.name}`,l:esc(ACT[bossPath(k)][0])}:null}).filter(Boolean),{head:`<h1>Bosses</h1><p class="lede">Every Keeper in fight order, with the Warden, the Wither and the Ender Dragon where your gear can take them. Each card shows what summons it; open one for the full summon guide and recipe.</p>`,cols:7,label:"Summon items in fight order"})}
 <div class="blist">${ks.map(k=>{const a=bossPath(k),v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item,itn=v?v.name:u&&u.name;return `<a class="bcardl" href="#boss/${k}" style="--tc:${ACT[a][2]}">${emblem(a,"sm")}<span><b>${esc(bossName(k))}</b><small>${SIDEV[k]!=null?`Side boss · ${esc(actL(a))}`:`Opens ${esc(actL(a))}`}</small>${it?`<small class="bsum">${img(it)} ${esc(itn)}</small>`:""}</span></a>`}).join("")}</div>${wikiNav()}`}
 const ATG={melee:"⚔",proj:"➶",aoe:"◎",summon:"☠",move:"➜",buff:"✦"};
 const atype=d=>/summon|spawns? (a|an|\d|two|three|four|five|six|minions?)|calls? /i.test(d)?"summon":/throws|shoots|fires|projectile|bolt|orb|beam|laser|arrow/i.test(d)?"proj":/ground|area|around it|within \d+ blocks|ring|circle|shockwave|explo/i.test(d)?"aoe":/teleport|dash|charge|leap|jumps|flies/i.test(d)?"move":/heals?|regenerat|gains? resistance|buffs? itself/i.test(d)?"buff":"melee";
@@ -224,7 +224,8 @@ function mechPage(){
  const rows=G.rituals.map(r=>`<tr data-ty="${esc(r.type||"")}" data-k="${esc(kindL[r.kind]||r.kind)}" data-q="${esc((r.out+" "+r.act+" "+r.ings.join(" ")).toLowerCase())}"><td>${r.out_id&&IC[r.out_id]?islot(r.out_id)+" ":""}<b>${r.out_id&&BYID[r.out_id]?ilink(r.out_id,r.out):esc(r.out)}</b>${r.xp?` <small>· ${r.xp} XP levels</small>`:""}</td><td>${esc(tName(r.type))}</td><td>${r.act_id&&IC[r.act_id]?`<img class="nic" alt="" src="${icu(r.act_id)}">`:""}${esc(r.act)}</td><td class="nchs">${r.ings.map(x=>nchip(x)).join("")}</td><td class="num">${r.soul??"—"}</td><td>${[r.research?`Research: ${esc(G.research[r.research]||r.research)}`:"",r.sacrifice?`Sacrifice: ${esc(r.sacrifice)}`:"",r.gate?`Locked until ${act(r.gate)}`:""].filter(Boolean).join("<br>")||"—"}</td></tr>`).join("");
  const cells=A.cells.map(c=>`<tr><td><b>${c.t}</b></td><td class="num">${c.bytes.toLocaleString()}</td><td class="num">${c.bpt}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-63*c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_fluid_mb/1000).toLocaleString()} B</td><td class="num">${c.drain}</td></tr>`).join("");
  const gates=Object.entries(A.gates).sort((a,b)=>a[0]-b[0]).map(([a,xs])=>`<tr><td><b>${act(+a)}</b><br><small>after ${esc(GK[a]||"")}</small></td><td class="nchs">${xs.map(x=>nchip(x)).join("")}</td></tr>`).join("");
- el("main").innerHTML=`${crumb("Mechanics")}<h1>Mechanics</h1>
+ const made=[...new Map(G.rituals.filter(r=>r.out_id&&BYID[r.out_id]).map(r=>[r.out_id,BYID[r.out_id]])).values()].slice(0,8);
+ el("main").innerHTML=`${crumb("Mechanics")}${room("ritual",made.map(d=>rCurio(d)),{head:`<h1>Mechanics</h1><p class="lede">How the pack's bigger systems work: Goety's dark rituals and AE2 storage, with Linggango's own changes.</p>`,cols:4,label:"Curios made by rituals"})}
 
 <nav class="mtabs"><a href="#mechanics" data-go="m-goety">Goety rituals</a><a href="#mechanics" data-go="m-ae2">AE2 storage</a></nav>
 <section class="s" id="m-goety"><h2>Goety: Dark Rituals</h2>
@@ -467,7 +468,7 @@ const CT='<i class="ct" title="Ingredient: used to craft another curio" aria-lab
 if(UI.ctable)document.documentElement.style.setProperty("--ctimg",`url(${URL.createObjectURL(new Blob([Uint8Array.from(atob(UI.ctable),c=>c.charCodeAt(0))],{type:"image/png"}))})`);
 
 /* ---------- art: attribute icons, boss emblems, 3D heads ---------- */
-{const st=document.createElement("style");st.textContent=":root{"+Object.keys(VA).map(k=>`--v-${k}:url(data:image/png;base64,${VA[k]})`).join(";")+"}";document.head.appendChild(st)}
+{const st=document.createElement("style");st.textContent=":root{"+Object.keys(VA).map(k=>`--v-${k}:url(data:image/png;base64,${VA[k]})`).join(";")+(typeof ROOMT!=="undefined"?";"+Object.keys(ROOMT).map(k=>`--rt-${k}:url(data:image/png;base64,${ROOMT[k]})`).join(";"):"")+"}";document.head.appendChild(st)}
 const AIR=[[/armor toughness|\btoughness\b/i,"fx_resistance"],[/🦺|\barmou?r\b/i,"gui_armor"],[/💥|\bcrit(?:ical)?(?: hit)? (?:chance|rate)\b/i,"p_critical_hit"],[/🧨|\bcrit(?:ical)? damage\b|\bcrits?\b/i,"p_enchanted_hit"],
  [/attack speed/i,"fx_haste"],[/\b(?:attack|melee|bonus|extra|magic|ranged|arrow|spell) damage\b|\bdamage dealt\b|\bstrength\b/i,"fx_strength"],[/❤|\bmax(?:imum)? health\b|\bhealth\b|\bhearts?\b/i,"gui_heart"],
  [/\bdamage taken\b|\bdamage reduction\b|\bresistance\b|\bknockback\b/i,"fx_resistance"],[/\b(?:movement|move|walk) speed\b|\bspeed\b/i,"fx_speed"],[/[+−-]\d[\d.]*%? luck\b|\bluck (?:stat|bonus|attribute)\b|\bfortune\b|\blooting\b/i,"fx_luck"],
@@ -616,6 +617,18 @@ const idBox=id=>`<div class="ip-id"><code id="ipid">${esc(id)}</code><button typ
 /* navbox: the block of related links at the foot of a page. groups = [[label, [[href, text, current?], …]], …]; empty groups drop out */
 function navbox(title,groups){groups=(groups||[]).filter(g=>g&&g[1]&&g[1].length);if(!groups.length)return "";
  return `<details class="navbox" open><summary>${title}</summary><dl>${groups.map(([l,xs])=>`<dt>${l}</dt><dd>${xs.map(([h,t,on])=>on?`<b aria-current="page">${t}</b>`:`<a href="${h}">${t}</a>`).join('<i aria-hidden="true"> · </i>')}</dd>`).join("")}</dl></details>`}
+/* ---------- rooms: the wiki's own interior ----------
+   Grown from the forge and armory pictures once drawn for Equipment and the planner: instead of a picture beside the title,
+   the page header is the room. A wall of vanilla blocks, a floor, lanterns, furniture, and item frames that hold real items
+   of the page (links with their tooltips), so the picture is also the page's first menu. Which blocks and lights a room uses
+   lives in style.game.css ([data-room=forge] …); textures come from scenes.js (ROOMT, build/pack_audit/scenes.py).
+     items  [{h: href, i: icon html, t: data-t for the tooltip, n: name, l: small label, g: glow frame}]
+     o      {head: html on the wall (title, lead), min: frames to show even when empty, cols: frames per row, label} */
+function room(kind,items,o={}){const n=Math.max(items.length,o.min||0),xs=[...items,...Array(n-items.length).fill(null)];
+ return `<div class="room${o.head?" rhd":""}" data-room="${kind}" style="--cols:${o.cols||8}">${o.head?`<div class="rhead">${o.head}</div>`:""}<span class="rprops" aria-hidden="true"><i></i><i></i><i></i></span>
+<nav class="rfrs" aria-label="${esc(o.label||"Items")}">${xs.map(x=>x?`<a class="rfr${x.g?" glow":""}" href="${x.h}"${x.t!=null?` data-t="${x.t}"`:` title="${esc(x.n)}"`} aria-label="${esc(x.n)}">${x.i}${x.l?`<small${x.l.length>3?' class="lg"':""}>${x.l}</small>`:""}</a>`:`<span class="rfr empty" aria-hidden="true"></span>`).join("")}</nav>
+<i class="rlamp a" aria-hidden="true"></i><i class="rlamp b" aria-hidden="true"></i></div>`}
+const rCurio=(d,l,g)=>({h:"#i"+d.ix,i:img(d.id),t:d.ix,n:d.n,l,g});
 const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.indexOf("zoranth_forgotten");if(i>=0)ks.splice(i+1,0,"warden","wither");return ks};
 /* the wiki-wide groups every detail page ends with; extra = this page's own groups, put first */
 function wikiNav(cur,extra){cur=cur||{};const a=cur.act!=null&&ACT[cur.act]&&ORDER.includes(cur.act)?cur.act:null;
@@ -686,10 +699,10 @@ function hubHome(){
  <p class="tcorner l">Linggango ${PACKV}<br>Linggango Wiki</p><p class="tcorner r">${TOTAL} curios · ${MODS.length} mods<br>${D.filter(d=>d.gk).length} Keeper-gated</p></section>
  ${pathMap(path)}
 ${typeof GE!=="undefined"?`<section class="gui"><h2 class="gt">Equipment</h2><p class="gs">${GE.filter(g=>g.k!=="armor").length} weapons and ${GS.length} armor sets from the pack, ranked for each playstyle at every Act. Best melee weapon as you progress:</p>
- <div class="hotbar gearbar">${(()=>{const runs=[];ORDER.filter(a=>a!=-1).forEach(a=>{const t=gTiers(a,"ME","w"),g=t.length&&t[0][1][0];if(!g)return;const l=runs[runs.length-1];if(l&&l.g===g)l.b=a;else runs.push({g,a,b:a})});
- return runs.map(({g,a,b})=>`<a class="slot big" href="#gear/${a}/ME/w" data-t="g${g.ix}" aria-label="${esc(actL(a))}${b!==a?" to "+esc(actL(b)):""}: ${esc(g.n)}">${gImg(g)}<span class="sl-n">${esc(ACT[a][0])}${b!==a?"+":""}</span></a>`).join("")})()}</div></section>`:""}
+ ${(()=>{const runs=[];ORDER.filter(a=>a!=-1).forEach(a=>{const t=gTiers(a,"ME","w"),g=t.length&&t[0][1][0];if(!g)return;const l=runs[runs.length-1];if(l&&l.g===g)l.b=a;else runs.push({g,a,b:a})});
+ return room("forge",runs.map(({g,a,b})=>({h:`#gear/${a}/ME/w`,i:gImg(g),t:"g"+g.ix,n:`${actL(a)}${b!==a?" to "+actL(b):""}: ${g.n}`,l:esc(ACT[a][0])+(b!==a?"+":"")})),{cols:12,label:"Best melee weapon by Act"})})()}</section>`:""}
  <section class="gui"><h2 class="gt">★ Must-Have</h2><p class="gs">Looting Charms and every curio that adds curio slots. Get each one the moment its Act opens.</p>
- <div class="hotbar">${D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).map(d=>`<a class="slot big" href="#i${d.ix}" data-t="${d.ix}" aria-label="${esc(d.n)}">${img(d.id)}<span class="sl-n">${ACT[d.t][0]}</span></a>`).join("")}</div></section>
+ ${room("vault",D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).map(d=>rCurio(d,esc(ACT[d.t][0]),1)),{cols:16,label:"Must-Have curios"})}</section>
  <section class="gui"><h2 class="gt">Curio slots</h2><p class="gs">The pack's Curios menu, slot by slot.</p>
  <div class="slotlist">${BIGSLOTS.map(([s,xs])=>`<a href="#slot/${enc(s)}"><span class="slot sm">${(()=>{const u=slotIcon(s);return u?`<img alt="" src="${u}">`:byRank(xs).filter(d=>IC[d.id]).slice(0,1).map(d=>img(d.id)).join("")})()}</span><b>${esc(s)}</b><em>${xs.length}</em>${rbar(xs)}</a>`).join("")}</div></section>
  <section class="gui"><h2 class="gt">Mythic</h2><p class="gs">The rarest curios in the pack.</p>
@@ -750,8 +763,8 @@ let pathXs=[];
 const tierOpen=a=>fOn()?!st.cl.includes(a):(st.op||[pHere()??ORDER[0]]).includes(a);
 const tierTiles=ys=>ys.length?ys.map((d,i)=>tile(d,i)).join(""):'<span class="empty">No items match the filters.</span>';
 function home(xs,asTable){pathXs=xs;
- let h=`${crumb("The Path")}<h1 class="qb">The Path</h1>
- <p class="lede">Every curio, grouped by the Act you can get it in.</p>
+ let h=`${crumb("The Path")}${room("library",D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).map(d=>rCurio(d,esc(ACT[d.t][0]),1)),{head:`<h1 class="qb">The Path</h1>
+ <p class="lede">Every curio, grouped by the Act you can get it in. On the wall: the Must-Have curios, in the order their Acts open.</p>`,cols:8,label:"Must-Have curios"})}
   <div class="legend lgl"><span title="Frame colour: rarity, brighter = rarer"><i class="lgr"></i>Rarity</span><span title="Curio slot it goes in"><i class="slk lg" style="--si:url(${slotIcon("Ring")})"></i>Slot</span><span title="Variants merged into one tile"><b class="lgn">16</b>Variants</span><span title="Must-Have: get it first"><b class="lgs">★</b>Must-Have</span><span title="Needs the Seven Curses or Virtues ring">${rqb({rq:"Curses"}," lg")}Curses ring</span></div>
  ${fbar(xs.length,D.length)}${xs.length?"":`<p class="note">No curios match these filters. Remove one above or clear them all.</p>`}`;
  seedBg("path"+st.a,xs.filter(d=>d.r>=4));
@@ -814,7 +827,7 @@ function page(d){
  // slot neighbours
  const s0=d.sl[0],sx=s0?byRank(D.filter(x=>x.sl.includes(s0))):[],si=sx.indexOf(d),pv=sx[si-1],nx=sx[si+1];
  const near=sx.filter(x=>x!==d).slice(Math.max(0,si-4),Math.max(0,si-4)+8);
- const art=`<div class="ip-art"><span class="ip-badge">${RN[d.r]}</span><div class="ip-stage" style="${tex(d.t)}"><span class="orb" aria-hidden="true">${[0,1,2,3,4,5].map(i=>`<i style="--k:${i};--sp:var(--v-${MFSP[F[0]]||"p_glint"})"></i>`).join("")}</span><div class="ip-icon">${ic}</div></div><span class="ip-mini">${ic}</span><span class="ip-path" title="${esc(actL(d.t))}">${emblem(d.t,"xs")}</span></div>`;
+ const art=`<div class="ip-art"><span class="ip-badge">${RN[d.r]}</span><div class="ip-stage" style="${tex(d.t)}"><span class="orb" aria-hidden="true">${[0,1,2,3,4,5].map(i=>`<i style="--k:${i};--sp:var(--v-${MFSP[F[0]]||"p_glint"})"></i>`).join("")}</span><div class="ip-icon framed">${ic}</div></div><span class="ip-mini">${ic}</span><span class="ip-path" title="${esc(actL(d.t))}">${emblem(d.t,"xs")}</span></div>`;
  const sib=s0?`<section class="sib"><h2>More ${esc(s0)} curios <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">see all ${sx.length} →</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>← Previous in ${esc(s0)}</small>${esc(pv.n)}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>Next in ${esc(s0)} →</small>${esc(nx.n)}</a>`:""}</nav></section>`:"";
  el("main").innerHTML=article({cls:"r"+d.r,data:` data-mf="${F[0]}"`,
   crumb:`<div class="crumb ip-crumb"><a href="#">Home</a> / <a href="#home">The Path</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>`,
@@ -921,20 +934,7 @@ const tierIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.
 const tileIO=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle("vis",e.isIntersecting)),{rootMargin:"120px"});
 const watchTiles=r=>r.querySelectorAll&&r.querySelectorAll("a.t:not([data-vo])").forEach(t=>{t.dataset.vo=1;tileIO.observe(t)});
 new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches("a.t:not([data-vo])")){n.dataset.vo=1;tileIO.observe(n)}else watchTiles(n)}))).observe(document.documentElement,{childList:true,subtree:true});
-/* section scenes: one picture at the top of Bosses, Mechanics, Equipment and the Build planner, each with its source */
-const SCENE={
- "#bosses":()=>typeof PIMG!=="undefined"&&PIMG.side["Netherite Monstrosity"]&&[PIMG.side["Netherite Monstrosity"],"Netherite Monstrosity's arena","Screenshot: Linggango pack (Misanthropy)"],
- "#mechanics":()=>typeof GOETY!=="undefined"&&GOETY.types.sabbath&&GOETY.types.sabbath.img&&["data:image/webp;base64,"+GOETY.types.sabbath.img,"A Sabbath ritual altar","Picture: Goety's Black Book (Polarice3)"],
- "#gear":()=>typeof SCENES!=="undefined"&&["data:image/png;base64,"+SCENES.gear,"A forge with weapons on the wall","Drawn for this wiki from Minecraft textures"],
- "#build":()=>typeof SCENES!=="undefined"&&["data:image/png;base64,"+SCENES.build,"An armory with curios on display","Drawn for this wiki from Minecraft textures"]};
-function sceneDecorate(){const k=Object.keys(SCENE).find(k=>{const h=decodeURIComponent(location.hash);return h===k||h.startsWith(k+"/")});if(!k)return;
- const m=el("main");if(m.querySelector(".scene"))return;const v=SCENE[k]();if(!v)return;
- const fig=`<figure class="scene${k==="#gear"||k==="#build"?" px":""}"><img alt="${esc(v[1])}" src="${v[0]}"><figcaption>${esc(v[2])}</figcaption></figure>`;
- const gh=m.querySelector(".ghead");if(gh){gh.insertAdjacentHTML("beforeend",fig);return}
- const h1=m.querySelector(":scope>h1");if(!h1)return;const ld=h1.nextElementSibling&&h1.nextElementSibling.matches(".lede")?h1.nextElementSibling:null;
- const wrap=document.createElement("div");wrap.className="phead";h1.before(wrap);const tx=document.createElement("div");wrap.append(tx);tx.append(h1);if(ld)tx.append(ld);wrap.insertAdjacentHTML("beforeend",fig)}
 function decorate(r=document){
- if(r===document)sceneDecorate();
  watchTiles(r);
  r.querySelectorAll(".tier:not(.seen):not([data-io])").forEach(t=>{t.dataset.io=1;tierIO.observe(t)});
  const hero=r.querySelector(".hero:not([data-done])");

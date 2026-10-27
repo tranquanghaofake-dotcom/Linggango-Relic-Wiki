@@ -45,6 +45,12 @@ wireArticle();
 - Ready-made `<section class="s"><h2>…</h2>…</section>` html (such as `summonHtml`) converts with `secsOf(html)`.
 - List and tool pages (The Path, Equipment tier list, Bosses, Build planner, Mechanics) keep their own layouts.
 
+## Rooms (the wiki's own interior)
+The headers of The Path, Equipment, the Build planner, Bosses and Mechanics, and the Equipment and Must-Have blocks of the home page, are rooms: `room(kind, items, {head, min, cols, label})` in `src/app.js`. A room is a wall of vanilla blocks with a floor, two lanterns, three pieces of furniture and a row of item frames; each frame holds a real item of that page (a link with its tooltip), so the picture is also the page's first menu (the planner's frames are your build, Equipment's are the best gear at the chosen Act).
+- Which blocks, furniture and light a room uses is CSS only: `.room[data-room=forge]{--rw:…;--rf:…;--p1:…;--lamp:…;--glow:…}` in `style.game.css`. A new room is one such line plus a `room("name", …)` call.
+- Textures are `ROOMT` in `src/scenes.js`, made by `python3 build/pack_audit/scenes.py <assets/minecraft/textures>` from InventivetalentDev/minecraft-assets@1.20.1; add a block name to its list to use another texture (`--rt-<name>` in CSS).
+- Detail pages carry the same idea in the infobox: the item hangs in an item frame on its Act's wall (`.ip-icon.framed`).
+
 ## How gear is ranked (src/gear.js)
 Four playstyles: Melee, Ranged, Mage, Summon (Tank was retired in v22.11; defense is part of every score). Rules read from the pack's jars:
 Better Combat `allow_fast_attacks` (default on) clears hurt cooldowns, so melee DPS = hit × speed with no cap; Apothic Attributes armor is
