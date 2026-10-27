@@ -1180,3 +1180,120 @@ footer::before{content:"";position:absolute;left:0;right:0;top:-12px;height:12px
 .room .rfr small.lg{font-size:10px}
 .room[data-room=crypt],.room[data-room=ritual]{--dim:.18;--pb:1.25}
 .room[data-room=storage]{--dim:.3;--pb:1}
+
+/* ================= GUI skin from the pack's own textures (Linggango Textures, FTB Quests Theme) and vanilla 1.20.1 =================
+   Buttons are the game's own button (gui/widgets.png, 9-slice); search fields sit in the pack's slate-metal frame; the relic
+   slider is the pack's track, cyan bar and gem knob; Legendary and above wear the pack's silver and gold ornate frames.
+   All images are pixel art: integer scales only, image-rendering: pixelated. */
+.mcb,.more,#totop,.mbtn,.pnx a,.bnav a,.mtabs a,#ipcopy,.gseg a,.gacts a{
+ background:none!important;box-shadow:none!important;border-style:solid!important;border-color:transparent!important;border-width:4px 4px 6px!important;border-radius:0!important;
+ border-image:var(--rt-btn) 2 2 3 2 fill / 4px 4px 6px stretch!important;image-rendering:pixelated;color:#fff;text-shadow:2px 2px 0 #3f3f3f}
+.mcb:hover,.more:hover,#totop:hover,.mbtn:hover,.pnx a:hover,.bnav a:hover,.mtabs a:hover,#ipcopy:hover,.gseg a:hover,.gacts a:hover,
+.mcb:focus-visible,.pnx a:focus-visible,.gseg a:focus-visible,.gacts a:focus-visible{border-image-source:var(--rt-btn_hover)!important;color:#ffffa0}
+/* the chosen one keeps the pack's green, on the same button shape */
+.mcb[aria-current],.gseg a[aria-selected="true"],.gacts a[aria-current="page"],.mcb[aria-pressed="true"]{border-image:var(--rt-btn_hover) 2 2 3 2 / 4px 4px 6px stretch!important;
+ background:#3c7d1e padding-box!important;color:#fff;text-shadow:2px 2px 0 #1d4310}
+.pnx a{padding:8px 12px}
+/* search fields: the slate-metal frame with rivets (Linggango Textures), black inside */
+input[type=search],#q,#hq{border:10px solid transparent!important;border-image:var(--rt-lg_panel) 5 / 10px stretch!important;image-rendering:pixelated;
+ background:#08080b padding-box!important;padding:4px 8px!important;border-radius:0!important;outline:0}
+input[type=search]:focus,#q:focus,#hq:focus{filter:brightness(1.25)}
+#q{height:auto;min-height:44px}
+/* relic level slider: track, cyan fill, gem knob */
+input[type=range]{-webkit-appearance:none;appearance:none;height:28px;background:transparent;cursor:pointer;image-rendering:pixelated}
+input[type=range]::-webkit-slider-runnable-track{height:18px;border:6px solid transparent;border-image:var(--rt-lg_track) 3 / 6px stretch;
+ background:var(--rt-lg_fill) 0 50%/calc(var(--rv,0) * 1%) 100% no-repeat padding-box,#061219 padding-box}
+input[type=range]::-moz-range-track{height:18px;border:6px solid transparent;border-image:var(--rt-lg_track) 3 / 6px stretch;background:#061219 padding-box}
+input[type=range]::-moz-range-progress{height:10px;background:var(--rt-lg_fill) 0 0/100% 100%}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:26px;margin-top:-10px;border:0;background:var(--rt-lg_knob) center/28px 26px no-repeat;image-rendering:pixelated}
+input[type=range]::-moz-range-thumb{width:28px;height:26px;border:0;border-radius:0;background:var(--rt-lg_knob) center/28px 26px no-repeat}
+/* ornate frames for Legendary (silver) and Mythic / Must-Have (gold), at whole-number scales */
+.ip:is(.r4,.r5,.r6) .ip-art{background:var(--gui)!important;box-shadow:0 0 0 2px #000,var(--bevel),0 6px 0 2px rgba(0,0,0,.35)!important}
+.ip:is(.r4,.r5,.r6) .ip-art::after{content:""!important;left:50%;top:50%;width:280px;height:290px;padding:0;transform:translate(-50%,-50%);clip-path:none;
+ background:var(--rt-lg_frame_silver) 0 0/100% 100% no-repeat;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.45));image-rendering:pixelated;pointer-events:none}
+.ip:is(.r5,.r6) .ip-art::after{width:240px;height:280px;background-image:var(--rt-lg_frame_gold)}
+.ip:is(.r3,.r4,.r5,.r6) .ip-art::before{display:none}
+.ip:is(.r4,.r5,.r6) .ip-icon.framed::before{display:none}
+.ip:is(.r4,.r5,.r6) .ip-stage{inset:42px}
+.tier .t.r4{background:var(--rt-lg_frame_silver) center/56px 58px no-repeat,radial-gradient(circle at 50% 45%,color-mix(in srgb,var(--rc) 30%,#3a3848) 0,#262431 58%,#1d1b25 100%)!important;image-rendering:pixelated}
+.tier .t:is(.r5,.r6){background:var(--rt-lg_frame_gold) center/48px 56px no-repeat,radial-gradient(circle at 50% 45%,color-mix(in srgb,var(--rc) 30%,#3a3848) 0,#262431 58%,#1d1b25 100%)!important;image-rendering:pixelated}
+.tier .t:is(.r4,.r5,.r6)>img,.tier .t:is(.r4,.r5,.r6) .aimg{width:32px!important;height:32px!important;position:relative;z-index:1}
+/* small sprites used in text: the pack's lock, its quest-book icons, vanilla books */
+.lk,.ki{display:inline-block;width:1em;height:1em;vertical-align:-.15em;margin-right:.35em;background:var(--ki,var(--rt-lg_lock)) center/contain no-repeat;image-rendering:pixelated}
+.lk{width:.72em;height:1em}
+/* The Path map: Acts you have beaten carry the pack's check mark */
+.pn.done::before{content:""!important;width:18px!important;height:16px!important;background:var(--rt-lg_check) center/18px 16px no-repeat!important;box-shadow:none!important;border:0!important;image-rendering:pixelated}
+.ip:is(.r4,.r5,.r6) .ip-badge{z-index:4;top:auto;bottom:6px;left:50%;transform:translateX(-50%)}
+
+/* ---------- rooms, richer: lights of their own on chains or walls, a painting beside the frames, a drift of particles ----------
+   per room: --lamp/--lamp2 (sprites), --chain/--chain2 (hang from a chain or not), --ly (how low the light hangs, in blocks),
+   --glow (light colour), --paint/--pw/--ph (a vanilla painting, size in blocks), --pt/--pt2 (vanilla particles), --pa (motion) */
+.room{--lamp2:var(--lamp);--chain:var(--rt-chain);--chain2:var(--chain);--ly:.3;--paint:none;--pw:0;--ph:0;--pt:none;--pt2:var(--pt);--pa:rptRise;--pd:7s}
+.room .rwall{grid-column:2;grid-row:1/3;align-self:end;display:flex;align-items:flex-end;gap:calc(var(--b) * .5);margin-bottom:12px;min-width:0}
+.room .rwall .rfrs{grid-column:auto;grid-row:auto;margin:0}
+.room:not(.rhd) .rwall{justify-content:center;margin-right:calc(var(--b) * 3)}
+.room:not(.rhd) .rwall .rfrs{margin-right:0}
+.room .rdeco{flex:none;width:calc(var(--b) * var(--pw));height:calc(var(--b) * var(--ph));background:var(--paint) 0 0/100% 100% no-repeat;image-rendering:pixelated;
+ filter:brightness(.92) drop-shadow(3px 3px 0 rgba(0,0,0,.5))}
+.room .rlamp{top:calc(var(--b) * var(--ly))}
+.room .rlamp.b{background-image:var(--lamp2)}
+.room .rlamp::before{content:"";position:absolute;left:50%;bottom:100%;width:calc(var(--b) * .1875);height:calc(var(--b) * var(--ly) + 2px);transform:translateX(-50%);
+ background:var(--chain) 50% 0/var(--b) var(--b) repeat-y;image-rendering:pixelated}
+.room .rlamp.b::before{background-image:var(--chain2)}
+/* particles: rise (or twinkle) from the floor, transform and opacity only */
+.room .rpts{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.room .rpts i{position:absolute;bottom:var(--b);left:calc(3% + var(--k) * 9.5%);width:calc(var(--b) * .25);height:calc(var(--b) * .25);opacity:0;
+ background:var(--pt) center/100% 100% no-repeat;image-rendering:pixelated;animation:var(--pa) var(--pd) linear infinite;animation-delay:calc(var(--k) * -.77s)}
+.room .rpts i:nth-child(even){background-image:var(--pt2);animation-duration:calc(var(--pd) * 1.35)}
+@keyframes rptRise{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:.85}100%{opacity:0;transform:translate(calc((var(--k) - 4.5) * 4px),calc(var(--b) * -3.2)) scale(1)}}
+@keyframes rptTwinkle{0%,100%{opacity:0;transform:scale(.3)}50%{opacity:.95;transform:scale(1)}}
+.room .rpts i:nth-child(3n){bottom:calc(var(--b) * 1.6)}.room .rpts i:nth-child(3n+1){bottom:calc(var(--b) * 2.4)}
+.room:not([data-room=vault]):not([data-room=storage]) .rpts i:nth-child(3n),.room:not([data-room=vault]):not([data-room=storage]) .rpts i:nth-child(3n+1){bottom:var(--b)}
+/* the rooms' lights, decor and air */
+.room[data-room=forge]{--lamp:var(--rt-torch);--chain:none;--ly:.8;--glow:255,150,60;--paint:var(--rt-painting_fighters);--pw:2;--ph:1;--pt:var(--v-p_spark_0);--pt2:var(--v-p_flame);--pd:5s}
+.room[data-room=armory]{--lamp:var(--rt-lantern);--lamp2:var(--rt-candle);--chain2:none;--paint:var(--rt-painting_wanderer);--pw:1;--ph:2;--pt:var(--rt-pt_glow);--pd:9s}
+.room[data-room=armory] .rlamp.b{top:calc(var(--b) * .9)}
+.room[data-room=crypt]{--lamp:var(--rt-soul_torch);--chain:none;--ly:.8;--paint:var(--rt-painting_skull_and_roses);--pw:2;--ph:2;--pt:var(--v-p_soul_0);--pt2:var(--v-p_soul_5);--pd:8s}
+.room[data-room=ritual]{--lamp2:var(--rt-purple_candle);--chain2:none;--glow:150,110,255;--paint:var(--rt-painting_burning_skull);--pw:2;--ph:2;--pt:var(--v-p_sga_a);--pt2:var(--rt-pt_sga_m);--pd:9s}
+.room[data-room=ritual] .rlamp.b{top:calc(var(--b) * .9)}
+.room[data-room=library]{--lamp2:var(--rt-candle);--chain2:none;--paint:var(--rt-painting_graham);--pw:1;--ph:2;--pt:var(--v-p_sga_e);--pt2:var(--rt-pt_sga_t);--pd:10s}
+.room[data-room=library] .rlamp.b{top:calc(var(--b) * .9)}
+.room[data-room=vault]{--lamp:var(--rt-amethyst_cluster);--chain:none;--ly:.6;--glow:190,130,255;--pa:rptTwinkle;--pt:var(--v-p_glitter_0);--pt2:var(--rt-pt_glitter_4);--pd:3.4s}
+.room[data-room=storage]{--lamp:var(--rt-sea_lantern);--chain:var(--rt-chain);--glow:140,220,255;--pa:rptTwinkle;--pt:var(--rt-pt_glow);--pt2:var(--v-p_glint);--pd:4s}
+.room[data-room=storage] .rlamp{background-size:100% 500%;animation:seaLantern 2.5s steps(5) infinite}
+@keyframes seaLantern{from{background-position:0 0}to{background-position:0 125%}}
+@media (max-width:760px){.room .rdeco{display:none}.room .rpts i:nth-child(n+7){display:none}}
+@media (prefers-reduced-motion:reduce){.room .rpts{display:none}.room[data-room=storage] .rlamp{animation:none}}
+/* wall torches: one block tall, high in the corners, clear of the title */
+.room[data-room=forge],.room[data-room=crypt]{--ly:.1}
+.room:is([data-room=forge],[data-room=crypt]) .rlamp{width:var(--b);height:var(--b)}
+/* with a title on the wall, the air moves on the right half only, never over the words */
+.room.rhd .rpts i{left:calc(50% + var(--k) * 4.8%)}
+
+/* ---------- backgrounds, bars and frames from the pack ---------- */
+/* progression pages (The Path, Bosses, boss pages) sit on the quest book's own background: Linggango FTB Quests Theme */
+body.qbg{background:linear-gradient(rgba(13,13,13,.5),rgba(13,13,13,.5)),var(--rt-ftb_squares) 0 0/64px 64px,#0d0d0d;background-attachment:fixed;image-rendering:auto}
+/* the top bar ends on the pack's header separator */
+.top{border-bottom:0!important}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:4px;background:var(--rt-lg_sep) 0 0/64px 4px repeat-x;image-rendering:pixelated;pointer-events:none}
+/* the boss bar is the game's: pink, purple for the Wither, ten notches */
+.bossbar{height:15px!important;background:var(--rt-bar_pink_bg) 0 0/100% 100%!important;box-shadow:0 0 0 2px #000!important;image-rendering:pixelated}
+.bossbar>i{background:var(--rt-bar_notch10) 0 0/100% 100%,var(--rt-bar_pink) 0 0/100% 100%!important;box-shadow:none!important}
+.bossbar::after{display:none!important}
+.bossart[data-boss-kind=wither] .bossbar{background-image:var(--rt-bar_purple_bg)!important}
+.bossart[data-boss-kind=wither] .bossbar>i{background-image:var(--rt-bar_notch10),var(--rt-bar_purple)!important}
+/* infobox and navbox: the pack's slate-metal frame */
+.ip-info,.navbox{border:10px solid transparent!important;border-image:var(--rt-lg_panel) 5 / 10px stretch!important;background:var(--gui) padding-box!important;box-shadow:none!important;image-rendering:pixelated}
+.ip-info{padding:6px 8px}
+.navbox>dl{padding:0 4px 6px}
+/* Build planner: empty slots are the pack's slot frames (black; tan for a bonus slot a curio opens) */
+.bsb .bx:not(.on){width:54px!important;height:54px!important;min-width:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+ background:var(--rt-lg_slot_black) 0 0/100% 100% no-repeat!important;image-rendering:pixelated;color:#8f8a9e!important;font:700 20px var(--body)!important}
+.bsb .bx.xtra:not(.on){background-image:var(--rt-lg_slot_tan)!important;color:#e6d9b0!important}
+.bsb .bx:not(.on):hover,.bsb .bx:not(.on).sel{filter:brightness(1.35);color:#fff!important}
+/* section markers: a chest for where things drop, the pack's info mark elsewhere */
+.ip-sec h2::before{width:16px!important;height:16px!important;background:var(--rt-ftb_info) center/100% no-repeat!important;vertical-align:-2px!important;image-rendering:pixelated}
+.ip-sec:is(#s-get,#s-drops,[id$="-drops"]) h2::before{background-image:var(--rt-ftb_chest)!important}
+.ip-sec:is([id$="-attacks"],#s-atk) h2::before{background-image:var(--rt-ftb_alert)!important;width:8px!important}
+@media (max-width:760px){.room .rwall,.room:not(.rhd) .rwall{grid-column:1;grid-row:auto;justify-content:flex-start;margin-right:0;margin-bottom:6px}}
+@media (max-width:760px){.room .rfr small.lg{font-size:8px}}

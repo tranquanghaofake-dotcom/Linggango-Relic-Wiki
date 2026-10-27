@@ -197,7 +197,7 @@ function bossPage(k){
 <p class="pbtn"><a class="mcb" href="#act/${a}">See ${xs.length} curios</a><a class="mcb" href="#gear/${a}/ME/w">Gear at ${esc(actL(a))}</a></p>`]:null;
  document.title=`${nm} · Linggango Wiki`;
  const stage=B3[k]?`<div class="stage" data-boss="${k}"></div>`:`<div class="ip-icon">${emblem(a,"lg")}</div>`;
- el("main").innerHTML=article({cls:"r0 bossart",style:`--tc:${ACT[a][2]};--rc:${ACT[a][2]}`,crumb:crumb(`<a href="#bosses">Bosses</a>`,esc(nm)),title:esc(nm),
+ el("main").innerHTML=article({cls:"r0 bossart",data:` data-boss-kind="${esc(k)}"`,style:`--tc:${ACT[a][2]};--rc:${ACT[a][2]}`,crumb:crumb(`<a href="#bosses">Bosses</a>`,esc(nm)),title:esc(nm),
   lead:side?`Optional side fight in <a href="#act/${a}">${esc(actL(a))}</a>: it drops its own curios.`:`${keeper?`The Keeper at the end of ${esc(ORDER[i-1]!=null?actL(ORDER[i-1]):"the start")}.`:"A fight the pack requires."} Defeat it to open <a href="#act/${a}">${esc(actL(a))}</a>.`,
   secs:[...secsOf(summonHtml(k),"sum"),...secsOf(bossInfoHtml(k),"inf"),opens,
    row&&row[5]&&row[5]!=="—"&&["know","Good to know",`<p>${esc(pathText(row[5]))}</p>`],
@@ -235,7 +235,7 @@ function mechPage(){
 <div class="fst">${islot("goety:pedestal",1)}<b>3. Pedestals</b><span>Ingredients on Pedestals within ${G.range} blocks, plus the blocks the ritual type needs</span></div><i class="far">→</i>
 <div class="fst">${islot("goety:dark_wand",1)}<b>4. Activate</b><span>Right-click the altar with the activation item</span></div>
 </div>
-<div class="kchips"><span>🔒 Ritual blocks open at <b>${act(3)}</b></span><span>📜 Some rituals need a <b>research scroll</b></span><span>🗡 Some need a <b>sacrifice</b> in range</span><span>✖ Wrong or extra items = ritual fails</span><span>⚙ 6.6.6: the <b>Sabbath Engine</b> multiblock runs about 200 altar rituals for you on soul sand instead of souls (not the ones that need a research scroll)</span></div>
+<div class="kchips"><span><i class="lk" aria-hidden="true"></i>Ritual blocks open at <b>${act(3)}</b></span><span><i class="ki" style="--ki:var(--rt-writable_book)" aria-hidden="true"></i>Some rituals need a <b>research scroll</b></span><span><i class="ki" style="--ki:var(--v-i_netherite_sword)" aria-hidden="true"></i>Some need a <b>sacrifice</b> in range</span><span><i class="ki" style="--ki:var(--rt-ftb_alert)" aria-hidden="true"></i>Wrong or extra items = ritual fails</span><span><i class="ki" style="--ki:var(--rt-ftb_shape_gear)" aria-hidden="true"></i>6.6.6: the <b>Sabbath Engine</b> multiblock runs about 200 altar rituals for you on soul sand instead of souls (not the ones that need a research scroll)</span></div>
 <h3>Ritual types</h3>
 <div class="rtypes">${TY.map(([k,t])=>`<div class="rtype">${t.img?`<img src="data:image/webp;base64,${t.img}" alt="${esc(t.name)} example layout" loading="lazy">`:""}<b>${esc(t.name)}</b><small>${cnt[k]||0} rituals</small><div class="nchs">${t.req.map(x=>nchip(x,/^(\d+) /)).join("")}</div></div>`).join("")}</div>
 <h3>Every ritual in the pack (${G.rituals.length})</h3>
@@ -624,11 +624,12 @@ function navbox(title,groups){groups=(groups||[]).filter(g=>g&&g[1]&&g[1].length
    of the page (links with their tooltips), so the picture is also the page's first menu. Which blocks and lights a room uses
    lives in style.game.css ([data-room=forge] …); textures come from scenes.js (ROOMT, build/pack_audit/scenes.py).
      items  [{h: href, i: icon html, t: data-t for the tooltip, n: name, l: small label, g: glow frame}]
-     o      {head: html on the wall (title, lead), min: frames to show even when empty, cols: frames per row, label} */
+     o      {head: html on the wall (title, lead), min: frames to show even when empty, cols: frames per row, label}
+   Each room also hangs a painting beside its frames, its own lights on chains and a drift of vanilla particles (all CSS). */
 function room(kind,items,o={}){const n=Math.max(items.length,o.min||0),xs=[...items,...Array(n-items.length).fill(null)];
  return `<div class="room${o.head?" rhd":""}" data-room="${kind}" style="--cols:${o.cols||8}">${o.head?`<div class="rhead">${o.head}</div>`:""}<span class="rprops" aria-hidden="true"><i></i><i></i><i></i></span>
-<nav class="rfrs" aria-label="${esc(o.label||"Items")}">${xs.map(x=>x?`<a class="rfr${x.g?" glow":""}" href="${x.h}"${x.t!=null?` data-t="${x.t}"`:` title="${esc(x.n)}"`} aria-label="${esc(x.n)}">${x.i}${x.l?`<small${x.l.length>3?' class="lg"':""}>${x.l}</small>`:""}</a>`:`<span class="rfr empty" aria-hidden="true"></span>`).join("")}</nav>
-<i class="rlamp a" aria-hidden="true"></i><i class="rlamp b" aria-hidden="true"></i></div>`}
+<div class="rwall"><span class="rdeco" aria-hidden="true"></span><nav class="rfrs" aria-label="${esc(o.label||"Items")}">${xs.map(x=>x?`<a class="rfr${x.g?" glow":""}" href="${x.h}"${x.t!=null?` data-t="${x.t}"`:` title="${esc(x.n)}"`} aria-label="${esc(x.n)}">${x.i}${x.l?`<small${x.l.length>3?' class="lg"':""}>${x.l}</small>`:""}</a>`:`<span class="rfr empty" aria-hidden="true"></span>`).join("")}</nav></div>
+<i class="rlamp a" aria-hidden="true"></i><i class="rlamp b" aria-hidden="true"></i><span class="rpts" aria-hidden="true">${[0,1,2,3,4,5,6,7,8,9].map(k=>`<i style="--k:${k}"></i>`).join("")}</span></div>`}
 const rCurio=(d,l,g)=>({h:"#i"+d.ix,i:img(d.id),t:d.ix,n:d.n,l,g});
 const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.indexOf("zoranth_forgotten");if(i>=0)ks.splice(i+1,0,"warden","wither");return ks};
 /* the wiki-wide groups every detail page ends with; extra = this page's own groups, put first */
@@ -795,8 +796,8 @@ const guideHtml=g=>`<div class="gbk">${g.i?`<img alt="" src="${g.i}">`:""}<div><
 function page(d){
  document.title=d.n+" · Linggango Wiki";seedBg("item"+d.m,D.filter(x=>x.m===d.m));
  const F=mf(d.m),slot=d.sl.join(", ")||"—",loot=d.g==="Loot",secs=[];
- const lock=d.gk?`<p class="lede"><span class="badge lockb">🔒 KEEPER-GATED</span>Linggango locks this item behind its progression gates: until you defeat <b>${GK[d.gk]}</b> (opens ${actL(d.gk)}) you can't take it out of a crafting station, use it or wear it, even if a chest gives it to you.</p>`:"";
- const rqLock=d.rq?`<p class="lede"><span class="badge lockb">🔒 RING-LOCKED</span>Only for bearers of the <a href="#i${BYID[RQRING[d.rq]].ix}">${rqName(d)}</a>: you need that ring to craft or use this curio.</p>`:"";
+ const lock=d.gk?`<p class="lede"><span class="badge lockb"><i class="lk" aria-hidden="true"></i>KEEPER-GATED</span>Linggango locks this item behind its progression gates: until you defeat <b>${GK[d.gk]}</b> (opens ${actL(d.gk)}) you can't take it out of a crafting station, use it or wear it, even if a chest gives it to you.</p>`:"";
+ const rqLock=d.rq?`<p class="lede"><span class="badge lockb"><i class="lk" aria-hidden="true"></i>RING-LOCKED</span>Only for bearers of the <a href="#i${BYID[RQRING[d.rq]].ix}">${rqName(d)}</a>: you need that ring to craft or use this curio.</p>`:"";
  const must=isMust(d)?`<div class="mh-banner"><span class="mhs">★</span><div><b>Must-Have</b><p>${!/etching|charm_of_looting/.test(d.id)?"It adds curio slots, so you can wear more curios at once: every other relic on this wiki gets better with it.":/etching/.test(d.id)?"An Etching turns one of your Catastrophe Scroll curses into a blessing and is an ingredient for most Celestial Artifacts relics.":"A Looting Charm unlocks L2 Hostility trait drops; without the right tier worn, trait mobs drop nothing extra."} Get it as soon as ${esc(actL(d.t))} opens and keep it in every build. Base power rating: <b>${RN[d.br]}</b>.</p></div></div>`:"";
  const scarce=d.sca?`<div class="mh-banner sca"><span class="mhs">⛏</span><div><b>Scarce Act 0 material</b><p>Daemonium and Iridium need a high-tier pickaxe to mine, but Terramity structures can drop them in chests. That makes this craftable early with luck, so it is rated one rarity higher than other Act 0 curios.</p></div></div>`:"";
  secs.push(["get",loot?"Where it drops":"How to get it",`${must}${scarce}<ol class="how">${d.src.map(x=>`<li>${fmt(x)}</li>`).join("")}</ol>${lock}${rqLock}<p class="note">${d.a===-1?"Dropped by L2 Hostility mobs depending on their level, not tied to a boss milestone.":d.a!==d.t?`Earliest with luck: ${actL(d.a)}. Realistic: ${actL(d.t)} (${ACT[d.t][1]}).`:`Available from ${actL(d.t)} (${ACT[d.t][1]}).`}</p>`]);
@@ -934,8 +935,12 @@ const tierIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.
 // tile icons only animate while on screen: hundreds of off-screen bobbing icons cost a frame each
 const tileIO=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle("vis",e.isIntersecting)),{rootMargin:"120px"});
 const watchTiles=r=>r.querySelectorAll&&r.querySelectorAll("a.t:not([data-vo])").forEach(t=>{t.dataset.vo=1;tileIO.observe(t)});
-new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches("a.t:not([data-vo])")){n.dataset.vo=1;tileIO.observe(n)}else watchTiles(n)}))).observe(document.documentElement,{childList:true,subtree:true});
+new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches("input[type=range]"))setRv(n);else n.querySelectorAll&&n.querySelectorAll("input[type=range]").forEach(setRv);if(n.matches("a.t:not([data-vo])")){n.dataset.vo=1;tileIO.observe(n)}else watchTiles(n)}))).observe(document.documentElement,{childList:true,subtree:true});
+/* range sliders: --rv (0–100) drives the cyan fill drawn on the track */
+const setRv=i=>i.style.setProperty("--rv",((+i.value-(+i.min||0))/((+i.max||100)-(+i.min||0))*100)||0);
+document.addEventListener("input",e=>{if(e.target.type==="range")setRv(e.target)},true);
 function decorate(r=document){
+ (r.querySelectorAll?r:document).querySelectorAll('input[type=range]').forEach(setRv);
  watchTiles(r);
  r.querySelectorAll(".tier:not(.seen):not([data-io])").forEach(t=>{t.dataset.io=1;tierIO.observe(t)});
  const hero=r.querySelector(".hero:not([data-done])");
@@ -954,6 +959,8 @@ function renderBase(){
  document.body.classList.toggle("hub",h===""||h==="#");
  // curio filters and index only make sense next to curio lists
  // progression pages wear the quest-book look (FTB Quests theme of the pack); item pages keep the inventory look
+ // the quest-book background (Linggango FTB Quests Theme) behind every progression page
+ document.body.classList.toggle("qbg",h==="#home"||/^#(act|boss|side)\//.test(h)||h==="#bosses");
  document.body.classList.toggle("qbook",h==="#bosses"||h.startsWith("#boss/")||h.startsWith("#side/"));
  document.body.classList.toggle("noside",/^#i\d/.test(h)||h.startsWith("#side/")||h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics");
  if(innerWidth<=760&&(h.startsWith("#i")||h==="#guide")){el("side").classList.add("closed");el("fold").setAttribute("aria-expanded","false")}

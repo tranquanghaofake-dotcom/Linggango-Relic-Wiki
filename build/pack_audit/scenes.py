@@ -5,17 +5,20 @@ Writes build/src/scenes.js (const ROOMT = {name: base64 16x16 png}).
 A room (app.js room(), style.game.css .room) is a wall of these blocks with a floor, lanterns and item frames that hold
 real items from the wiki. Each room's blocks are chosen in CSS ([data-room=forge] …); this script only supplies textures.
 
-Usage: python3 build/pack_audit/scenes.py <vanilla textures> [<xali> <goety> <ae2>]
+Usage: python3 build/pack_audit/scenes.py <vanilla textures> [<xali> <goety> <ae2> [<linggango textures> <ftb theme>]]
   vanilla  assets/minecraft/textures of InventivetalentDev/minecraft-assets@1.20.1 (block/, item/)
   xali     clone of github.com/xalixilax/xali-s-Enhanced-Vanilla-16x @248ddbcb40 (main)       CC BY-NC 4.0
   goety    clone of github.com/Polarice3/Goety-2 @02adbe7491 (1.20)                            MIT
   ae2      clone of github.com/AppliedEnergistics/Applied-Energistics-2 @1c2f96e70c (forge/1.20.1)  textures CC BY-NC-SA 3.0
+  linggango  unzipped LinggangoTextures.zip (CurseForge 1381088, file 8994067) by Misanthropy   used with the author's consent
+  ftb        unzipped "Linggango FTB Quest Theme.zip" (CurseForge 1583288, file 8520681) by Misanthropy   same
 Licences decide how each source is used (credits in the footer, template.html):
   - vanilla: Minecraft Usage Guidelines (fan content, with the disclaimer);
   - AE2 (CC BY-NC-SA 3.0) files are embedded byte for byte: no crop, no recolour (ShareAlike would put a changed
     texture under BY-NC-SA); Goety (MIT) pixels are unchanged too, re-encoded only to drop editor metadata;
     darkening and light are drawn by CSS on top;
   - Xali's variants (CC BY-NC 4.0, changes allowed with credit) are also arranged into a wall sheet with vanilla bricks.
+  - Misanthropy's packs: sprites are cut out of their sheets (frames, bars, the gem knob, slots, lock, check).
 Not used: Faithful 32x (licence allows it with credit, but 32 px textures next to 16 px item icons break the pixel
 grid), the Linggango resource packs (LICENSE.txt says All Rights Reserved), and mods whose textures are All Rights
 Reserved or NoDerivatives (Iron's Spellbooks, Terramity, Ars Nouveau, Relics, L_Ender's Cataclysm).
@@ -29,11 +32,10 @@ OUT = pathlib.Path(__file__).resolve().parents[1] / "src" / "scenes.js"
 # walls, pillars and floors
 BLOCKS = ["oak_planks", "spruce_planks", "dark_oak_planks", "stripped_oak_log", "stripped_spruce_log", "stripped_dark_oak_log",
           "stone_bricks", "cracked_stone_bricks", "mossy_stone_bricks", "deepslate_tiles", "deepslate_bricks",
-          "polished_blackstone_bricks", "cracked_polished_blackstone_bricks", "polished_blackstone", "blackstone",
-          "crying_obsidian", "obsidian", "nether_bricks", "end_stone_bricks", "purpur_block",
+          "polished_blackstone_bricks", "polished_blackstone", "blackstone",
           # furniture standing on the floor
           "bookshelf", "chiseled_bookshelf_occupied", "crafting_table_front", "barrel_side", "blast_furnace_front_on",
-          "smithing_table_front", "enchanting_table_side", "lectern_front", "cobweb",
+          "smithing_table_front", "enchanting_table_side", "lectern_front",
           # the frames items hang in
           "item_frame", "glow_item_frame"]
 ITEMS = ["lantern", "soul_lantern"]
@@ -106,6 +108,56 @@ if len(sys.argv) > 4:
     for n in ["block/sky_stone_brick", "block/smooth_sky_stone_block", "block/controller", "block/drive/drive_front", "block/fluix_block",
               "item/item_storage_cell_1k", "item/item_storage_cell_4k", "item/item_storage_cell_16k", "item/item_storage_cell_64k", "item/item_storage_cell_256k"]:
         tx["ae2_" + n.split("/")[-1]] = raw(A / f"{n}.png")
+if len(sys.argv) > 6:
+    L = pathlib.Path(sys.argv[5]) / "assets"
+    F = pathlib.Path(sys.argv[6]) / "assets"
+    # Linggango Textures: the Iron's Spellbooks GUI sheet holds the pack's slate-metal frames, bars, gem knob, slots,
+    # lock and the silver/gold ornate frames; boxes found from the sheet's alpha
+    ic = Image.open(L / "irons_spellbooks/textures/gui/icons.png").convert("RGBA")
+    cut = {"lg_panel": (0, 43, 54, 62), "lg_slot_tan": (23, 85, 43, 105), "lg_slot_black": (66, 84, 88, 106),
+           "lg_lock": (116, 88, 126, 102), "lg_frame_silver": (0, 106, 28, 135), "lg_frame_gold": (36, 107, 60, 135)}
+    for k, b in cut.items():
+        tx[k] = b64(ic.crop(b))
+    # the long bars carry a knob in the middle: drop those columns and join the halves
+    def splice(box, x0, x1):
+        c = ic.crop(box); out = Image.new("RGBA", (c.width - (x1 - x0), c.height))
+        out.paste(c.crop((0, 0, x0, c.height)), (0, 0)); out.paste(c.crop((x1, 0, c.width, c.height)), (x0, 0))
+        return out.crop(out.getbbox())
+    tx["lg_track"] = b64(splice((69, 40, 245, 57), 88, 98))
+    tx["lg_fill"] = b64(splice((71, 60, 245, 76), 86, 96))
+    # the gem knob sits on a cyan bar in the sheet: keep its grey/white pixels only
+    kn = ic.crop((43, 21, 57, 34)); px = kn.load()
+    for y in range(kn.height):
+        for x in range(kn.width):
+            r, g, b_, a = px[x, y]
+            if a and b_ > r + 25: px[x, y] = (0, 0, 0, 0)
+    tx["lg_knob"] = b64(kn.crop(kn.getbbox()))
+    tx["lg_check"] = b64(Image.open(L / "minecraft/textures/gui/checkmark.png").convert("RGBA"))
+    tx["lg_sep"] = b64(Image.open(L / "minecraft/textures/gui/header_separator.png").convert("RGBA"))
+    # Linggango FTB Quests Theme: the quest book's background tile and its icons
+    tx["ftb_squares"] = b64(Image.open(F / "ftblibrary/textures/gui/background_squares.png").convert("RGBA"))
+    for n in ["alert", "chest", "info"]:
+        tx["ftb_" + n] = b64(Image.open(F / f"ftblibrary/textures/icons/{n}.png").convert("RGBA"))
+    for n in ["gear"]:
+        tx["ftb_shape_" + n] = b64(Image.open(F / f"ftbquests/textures/shapes/{n}/outline.png").convert("RGBA"))
+
+# more vanilla: light sources, furniture and decor, so rooms are not all lanterns; paintings; the GUI button
+LIGHTS = ["block/soul_torch", "block/torch", "block/chain", "block/amethyst_cluster", "item/candle", "item/purple_candle", "item/writable_book"]
+for n in LIGHTS:
+    tx[n.split("/")[1]] = b64(tex(n))
+# animated strips stay strips (CSS steps through them): flames and the sea lantern
+for n in ["block/sea_lantern"]:
+    tx[n.split("/")[1]] = b64(Image.open(T / f"{n}.png").convert("RGBA"))
+for n in ["wanderer", "graham", "skull_and_roses", "burning_skull", "fighters"]:
+    tx["painting_" + n] = b64(Image.open(T / f"painting/{n}.png").convert("RGBA"))
+# the boss bar: pink (most bosses) and purple (the Wither), with the 10-notch overlay
+bars = Image.open(T / "gui/bars.png").convert("RGBA")
+for k, y in {"bar_pink_bg": 0, "bar_pink": 5, "bar_purple_bg": 50, "bar_purple": 55, "bar_notch10": 90}.items():
+    tx[k] = b64(bars.crop((0, y, 182, y + 5)))
+w = Image.open(T / "gui/widgets.png").convert("RGBA")
+tx["btn"] = b64(w.crop((0, 66, 200, 86))); tx["btn_hover"] = b64(w.crop((0, 86, 200, 106)))
+for n in ["glow", "sga_m", "sga_t", "glitter_4"]:
+    tx["pt_" + n] = b64(Image.open(T / f"particle/{n}.png").convert("RGBA"))
 OUT.write_text("/* generated by build/pack_audit/scenes.py from vanilla 1.20.1 textures; do not edit */\nconst ROOMT=" +
                "{" + ",".join(f'"{k}":"{v}"' for k, v in tx.items()) + "};\n", encoding="utf-8")
 print(OUT, len(tx), "textures,", sum(len(v) for v in tx.values()), "bytes of base64")
