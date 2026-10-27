@@ -1,0 +1,1177 @@
+{
+"adams-ars-plus-1": {
+"source": "Adam's Ars Plus",
+"tier": "A",
+"count": 9
+},
+"advanced-loot-info-1": {
+"source": "Advanced Loot Info (ALI)",
+"tier": "A",
+"count": 1
+},
+"ae2-import-export-card-1": {
+"source": "AE2 Import Export Card",
+"tier": "A",
+"count": 4
+},
+"alexs-caves-1": {
+"source": "Alex's Caves",
+"tier": "A",
+"count": 302
+},
+"alexs-mobs-1": {
+"source": "Alex's Mobs",
+"tier": "A",
+"count": 129
+},
+"animus-1": {
+"source": "Animus",
+"tier": "A",
+"count": 5
+},
+"apothic-attributes-1": {
+"source": "Apothic Attributes",
+"tier": "A",
+"count": 10
+},
+"applied-energistics-2-1": {
+"source": "Applied Energistics 2",
+"tier": "A-SA",
+"count": 42
+},
+"ars-additions-1": {
+"source": "Ars Additions",
+"tier": "A",
+"count": 1
+},
+"ars-elemental-1": {
+"source": "Ars Elemental",
+"tier": "A",
+"count": 24
+},
+"ars-n-spells-1": {
+"source": "Ars 'n Spells",
+"tier": "A",
+"count": 16
+},
+"artifacts-1": {
+"source": "Artifacts",
+"tier": "A",
+"count": 5
+},
+"bedrock-samples-1": {
+"source": "Minecraft Bedrock resource pack (Mojang/bedrock-samples)",
+"tier": "A",
+"count": 400
+},
+"bedrock-samples-2": {
+"source": "Minecraft Bedrock resource pack (Mojang/bedrock-samples)",
+"tier": "A",
+"count": 400
+},
+"bedrock-samples-3": {
+"source": "Minecraft Bedrock resource pack (Mojang/bedrock-samples)",
+"tier": "A",
+"count": 400
+},
+"bedrock-samples-4": {
+"source": "Minecraft Bedrock resource pack (Mojang/bedrock-samples)",
+"tier": "A",
+"count": 400
+},
+"bedrock-samples-5": {
+"source": "Minecraft Bedrock resource pack (Mojang/bedrock-samples)",
+"tier": "A",
+"count": 16
+},
+"bigger-stacks-1": {
+"source": "Bigger Stacks",
+"tier": "A",
+"count": 1
+},
+"blood-magic-1": {
+"source": "Blood Magic",
+"tier": "A",
+"count": 106
+},
+"bosses-of-mass-destruction-forge-1": {
+"source": "Bosses of Mass Destruction [Forge | NeoForge]",
+"tier": "A",
+"count": 119
+},
+"brutality-a-terramity-addon-1": {
+"source": "Brutality - A Terramity Addon",
+"tier": "A",
+"count": 369
+},
+"caster-curios-bonus-1": {
+"source": "Caster Curios Bonus",
+"tier": "A",
+"count": 1
+},
+"celestial-core-1": {
+"source": "Celestial Core",
+"tier": "A",
+"count": 17
+},
+"celestial-enchantments-1": {
+"source": "Celestial Enchantments",
+"tier": "A",
+"count": 4
+},
+"citadel-1": {
+"source": "Citadel",
+"tier": "A",
+"count": 7
+},
+"cloth-config-1": {
+"source": "Cloth Config API (Fabric/Forge/NeoForge)",
+"tier": "A",
+"count": 1
+},
+"codechicken-lib-1-8-1": {
+"source": "CodeChicken Lib 1.8.+",
+"tier": "A",
+"count": 21
+},
+"cognition-mod-1": {
+"source": "Cognition (Experience Obelisk)",
+"tier": "A",
+"count": 8
+},
+"compact-machines-1": {
+"source": "Compact Machines",
+"tier": "A",
+"count": 5
+},
+"cosmetic-armor-reworked-1": {
+"source": "Cosmetic Armor Reworked",
+"tier": "A",
+"count": 1
+},
+"create-central-kitchen-1": {
+"source": "Create: Central Kitchen",
+"tier": "A",
+"count": 3
+},
+"create-connected-1": {
+"source": "Create: Connected",
+"tier": "A",
+"count": 1
+},
+"create-new-age-1": {
+"source": "Create: New Age",
+"tier": "A",
+"count": 1
+},
+"create-ore-excavation-1": {
+"source": "Create Ore Excavation",
+"tier": "A",
+"count": 7
+},
+"createaddition-1": {
+"source": "Create Crafts & Additions",
+"tier": "A",
+"count": 1
+},
+"creatures-and-beasts-continued-1": {
+"source": "Creatures and Beasts: Continued",
+"tier": "A",
+"count": 21
+},
+"cucumber-1": {
+"source": "Cucumber Library",
+"tier": "A",
+"count": 2
+},
+"curios-1": {
+"source": "Curios API",
+"tier": "A",
+"count": 3
+},
+"deeperdarker-1": {
+"source": "Deeper and Darker",
+"tier": "A-SA",
+"count": 6
+},
+"domestication-innovation-1": {
+"source": "Domestication Innovation",
+"tier": "A",
+"count": 13
+},
+"dungeon-now-loading-1": {
+"source": "Dungeon Now Loading 2%",
+"tier": "A",
+"count": 58
+},
+"eeeabs-mobs-1": {
+"source": "EEEAB's Mobs",
+"tier": "A",
+"count": 129
+},
+"enchantment-library-at-home-1": {
+"source": "Enchantment Library at Home",
+"tier": "A",
+"count": 1
+},
+"ending-library-linggango-edition-1": {
+"source": "Ending Library - Linggango Variant",
+"tier": "A",
+"count": 7
+},
+"enigmatic-dice-continued-unofficial-1": {
+"source": "Enigmatic Dice Continued (unofficial)",
+"tier": "A",
+"count": 9
+},
+"entity-model-features-1": {
+"source": "[EMF] Entity Model Features [Fabric & Forge]",
+"tier": "A",
+"count": 1
+},
+"entity-texture-features-fabric-1": {
+"source": "[ETF] Entity Texture Features - [Fabric & Forge]",
+"tier": "A",
+"count": 9
+},
+"evolved-mekanism-1": {
+"source": "Evolved Mekanism",
+"tier": "A",
+"count": 2
+},
+"ex-pattern-provider-1": {
+"source": "ExtendedAE",
+"tier": "A",
+"count": 28
+},
+"extra-hostile-neural-networks-1": {
+"source": "Extra Hostile Neural Networks",
+"tier": "A",
+"count": 5
+},
+"faithful-32x-1.20.1-1": {
+"source": "Faithful 32x (Java 1.20.1), effect subset",
+"tier": "A",
+"count": 318
+},
+"fallen-traits-relics-1": {
+"source": "Fallen Traits & Relics",
+"tier": "A",
+"count": 1
+},
+"fancy-tab-sections-1": {
+"source": "Fancy Tab Sections",
+"tier": "A",
+"count": 13
+},
+"farmers-delight-1": {
+"source": "Farmer's Delight",
+"tier": "A",
+"count": 38
+},
+"goety-1": {
+"source": "Goety - The Dark Arts",
+"tier": "A",
+"count": 400
+},
+"goety-2": {
+"source": "Goety - The Dark Arts",
+"tier": "A",
+"count": 253
+},
+"hexerei-1": {
+"source": "Hexerei",
+"tier": "A",
+"count": 92
+},
+"hostile-neural-networks-1": {
+"source": "Hostile Neural Networks",
+"tier": "A",
+"count": 5
+},
+"immersive-aircraft-1": {
+"source": "Immersive Aircraft",
+"tier": "A",
+"count": 5
+},
+"immersive-weathering-forge-1": {
+"source": "Immersive Weathering [FORGE]",
+"tier": "A",
+"count": 55
+},
+"industrial-foregoing-1": {
+"source": "Industrial Foregoing",
+"tier": "A",
+"count": 6
+},
+"item-filters-1": {
+"source": "Item Filters",
+"tier": "A",
+"count": 1
+},
+"jei-1": {
+"source": "Just Enough Items (JEI)",
+"tier": "A",
+"count": 2
+},
+"joy-of-painting-1": {
+"source": "Joy of Painting",
+"tier": "A",
+"count": 1
+},
+"just-dire-things-forge-1": {
+"source": "Just Dire Things [Forge]",
+"tier": "A",
+"count": 132
+},
+"kenney-particle-pack-1": {
+"source": "Kenney Particle Pack",
+"tier": "A",
+"count": 31
+},
+"kenney-smoke-particles-1": {
+"source": "Kenney Smoke Particles",
+"tier": "A",
+"count": 9
+},
+"l2-archery-1": {
+"source": "L2 Archery",
+"tier": "A",
+"count": 3
+},
+"legendary-spellbooks-1": {
+"source": "Legendary Spellbooks",
+"tier": "A",
+"count": 31
+},
+"lethality-a-terramity-addon-1": {
+"source": "Lethality - A Terramity Addon",
+"tier": "A",
+"count": 58
+},
+"lgw-fxgen-1": {
+"source": "Linggango Relic Wiki effect generator (fxgen.py)",
+"tier": "A",
+"count": 86
+},
+"linggango-ftb-quests-theme-1": {
+"source": "Linggango - FTB Quests Theme",
+"tier": "A-perm",
+"count": 7
+},
+"linggangotextures-1": {
+"source": "Linggango Textures",
+"tier": "A-perm",
+"count": 3
+},
+"macabre-1": {
+"source": "Macabre - Call of False Prophets",
+"tier": "A",
+"count": 110
+},
+"mariums-soulslike-weaponry-1": {
+"source": "Marium's Soulslike Weaponry",
+"tier": "A",
+"count": 56
+},
+"mega-cells-1": {
+"source": "MEGA Cells",
+"tier": "A",
+"count": 2
+},
+"mekanism-1": {
+"source": "Mekanism",
+"tier": "A",
+"count": 1
+},
+"mekanism-generators-1": {
+"source": "Mekanism Generators",
+"tier": "A",
+"count": 1
+},
+"mekanism-tools-1": {
+"source": "Mekanism Tools",
+"tier": "A",
+"count": 2
+},
+"mekanism-weapons-1": {
+"source": "Mekanism: Weapons",
+"tier": "A",
+"count": 1
+},
+"merequester-1": {
+"source": "ME Requester",
+"tier": "A",
+"count": 4
+},
+"minecraft-26.3-1": {
+"source": "Minecraft Java 26.3 (vanilla)",
+"tier": "A",
+"count": 400
+},
+"minecraft-26.3-2": {
+"source": "Minecraft Java 26.3 (vanilla)",
+"tier": "A",
+"count": 400
+},
+"minecraft-26.3-3": {
+"source": "Minecraft Java 26.3 (vanilla)",
+"tier": "A",
+"count": 40
+},
+"modular-routers-1": {
+"source": "Modular Routers",
+"tier": "A",
+"count": 11
+},
+"moogs-structure-lib-1": {
+"source": "Moog's Structure Lib (moogs_structures)",
+"tier": "A",
+"count": 2
+},
+"mr-actually-3d-stuff-1": {
+"source": "Actually 3D Stuff (Modrinth)",
+"tier": "A",
+"count": 66
+},
+"mr-aerial-hell-1": {
+"source": "Aerial Hell (Modrinth)",
+"tier": "A-SA",
+"count": 159
+},
+"mr-aeromancy-additions-1": {
+"source": "SnackPirate's Aeromancy Additions (Modrinth)",
+"tier": "A",
+"count": 17
+},
+"mr-alessandrv-enchantments-1": {
+"source": "Alessandrv's Enchantments (Modrinth)",
+"tier": "A",
+"count": 99
+},
+"mr-alpha-particles-trasparent-particles-1": {
+"source": "Alpha Particles - Trasparent Particles (Modrinth)",
+"tier": "A",
+"count": 8
+},
+"mr-ambientadditions-1": {
+"source": "Ambient Additions (Modrinth)",
+"tier": "A",
+"count": 9
+},
+"mr-amethyst-imbuement-1": {
+"source": "Amethyst Imbuement (Modrinth)",
+"tier": "A",
+"count": 284
+},
+"mr-amethyst-pvp-1": {
+"source": "Amethyst PvP (Modrinth)",
+"tier": "A",
+"count": 58
+},
+"mr-apothic-enchanting-1": {
+"source": "Apothic-Enchanting (Modrinth)",
+"tier": "A",
+"count": 114
+},
+"mr-applied-interfaces-1": {
+"source": "Applied Interfaces | AE2 GUI (Modrinth)",
+"tier": "A-SA",
+"count": 241
+},
+"mr-apprentices-codex-1": {
+"source": "Apprentice's Codex (Modrinth)",
+"tier": "A",
+"count": 195
+},
+"mr-archon-1": {
+"source": "Archon (Modrinth)",
+"tier": "A",
+"count": 23
+},
+"mr-ardas-sculks-1": {
+"source": "Arda's Sculks (Ancient City Portal / Deep Dark Dimension) (Modrinth)",
+"tier": "A",
+"count": 12
+},
+"mr-arphex-1": {
+"source": "Arthropod Phobia Expansions + Horror Bosses / Arachnophobia (Modrinth)",
+"tier": "A",
+"count": 78
+},
+"mr-astralrail-cube-1": {
+"source": "Astralrail Cube (Modrinth)",
+"tier": "A",
+"count": 15
+},
+"mr-better-gui-1": {
+"source": "Better GUI (Modrinth)",
+"tier": "A",
+"count": 337
+},
+"mr-betternether-1": {
+"source": "BetterNether (Modrinth)",
+"tier": "A-SA",
+"count": 10
+},
+"mr-biome_particle_weather-1": {
+"source": "Biome Particle Weather (Modrinth)",
+"tier": "A",
+"count": 99
+},
+"mr-bloxys-structures-1": {
+"source": "Bloxy's Structures (Modrinth)",
+"tier": "A",
+"count": 13
+},
+"mr-cataclysm-spellbooks-1": {
+"source": "Cataclysm: Spellbooks (Modrinth)",
+"tier": "A",
+"count": 87
+},
+"mr-chocolate-quest-repoured-1": {
+"source": "Chocolate Quest Repoured (Modrinth)",
+"tier": "A",
+"count": 86
+},
+"mr-cleanview-1": {
+"source": "CleanView (Modrinth)",
+"tier": "A",
+"count": 1
+},
+"mr-dimensions-dungeons-1": {
+"source": "Dimensions & Dungeons (Modrinth)",
+"tier": "A",
+"count": 16
+},
+"mr-druids-of-storm-and-spirit-1": {
+"source": "Druids of Storm and Spirit (Modrinth)",
+"tier": "A",
+"count": 12
+},
+"mr-duskfall-ui-1": {
+"source": "Duskfall-UI (Modrinth)",
+"tier": "A",
+"count": 310
+},
+"mr-dynamicsurroundingsfabric-1": {
+"source": "Dynamic Surroundings (Modrinth)",
+"tier": "A",
+"count": 11
+},
+"mr-electroblobs-wizardry-redux-1": {
+"source": "Electroblob's Wizardry Redux (Modrinth)",
+"tier": "A",
+"count": 400
+},
+"mr-electroblobs-wizardry-redux-2": {
+"source": "Electroblob's Wizardry Redux (Modrinth)",
+"tier": "A",
+"count": 16
+},
+"mr-emerald-16x-1": {
+"source": "Emerald 16x (Modrinth)",
+"tier": "A",
+"count": 59
+},
+"mr-enchanting-table-magic-circle-1": {
+"source": "Enchanting Table Magic Circle (Modrinth)",
+"tier": "A-SA",
+"count": 22
+},
+"mr-enderio-1": {
+"source": "Ender IO (Modrinth)",
+"tier": "A",
+"count": 97
+},
+"mr-fallingleaves-1": {
+"source": "Falling Leaves (Modrinth)",
+"tier": "A",
+"count": 9
+},
+"mr-fire-rekindled-1": {
+"source": "Fire Rekindled (Modrinth)",
+"tier": "A",
+"count": 96
+},
+"mr-formidulus-1": {
+"source": "Formidulus (Modrinth)",
+"tier": "A",
+"count": 20
+},
+"mr-fruity-gui-1": {
+"source": "Fruity GUI (Modrinth)",
+"tier": "A",
+"count": 38
+},
+"mr-glimmering-tales-1": {
+"source": "Glimmering Tales (Modrinth)",
+"tier": "A",
+"count": 39
+},
+"mr-glowing-1": {
+"source": "Glowing (Modrinth)",
+"tier": "A",
+"count": 2
+},
+"mr-gravelgui-1": {
+"source": "Gravel GUI (Modrinth)",
+"tier": "A",
+"count": 240
+},
+"mr-gui-bites-1": {
+"source": "Gui Bites (Modrinth)",
+"tier": "A",
+"count": 36
+},
+"mr-gui-overhaul-1": {
+"source": "GUI Overhaul (Modrinth)",
+"tier": "A",
+"count": 77
+},
+"mr-gui-revision-1": {
+"source": "GUI Revision (Modrinth)",
+"tier": "A-SA",
+"count": 44
+},
+"mr-gui-sodium-1": {
+"source": "GUISe - GUI like Sodium (Modrinth)",
+"tier": "A",
+"count": 38
+},
+"mr-hit-feedback-1": {
+"source": "Hit Feedback (Modrinth)",
+"tier": "A",
+"count": 12
+},
+"mr-hypr-minecraft-1": {
+"source": "Hypr Minecraft (Modrinth)",
+"tier": "A",
+"count": 91
+},
+"mr-imbued-gear-1": {
+"source": "Imbued Gear (Modrinth)",
+"tier": "A",
+"count": 6
+},
+"mr-immersive-enchanting-1": {
+"source": "Immersive Enchanting (Modrinth)",
+"tier": "A",
+"count": 30
+},
+"mr-immersive-weapons-1": {
+"source": "Immersive Weapons (Modrinth)",
+"tier": "A-SA",
+"count": 33
+},
+"mr-invocations-1": {
+"source": "Invocations (Modrinth)",
+"tier": "A",
+"count": 59
+},
+"mr-javaui-1": {
+"source": "JavaUI (Modrinth)",
+"tier": "A",
+"count": 25
+},
+"mr-jinghui-1": {
+"source": "JIngHui (Modrinth)",
+"tier": "A",
+"count": 68
+},
+"mr-koncipet-ui-1": {
+"source": "KonciPET UI (Modrinth)",
+"tier": "A",
+"count": 291
+},
+"mr-legendary-mage-1": {
+"source": "[ISS LM]Legendary Mage (Modrinth)",
+"tier": "A",
+"count": 20
+},
+"mr-living-legend-80k-rewamped-1": {
+"source": "Living Legend Rewamped (Modrinth)",
+"tier": "A",
+"count": 383
+},
+"mr-luminous-halloween-1": {
+"source": "Luminous: Halloween (Modrinth)",
+"tier": "A",
+"count": 8
+},
+"mr-medievalweapons-1": {
+"source": "MedievalWeapons (Modrinth)",
+"tier": "A",
+"count": 2
+},
+"mr-nekohashizuku-blade-1": {
+"source": "\u96eb\u62d4\u5200\u5251 (Modrinth)",
+"tier": "A",
+"count": 7
+},
+"mr-netheritepot-basics-1": {
+"source": "NetheritePot Basics (Modrinth)",
+"tier": "A",
+"count": 58
+},
+"mr-ntm-extended-1": {
+"source": "Hbm's Nuclear Tech - Extended Edition (Modrinth)",
+"tier": "A",
+"count": 400
+},
+"mr-ntm-extended-2": {
+"source": "Hbm's Nuclear Tech - Extended Edition (Modrinth)",
+"tier": "A",
+"count": 19
+},
+"mr-only-glass-gui-1": {
+"source": "Only Glass GUI (Modrinth)",
+"tier": "A-SA",
+"count": 50
+},
+"mr-oreui-recreation-1": {
+"source": "OreUI Recreation (Modrinth)",
+"tier": "A",
+"count": 36
+},
+"mr-particle-interactions-1": {
+"source": "Particle Interactions (Modrinth)",
+"tier": "A",
+"count": 141
+},
+"mr-particle-rain-1": {
+"source": "Particle Rain (Modrinth)",
+"tier": "A",
+"count": 5
+},
+"mr-particular-1": {
+"source": "Particular \u2728 (Modrinth)",
+"tier": "A",
+"count": 173
+},
+"mr-pixelcatsend-gui-1": {
+"source": "Pixel Cat's End GUI (Modrinth)",
+"tier": "A-SA",
+"count": 96
+},
+"mr-postmortal-particles-1": {
+"source": "Postmortal Particles (Modrinth)",
+"tier": "A",
+"count": 25
+},
+"mr-pridegui-1": {
+"source": "Pride GUI (Modrinth)",
+"tier": "A-SA",
+"count": 253
+},
+"mr-purple-cpvp-pack-16x-1": {
+"source": "purple CPVP Pack 16x (Modrinth)",
+"tier": "A",
+"count": 72
+},
+"mr-purple-gui-1": {
+"source": "Purple GUI (Modrinth)",
+"tier": "A",
+"count": 52
+},
+"mr-pvp-particles-1": {
+"source": "PvP particles (Modrinth)",
+"tier": "A",
+"count": 1
+},
+"mr-red-cpvp-16x-1": {
+"source": "red cpvp 16x (Modrinth)",
+"tier": "A",
+"count": 41
+},
+"mr-reduced-particles-1": {
+"source": "Reduced Particles (Modrinth)",
+"tier": "A",
+"count": 23
+},
+"mr-refreshed-ui-1": {
+"source": "Remastered UI (Modrinth)",
+"tier": "A",
+"count": 46
+},
+"mr-rei-1": {
+"source": "Roughly Enough Items (REI) (Modrinth)",
+"tier": "A",
+"count": 40
+},
+"mr-remnants-eclipsed-realm-1": {
+"source": "Remnants | The Eclipsed Realm (Modrinth)",
+"tier": "A",
+"count": 47
+},
+"mr-rpg_style_more_weapons-1": {
+"source": "RPG Style More Weapons (Modrinth)",
+"tier": "A",
+"count": 8
+},
+"mr-runic-enchanting-1": {
+"source": "Runic Enchanting (Modrinth)",
+"tier": "A",
+"count": 3
+},
+"mr-sb-enchantment-effects-1": {
+"source": "Enchantment Effects (Modrinth)",
+"tier": "A",
+"count": 29
+},
+"mr-scorched-guns-2-1": {
+"source": "Scorched Guns 2 (Modrinth)",
+"tier": "A",
+"count": 151
+},
+"mr-shiny-hearts-1": {
+"source": "Shiny Hearts (Modrinth)",
+"tier": "A",
+"count": 58
+},
+"mr-sky-lands-1": {
+"source": "Sky Lands (Modrinth)",
+"tier": "A",
+"count": 69
+},
+"mr-sleek-ui-1": {
+"source": "Sleek UI (Modrinth)",
+"tier": "A",
+"count": 46
+},
+"mr-smooth-particles-1": {
+"source": "Smooth Particles (Modrinth)",
+"tier": "A",
+"count": 243
+},
+"mr-smooth-smp-pack-1": {
+"source": "Smooth SMP pack (Modrinth)",
+"tier": "A",
+"count": 62
+},
+"mr-spellblades-and-such-1": {
+"source": "Spellblades and Such (Modrinth)",
+"tier": "A",
+"count": 69
+},
+"mr-stalwart-dungeons-1": {
+"source": "Stalwart Dungeons (Modrinth)",
+"tier": "A",
+"count": 12
+},
+"mr-stoneborn-modded-compatibility-gui-1": {
+"source": "STONEBORN - Modded Compatibility GUI - SBMC (Modrinth)",
+"tier": "A",
+"count": 30
+},
+"mr-the-aurorian-1": {
+"source": "The Aurorian (Modrinth)",
+"tier": "A",
+"count": 5
+},
+"mr-the-graveyard-fabric-1": {
+"source": "The Graveyard (Fabric/Neoforge) (Modrinth)",
+"tier": "A",
+"count": 73
+},
+"mr-tidal-waves-1": {
+"source": "Tidal (Modrinth)",
+"tier": "A",
+"count": 60
+},
+"mr-toxony-1": {
+"source": "Toxony (Modrinth)",
+"tier": "A",
+"count": 141
+},
+"mr-transparent-inventory-gui-1": {
+"source": "Transparent GUI (Modrinth)",
+"tier": "A",
+"count": 172
+},
+"mr-transparent-inventorys-1": {
+"source": "Transparent Inventorys (GUI & HUD) (Modrinth)",
+"tier": "A-SA",
+"count": 31
+},
+"mr-transparent-ui-1": {
+"source": "Transparent UI + Mod Support (Modrinth)",
+"tier": "A",
+"count": 88
+},
+"mr-trickster-1": {
+"source": "Trickster (Modrinth)",
+"tier": "A",
+"count": 52
+},
+"mr-usefulmagic-1": {
+"source": "UsefulMagic (Modrinth)",
+"tier": "A",
+"count": 30
+},
+"mr-valoria-1": {
+"source": "Valoria (Modrinth)",
+"tier": "A",
+"count": 162
+},
+"mr-vanilla-evolved-1": {
+"source": "Vanilla Evolved (Modrinth)",
+"tier": "A-SA",
+"count": 111
+},
+"mr-visuality-1": {
+"source": "Visuality (Modrinth)",
+"tier": "A",
+"count": 45
+},
+"mr-wandrous-1": {
+"source": "Wandrous (Modrinth)",
+"tier": "A",
+"count": 24
+},
+"mr-war-wither-1": {
+"source": "War Wither (Modrinth)",
+"tier": "A",
+"count": 11
+},
+"mr-windy-1": {
+"source": "Windy (Modrinth)",
+"tier": "A",
+"count": 50
+},
+"mr-world-alive-1": {
+"source": "World Alive: Ambient birds and wildlife (Modrinth)",
+"tier": "A",
+"count": 140
+},
+"mr-xingluo-ae2-1.21-guiexpansion-1": {
+"source": "XingLuo AE2 1.21 GUIExpansion (Modrinth)",
+"tier": "A",
+"count": 335
+},
+"mr-zapphire-16x-1": {
+"source": "Sapphire 16x (Modrinth)",
+"tier": "A",
+"count": 59
+},
+"mr-zenith-renewed-1": {
+"source": "Zenith Renewed (Modrinth)",
+"tier": "A",
+"count": 125
+},
+"mystical-agriculture-1": {
+"source": "Mystical Agriculture",
+"tier": "A",
+"count": 5
+},
+"natures-aura-1": {
+"source": "Nature's Aura",
+"tier": "A",
+"count": 19
+},
+"not-enough-glyphs-1": {
+"source": "Not Enough Glyphs",
+"tier": "A",
+"count": 1
+},
+"opengameart-cc0-1": {
+"source": "OpenGameArt: Double Slash Animation",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-2": {
+"source": "OpenGameArt: Superpowers assets various 2d",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-3": {
+"source": "OpenGameArt: Superpowers assets various 2d",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-4": {
+"source": "OpenGameArt: CC0 Rune Icons",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-5": {
+"source": "OpenGameArt: Modified And Cliped Magic, Skill & Item Icons",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-6": {
+"source": "OpenGameArt: CC0 Shield Icons",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-7": {
+"source": "OpenGameArt: DENZI's public domain art",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-8": {
+"source": "OpenGameArt: DENZI's public domain art",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-9": {
+"source": "OpenGameArt: DENZI's public domain art",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-10": {
+"source": "OpenGameArt: N64 Fire",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-11": {
+"source": "OpenGameArt: N64 Fire",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-12": {
+"source": "OpenGameArt: Basic Pixel Animated Spells",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-13": {
+"source": "OpenGameArt: Behrs 2,500 Pixel Staffs 32x32 Archive",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-14": {
+"source": "OpenGameArt: Side Blaster GFX (M484 Games)",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-15": {
+"source": "OpenGameArt: MageRage 2D Resources",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-16": {
+"source": "OpenGameArt: 2D Spell Effects",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-17": {
+"source": "OpenGameArt: MageRage 2D Resources",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-18": {
+"source": "OpenGameArt: All the sprites from \"Hold Fire\"",
+"tier": "A",
+"count": 400
+},
+"opengameart-cc0-19": {
+"source": "OpenGameArt: candy pack 1",
+"tier": "A",
+"count": 308
+},
+"patchouli-1": {
+"source": "Patchouli",
+"tier": "A-SA",
+"count": 10
+},
+"peyros-scythe-1": {
+"source": "Peyro's Scythes & Spells",
+"tier": "A",
+"count": 49
+},
+"polymorph-1": {
+"source": "Polymorph",
+"tier": "A",
+"count": 1
+},
+"primitive-mobs-revived-1": {
+"source": "Primitive Mobs Revived",
+"tier": "A",
+"count": 7
+},
+"project-vibrant-journeys-1": {
+"source": "Project: Vibrant Journeys",
+"tier": "A-SA",
+"count": 1
+},
+"projectile-damage-attribute-1": {
+"source": "Projectile Damage Attribute [Fabric & Forge]",
+"tier": "A",
+"count": 1
+},
+"quark-1": {
+"source": "Quark",
+"tier": "A-SA",
+"count": 30
+},
+"sanguine-neural-networks-1": {
+"source": "Sanguine Neural Networks [Hostile Neural Networks Addon]",
+"tier": "A",
+"count": 2
+},
+"selene-1": {
+"source": "Moonlight Lib",
+"tier": "A",
+"count": 12
+},
+"shoulder-surfing-reloaded-1": {
+"source": "Shoulder Surfing Reloaded",
+"tier": "A",
+"count": 3
+},
+"slashh-1": {
+"source": "Slashh",
+"tier": "A",
+"count": 12
+},
+"spice-of-life-carrot-edition-1": {
+"source": "Spice of Life: Carrot Edition",
+"tier": "A",
+"count": 1
+},
+"the-immersive-music-mod-1": {
+"source": "The Immersive Music Mod",
+"tier": "A",
+"count": 1
+},
+"titanium-1": {
+"source": "Titanium",
+"tier": "A",
+"count": 3
+},
+"tome-of-blood-rebirth-1": {
+"source": "Tome of Blood: Rebirth",
+"tier": "A",
+"count": 8
+},
+"toms-storage-1": {
+"source": "Tom's Simple Storage Mod",
+"tier": "A",
+"count": 6
+},
+"tooltip-overhaul-1": {
+"source": "Tooltip Overhaul",
+"tier": "A",
+"count": 13
+},
+"transmog-1": {
+"source": "Transmog",
+"tier": "A",
+"count": 1
+},
+"wds-selling-bin-1": {
+"source": "wd's Selling Bin",
+"tier": "A",
+"count": 3
+},
+"world-setup-1": {
+"source": "World Setup",
+"tier": "A",
+"count": 1
+},
+"yacl-1": {
+"source": "YetAnotherConfigLib",
+"tier": "A",
+"count": 3
+}
+}
