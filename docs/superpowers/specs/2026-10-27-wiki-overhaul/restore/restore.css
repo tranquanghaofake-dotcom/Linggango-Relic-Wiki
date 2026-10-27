@@ -1,0 +1,13 @@
+/* restoration demo: same look, integer pixel scales only (16 px art at ×1, ×2 or ×3) */
+.slot.sm img,a>span.slot.sm>img{width:32px!important;height:32px!important}
+nav.rfrs>a.rfr>img{width:32px!important;height:32px!important}
+span.emb.sm>img{width:32px!important;height:32px!important}
+span.emb.xs>img{width:16px!important;height:16px!important}
+span.emb.lg>img,span.tlem>span.emb>img{width:48px!important;height:48px!important}
+div.gtiles>a.gtl>img{width:48px!important;height:48px!important}
+a.gc>span.pic>img{width:32px!important;height:32px!important}
+span.ip-slot>span.aimg>img{width:32px!important;height:32px!important}
+small.bsum>img{width:16px!important;height:16px!important}
+img.nic{width:16px!important;height:16px!important}
+div.fst>span.slot.big>img{width:48px!important;height:48px!important}
+header.top>a.logo>img.coin{width:32px!important;height:32px!important}

@@ -147,3 +147,28 @@ Prototype đầu đúng lưới nhưng trượt **phép thử đối thủ** c�
 
 Ảnh: `2026-10-27-wiki-overhaul/proto2_top.png`. Trang: `proto2.html`.
 Lỗi mới: trang Keeper cũng mất tiêu đề (`before_keeper.png`). `h1` có trong DOM nhưng không hiện, nên đây là lỗi chung của `article()`.
+
+## 10. Phản hồi về v2: "trông như một bãi rác, quá loạn, tham khảo wiki cũ" → hướng R: phục chế từ wiki hiện tại
+
+- v1 (`proto.html`) và v2 (`proto2.html`) **bị loại**. v2 nhồi quá nhiều thứ đặc trưng vào một màn hình: tím của tooltip, hồng của thanh boss, xám của container, vàng của menu, vân quest book. Đúng kiểu lỗi taste-skill gọi là "a style's move was over-applied".
+- **Đính chính hai "lỗi" ở mục 2 và 4:**
+  - Tiêu đề trang chi tiết **không mất**: nó hiện sau khoảng 0,65–0,72 s (đo ở `#i76` và `#boss/arion`). Ảnh chụp ở mốc 2 s thấy trống là do cách chụp, như v34 đã ghi.
+  - `#mods` → `#home` là **cố ý**: trang Mods đã bị bỏ (`build/README.md`, Known weak spots).
+- **Hướng R:** giữ nguyên giao diện hiện tại (room, skin GUI, khung ornate, Pixelify Sans, bố cục `article()`), chỉ sửa chỗ lệch, mỗi chỗ đo được:
+  1. **Pixel:** khoảng 15 selector đang ở tỉ lệ lẻ đưa về tỉ lệ nguyên. Danh sách từ `restore/scales.js`:
+     - `.gtl img` ×3.5 → ×3;
+     - `.rfr img` ×1.86 → ×2;
+     - `.emb.sm` ×1.8 → ×2;
+     - `.emb.xs` ×1.13 → ×1;
+     - `.gc .pic` ×2.25 → ×2;
+     - `.slot.sm` ×1.5 → ×2;
+     - `.bsum` ×1.25 → ×1;
+     - `.nic` ×1.38 → ×1;
+     - `.slot.big` (Mechanics) ×2.5 → ×3;
+     - `.coin` → 32 px.
+     Demo: `restore/restore.css`, ảnh phóng to `restore/zoom_gear.png`.
+  2. **Màu:** gộp 567 mã màu thành bộ token **lấy từ chính bảng màu hiện tại**; các sắc gần trùng (lệch dưới 12/255) gộp về một. Mắt thường không thấy đổi.
+  3. **CSS:** gộp 25 lớp v3–v39 thành một bộ file có thứ tự. Kiểm bằng so ảnh từng pixel trước và sau trên mọi route chính: chỉ những chỗ cố ý sửa được khác.
+  4. **Số:** dùng font thân bài ở mọi nơi (Pixelify vẽ 2 thành 8).
+  5. **Hiệu ứng từ kho:** chỉ thay đúng chỗ, mỗi chỗ một lần duyệt.
+- Tiêu chí: `audit.js` không còn tỉ lệ lẻ; số màu khác nhau giảm, không còn cặp gần trùng; `check.sh` xanh; ảnh trước/sau.
