@@ -247,6 +247,7 @@ function mechPage(){
 <p>Applied Energistics 2 (15.4.11) with AE2 Things, AE2 Wireless Terminals and Insert/Export Card. In Linggango its later parts open with the Keepers:</p>
 <div class="tw"><table><tr><th>Opens at</th><th>AE2 parts that unlock</th></tr>${gates}</table></div>
 <p class="note">Since 6.6.6 (boss locks loosened) the ME Controller, Drive, Chest, 1k–16k cells, crafting and wireless terminals are open from the start; only 64k cells, the ME DISK line, spatial and quantum parts wait for ${act(6)}, and 256k for ${act(7)}.</p>
+${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?room("storage",[["1k",0],["4k",0],["16k",0],["64k",6],["256k",7]].map(([c,a])=>({h:"#mechanics",i:`<img alt="" src="data:image/png;base64,${ROOMT["ae2_item_storage_cell_"+c]}">`,n:`${c} ME Storage Cell: ${a?"from "+actL(a):"open from the start"}`,l:c})),{cols:5,label:"ME storage cells"}):""}
 <h3>Getting started</h3>
 <div class="flow">
 <div class="fst">${islot("ae2:certus_quartz_crystal",1)}<b>Certus Quartz</b><span>Grow it, or Nether Quartz + Light Blue Dye</span></div>

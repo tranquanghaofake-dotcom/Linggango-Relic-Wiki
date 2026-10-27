@@ -2481,10 +2481,10 @@ body.qbook .bcardl,body.qbook .bcardl:hover{transform:none;transition:background
 /* ---------- rooms (app.js room()): the page header as a room of vanilla blocks, item frames holding the page's items ----------
    One block = --b (16 texels × 3). Each room picks its wall, pillars, floor, three pieces of furniture and its light. */
 .room{--b:48px;--rw:var(--rt-stone_bricks);--rpl:none;--rf:var(--rt-deepslate_tiles);--lamp:var(--rt-lantern);--glow:255,176,84;
- --p1:none;--p2:none;--p3:none;--fr:var(--rt-item_frame);
+ --p1:none;--p2:none;--p3:none;--fr:var(--rt-item_frame);--rws:var(--b) var(--b);--dim:.52;--pb:.82;
  position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:1fr auto;align-items:end;gap:12px var(--b);
  min-height:calc(var(--b) * 4);margin:0 0 22px;padding:var(--b) calc(var(--b) * .75) var(--b);overflow:hidden;border-radius:4px;image-rendering:pixelated;
- background:linear-gradient(rgba(10,8,14,.52),rgba(10,8,14,.52)),var(--rpl) 0 0/var(--b) var(--b) repeat-y,var(--rpl) 100% 0/var(--b) var(--b) repeat-y,var(--rw) 0 0/var(--b) var(--b);
+ background:linear-gradient(rgba(10,8,14,var(--dim)),rgba(10,8,14,var(--dim))),var(--rpl) 0 0/var(--b) var(--b) repeat-y,var(--rpl) 100% 0/var(--b) var(--b) repeat-y,var(--rw) 0 0/var(--rws);
  box-shadow:0 0 0 2px #000,inset 0 0 0 2px rgba(255,255,255,.05),0 6px 0 2px rgba(0,0,0,.35)}
 /* the floor, then the dark corners of a lit room */
 .room::before{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:0;height:var(--b);background:linear-gradient(rgba(0,0,0,.3),rgba(0,0,0,.3)),var(--rf) 0 0/var(--b) var(--b);box-shadow:0 -3px 0 rgba(0,0,0,.55)}
@@ -2494,7 +2494,7 @@ body.qbook .bcardl,body.qbook .bcardl:hover{transform:none;transition:background
 .room .rhead .lede{margin:0;color:#e4e0ec;text-shadow:1px 1px 0 #000}
 .room .rhead .gem{float:left;margin:2px 16px 4px 0}
 .room .rprops{grid-column:1;grid-row:2;display:flex;align-self:end}
-.room .rprops i{width:var(--b);height:var(--b);background:var(--p1) 0 0/100% 100%;filter:brightness(.82)}
+.room .rprops i{width:var(--b);height:var(--b);background:var(--p1) 0 0/100% 100%;filter:brightness(var(--pb))}
 .room .rprops i:nth-child(2){background-image:var(--p2)}
 .room .rprops i:nth-child(3){background-image:var(--p3)}
 .room:not(.rhd) .rprops{grid-row:1/3}
@@ -2514,17 +2514,18 @@ body.qbook .bcardl,body.qbook .bcardl:hover{transform:none;transition:background
 .room .rlamp.b::after{animation-delay:-2.3s}
 @keyframes lampFlick{0%,100%{opacity:1}45%{opacity:.86}55%{opacity:.95}}
 /* the rooms */
-.room[data-room=forge]{--rw:var(--rt-stone_bricks);--rf:var(--rt-deepslate_tiles);--p1:var(--rt-blast_furnace_front_on);--p2:var(--rt-smithing_table_front);--p3:var(--rt-anvil)}
-.room[data-room=armory]{--rw:var(--rt-spruce_planks);--rpl:var(--rt-stripped_spruce_log);--rf:var(--rt-dark_oak_planks);--p1:var(--rt-crafting_table_front);--p2:var(--rt-barrel_side);--p3:var(--rt-chiseled_bookshelf_occupied)}
-.room[data-room=crypt]{--rw:var(--rt-polished_blackstone_bricks);--rf:var(--rt-blackstone);--lamp:var(--rt-soul_lantern);--glow:96,214,224}
-.room[data-room=crypt] .rprops{visibility:hidden}
-.room[data-room=ritual]{--rw:var(--rt-dark_oak_planks);--rpl:var(--rt-stripped_dark_oak_log);--rf:var(--rt-polished_blackstone);--lamp:var(--rt-soul_lantern);--glow:96,214,224;--p1:var(--rt-bookshelf);--p2:var(--rt-enchanting_table_side);--p3:var(--rt-lectern_front)}
-.room[data-room=library]{--rw:var(--rt-oak_planks);--rpl:var(--rt-stripped_oak_log);--rf:var(--rt-spruce_planks);--p1:var(--rt-bookshelf);--p2:var(--rt-bookshelf);--p3:var(--rt-lectern_front)}
+.room[data-room=forge]{--rw:var(--rt-forge_wall,var(--rt-stone_bricks));--rws:calc(var(--b) * 4) calc(var(--b) * 3);--rf:var(--rt-deepslate_tiles);--p1:var(--rt-blast_furnace_front_on);--p2:var(--rt-smithing_table_front);--p3:var(--rt-anvil)}
+.room[data-room=armory]{--rw:var(--rt-spruce_planks);--rpl:var(--rt-stripped_spruce_log);--rf:var(--rt-dark_oak_planks);--p1:var(--rt-crafting_table_front);--p2:var(--rt-xali_bookshelf_7,var(--rt-barrel_side));--p3:var(--rt-chiseled_bookshelf_occupied)}
+.room[data-room=crypt]{--rw:var(--rt-goety_crypt_bricks,var(--rt-polished_blackstone_bricks));--rf:var(--rt-goety_crypt_tiles,var(--rt-blackstone));--p1:var(--rt-goety_cursed_cage);--p3:var(--rt-goety_cursed_cage);--lamp:var(--rt-soul_lantern);--glow:96,214,224}
+.room[data-room=crypt] .rprops i:nth-child(2){visibility:hidden}
+.room[data-room=ritual]{--rw:var(--rt-goety_haunted_planks,var(--rt-dark_oak_planks));--rpl:var(--rt-goety_stripped_haunted_log,var(--rt-stripped_dark_oak_log));--rf:var(--rt-goety_shade_stone_bricks,var(--rt-polished_blackstone));--lamp:var(--rt-soul_lantern);--glow:96,214,224;--p1:var(--rt-goety_haunted_bookshelf,var(--rt-bookshelf));--p2:var(--rt-goety_cursed_cage,var(--rt-enchanting_table_side));--p3:var(--rt-enchanting_table_side)}
+.room[data-room=library]{--rw:var(--rt-oak_planks);--rpl:var(--rt-stripped_oak_log);--rf:var(--rt-spruce_planks);--p1:var(--rt-xali_bookshelf_1,var(--rt-bookshelf));--p2:var(--rt-xali_bookshelf_12,var(--rt-bookshelf));--p3:var(--rt-xali_lectern_front_2,var(--rt-lectern_front))}
+.room[data-room=storage]{--rw:var(--rt-ae2_sky_stone_brick);--rf:var(--rt-ae2_smooth_sky_stone_block);--lamp:none;--glow:150,120,255;--p1:var(--rt-ae2_controller);--p2:var(--rt-ae2_drive_front);--p3:var(--rt-ae2_fluix_block)}
 .room[data-room=vault]{--rw:var(--rt-deepslate_bricks);--rf:var(--rt-polished_blackstone);--p1:none;--p2:none;--p3:none}
 /* inside a hub section the room is the section's picture, not its header */
-.gui .room{min-height:calc(var(--b) * 3);margin:12px 0 0}
-.gui .room:not(.rhd){grid-template-columns:auto minmax(0,1fr)}
-.gui .room:not(.rhd) .rfrs{grid-column:2;justify-content:center;max-width:none;margin-right:calc(var(--b) * 3)}
+.room:not(.rhd){min-height:calc(var(--b) * 3);margin:12px 0 0}
+.room:not(.rhd){grid-template-columns:auto minmax(0,1fr)}
+.room:not(.rhd) .rfrs{grid-column:2;justify-content:center;max-width:none;margin-right:calc(var(--b) * 3)}
 .room[data-room=vault] .rprops{display:none}
 .room[data-room=vault] .rfrs{grid-column:1/-1}
 @media (max-width:1180px){.room{--b:42px}}
@@ -2532,7 +2533,7 @@ body.qbook .bcardl,body.qbook .bcardl:hover{transform:none;transition:background
  .room{--b:34px;grid-template-columns:minmax(0,1fr);gap:10px;padding:calc(var(--b) * 1.1) 12px var(--b)}
  .room .rprops{display:none}
  .room .rfrs{grid-column:1;grid-row:auto;justify-content:flex-start;max-width:none}
- .gui .room:not(.rhd) .rfrs{grid-column:1}}
+ .room:not(.rhd) .rfrs{grid-column:1}}
 @media (prefers-reduced-motion:reduce){.room .rlamp::after{animation:none}.room .rfr{transition:none}}
 
 /* infobox picture on every detail page: the item hangs in an item frame on its Act's wall, lit by a lantern */
@@ -2549,3 +2550,5 @@ body.qbook .bcardl,body.qbook .bcardl:hover{transform:none;transition:background
 footer{position:relative}
 footer::before{content:"";position:absolute;left:0;right:0;top:-12px;height:12px;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),var(--rt-dark_oak_planks) 0 0/24px 24px;image-rendering:pixelated;box-shadow:0 -2px 0 #000}
 .room .rfr small.lg{font-size:10px}
+.room[data-room=crypt],.room[data-room=ritual]{--dim:.18;--pb:1.25}
+.room[data-room=storage]{--dim:.3;--pb:1}
