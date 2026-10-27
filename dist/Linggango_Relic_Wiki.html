@@ -2399,6 +2399,24 @@ body.qbook .bdrop:not(.bag){border-color:var(--qb-hot);background:linear-gradien
 body.qbook .bdrop:not(.bag) .slot{box-shadow:inset 3px 3px 0 var(--slot-lo),inset -3px -3px 0 var(--slot-hi),0 0 0 2px var(--qb-hot)}
 @media (prefers-reduced-motion:reduce){body.qbook .bcardl{transition:none}}
 
+/* ---------- rarity frames (item page art) ----------
+   Ornament only marks rarity: Epic gets an iron frame with rivets, Legendary silver with a crest, Mythic gold with a crest,
+   Must-Have gold with a starred crest. Common to Rare keep the plain GUI frame. Pixel-stepped, bevelled, drawn here. */
+.ip.r3 .ip-art{--fb:#717884;--fh:#c3cad4;--fl:#2b2f36}
+.ip.r4 .ip-art{--fb:#b9bfc8;--fh:#ffffff;--fl:#5d626b}
+.ip.r5 .ip-art,.ip.r6 .ip-art{--fb:#d6a21e;--fh:#ffe98a;--fl:#6a4906}
+.ip:is(.r3,.r4,.r5,.r6) .ip-art{background:linear-gradient(135deg,var(--fh),var(--fb) 22%,var(--fb) 78%,var(--fl));
+ box-shadow:0 0 0 2px #000,inset 3px 3px 0 var(--fh),inset -3px -3px 0 var(--fl),0 6px 0 2px rgba(0,0,0,.35)}
+.ip:is(.r3,.r4,.r5,.r6) .ip-art::before{content:"";position:absolute;inset:4px;z-index:1;pointer-events:none;
+ background:linear-gradient(var(--fh) 50%,var(--fl) 50%) 0 0/8px 8px no-repeat,linear-gradient(var(--fh) 50%,var(--fl) 50%) 100% 0/8px 8px no-repeat,
+  linear-gradient(var(--fh) 50%,var(--fl) 50%) 0 100%/8px 8px no-repeat,linear-gradient(var(--fh) 50%,var(--fl) 50%) 100% 100%/8px 8px no-repeat}
+.ip:is(.r4,.r5,.r6) .ip-art::after{content:"";position:absolute;z-index:3;left:50%;top:-15px;width:68px;height:24px;transform:translateX(-50%);
+ display:grid;place-items:center;font:700 14px/1 var(--body);color:var(--fl);
+ background:linear-gradient(var(--fh),var(--fb) 55%,var(--fl));filter:drop-shadow(0 0 0 #000) drop-shadow(0 2px 0 rgba(0,0,0,.5));
+ clip-path:polygon(0 100%,0 45%,15% 45%,15% 20%,30% 20%,30% 45%,42% 45%,42% 0,58% 0,58% 45%,70% 45%,70% 20%,85% 20%,85% 45%,100% 45%,100% 100%)}
+.ip.r6 .ip-art::after{content:"★";padding-top:9px;color:#7a3d00}
+.ip.r5 .ip-art::after{content:"◆";padding-top:9px;color:#d42a33;text-shadow:1px 1px 0 #5a0a0e}
+
 </style>
 <a class="skip" href="#main">Skip to content</a>
 <header class="top">
