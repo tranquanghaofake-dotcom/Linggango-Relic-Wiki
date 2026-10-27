@@ -20,8 +20,10 @@ Licences decide how each source is used (credits in the footer, template.html):
   - Xali's variants (CC BY-NC 4.0, changes allowed with credit) are also arranged into a wall sheet with vanilla bricks.
   - Misanthropy's packs: sprites are cut out of their sheets (frames, bars, the gem knob, slots, lock, check).
 Not used: Faithful 32x (licence allows it with credit, but 32 px textures next to 16 px item icons break the pixel
-grid), the Linggango resource packs (LICENSE.txt says All Rights Reserved), and mods whose textures are All Rights
-Reserved or NoDerivatives (Iron's Spellbooks, Terramity, Ars Nouveau, Relics, L_Ender's Cataclysm).
+grid), and packs or mods whose textures are All Rights Reserved or NoDerivatives (Iron's Spellbooks, Terramity,
+Ars Nouveau, Relics, L_Ender's Cataclysm, Dark/Modded Coffee GUI, Vanilla Experience+, Lanterns with Candles,
+Brush & Juice, Fresh Waystones). Misanthropy's packs are used with the author's permission; Linggango Textures
+includes textures from Coquet by jekaloic, credited with it.
 """
 import base64, io, pathlib, sys
 from PIL import Image
