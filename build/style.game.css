@@ -576,7 +576,7 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .gc b{grid-column:2;font:700 15px/1.25 var(--body)!important;overflow-wrap:anywhere}
 .gc small{grid-column:2;font:500 12.5px/1.35 var(--body)!important;color:var(--gui-mute)!important}
 .gc .gm{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;align-self:end;margin-top:4px}
-.gc .rk,.gc .ak{position:static!important;order:0!important;font:600 11.5px/1 var(--body)!important;padding:3px 6px!important;border-radius:2px!important;opacity:1!important}
+.gc .rk,.gc .ak{position:static!important;order:0!important;font:600 12px/1 var(--body)!important;padding:3px 6px!important;border-radius:2px!important;opacity:1!important}
 .gc .rk{background:color-mix(in srgb,var(--rc) 22%,#000)!important;color:var(--rc)!important;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--rc) 55%,transparent)}
 .gc .ak{background:var(--gui-lo)!important;color:var(--gui-mute)!important}
 /* builder: a filled slot is one chip (icon + name | ×), not two 54px squares */
@@ -1049,7 +1049,7 @@ body.qbook .bdrop:not(.bag) .slot{box-shadow:inset 3px 3px 0 var(--slot-lo),inse
 .scene img{display:block;width:432px;height:144px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 2px #000,inset 0 0 0 2px var(--gui-hi),0 6px 0 2px rgba(0,0,0,.35)}
 .scene.px img{image-rendering:pixelated}
 .scene:not(.px) img{image-rendering:auto}
-.scene figcaption{margin-top:6px;font-size:11.5px;color:var(--gui-mute);text-align:right}
+.scene figcaption{margin-top:6px;font-size:12px;color:var(--gui-mute);text-align:right}
 .ghead .scene{margin-left:auto;align-self:center;padding-left:20px}
 .ghead .scene img{width:384px;height:128px}
 @media (max-width:1180px){.scene img{width:336px;height:112px}.ghead .scene img{width:288px;height:96px}}
@@ -1062,3 +1062,17 @@ body.qbook .bcardl,body.qbook .bcardl:hover{transform:none;transition:background
 .ptrack .pn .pfr,.ptrack .pn:hover .pfr,.ptrack .pn[aria-selected=true] .pfr{transform:none;transition:none;animation:none}
 .ptrack .pn[aria-selected=true] b{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
 .pxp i{transition:none}
+
+/* Visual pass (taste-skill / ui-ux-pro-max review, user-approved) */
+/* E. no label the reader needs under 12px */
+.tier .tl small,.tier .tl .tn,.rlq small{font-size:12px}
+/* A. The Path legend: one short line (full wording in each item's tooltip) */
+.legend.lgl{gap:6px 18px}
+.legend.lgl>span{padding:0;background:none;border:0;cursor:help}
+/* B. the in-game name colour is a fact about the item, quieter than the wiki rarity */
+.ip-info dt.ign-dt,.ip-info dt.ign-dt+dd{font-size:13px;opacity:.85}
+/* C. tier rows with few items share a line instead of each spanning the page */
+.gtl-list{flex-direction:row;flex-wrap:wrap;gap:10px}
+.gtl-list>.grow{flex:1 1 auto;max-width:100%}
+/* the relic-level note ran past the filter box on narrow widths */
+.fbar .frl .fn{white-space:normal;min-width:0}
