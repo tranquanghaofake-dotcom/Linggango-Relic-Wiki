@@ -116,3 +116,34 @@ Làm trên nhánh `claude/determined-dirac-u2c3ca`. Mỗi giai đoạn: một ho
 1. Duyệt hướng này cùng prototype (`proto_top.png`, `proto_spec.png`, `proto.html`).
 2. Font display: **Monocraft** (đề xuất) hay Silkscreen?
 3. Ảnh trưng bày trong infobox ở ×6 (vật phẩm 96 px) có ổn không, hay ×8 (128 px)?
+
+## 9. Bổ sung sau phản hồi "chưa thấy là wiki Minecraft, nhất là Linggango" (prototype v2)
+
+Prototype đầu đúng lưới nhưng trượt **phép thử đối thủ** của taste-skill: thay "Linggango" bằng tên modpack khác mà trang vẫn đúng. Bản sửa làm theo quy trình của skill. Script của skill bị bộ phân loại tự động chặn, nên phần dưới chỉ áp dụng phương pháp từ `SKILL.md` và `references/app-screens.md`.
+
+**Kiểm kê (chỉ Linggango có):**
+- logo cam kiểu pixel và splash text ("The Keepers are watching.", "Red means don't parry.", "Hardmode starts after the Dragon.", "Treasure bags for everyone!");
+- menu chính kiểu Terraria do Misanthropy làm bằng FancyMenu: chữ `#E6E6E6`, rê chuột chuyển `#FFE14A`, không có khung nút;
+- các Keeper khoá từng Act;
+- The Path từ Act 0–I tới XII, có Dragon;
+- Hardmode ×2.1 sau Dragon;
+- treasure bag, reforge, parry;
+- Boss Soul;
+- khung kim loại của Linggango Textures, nền quest book FTB;
+- tooltip curio có màu rarity;
+- khẩu hiệu "Terraria-inspired, Minecraft-powered".
+
+**Câu ý tưởng:** *Trên wiki này, hành trình qua các Keeper của bạn trở thành khung của mọi trang.* Câu này qua phép thử đối thủ: modpack khác không có Keeper khoá từng Act.
+
+**Thứ sống:** chọn "I'm here" (đã có sẵn, `lgw-here`). Thanh "Your run" dưới header đánh dấu Act đã qua, Act hiện tại và Act của trang đang xem. Mỗi trang ghi rõ còn cách bạn bao nhiêu Keeper, bằng thanh boss.
+
+**Thay đổi so với mục 3:**
+- **Header:** logo thật của pack + splash text nhún nhảy như màn hình tiêu đề Minecraft + menu chữ kiểu Terraria. Nút đá chỉ dùng trong nội dung.
+- **Nền:** quest book FTB của pack, thay cho nền tối trơn.
+- **Panel:** khung kim loại của Linggango Textures (9-slice ×2), lòng tối.
+- **Công thức:** cửa sổ container vanilla xám sáng `#C6C6C6` với slot `#8B8B8B`, đúng như trong game.
+- **Infobox = tooltip của chính vật phẩm:** nền `#100010`, viền tím `#5000FF`→`#28007F`, tên màu rarity, dòng chỉ số xanh `#5555FF`, dòng mô tả xám. Ảnh trưng bày ×6 trong khung vàng hoặc bạc.
+- **Từ ngữ của trò chơi:** Keeper-gated, Hardmode, Treasure Bag, Boss Soul, Act.
+
+Ảnh: `2026-10-27-wiki-overhaul/proto2_top.png`. Trang: `proto2.html`.
+Lỗi mới: trang Keeper cũng mất tiêu đề (`before_keeper.png`). `h1` có trong DOM nhưng không hiện, nên đây là lỗi chung của `article()`.
