@@ -3,11 +3,14 @@ gear id targets, mod display names, and relic acts/names from the v5 wiki."""
 import sys, json, zipfile, glob, re, collections, subprocess, os
 W = sys.argv[1]; H = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(os.path.dirname(H))
 K = W + '/pack/src/overrides/kubejs/server_scripts/progression_lock'
-js = r'''const fs=require("fs");const T={};
-global.ServerEvents={tags:(t,f)=>{if(t!=="item")return;f({add:(tag,xs)=>{(T[tag]=T[tag]||new Set());[].concat(xs).forEach(x=>T[tag].add(x))},remove(){},removeAll(){},get:()=>({add(){},remove(){}})})}};
-for(const f of ["tags.js","tags_gapfill.js","removed_tags.js"])eval(fs.readFileSync(process.argv[1]+"/"+f,"utf8"));
-console.log(JSON.stringify(Object.fromEntries(Object.entries(T).map(([k,v])=>[k,[...v]]))))'''
-json.dump(json.loads(subprocess.check_output(['node', '-e', js, K])), open(W + '/gates.json', 'w'))
+# item tags added by every progression_lock script (read as text, the pack's JS is not run; 6.6.6 added opposing_force.js)
+T = collections.defaultdict(list)
+for f in sorted(glob.glob(K + '/*.js')):
+    for blk in re.split(r'ServerEvents\.tags\(', open(f, encoding='utf8').read())[1:]:
+        if not re.match(r'\s*"item"', blk): continue
+        for m in re.finditer(r'\.add\(\s*"([^"]+)"\s*,\s*\[(.*?)\]\s*\)', blk, re.S):
+            T[m.group(1)] += [x for x in re.findall(r'"([^"]+)"', m.group(2)) if x not in T[m.group(1)]]
+json.dump(T, open(W + '/gates.json', 'w'))
 ns2jar = collections.defaultdict(set); lang = {}; gns = {}
 def langs(d):
     for k, v in d.items():

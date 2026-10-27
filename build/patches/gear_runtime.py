@@ -3,7 +3,8 @@
 
 The pack has its own dump script: kubejs/server_scripts/dump_gear.js (run in game with /kubejs custom_command dump_gear) calls
 ItemStack.getAttributeModifiers for every tiered tool/armor tag and every ArmorItem and writes kubejs/gear_dump.json. Re-run it and
-convert the file when the pack updates (the copy shipped inside serverpack 6.6.5b4 was older than the pack's own configs). That is what the game applies, after the
+convert the file when the pack updates (the copies shipped inside serverpack 6.6.5b4 and 6.6.6hf were older than the pack's own configs,
+so the 6.6.5b4 in-game dump is still used, minus the items listed in stale_666). That is what the game applies, after the
 attributesetter rebalance and the linggango_tweaks ItemAttributeModifierEvent handlers (per-mod buffs, tier damage floor), so for
 every item in it the static extraction, the jar overlays (gear_stats) and the modelled tweaks (gear_data.py runtime_bonus) are
 superseded. Items not in the dump (mostly bows, guns, staves without a tier tag) keep the static values, and so do an all-zero dump
@@ -14,7 +15,10 @@ with MULTIPLY_BASE and MULTIPLY_TOTAL folded into one factor. Marks g["rt"] = 1.
 import json, pathlib
 from gearlib import off_of, set_facts
 H = pathlib.Path(__file__).resolve().parent
-R = json.loads((H / "gear_runtime.json").read_text(encoding="utf-8"))["items"]
+RT = json.loads((H / "gear_runtime.json").read_text(encoding="utf-8"))
+R = RT["items"]
+# taken on 6.6.5b4: items whose jar stats, tool tier tag or attributesetter entry changed in 6.6.6hf keep the 6.6.6 jar reading
+STALE = set(RT.get("stale_666", []))
 SLOT = {"HELMET": "head", "CHESTPLATE": "chest", "LEGGINGS": "legs", "BOOTS": "feet"}
 ARMOR_KEYS = {"armor": "arm", "armor_toughness": "tough", "knockback_resistance": "kbr"}
 
@@ -42,7 +46,7 @@ def apply(st):
     n = changed = 0
     for g in GE:
         r = R.get(g["id"])
-        if not r: continue
+        if not r or g["id"] in STALE: continue
         slot = SLOT.get(g.get("sl")) if g["k"] == "armor" else "mainhand"
         mods = r.get(slot) if slot else (next(iter(r.values())) if len(r) == 1 else None)
         # an all-zero dump is an item whose stats live in its NBT (Blood Magic sentient tools need demon will): keep the jar reading

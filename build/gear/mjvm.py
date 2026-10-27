@@ -319,6 +319,7 @@ class VM:
         """new cls + <init>(desc)(args)"""
         if cls in ('com/google/common/collect/ImmutableMultimap$Builder', 'com/google/common/collect/HashMultimap',
                    'java/util/HashMap', 'java/util/EnumMap', 'java/util/ArrayList', 'java/util/LinkedHashMap',
+                   'java/util/WeakHashMap', 'java/util/IdentityHashMap', 'java/util/TreeMap', 'java/util/concurrent/ConcurrentHashMap',
                    'com/google/common/collect/ArrayListMultimap', 'com/google/common/collect/LinkedHashMultimap'):
             return MMap()
         if cls == 'net/minecraft/resources/ResourceLocation':
@@ -380,7 +381,8 @@ class VM:
                    'com/google/common/collect/ImmutableSetMultimap', 'com/google/common/collect/ImmutableListMultimap',
                    'com/google/common/collect/HashMultimap', 'com/google/common/collect/LinkedHashMultimap',
                    'com/google/common/collect/ArrayListMultimap', 'com/google/common/collect/Multimaps',
-                   'java/util/Map', 'com/google/common/collect/ImmutableMap', 'com/google/common/collect/Maps') and kind == 'invokestatic':
+                   'java/util/Map', 'com/google/common/collect/ImmutableMap', 'com/google/common/collect/Maps',
+                   'java/util/Collections') and kind == 'invokestatic':
             if name in ('builder', 'create'): return MMap()
             if name == 'of':
                 m = MMap()

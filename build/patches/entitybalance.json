@@ -45,7 +45,7 @@
     },
     {
       "attribute": "minecraft:generic.armor",
-      "value": 30,
+      "value": 12,
       "operation": "BASE"
     },
      {
@@ -107,7 +107,7 @@
     },
      {
       "attribute": "minecraft:generic.armor",
-      "value": 40,
+      "value": 18,
       "operation": "BASE"
     },
      {
@@ -812,9 +812,8 @@
    "armageddon_mod:arion_tyrantofthe_emerald_wrath_ravager": [ 
     {
       "attribute": "minecraft:generic.attack_damage",
-      "uuid": "c5d749e9-cda1-4235-8b8b-641fc40b8467",
-      "value": 4,
-      "operation": "ADDITION"
+      "value": 12,
+      "operation": "BASE"
     },
     {
       "attribute": "minecraft:generic.attack_knockback",
@@ -830,16 +829,15 @@
     },
      {
       "attribute": "minecraft:generic.armor",
-      "value": 25,
+      "value": 15,
       "operation": "BASE"
     }
   ],
      "armageddon_mod:arion_tyrant_of_the_emerald_wrath_soldat": [ 
     {
       "attribute": "minecraft:generic.attack_damage",
-        "uuid": "63d344e5-c997-47ba-b8b2-5b15d0408878",
-      "value": 4,
-      "operation": "ADDITION"
+      "value": 12,
+      "operation": "BASE"
     },
     {
       "attribute": "minecraft:generic.attack_knockback",

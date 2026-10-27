@@ -45,7 +45,7 @@ the best item at the Act (S ≥85%, A ≥70%, B ≥55%, C ≥40%); under 25% is 
 attributes come from `pack_audit/iss_armor.py` (javap on `ExtendedArmorMaterials`) via `gear_stats.json`; icons that need a 3D render come from `pack_audit/weapon_icons/`.
 
 ## Regenerating from the pack
-`gear/` (see `gear/wide/README.md`) and `pack_audit/` (see its README) read the pack's 476 jars and write the JSON in `patches/`. They need the pack downloaded (`gear/dl.py`) and are not part of the daily loop.
+`gear/` (see `gear/wide/README.md`) and `pack_audit/` (see its README) read the pack's jars (6.6.6hf: the 383 server jars plus the client zip's overrides) and write the JSON in `patches/`. They need the pack downloaded (`gear/dl.py`) and are not part of the daily loop.
 Run those scripts from a folder that has no file named like a stdlib module (`enum.py` used to shadow `enum` and break `import json`; it is now `boss_audit/enum_jars.py`).
 `original/` is the v5 wiki the first `data.js` came from; `gear/prep.py` still reads it. The one-off `transform.py` that did the conversion is on the `workspace` branch.
 

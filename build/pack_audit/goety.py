@@ -1,10 +1,10 @@
 """Goety rituals as the pack ships them: ritual types (requirements + example picture from the Black Book),
 and every ritual recipe from Goety and its addons, with the pack's KubeJS datapack recipes on top and
 KubeJS removals taken out. Usage: goety.py W out.json"""
-import json, re, sys, zipfile, glob, base64, collections
+import json, re, sys, zipfile, glob, base64, collections, os
 W, OUT = sys.argv[1], sys.argv[2]
 M = W + "/pack/mods/"
-JARS = ["goety-2.5.54.5.jar", "GoetyRevelation-2.3.1.jar", "goety_cataclysm-1.20-1.7.0.jar", "goetydelight-1.4.8.jar", "goetyhostility-1.4.4.jar"]
+JARS = [os.path.basename(glob.glob(M + p)[0]) for p in ("goety-2*.jar", "GoetyRevelation-*.jar", "goety_cataclysm-*.jar", "goetydelight-*.jar", "goetyhostility-*.jar", "goetyawaken-*.jar") if glob.glob(M + p)]
 lang = json.load(open(W + "/lang.json"))
 for m in re.finditer(r"renameItem\('([^']+)',\s*'([^']+)'\)", open(W + "/pack/src/overrides/kubejs/client_scripts/lang.js").read()): lang[m.group(1)] = m.group(2)
 ent = {}

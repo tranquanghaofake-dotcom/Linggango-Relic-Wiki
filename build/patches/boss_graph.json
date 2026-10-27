@@ -116,7 +116,7 @@
 "Geburah"
 ],
 "Ignis": [
-"Dark Doppelganger"
+"The Nightwarden"
 ],
 "Maledictus": [
 "The Leviathan"
@@ -132,9 +132,6 @@
 "Netherite Monstrosity"
 ],
 "Apollyon": [],
-"Dark Doppelganger": [
-"The Nightwarden"
-],
 "Immortal": [
 "Maledictus"
 ],
@@ -143,9 +140,6 @@
 ],
 "Redstone Golem": [
 "Frostmaw"
-],
-"Bone Chimera": [
-"Rosalyne"
 ],
 "Apostle": [
 "Underworld Knight"
@@ -189,6 +183,33 @@
 "Chaos Monarch",
 "Moonknight",
 "Returning Knight"
+],
+"Vizier": [
+"Redstone Golem"
+],
+"Minister": [
+"Redstone Golem"
+],
+"Crone": [
+"Redstone Golem"
+],
+"Heresiarch": [
+"Redstone Golem"
+],
+"Skull Lord": [
+"Redstone Golem"
+],
+"Wither Necromancer": [
+"Redstone Golem"
+],
+"Brood Mother": [
+"Redstone Golem"
+],
+"Wight": [
+"Redstone Golem"
+],
+"Ender Keeper": [
+"Redstone Golem"
 ]
 },
 "dim": {
@@ -238,11 +259,9 @@
 "Chesed": 0,
 "Malkuth": 0,
 "Apollyon": 0,
-"Dark Doppelganger": 6.3,
 "Immortal": 0,
 "Redstone Monstrosity": 0,
 "Redstone Golem": 0,
-"Bone Chimera": 0,
 "Apostle": 0,
 "Gundalf, Circe, Merlin (Shadow Wizards)": 5,
 "Tyros (fire boss)": 5,
@@ -256,6 +275,137 @@
 "Accursed Lord": 5,
 "Moonknight": 0,
 "Day Stalker": 0,
-"Night Prowler": 0
+"Night Prowler": 0,
+"Vizier": 0,
+"Minister": 0,
+"Crone": 0,
+"Heresiarch": 0,
+"Skull Lord": 0,
+"Wither Necromancer": 5,
+"Brood Mother": 0,
+"Wight": 0,
+"Ender Keeper": 6.3
+},
+"soul": {
+"Dune Sentinel": [
+"Emerald Totem",
+"Arion"
+],
+"Ancient Guardian": [
+"Builder Stone",
+"Eldorath"
+],
+"Overgrown Colossus": [
+"Strange Coin",
+"Goblin Lord"
+],
+"Frostbitten Golem": [
+"Emerald Totem",
+"Arion"
+],
+"Frostmaw": [
+"Fiery Wither Skull",
+"Zoranth"
+],
+"Umvuthi": [
+"Builder Stone",
+"Eldorath"
+],
+"Ferrous Wroughtnaut": [
+"Strange Coin",
+"Goblin Lord"
+],
+"Swampjaw": [
+"Strange Coin",
+"Goblin Lord"
+],
+"Rosalyne": [
+"Builder Stone",
+"Eldorath"
+],
+"Skeletosaurus": [
+"Strange Coin",
+"Goblin Lord"
+],
+"Dead King": [
+"Fiery Wither Skull",
+"Zoranth"
+],
+"Cumulonimbus": [
+"Builder Stone",
+"Eldorath"
+],
+"Scylla": [
+"Sun Emblem",
+"Zoranth the Newborn"
+],
+"Netherite Monstrosity": [
+"Titan's Insigna",
+"Elvenite Paladin"
+],
+"Obsidilith": [
+"Cocoon Of Blood",
+"Sanghor"
+],
+"Void Blossom": [
+"Sun Emblem",
+"Zoranth the Newborn"
+],
+"Lich": [
+"Titan's Insigna",
+"Elvenite Paladin"
+],
+"Gauntlet": [
+"Cocoon Of Blood",
+"Sanghor"
+],
+"The Harbinger": [
+"Wanderer's Fallen Shard",
+"Vaedric"
+],
+"Ender Guardian": [
+"Wanderer's Fallen Shard",
+"Vaedric"
+],
+"Ancient Remnant": [
+"Cocoon Of Blood",
+"Sanghor"
+],
+"The Leviathan": [
+"Wanderer's Fallen Shard",
+"Vaedric"
+],
+"Ignis": [
+"Sun Emblem",
+"Zoranth the Newborn"
+],
+"Maledictus": [
+"Sun Emblem",
+"Zoranth the Newborn"
+],
+"Tyros (fire boss)": [
+"Titan's Insigna",
+"Elvenite Paladin"
+],
+"Draugr → Night Shade": [
+"Fiery Wither Skull",
+"Zoranth"
+],
+"Returning Knight": [
+"Titan's Insigna",
+"Elvenite Paladin"
+],
+"Chaos Monarch": [
+"Cocoon Of Blood",
+"Sanghor"
+],
+"Accursed Lord": [
+"Sun Emblem",
+"Zoranth the Newborn"
+],
+"Moonknight": [
+"Wanderer's Fallen Shard",
+"Vaedric"
+]
 }
 }

@@ -61,22 +61,6 @@
   "legendary_monsters:shulker_mimic"
  ],
  [
-  "Dark Doppelganger",
-  7,
-  "",
-  "Read a Summon Scroll at night",
-  [
-   "minecraft:nether_star",
-   "minecraft:echo_shard",
-   "minecraft:diamond_block",
-   "darkdoppelganger:summons_necklace",
-   "darkdoppelganger:doppelganger_ring",
-   "darkdoppelganger:elder_necklace"
-  ],
-  "Dark Doppelganger",
-  "darkdoppelganger:dark_doppelganger"
- ],
- [
   "Redstone Golem",
   4,
   "",
@@ -131,14 +115,122 @@
   "legendary_monsters:chorusling"
  ],
  [
-  "Bone Chimera",
+  "Minister",
+  4,
+  "",
+  "Leads illager raids (Goety). Outranks every Evoker, rallies the other raiders and blocks with its staff.",
+  [
+   "goety:ominous_orb",
+   "minecraft:emerald"
+  ],
+  "Goety",
+  "goety:minister"
+ ],
+ [
+  "Crone",
+  4,
+  "",
+  "Use the Crystal Ball inside a Blighted Shack (swamps) to call her (Goety).",
+  [
+   "goety:crone_hat",
+   "minecraft:glowstone_dust",
+   "minecraft:redstone"
+  ],
+  "Goety",
+  "goety:crone"
+ ],
+ [
+  "Heresiarch",
+  4,
+  "",
+  "The priest at the obsidian monolith of a Black Assembly (Goety cult structure).",
+  [
+   "goety:malefic_helm",
+   "minecraft:gold_ingot",
+   "minecraft:golden_carrot"
+  ],
+  "Goety",
+  "goety:heresiarch"
+ ],
+ [
+  "Skull Lord",
+  4,
+  "",
+  "Old ruler of a Goety Crypt (under forest, taiga and plains), woken by opening a jar in the grand tomb. The floating skull is the real body; the Bone Lord is its armour.",
+  [
+   "goety:frozen_blade",
+   "goety:cursed_paladin_helmet",
+   "goety:cursed_paladin_chestplate",
+   "goety:cursed_paladin_leggings",
+   "goety:cursed_paladin_boots",
+   "minecraft:skeleton_skull"
+  ],
+  "Goety",
+  "goety:skull_lord"
+ ],
+ [
+  "Wither Necromancer",
   5,
   "",
-  "Overworld, underground",
+  "Blow a Blazing Horn inside a Nether Fortress; it answers with wither skeletons at its side (Goety).",
   [
-   "dodosmobs:chimera_claw"
+   "goety:withered_manuscript",
+   "goety:forbidden_piece",
+   "minecraft:wither_skeleton_skull",
+   "minecraft:netherite_scrap",
+   "goety:ectoplasm"
   ],
-  "Dodo's Mobs",
-  "dodosmobs:bone_chimera"
+  "Goety",
+  "goety:wither_necromancer"
+ ],
+ [
+  "Brood Mother",
+  4,
+  "",
+  "The giant spider of a Goety Spider Den (hollowed giant trees in the woods, on top of an old mine).",
+  [
+   "goety:venomous_fang",
+   "goety:spider_egg",
+   "goety:spider_nest",
+   "minecraft:cobweb"
+  ],
+  "Goety",
+  "goety:brood_mother"
+ ],
+ [
+  "Wight",
+  5,
+  "",
+  "A Sabbath ritual with four crypt stones and ectoplasm on the altar calls it up (Goety).",
+  [
+   "goety:shadow_essence",
+   "goety:ectoplasm",
+   "minecraft:ender_pearl"
+  ],
+  "Goety",
+  "goety:wight"
+ ],
+ [
+  "Ender Keeper",
+  6.3,
+  "",
+  "Put four Void Shards in the shrine on top of the Final Terminal, a Goety structure in the End highlands guarded by Enderlings.",
+  [
+   "goety:void_echo",
+   "goety:shrouded_blueprint"
+  ],
+  "Goety",
+  "goety:ender_keeper"
+ ],
+ [
+  "Ice Hermit",
+  5,
+  "",
+  "Waits in the middle of the Frostyard, a frozen court sunk into snowy plains, ice spikes, snowy taiga and groves (Goety: Revelation, new in 6.6.6).",
+  [
+   "goety_revelation:ice_heart"
+  ],
+  "Goety: Revelation",
+  "revelationfix:ice_hermit"
  ]
 ]

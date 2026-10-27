@@ -769,8 +769,13 @@
  "Vizier": {
   "entity": "goety:vizier",
   "mod": "Goety",
-  "find": "Use a Dark Scroll (black dye, magic fabric, totem of undying) inside a woodland mansion.",
+  "find": "The illagers' high official (Goety). Use a Dark Scroll inside a woodland mansion and it answers.",
   "drops": [
+   {
+    "id": "goety:soul_ruby",
+    "n": "Ruby of Souls",
+    "chance": ""
+   },
    {
     "id": "goety:treasure_pouch",
     "n": "Treasure Pouch",
@@ -784,20 +789,20 @@
   ],
   "attacks": [
    {
+    "name": "Spells",
+    "desc": "Casts illager spells and summons Irks."
+   },
+   {
+    "name": "Casting shield",
+    "desc": "A shield that halves the damage it takes while it casts."
+   },
+   {
     "name": "Sword lunge",
     "desc": "Flies through walls and lunges at you like a vex."
    },
    {
     "name": "Fang rain",
     "desc": "Floats over you and summons evoker fangs at your feet."
-   },
-   {
-    "name": "Royal spikes",
-    "desc": "Sends a row of spikes, or swords if you are in the air."
-   },
-   {
-    "name": "Irks and visages",
-    "desc": "Spawns Irks when hurt and heals from them; summons two invincible visages at half health."
    }
   ],
   "img": "data:image/webp;base64,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",
@@ -2610,5 +2615,323 @@
   "sources": [
    "https://borninchaosmod.fandom.com/wiki/Lord_Pumpkinhead"
   ]
+ },
+ "Minister": {
+  "entity": "goety:minister",
+  "mod": "Goety",
+  "find": "Leads illager raids (Goety). Outranks every Evoker, rallies the other raiders and blocks with its staff.",
+  "drops": [
+   {
+    "id": "goety:ominous_orb",
+    "n": "Ominous Orb",
+    "chance": ""
+   },
+   {
+    "id": "minecraft:emerald",
+    "n": "Emerald",
+    "chance": ""
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Rally",
+    "desc": "Buffs and rallies the other illagers of the raid."
+   },
+   {
+    "name": "Staff block",
+    "desc": "Blocks incoming hits with its staff."
+   }
+  ],
+  "img_src": null,
+  "sources": [],
+  "drops_note": "Ominous Orb, or shards of it (quest book); emeralds from its loot table",
+  "src_note": "Linggango quest book, Bosses chapter (6.6.6)"
+ },
+ "Crone": {
+  "entity": "goety:crone",
+  "mod": "Goety",
+  "find": "Use the Crystal Ball inside a Blighted Shack (swamps) to call her (Goety).",
+  "drops": [
+   {
+    "id": "goety:crone_hat",
+    "n": "Crone Hat",
+    "chance": ""
+   },
+   {
+    "id": "minecraft:glowstone_dust",
+    "n": "Glowstone Dust",
+    "chance": ""
+   },
+   {
+    "id": "minecraft:redstone",
+    "n": "Redstone",
+    "chance": ""
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Brews",
+    "desc": "Throws witch brews far nastier than a normal witch's."
+   },
+   {
+    "name": "Thorns",
+    "desc": "Hitting her hurts you back."
+   }
+  ],
+  "img_src": null,
+  "sources": [],
+  "drops_note": "Crone Hat, the best witch hat in Goety (quest book); brewing ingredients from its loot table",
+  "src_note": "Linggango quest book, Bosses chapter (6.6.6)"
+ },
+ "Heresiarch": {
+  "entity": "goety:heresiarch",
+  "mod": "Goety",
+  "find": "The priest at the obsidian monolith of a Black Assembly (Goety cult structure).",
+  "drops": [
+   {
+    "id": "goety:malefic_helm",
+    "n": "Malefic Helm",
+    "chance": ""
+   },
+   {
+    "id": "minecraft:gold_ingot",
+    "n": "Gold Ingot",
+    "chance": ""
+   },
+   {
+    "id": "minecraft:golden_carrot",
+    "n": "Golden Carrot",
+    "chance": ""
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Cult leader",
+    "desc": "Fights beside the chanting cultists of the Black Assembly."
+   }
+  ],
+  "img_src": null,
+  "sources": [],
+  "drops_note": "Malefic Helm: cultists, witches and warlocks stay neutral to you (quest book)",
+  "src_note": "Linggango quest book, Bosses chapter (6.6.6)"
+ },
+ "Skull Lord": {
+  "entity": "goety:skull_lord",
+  "mod": "Goety",
+  "find": "Old ruler of a Goety Crypt (under forest, taiga and plains), woken by opening a jar in the grand tomb. The floating skull is the real body; the Bone Lord is its armour.",
+  "drops": [
+   {
+    "id": "goety:frozen_blade",
+    "n": "Frozen Blade",
+    "chance": ""
+   },
+   {
+    "id": "goety:cursed_paladin_helmet",
+    "n": "Cursed Paladin Helmet",
+    "chance": ""
+   },
+   {
+    "id": "goety:cursed_paladin_chestplate",
+    "n": "Cursed Paladin Chestplate",
+    "chance": ""
+   },
+   {
+    "id": "goety:cursed_paladin_leggings",
+    "n": "Cursed Paladin Leggings",
+    "chance": ""
+   },
+   {
+    "id": "goety:cursed_paladin_boots",
+    "n": "Cursed Paladin Boots",
+    "chance": ""
+   },
+   {
+    "id": "minecraft:skeleton_skull",
+    "n": "Skeleton Skull",
+    "chance": ""
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Bone Lord",
+    "desc": "Fights inside its Bone Lord armour; the floating skull is the part to kill."
+   }
+  ],
+  "img_src": null,
+  "sources": [],
+  "drops_note": "Carries the Frozen Blade and the Cursed Paladin set (quest book)",
+  "src_note": "Linggango quest book, Bosses chapter (6.6.6)"
+ },
+ "Wither Necromancer": {
+  "entity": "goety:wither_necromancer",
+  "mod": "Goety",
+  "find": "Blow a Blazing Horn inside a Nether Fortress; it answers with wither skeletons at its side (Goety).",
+  "drops": [
+   {
+    "id": "goety:withered_manuscript",
+    "n": "Withered Manuscript",
+    "chance": ""
+   },
+   {
+    "id": "goety:forbidden_piece",
+    "n": "Forbidden Piece",
+    "chance": ""
+   },
+   {
+    "id": "minecraft:wither_skeleton_skull",
+    "n": "Wither Skeleton Skull",
+    "chance": ""
+   },
+   {
+    "id": "minecraft:netherite_scrap",
+    "n": "Netherite Scrap",
+    "chance": ""
+   },
+   {
+    "id": "goety:ectoplasm",
+    "n": "Ectoplasm",
+    "chance": ""
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Wither skeletons",
+    "desc": "Summons wither skeletons to fight beside it."
+   }
+  ],
+  "img_src": null,
+  "sources": [],
+  "drops_note": "Loot table goety:entities/wither_necromancer",
+  "src_note": "Linggango quest book, Bosses chapter (6.6.6)"
+ },
+ "Brood Mother": {
+  "entity": "goety:brood_mother",
+  "mod": "Goety",
+  "find": "The giant spider of a Goety Spider Den (hollowed giant trees in the woods, on top of an old mine).",
+  "drops": [
+   {
+    "id": "goety:venomous_fang",
+    "n": "Venomous Fang",
+    "chance": ""
+   },
+   {
+    "id": "goety:spider_egg",
+    "n": "Spider Egg",
+    "chance": ""
+   },
+   {
+    "id": "goety:spider_nest",
+    "n": "Spider Nest",
+    "chance": ""
+   },
+   {
+    "id": "minecraft:cobweb",
+    "n": "Cobweb",
+    "chance": ""
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Venom",
+    "desc": "Its poison works even on undead."
+   },
+   {
+    "name": "Brood",
+    "desc": "Spawns its children to join the fight."
+   }
+  ],
+  "img_src": null,
+  "sources": [],
+  "drops_note": "Spider fangs for Revelation's spider armour (quest book)",
+  "src_note": "Linggango quest book, Bosses chapter (6.6.6)"
+ },
+ "Wight": {
+  "entity": "goety:wight",
+  "mod": "Goety",
+  "find": "A Sabbath ritual with four crypt stones and ectoplasm on the altar calls it up (Goety).",
+  "drops": [
+   {
+    "id": "goety:shadow_essence",
+    "n": "Essence of Shadow",
+    "chance": ""
+   },
+   {
+    "id": "goety:ectoplasm",
+    "n": "Ectoplasm",
+    "chance": ""
+   },
+   {
+    "id": "minecraft:ender_pearl",
+    "n": "Ender Pearl",
+    "chance": ""
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Shadow realm",
+    "desc": "A shadow boss raised by the Sabbath ritual."
+   }
+  ],
+  "img_src": null,
+  "sources": [],
+  "drops_note": "Essence of Shadow makes Dark Alloy four times cheaper (quest book)",
+  "src_note": "Linggango quest book, Bosses chapter (6.6.6)"
+ },
+ "Ender Keeper": {
+  "entity": "goety:ender_keeper",
+  "mod": "Goety",
+  "find": "Put four Void Shards in the shrine on top of the Final Terminal, a Goety structure in the End highlands guarded by Enderlings.",
+  "drops": [
+   {
+    "id": "goety:void_echo",
+    "n": "Echo of the Void",
+    "chance": ""
+   },
+   {
+    "id": "goety:shrouded_blueprint",
+    "n": "Shrouded Blueprint",
+    "chance": ""
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Pull and blast",
+    "desc": "Pulls things in, then explodes. Stay mobile."
+   }
+  ],
+  "img_src": null,
+  "sources": [],
+  "drops_note": "Void Echoes and the Shrouded Blueprint for the Redstone Monstrosity (quest book)",
+  "src_note": "Linggango quest book, Bosses chapter (6.6.6)"
+ },
+ "Ice Hermit": {
+  "entity": "revelationfix:ice_hermit",
+  "mod": "Goety: Revelation",
+  "find": "Waits in the middle of the Frostyard, a frozen court sunk into snowy plains, ice spikes, snowy taiga and groves (Goety: Revelation, new in 6.6.6).",
+  "drops": [
+   {
+    "id": "goety_revelation:ice_heart",
+    "n": "Heart of Silent Frost",
+    "chance": ""
+   }
+  ],
+  "attacks": [
+   {
+    "name": "Frost meter",
+    "desc": "Its ice fills a frost meter on you; a full meter freezes you solid. Frost robes halve what it adds."
+   },
+   {
+    "name": "Ice pillar ritual",
+    "desc": "At half health it turns untouchable and starts a 30 second ritual fed by four ice pillars. Break them all or it heals back to three quarters."
+   },
+   {
+    "name": "Absolute Zero",
+    "desc": "Below a quarter health it opens a 60 block domain of ice beams worth 20 damage each."
+   }
+  ],
+  "img_src": null,
+  "sources": [],
+  "drops_note": "Two Hearts of Silent Frost: they make the Cryogenic Core, the Absolute Zero Focus and, through the core, the Frostbloom staff. No single hit on it deals more than 20; weak to fire and blunt, resists frost and arcane (quest book)",
+  "src_note": "Linggango quest book, Goety: World chapter (6.6.6)"
  }
 }

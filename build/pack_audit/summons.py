@@ -1,9 +1,9 @@
 """Boss summon guide from the pack: summon item, where/how to use it (the mod's own item tooltip),
 its recipe as a 3×3 grid (pack KubeJS recipe wins over the jar's), and where each ingredient comes from.
 Usage: summons.py W out.json"""
-import json, re, sys, zipfile, glob
+import json, re, sys, zipfile, glob, os
 W, OUT = sys.argv[1], sys.argv[2]
-J = glob.glob(W + "/pack/mods/Armageddon for 1.20.1*.jar")[0]
+J = glob.glob(W + "/pack/mods/Armageddon for *1.20.1*.jar")[0]
 z = zipfile.ZipFile(J); L = json.loads(z.read("assets/armageddon_mod/lang/en_us.json"))
 lang = json.load(open(W + "/lang.json")); rec = json.load(open(W + "/rec.json"))
 for m in re.finditer(r"renameItem\('([^']+)',\s*'([^']+)'\)", open(W + "/pack/src/overrides/kubejs/client_scripts/lang.js").read()): lang[m.group(1)] = m.group(2)
@@ -26,16 +26,55 @@ for f in glob.glob(W + "/pack/src/overrides/kubejs/server_scripts/**/*.js", recu
 removed = set()
 for f in glob.glob(W + "/pack/src/overrides/kubejs/server_scripts/**/*.js", recursive=True):
     removed |= set(re.findall(r"\.remove\(\{\s*id:\s*['\"]([^'\"]+)['\"]", open(f).read()))
+def keyval(v):
+    """recipe key -> item id; a list of options that holds Boss Souls (6.6.6) becomes linggango_tweaks:boss_soul"""
+    if isinstance(v, dict): return v.get("item") or "#" + v.get("tag", "")
+    if isinstance(v, list):
+        if any(isinstance(x, dict) and x.get("item") == "linggango_tweaks:boss_soul" for x in v): return "linggango_tweaks:boss_soul"
+        return v[0].get("item") if v and isinstance(v[0], dict) else None
+    return v
+def soul_opts(o):
+    """the bosses whose soul fits the recipe's soul slot, and the other items that fit it"""
+    for v in o.get("key", {}).values():
+        if isinstance(v, list) and any(isinstance(x, dict) and x.get("item") == "linggango_tweaks:boss_soul" for x in v):
+            return {"bosses": [x["nbt"]["boss"] for x in v if x.get("item") == "linggango_tweaks:boss_soul" and "boss" in x.get("nbt", {})],
+                    "or": [x["item"] for x in v if x.get("item") and x.get("item") != "linggango_tweaks:boss_soul"]}
 def jar_recipe(item):
     for r in rec["recipes"].get(item, []):
         if r["id"] in removed or not r["t"].startswith("minecraft:crafting"): continue
         ns, p = r["id"].split(":", 1)
-        for n in (f"data/{ns}/recipes/{p}.json",):
-            if n in z.namelist():
-                o = json.loads(z.read(n))
-                if "pattern" in o:
-                    key = {k: (v.get("item") or "#" + v.get("tag", "")) if isinstance(v, dict) else (v[0].get("item") if isinstance(v, list) else v) for k, v in o["key"].items()}
-                    return {"pattern": o["pattern"], "key": key, "src": "Armageddon"}
+        kj = f"{W}/pack/src/overrides/kubejs/data/{ns}/recipes/{p}.json"   # the pack's datapack override wins over the jar
+        o = json.load(open(kj)) if os.path.exists(kj) else (json.loads(z.read(f"data/{ns}/recipes/{p}.json")) if f"data/{ns}/recipes/{p}.json" in z.namelist() else None)
+        if o and "pattern" in o:
+            return {"pattern": o["pattern"], "key": {k: keyval(v) for k, v in o["key"].items()}, "src": "pack datapack" if os.path.exists(kj) else "Armageddon", "soul": soul_opts(o)}
+RT = {"create:mechanical_crafting": "Create Mechanical Crafter", "bloodmagic:alchemytable": "Blood Magic Alchemy Table",
+      "ars_nouveau:enchanting_apparatus": "Ars Nouveau Enchanting Apparatus", "immersiveengineering:blueprint": "Immersive Engineering Engineer's Workbench",
+      "mysticalagriculture:infusion": "Mystical Agriculture Infusion Altar", "goety:ritual": "Goety ritual", "naturesaura:altar": "Nature's Aura Natural Altar",
+      "thermal:smelter": "Thermal Induction Smelter", "mekanism:combining": "Mekanism Combiner", "mekanism:metallurgic_infusing": "Mekanism Metallurgic Infuser",
+      "mekanism:nucleosynthesizing": "Mekanism Antiprotonic Nucleosynthesizer", "industrialforegoing:dissolution_chamber": "Industrial Foregoing Dissolution Chamber",
+      "ae2:inscriber": "AE2 Inscriber", "hexerei:mixingcauldron": "Hexerei Mixing Cauldron", "ad_astra:nasa_workbench": "Ad Astra NASA Workbench",
+      "evolvedmekanism:alloying": "Evolved Mekanism Alloyer", "ars_nouveau:imbuement": "Ars Nouveau Imbuement Chamber", "bloodmagic:altar": "Blood Magic Blood Altar",
+      "bloodmagic:soulforge": "Blood Magic Hellfire Forge", "create:mixing": "Create Mechanical Mixer", "evolvedmekanism:chemixing": "Evolved Mekanism Chemixer",
+      "goety:brazier": "Goety Necro Brazier", "immersiveengineering:alloy": "Immersive Engineering Alloy Kiln", "immersiveengineering:arc_furnace": "Immersive Engineering Arc Furnace",
+      "mekanism:injecting": "Mekanism Chemical Injection Chamber", "mekanism:reaction": "Mekanism Pressurized Reaction Chamber", "naturesaura:tree_ritual": "Nature's Aura Ritual of the Forest", "evolvedmekanism:apt": "Evolved Mekanism APT", "mekanism:crushing": "Mekanism Crusher"}
+def routes(it):
+    """6.6.6 summon routes: every recipe for the item in kubejs/data/linggango_integration/recipes/38_summon_routes"""
+    out = []
+    for f in sorted(glob.glob(f"{W}/pack/src/overrides/kubejs/data/linggango_integration/recipes/38_summon_routes/{it}_*.json")):
+        o = json.load(open(f)); t = o.get("type", "")
+        a = []; walk = [{k: v for k, v in o.items() if k not in ("result", "output", "conditions")}]
+        while walk:
+            x = walk.pop(0)
+            if isinstance(x, dict):
+                if isinstance(x.get("item"), str): a.append(x["item"])
+                elif isinstance(x.get("tag"), str): a.append("#" + x["tag"])
+                else: walk += list(x.values())
+            elif isinstance(x, list): walk += x
+        cnt = {}
+        for i in a: cnt[i] = cnt.get(i, 0) + 1
+        out.append({"type": t, "label": RT.get(t, t.split(":")[0].replace("_", " ").title() + " " + t.split(":")[1].replace("_", " ")),
+                    "ings": [{"id": i, "n": nm(i) if not i.startswith("#") else "any " + i.split("/")[-1].replace("_", " "), "c": c} for i, c in cnt.items()]})
+    return out
 def grid(r):
     g = []
     for row in r["pattern"]:
@@ -65,7 +104,7 @@ for boss, it in BOSS.items():
                    "ings": [{"id": c, "n": nm(c) if not c.startswith("#") else "any " + c.split("/")[-1].replace("_", " ")} for c in sorted({c for row in (grid(ri) if ri else []) for c in row if c})]}
             break
     out[boss] = {"item": iid, "name": nm(iid), "use": use, "info": info, "recipe": g, "recipe_src": r and r["src"],
-                 "infinite": inf,
+                 "infinite": inf, "soul": r and r.get("soul"), "routes": routes(it),
                  "ings": [{"id": i, "n": nm(i) if not i.startswith("#") else "any " + i.split("/")[-1].replace("_", " "), "from": where(i) if not i.startswith("#") else ""} for i in ings]}
 json.dump(out, open(OUT, "w"), indent=1, ensure_ascii=False)
 for k, v in out.items(): print(k, "|", v["name"], "|", v["use"][:70], "|", v["recipe_src"], [x["n"] + " (" + x["from"] + ")" for x in v["ings"]])

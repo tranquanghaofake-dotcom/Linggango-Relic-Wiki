@@ -59,14 +59,25 @@ for dp, _, fs in os.walk(root + '/data'):
         # kubejs datapack overrides replace same-path files
         feed(rel, open(fp, 'rb').read(), 'pack')
 # KubeJS recipe removals / additions (regex over the scripts)
-removed = set(); added = collections.defaultdict(list)
+removed = set(); added = collections.defaultdict(list); removed_ids = set()
+IDS = r"['\"]([a-z0-9_.-]+:[a-z0-9_/.-]+)['\"]"
 for f in glob.glob(root + '/server_scripts/**/*.js', recursive=True):
     t = open(f, encoding='utf8', errors='ignore').read()
-    for m in re.finditer(r"remove\(\s*\{[^}]*output\s*:\s*['\"]([a-z0-9_]+:[a-z0-9_/]+)['\"]", t): removed.add(m.group(1))
+    # named lists in the same script: const X = [..] (ids) and const X = {..} (its keys, for Object.keys(X))
+    arrs = {m.group(1): re.findall(IDS, m.group(2)) for m in re.finditer(r"(?:const|let|var)\s+(\w+)\s*=\s*\[(.*?)\]\s*;", t, re.S)}
+    objs = {m.group(1): re.findall(IDS + r"\s*:", m.group(2)) for m in re.finditer(r"(?:const|let|var)\s+(\w+)\s*=\s*\{(.*?)\}\s*;", t, re.S)}
+    for m in re.finditer(r"(?:const|let|var)\s+(\w+)\s*=\s*Object\.keys\((\w+)\)", t): arrs[m.group(1)] = objs.get(m.group(2), [])
+    for m in re.finditer(r"remove\(\s*\{\s*output\s*:\s*([^}]*)\}", t):
+        expr = m.group(1); removed.update(re.findall(IDS, expr))
+        for w in re.findall(r"\b([A-Za-z_]\w*)\b", re.sub(IDS, '', expr)): removed.update(arrs.get(w, []))
+    removed_ids.update(re.findall(r"remove\(\s*\{\s*id\s*:\s*" + IDS, t))
     for m in re.finditer(r"\.(shaped|shapeless|smithing|custom|recipes\.[a-z_.]+)\(\s*(?:Item\.of\()?['\"](?:\d+x )?([a-z0-9_]+:[a-z0-9_/]+)['\"](.{0,900}?)\)\s*(?:\.id\(|;|\n)", t, re.S):
         a = re.findall(r"['\"](#?[a-z0-9_]+:[a-z0-9_/]+)['\"]", m.group(3))
         added[m.group(2)].append({'id': 'kubejs:' + os.path.basename(f), 't': 'kubejs:' + m.group(1), 'ing': a[:16], 'src': 'pack'})
 for k in removed: recipes.pop(k, None)
+for k in list(recipes):
+    recipes[k] = [r for r in recipes[k] if r.get('id') not in removed_ids]
+    if not recipes[k]: del recipes[k]
 for k, v in added.items(): recipes[k] = v + recipes.get(k, [])
 json.dump({'recipes': recipes, 'loot': {k: sorted(v) for k, v in loot.items()}, 'tags': {k: sorted(v) for k, v in tags.items()}, 'removed': sorted(removed)}, open(S + '/rec.json', 'w'))
 print(len(recipes), len(loot), len(tags), len(removed), sum(len(v) for v in added.values()))

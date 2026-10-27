@@ -2111,6 +2111,7 @@ a.pbc,a.pb{text-decoration:none;color:inherit;cursor:pointer}
 .sbh{display:flex;align-items:center;gap:24px}.sbimg{height:300px;width:auto;filter:drop-shadow(0 10px 18px #000c)}
 .sbarena{margin-left:auto;width:430px;max-width:40%;border-radius:10px;border:1px solid #ffffff22}
 .sbfind{font-size:16px;line-height:1.55}
+.sbsoul{display:flex;align-items:center;gap:10px;margin:10px 0 0;padding:8px 12px;border-radius:8px;background:#ffffff0b;border:1px solid #ffffff14;font-size:14px}.sbsoul img{width:32px;height:32px;image-rendering:pixelated}
 .sbh,.lhero.sbh{display:none}
 .sbhero{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:28px;padding:20px 28px;border-radius:12px;background:radial-gradient(circle at 18% 50%,color-mix(in srgb,var(--tc) 28%,#1b1923),#121118 70%);border:1px solid color-mix(in srgb,var(--tc) 45%,transparent);margin-bottom:16px}
 .sbhero .sbimg{height:260px;width:auto;max-width:360px;object-fit:contain;filter:drop-shadow(0 10px 18px #000c)}

@@ -57,16 +57,18 @@
     }
    ]
   },
+  "soul": null,
+  "routes": [],
   "ings": [
    {
     "id": "#minecraft:small_flowers",
-    "n": "any small flower (Poppy, Dandelion…)",
+    "n": "any #minecraft:small flowers",
     "from": ""
    },
    {
     "id": "minecraft:iron_ingot",
     "n": "Iron Ingot",
-    "from": ""
+    "from": "treasure bag: iron colossus treasure bag"
    }
   ]
  },
@@ -77,7 +79,7 @@
   "info": "Allow you to spawn the Goblin Lord!\nGold Ingots can be found in structures before defeating him",
   "recipe": [
    [
-    null,
+    "linggango_tweaks:boss_soul",
     "minecraft:gold_ingot",
     null
    ],
@@ -92,7 +94,7 @@
     null
    ]
   ],
-  "recipe_src": "Armageddon",
+  "recipe_src": "pack datapack",
   "infinite": {
    "item": "armageddon_mod:infinite_strange_coin",
    "name": "Infinite Strange Coin",
@@ -128,16 +130,113 @@
     }
    ]
   },
+  "soul": {
+   "bosses": [
+    "meetyourfight:swampjaw",
+    "mowziesmobs:ferrous_wroughtnaut",
+    "legendary_monsters:overgrown_colossus",
+    "legendary_monsters:skeletosaurus"
+   ],
+   "or": [
+    "mysticalagriculture:inferium_ingot"
+   ]
+  },
+  "routes": [
+   {
+    "type": "ars_nouveau:enchanting_apparatus",
+    "label": "Ars Nouveau Enchanting Apparatus",
+    "ings": [
+     {
+      "id": "armageddon_mod:colossal_iron_ingot",
+      "n": "Colossal Iron Ingot",
+      "c": 1
+     },
+     {
+      "id": "minecraft:gold_ingot",
+      "n": "Gold Ingot",
+      "c": 4
+     },
+     {
+      "id": "ars_nouveau:source_gem",
+      "n": "Source Gem",
+      "c": 2
+     }
+    ]
+   },
+   {
+    "type": "bloodmagic:alchemytable",
+    "label": "Blood Magic Alchemy Table",
+    "ings": [
+     {
+      "id": "armageddon_mod:colossal_iron_ingot",
+      "n": "Colossal Iron Ingot",
+      "c": 1
+     },
+     {
+      "id": "minecraft:gold_ingot",
+      "n": "Gold Ingot",
+      "c": 4
+     },
+     {
+      "id": "bloodmagic:blankrune",
+      "n": "Blankrune",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "create:mechanical_crafting",
+    "label": "Create Mechanical Crafter",
+    "ings": [
+     {
+      "id": "minecraft:gold_ingot",
+      "n": "Gold Ingot",
+      "c": 1
+     },
+     {
+      "id": "create:precision_mechanism",
+      "n": "Precision Mechanism",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:colossal_iron_ingot",
+      "n": "Colossal Iron Ingot",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "immersiveengineering:alloy",
+    "label": "Immersive Engineering Alloy Kiln",
+    "ings": [
+     {
+      "id": "armageddon_mod:colossal_iron_ingot",
+      "n": "Colossal Iron Ingot",
+      "c": 1
+     },
+     {
+      "id": "immersiveengineering:ingot_steel",
+      "n": "Steel Ingot",
+      "c": 1
+     }
+    ]
+   }
+  ],
   "ings": [
    {
     "id": "armageddon_mod:colossal_iron_ingot",
     "n": "Colossal Iron Ingot",
-    "from": "the Iron Colossus's treasure bag"
+    "from": "treasure bag: iron colossus treasure bag"
+   },
+   {
+    "id": "linggango_tweaks:boss_soul",
+    "n": "Boss Soul",
+    "from": ""
    },
    {
     "id": "minecraft:gold_ingot",
     "n": "Gold Ingot",
-    "from": ""
+    "from": "treasure bag: treasure bag"
    }
   ]
  },
@@ -148,7 +247,7 @@
   "info": "Allow you to spawn Arion, Tyrant of the Emerald Wrath!\nEmeralds can be trade with villagers before defeating him",
   "recipe": [
    [
-    null,
+    "linggango_tweaks:boss_soul",
     "minecraft:emerald",
     null
    ],
@@ -163,7 +262,7 @@
     null
    ]
   ],
-  "recipe_src": "Armageddon",
+  "recipe_src": "pack datapack",
   "infinite": {
    "item": "armageddon_mod:infinite_emerald_totem",
    "name": "Infinite Emerald Totem",
@@ -199,16 +298,147 @@
     }
    ]
   },
+  "soul": {
+   "bosses": [
+    "meetyourfight:bellringer",
+    "legendary_monsters:dune_sentinel",
+    "block_factorys_bosses:sandworm",
+    "legendary_monsters:frostbitten_golem"
+   ],
+   "or": []
+  },
+  "routes": [
+   {
+    "type": "create:mixing",
+    "label": "Create Mechanical Mixer",
+    "ings": [
+     {
+      "id": "minecraft:raw_gold",
+      "n": "Raw Gold",
+      "c": 1
+     },
+     {
+      "id": "minecraft:emerald",
+      "n": "Emerald",
+      "c": 4
+     },
+     {
+      "id": "createaddition:electric_motor",
+      "n": "Electric Motor",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:emerald_totem",
+      "n": "Emerald Totem",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "goety:ritual",
+    "label": "Goety ritual",
+    "ings": [
+     {
+      "id": "minecraft:raw_gold",
+      "n": "Raw Gold",
+      "c": 1
+     },
+     {
+      "id": "minecraft:emerald",
+      "n": "Emerald",
+      "c": 4
+     },
+     {
+      "id": "goety:cursed_cage",
+      "n": "Cursed Cage",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "mysticalagriculture:infusion",
+    "label": "Mystical Agriculture Infusion Altar",
+    "ings": [
+     {
+      "id": "minecraft:raw_gold",
+      "n": "Raw Gold",
+      "c": 1
+     },
+     {
+      "id": "minecraft:emerald",
+      "n": "Emerald",
+      "c": 4
+     },
+     {
+      "id": "mysticalagriculture:prudentium_ingot",
+      "n": "Prudentium Ingot",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "naturesaura:tree_ritual",
+    "label": "Nature's Aura Ritual of the Forest",
+    "ings": [
+     {
+      "id": "minecraft:oak_sapling",
+      "n": "Oak Sapling",
+      "c": 1
+     },
+     {
+      "id": "minecraft:raw_gold",
+      "n": "Raw Gold",
+      "c": 1
+     },
+     {
+      "id": "minecraft:emerald",
+      "n": "Emerald",
+      "c": 4
+     },
+     {
+      "id": "naturesaura:gold_leaf",
+      "n": "Gold Leaf",
+      "c": 2
+     }
+    ]
+   },
+   {
+    "type": "thermal:smelter",
+    "label": "Thermal Induction Smelter",
+    "ings": [
+     {
+      "id": "minecraft:raw_gold",
+      "n": "Raw Gold",
+      "c": 1
+     },
+     {
+      "id": "minecraft:emerald",
+      "n": "Emerald",
+      "c": 1
+     },
+     {
+      "id": "thermal:signalum_ingot",
+      "n": "Signalum Ingot",
+      "c": 1
+     }
+    ]
+   }
+  ],
   "ings": [
+   {
+    "id": "linggango_tweaks:boss_soul",
+    "n": "Boss Soul",
+    "from": ""
+   },
    {
     "id": "minecraft:emerald",
     "n": "Emerald",
-    "from": ""
+    "from": "treasure bag: treasure bag"
    },
    {
     "id": "minecraft:raw_gold",
     "n": "Raw Gold",
-    "from": ""
+    "from": "crafted"
    }
   ]
  },
@@ -229,12 +459,12 @@
     "minecraft:redstone"
    ],
    [
-    "minecraft:stone",
+    "linggango_tweaks:boss_soul",
     "minecraft:gold_ingot",
     "minecraft:stone"
    ]
   ],
-  "recipe_src": "Armageddon",
+  "recipe_src": "pack datapack",
   "infinite": {
    "item": "armageddon_mod:infinite_builder_stone",
    "name": "Infinite Builder Stone",
@@ -270,36 +500,222 @@
     }
    ]
   },
+  "soul": {
+   "bosses": [
+    "meetyourfight:rosalyne",
+    "mowziesmobs:umvuthi",
+    "legendary_monsters:ancient_guardian",
+    "legendary_monsters:cloud_golem"
+   ],
+   "or": []
+  },
+  "routes": [
+   {
+    "type": "ae2:inscriber",
+    "label": "AE2 Inscriber",
+    "ings": [
+     {
+      "id": "ae2:logic_processor",
+      "n": "Logic Processor",
+      "c": 1
+     },
+     {
+      "id": "minecraft:emerald",
+      "n": "Emerald",
+      "c": 1
+     },
+     {
+      "id": "ae2:calculation_processor",
+      "n": "Calculation Processor",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "ars_nouveau:imbuement",
+    "label": "Ars Nouveau Imbuement Chamber",
+    "ings": [
+     {
+      "id": "minecraft:emerald",
+      "n": "Emerald",
+      "c": 1
+     },
+     {
+      "id": "minecraft:lapis_lazuli",
+      "n": "Lapis Lazuli",
+      "c": 1
+     },
+     {
+      "id": "minecraft:redstone",
+      "n": "Redstone",
+      "c": 1
+     },
+     {
+      "id": "minecraft:gold_ingot",
+      "n": "Gold Ingot",
+      "c": 1
+     },
+     {
+      "id": "minecraft:iron_ingot",
+      "n": "Iron Ingot",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "hexerei:mixingcauldron",
+    "label": "Hexerei Mixing Cauldron",
+    "ings": [
+     {
+      "id": "minecraft:stone",
+      "n": "Stone",
+      "c": 2
+     },
+     {
+      "id": "minecraft:lapis_lazuli",
+      "n": "Lapis Lazuli",
+      "c": 1
+     },
+     {
+      "id": "minecraft:iron_ingot",
+      "n": "Iron Ingot",
+      "c": 1
+     },
+     {
+      "id": "minecraft:emerald",
+      "n": "Emerald",
+      "c": 1
+     },
+     {
+      "id": "minecraft:redstone",
+      "n": "Redstone",
+      "c": 1
+     },
+     {
+      "id": "minecraft:gold_ingot",
+      "n": "Gold Ingot",
+      "c": 1
+     },
+     {
+      "id": "hexerei:mindful_trance_blend",
+      "n": "Mindful Trance Blend",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "immersiveengineering:arc_furnace",
+    "label": "Immersive Engineering Arc Furnace",
+    "ings": [
+     {
+      "id": "minecraft:emerald",
+      "n": "Emerald",
+      "c": 1
+     },
+     {
+      "id": "minecraft:lapis_lazuli",
+      "n": "Lapis Lazuli",
+      "c": 1
+     },
+     {
+      "id": "minecraft:redstone",
+      "n": "Redstone",
+      "c": 1
+     },
+     {
+      "id": "minecraft:gold_ingot",
+      "n": "Gold Ingot",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:builder_stone",
+      "n": "Builder Stone",
+      "c": 1
+     },
+     {
+      "id": "minecraft:stone",
+      "n": "Stone",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "mysticalagriculture:infusion",
+    "label": "Mystical Agriculture Infusion Altar",
+    "ings": [
+     {
+      "id": "minecraft:emerald",
+      "n": "Emerald",
+      "c": 1
+     },
+     {
+      "id": "minecraft:stone",
+      "n": "Stone",
+      "c": 3
+     },
+     {
+      "id": "minecraft:lapis_lazuli",
+      "n": "Lapis Lazuli",
+      "c": 1
+     },
+     {
+      "id": "minecraft:iron_ingot",
+      "n": "Iron Ingot",
+      "c": 1
+     },
+     {
+      "id": "minecraft:redstone",
+      "n": "Redstone",
+      "c": 1
+     },
+     {
+      "id": "minecraft:gold_ingot",
+      "n": "Gold Ingot",
+      "c": 1
+     },
+     {
+      "id": "mysticalagriculture:prudentium_block",
+      "n": "Prudentium Block",
+      "c": 1
+     }
+    ]
+   }
+  ],
   "ings": [
+   {
+    "id": "linggango_tweaks:boss_soul",
+    "n": "Boss Soul",
+    "from": ""
+   },
    {
     "id": "minecraft:emerald",
     "n": "Emerald",
-    "from": ""
+    "from": "treasure bag: treasure bag"
    },
    {
     "id": "minecraft:gold_ingot",
     "n": "Gold Ingot",
-    "from": ""
+    "from": "treasure bag: treasure bag"
    },
    {
     "id": "minecraft:iron_ingot",
     "n": "Iron Ingot",
-    "from": ""
+    "from": "treasure bag: iron colossus treasure bag"
    },
    {
     "id": "minecraft:lapis_lazuli",
     "n": "Lapis Lazuli",
-    "from": ""
+    "from": "crafted"
    },
    {
     "id": "minecraft:redstone",
     "n": "Redstone",
-    "from": ""
+    "from": "crafted"
    },
    {
     "id": "minecraft:stone",
     "n": "Stone",
-    "from": ""
+    "from": "crafted"
    }
   ]
  },
@@ -320,12 +736,12 @@
     "minecraft:netherrack"
    ],
    [
-    "undergarden:utherium_crystal",
+    "linggango_tweaks:boss_soul",
     "minecraft:diamond",
     "undergarden:utherium_crystal"
    ]
   ],
-  "recipe_src": "pack KubeJS",
+  "recipe_src": "pack datapack",
   "infinite": {
    "item": "armageddon_mod:infinite_fiery_wither_skull",
    "name": "Infinite Fiery Wither Skull",
@@ -361,31 +777,177 @@
     }
    ]
   },
+  "soul": {
+   "bosses": [
+    "meetyourfight:dame_fortuna",
+    "soulsweapons:draugr_boss",
+    "irons_spellbooks:dead_king",
+    "mowziesmobs:frostmaw"
+   ],
+   "or": []
+  },
+  "routes": [
+   {
+    "type": "bloodmagic:soulforge",
+    "label": "Blood Magic Hellfire Forge",
+    "ings": [
+     {
+      "id": "undergarden:utherium_crystal",
+      "n": "Utherium Crystal",
+      "c": 1
+     },
+     {
+      "id": "minecraft:diamond",
+      "n": "Diamond",
+      "c": 1
+     },
+     {
+      "id": "minecraft:nether_wart",
+      "n": "Nether Wart",
+      "c": 1
+     },
+     {
+      "id": "bloodmagic:defaultcrystal",
+      "n": "Demon Will Crystal",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "goety:brazier",
+    "label": "Goety Necro Brazier",
+    "ings": [
+     {
+      "id": "undergarden:utherium_crystal",
+      "n": "Utherium Crystal",
+      "c": 1
+     },
+     {
+      "id": "minecraft:diamond",
+      "n": "Diamond",
+      "c": 1
+     },
+     {
+      "id": "minecraft:nether_wart",
+      "n": "Nether Wart",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "industrialforegoing:dissolution_chamber",
+    "label": "Industrial Foregoing Dissolution Chamber",
+    "ings": [
+     {
+      "id": "undergarden:utherium_crystal",
+      "n": "Utherium Crystal",
+      "c": 3
+     },
+     {
+      "id": "minecraft:netherrack",
+      "n": "Netherrack",
+      "c": 2
+     },
+     {
+      "id": "minecraft:nether_wart",
+      "n": "Nether Wart",
+      "c": 1
+     },
+     {
+      "id": "minecraft:diamond",
+      "n": "Diamond",
+      "c": 1
+     },
+     {
+      "id": "industrialforegoing:pink_slime_ingot",
+      "n": "Pink Slime Ingot",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "mekanism:reaction",
+    "label": "Mekanism Pressurized Reaction Chamber",
+    "ings": [
+     {
+      "id": "#minecraft:lava",
+      "n": "any #minecraft:lava",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:fiery_wither_skull",
+      "n": "Fiery Wither Skull",
+      "c": 1
+     },
+     {
+      "id": "undergarden:utherium_crystal",
+      "n": "Utherium Crystal",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "mysticalagriculture:infusion",
+    "label": "Mystical Agriculture Infusion Altar",
+    "ings": [
+     {
+      "id": "minecraft:diamond",
+      "n": "Diamond",
+      "c": 1
+     },
+     {
+      "id": "undergarden:utherium_crystal",
+      "n": "Utherium Crystal",
+      "c": 3
+     },
+     {
+      "id": "minecraft:netherrack",
+      "n": "Netherrack",
+      "c": 2
+     },
+     {
+      "id": "minecraft:nether_wart",
+      "n": "Nether Wart",
+      "c": 1
+     },
+     {
+      "id": "mysticalagriculture:tertium_ingot",
+      "n": "Tertium Ingot",
+      "c": 1
+     }
+    ]
+   }
+  ],
   "ings": [
+   {
+    "id": "linggango_tweaks:boss_soul",
+    "n": "Boss Soul",
+    "from": ""
+   },
    {
     "id": "minecraft:diamond",
     "n": "Diamond",
-    "from": ""
+    "from": "treasure bag: treasure bag"
    },
    {
     "id": "minecraft:lava_bucket",
     "n": "Lava Bucket",
-    "from": ""
+    "from": "crafted"
    },
    {
     "id": "minecraft:nether_wart",
     "n": "Nether Wart",
-    "from": "Nether Fortresses"
+    "from": "crafted"
    },
    {
     "id": "minecraft:netherrack",
     "n": "Netherrack",
-    "from": ""
+    "from": "crafted"
    },
    {
     "id": "undergarden:utherium_crystal",
     "n": "Utherium Crystal",
-    "from": "mined in The Undergarden (opens after Eldorath)"
+    "from": "crafted"
    }
   ]
  },
@@ -408,10 +970,10 @@
    [
     "armageddon_mod:khyros_tear",
     "armageddon_mod:gilded_plate",
-    "armageddon_mod:khyros_tear"
+    "linggango_tweaks:boss_soul"
    ]
   ],
-  "recipe_src": "Armageddon",
+  "recipe_src": "pack datapack",
   "infinite": {
    "item": "armageddon_mod:infinite_titan_insigna",
    "name": "Infinite Titan's Insigna",
@@ -447,21 +1009,132 @@
     }
    ]
   },
+  "soul": {
+   "bosses": [
+    "cataclysm:netherite_monstrosity",
+    "soulsweapons:returning_knight",
+    "irons_spellbooks:fire_boss",
+    "bosses_of_mass_destruction:lich"
+   ],
+   "or": []
+  },
+  "routes": [
+   {
+    "type": "ars_nouveau:enchanting_apparatus",
+    "label": "Ars Nouveau Enchanting Apparatus",
+    "ings": [
+     {
+      "id": "armageddon_mod:ancient_blueprint",
+      "n": "Ancient Blueprint",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:khyros_tear",
+      "n": "Khyros's Goldened Tear",
+      "c": 4
+     },
+     {
+      "id": "armageddon_mod:gilded_plate",
+      "n": "Gilded Plate",
+      "c": 3
+     },
+     {
+      "id": "linggango_tweaks:shard_of_compressed_mana",
+      "n": "Shard Of Pure Mana",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "bloodmagic:altar",
+    "label": "Blood Magic Blood Altar",
+    "ings": [
+     {
+      "id": "armageddon_mod:ancient_blueprint",
+      "n": "Ancient Blueprint",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "industrialforegoing:dissolution_chamber",
+    "label": "Industrial Foregoing Dissolution Chamber",
+    "ings": [
+     {
+      "id": "armageddon_mod:khyros_tear",
+      "n": "Khyros's Goldened Tear",
+      "c": 4
+     },
+     {
+      "id": "armageddon_mod:gilded_plate",
+      "n": "Gilded Plate",
+      "c": 3
+     },
+     {
+      "id": "armageddon_mod:ancient_blueprint",
+      "n": "Ancient Blueprint",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "mekanism:injecting",
+    "label": "Mekanism Chemical Injection Chamber",
+    "ings": [
+     {
+      "id": "armageddon_mod:ancient_blueprint",
+      "n": "Ancient Blueprint",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "mysticalagriculture:infusion",
+    "label": "Mystical Agriculture Infusion Altar",
+    "ings": [
+     {
+      "id": "armageddon_mod:ancient_blueprint",
+      "n": "Ancient Blueprint",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:khyros_tear",
+      "n": "Khyros's Goldened Tear",
+      "c": 4
+     },
+     {
+      "id": "armageddon_mod:gilded_plate",
+      "n": "Gilded Plate",
+      "c": 3
+     },
+     {
+      "id": "mysticalagriculture:imperium_ingot",
+      "n": "Imperium Ingot",
+      "c": 1
+     }
+    ]
+   }
+  ],
   "ings": [
    {
     "id": "armageddon_mod:ancient_blueprint",
     "n": "Ancient Blueprint",
-    "from": "End City chests (added by Armageddon)"
+    "from": "loot: armageddon end city"
    },
    {
     "id": "armageddon_mod:gilded_plate",
     "n": "Gilded Plate",
-    "from": "the Goblin Lord's treasure bag"
+    "from": "crafted"
    },
    {
     "id": "armageddon_mod:khyros_tear",
     "n": "Khyros's Goldened Tear",
-    "from": "the Ender Dragon's treasure bag"
+    "from": ""
+   },
+   {
+    "id": "linggango_tweaks:boss_soul",
+    "n": "Boss Soul",
+    "from": ""
    }
   ]
  },
@@ -484,10 +1157,10 @@
    [
     "minecraft:end_stone",
     "minecraft:ender_pearl",
-    "minecraft:end_stone"
+    "linggango_tweaks:boss_soul"
    ]
   ],
-  "recipe_src": "Armageddon",
+  "recipe_src": "pack datapack",
   "infinite": {
    "item": "armageddon_mod:infinite_wanderers_fallen_shard",
    "name": "Infinite Wanderer's Fallen Shard",
@@ -523,21 +1196,167 @@
     }
    ]
   },
+  "soul": {
+   "bosses": [
+    "cataclysm:the_harbinger",
+    "cataclysm:the_leviathan",
+    "soulsweapons:moonknight",
+    "cataclysm:ender_guardian"
+   ],
+   "or": []
+  },
+  "routes": [
+   {
+    "type": "ad_astra:nasa_workbench",
+    "label": "Ad Astra NASA Workbench",
+    "ings": [
+     {
+      "id": "armageddon_mod:elvenite_ingot",
+      "n": "Elvenite Ingot",
+      "c": 2
+     },
+     {
+      "id": "minecraft:end_stone",
+      "n": "End Stone",
+      "c": 4
+     },
+     {
+      "id": "ad_astra:desh_plate",
+      "n": "Desh Plate",
+      "c": 2
+     },
+     {
+      "id": "minecraft:ender_pearl",
+      "n": "Ender Pearl",
+      "c": 4
+     },
+     {
+      "id": "ad_astra:steel_cable",
+      "n": "Steel Cable",
+      "c": 2
+     }
+    ]
+   },
+   {
+    "type": "goety:ritual",
+    "label": "Goety ritual",
+    "ings": [
+     {
+      "id": "armageddon_mod:elvenite_ingot",
+      "n": "Elvenite Ingot",
+      "c": 1
+     },
+     {
+      "id": "minecraft:ender_pearl",
+      "n": "Ender Pearl",
+      "c": 4
+     },
+     {
+      "id": "minecraft:end_stone",
+      "n": "End Stone",
+      "c": 2
+     },
+     {
+      "id": "goety:philosophers_stone",
+      "n": "Philosopher's Stone",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "mekanism:combining",
+    "label": "Mekanism Combiner",
+    "ings": [
+     {
+      "id": "minecraft:ender_pearl",
+      "n": "Ender Pearl",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:elvenite_ingot",
+      "n": "Elvenite Ingot",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "mysticalagriculture:infusion",
+    "label": "Mystical Agriculture Infusion Altar",
+    "ings": [
+     {
+      "id": "armageddon_mod:elvenite_ingot",
+      "n": "Elvenite Ingot",
+      "c": 1
+     },
+     {
+      "id": "minecraft:ender_pearl",
+      "n": "Ender Pearl",
+      "c": 4
+     },
+     {
+      "id": "minecraft:end_stone",
+      "n": "End Stone",
+      "c": 3
+     },
+     {
+      "id": "mysticalagriculture:supremium_ingot",
+      "n": "Supremium Ingot",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "naturesaura:tree_ritual",
+    "label": "Nature's Aura Ritual of the Forest",
+    "ings": [
+     {
+      "id": "naturesaura:ancient_sapling",
+      "n": "Ancient Sapling",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:elvenite_ingot",
+      "n": "Elvenite Ingot",
+      "c": 1
+     },
+     {
+      "id": "minecraft:ender_pearl",
+      "n": "Ender Pearl",
+      "c": 4
+     },
+     {
+      "id": "minecraft:end_stone",
+      "n": "End Stone",
+      "c": 2
+     },
+     {
+      "id": "naturesaura:sky_ingot",
+      "n": "Ingot of the Skies",
+      "c": 1
+     }
+    ]
+   }
+  ],
   "ings": [
    {
     "id": "armageddon_mod:elvenite_ingot",
     "n": "Elvenite Ingot",
-    "from": "Deepslate Elvenite Ore (mining power 3)"
+    "from": "crafted"
+   },
+   {
+    "id": "linggango_tweaks:boss_soul",
+    "n": "Boss Soul",
+    "from": ""
    },
    {
     "id": "minecraft:end_stone",
     "n": "End Stone",
-    "from": ""
+    "from": "crafted"
    },
    {
     "id": "minecraft:ender_pearl",
     "n": "Ender Pearl",
-    "from": ""
+    "from": "crafted"
    }
   ]
  },
@@ -599,21 +1418,23 @@
     }
    ]
   },
+  "soul": null,
+  "routes": [],
   "ings": [
    {
     "id": "armageddon_mod:voiderite",
     "n": "Voiderite Ingot",
-    "from": "Voiderite Ore"
+    "from": "crafted"
    },
    {
     "id": "minecraft:iron_nugget",
     "n": "Iron Nugget",
-    "from": ""
+    "from": "crafted"
    },
    {
     "id": "minecraft:redstone_block",
     "n": "Redstone Block",
-    "from": ""
+    "from": "crafted"
    }
   ]
  },
@@ -659,6 +1480,8 @@
     }
    ]
   },
+  "soul": null,
+  "routes": [],
   "ings": []
  },
  "famine": {
@@ -703,6 +1526,8 @@
     }
    ]
   },
+  "soul": null,
+  "routes": [],
   "ings": []
  },
  "chaos": {
@@ -747,6 +1572,8 @@
     }
    ]
   },
+  "soul": null,
+  "routes": [],
   "ings": []
  },
  "sanghor": {
@@ -762,7 +1589,7 @@
    ],
    [
     "armageddon_mod:calamitous_core",
-    null,
+    "linggango_tweaks:boss_soul",
     null
    ],
    [
@@ -771,7 +1598,7 @@
     null
    ]
   ],
-  "recipe_src": "Armageddon",
+  "recipe_src": "pack datapack",
   "infinite": {
    "item": "armageddon_mod:infinite_cocoon_of_blood",
    "name": "Infinite Cocoon Of Blood",
@@ -807,21 +1634,132 @@
     }
    ]
   },
+  "soul": {
+   "bosses": [
+    "cataclysm:ancient_remnant",
+    "soulsweapons:chaos_monarch",
+    "bosses_of_mass_destruction:gauntlet",
+    "bosses_of_mass_destruction:obsidilith"
+   ],
+   "or": []
+  },
+  "routes": [
+   {
+    "type": "bloodmagic:altar",
+    "label": "Blood Magic Blood Altar",
+    "ings": [
+     {
+      "id": "armageddon_mod:calamitous_core",
+      "n": "Calamitous Core",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "evolvedmekanism:alloying",
+    "label": "Evolved Mekanism Alloyer",
+    "ings": [
+     {
+      "id": "armageddon_mod:calamitous_core",
+      "n": "Calamitous Core",
+      "c": 1
+     },
+     {
+      "id": "minecraft:egg",
+      "n": "Egg",
+      "c": 1
+     },
+     {
+      "id": "minecraft:nether_wart",
+      "n": "Nether Wart",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "evolvedmekanism:apt",
+    "label": "Evolved Mekanism APT",
+    "ings": [
+     {
+      "id": "armageddon_mod:calamitous_core",
+      "n": "Calamitous Core",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "goety:ritual",
+    "label": "Goety ritual",
+    "ings": [
+     {
+      "id": "armageddon_mod:calamitous_core",
+      "n": "Calamitous Core",
+      "c": 1
+     },
+     {
+      "id": "minecraft:egg",
+      "n": "Egg",
+      "c": 1
+     },
+     {
+      "id": "minecraft:nether_wart",
+      "n": "Nether Wart",
+      "c": 1
+     },
+     {
+      "id": "goety_revelation:broken_halo",
+      "n": "Broken Halo",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "mysticalagriculture:infusion",
+    "label": "Mystical Agriculture Infusion Altar",
+    "ings": [
+     {
+      "id": "armageddon_mod:calamitous_core",
+      "n": "Calamitous Core",
+      "c": 1
+     },
+     {
+      "id": "minecraft:egg",
+      "n": "Egg",
+      "c": 1
+     },
+     {
+      "id": "minecraft:nether_wart",
+      "n": "Nether Wart",
+      "c": 1
+     },
+     {
+      "id": "mysticalagriculture:awakened_supremium_ingot",
+      "n": "Awakened Supremium Ingot",
+      "c": 1
+     }
+    ]
+   }
+  ],
   "ings": [
    {
     "id": "armageddon_mod:calamitous_core",
     "n": "Calamitous Core",
-    "from": "The Calamities' treasure bag (25%)"
+    "from": "crafted"
+   },
+   {
+    "id": "linggango_tweaks:boss_soul",
+    "n": "Boss Soul",
+    "from": ""
    },
    {
     "id": "minecraft:egg",
     "n": "Egg",
-    "from": ""
+    "from": "crafted"
    },
    {
     "id": "minecraft:nether_wart",
     "n": "Nether Wart",
-    "from": "Nether Fortresses"
+    "from": "crafted"
    }
   ]
  },
@@ -829,10 +1767,10 @@
   "item": "armageddon_mod:the_sun_emblem",
   "name": "The Sun Emblem",
   "use": "When right clicked : Summon Zoranth, Newborn of the Sun!",
-  "info": "Allow you to spawn Zoranth, Newborn of the Zenith!\nPraise the sun!\n\nTo obtain it, you must trade with a Master Cartographer (villager) who observed the sky for a long time..\n\nOr craft it by yourself in exchange of a huge amount of blood.. (a Master Cartographer villager may also sell it)",
+  "info": "Allow you to spawn Zoranth, Newborn of the Zenith!\nPraise the sun!\n\nTo obtain it, you must trade with a Master Cartographer (villager) who observed the sky for a long time..\n\nOr craft it by yourself in exchange of a huge amount of blood..",
   "recipe": [
    [
-    null,
+    "linggango_tweaks:boss_soul",
     "armageddon_mod:bloody_ingot",
     null
    ],
@@ -847,7 +1785,7 @@
     null
    ]
   ],
-  "recipe_src": "Armageddon",
+  "recipe_src": "pack datapack",
   "infinite": {
    "item": "armageddon_mod:infinite_the_sun_emblem",
    "name": "Infinite Sun Emblem",
@@ -883,16 +1821,123 @@
     }
    ]
   },
+  "soul": {
+   "bosses": [
+    "cataclysm:ignis",
+    "cataclysm:maledictus",
+    "bosses_of_mass_destruction:void_blossom",
+    "soulsweapons:accursed_lord_boss",
+    "cataclysm:scylla"
+   ],
+   "or": []
+  },
+  "routes": [
+   {
+    "type": "ars_nouveau:enchanting_apparatus",
+    "label": "Ars Nouveau Enchanting Apparatus",
+    "ings": [
+     {
+      "id": "minecraft:sunflower",
+      "n": "Sunflower",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:bloody_ingot",
+      "n": "Bloody Ingot",
+      "c": 4
+     },
+     {
+      "id": "ars_nouveau:source_gem_block",
+      "n": "Source Gem Block",
+      "c": 2
+     }
+    ]
+   },
+   {
+    "type": "bloodmagic:soulforge",
+    "label": "Blood Magic Hellfire Forge",
+    "ings": [
+     {
+      "id": "minecraft:sunflower",
+      "n": "Sunflower",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:bloody_ingot",
+      "n": "Bloody Ingot",
+      "c": 2
+     },
+     {
+      "id": "animus:crystallized_demon_will_block",
+      "n": "Crystallized Demon Will Block",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "evolvedmekanism:chemixing",
+    "label": "Evolved Mekanism Chemixer",
+    "ings": [
+     {
+      "id": "minecraft:sunflower",
+      "n": "Sunflower",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:bloody_ingot",
+      "n": "Bloody Ingot",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "mekanism:nucleosynthesizing",
+    "label": "Mekanism Antiprotonic Nucleosynthesizer",
+    "ings": [
+     {
+      "id": "armageddon_mod:bloody_ingot",
+      "n": "Bloody Ingot",
+      "c": 1
+     }
+    ]
+   },
+   {
+    "type": "mysticalagriculture:infusion",
+    "label": "Mystical Agriculture Infusion Altar",
+    "ings": [
+     {
+      "id": "minecraft:sunflower",
+      "n": "Sunflower",
+      "c": 1
+     },
+     {
+      "id": "armageddon_mod:bloody_ingot",
+      "n": "Bloody Ingot",
+      "c": 4
+     },
+     {
+      "id": "mysticalagriculture:awakened_supremium_block",
+      "n": "Awakened Supremium Block",
+      "c": 1
+     }
+    ]
+   }
+  ],
   "ings": [
    {
     "id": "armageddon_mod:bloody_ingot",
     "n": "Bloody Ingot",
-    "from": "Deepslate Bloody Ore (mining power 3)"
+    "from": "crafted"
+   },
+   {
+    "id": "linggango_tweaks:boss_soul",
+    "n": "Boss Soul",
+    "from": ""
    },
    {
     "id": "minecraft:sunflower",
     "n": "Sunflower",
-    "from": ""
+    "from": "crafted"
    }
   ]
  },
@@ -954,21 +1999,23 @@
     }
    ]
   },
+  "soul": null,
+  "routes": [],
   "ings": [
    {
     "id": "armageddon_mod:helionite_ingot",
     "n": "Helionite Ingot",
-    "from": "Zoranth Newborn's treasure bag"
+    "from": "crafted"
    },
    {
     "id": "armageddon_mod:khyros_tear",
     "n": "Khyros's Goldened Tear",
-    "from": "the Ender Dragon's treasure bag"
+    "from": ""
    },
    {
     "id": "minecraft:coal",
     "n": "Coal",
-    "from": ""
+    "from": "crafted"
    }
   ]
  }
