@@ -39,7 +39,7 @@ def base_css():
 style = base_css() if "--raw" in sys.argv else base_css() + "\n" + read(B / "style.game.css")
 import hashlib
 tpl = read(S / "template.html")
-NAMES = ["data.js", "gear_data.js", "wiki_data.js", "fx3d.js", "app.js", "gear.js", "ux.js"]
+NAMES = ["data.js", "gear_data.js", "wiki_data.js", "scenes.js", "fx3d.js", "app.js", "gear.js", "ux.js"]
 
 # dist: one self-contained file for offline use
 html = tpl.replace("{{STYLE}}", "<style>\n" + style + "\n</style>")

@@ -855,7 +855,20 @@ const tierIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.
 const tileIO=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle("vis",e.isIntersecting)),{rootMargin:"120px"});
 const watchTiles=r=>r.querySelectorAll&&r.querySelectorAll("a.t:not([data-vo])").forEach(t=>{t.dataset.vo=1;tileIO.observe(t)});
 new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches("a.t:not([data-vo])")){n.dataset.vo=1;tileIO.observe(n)}else watchTiles(n)}))).observe(document.documentElement,{childList:true,subtree:true});
+/* section scenes: one picture at the top of Bosses, Mechanics, Equipment and the Build planner, each with its source */
+const SCENE={
+ "#bosses":()=>typeof PIMG!=="undefined"&&PIMG.side["Netherite Monstrosity"]&&[PIMG.side["Netherite Monstrosity"],"Netherite Monstrosity's arena","Screenshot: Linggango pack (Misanthropy)"],
+ "#mechanics":()=>typeof GOETY!=="undefined"&&GOETY.types.sabbath&&GOETY.types.sabbath.img&&["data:image/webp;base64,"+GOETY.types.sabbath.img,"A Sabbath ritual altar","Picture: Goety's Black Book (Polarice3)"],
+ "#gear":()=>typeof SCENES!=="undefined"&&["data:image/png;base64,"+SCENES.gear,"A forge with weapons on the wall","Drawn for this wiki from Minecraft textures"],
+ "#build":()=>typeof SCENES!=="undefined"&&["data:image/png;base64,"+SCENES.build,"An armory with curios on display","Drawn for this wiki from Minecraft textures"]};
+function sceneDecorate(){const k=Object.keys(SCENE).find(k=>{const h=decodeURIComponent(location.hash);return h===k||h.startsWith(k+"/")});if(!k)return;
+ const m=el("main");if(m.querySelector(".scene"))return;const v=SCENE[k]();if(!v)return;
+ const fig=`<figure class="scene${k==="#gear"||k==="#build"?" px":""}"><img alt="${esc(v[1])}" src="${v[0]}"><figcaption>${esc(v[2])}</figcaption></figure>`;
+ const gh=m.querySelector(".ghead");if(gh){gh.insertAdjacentHTML("beforeend",fig);return}
+ const h1=m.querySelector(":scope>h1");if(!h1)return;const ld=h1.nextElementSibling&&h1.nextElementSibling.matches(".lede")?h1.nextElementSibling:null;
+ const wrap=document.createElement("div");wrap.className="phead";h1.before(wrap);const tx=document.createElement("div");wrap.append(tx);tx.append(h1);if(ld)tx.append(ld);wrap.insertAdjacentHTML("beforeend",fig)}
 function decorate(r=document){
+ if(r===document)sceneDecorate();
  watchTiles(r);
  r.querySelectorAll(".tier:not(.seen):not([data-io])").forEach(t=>{t.dataset.io=1;tierIO.observe(t)});
  const hero=r.querySelector(".hero:not([data-done])");
