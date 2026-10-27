@@ -103,7 +103,7 @@ body.hub #side{display:none}
 .grp[open] summary::after{content:"−"}
 .chips{display:flex;flex-wrap:wrap;gap:8px 8px;padding:4px 2px 6px}
 .chip{min-height:28px;padding:3px 9px;font-size:13px}
-.chip .n{font-size:11px;opacity:.75}
+.chip .n{font-size:12px;color:var(--gui-mute)}
 .chip.r0,.chip.r1,.chip.r2,.chip.r3,.chip.r4,.chip.r5,.chip.r6{color:var(--rc);background:#1a1a1a;text-shadow:2px 2px 0 #000;box-shadow:0 0 0 2px #000,inset 0 0 0 2px #555}
 .chip.r0:hover,.chip.r1:hover,.chip.r2:hover,.chip.r3:hover,.chip.r4:hover,.chip.r5:hover,.chip.r6:hover{background:#2b2b40;color:var(--rc);box-shadow:0 0 0 2px #fff,inset 0 0 0 2px #555}
 .chip[class*=" r"][aria-pressed="true"]{background:#1a1a1a;box-shadow:0 0 0 2px #000,inset 0 0 0 2px var(--rc)}
@@ -311,7 +311,7 @@ ol.how li::before{content:counter(howc);position:absolute;left:10px;top:8px;disp
 .pnx a{display:grid;padding:12px 14px;color:#fff;text-decoration:none;font:600 16px var(--body);background:var(--btn);box-shadow:0 0 0 2px #000,inset 2px 2px 0 var(--btn-hi),inset -2px -3px 0 var(--btn-lo);text-shadow:2px 2px 0 var(--btn-lo)}
 .pnx a:last-child:not(:first-child){text-align:right}
 .pnx a:hover{background:var(--btn-hover);box-shadow:0 0 0 2px #fff,inset 2px 2px 0 #b9c3ee,inset -2px -3px 0 #4a5590}
-.pnx small{font:500 12.5px var(--body);color:#ddd}
+.pnx a small{font:500 12.5px var(--body);color:#ddd}
 
 .ip-side{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;align-content:start;min-width:0}
 .ip-art{position:relative;width:100%;aspect-ratio:1/1;padding:14px;background:var(--gui);border-radius:4px;box-shadow:0 0 0 2px #000,var(--bevel),0 6px 0 2px rgba(0,0,0,.35)}
@@ -428,6 +428,7 @@ ol.how li::before{content:counter(howc);position:absolute;left:10px;top:8px;disp
  .ip-side{grid-template-columns:1fr}
  .mstat,.mhero{grid-template-columns:1fr}
  .splash{display:none}
+ .slotlist{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (prefers-reduced-motion:reduce){
  .title-scr .pano,.splash,a.t.sweep::before{animation:none!important}
@@ -659,7 +660,8 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .t:hover>img,.t:hover .aimg{filter:drop-shadow(0 0 6px color-mix(in srgb,var(--rc,#fff) 70%,transparent)) brightness(1.12)}
 @media(max-width:760px){
  .top{position:relative!important;height:auto;flex-wrap:wrap;gap:8px;padding:8px 12px}
- .top .nav{order:3;width:100%;display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+ .top .nav{order:3;width:100%;display:flex;flex-wrap:wrap;gap:6px}
+ #side .mob,#fold{display:inline-flex}
  .top .nav::-webkit-scrollbar{display:none}
  .top .nav .mcb{flex:none;padding:6px 10px;font-size:14px}
  .gbar{position:static!important}
@@ -749,7 +751,7 @@ a.pbc,a.pb{text-decoration:none;color:inherit;cursor:pointer}
 .tier .t>img,.tier .t .aimg,.tier .t .aimg img{width:var(--ip,32px)!important;height:var(--ip,32px)!important}
 .gtl img{width:var(--ip2,48px)!important;height:var(--ip2,48px)!important;padding:4px!important;box-sizing:content-box}
 .nchs{display:flex;flex-wrap:wrap;gap:4px 6px}
-.nch{display:inline-flex;align-items:center;gap:5px;padding:2px 8px 2px 3px;border-radius:6px;background:#ffffff0b;border:1px solid #ffffff12;font-size:13px;line-height:1.2;white-space:nowrap}
+.nch{display:inline-flex;align-items:center;gap:5px;padding:2px 8px 2px 3px;border-radius:6px;background:#ffffff0b;border:1px solid #ffffff12;font-size:13px;line-height:1.2;max-width:100%}
 .nch b{color:#ffd84a;font-weight:700}
 .nic{width:22px;height:22px;flex:none;image-rendering:pixelated;vertical-align:middle;margin-right:4px}
 .nch .nic{margin:0}
@@ -1006,7 +1008,7 @@ html[data-pvt=prev]::view-transition-new(ppanel){animation:.2s ease-out .08s bot
 
 /* Bosses list: the quest chain in fight order (the order is real, so the cards are numbered) */
 body.qbook .blist{counter-reset:q}
-body.qbook .bcardl{position:relative;counter-increment:q;grid-template-columns:56px minmax(0,1fr);align-items:center;column-gap:14px;
+body.qbook .bcardl{position:relative;counter-increment:q;padding-right:34px;grid-template-columns:56px minmax(0,1fr);align-items:center;column-gap:14px;
  background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 16%,var(--gui)),var(--gui) 70%);transition:transform .12s,background-color .12s}
 body.qbook .bcardl::after{content:counter(q);position:absolute;top:8px;right:10px;font:600 12px var(--body);color:var(--gui-mute);font-variant-numeric:tabular-nums}
 body.qbook .bcardl:hover{transform:translateY(-2px)}
