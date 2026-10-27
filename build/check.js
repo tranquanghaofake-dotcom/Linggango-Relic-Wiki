@@ -1,7 +1,8 @@
 // Page check for the built wiki (Chromium, no network).
 // Usage: NODE_PATH=$(npm root -g) node build/check.js [dist/Linggango_Relic_Wiki.html]
 // Fails (exit 1) on: a script error, an empty gear item or set page, a broken <img> on those pages,
-// or a boss card on The Path (home page) with no landscape background.
+// a boss card on The Path (home page) with no landscape background, or a detail page (curio, gear, set, boss,
+// side boss) that is not drawn with the shared article layout (title, infobox, navbox, a heading on every section).
 const { chromium } = require('playwright'), path = require('path');
 (async () => {
   const b = await chromium.launch(), p = await b.newPage({ viewport: { width: 1400, height: 900 } });
@@ -11,12 +12,25 @@ const { chromium } = require('playwright'), path = require('path');
   await p.waitForTimeout(2500);
   const cards = await p.evaluate(() => [...document.querySelectorAll('.pbc')].map(a => [a.querySelector('b')?.textContent, !!a.querySelector('img.bg') || /url/.test(a.getAttribute('style') || '')]));
   const noBg = cards.filter(c => !c[1]).map(c => c[0]);
+  // every detail page uses article() (app.js): one title, an infobox, a navbox, and a heading on every section
+  const LAYOUT = `(() => { const m = document.getElementById('main'), a = m.querySelector('.ip.art');
+    if (!a) return 'no article'; if (!(a.querySelector('h1.ip-title')?.textContent.trim())) return 'no title';
+    if (!a.querySelector('.ip-info')) return 'no infobox'; if (!a.querySelector('.navbox')) return 'no navbox';
+    if ([...a.querySelectorAll('.ip-sec')].some(x => !x.querySelector(':scope>h2')?.textContent.trim())) return 'untitled section';
+    return ''; })()`;
   const [ne, ns] = await p.evaluate(() => [GE.length, GS.length]);
+  const lay = [];
   for (const [pre, n] of [['#g', ne], ['#gs', ns]])
     for (let i = 0; i < n; i++) {
       const r = await p.evaluate(h => { location.hash = h; render(); const m = document.getElementById('main'); return [m.innerText.length, [...m.querySelectorAll('img')].filter(x => x.complete && x.naturalWidth === 0).length]; }, pre + i);
       if (r[0] < 40 || r[1]) bad.push(pre + i);
+      const l = await p.evaluate(LAYOUT); if (l) lay.push(pre + i + ' ' + l);
     }
+  const others = await p.evaluate(() => [...D.map(d => '#i' + d.ix), ...KEEPERS().concat('ender_dragon').map(k => '#boss/' + k), ...Object.keys(SIDEB).map(n => '#side/' + encodeURIComponent(n))]);
+  for (const h of others) {
+    const l = await p.evaluate(([h, L]) => { location.hash = h; render(); return eval(L); }, [h, LAYOUT]);
+    if (l) lay.push(h + ' ' + l);
+  }
   // data and ranking invariants (each one is a bug that has happened)
   const inv = await p.evaluate(() => {
     const bad = [], acts = ORDER.filter(x => x != -1), A = new Set(ORDER);
@@ -45,7 +59,8 @@ const { chromium } = require('playwright'), path = require('path');
   console.log(`invariants: ${inv.length} broken ${inv.slice(0, 8).join(' | ')}`);
   console.log(`path cards ${cards.length}, without background: ${noBg.length} ${noBg.join(', ')}`);
   console.log(`gear pages ${ne}, sets ${ns}, empty or broken: ${bad.length} ${bad.slice(0, 10).join(' ')}`);
+  console.log(`detail pages ${ne + ns + others.length}, off the shared layout: ${lay.length} ${lay.slice(0, 6).join(' | ')}`);
   console.log(`script errors: ${errs.length} ${errs.slice(0, 3).join(' | ')}`);
   await b.close();
-  process.exit(errs.length || inv.length || bad.length || noBg.length || !cards.length ? 1 : 0);
+  process.exit(errs.length || inv.length || bad.length || lay.length || noBg.length || !cards.length ? 1 : 0);
 })();

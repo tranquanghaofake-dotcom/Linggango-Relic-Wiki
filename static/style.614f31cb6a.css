@@ -1783,7 +1783,7 @@ ol.how li::before{content:counter(howc);position:absolute;left:10px;top:8px;disp
 }
 @media (max-width:1180px){
  .hcols{grid-template-columns:1fr}
- .ip-body{grid-template-columns:1fr}
+ .ip-body{grid-template-columns:minmax(0,1fr)}
  .ip-side{grid-template-columns:260px minmax(0,1fr)}
  .ip-toc{position:static}
  .splash{left:calc(50% + 120px)}
@@ -2442,9 +2442,50 @@ body.qbook .bcardl,body.qbook .bcardl:hover{transform:none;transition:background
 .legend.lgl{gap:6px 18px}
 .legend.lgl>span{padding:0;background:none;border:0;cursor:help}
 /* B. the in-game name colour is a fact about the item, quieter than the wiki rarity */
-.ip-info dt.ign-dt,.ip-info dt.ign-dt+dd{font-size:13px;opacity:.85}
+.ip-info dt:has(.ign-dt),.ip-info dt:has(.ign-dt)+dd{font-size:13px;opacity:.85}
 /* C. tier rows with few items share a line instead of each spanning the page */
 .gtl-list{flex-direction:row;flex-wrap:wrap;gap:10px}
 .gtl-list>.grow{flex:1 1 auto;max-width:100%}
 /* the relic-level note ran past the filter box on narrow widths */
 .fbar .frl .fn{white-space:normal;min-width:0}
+/* ---------- article layout (app.js article()): every detail page = header, sections, infobox + contents, navbox ---------- */
+.art .ip-hero .gverd{max-width:720px}
+.art-ver{margin:14px 0 0;font:500 12.5px var(--body);color:var(--gui-mute)}
+/* infobox picture for bosses and gear: the boss model, the side boss render, the armor worn, the weapon icon */
+/* v5 capped the picture at 220px tall, which left a band under it in the square frame */
+.ip-stage{max-height:none}
+.ip-stage .stage{position:absolute;inset:0;height:auto;cursor:grab;touch-action:none}
+.ip-stage .stage:active{cursor:grabbing}
+.ip-stage .stage img{width:100%;height:100%;object-fit:contain}
+.ip-icon.sbpic{position:absolute;inset:6%;display:grid;place-items:center}
+.ip-icon.sbpic img{width:100%;height:100%;object-fit:contain}
+.ip-icon .garm{max-width:100%;max-height:240px;width:auto;height:auto;image-rendering:auto}
+.ip-icon .gbig{width:auto;height:auto;background:none;border-radius:0;box-shadow:none}
+.ip-icon .gbig img{width:160px;height:160px}
+.ip-icon .emb.lg{transform:scale(1.6)}
+.ip-ih .bossbar{grid-column:1/-1;margin:8px 0 0}
+.ip-ih .bossbar>i{transform-origin:left;animation:bossFill 1.2s .25s cubic-bezier(.25,.8,.25,1) both}
+.ip-ih .ip-slot .emb{transform:scale(.9)}
+.sbfig{margin:14px 0 0}
+.sbfig .sbarena{display:block;width:100%;max-width:640px;max-width:min(640px,100%);height:auto;border-radius:4px;box-shadow:0 0 0 2px #000}
+.art .pnx{margin-top:0}
+.art .pbtn{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 0}
+/* navbox: related links at the foot of a page, in the inventory container */
+.navbox{margin:28px 0 0;background:var(--gui);color:var(--gui-ink);border-radius:4px;box-shadow:0 0 0 2px #000,var(--bevel)}
+.navbox>summary{padding:12px 18px;font:700 16px/1.2 var(--disp);color:#fff;text-shadow:2px 2px 0 #000;cursor:pointer;list-style-position:inside}
+.navbox>dl{display:grid;grid-template-columns:200px minmax(0,1fr);margin:0;padding:0 14px 14px;gap:4px 0}
+.navbox dt{padding:8px 12px;font:600 13.5px/1.35 var(--body);color:var(--gui-ink);background:rgba(0,0,0,.35);box-shadow:inset 0 0 0 2px var(--gui-line);text-align:right}
+.navbox dd{margin:0;padding:8px 14px;font:500 14px/1.7 var(--body);box-shadow:inset 0 2px 0 var(--gui-line)}
+.navbox dd a{color:var(--gui-link);text-decoration:none;white-space:nowrap}
+.navbox dd a:hover{text-decoration:underline}
+.navbox dd b{color:#fff;white-space:nowrap}
+.navbox dd i{font-style:normal;color:var(--gui-mute)}
+@media (max-width:760px){.navbox>dl{grid-template-columns:1fr}.navbox dt{text-align:left}}
+@media (prefers-reduced-motion:reduce){.ip-ih .bossbar>i{animation:none!important}}
+/* sections never push the page wider than the screen (a 3×3 recipe grid is ~340px) */
+.ip-main{grid-template-columns:minmax(0,1fr)}
+@media (max-width:760px){.ip-sec{padding:14px 12px;overflow-x:auto}}
+/* one column (laptop below 1180px, tablet, phone): the infobox comes right after the lead, as on the game wikis' mobile skins;
+   the contents list is dropped because the sections follow straight after it */
+@media (max-width:1180px){.ip-body>.ip-side{order:-1}.ip-side .ip-toc{display:none}}
+@media (max-width:760px){.ip-side>.ip-art{width:min(240px,70vw);justify-self:center}}

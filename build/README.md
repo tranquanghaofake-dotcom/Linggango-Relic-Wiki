@@ -30,6 +30,21 @@ See `ARCHITECTURE.md` for how the pieces fit and why.
 - Scoring exists once, in `src/gear.js`. Python only produces facts (`patches/gearlib.py`: `off_of`, `set_facts`).
 - `check.js` has invariants (Acts in `ORDER`, finite scores, enough options per playstyle and Act, nothing listed before its Act). A bug found in the data gets an invariant there.
 
+## Adding or changing a page
+Detail pages (curio `#iN`, gear `#gN`, set `#gsN`, Keeper `#boss/k`, side boss `#side/name`) are one call to `article()` in `src/app.js`, then `wireArticle()`:
+```js
+el("main").innerHTML=article({crumb, title, lead, meta,             // header: breadcrumb, h1, one-sentence lead, chips
+  secs:[["get","How to get",html], ["stats","Stats",html], …],      // falsy entries are skipped; ids feed "On this page"
+  art, box:{head, rows:[["Act",html], …], foot},                    // infobox: picture, key facts, id + Copy (idBox(id))
+  after, nav:wikiNav({act, boss}, [[label, [[href,text,current], …]]])});  // under the sections; navbox groups first, then the wiki-wide ones
+wireArticle();
+```
+- Section order follows the game wikis: how you get it, then what it does (stats, attacks, levels), then how it compares (tier by Act, what it opens), then related items.
+- A new feature on a page is a new entry in `secs` (it gets its heading, its anchor and its line in "On this page"); a new fact is a new infobox row.
+- A new kind of page uses `article()` too; `check.js` fails a detail page that does not (title, infobox, navbox, a heading on every section).
+- Ready-made `<section class="s"><h2>…</h2>…</section>` html (such as `summonHtml`) converts with `secsOf(html)`.
+- List and tool pages (The Path, Equipment tier list, Bosses, Build planner, Mechanics) keep their own layouts.
+
 ## How gear is ranked (src/gear.js)
 Four playstyles: Melee, Ranged, Mage, Summon (Tank was retired in v22.11; defense is part of every score). Rules read from the pack's jars:
 Better Combat `allow_fast_attacks` (default on) clears hurt cooldowns, so melee DPS = hit × speed with no cap; Apothic Attributes armor is
