@@ -141,7 +141,7 @@ function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
 const gHref=g=>g.ps?"#gs"+g.ix:"#g"+g.ix;
 /* a tile is faded when its score in this list is an estimate (a staff's Melee DPS is read, its Mage score is not) */
-const gTile=(g,a,r)=>`<a class="gtl${g.est&&!(r==="ME"&&g.dmg!=null)?" est":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}">${gImg(g)}${g.a===+a?'<i class="gnew">NEW</i>':""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(g.n)}</span></a>`;
+const gTile=(g,a,r)=>`<a class="gtl${g.est&&!(r==="ME"&&g.dmg!=null)?" est":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}">${gImg(g)}${g.a===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(g.n)}</span></a>`;
 const GSTATE={a:0,r:"ME",w:"w",q:""};let GALL=false;
 document.addEventListener("click",e=>{if(e.target.closest("[data-gall]")){GALL=true;const y=scrollY;gearPage(location.hash);scrollTo(0,y)}});
 let GLASTH="";
@@ -164,7 +164,7 @@ function gearPage(h){
  <div class="gseg roles" role="tablist" aria-label="Playstyle">${roles.map(k=>`<a role="tab" href="${go(a,k,w)}" style="--rc:${ROLE_C[k]||"#8a8f99"}"${k===r?' aria-selected="true"':""}>${GROLE[k]}</a>`).join("")}</div>
  <input id="gq" type="search" autocomplete="off" name="gearq" placeholder="Find a weapon or set…" value="${esc(GSTATE.q)}" aria-label="Find gear"></div>
  ${q?gSearch(q,a):`<div class="gtl-list">${tiers.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>Show ${xs.length-48} more</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join(""):`<p class="note">No ${w==="a"?"armor":"weapons"} for ${GROLE[r]} unlocked by ${esc(actL(a))} yet.</p>`}</div>`}
- <div class="gfoot"><p><b>${pool}</b> ${w==="a"?"sets":"weapons"} usable at ${esc(actL(a))}. <i class="gnew">NEW</i> unlocks at this Act. Faded tiles are <b>estimated</b>: their damage is computed in code the wiki could not read, so they are ranked by when and how you get them (see below).</p>
+ <div class="gfoot"><p><b>${pool}</b> ${w==="a"?"sets":"weapons"} usable at ${esc(actL(a))}.${+a!==ORDER[0]?' <i class="gnew">NEW</i> unlocks at this Act.':""} Faded tiles are <b>estimated</b>: their damage is computed in code the wiki could not read, so they are ranked by when and how you get them (see below).</p>
  <details class="ghow"><summary>How the tiers are worked out</summary><ul>
  <li><b>Act</b>: the Keeper gate from Linggango's own progression tags (<code>forge:iron_tools</code> … <code>forge:helionite_armor</code>): gear tagged Diamond is locked until Eldorath falls, and so on. Gear with no tag sits at the Act of its hardest ingredient or drop (Nether materials need Act V, a Nether Star the Wither, End loot the Ender Dragon).</li>
  <li><b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does. Better Combat clears the target's hurt cooldown on every hit, so fast weapons are not capped at two hits a second. Staves, spears and gunblades whose melee damage is readable are ranked here too.</li>
