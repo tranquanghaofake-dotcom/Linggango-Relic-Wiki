@@ -183,7 +183,7 @@ function bossPage(k){
  el("main").innerHTML=`${crumb(`<a href="#bosses">Bosses</a>`,esc(nm))}<h1>${esc(nm)}</h1>
 <div class="lhero big" style="--tc:${ACT[a][2]};${tex(a)}">${B3[k]?`<div class="stage" data-boss="${k}"></div>`:emblem(a,"lg")}<div class="bcard"><b>${esc(nm)}</b><i class="bossbar" aria-hidden="true"><i></i></i><small>${SIDEV[k]!=null?`Optional side boss in <a href="#act/${a}">${esc(actL(a))}</a>: drops its own curios`:`Defeat it to open <a href="#home">${esc(actL(a))}</a>`}</small>
 ${row?`<small class="bnote"><span>Weak to:</span> ${esc(row[2])}</small>`:""}</div></div>
-<div class="bpg">
+<div class="bpg" style="--tc:${ACT[a][2]}">
 ${summonHtml(k)}
 ${bossInfoHtml(k)}
 ${row&&row[5]&&row[5]!=="—"?`<section class="s"><h2>Good to know</h2><p>${esc(pathText(row[5]))}</p></section>`:""}
@@ -873,6 +873,8 @@ function renderBase(){
   if(mm){const v=mm[2],f=mm[1]==="mod"?"mod":"slot";st.q=`${f}:${/\s/.test(v)?`"${v}"`:v}`;el("q").value=st.q;location.replace("#home");return}}
  document.body.classList.toggle("hub",h===""||h==="#");
  // curio filters and index only make sense next to curio lists
+ // progression pages wear the quest-book look (FTB Quests theme of the pack); item pages keep the inventory look
+ document.body.classList.toggle("qbook",h==="#bosses"||h.startsWith("#boss/")||h.startsWith("#side/"));
  document.body.classList.toggle("noside",h.startsWith("#side/")||h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics");
  if(innerWidth<=760&&(h.startsWith("#i")||h==="#guide")){el("side").classList.add("closed");el("fold").setAttribute("aria-expanded","false")}
  const soft=SOFT;SOFT=false;const mn=el("main");if(!soft){mn.classList.remove("enter");void mn.offsetWidth;mn.classList.add("enter")}

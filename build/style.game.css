@@ -971,3 +971,52 @@ html[data-pvt=prev]::view-transition-new(ppanel){animation:.2s ease-out .08s bot
 
 /* ================= v27: legal line, quest-book pages, rarity frames, section scenes ================= */
 .sfoot .slegal{grid-column:1/-1;margin:6px 0 0;padding-top:14px;border-top:1px solid #ffffff10;font-size:12px;color:#8d8a9c}
+
+/* ---------- quest book: progression (The Path map, Bosses, boss pages) ----------
+   Ideas from the pack's FTB Quests theme, kept inside the Minecraft GUI (bevels, shadows and motion stay, see CLAUDE.md):
+   each Act tints its panel like a quest chapter, Acts are hexagon quest shapes, the link between them is white where you
+   have been and grey ahead, blue marks the Act in progress, a green tick marks a finished one, sure drops ring in orange. */
+:root{--qb-todo:#616161;--qb-now:#486cbe;--qb-done:#9bc600;--qb-done2:#408300;--qb-hot:#ef9e1a;
+ --qb-hex:polygon(25% 4%,75% 4%,100% 50%,75% 96%,25% 96%,0 50%)}
+
+/* The Path map: quest line instead of XP bar */
+.pxp{height:4px;top:44px;background:var(--qb-todo);box-shadow:0 0 0 2px #000}
+.pxp::after{display:none}
+.pxp i{background:linear-gradient(#fff,#cfcfcf)}
+.pn .pfr{--qo:#2a2833;--qf:color-mix(in srgb,var(--tc) 22%,#2e2b38);position:relative;width:56px;height:56px;background:var(--qo);
+ box-shadow:none;clip-path:var(--qb-hex);filter:drop-shadow(0 4px 0 rgba(0,0,0,.45))}
+.pn .pfr::before{content:"";position:absolute;inset:3px;background:linear-gradient(rgba(255,255,255,.14),transparent 45%,rgba(0,0,0,.25)),var(--qf);clip-path:inherit}
+.pn .pfr .emb{position:relative;z-index:1}
+.pn:first-child .pfr{clip-path:circle(50%)}
+.pn.done .pfr,.pn.here .pfr{--qo:#fff;background:var(--qo);box-shadow:none}
+.pn.here .pfr{--qo:var(--qb-now)}
+.pn.done::before{content:"✓";position:absolute;z-index:2;top:-4px;right:calc(50% - 34px);width:18px;height:18px;display:grid;place-items:center;font:700 12px/1 var(--body);color:#fff;
+ background:var(--qb-done);box-shadow:0 0 0 2px #000,inset 1px 1px 0 #d4ff6a,inset -1px -2px 0 var(--qb-done2)}
+.pn.done b{color:#fff}
+.pn.here b{color:#9db8ff}
+.pn.ahead .pfr{filter:drop-shadow(0 4px 0 rgba(0,0,0,.45))}
+.pn.ahead .pfr .emb{opacity:.5;filter:grayscale(.6)}
+.pn.ahead b{color:#8a8698}
+.pn[aria-selected=true] .pfr{box-shadow:none;filter:drop-shadow(0 4px 0 rgba(0,0,0,.45)) drop-shadow(0 0 10px color-mix(in srgb,var(--tc) 75%,transparent))}
+.pn[aria-selected=true] .pfr .emb{opacity:1;filter:none}
+/* the panel is the quest chapter: tinted by its Act */
+.ppanel{background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 18%,var(--gui2)),var(--gui2) 60%)}
+.ppanel .pph h3,.pph .ptitle{filter:drop-shadow(2px 2px 0 rgba(0,0,0,.5))}
+
+/* Bosses list: the quest chain in fight order (the order is real, so the cards are numbered) */
+body.qbook .blist{counter-reset:q}
+body.qbook .bcardl{position:relative;counter-increment:q;grid-template-columns:56px minmax(0,1fr);align-items:center;column-gap:14px;
+ background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 16%,var(--gui)),var(--gui) 70%);transition:transform .12s,background-color .12s}
+body.qbook .bcardl::after{content:counter(q);position:absolute;top:8px;right:10px;font:600 12px var(--body);color:var(--gui-mute);font-variant-numeric:tabular-nums}
+body.qbook .bcardl:hover{transform:translateY(-2px)}
+body.qbook .bcardl>.emb{grid-row:span 3;position:relative;width:56px;height:56px;display:grid;place-items:center;background:#fff;clip-path:var(--qb-hex);filter:drop-shadow(0 3px 0 rgba(0,0,0,.45))}
+body.qbook .bcardl>.emb::before{content:"";position:absolute;inset:3px;background:linear-gradient(rgba(255,255,255,.14),transparent 45%,rgba(0,0,0,.25)),color-mix(in srgb,var(--tc) 26%,#2e2b38);clip-path:var(--qb-hex)}
+body.qbook .bcardl>.emb>*{position:relative;z-index:1}
+
+/* boss and side-boss pages: section headings carry the orange quest marker; drops read as quest rewards */
+body.qbook .bpg>.s{background:linear-gradient(180deg,color-mix(in srgb,var(--tc,#888) 10%,var(--gui)),var(--gui) 240px)}
+body.qbook .bpg>.s>h2{display:flex;align-items:center;gap:10px}
+body.qbook .bpg>.s>h2::before{content:"";width:14px;height:14px;flex:none;background:var(--qb-hot);clip-path:var(--qb-hex)}
+body.qbook .bdrop:not(.bag){border-color:var(--qb-hot);background:linear-gradient(90deg,rgba(239,158,26,.16),#1b1923 70%)}
+body.qbook .bdrop:not(.bag) .slot{box-shadow:inset 3px 3px 0 var(--slot-lo),inset -3px -3px 0 var(--slot-hi),0 0 0 2px var(--qb-hot)}
+@media (prefers-reduced-motion:reduce){body.qbook .bcardl{transition:none}}
