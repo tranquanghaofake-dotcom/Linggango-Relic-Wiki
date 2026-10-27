@@ -1,0 +1,1 @@
+{"slug":"lgw-fxgen","root":"{W}/gen/out","title":"Linggango Relic Wiki effect generator (fxgen.py)","version":"assets/gen/fxgen.py, deterministic","author":"Linggango Relic Wiki","license":"own work","tier":"A","confidence":"high","include":["\\.png$"],"exclude":["contact_sheet"],"note":"drawn by script on the 16 px grid with the wiki's theme ramps; no third-party pixels"}

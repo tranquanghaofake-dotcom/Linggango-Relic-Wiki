@@ -1,0 +1,662 @@
+{
+ "arphex": {
+  "repo": "Vllaxa/arthropod",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "invocations": {
+  "repo": "cleannrooster/invocations-spellengine",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2023 cleannrooster Permission is hereby granted, free of charge, to any person obtaining a c"
+  },
+  "exceptions": []
+ },
+ "visuality": {
+  "repo": "PinkGoosik/visuality",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2021 Alexey Belyaev Permission is hereby granted, free of charge, to any person obtaining a"
+  },
+  "exceptions": []
+ },
+ "spellblades-and-such": {
+  "repo": "cleannrooster/Spellblade-Next",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "the-aurorian": {
+  "repo": "shiroroku/TheAurorian",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2024 Shiroroku(Elise) Permission is hereby granted, free of charge, to any person obtain"
+  },
+  "exceptions": []
+ },
+ "particle-rain": {
+  "repo": "PigCart/particle-rain",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License (MIT) Copyright (c) 2025 Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "particular": {
+  "repo": "Chailotl/particular",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "the-graveyard-fabric": {
+  "repo": "finallion/The_Graveyard",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "aerial-hell": {
+  "repo": "nicochart/AerialHell",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": [
+   "README.md: 0][cc-by-nc-sa-image]][cc-by-nc-sa]",
+   "README.md: [cc-by-nc-sa-image]: https://licensebuttons"
+  ]
+ },
+ "ambientadditions": {
+  "repo": "Coda1552/AmbientAdditions",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "lr-tactical": {
+  "repo": "LesRaisins-Studios/LesRaisins-Tactical-Equipements",
+  "files": [
+   "LICENSE",
+   "readme.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": [
+   "readme.md: - Art Assets: All Rights Reserved"
+  ]
+ },
+ "apprentices-codex": {
+  "repo": "hexqua/apprentice_codex",
+  "files": [
+   "LICENSE.txt",
+   "ASSETS_LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "MIT License Copyright (c) 2026 Aquid Permission is hereby granted, free of charge, to any person obtaining a copy of t",
+   "ASSETS_LICENSE.md": "# Assets License Unless otherwise noted in `THIRD_PARTY_NOTICES.md` or next to the file, all original assets (textures/"
+  },
+  "exceptions": []
+ },
+ "chocolate-quest-repoured": {
+  "repo": "TeamChocoQuest/ChocolateQuestRepoured",
+  "files": [
+   "LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "Our goal with this mod is to provide a free, publicly accessable, open-source alternative to the classic Chocolate Quest"
+  },
+  "exceptions": []
+ },
+ "dynamicsurroundingsfabric": {
+  "repo": "OreCruncher/DynamicSurroundingsFabric",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License (MIT) Copyright (c) 2023-2026 OreCruncher Permission is hereby granted, free of charge, to any person"
+  },
+  "exceptions": []
+ },
+ "particle-interactions": {
+  "repo": "Enchanted-Games/block-place-particles",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Attribution-NonCommercial 4.0 International ======================================================================= Cr"
+  },
+  "exceptions": []
+ },
+ "ntm-extended": {
+  "repo": "Alcatergit/Hbm-s-Nuclear-Tech-GIT",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "cataclysm-spellbooks": {
+  "repo": "AceTheEldritchKing/Cataclysm_Spellbooks",
+  "files": [
+   "LICENSE.txt"
+  ],
+  "license_head": {
+   "LICENSE.txt": "# PolyForm Shield License 1.0.0 <https://polyformproject.org/licenses/shield/1.0.0&gt; ## Acceptance In order to get"
+  },
+  "exceptions": []
+ },
+ "amethyst-imbuement": {
+  "repo": "fzzyhmstrs/ai",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2022 fzzyhmstrs Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "scorched-guns-2": {
+  "repo": "ribs498/Scorched-Guns-1.20.1",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "sb-enchantment-effects": {
+  "repo": "soullessberry/enchantment-effects",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2026 soullessberry Permission is hereby granted, free of charge, to any person obtaining a c"
+  },
+  "exceptions": []
+ },
+ "betternether": {
+  "repo": "quiqueck/BetterNether",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2022 Team BetterX Permission is hereby granted, free of charge, to any person obtaining a co"
+  },
+  "exceptions": [
+   "LICENSE: ASSETS for a Listing) is licensed under CC BY-NC-SA 4"
+  ]
+ },
+ "ardas-sculks": {
+  "repo": "IxraPlayer/Ardas-Sculks",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 2.1, February 1999 Copyright (C) 19"
+  },
+  "exceptions": []
+ },
+ "valoria": {
+  "repo": "IriDark/Valoria",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Code: GPL-3.0 License Assets: Attribution-NonCommercial 4.0 International Attribution-NonCommercial 4.0 International"
+  },
+  "exceptions": []
+ },
+ "medievalweapons": {
+  "repo": "Globox1997/MedievalWeapons",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2020 Globox_Z Permission is hereby granted, free of charge, to any person obtaining a copy o"
+  },
+  "exceptions": []
+ },
+ "electroblobs-wizardry-redux": {
+  "repo": "Binaris00/ElectroblobsWizardryRedux",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "sky-lands": {
+  "repo": "DeepCanionStudio/SkyLandsForge",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "zenith-renewed": {
+  "repo": "Stalemated/ZenithRenewed",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2023 TheWinABagel Copyright (c) 2026 Stalemated Permission is hereby granted, free of charge"
+  },
+  "exceptions": []
+ },
+ "glimmering-tales": {
+  "repo": "Minecraft-LightLand/GlimmeringTales",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 2.1, February 1999 Copyright (C) 19"
+  },
+  "exceptions": []
+ },
+ "enderio": {
+  "repo": "Team-EnderIO/EnderIO",
+  "files": [
+   "LICENSE.txt"
+  ],
+  "license_head": {
+   "LICENSE.txt": "This is free and unencumbered software released into the public domain. Anyone is free to copy, modify, publish, use, c"
+  },
+  "exceptions": []
+ },
+ "fallingleaves": {
+  "repo": "Fourmisain/fallingleaves",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License (MIT) Copyright (c) 2020 RandomMcSomethin Permission is hereby granted, free of charge, to any person"
+  },
+  "exceptions": []
+ },
+ "smooth-particles": {
+  "repo": "watermelone1/Smooth-Particles",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "remnants-eclipsed-realm": {
+  "repo": "MeherBenSalem/bosses",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Apache License Version 2.0, January 2004"
+  },
+  "exceptions": []
+ },
+ "biome_particle_weather": {
+  "repo": "shadowmaster435/Impactful_Weather",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Mozilla Public License Version 2.0 ================================== 1. Definitions -------------- 1.1. \"Contributor\""
+  },
+  "exceptions": []
+ },
+ "windy": {
+  "repo": "BonfireMC-Studios/Windy",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "aeromancy-additions": {
+  "repo": "snackerpirater/aero-additions",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "legendary-mage": {
+  "repo": "LOVE-U987/Legendary-Mage",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2026 U_Love Permission is hereby granted, free of charge, to any person obtaining a copy of"
+  },
+  "exceptions": []
+ },
+ "mythicmetals": {
+  "repo": "Noaaan/MythicMetals",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2021-2025 Noaaan Permission is hereby granted, free of charge, to any person obtaining a cop"
+  },
+  "exceptions": [
+   "README.md: Note that the **assets (textures) in this mod is All Rights Reserved**"
+  ]
+ },
+ "immersive-weapons": {
+  "repo": "AnonymousHacker1279/ImmersiveWeapons",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2020-2026 Nicholas Smit Permission is hereby granted, free of charge, to any person obtainin"
+  },
+  "exceptions": [
+   "README.md: excluding its assets, which"
+  ]
+ },
+ "apothic-enchanting": {
+  "repo": "Shadows-of-Fire/Apothic-Enchanting",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2024-2025 Stormraven Studios, LLC Permission is hereby granted, free of charge, to any perso"
+  },
+  "exceptions": []
+ },
+ "rei": {
+  "repo": "shedaniel/RoughlyEnoughItems",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2018, 2019, 2020, 2021, 2022, 2023 shedaniel Permission is hereby granted, free of charge, t"
+  },
+  "exceptions": []
+ },
+ "postmortal-particles": {
+  "repo": "Superkat32/PostmortalParticles",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2023 Superkat32 Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "dimensionaldoors": {
+  "repo": "DimensionalDevelopment/DimDoors",
+  "files": [
+   "LICENSE.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "immersive-enchanting": {
+  "repo": "alfiehanks/Immersive-Enchanting",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "nekohashizuku-blade": {
+  "repo": "BBuWan22/Shizuku-Blade",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "archon": {
+  "repo": "Safrodev/Archon",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Preamble The GNU General Public License is a free, copyleft license for software and other kinds of works. The license"
+  },
+  "exceptions": []
+ },
+ "toxony": {
+  "repo": "MrFrostyDev/Toxony_Mod",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "hit-feedback": {
+  "repo": "ChloePrime/HitFeedback",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License (MIT) Copyright (c) 2024 Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "druids-of-storm-and-spirit": {
+  "repo": "cleannrooster/druids",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2024 cleannrooster Permission is hereby granted, free of charge, to any person obtaining a c"
+  },
+  "exceptions": []
+ },
+ "runic-enchanting": {
+  "repo": "brotazoa/runic_enchanting",
+  "files": [
+   "LICENSE",
+   "readme.md"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License (MIT) Copyright (c) 2023 Brotazoa Permission is hereby granted, free of charge, to any person obtainin"
+  },
+  "exceptions": []
+ },
+ "tidal-waves": {
+  "repo": "Superkat32/Tidal",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2025 Superkat32 Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "imbued-gear": {
+  "repo": "fzzyhmstrs/ig",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2022 fzzyhmstrs Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "formidulus": {
+  "repo": "absolutelyaya/Formidulus",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License (MIT) Copyright (c) 2024 Absolutelyaya Permission is hereby granted, free of charge, to any person obt"
+  },
+  "exceptions": []
+ },
+ "wandrous": {
+  "repo": "OHakimen/Wandrous",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License (MIT) Copyright (c) 2024 Hakimen Permission is hereby granted, free of charge, to any person obtaining"
+  },
+  "exceptions": []
+ },
+ "war-wither": {
+  "repo": "Jerotes/JerotesWarehouse",
+  "files": [
+   "LICENSE.txt"
+  ],
+  "license_head": {
+   "LICENSE.txt": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "alessandrv-enchantments": {
+  "repo": "alessandrv/alessandrv-enchantments",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2023 Alessandrv Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "animated-items": {
+  "repo": "palettemc/animated-items",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "gui-overhaul": {
+  "repo": "itsquasiab/gui-overhaul",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "fire-rekindled": {
+  "repo": "Tectato/Fire_Rekindled",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License Copyright (c) 2022 Tec Permission is hereby granted, free of charge, to any person obtaining a copy of t"
+  },
+  "exceptions": []
+ },
+ "stoneborn-modded-compatibility-gui": {
+  "repo": "vizthex123/StonebornModdedCompat",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright \u00a9 2007 Free Software Foundation, Inc. <http://fsf.org/> E"
+  },
+  "exceptions": []
+ },
+ "3d-default": {
+  "repo": "GeForceLegend/Minecraft-3D-Default",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "duskfall-ui": {
+  "repo": "SirKillian/Duskfall-UI",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "fruity-gui": {
+  "repo": "advexxx/FRUITY-GUI",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "hypr-minecraft": {
+  "repo": "scarcekoi/Hypr-Minecraft",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "oreui-recreation": {
+  "repo": "thetmc249/OreUI-Recreation",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2025 tmc249 Permission is hereby granted, free of charge, to any person obtaining a copy of"
+  },
+  "exceptions": []
+ },
+ "glowing": {
+  "repo": "7777777-4547/Glowing",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ }
+}

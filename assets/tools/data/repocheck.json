@@ -1,0 +1,1479 @@
+{
+ "Alex's Caves": {
+  "repo": "AlexModGuy/AlexsCaves",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Alex's Mobs": {
+  "repo": "AlexModGuy/AlexsMobs",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Hexerei": {
+  "repo": "JoeFoxe/Hexerei-1.19",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Dungeon Now Loading 2%": {
+  "repo": "hexnowloading/DungeonNowLoading",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Creatures and Beasts: Continued": {
+  "repo": "CreaturesAndBeasts/Creatures_And_Beasts-Forge",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Domestication Innovation": {
+  "repo": "AlexModGuy/DomesticationInnovation",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Cognition (Experience Obelisk)": {
+  "repo": "terrarium-earth/Experience-Obelisk",
+  "files": [
+   "LICENSE.txt",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "MIT License Copyright (c) 2022 Cyanog3n Permission is hereby granted, free of charge, to any person obtaining a copy o"
+  },
+  "exceptions": []
+ },
+ "Tome of Blood: Rebirth": {
+  "repo": "mystchonky/Tome-of-Blood",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": [
+   "README.md: A part of the assets are made by Gronglegrowth and are under CC BY 4"
+  ]
+ },
+ "ExtendedAE": {
+  "repo": "GlodBlock/ExtendedAE",
+  "files": [
+   "LICENSE.txt",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Ars 'n Spells": {
+  "repo": "otectus/ars-n-spells",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Fr"
+  },
+  "exceptions": []
+ },
+ "Create: Central Kitchen": {
+  "repo": "DragonsPlusMinecraft/CreateCentralKitchen",
+  "files": [
+   "LICENSE.txt",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "CodeChicken Lib 1.8.+": {
+  "repo": "TheCBProject/CodeChickenLib",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 2.1, February 1999 Copyright (C) 1991, 1999 Free Soft"
+  },
+  "exceptions": []
+ },
+ "Animus": {
+  "repo": "TeamDman/Animus",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Mozilla Public License Version 2.0 ================================== 1. Definitions -------------- 1.1. \"Contributor\""
+  },
+  "exceptions": []
+ },
+ "Create Crafts & Additions": {
+  "repo": "mrh0/createaddition",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2024 MRH Permission is hereby granted, free of charge, to any person obtaining a copy of thi"
+  },
+  "exceptions": []
+ },
+ "Artifacts": {
+  "repo": "ochotonida/artifacts",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2019 Wouter Pauwels Permission is hereby granted, free of charge, to any person obtaining a"
+  },
+  "exceptions": []
+ },
+ "Apothic Attributes": {
+  "repo": "Shadows-of-Fire/Apothic-Attributes",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2023-2025 Stormraven Studios, LLC Permission is hereby granted, free of charge, to any perso"
+  },
+  "exceptions": []
+ },
+ "Modular Routers": {
+  "repo": "desht/ModularRouters",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Just Enough Items (JEI)": {
+  "repo": "mezz/JustEnoughItems",
+  "files": [
+   "LICENSE.txt",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "The MIT License (MIT) Copyright (c) 2014-2015 mezz Permission is hereby granted, free of charge, to any person obtaini"
+  },
+  "exceptions": []
+ },
+ "Citadel": {
+  "repo": "Alex-the-666/Citadel",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Tooltip Overhaul": {
+  "repo": "Xylonity/Tooltip-Overhaul",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "Fancy Tab Sections": {
+  "repo": "MC-Expanded/Fancy-Tabs-Sections",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2026 Kaupenjoe Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "Some More Blocks": {
+  "repo": "Seface-Studios/some-more-blocks",
+  "files": [
+   "LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2026 Seface Studios LTDA Everyone is permitted"
+  },
+  "exceptions": []
+ },
+ "MEGA Cells": {
+  "repo": "62832/MEGACells",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": [
+   "README.md: All assets are licensed under [CC BY-NC-SA 3"
+  ]
+ },
+ "KubeJS": {
+  "repo": "KubeJS-Mods/KubeJS",
+  "files": [
+   "LICENSE.txt",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Immersive Aircraft": {
+  "repo": "Luke100000/ImmersiveAircraft",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "Create Ore Excavation": {
+  "repo": "tom5454/Create-Ore-Excavation",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2022 tom5454 Permission is hereby granted, free of charge, to any person obtaining a copy of"
+  },
+  "exceptions": []
+ },
+ "YetAnotherConfigLib": {
+  "repo": "isXander/YetAnotherConfigLib",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Hostile Neural Networks": {
+  "repo": "Shadows-of-Fire/Hostile-Neural-Networks",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2021 Brennan Ward Permission is hereby granted, free of charge, to any person obtaining a co"
+  },
+  "exceptions": []
+ },
+ "[ETF] Entity Texture Features - [Fabric & Forge]": {
+  "repo": "Traben-0/Entity_Texture_Features",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Tom's Simple Storage Mod": {
+  "repo": "tom5454/Toms-Storage",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2020 tom5454 Permission is hereby granted, free of charge, to any person obtaining a copy of"
+  },
+  "exceptions": []
+ },
+ "ME Requester": {
+  "repo": "AlmostReliable/merequester",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Curios API": {
+  "repo": "TheIllusiveC4/Curios",
+  "files": [
+   "LICENSE",
+   "COPYING",
+   "COPYING.LESSER",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Copyright (C) 2018-2024 C4 Curios is free software: you can redistribute it and/or modify it under the terms of the GNU",
+   "COPYING": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free",
+   "COPYING.LESSER": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Sanguine Neural Networks [Hostile Neural Networks Addon]": {
+  "repo": "MtcLeo05/Sanguine-Neural-Networks",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2024 MtcLeo05 Permission is hereby granted, free of charge, to any person obtaining a copy o"
+  },
+  "exceptions": []
+ },
+ "End Remastered [NeoForge/Fabric]": {
+  "repo": "Jack-Bagel/End-Remastered",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "Shoulder Surfing Reloaded": {
+  "repo": "Exopandora/ShoulderSurfing",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) [year] [fullname] Permission is hereby granted, free of charge, to any person obtaining a co"
+  },
+  "exceptions": []
+ },
+ "wd's Selling Bin": {
+  "repo": "wdiscute/Selling-Bin",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Titanium": {
+  "repo": "InnovativeOnlineIndustries/Titanium",
+  "files": [
+   "LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "### GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free Software Foundation, Inc. <https"
+  },
+  "exceptions": []
+ },
+ "AE2 Import Export Card": {
+  "repo": "starforcraft/AE2-Insert-Export-Card",
+  "files": [
+   "LICENSE.txt"
+  ],
+  "license_head": {
+   "LICENSE.txt": "MIT License Copyright (c) 2024 Starforcraft Permission is hereby granted, free of charge, to any person obtaining a co"
+  },
+  "exceptions": []
+ },
+ "Moog's Structure Lib (moogs_structures)": {
+  "repo": "FinnSetchell/MoogsStructureLib",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Projectile Damage Attribute [Fabric & Forge]": {
+  "repo": "ZsoltMolnarrr/ProjectileDamage",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "Cucumber Library": {
+  "repo": "BlakeBr0/Cucumber",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2018 BlakeBr0 Permission is hereby granted, free of charge, to any person obtaining a copy o"
+  },
+  "exceptions": []
+ },
+ "Applied Flux": {
+  "repo": "GlodBlock/ExtendedAE",
+  "files": [
+   "LICENSE.txt",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Euphoria Patches": {
+  "repo": "EuphoriaPatches/EuphoriaPatcher",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Mozilla Public License Version 2.0 ================================== 1. Definitions -------------- 1.1. \"Contributor\""
+  },
+  "exceptions": []
+ },
+ "Immersive Armors": {
+  "repo": "Luke100000/ImmersiveArmors",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "Text Animator": {
+  "repo": "Snownee/TextAnimator",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Copyright 2023 Snownee Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except"
+  },
+  "exceptions": []
+ },
+ "Dungeon Crawl": {
+  "repo": "xyroc/DungeonCrawl",
+  "files": [
+   "LICENSE.txt",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "Save My Shaky Network": {
+  "repo": "gizmo-ds/smsn-mod",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2024 Gizmo Permission is hereby granted, free of charge, to any person obtaining a copy of t"
+  },
+  "exceptions": []
+ },
+ "Transmog": {
+  "repo": "Hidoni/Transmog",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2023 Hidoni Permission is hereby granted, free of charge, to any person obtaining a copy of"
+  },
+  "exceptions": []
+ },
+ "MTR - Moog's Temples Reimagined": {
+  "repo": "FinnSetchell/MoogsTemplesReimagined",
+  "files": [
+   "LICENSE",
+   "COPYING.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007",
+   "COPYING.md": "# Licensing This project is **dual-licensed**. Different parts of the codebase fall under different licenses - please r"
+  },
+  "exceptions": [
+   "COPYING.md: nbt` files anywhere within this repository - including but not limited to `src/main/resources/data/{mod_id}/structure/` and `src/main/resources/data/{mod_id}/structures/` - are **\u00a9 FinnDog (Moog)** and are **All Rights Reserved**"
+  ]
+ },
+ "Kotlin for Forge": {
+  "repo": "thedarkcolour/KotlinForForge",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 2.1, February 1999 Copyright (C) 19"
+  },
+  "exceptions": []
+ },
+ "FerriteCore ((Neo)Forge)": {
+  "repo": "malte0811/FerriteCore",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2020 malte0811 Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": [
+   "README.md: (Image: Konstantin Lanzet, CC BY-SA 3"
+  ]
+ },
+ "Applied Energistics 2 Wireless Terminals": {
+  "repo": "Mari023/AE2WirelessTerminalLibrary",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License (MIT) Copyright (c) 2021 mari_023 Permission is hereby granted, free of charge, to any person obtainin"
+  },
+  "exceptions": []
+ },
+ "Ixeris": {
+  "repo": "decce6/Ixeris",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Mouse Tweaks": {
+  "repo": "YaLTeR/MouseTweaks",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "BSD 3-Clause License Copyright (c) 2023, Ivan Molodetskikh Redistribution and use in source and binary forms, with or"
+  },
+  "exceptions": []
+ },
+ "Open Loader": {
+  "repo": "Darkhax-Minecraft/Open-Loader",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 2.1, February 1999 Copyright (C) 19"
+  },
+  "exceptions": []
+ },
+ "MVS - Moog's Voyager Structures": {
+  "repo": "Moog-s-Mods/MoogsVoyagerStructures",
+  "files": [
+   "LICENSE",
+   "COPYING.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007",
+   "COPYING.md": "# Licensing This project is **dual-licensed**. Different parts of the codebase fall under different licenses - please r"
+  },
+  "exceptions": [
+   "COPYING.md: nbt` files anywhere within this repository - including but not limited to `src/main/resources/data/{mod_id}/structure/` and `src/main/resources/data/{mod_id}/structures/` - are **\u00a9 FinnDog (Moog)** and are **All Rights Reserved**"
+  ]
+ },
+ "More Hitboxes": {
+  "repo": "DarkPred/MoreHitboxes",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2024 DarkPred Permission is hereby granted, free of charge, to any person obtaining a copy o"
+  },
+  "exceptions": []
+ },
+ "Night Lights": {
+  "repo": "bonsaistudi0s/night-lights",
+  "files": [
+   "LICENSE.txt"
+  ],
+  "license_head": {
+   "LICENSE.txt": "Unless noted below, Minecraft Forge, Forge Mod Loader, and all parts herein are licensed under the terms of the LGPL 2."
+  },
+  "exceptions": []
+ },
+ "Applied Mekanistics": {
+  "repo": "AppliedEnergistics/Applied-Mekanistics",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": [
+   "README.md: Everything is under the [LGPLv3][lgpl], but assets are under [CC BY-NC-SA 3"
+  ]
+ },
+ "Immersive Optimization": {
+  "repo": "Luke100000/ImmersiveOptimization",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "Not Enough Glyphs": {
+  "repo": "Alexthw46/NotEnoughGlyphs",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Block Swap Lite": {
+  "repo": "CorgiTaco/Block-Swap",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "BadOptimizations": {
+  "repo": "ItsThosea/BadOpitmizations",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License (MIT) Copyright (c) 2025 Thosea Permission is hereby granted, free of charge, to any person obtaining"
+  },
+  "exceptions": []
+ },
+ "Better Than Mending": {
+  "repo": "legobmw99/BetterThanMending",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "spark": {
+  "repo": "lucko/spark",
+  "files": [
+   "LICENSE.txt",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "Ender Storage 1.8.+": {
+  "repo": "TheCBProject/EnderStorage",
+  "files": [
+   "LICENSE.txt",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "The MIT License (MIT) Copyright (c) 2020 covers1624, ChickenBones, Christopher R. Thompson (Ecu) Permission is hereby"
+  },
+  "exceptions": []
+ },
+ "ModernFix": {
+  "repo": "embeddedt/ModernFix",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Copyright (c) 2022 This program is free software: you can redistribute it and/or modify it under the terms of the GNU"
+  },
+  "exceptions": []
+ },
+ "MSS - Moog's Soaring Structures": {
+  "repo": "FinnSetchell/MoogsSoaringStructures",
+  "files": [
+   "LICENSE",
+   "COPYING.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007",
+   "COPYING.md": "# Licensing This project is **dual-licensed**. Different parts of the codebase fall under different licenses - please r"
+  },
+  "exceptions": [
+   "COPYING.md: nbt` files anywhere within this repository - including but not limited to `src/main/resources/data/{mod_id}/structure/` and `src/main/resources/data/{mod_id}/structures/` - are **\u00a9 FinnDog (Moog)** and are **All Rights Reserved**"
+  ]
+ },
+ "Corpse x Curios API Compat": {
+  "repo": "Leclowndu93150/Corpse-Gravestone-Curios-Compat",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Caelus API": {
+  "repo": "TheIllusiveC4/Caelus",
+  "files": [
+   "LICENSE",
+   "COPYING",
+   "COPYING.LESSER",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Copyright (C) 2019-2024 C4 Caelus is free software: you can redistribute it and/or modify it under the terms of the GNU",
+   "COPYING": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free",
+   "COPYING.LESSER": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "MNS - Moog's Nether Structures": {
+  "repo": "FinnSetchell/MoogsNetherStructures2",
+  "files": [
+   "LICENSE",
+   "COPYING.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007",
+   "COPYING.md": "# Licensing This project is **dual-licensed**. Different parts of the codebase fall under different licenses - please r"
+  },
+  "exceptions": [
+   "COPYING.md: nbt` files anywhere within this repository - including but not limited to `src/main/resources/data/{mod_id}/structure/` and `src/main/resources/data/{mod_id}/structures/` - are **\u00a9 FinnDog (Moog)** and are **All Rights Reserved**"
+  ]
+ },
+ "Glodium": {
+  "repo": "GlodBlock/Glodium",
+  "files": [
+   "LICENSE.txt",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "MIT License Copyright (c) 2021 GlodBlock Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "Oh The Trees You'll Grow": {
+  "repo": "CorgiTaco/Oh-The-Trees-Youll-Grow",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Mozilla Public License Version 2.0 ================================== 1. Definitions -------------- 1.1. \"Contributor\""
+  },
+  "exceptions": []
+ },
+ "Tax Free Levels": {
+  "repo": "Fourmisain/TaxFreeLevels",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License (MIT) Copyright (c) 2021 Fourmisain Permission is hereby granted, free of charge, to any person obtain"
+  },
+  "exceptions": []
+ },
+ "Flerovium": {
+  "repo": "MoePus/Flerovium",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "playerAnimator": {
+  "repo": "KosmX/fabricPlayerAnimation",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2022 KosmX Permission is hereby granted, free of charge, to any person obtaining a copy of t"
+  },
+  "exceptions": []
+ },
+ "Jasione": {
+  "repo": "decce6/Jasione",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "KubeJS Create": {
+  "repo": "KubeJS-Mods/KubeJS-Create",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2025 latvian.dev Permission is hereby granted, free of charge, to any person obtaining a cop"
+  },
+  "exceptions": []
+ },
+ "[EMF] Entity Model Features [Fabric & Forge]": {
+  "repo": "Traben-0/Entity_Model_Features",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Copyright (c) 2022 This program is free software: you can redistribute it and/or modify it under the terms of the GNU"
+  },
+  "exceptions": []
+ },
+ "Ponder for KubeJS": {
+  "repo": "AlmostReliable/ponderjs",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2022 Almost Reliable Permission is hereby granted, free of charge, to any person obtaining a"
+  },
+  "exceptions": []
+ },
+ "Rhino": {
+  "repo": "KubeJS-Mods/Rhino",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Mozilla Public License Version 2.0 ================================== 1. Definitions -------------- 1.1. \"Contributor\""
+  },
+  "exceptions": []
+ },
+ "Cloth Config API (Fabric/Forge/NeoForge)": {
+  "repo": "shedaniel/ClothConfig",
+  "files": [
+   "LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "GNU Lesser General Public License ================================= _Version 3, 29 June 2007_ _Copyright \u00a9 2007 Free"
+  },
+  "exceptions": []
+ },
+ "LibTooltips": {
+  "repo": "wdiscute/tooltips",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Create Repair": {
+  "repo": "VoidLeech/Repair",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) VoidLeech, Vercte Permission is hereby granted, free of charge, to any person obtaining a co"
+  },
+  "exceptions": []
+ },
+ "Simple Backups": {
+  "repo": "ChaoticTrials/SimpleBackups",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Apache License Version 2.0, January 2004"
+  },
+  "exceptions": []
+ },
+ "CorgiLib": {
+  "repo": "CorgiTaco/CorgiLib",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Mozilla Public License Version 2.0 ================================== 1. Definitions -------------- 1.1. \"Contributor\""
+  },
+  "exceptions": []
+ },
+ "EfficientHashing": {
+  "repo": "ZZZank/EfficientHashing",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Async Logger": {
+  "repo": "decce6/AsyncLogger",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Resourceful Config": {
+  "repo": "Team-Resourceful/Resourceful-Config",
+  "files": [
+   "LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "MIT License Copyright (c) 2023 Team Resourceful Permission is hereby granted, free of charge, to any person obtaining"
+  },
+  "exceptions": []
+ },
+ "Ars \u00c9nergistique": {
+  "repo": "62832/ArsEnergistique",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Konkrete": {
+  "repo": "Keksuccino/Konkrete",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Apache License Version 2.0, January 2004"
+  },
+  "exceptions": []
+ },
+ "Kerria": {
+  "repo": "decce6/Kerria",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Enchantment Descriptions": {
+  "repo": "Darkhax-Minecraft/Enchantment-Descriptions",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Advanced Loot Info (ALI)": {
+  "repo": "yanny7/AdvancedLootInfo",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2025 Yanny Permission is hereby granted, free of charge, to any person obtaining a copy of t"
+  },
+  "exceptions": []
+ },
+ "FastChunkGen": {
+  "repo": "Linggango/FastChunkGen",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "The MIT License (MIT) Copyright (c) 2021-2024 ishland Copyright (c) 2026 Misanthropy This project is a derivative work"
+  },
+  "exceptions": []
+ },
+ "Comforts": {
+  "repo": "illusivesoulworks/comforts",
+  "files": [
+   "LICENSE",
+   "COPYING",
+   "COPYING.LESSER",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Copyright (C) 2017-2022 Illusive Soulworks Comforts is free software: you can redistribute it and/or modify it under th",
+   "COPYING": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free",
+   "COPYING.LESSER": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Construction Wand": {
+  "repo": "Theta-Dev/ConstructionWand",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Copyright (c) 2021 ThetaDev MIT LICENSE Permission is hereby granted, free of charge, to any person obtaining a copy of"
+  },
+  "exceptions": []
+ },
+ "YUNG's API (Forge/NeoForge)": {
+  "repo": "YUNG-GANG/YUNGs-API",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "YUNG's Better Nether Fortresses (Forge/NeoForge)": {
+  "repo": "YUNG-GANG/YUNGs-Better-Fortresses",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Krypton Reno": {
+  "repo": "404Setup/KryptonReno",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "YUNG's Better Dungeons (Forge/NeoForge)": {
+  "repo": "YUNG-GANG/YUNGs-Better-Dungeons",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "BiomeSpy": {
+  "repo": "MoePus/BiomeSpy",
+  "files": [
+   "LICENSE.txt"
+  ],
+  "license_head": {
+   "LICENSE.txt": "Copyright (c) 2025 MoePus This program is free software: you can redistribute it and/or modify it under the terms of th"
+  },
+  "exceptions": []
+ },
+ "Create: Connected": {
+  "repo": "hlysine/create_connected",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007 Copyright (C)"
+  },
+  "exceptions": []
+ },
+ "Melody": {
+  "repo": "Keksuccino/Melody",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2023 Keksuccino Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "Macaw's Doors": {
+  "repo": "sketchmacaw/MacawsDoors",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2023 Sketch Macaw Permission is hereby granted, free of charge, to any person obtaining a co"
+  },
+  "exceptions": []
+ },
+ "Polymorphic Energistics": {
+  "repo": "62832/PolymorphicEnergistics",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Architectury API": {
+  "repo": "architectury/architectury",
+  "files": [
+   "LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "GNU Lesser General Public License ================================= _Version 3, 29 June 2007_ _Copyright \u00a9 2007 Free"
+  },
+  "exceptions": []
+ },
+ "Joy of Painting": {
+  "repo": "ercanserteli/xercamods",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "Bookshelf": {
+  "repo": "Darkhax-Minecraft/Bookshelf",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 2.1, February 1999 Copyright (C) 199"
+  },
+  "exceptions": []
+ },
+ "Pufferfish's Attributes [Fabric & Forge & NeoForge]": {
+  "repo": "pufmat/attributesmod",
+  "files": [
+   "LICENSE.txt"
+  ],
+  "license_head": {
+   "LICENSE.txt": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Elysium API": {
+  "repo": "ThatJadenXgamer/Elysium",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 2.1, February 1999 Copyright (C) 19"
+  },
+  "exceptions": []
+ },
+ "Particle Core": {
+  "repo": "fzzyhmstrs/pc",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2022 fzzyhmstrs Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "The Immersive Music Mod": {
+  "repo": "sf-inc/timm",
+  "files": [
+   "LICENSE.txt"
+  ],
+  "license_head": {
+   "LICENSE.txt": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free"
+  },
+  "exceptions": []
+ },
+ "MezzConfig": {
+  "repo": "mezz/MezzConfig",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2026 mezz Permission is hereby granted, free of charge, to any person obtaining a copy of th"
+  },
+  "exceptions": []
+ },
+ "Placebo": {
+  "repo": "Shadows-of-Fire/Placebo",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2019 Brennan Ward Permission is hereby granted, free of charge, to any person obtaining a co"
+  },
+  "exceptions": []
+ },
+ "Botarium": {
+  "repo": "terrarium-earth/Botarium",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2024 Terrarium Earth LLC Permission is hereby granted, free of charge, to any person obtaini"
+  },
+  "exceptions": []
+ },
+ "Advanced Core Info (ACI)": {
+  "repo": "yanny7/AdvancedLootInfo",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2025 Yanny Permission is hereby granted, free of charge, to any person obtaining a copy of t"
+  },
+  "exceptions": []
+ },
+ "ServerCore": {
+  "repo": "Wesley1808/ServerCore",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Pehkui": {
+  "repo": "Virtuoel/Pehkui",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2019 - 2024 Virtuoel Permission is hereby granted, free of charge, to any person obtaining a"
+  },
+  "exceptions": []
+ },
+ "Polymorph": {
+  "repo": "illusivesoulworks/polymorph",
+  "files": [
+   "LICENSE",
+   "COPYING",
+   "COPYING.LESSER",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Copyright (C) 2020-2022 Illusive Soulworks Polymorph is free software: you can redistribute it and/or modify it under t",
+   "COPYING": "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007 Free",
+   "COPYING.LESSER": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Snuffles": {
+  "repo": "SnappyDragon64/Snuffles",
+  "files": [
+   "LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "MIT License Copyright (c) 2023 SnappyDragon64, Edmord Permission is hereby granted, free of charge, to any person obta"
+  },
+  "exceptions": []
+ },
+ "Resourceful Lib": {
+  "repo": "Team-Resourceful/ResourcefulLib",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "MIT License Copyright (c) 2024 Team Resourceful Permission is hereby granted, free of charge, to any person obtaining"
+  },
+  "exceptions": []
+ },
+ "Gnetum": {
+  "repo": "decce6/Gnetum",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "ImmediatelyFast": {
+  "repo": "RaphiMC/ImmediatelyFast",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Lionfish API": {
+  "repo": "lender544/Lionfish-API",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Structure Layout Optimizer": {
+  "repo": "TelepathicGrunt/StructureLayoutOptimizer",
+  "files": [
+   "LICENSE.txt",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.txt": "MIT License Copyright (c) 2024 TelepathicGrunt Permission is hereby granted, free of charge, to any person obtaining a"
+  },
+  "exceptions": []
+ },
+ "AsyncParticles": {
+  "repo": "Harveykang/AsyncParticles",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "MES - Moog's End Structures": {
+  "repo": "FinnSetchell/MoogsEndStructures",
+  "files": [
+   "LICENSE",
+   "COPYING.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007",
+   "COPYING.md": "# Licensing This project is **dual-licensed**. Different parts of the codebase fall under different licenses - please r"
+  },
+  "exceptions": [
+   "COPYING.md: nbt` files anywhere within this repository - including but not limited to `src/main/resources/data/{mod_id}/structure/` and `src/main/resources/data/{mod_id}/structures/` - are **\u00a9 FinnDog (Moog)** and are **All Rights Reserved**"
+  ]
+ },
+ "Load My F***ing Tags": {
+  "repo": "Dragon-Seeker/LoadMyFuckingTags",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Creative Commons Legal Code CC0 1.0 Universal CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE"
+  },
+  "exceptions": []
+ },
+ "Macaw's Fences and Walls": {
+  "repo": "sketchmacaw/Fences",
+  "files": [
+   "LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "MIT License Copyright (c) 2022 Kaupenjoe Permission is hereby granted, free of charge, to any person obtaining a copy"
+  },
+  "exceptions": []
+ },
+ "YUNG's Better Mineshafts (Forge/NeoForge)": {
+  "repo": "YUNG-GANG/YUNGs-Better-Mineshafts",
+  "files": [
+   "LICENSE"
+  ],
+  "license_head": {
+   "LICENSE": "GNU LESSER GENERAL PUBLIC LICENSE Version 3, 29 June 2007 Copyright (C) 2007"
+  },
+  "exceptions": []
+ },
+ "Quark": {
+  "repo": "VazkiiMods/Quark",
+  "files": [
+   "LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "# Attribution-NonCommercial-ShareAlike 3.0 Unported CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE"
+  },
+  "exceptions": []
+ },
+ "Deeper and Darker": {
+  "repo": "KyaniteMods/DeeperAndDarker",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "GNU AFFERO GENERAL PUBLIC LICENSE Version 3, 19 November 2007 Copyright (C)"
+  },
+  "exceptions": []
+ },
+ "Patchouli": {
+  "repo": "VazkiiMods/Patchouli",
+  "files": [
+   "LICENSE",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE": "Creative Commons Legal Code Attribution-NonCommercial-ShareAlike 3.0 Unported CREATIVE COMMONS CORPORATION IS NOT"
+  },
+  "exceptions": [
+   "README.md: Patchouli's original code and assets are licensed under the CC-BY-NC-SA 3"
+  ]
+ },
+ "Nature's Compass": {
+  "repo": "MattCzyr/NaturesCompass",
+  "files": [
+   "LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "# Attribution-NonCommercial-ShareAlike 4.0 International Creative Commons Corporation (\ufffdCreative Commons\ufffd) is not a law"
+  },
+  "exceptions": []
+ },
+ "Project: Vibrant Journeys": {
+  "repo": "OrderedChaos-Dev/ProjectVibrantJourneys",
+  "files": [],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Man of Many Planes": {
+  "repo": "Luke100000/Man-of-Many-Planes",
+  "files": [
+   "README.md"
+  ],
+  "license_head": {},
+  "exceptions": []
+ },
+ "Explorer's Compass Edited": {
+  "repo": "MattCzyr/ExplorersCompass",
+  "files": [
+   "LICENSE.md",
+   "README.md"
+  ],
+  "license_head": {
+   "LICENSE.md": "# Attribution-NonCommercial-ShareAlike 4.0 International Creative Commons Corporation (\ufffdCreative Commons\ufffd) is not a law"
+  },
+  "exceptions": []
+ }
+}

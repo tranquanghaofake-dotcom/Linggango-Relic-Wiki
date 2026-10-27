@@ -1,0 +1,17 @@
+{
+ "slug": "kenney-smoke-particles",
+ "root": "{W}/ext/kenney/kenney_smoke-particles",
+ "title": "Kenney Smoke Particles",
+ "version": "kenney_smoke-particles.zip sha256 97a1d09c\u2026",
+ "author": "Kenney (kenney.nl)",
+ "license": "CC0-1.0",
+ "tier": "A",
+ "confidence": "high",
+ "include": [
+  "\\.png$"
+ ],
+ "exclude": [
+  "(?i)preview|sample"
+ ],
+ "note": "soft high-resolution sprites (not pixel art)"
+}

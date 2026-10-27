@@ -1,0 +1,7488 @@
+{
+"k0RPP4IO": {
+"slug": "arphex",
+"title": "Arthropod Phobia Expansions + Horror Bosses / Arachnophobia",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 2083672,
+"follows": 502,
+"author": "vllax",
+"categories": [
+"adventure",
+"cursed",
+"equipment",
+"forge",
+"game-mechanics",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "ArPhEx horror mod - realistic, intricate, phobia-inducing entities and supernatural bosses",
+"queries": [
+"boss"
+],
+"rank": 9.518831440067427
+},
+"xwHe8V3O": {
+"slug": "invocations",
+"title": "Invocations",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 1576979,
+"follows": 127,
+"author": "cleannrooster",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"game-mechanics",
+"magic",
+"mobs"
+],
+"description": "More Complicated Spell Casting for Spell Engine Inspired by Last Epoch",
+"queries": [
+"spell"
+],
+"rank": 9.397828663997284
+},
+"HQsBdHGd": {
+"slug": "edf-remastered",
+"title": "Ender Dragon Fight Remastered",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 3123836,
+"follows": 1121,
+"author": "MrGenie151",
+"categories": [
+"adventure",
+"datapack",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"mobs",
+"neoforge",
+"quilt"
+],
+"description": "A difficulty increase of Minecraft's final boss, with a focus on a somewhat Vanilla feel.",
+"queries": [
+"boss"
+],
+"rank": 9.29468961579465
+},
+"fM515JnW": {
+"slug": "ambientsounds",
+"title": "AmbientSounds",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 41862278,
+"follows": 7105,
+"author": "creativemd",
+"categories": [
+"decoration",
+"fabric",
+"forge",
+"neoforge"
+],
+"description": "#listentonature",
+"queries": [
+"ambient",
+""
+],
+"rank": 9.221822961188991
+},
+"icU5P2Mk": {
+"slug": "spartan-weaponry",
+"title": "Spartan Weaponry",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 13565842,
+"follows": 466,
+"author": "ObliviousSpartan",
+"categories": [
+"equipment",
+"forge",
+"game-mechanics",
+"neoforge"
+],
+"description": "Weapons Galore! A whole new arsenal of weaponry made for Minecraft!",
+"queries": [
+"weapons",
+""
+],
+"rank": 9.13244707471235
+},
+"rI0hvYcd": {
+"slug": "visuality",
+"title": "Visuality",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 31275423,
+"follows": 6328,
+"author": "PinkGoosik",
+"categories": [
+"decoration",
+"fabric",
+"quilt"
+],
+"description": "Little visual improvements by adding a bunch of new particles.",
+"queries": [
+"particles",
+""
+],
+"rank": 9.095203331097958
+},
+"VJkx9nDN": {
+"slug": "spellblades-and-such",
+"title": "Spellblades and Such",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 1940202,
+"follows": 170,
+"author": "cleannrooster",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"magic",
+"mobs"
+],
+"description": "Magic and More! Add-on for Spell Engine",
+"queries": [
+"spell"
+],
+"rank": 9.087849186321916
+},
+"LizDpfct": {
+"slug": "the-aurorian",
+"title": "The Aurorian",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 118743,
+"follows": 27,
+"author": "shiroroku",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"magic",
+"mobs",
+"worldgen"
+],
+"description": "A dimension with boss progression, tools, and variety of items and dungeons to explore!",
+"queries": [
+"boss",
+"dungeon"
+],
+"rank": 9.074644589808386
+},
+"BwbT0OZE": {
+"slug": "arsdelight",
+"title": "Ars Nouveau's Flavors & Delight",
+"project_type": "mod",
+"license": "LGPL-2.1-only",
+"downloads": 3827052,
+"follows": 155,
+"author": "lcy0x1",
+"categories": [
+"adventure",
+"decoration",
+"food",
+"forge",
+"magic",
+"neoforge"
+],
+"description": "Adding 49+ food made with Ars Nouveau's ingredients in Farmer's Delight style, and mechanics that interacts with spells and rituals",
+"queries": [
+"spell"
+],
+"rank": 8.982865498033167
+},
+"nrikgvxm": {
+"slug": "particle-rain",
+"title": "Particle Rain",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 23118245,
+"follows": 6272,
+"author": "PigCart",
+"categories": [
+"decoration",
+"fabric",
+"forge",
+"neoforge"
+],
+"description": "Replaces weather with prettier particle effects",
+"queries": [
+"particle effects",
+""
+],
+"rank": 8.96395504979729
+},
+"ED55R9vA": {
+"slug": "bielggs-spells-addon",
+"title": "ERAM's Spells Addon",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 86468,
+"follows": 8,
+"author": "BielGG",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"magic",
+"mobs"
+],
+"description": "An Iron's spells addon that focuses on fixing newer Cataclysm with T.O Magic, aswell as adding new unique optional content",
+"queries": [
+"magic spells",
+"spell"
+],
+"rank": 8.936905637015931
+},
+"NrWDtgVf": {
+"slug": "dungeons-weaponry",
+"title": "Dungeons Weaponry",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 79081,
+"follows": 82,
+"author": "JeremySeq",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"magic",
+"mobs"
+],
+"description": "Adds weapons from Minecraft Dungeons.",
+"queries": [
+"weapons",
+"dungeon"
+],
+"rank": 8.898127066649165
+},
+"vPr1NAMG": {
+"slug": "x3dungeons",
+"title": "X3R's Dungeons",
+"project_type": "mod",
+"license": "GPL-3.0-or-later",
+"downloads": 12077,
+"follows": 6,
+"author": "x3rmination",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"mobs",
+"worldgen"
+],
+"description": "Vanilla styled dungeon mod which adds a handful of weapons, mobs, bosses and structures",
+"queries": [
+"boss",
+"weapons",
+"dungeon"
+],
+"rank": 8.88231852210804
+},
+"qPzLkTsE": {
+"slug": "mambience",
+"title": "MAmbience",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 68456,
+"follows": 175,
+"author": "andre111",
+"categories": [
+"decoration",
+"fabric"
+],
+"description": "MAmbience adds a large amount of dynamic ambient effects to minecraft. This includes ambient sounds, visual (particle based) and  advanced footstep sounds. All of this while remaining fully compatible with vanilla clients using a simple resourcepack.",
+"queries": [
+"particle effects",
+"visual effects",
+"ambient"
+],
+"rank": 8.835474955752927
+},
+"bWabfFX3": {
+"slug": "enchantsmith",
+"title": "Enchantsmith",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 25216,
+"follows": 51,
+"author": "Scouter567",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"mobs",
+"worldgen"
+],
+"description": "This mod adds the enchantsmith from the mc dungeons game",
+"queries": [
+"dungeon",
+"enchant"
+],
+"rank": 8.801848391395518
+},
+"MdwFAVRL": {
+"slug": "cobblemon",
+"title": "Cobblemon",
+"project_type": "mod",
+"license": "MPL-2.0",
+"downloads": 37335684,
+"follows": 9309,
+"author": "CobbledStudios",
+"categories": [
+"adventure",
+"fabric",
+"forge",
+"game-mechanics",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "A Pok\u00e9mon mod for Fabric and NeoForge",
+"queries": [
+""
+],
+"rank": 8.772124228453057
+},
+"B1CcCd9h": {
+"slug": "particular",
+"title": "Particular \u2728",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 14832877,
+"follows": 3618,
+"author": "Chai",
+"categories": [
+"decoration",
+"fabric"
+],
+"description": "Enhances Minecraft's ambience with hand-crafted visual effects like fireflies, falling leaves, and waterfall cascades",
+"queries": [
+"visual effects",
+""
+],
+"rank": 8.771225688192496
+},
+"QivVPB8W": {
+"slug": "the-graveyard-fabric",
+"title": "The Graveyard (Fabric/Neoforge)",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 5686319,
+"follows": 638,
+"author": "LithiumPlus",
+"categories": [
+"adventure",
+"fabric",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "A mod that adds structures, mobs, bosses and blocks themed aroung the graveyard.",
+"queries": [
+"boss"
+],
+"rank": 8.75483198352027
+},
+"hFUzfDsn": {
+"slug": "bosses-of-mass-destruction-forge",
+"title": "Bosses of Mass Destruction Forge",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 4753203,
+"follows": 222,
+"author": "CerbonXD",
+"categories": [
+"adventure",
+"forge",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "WIP mod that adds boss fights to Minecraft",
+"queries": [
+"boss"
+],
+"rank": 8.67698727624552
+},
+"2VmJJJnd": {
+"slug": "ly-life-steal-enchantment",
+"title": "Life Steal Enchantment",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 45779,
+"follows": 50,
+"author": "lullaby",
+"categories": [
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge",
+"quilt"
+],
+"description": "New enchantment for weapons thats steal life from victims!",
+"queries": [
+"weapons",
+"enchant"
+],
+"rank": 8.660761158941014
+},
+"hvaVU41U": {
+"slug": "aerial-hell",
+"title": "Aerial Hell",
+"project_type": "mod",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 45023,
+"follows": 61,
+"author": "nicochart",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"forge",
+"magic",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "Aerial Hell : Sky Dimension & Dungeons, Bosses.\n\nExplore the new floating islands dimension, alone or with your friends !",
+"queries": [
+"boss",
+"dungeon"
+],
+"rank": 8.653530879675504
+},
+"EdXRAo60": {
+"slug": "ambientadditions",
+"title": "Ambient Additions",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 710393,
+"follows": 138,
+"author": "codyhuh",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"game-mechanics",
+"mobs"
+],
+"description": "Adds more atmospheric critters to your world!",
+"queries": [
+"ambient"
+],
+"rank": 8.651504786780531
+},
+"AiwNM9O0": {
+"slug": "lr-tactical",
+"title": "[TACZ] LesRaisins Tactical Equipements",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 4099346,
+"follows": 181,
+"author": "xjqsh",
+"categories": [
+"adventure",
+"equipment",
+"forge"
+],
+"description": "An addon for tacz, with extra support about throwable, melee weapons for gun packs",
+"queries": [
+"weapons"
+],
+"rank": 8.612715635350419
+},
+"lMWJDrbO": {
+"slug": "epic-samurais",
+"title": "Samurai Dynasty",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 630696,
+"follows": 415,
+"author": "Ghost",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "This mod is inspired by the japanes folklore and samurai. It will add new 3D armors and weapons to the game.",
+"queries": [
+"weapons"
+],
+"rank": 8.599826962520982
+},
+"MYxjEv5n": {
+"slug": "apprentices-codex",
+"title": "Apprentice's Codex",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 245193,
+"follows": 29,
+"author": "Aquid",
+"categories": [
+"equipment",
+"forge",
+"magic",
+"neoforge"
+],
+"description": "An addon for Iron's Spells and Spellbooks that adds some apprentice's magic contents.",
+"queries": [
+"magic spells",
+"spell"
+],
+"rank": 8.589525779367893
+},
+"CXUEmqIy": {
+"slug": "dungeons-weapons",
+"title": "Dungeons Weapons",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 37082,
+"follows": 50,
+"author": "Springaling",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "This Mod adds 14 weapons from Minecraft dungeons (30 including the unique variants which have\u00a0special\u00a0attributes)",
+"queries": [
+"weapons",
+"dungeon"
+],
+"rank": 8.569280251110929
+},
+"du3UfiLL": {
+"slug": "bosses-of-mass-destruction",
+"title": "Bosses of Mass Destruction",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 8146478,
+"follows": 858,
+"author": "Barribob",
+"categories": [
+"adventure",
+"fabric",
+"worldgen"
+],
+"description": "Adds boss fights to minecraft",
+"queries": [
+"boss"
+],
+"rank": 8.51097042212111
+},
+"T8MMXTpr": {
+"slug": "dripsounds",
+"title": "Drip Sounds",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 7859201,
+"follows": 1931,
+"author": "PieKing1215",
+"categories": [
+"decoration",
+"fabric",
+"forge",
+"neoforge"
+],
+"description": "Adds sounds for drip particles landing & settings for block particles",
+"queries": [
+"particles"
+],
+"rank": 8.495378948641738
+},
+"Dk6su9JN": {
+"slug": "cut-through",
+"title": "Cut Through",
+"project_type": "mod",
+"license": "MPL-2.0",
+"downloads": 19309584,
+"follows": 1607,
+"author": "Fuzs",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge"
+],
+"description": "Cleanly swing through transparent blocks like tall grass to hit mobs without breaking said block.",
+"queries": [
+""
+],
+"rank": 8.48577314247886
+},
+"kE2SJN9H": {
+"slug": "chocolate-quest-repoured",
+"title": "Chocolate Quest Repoured",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 30249,
+"follows": 33,
+"author": "DerToaster98",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"magic",
+"mobs",
+"worldgen"
+],
+"description": "Spiritual successor of Chocolate Quest / Better Dungeons by Chocolatin. Adds a dungeon system and new mobs and bosses to fight",
+"queries": [
+"boss",
+"dungeon"
+],
+"rank": 8.480854571352134
+},
+"H7fshfpD": {
+"slug": "dynamicsurroundingsfabric",
+"title": "Dynamic Surroundings",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 7258420,
+"follows": 1180,
+"author": "OreCruncher",
+"categories": [
+"adventure",
+"fabric",
+"neoforge"
+],
+"description": "Alters the fabric of Minecraft experience by weaving a tapestry of sound and visual effects",
+"queries": [
+"visual effects"
+],
+"rank": 8.460842692866404
+},
+"xFCYuAs8": {
+"slug": "particle-interactions",
+"title": "Particle Interactions",
+"project_type": "mod",
+"license": "CC-BY-NC-4.0",
+"downloads": 2850784,
+"follows": 1491,
+"author": "enchanted-games",
+"categories": [
+"decoration",
+"fabric",
+"game-mechanics",
+"neoforge",
+"quilt"
+],
+"description": "Adds particles to more interactions in the game, such as placing blocks or stripping logs. Fully configurable and client side!",
+"queries": [
+"particles"
+],
+"rank": 8.454965836076356
+},
+"gc8OEnCC": {
+"slug": "betterend",
+"title": "BetterEnd",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 16165399,
+"follows": 3834,
+"author": "quiqueck",
+"categories": [
+"decoration",
+"equipment",
+"fabric",
+"food",
+"mobs",
+"worldgen"
+],
+"description": "New Biomes, mysterious rituals and Mobs for your End",
+"queries": [
+""
+],
+"rank": 8.40858669714405
+},
+"9Y3a7djB": {
+"slug": "ntm-extended",
+"title": "Hbm's Nuclear Tech - Extended Edition",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 156969,
+"follows": 119,
+"author": "Alcatergit",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"food",
+"forge",
+"game-mechanics",
+"mobs",
+"sponge",
+"technology",
+"transportation",
+"worldgen"
+],
+"description": "A 1.12.2 mod about technology, atomic science and nuclear weapons",
+"queries": [
+"weapons"
+],
+"rank": 8.39584155817915
+},
+"1jvt7RTc": {
+"slug": "axes-are-weapons",
+"title": "Axes Are Weapons",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 2456734,
+"follows": 591,
+"author": "Fourmisain",
+"categories": [
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge"
+],
+"description": "Disables the increased durability loss in combat and enables Looting for axes and more!",
+"queries": [
+"weapons"
+],
+"rank": 8.39035990406666
+},
+"4KzWiLBH": {
+"slug": "xp-boost-enchantment",
+"title": "XP Boost Enchantment",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 61079,
+"follows": 53,
+"author": "lullaby",
+"categories": [
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge",
+"quilt"
+],
+"description": "New enchantment for get extra xp on using tools and weapons!",
+"queries": [
+"weapons",
+"enchant"
+],
+"rank": 8.385963015980977
+},
+"BCLngNKp": {
+"slug": "stalwart-dungeons",
+"title": "Stalwart Dungeons",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 2390544,
+"follows": 261,
+"author": "furti-two",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"worldgen"
+],
+"description": "\ud83c\udff0 Adds hard dungeons for adventurers who want to collect relics and atrifacts",
+"queries": [
+"dungeon"
+],
+"rank": 8.378498558379913
+},
+"3FEg0A8D": {
+"slug": "cataclysm-spellbooks",
+"title": "Cataclysm: Spellbooks",
+"project_type": "mod",
+"license": "LGPL-2.1-only",
+"downloads": 375698,
+"follows": 212,
+"author": "AceTheEldritchKing",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "An addon for Iron's Spells and Spellbooks and L_Ender's Cataclysm",
+"queries": [
+"spell"
+],
+"rank": 8.374850442651526
+},
+"fThucCjR": {
+"slug": "amethyst-imbuement",
+"title": "Amethyst Imbuement",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 943676,
+"follows": 204,
+"author": "fzzyhmstrs",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"magic",
+"quilt"
+],
+"description": "A magic mod focused on crystal magic, spell casting, and utilizing your experience",
+"queries": [
+"spell"
+],
+"rank": 8.374827512145238
+},
+"z13R7Et1": {
+"slug": "visuality-forge",
+"title": "Visuality: Reforged",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 5899795,
+"follows": 422,
+"author": "RaymondBlaze",
+"categories": [
+"decoration",
+"forge",
+"neoforge"
+],
+"description": "Little visual improvements by adding a bunch of new particles.",
+"queries": [
+"particles"
+],
+"rank": 8.370837657604262
+},
+"lDzXAiqs": {
+"slug": "scorched-guns-2",
+"title": "Scorched Guns 2",
+"project_type": "mod",
+"license": "GPL-3.0-or-later",
+"downloads": 371754,
+"follows": 444,
+"author": "ribss498",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"game-mechanics",
+"mobs",
+"technology",
+"worldgen"
+],
+"description": "A pack featuring a variety of guns, mobs, dungeons and more!",
+"queries": [
+"dungeon"
+],
+"rank": 8.370267332293553
+},
+"pYFUU6cq": {
+"slug": "particular-reforged",
+"title": "Particular \u2728 Reforged",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 5691296,
+"follows": 1153,
+"author": "Leclowndu93150",
+"categories": [
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge"
+],
+"description": "Particular is a mod that enhances Minecraft's ambience with many hand-crafted visual effects.",
+"queries": [
+"visual effects"
+],
+"rank": 8.355211936607937
+},
+"pXo36Na4": {
+"slug": "sb-enchantment-effects",
+"title": "Enchantment Effects",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 22513,
+"follows": 142,
+"author": "soulless-berry",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"fabric",
+"magic"
+],
+"description": "Make enchantments feel powerful with sounds and particle effects!",
+"queries": [
+"particle effects",
+"enchant"
+],
+"rank": 8.352626236830803
+},
+"vo7reSUa": {
+"slug": "bloxys-structures",
+"title": "Bloxy's Structures",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 350460,
+"follows": 64,
+"author": "Bloxy",
+"categories": [
+"adventure",
+"equipment",
+"food",
+"forge",
+"magic",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "Adds more Structures to Minecraft with 4 new Bossfights!",
+"queries": [
+"boss"
+],
+"rank": 8.344650848573517
+},
+"MpzVLzy5": {
+"slug": "betternether",
+"title": "BetterNether",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 13870559,
+"follows": 2837,
+"author": "quiqueck",
+"categories": [
+"decoration",
+"equipment",
+"fabric",
+"food",
+"mobs",
+"worldgen"
+],
+"description": "More Biomes, More Mobs, More Tools for the fiery Dimension",
+"queries": [
+""
+],
+"rank": 8.342094277114494
+},
+"LfM2UVYA": {
+"slug": "ardas-sculks",
+"title": "Arda's Sculks (Ancient City Portal / Deep Dark Dimension)",
+"project_type": "mod",
+"license": "LGPL-2.1-only",
+"downloads": 135792,
+"follows": 115,
+"author": "Ixra",
+"categories": [
+"adventure",
+"cursed",
+"decoration",
+"equipment",
+"forge",
+"magic",
+"mobs",
+"neoforge",
+"technology",
+"worldgen"
+],
+"description": "Arda's Sculks mod is a mod that improves the ancient city in the game and offers the ability to open the ancient portal in the ancient city. This mod adds many deep dark biomes to the game and many boss creatures found in these biomes.",
+"queries": [
+"boss"
+],
+"rank": 8.332906165986955
+},
+"PmIir1iT": {
+"slug": "valoria",
+"title": "Valoria",
+"project_type": "mod",
+"license": "CC-BY-NC-4.0",
+"downloads": 52893,
+"follows": 298,
+"author": "IriDark",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"food",
+"forge",
+"game-mechanics",
+"magic",
+"mobs",
+"neoforge",
+"social",
+"worldgen"
+],
+"description": "An RPG mod that aims to enhance overall Minecraft experience adding a whole new dimension | Tons of new Blocks and Items | Unique Weapons, Armour and Accessories",
+"queries": [
+"weapons"
+],
+"rank": 8.32348030051351
+},
+"SzzJttH8": {
+"slug": "timeless-and-classics-zero",
+"title": "[TaCZ] Timeless and Classics Zero",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 33032307,
+"follows": 3516,
+"author": "craneblock6666",
+"categories": [
+"adventure",
+"equipment",
+"forge"
+],
+"description": "The most Immersive and Customizable modern FPS experience in Minecraft - A complete Remaster of the TaC gun mod by the original team.",
+"queries": [
+""
+],
+"rank": 8.318939037664242
+},
+"C37HUu02": {
+"slug": "medievalweapons",
+"title": "MedievalWeapons",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 1973976,
+"follows": 341,
+"author": "Globox1997",
+"categories": [
+"equipment",
+"fabric",
+"game-mechanics"
+],
+"description": "Old but gold weapons",
+"queries": [
+"weapons"
+],
+"rank": 8.295344068219988
+},
+"OMiCHIwt": {
+"slug": "voidz",
+"title": "VoidZ",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 4913742,
+"follows": 127,
+"author": "Globox1997",
+"categories": [
+"adventure",
+"fabric"
+],
+"description": "Boss addon for the AdventureZ mod",
+"queries": [
+"boss"
+],
+"rank": 8.291413233595133
+},
+"nIGZuP7R": {
+"slug": "particulate",
+"title": "Particulate\ud83d\udca6",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 302178,
+"follows": 151,
+"author": "DunneWorteI",
+"categories": [
+"decoration",
+"fabric"
+],
+"description": "Fabric client-side mod designed to improve Minecraft's ambience through particles, visual effects and sounds",
+"queries": [
+"particles",
+"visual effects"
+],
+"rank": 8.28027721434696
+},
+"nHORcEHd": {
+"slug": "decubed-dungeons",
+"title": "DeCubed Dungeons (Formerly Dungeons+)",
+"project_type": "mod",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 1736325,
+"follows": 819,
+"author": "technodono",
+"categories": [
+"adventure",
+"datapack",
+"fabric",
+"forge",
+"mobs",
+"neoforge",
+"quilt",
+"worldgen"
+],
+"description": "Brand new vanilla dungeons remade with biome specific designs and new mob spawner types",
+"queries": [
+"dungeon"
+],
+"rank": 8.239633519582178
+},
+"SLkQznH5": {
+"slug": "tasty-supplies",
+"title": "Tasty Supplies",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 17028,
+"follows": 88,
+"author": "OneShrimpADay",
+"categories": [
+"16x",
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"food",
+"forge",
+"game-mechanics",
+"items",
+"minecraft",
+"neoforge",
+"quilt",
+"tweaks",
+"vanilla-like"
+],
+"description": "Adds +90 new food items and 2 new weapons/tools to Minecraft!",
+"queries": [
+"weapons"
+],
+"rank": 8.231418613908303
+},
+"M185nxi6": {
+"slug": "ships",
+"title": "Ships",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 1673091,
+"follows": 489,
+"author": "EMD123",
+"categories": [
+"adventure",
+"datapack",
+"fabric",
+"forge",
+"mobs",
+"neoforge",
+"quilt",
+"worldgen"
+],
+"description": "Adds a new ship dungeon and lets illagers use boats.",
+"queries": [
+"dungeon"
+],
+"rank": 8.223522158785878
+},
+"s5qOekOc": {
+"slug": "electroblobs-wizardry-redux",
+"title": "Electroblob's Wizardry Redux",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 40957,
+"follows": 93,
+"author": "Binaris00",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"forge",
+"magic"
+],
+"description": "Explore and discover an intuitive and big magic system with more than 180 spells. Recreation of the old RPG classic mod",
+"queries": [
+"magic spells",
+"spell"
+],
+"rank": 8.212434161874807
+},
+"DyTvM1dv": {
+"slug": "ambient-environment",
+"title": "Ambient Environment",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 10046797,
+"follows": 1017,
+"author": "jaredlll08",
+"categories": [
+"fabric",
+"forge",
+"neoforge"
+],
+"description": "Adds more ambiance to a Minecraft world",
+"queries": [
+"ambient"
+],
+"rank": 8.20202805950646
+},
+"WP5prCOu": {
+"slug": "sky-lands",
+"title": "Sky Lands",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 98190,
+"follows": 534,
+"author": "DeepCanionStudio",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"food",
+"forge",
+"game-mechanics",
+"mobs",
+"worldgen"
+],
+"description": "Adds new sky islands biomes, blocks, bosses, weaponery and much more",
+"queries": [
+"boss"
+],
+"rank": 8.19211148778695
+},
+"SwDIbBHh": {
+"slug": "enchantwithmob",
+"title": "EnchantWithMob",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 96110,
+"follows": 115,
+"author": "baguchi",
+"categories": [
+"forge",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "add Enchanter and Mob enchant From Minecraft Dungeons",
+"queries": [
+"dungeon",
+"enchant"
+],
+"rank": 8.182813762131863
+},
+"3dT9sgt4": {
+"slug": "yungs-better-ocean-monuments",
+"title": "YUNG's Better Ocean Monuments",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 23264597,
+"follows": 2615,
+"author": "YUNGNICKYOUNG",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"worldgen"
+],
+"description": "A complete redesign of Minecraft's ocean monuments!",
+"queries": [
+""
+],
+"rank": 8.16669572056269
+},
+"1veFBGT4": {
+"slug": "irons-apothic-invaders",
+"title": "Iron's Apothic Invaders",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 35758,
+"follows": 18,
+"author": "Raimu",
+"categories": [
+"adventure",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "Adds Iron's Spells & Spellbooks mobs as invader bosses in the Apotheosis mod",
+"queries": [
+"spell",
+"boss"
+],
+"rank": 8.153494656859976
+},
+"967vM4zw": {
+"slug": "musket-mod",
+"title": "Musket Mod",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 554142,
+"follows": 325,
+"author": "ewewukek",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge"
+],
+"description": "Adds craftable flintlock weapons",
+"queries": [
+"weapons"
+],
+"rank": 8.14362890499378
+},
+"z9Ve58Ih": {
+"slug": "yungs-better-jungle-temples",
+"title": "YUNG's Better Jungle Temples",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 21420405,
+"follows": 2208,
+"author": "YUNGNICKYOUNG",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"worldgen"
+],
+"description": "A complete redesign of Minecraft's jungle temples!",
+"queries": [
+""
+],
+"rank": 8.130827880616476
+},
+"Wb5oqrBJ": {
+"slug": "chat-heads",
+"title": "Chat Heads",
+"project_type": "mod",
+"license": "MPL-2.0",
+"downloads": 53614880,
+"follows": 6956,
+"author": "dzwdz",
+"categories": [
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"social"
+],
+"description": "See who you're chatting with!",
+"queries": [
+""
+],
+"rank": 8.129285419297055
+},
+"2BwBOmBQ": {
+"slug": "yungs-better-end-island",
+"title": "YUNG's Better End Island",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 20986165,
+"follows": 2219,
+"author": "YUNGNICKYOUNG",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"worldgen"
+],
+"description": "An overhaul of the main End Island where the dragon fight takes place!",
+"queries": [
+""
+],
+"rank": 8.121933290046456
+},
+"hxerjRLt": {
+"slug": "nice-mobs-remastered",
+"title": "Nice Mobs Remastered",
+"project_type": "mod",
+"license": "GPL-3.0-or-later",
+"downloads": 207926,
+"follows": 281,
+"author": "NiceRon",
+"categories": [
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"mobs",
+"neoforge",
+"quilt",
+"worldgen"
+],
+"description": "Randomised mob equipment, 10 new mobs, 3 new bosses, a new late game dimension and more",
+"queries": [
+"boss"
+],
+"rank": 8.11792968532887
+},
+"KjL0jE2w": {
+"slug": "enhancedvisuals",
+"title": "EnhancedVisuals",
+"project_type": "mod",
+"license": "LGPL-2.1-only",
+"downloads": 20526021,
+"follows": 934,
+"author": "creativemd",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"forge",
+"neoforge"
+],
+"description": "Feel the pain!",
+"queries": [
+""
+],
+"rank": 8.112304980474327
+},
+"GTDFctVr": {
+"slug": "zenith-renewed",
+"title": "Zenith Renewed",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 510422,
+"follows": 9,
+"author": "Stalemated",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"game-mechanics"
+],
+"description": "Fabric port of Apotheosis. Overhauls enchanting, spawners, bosses, and adds powerful weapon affixes!",
+"queries": [
+"boss"
+],
+"rank": 8.107937893353746
+},
+"egIM2bKK": {
+"slug": "mob-ai-tweaks",
+"title": "Mob AI Tweaks",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 508642,
+"follows": 383,
+"author": "Unknowneth",
+"categories": [
+"cursed",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "A mod that reworks mob AIs. Including some bosses.",
+"queries": [
+"boss"
+],
+"rank": 8.106420756466239
+},
+"ohZT92xo": {
+"slug": "glimmering-tales",
+"title": "Glimmering Tales",
+"project_type": "mod",
+"license": "LGPL-2.1-only",
+"downloads": 31437,
+"follows": 59,
+"author": "lcy0x1",
+"categories": [
+"adventure",
+"equipment",
+"magic",
+"minigame",
+"neoforge"
+],
+"description": "A magic mod revolving around nature and spells",
+"queries": [
+"magic spells",
+"spell"
+],
+"rank": 8.097579220668717
+},
+"kidLKymU": {
+"slug": "yungs-better-strongholds",
+"title": "YUNG's Better Strongholds",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 19466566,
+"follows": 2792,
+"author": "YUNGNICKYOUNG",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"worldgen"
+],
+"description": "A complete redesign of Minecraft's strongholds!",
+"queries": [
+""
+],
+"rank": 8.089289569646605
+},
+"U1jdQuSf": {
+"slug": "the-graveyard-forge",
+"title": "The Graveyard (Forge)",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 1225186,
+"follows": 232,
+"author": "LithiumPlus",
+"categories": [
+"adventure",
+"forge",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "A mod that adds structures, mobs, bosses and blocks themed aroung the graveyard.",
+"queries": [
+"boss"
+],
+"rank": 8.08820557025928
+},
+"t5FRdP87": {
+"slug": "yungs-better-witch-huts",
+"title": "YUNG's Better Witch Huts",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 18758968,
+"follows": 2236,
+"author": "YUNGNICKYOUNG",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"worldgen"
+],
+"description": "Adds overhauled witch huts to swamps!",
+"queries": [
+""
+],
+"rank": 8.073209174072318
+},
+"5OrL8C4a": {
+"slug": "golem-dungeons",
+"title": "Golem Dungeons",
+"project_type": "mod",
+"license": "LGPL-2.1-or-later",
+"downloads": 466549,
+"follows": 74,
+"author": "lcy0x1",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "Structures with trials spawning hostile golems",
+"queries": [
+"dungeon"
+],
+"rank": 8.068906571457067
+},
+"XH8cnjHW": {
+"slug": "euphonium",
+"title": "Euphonium",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 2896148,
+"follows": 280,
+"author": "sleepingdragoninn",
+"categories": [
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"quilt"
+],
+"description": "Ambient sounds based on biome and world features - a backfork of Charmonium.",
+"queries": [
+"ambient"
+],
+"rank": 8.06182225112192
+},
+"OZBR5JT5": {
+"slug": "easy-anvils",
+"title": "Easy Anvils",
+"project_type": "mod",
+"license": "MPL-2.0",
+"downloads": 17857758,
+"follows": 2621,
+"author": "Fuzs",
+"categories": [
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge"
+],
+"description": "Overhauled anvils with stored items, fairer costs, and no more frustrating repair penalties.",
+"queries": [
+""
+],
+"rank": 8.051827176508901
+},
+"XNlO7sBv": {
+"slug": "yungs-better-desert-temples",
+"title": "YUNG's Better Desert Temples",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 17601827,
+"follows": 2459,
+"author": "YUNGNICKYOUNG",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"worldgen"
+],
+"description": "A complete redesign of Minecraft's desert temples!",
+"queries": [
+""
+],
+"rank": 8.045557994935232
+},
+"7vxePowz": {
+"slug": "farmers-delight-refabricated",
+"title": "Farmer's Delight Refabricated",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 17254331,
+"follows": 3352,
+"author": "Cassian",
+"categories": [
+"decoration",
+"equipment",
+"fabric",
+"food"
+],
+"description": "Modern Fabric port of the cooking and farming mod, \"Farmer's Delight\"",
+"queries": [
+""
+],
+"rank": 8.036898376810411
+},
+"TG1cHkRf": {
+"slug": "enchanted-vertical-slabs",
+"title": "Enchanted Vertical Slabs",
+"project_type": "mod",
+"license": "CC-BY-NC-4.0",
+"downloads": 2708222,
+"follows": 850,
+"author": "enchanted-games",
+"categories": [
+"decoration",
+"fabric",
+"neoforge",
+"quilt"
+],
+"description": "Vertical slabs is a simple, vanilla-like mod that adds vertical slabs to Minecraft.",
+"queries": [
+"enchant"
+],
+"rank": 8.032685865332178
+},
+"zun2vT3k": {
+"slug": "desert-dungeon-dungeonz-addon",
+"title": "Desert Dungeon - DungeonZ addon",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 1061013,
+"follows": 24,
+"author": "D1scoball",
+"categories": [
+"adventure",
+"fabric",
+"game-mechanics",
+"worldgen"
+],
+"description": "An addon for the Dungeonz mod by Globox_Z adding the Desert Dungeon",
+"queries": [
+"dungeon"
+],
+"rank": 8.025724798288541
+},
+"Ht4BfYp6": {
+"slug": "yungs-bridges",
+"title": "YUNG's Bridges",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 16538143,
+"follows": 1963,
+"author": "YUNGNICKYOUNG",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"worldgen"
+],
+"description": "Adds beautiful naturally generated bridges throughout the world!",
+"queries": [
+""
+],
+"rank": 8.018487005416137
+},
+"k6kmDkfs": {
+"slug": "cataclysm-summons",
+"title": "Cataclysm Summons",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 10388,
+"follows": 12,
+"author": "Pyding",
+"categories": [
+"adventure",
+"forge",
+"game-mechanics",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "Adds craftable summons for 7 main bosses of Cataclysm that can be used inside corresponding dungeons.",
+"queries": [
+"boss",
+"dungeon"
+],
+"rank": 8.01694981309756
+},
+"49ZofO4f": {
+"slug": "enderio",
+"title": "Ender IO",
+"project_type": "mod",
+"license": "Unlicense",
+"downloads": 1027998,
+"follows": 339,
+"author": "Rover656",
+"categories": [
+"decoration",
+"equipment",
+"forge",
+"neoforge",
+"technology"
+],
+"description": " Ender IO is a full-featured tech mod. It has armor, tools, weapons, machines, conduits, inventory management, mobs, etc. ",
+"queries": [
+"weapons"
+],
+"rank": 8.0119964943697
+},
+"JWGBpFUP": {
+"slug": "create-enchantment-industry",
+"title": "Create: Enchantment Industry",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 6368242,
+"follows": 946,
+"author": "MarbleGateKeeper",
+"categories": [
+"fabric",
+"forge",
+"neoforge",
+"storage",
+"technology"
+],
+"description": "Automatic Enchanting, with Create",
+"queries": [
+"enchant"
+],
+"rank": 8.004020240666174
+},
+"ZdEfcqro": {
+"slug": "trickster",
+"title": "Trickster",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 25236,
+"follows": 210,
+"author": "enjarai",
+"categories": [
+"equipment",
+"fabric",
+"game-mechanics",
+"magic"
+],
+"description": "Learn magic and create spells from scratch. The only limit is your creativity!",
+"queries": [
+"magic spells",
+"spell"
+],
+"rank": 8.002192577878823
+},
+"H5XMjpHi": {
+"slug": "first-person-model",
+"title": "First-person Model",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 15093359,
+"follows": 3941,
+"author": "tr7zw",
+"categories": [
+"decoration",
+"equipment",
+"fabric",
+"forge",
+"neoforge",
+"social"
+],
+"description": "Enables the third-person Model in first-person",
+"queries": [
+""
+],
+"rank": 7.978786189729427
+},
+"wveGP7nW": {
+"slug": "slayersbeasts",
+"title": "Slayer's Beasts",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 23778,
+"follows": 76,
+"author": "InvictusSlayer",
+"categories": [
+"adventure",
+"cursed",
+"decoration",
+"fabric",
+"forge",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "Explore new structures and biomes to face off against beasts and bosses on the surface, or in treacherous dungeons.",
+"queries": [
+"boss",
+"dungeon"
+],
+"rank": 7.97635792982724
+},
+"Kfr0BQO9": {
+"slug": "enchantments-plus",
+"title": "Enchantments-Plus",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 353059,
+"follows": 143,
+"author": "RobertHoueland",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"game-mechanics"
+],
+"description": "Over 15 fun and useful new enchantments! A balanced theme and works in the vanilla enchanting table. \n\nExperience swords that summon lightning, pickaxes that smelt ores, boots that let you double jump, and more!",
+"queries": [
+"enchant"
+],
+"rank": 7.947859587515056
+},
+"GFYCh249": {
+"slug": "cobblemon-pokemans",
+"title": "Pokemans Pack [Cobblemon]",
+"project_type": "mod",
+"license": "CC-BY-NC-4.0",
+"downloads": 5543523,
+"follows": 322,
+"author": "Tontra",
+"categories": [
+"adventure",
+"datapack",
+"game-mechanics",
+"minecraft",
+"mobs",
+"modded"
+],
+"description": "A datapack for Cobblemon that adds pokemon without an official model, at a high standard :)",
+"queries": [
+""
+],
+"rank": 7.943786637176328
+},
+"bpii4Xsa": {
+"slug": "charmonium",
+"title": "Charmonium",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 2182229,
+"follows": 812,
+"author": "svenhjol",
+"categories": [
+"decoration",
+"fabric",
+"quilt"
+],
+"description": "Ambient and environmental sounds in keeping with vanilla Minecraft",
+"queries": [
+"ambient"
+],
+"rank": 7.938902313024574
+},
+"geljgW9V": {
+"slug": "wind_boost_enchant",
+"title": "Wind Boost Enchantment",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 133856,
+"follows": 57,
+"author": "VincPlyz",
+"categories": [
+"cursed",
+"datapack",
+"decoration",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"mobs",
+"neoforge",
+"quilt"
+],
+"description": "Allows one to Enchant the Harness with a Custom Enchant to make Happy Ghasts Faster",
+"queries": [
+"enchant"
+],
+"rank": 7.92667028659079
+},
+"xM22oIAv": {
+"slug": "fabled-roots",
+"title": "Fabled Roots",
+"project_type": "mod",
+"license": "GPL-3.0-or-later",
+"downloads": 20818,
+"follows": 76,
+"author": "NiceRon",
+"categories": [
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge",
+"quilt"
+],
+"description": "Fabled Roots adds 10 unique races and 10 powerful classes to Minecraft, along with new weapons, items, spells and structures to explore.",
+"queries": [
+"spell",
+"weapons"
+],
+"rank": 7.918647569003654
+},
+"5RGE5YW5": {
+"slug": "qu-enchantments",
+"title": "Qu Enchantments",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 122947,
+"follows": 160,
+"author": "Quplet",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"game-mechanics",
+"magic",
+"quilt"
+],
+"description": "Adds Vanilla inspired enchantments to the game.",
+"queries": [
+"enchant"
+],
+"rank": 7.889753258368234
+},
+"S2guHrs2": {
+"slug": "fbp-renewed",
+"title": "Fancy Block Particles - Renewed",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 1811262,
+"follows": 520,
+"author": "Hantonik",
+"categories": [
+"decoration",
+"fabric",
+"forge",
+"neoforge"
+],
+"description": "3D Digging Particles! Original mod by MorphoxL",
+"queries": [
+"particles"
+],
+"rank": 7.857983673521648
+},
+"SXmIbFhs": {
+"slug": "enchanting-plus",
+"title": "Enchanting Plus",
+"project_type": "mod",
+"license": "LGPL-2.1-only",
+"downloads": 285607,
+"follows": 36,
+"author": "Darkhax",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"magic"
+],
+"description": "Enchanting Plus",
+"queries": [
+"enchant"
+],
+"rank": 7.855784053196815
+},
+"WhbRG4iK": {
+"slug": "fallingleaves",
+"title": "Falling Leaves",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 28406159,
+"follows": 5910,
+"author": "Fourmisain",
+"categories": [
+"decoration",
+"fabric"
+],
+"description": "Adds a neat little particle effect to leaf blocks",
+"queries": [
+""
+],
+"rank": 7.853412666516031
+},
+"NCPLOWlF": {
+"slug": "withering-heights",
+"title": "Withering Heights: Revamped Wither",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 711808,
+"follows": 287,
+"author": "sleeptalker",
+"categories": [
+"cursed",
+"datapack",
+"fabric",
+"forge",
+"game-mechanics",
+"mobs",
+"quilt"
+],
+"description": "Turning the Wither into something worth calling a boss.",
+"queries": [
+"boss"
+],
+"rank": 7.852368965968802
+},
+"xMTLdsFH": {
+"slug": "smooth-particles",
+"title": "Smooth Particles",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 1751950,
+"follows": 281,
+"author": "watermelone1",
+"categories": [
+"decoration",
+"fabric"
+],
+"description": "Adds the functionality to spawn particles when you place a block",
+"queries": [
+"particles"
+],
+"rank": 7.843524186319741
+},
+"Eb9MCw6F": {
+"slug": "soulmaster",
+"title": "Soulmaster",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 277112,
+"follows": 2,
+"author": "Stalemated",
+"categories": [
+"adventure",
+"fabric",
+"game-mechanics",
+"magic"
+],
+"description": "An add-on for Forcemaster (More RPG Classes) that scales the mod with Soul Spell Power",
+"queries": [
+"spell"
+],
+"rank": 7.842671004668335
+},
+"IDeYmXlQ": {
+"slug": "ly-reach-enchantment",
+"title": "Reach Enchantment",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 17372,
+"follows": 22,
+"author": "lullaby",
+"categories": [
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge",
+"quilt"
+],
+"description": "Reach is a new enchantment for mining tools and weapons with three levels that increases your block interaction range!",
+"queries": [
+"weapons",
+"enchant"
+],
+"rank": 7.840099745587406
+},
+"coZxDAGe": {
+"slug": "remnants-eclipsed-realm",
+"title": "Remnants | The Eclipsed Realm",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 42624,
+"follows": 59,
+"author": "NAIZO",
+"categories": [
+"adventure",
+"cursed",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "Face the deadliest bosses ever forged combat, fights, and chaos await!",
+"queries": [
+"boss"
+],
+"rank": 7.829756080862766
+},
+"EIa1eiMm": {
+"slug": "sodium-shadowy-path-blocks",
+"title": "Sodium Shadowy Path Blocks (SSPB)",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 25715171,
+"follows": 1285,
+"author": "Rynnavinx",
+"categories": [
+"decoration",
+"fabric",
+"neoforge",
+"quilt"
+],
+"description": "Reintroduces vanilla-like smooth lighting to non-full blocks (e.g. dirt paths and how they have dark shading when directly next to a full block) when using Sodium. ",
+"queries": [
+""
+],
+"rank": 7.810189585512042
+},
+"XH09j5fH": {
+"slug": "biome_particle_weather",
+"title": "Biome Particle Weather",
+"project_type": "mod",
+"license": "MPL-2.0",
+"downloads": 1611232,
+"follows": 846,
+"author": "shadowmaster435",
+"categories": [
+"decoration",
+"fabric",
+"forge"
+],
+"description": "Replaces the old weather rendering with particles while spicing it up by adding new effects!",
+"queries": [
+"particles"
+],
+"rank": 7.807160774045258
+},
+"idMHQ4n2": {
+"slug": "customskinloader",
+"title": "CustomSkinLoader",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 25262212,
+"follows": 1228,
+"author": "xfl03",
+"categories": [
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"quilt"
+],
+"description": "Custom Skin Loader mod for Minecraft.",
+"queries": [
+""
+],
+"rank": 7.802471547323745
+},
+"dcZM5qnj": {
+"slug": "golem-magicka",
+"title": "Golem Magicka",
+"project_type": "mod",
+"license": "LGPL-2.1-only",
+"downloads": 600842,
+"follows": 16,
+"author": "lcy0x1",
+"categories": [
+"forge",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "Integration between ModularGolems and Iron Spells",
+"queries": [
+"spell"
+],
+"rank": 7.778767511106312
+},
+"EwYg6C78": {
+"slug": "windy",
+"title": "Windy",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 1431059,
+"follows": 493,
+"author": "mazik",
+"categories": [
+"decoration",
+"fabric",
+"neoforge",
+"quilt"
+],
+"description": "Client-side mod that adds wind particles to your world",
+"queries": [
+"particles"
+],
+"rank": 7.755660574079005
+},
+"joX0o9VN": {
+"slug": "aeromancy-additions",
+"title": "SnackPirate's Aeromancy Additions",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 35143,
+"follows": 44,
+"author": "SnackPirate",
+"categories": [
+"adventure",
+"magic",
+"neoforge"
+],
+"description": "An addon for Iron's Spells 'n' Spellbooks that adds wind-based magic.",
+"queries": [
+"magic spells",
+"spell"
+],
+"rank": 7.745962394159521
+},
+"2nmJDjSm": {
+"slug": "legendary-mage",
+"title": "[ISS LM]Legendary Mage",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 5425,
+"follows": 11,
+"author": "LOAE_U987",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"magic",
+"neoforge"
+],
+"description": "Legendary Mage is a magic expansion mod for Minecraft NeoForge 1.21.1 built on top of \u200bIron's Spellbooks\u200b. It features a brand-new  Elemental Reaction System alongside a collection of uniquely designed spells.",
+"queries": [
+"magic spells",
+"spell"
+],
+"rank": 7.7351995484223135
+},
+"ZQQtFdbQ": {
+"slug": "lawrences-ambient-fireflies",
+"title": "Lawrence's Ambient Fireflies",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 34107,
+"follows": 37,
+"author": "Lawrence360",
+"categories": [
+"adventure",
+"datapack",
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"quilt",
+"worldgen"
+],
+"description": "A very light Mod/Datapack that adds fireflies as ambient particles to the Swamp and Mangrove Swamp",
+"queries": [
+"particles",
+"ambient"
+],
+"rank": 7.732970835487072
+},
+"aw5e7yPa": {
+"slug": "ice-and-fire-spellbooks",
+"title": "Ice and Fire: Spellbooks",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 534753,
+"follows": 123,
+"author": "AceTheEldritchKing",
+"categories": [
+"equipment",
+"forge",
+"magic"
+],
+"description": "A compat mod between Ice and Fire and Iron's Spells and Spellbooks",
+"queries": [
+"spell"
+],
+"rank": 7.728161350998852
+},
+"keeVOz1c": {
+"slug": "mini-bosses-mobs",
+"title": "Enchanted Mobs",
+"project_type": "mod",
+"license": "CC0-1.0",
+"downloads": 12900,
+"follows": 60,
+"author": "Diesse",
+"categories": [
+"adventure",
+"datapack",
+"fabric",
+"forge",
+"game-mechanics",
+"mobs",
+"neoforge",
+"quilt"
+],
+"description": "Make the PVE more dynamic with mobs enchanted, that gain abilities in base of the enchant obtained.",
+"queries": [
+"boss",
+"enchant"
+],
+"rank": 7.71092624226642
+},
+"bAWzYNRd": {
+"slug": "mythicmetals",
+"title": "Mythic Metals",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 1268303,
+"follows": 807,
+"author": "Noaaan",
+"categories": [
+"equipment",
+"fabric",
+"worldgen"
+],
+"description": "Adds a large variety of ores, toolsets, weapons and armor to the game.",
+"queries": [
+"weapons"
+],
+"rank": 7.703226443922869
+},
+"tnWvxgPP": {
+"slug": "jitl",
+"title": "Journey Into The Light",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 12538,
+"follows": 34,
+"author": "AllShamNoWow101",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"food",
+"forge",
+"game-mechanics",
+"magic",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "Journey Into The Light (or \"Journey\" for short), formally known as Essence of the Gods, is a large exploration mod that not only expands the vanilla content added - but also adds 8 new dimensions, over one hundred mobs, strong weapons and armor, and more",
+"queries": [
+"weapons"
+],
+"rank": 7.698574510025708
+},
+"sc2Pektv": {
+"slug": "basicweapons",
+"title": "Basic Weapons",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 479717,
+"follows": 439,
+"author": "June",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"forge",
+"neoforge",
+"quilt"
+],
+"description": "6 new vanilla+ tiered weapons with an extensible materialpack system",
+"queries": [
+"weapons"
+],
+"rank": 7.680994162120317
+},
+"DjLobEOy": {
+"slug": "towns-and-towers",
+"title": "Towns and Towers",
+"project_type": "mod",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 19043510,
+"follows": 5096,
+"author": "Biban_Auriu",
+"categories": [
+"adventure",
+"datapack",
+"fabric",
+"forge",
+"neoforge",
+"quilt",
+"worldgen"
+],
+"description": "Spice up your world with new villages, pillager outposts, and even new ships!",
+"queries": [
+""
+],
+"rank": 7.67974722636378
+},
+"pYVzGeNA": {
+"slug": "mobs-always-drop",
+"title": "Mobs Always Drop",
+"project_type": "mod",
+"license": "CC-BY-4.0",
+"downloads": 190231,
+"follows": 88,
+"author": "ivangeevo",
+"categories": [
+"equipment",
+"fabric",
+"game-mechanics",
+"mobs"
+],
+"description": "This is a very lightweight mod that makes all mobs drop their equipment like tools, weapons, armor & XP, regardless of cause of death.",
+"queries": [
+"weapons"
+],
+"rank": 7.679304120145414
+},
+"IhZuHxkl": {
+"slug": "pretty-rain",
+"title": "Pretty Rain",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 1180304,
+"follows": 320,
+"author": "Leclowndu93150",
+"categories": [
+"forge",
+"game-mechanics",
+"neoforge"
+],
+"description": "Pretty Rain replaces the default weather with prettier particle effects. Port of Particle Rain from Fabric",
+"queries": [
+"particle effects"
+],
+"rank": 7.67199755843036
+},
+"lWDHr9jE": {
+"slug": "tectonic",
+"title": "Tectonic",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 17853672,
+"follows": 7508,
+"author": "Apollo",
+"categories": [
+"adventure",
+"datapack",
+"fabric",
+"forge",
+"neoforge",
+"quilt",
+"worldgen"
+],
+"description": "Terrain shaping brought to new heights, grander and more varied than ever before!",
+"queries": [
+""
+],
+"rank": 7.651727795091412
+},
+"yP9gqg5C": {
+"slug": "dimensions-dungeons",
+"title": "Dimensions & Dungeons",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 1662,
+"follows": 7,
+"author": "DeeP_Z0nE",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"food",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "Explore a new world full of undiscovered possibilities, with new dimensions, bosses, mobs and structures.",
+"queries": [
+"boss",
+"dungeon"
+],
+"rank": 7.6232362731029975
+},
+"6pVlXMty": {
+"slug": "bronze",
+"title": "Bronze",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 166841,
+"follows": 175,
+"author": "June",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"fabric",
+"neoforge",
+"quilt",
+"worldgen"
+],
+"description": "A new use for copper - bronze weapons, armor, tools & more",
+"queries": [
+"weapons"
+],
+"rank": 7.62232881388671
+},
+"QZFdnUQ5": {
+"slug": "immersive-weapons",
+"title": "Immersive Weapons",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 25968,
+"follows": 21,
+"author": "AnonymousHacker1279",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"forge",
+"magic",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "Immersive Weapons is more than just a weapons mod aiming to spice up your combat skills.",
+"queries": [
+"weapons"
+],
+"rank": 7.61460571246455
+},
+"6M87Z355": {
+"slug": "dark-enchanting",
+"title": "Dark Enchanting [NeoForge/Fabric]",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 159035,
+"follows": 191,
+"author": "frqnny",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"magic",
+"neoforge"
+],
+"description": "Select your own enchantments at the cost of more XP!",
+"queries": [
+"enchant"
+],
+"rank": 7.601520020462923
+},
+"lFbgrVlP": {
+"slug": "dag-mod",
+"title": "DAG Mod",
+"project_type": "mod",
+"license": "CC0-1.0",
+"downloads": 3966,
+"follows": 6,
+"author": "hitman20081",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"food",
+"game-mechanics",
+"mobs"
+],
+"description": "Race & class system, 200-level progression, custom dungeons, boss battles, two custom dimensions, NPC quests, party play, and craftable consumables with real combat effects. Everything in one mod.",
+"queries": [
+"boss",
+"dungeon"
+],
+"rank": 7.599446375725275
+},
+"AEZO385x": {
+"slug": "create-enchantment-industry-fabric-legacy",
+"title": "[DEPRECATED]Create Enchantment Industry - Fabric Legacy",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 2501964,
+"follows": 443,
+"author": "MarbleGateKeeper",
+"categories": [
+"fabric",
+"quilt",
+"storage",
+"technology"
+],
+"description": "Automatic Enchanting, with Create",
+"queries": [
+"enchant"
+],
+"rank": 7.598282792281782
+},
+"S7d8HCPo": {
+"slug": "jinghui",
+"title": "JIngHui",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 393459,
+"follows": 7,
+"author": "76561198968458863",
+"categories": [
+"adventure",
+"equipment",
+"forge"
+],
+"description": "Some armors and weapons have been added.\u6dfb\u52a0\u4e86\u4e00\u4e9b\u7684\u76d4\u7532\u4e0e\u6b66\u5668",
+"queries": [
+"weapons"
+],
+"rank": 7.594910521550787
+},
+"MC6hfccQ": {
+"slug": "item-interactions-mod",
+"title": "Item interactions mod",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 384240,
+"follows": 521,
+"author": "mineland",
+"categories": [
+"cursed",
+"decoration",
+"fabric",
+"game-mechanics",
+"neoforge"
+],
+"description": "Small animations tweak and particles for the inventory",
+"queries": [
+"particles"
+],
+"rank": 7.584613876171783
+},
+"pL8MtgqY": {
+"slug": "apothic-enchanting",
+"title": "Apothic-Enchanting",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 148898,
+"follows": 17,
+"author": "Shadows-of-Fire",
+"categories": [
+"adventure",
+"equipment",
+"magic",
+"neoforge"
+],
+"description": "A huge extension of the Enchanting system",
+"queries": [
+"enchant"
+],
+"rank": 7.572918030609965
+},
+"mSQF1NpT": {
+"slug": "elytra-slot",
+"title": "Elytra Slot",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 14786081,
+"follows": 2547,
+"author": "TheIllusiveC4",
+"categories": [
+"equipment",
+"fabric",
+"forge",
+"neoforge",
+"quilt",
+"transportation"
+],
+"description": "Adds accessory support to the elytra so you can fly and wear chest armor at the same time. Formerly known as Curious Elytra and Elytra Trinket.",
+"queries": [
+""
+],
+"rank": 7.569853374705827
+},
+"HUVG5gEu": {
+"slug": "tridents-n-stuff",
+"title": "Tridents 'n' Stuff",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 367354,
+"follows": 112,
+"author": "fzzyhmstrs",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"quilt"
+],
+"description": "Adds a variety of craftable and unique new tridents, as well as other pokey weapons including spears and harpoons!",
+"queries": [
+"weapons"
+],
+"rank": 7.565096595172339
+},
+"lL2MtE37": {
+"slug": "bad-wither-no-cookie",
+"title": "Bad Wither No Cookie - Reloaded",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 14406692,
+"follows": 198,
+"author": "kreezxil",
+"categories": [
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge"
+],
+"description": "Localizes the wither and dragon death sounds.",
+"queries": [
+""
+],
+"rank": 7.558564572963114
+},
+"kLNLtzWr": {
+"slug": "kamen-rider-craft",
+"title": "Kamen Rider Craft",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 56790,
+"follows": 20,
+"author": "Kelco_K22",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"food",
+"mobs",
+"neoforge",
+"technology",
+"transportation",
+"worldgen"
+],
+"description": "A mod that adds Kamen Rider, with hundreds of items, weapons, and forms",
+"queries": [
+"weapons"
+],
+"rank": 7.554348335711019
+},
+"Ry0mgP2K": {
+"slug": "fancy-enchantments",
+"title": "Fancy Enchantments",
+"project_type": "mod",
+"license": "GPL-3.0-or-later",
+"downloads": 131529,
+"follows": 10,
+"author": "FOOLSIX",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"magic",
+"neoforge"
+],
+"description": "This mod aims to provide powerful, fun, and configurable enchantments for adventure.",
+"queries": [
+"enchant"
+],
+"rank": 7.519054535895347
+},
+"rYE70b69": {
+"slug": "combat-sense",
+"title": "Combat Sense",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 829049,
+"follows": 6,
+"author": "jinglian666",
+"categories": [
+"forge",
+"game-mechanics"
+],
+"description": "Client-side combat feedback mod, hit or kill markers, camera punch, damage direction indicators, near-miss warnings, and low-health vignette. Compatible with TACZ and vanilla weapons.\n\u7eaf\u5ba2\u6237\u7aef\u6218\u6597\u53cd\u9988\u6a21\u7ec4 \u2014\u2014\u955c\u5934\u9707\u52a8\u3001\u4f24\u5bb3\u65b9\u5411\u6307\u793a\u3001\u8fd1\u5f39\u8b66\u793a\u3001\u3002\u517c\u5bb9 TACZ \u67aa\u68b0\u548c\u539f\u7248\u6b66\u5668\u3002",
+"queries": [
+"weapons"
+],
+"rank": 7.518585438225385
+},
+"28G1xpgF": {
+"slug": "atmosfera",
+"title": "Atmosfera",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 817688,
+"follows": 544,
+"author": "Fourmisain",
+"categories": [
+"decoration",
+"fabric"
+],
+"description": "A client-side ambient sound system with customizable, atmospheric sound",
+"queries": [
+"ambient"
+],
+"rank": 7.512592935516536
+},
+"peANz2W6": {
+"slug": "dungeonrpg",
+"title": "DungeonRPG",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 3105,
+"follows": 11,
+"author": "Quadrat1c",
+"categories": [
+"adventure",
+"economy",
+"equipment",
+"fabric",
+"game-mechanics",
+"minigame",
+"mobs"
+],
+"description": "Diablo-style dungeon crawler for Minecraft. Delve 7 themed dungeons, battle scaling bosses, and hunt randomized loot across 5 rarity tiers, 65 unique items, full leveling from 1\u2013100, and a Salvage Station to scrap, repair, and recycle gear.",
+"queries": [
+"boss",
+"dungeon"
+],
+"rank": 7.493458050995189
+},
+"ubCG349l": {
+"slug": "mundialmons",
+"title": "MundialMons ReaniPack [CobbleMon]",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 4896930,
+"follows": 47,
+"author": "alexiocraft",
+"categories": [
+"adventure",
+"datapack",
+"minecraft",
+"mobs",
+"modded"
+],
+"description": "The add-on adds Pok\u00e9mon that have not yet been modeled and re-animations to some Pok\u00e9mon of cobblemon",
+"queries": [
+""
+],
+"rank": 7.489924782836158
+},
+"DT56YDir": {
+"slug": "universal-enchants",
+"title": "Universal Enchants",
+"project_type": "mod",
+"license": "MPL-2.0",
+"downloads": 1948169,
+"follows": 623,
+"author": "Fuzs",
+"categories": [
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge",
+"utility"
+],
+"description": "Better enchantments! Use them on all tools and weapons. Infinity crossbow, or looting trident anyone?",
+"queries": [
+"weapons",
+"enchant"
+],
+"rank": 7.489628857645682
+},
+"mXL7Z0zq": {
+"slug": "enchantments-expansion",
+"title": "Enchantments Expansion",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 47653,
+"follows": 118,
+"author": "lullaby",
+"categories": [
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge",
+"quilt"
+],
+"description": "New vanilla-friendly enchantments that enhance combat, mining, movement and utility, bringing new ways to explore, fight and progress in survival!",
+"queries": [
+"enchant"
+],
+"rank": 7.4781813741926
+},
+"GGfyJWnG": {
+"slug": "foodeffecttooltips",
+"title": "Food Effect Tooltips [Fabric / NeoForge]",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 1868791,
+"follows": 341,
+"author": "DaFuqs",
+"categories": [
+"fabric",
+"food",
+"neoforge",
+"quilt"
+],
+"description": "Adds Tooltips to food that gives Status Effects when eaten",
+"queries": [
+"tooltip"
+],
+"rank": 7.471563057824411
+},
+"b8PVSzJC": {
+"slug": "tdmon",
+"title": "TDmon",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 4669504,
+"follows": 42,
+"author": "DiEn212",
+"categories": [
+"adventure",
+"datapack",
+"fabric",
+"forge",
+"minecraft",
+"mobs",
+"modded",
+"neoforge",
+"quilt"
+],
+"description": "A datapack of Cobblemon made by DiEn.",
+"queries": [
+""
+],
+"rank": 7.469271681829134
+},
+"ksu3Wms7": {
+"slug": "just-a-lot-more-enchantments",
+"title": "Just a lot more enchantments",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 116091,
+"follows": 29,
+"author": "A_teapot_orbiting_the_sun",
+"categories": [
+"equipment",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge"
+],
+"description": "Adds a lot more enchantments to the game",
+"queries": [
+"enchant"
+],
+"rank": 7.464835960415677
+},
+"nfn13YXA": {
+"slug": "rei",
+"title": "Roughly Enough Items (REI)",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 27685669,
+"follows": 4496,
+"author": "shedaniel",
+"categories": [
+"fabric",
+"forge",
+"neoforge",
+"rift"
+],
+"description": "Clean and Customizable. Alternative to Just Enough Items/JEI.",
+"queries": [
+""
+],
+"rank": 7.442255179187562
+},
+"dxiyDLYV": {
+"slug": "vanilla-fireflies",
+"title": "Vanilla Fireflies",
+"project_type": "mod",
+"license": "CC-BY-4.0",
+"downloads": 110024,
+"follows": 270,
+"author": "ItzSkyReed",
+"categories": [
+"adventure",
+"cursed",
+"datapack",
+"decoration",
+"fabric",
+"forge",
+"magic",
+"neoforge",
+"quilt"
+],
+"description": "Datapack that adds ambient fireflies - now they fly not only near bushes.",
+"queries": [
+"ambient"
+],
+"rank": 7.441526900893087
+},
+"w8V2GMiK": {
+"slug": "spartan-weaponry-unofficial",
+"title": "Spartan Weaponry Unofficial",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 107025,
+"follows": 27,
+"author": "Mai_xiyu",
+"categories": [
+"adventure",
+"equipment",
+"game-mechanics",
+"neoforge"
+],
+"description": "An unofficial NeoForge 1.21.1 port of the iconic Spartan Weaponry mod\u2014featuring swords, polearms, ranged weapons, and more, inspired by Balkon's WeaponMod!",
+"queries": [
+"weapons"
+],
+"rank": 7.429525813399015
+},
+"vUi6HFie": {
+"slug": "enchantedshulkers",
+"title": "EnchantedShulkers",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 653252,
+"follows": 142,
+"author": "RubixDev",
+"categories": [
+"fabric",
+"magic",
+"storage"
+],
+"description": "Adds some helpful enchantments for Shulker Boxes",
+"queries": [
+"enchant"
+],
+"rank": 7.415087396181096
+},
+"5km6gS6P": {
+"slug": "postmortal-particles",
+"title": "Postmortal Particles",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 103430,
+"follows": 215,
+"author": "Superkat32",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"fabric"
+],
+"description": "Overhauls the totem of undying particle effect.",
+"queries": [
+"particles"
+],
+"rank": 7.414688511872338
+},
+"cUtKlbur": {
+"slug": "rpg_style_more_weapons",
+"title": "RPG Style More Weapons",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 103226,
+"follows": 178,
+"author": "zrikon",
+"categories": [
+"equipment",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge"
+],
+"description": "Mod adds to the game a variety of weapons and armor with different abilities.\nAlso adds magical staves and books with multiple abilities.\nThe purpose of the mod, Add more RPG elements to the game, a varied selection of weapons and fun!",
+"queries": [
+"weapons"
+],
+"rank": 7.413831168948336
+},
+"eNaKubgx": {
+"slug": "ace",
+"title": "Acro's Classical Elements",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 6367,
+"follows": 39,
+"author": "Acrogenous",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"magic"
+],
+"description": "An Electroblobs Wizardry inspired magic mod with 100+ spells",
+"queries": [
+"magic spells",
+"spell"
+],
+"rank": 7.404616416987255
+},
+"XOhqdyTf": {
+"slug": "waterdripsound",
+"title": "[LEGACY] Drip Sounds (Forge)",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 622716,
+"follows": 85,
+"author": "PieKing1215",
+"categories": [
+"decoration",
+"forge",
+"neoforge"
+],
+"description": "Adds sounds for drip particles landing",
+"queries": [
+"particles"
+],
+"rank": 7.394296998724134
+},
+"b8Q0BxnV": {
+"slug": "dimensionaldoors",
+"title": "Dimensional Doors",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 247611,
+"follows": 391,
+"author": "Waterpicker",
+"categories": [
+"adventure",
+"fabric",
+"forge",
+"magic",
+"neoforge",
+"transportation"
+],
+"description": "This mod adds several types of Dimensional Doors that allow access to teleportation and extra-dimensional pocket dungeons that can vary from hallways to mazes to treasure rooms to straight-up traps.\n\nHave fun exploring, but be wary of what watches.",
+"queries": [
+"dungeon"
+],
+"rank": 7.393787473132334
+},
+"DfWQAvS4": {
+"slug": "immersive-enchanting",
+"title": "Immersive Enchanting",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 38284,
+"follows": 233,
+"author": "alfino",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge"
+],
+"description": "Immersive Enchanting aims to rework the vanilla enchanting experience, while giving extra use to existing vanilla items that don't serve much purpose.",
+"queries": [
+"enchant"
+],
+"rank": 7.383130732949828
+},
+"R4mVfSYE": {
+"slug": "nekohashizuku-blade",
+"title": "\u96eb\u62d4\u5200\u5251",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 603763,
+"follows": 11,
+"author": "Buwan22",
+"categories": [
+"equipment",
+"forge",
+"neoforge"
+],
+"description": "A SlashBlade mod contains multiple powerful katanas, including one exceptionally strong blade, another that plays sound effects when releasing its SA skill, and yet another capable of instantly killing most powerful bosses.",
+"queries": [
+"boss"
+],
+"rank": 7.380873687996134
+},
+"yTjEgNSm": {
+"slug": "wavify",
+"title": "Wavify",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 92641,
+"follows": 269,
+"author": "Icywhenhot",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge",
+"social"
+],
+"description": "Adds ambient waves to beaches,oceans and rivers!",
+"queries": [
+"ambient"
+],
+"rank": 7.3668501111037905
+},
+"PQBSg5Tz": {
+"slug": "dungeonsreborn",
+"title": "Dungeons Reborn",
+"project_type": "mod",
+"license": "CC0-1.0",
+"downloads": 14632,
+"follows": 78,
+"author": "StonksMan01",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"fabric",
+"game-mechanics",
+"magic"
+],
+"description": "Vanilla friendly mod that adds Minecraft Dungeons style content to the game",
+"queries": [
+"dungeon"
+],
+"rank": 7.365600402517412
+},
+"M08ruV16": {
+"slug": "bobby",
+"title": "Bobby",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 22161727,
+"follows": 5815,
+"author": "Johni0702",
+"categories": [
+"fabric"
+],
+"description": "Allows for render distances greater than the server's view-distance",
+"queries": [
+""
+],
+"rank": 7.345603796667907
+},
+"MFpvbNGE": {
+"slug": "roguelikedungeons",
+"title": "Roguelike Dungeons",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 549581,
+"follows": 330,
+"author": "Greymerk",
+"categories": [
+"adventure",
+"fabric",
+"worldgen"
+],
+"description": "Large procedurally generated dungeon structures with randomized loot.",
+"queries": [
+"dungeon"
+],
+"rank": 7.3400396121840625
+},
+"nt5t82dO": {
+"slug": "immersive-sound",
+"title": "Immersive Sounds",
+"project_type": "mod",
+"license": "CC0-1.0",
+"downloads": 86979,
+"follows": 111,
+"author": "Diesse",
+"categories": [
+"adventure",
+"datapack",
+"decoration",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge",
+"quilt",
+"technology"
+],
+"description": "This mod adds ambiental sounds to make you feel more IN the game.",
+"queries": [
+"ambient"
+],
+"rank": 7.339464338350392
+},
+"td9zQQBq": {
+"slug": "archon",
+"title": "Archon",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 1367400,
+"follows": 117,
+"author": "Safro",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"game-mechanics",
+"magic",
+"mobs",
+"utility",
+"worldgen"
+],
+"description": "Sorcery, Necromancy, Bosses, and More!",
+"queries": [
+"boss"
+],
+"rank": 7.33589875161268
+},
+"73mSSnCf": {
+"slug": "silent-gear",
+"title": "Silent Gear",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 518655,
+"follows": 136,
+"author": "SilentChaos512",
+"categories": [
+"equipment",
+"forge",
+"neoforge"
+],
+"description": "Upgradeable tools, weapons, and armor. Completely customizable with data packs!",
+"queries": [
+"weapons"
+],
+"rank": 7.314886942383945
+},
+"lftszdkG": {
+"slug": "enchanted-tooltips",
+"title": "Enchanted ToolTips",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 82091,
+"follows": 58,
+"author": "kyrptonaught",
+"categories": [
+"fabric"
+],
+"description": "Enchantment info in tooltips!",
+"queries": [
+"enchant",
+"tooltip"
+],
+"rank": 7.31434844691039
+},
+"sGmHWmeL": {
+"slug": "mixintrace",
+"title": "MixinTrace",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 20616510,
+"follows": 747,
+"author": "comp500",
+"categories": [
+"fabric",
+"quilt"
+],
+"description": "Adds a list of mixins in the stack trace to crash reports ",
+"queries": [
+""
+],
+"rank": 7.314215359669863
+},
+"UL2FNweH": {
+"slug": "alternative_twilight",
+"title": "alternative_twilight",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 509754,
+"follows": 5,
+"author": "Lvedy",
+"categories": [
+"adventure",
+"forge"
+],
+"description": "Added more mechanisms to the bosses of Twilight Forest, making it more time to prepare for them",
+"queries": [
+"boss"
+],
+"rank": 7.307369161942585
+},
+"3qAYkBMB": {
+"slug": "polytone",
+"title": "Polytone",
+"project_type": "mod",
+"license": "GPL-3.0-or-later",
+"downloads": 19880196,
+"follows": 2153,
+"author": "MehVahdJukaar",
+"categories": [
+"fabric",
+"forge",
+"neoforge"
+],
+"description": "Customize Map Color, Block Colors, Colormaps and Block Sounds, Biome Colors, dynamic colored lights, Dye Colors. Supports Optifine format. For Resource Packs",
+"queries": [
+""
+],
+"rank": 7.298420880272549
+},
+"XnNmSWmE": {
+"slug": "toxony",
+"title": "Toxony",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 29687,
+"follows": 193,
+"author": "MrFrostyDev",
+"categories": [
+"adventure",
+"cursed",
+"decoration",
+"equipment",
+"magic",
+"neoforge"
+],
+"description": "A mod around poisons, toxins, monster hunting weapons, alchemical warfare, and becoming more by foregoing your humanity.",
+"queries": [
+"weapons"
+],
+"rank": 7.2727125789720155
+},
+"4sP0LXxp": {
+"slug": "veinminer-enchantment",
+"title": "VeinMiner Enchantment",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 18274512,
+"follows": 1331,
+"author": "Miraculixx",
+"categories": [
+"datapack",
+"equipment",
+"fabric",
+"folia",
+"game-mechanics",
+"neoforge",
+"paper",
+"purpur",
+"quilt",
+"utility"
+],
+"description": "Veinminer Addon - Adds vineminer enchantment to enchanting tables. Only tools with the enchantment can veinmine",
+"queries": [
+"enchant",
+""
+],
+"rank": 7.261846026096258
+},
+"aVezg2Cv": {
+"slug": "bosscraft-unofficial-port",
+"title": "BossCraft Respawn : Unofficial Port",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 11446,
+"follows": 28,
+"author": "whistelliger55",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"game-mechanics",
+"magic",
+"mobs",
+"neoforge"
+],
+"description": "Unofficial Port of BossCraft 1.3.2",
+"queries": [
+"boss"
+],
+"rank": 7.25903300496378
+},
+"8D0TiNOF": {
+"slug": "vampirism-irons-spells-compatibility",
+"title": "Vampirism Iron's Spells Compatibility",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 28011,
+"follows": 25,
+"author": "xsharov_",
+"categories": [
+"food",
+"forge",
+"magic",
+"neoforge"
+],
+"description": "Vampirism mod now integrated with Iron's Spells Blood magic. Use your blood to reduce cooldowns, use blood ray and bite to restore blood!   Also aware of Holy spells!",
+"queries": [
+"magic spells",
+"spell"
+],
+"rank": 7.247483630119362
+},
+"uoXnS5LM": {
+"slug": "legendary-item",
+"title": "Legendary Item",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 69287,
+"follows": 93,
+"author": "Hummel009",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"forge",
+"magic"
+],
+"description": "Legendary Item is a simple mod that adds legendary artifacts (cold weapons and gems) from The Lord of the Rings, Silmarillon and other J.R.R.Tolkien's books to Minecraft.",
+"queries": [
+"weapons"
+],
+"rank": 7.240714433577933
+},
+"wseEf42M": {
+"slug": "desert-scourge",
+"title": "Desert Scourge",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 69210,
+"follows": 292,
+"author": "Bimba",
+"categories": [
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"minecraft",
+"mobs",
+"neoforge",
+"quilt"
+],
+"description": "Adds new unique boss in desert, based on Calamity Mod",
+"queries": [
+"boss"
+],
+"rank": 7.240231594958109
+},
+"RsDWJdQI": {
+"slug": "enchantmentransfer",
+"title": "Enchantment Transfer",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 10817,
+"follows": 10,
+"author": "GuTaiBai",
+"categories": [
+"fabric",
+"game-mechanics",
+"magic"
+],
+"description": "Features: Enchanted Table adds selective decomposition Spells into enchanted books,\nAnvil added Enchant so the spell was transferred to a grimoire,\nAnvil too expensive Increase to level 180",
+"queries": [
+"spell",
+"enchant"
+],
+"rank": 7.23450813677917
+},
+"8pBLL0kb": {
+"slug": "weaponsexpanded",
+"title": "Weapons Expanded",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 429573,
+"follows": 314,
+"author": "AngelicThe_Angel",
+"categories": [
+"equipment",
+"fabric",
+"forge",
+"neoforge",
+"quilt"
+],
+"description": "This mod adds new weapons, enchantments,  effects, advancements, and more.",
+"queries": [
+"weapons"
+],
+"rank": 7.233047086582852
+},
+"g646EoqQ": {
+"slug": "cake-chomps",
+"title": "Cake Chomps",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 1075329,
+"follows": 181,
+"author": "TheIllusiveC4",
+"categories": [
+"fabric",
+"food",
+"forge",
+"neoforge",
+"quilt"
+],
+"description": "Adds sound and crumb particles when you eat cake.",
+"queries": [
+"particles"
+],
+"rank": 7.231545396921854
+},
+"CxaV51ez": {
+"slug": "enchanting-system-overhaul",
+"title": "Enchanting System Overhaul",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 67328,
+"follows": 176,
+"author": "CmdrJane",
+"categories": [
+"adventure",
+"fabric",
+"forge",
+"game-mechanics",
+"magic"
+],
+"description": "Changes the way items are enchanted to give players more control and reduce impact of RNG",
+"queries": [
+"enchant"
+],
+"rank": 7.228260213301511
+},
+"NKPOiJ04": {
+"slug": "hit-feedback",
+"title": "Hit Feedback",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 422198,
+"follows": 29,
+"author": "ChloePrime",
+"categories": [
+"decoration",
+"fabric",
+"forge",
+"neoforge",
+"quilt"
+],
+"description": "Add particles (mostly blood and gore) as hit feedback.",
+"queries": [
+"particles"
+],
+"rank": 7.225526458064341
+},
+"RY1ITisM": {
+"slug": "elemental-enchantments",
+"title": "Elemental enchantments",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 161191,
+"follows": 187,
+"author": "Creerio",
+"categories": [
+"equipment",
+"fabric",
+"magic",
+"quilt"
+],
+"description": "Adds simple elemental enchantments & curses to the game",
+"queries": [
+"enchant"
+],
+"rank": 7.207367731595219
+},
+"rUgZvGzi": {
+"slug": "eating-animation",
+"title": "Eating Animation",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 15837016,
+"follows": 5128,
+"author": "theoness1",
+"categories": [
+"fabric",
+"food"
+],
+"description": "A mod that adds sprite animations for edible and drinkable items.",
+"queries": [
+""
+],
+"rank": 7.199673629712176
+},
+"B8XiXauo": {
+"slug": "ctov-irons-spells-n-spellbooks-compat",
+"title": "CTOV - Iron's Spells 'n Spellbooks compat",
+"project_type": "mod",
+"license": "CC-BY-NC-4.0",
+"downloads": 158170,
+"follows": 52,
+"author": "ChoiceTheorem",
+"categories": [
+"datapack",
+"decoration",
+"forge",
+"magic",
+"worldgen"
+],
+"description": "Compatibility datapack between CTOV and Iron's Spells 'n Spellbooks mod",
+"queries": [
+"spell"
+],
+"rank": 7.199151571205089
+},
+"8ooWzSQP": {
+"slug": "spell-power",
+"title": "Spell Power Attributes",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 6175691,
+"follows": 555,
+"author": "ZsoltMolnarrr",
+"categories": [
+"adventure",
+"fabric",
+"forge",
+"game-mechanics",
+"library",
+"magic",
+"neoforge"
+],
+"description": "\ud83d\udd2e Spell Power entity attributes with related status effects and enchantments",
+"queries": [
+"spell"
+],
+"rank": 7.190686261227693
+},
+"muf0XoRe": {
+"slug": "repurposed-structures-fabric",
+"title": "Repurposed Structures - Fabric",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 15051266,
+"follows": 1188,
+"author": "TelepathicGrunt",
+"categories": [
+"fabric",
+"quilt",
+"worldgen"
+],
+"description": "Adds more variations of vanilla structures and features such as a Jungle Fortress!",
+"queries": [
+""
+],
+"rank": 7.177573319615462
+},
+"zrbKKaSr": {
+"slug": "mobchampions",
+"title": "Mob Champions",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 57109,
+"follows": 40,
+"author": "wendall911",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"mobs",
+"neoforge"
+],
+"description": "Mob champions are special elite versions of regular mobs that spawn with armor, weapons, enhanced stats and effects. Legendary loot!",
+"queries": [
+"weapons"
+],
+"rank": 7.156780595506852
+},
+"TTZunjcO": {
+"slug": "druids-of-storm-and-spirit",
+"title": "Druids of Storm and Spirit",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 56060,
+"follows": 17,
+"author": "cleannrooster",
+"categories": [
+"equipment",
+"fabric",
+"game-mechanics",
+"magic"
+],
+"description": "Spell Engine based Lightning and Soul Magic!",
+"queries": [
+"spell"
+],
+"rank": 7.148730556098495
+},
+"NHzN2FGz": {
+"slug": "rearm",
+"title": "ReArm: Combat Overhaul",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 140523,
+"follows": 152,
+"author": "pajic",
+"categories": [
+"equipment",
+"fabric",
+"game-mechanics",
+"neoforge"
+],
+"description": "New combat mechanics, rebalanced and improved weapons, armor and enchantments",
+"queries": [
+"weapons"
+],
+"rank": 7.147778317373355
+},
+"FnMbxgKT": {
+"slug": "luminous-halloween",
+"title": "Luminous: Halloween",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 55398,
+"follows": 65,
+"author": "RipleysMods",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"mobs",
+"neoforge"
+],
+"description": "Bring a spooky new boss to your Minecraft World!",
+"queries": [
+"boss"
+],
+"rank": 7.143572474205386
+},
+"gajeT6A2": {
+"slug": "infinity-golem-boss-fight-beta",
+"title": "Infinity Golem Boss Fight",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 344020,
+"follows": 33,
+"author": "Medovibee",
+"categories": [
+"forge",
+"mobs"
+],
+"description": "This mod adds NEW BOSS INFINITY GOLEM. You can't find it in survival.",
+"queries": [
+"boss"
+],
+"rank": 7.136596315438892
+},
+"u0YIG3pi": {
+"slug": "enchanting-infuser-add-treasure-enchantments",
+"title": "Enchanting Infuser: Add Treasure Enchantments",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 52881,
+"follows": 47,
+"author": "STSchiff",
+"categories": [
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge",
+"quilt"
+],
+"description": "A datapack to make all treasure enchantments available in the advanced enchanting infuser.",
+"queries": [
+"enchant"
+],
+"rank": 7.123381778219142
+},
+"1rIHWPXR": {
+"slug": "an-undertale-deltarune-mod",
+"title": "An Undertale & Deltarune Mod",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 20928,
+"follows": 40,
+"author": "Data_Redacted",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"magic",
+"mobs"
+],
+"description": "[W.I.P] - This mod will add multiple characters, attacks, weapons, structures, lore, and more from the Toby Fox games into Minecraft",
+"queries": [
+"weapons"
+],
+"rank": 7.120935195468595
+},
+"ydBxwDBa": {
+"slug": "much-more-dungeons",
+"title": "Much More Dungeons",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 20715,
+"follows": 33,
+"author": "NAIZO",
+"categories": [
+"adventure",
+"cursed",
+"decoration",
+"fabric",
+"forge",
+"game-mechanics",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "Four handcrafted dungeons and six procedural jigsaw labyrinths, each with tiered loot, themed spawners and a named guardian, linked by treasure maps. Fabric, NeoForge and Forge, 1.20.1 to 26.3.",
+"queries": [
+"dungeon"
+],
+"rank": 7.116494539222311
+},
+"1nSvHESm": {
+"slug": "better-combat-x-cataclysm-spellbooks-compatibility",
+"title": "Better Combat x Cataclysm Spellbooks Compatibility",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 49489,
+"follows": 22,
+"author": "PandaCalvin23",
+"categories": [
+"adventure",
+"datapack",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge"
+],
+"description": "For the people who want compatibility with Cataclysm Spellbooks and Better Combat",
+"queries": [
+"spell"
+],
+"rank": 7.0945964252190485
+},
+"9BvAozF2": {
+"slug": "unlimited-enchants",
+"title": "Unlimited Enchantments",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 19401,
+"follows": 27,
+"author": "nugrevan",
+"categories": [
+"adventure",
+"cursed",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge",
+"quilt"
+],
+"description": "Make all enchantments go up to level 100 !!!",
+"queries": [
+"enchant"
+],
+"rank": 7.0880479095921185
+},
+"RJ4U0qmn": {
+"slug": "server-side-horror",
+"title": "Server-Side Horror",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 298331,
+"follows": 241,
+"author": "MarsThePlanet",
+"categories": [
+"cursed",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge",
+"quilt",
+"social"
+],
+"description": "Fully Configurable Ambient Horror Mod",
+"queries": [
+"ambient"
+],
+"rank": 7.074712941093165
+},
+"9P0keNSa": {
+"slug": "spoorn-weapon-attributes",
+"title": "Spoorn Weapon Attributes",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 47229,
+"follows": 26,
+"author": "spoorn",
+"categories": [
+"adventure",
+"cursed",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge"
+],
+"description": "Adds randomized attributes to Weapons, fully configurable",
+"queries": [
+"weapons"
+],
+"rank": 7.074300695480879
+},
+"5NoWxZyh": {
+"slug": "astralrail-cube",
+"title": "Astralrail Cube",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 18776,
+"follows": 7,
+"author": "Seraphina-DC",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"game-mechanics",
+"magic"
+],
+"description": "This is a magic mod based on Iron's spell  n Spellbooks.",
+"queries": [
+"spell"
+],
+"rank": 7.073834318000559
+},
+"uhKMw1HH": {
+"slug": "outer-end-wilds",
+"title": "Outer End Wilds",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 7439,
+"follows": 44,
+"author": "ImMaxon",
+"categories": [
+"adventure",
+"decoration",
+"equipment",
+"game-mechanics",
+"mobs",
+"neoforge",
+"worldgen"
+],
+"description": "Adds Two New End Biomes inspired by Minecraft Dungeons",
+"queries": [
+"dungeon"
+],
+"rank": 7.072097974274227
+},
+"TIo1UXXV": {
+"slug": "more-enchantment-info",
+"title": "More Enchantment Info",
+"project_type": "mod",
+"license": "CC-BY-SA-4.0",
+"downloads": 742552,
+"follows": 40,
+"author": "settingdust",
+"categories": [
+"fabric",
+"forge",
+"neoforge"
+],
+"description": "Providing enchantment info to JEI",
+"queries": [
+"enchant"
+],
+"rank": 7.070732720795643
+},
+"GkpgRKV2": {
+"slug": "runic-enchanting",
+"title": "Runic Enchanting",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 46342,
+"follows": 76,
+"author": "brotazoa",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"magic",
+"worldgen"
+],
+"description": "Craft enchanted books using runes found throughout the world.",
+"queries": [
+"enchant"
+],
+"rank": 7.0660684778596865
+},
+"T5YpEgSg": {
+"slug": "usefulmagic",
+"title": "UsefulMagic",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 45969,
+"follows": 39,
+"author": "CooStack",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"magic",
+"neoforge"
+],
+"description": "A mod which add Magicitems in Minecraft to spawn a MagicCircle with particles.",
+"queries": [
+"particles"
+],
+"rank": 7.0625595215395105
+},
+"nmJ9dZtI": {
+"slug": "expanded-axe-enchanting",
+"title": "Expanded Axe Enchanting",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 280483,
+"follows": 187,
+"author": "SmushyTaco",
+"categories": [
+"equipment",
+"fabric"
+],
+"description": "This mod allows you to use Fire Aspect, Knockback, Looting, Impaling, Density, Breach, and Wind Burst on an axe.",
+"queries": [
+"enchant"
+],
+"rank": 7.047922027448484
+},
+"5GZUvxmB": {
+"slug": "expanded-bow-enchanting",
+"title": "Expanded Bow Enchanting",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 272109,
+"follows": 167,
+"author": "SmushyTaco",
+"categories": [
+"equipment",
+"fabric"
+],
+"description": "This mod allows you to use looting on a bow and allows mending and infinity to be on the same bow.",
+"queries": [
+"enchant"
+],
+"rank": 7.034758866318811
+},
+"lwSm57fu": {
+"slug": "aquamirae-mod-extra-music",
+"title": "[Deprecated] Aquamirae - Boss Music Tweaks",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 262174,
+"follows": 32,
+"author": "TheExiIedFeIIow",
+"categories": [
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge",
+"quilt"
+],
+"description": "Formerly the only solution to having boss music play during the Ghost of Captain Cornelia's fight, now an addon for the Aquamirae mod by Obscuria that tweaks the way the Ghost of Captain Cornelia's boss music plays.",
+"queries": [
+"boss"
+],
+"rank": 7.018606184975226
+},
+"ILL8mgu6": {
+"slug": "warfare-expanded",
+"title": "Warfare Expanded",
+"project_type": "mod",
+"license": "Apache-2.0",
+"downloads": 40952,
+"follows": 119,
+"author": "mega7",
+"categories": [
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge",
+"quilt"
+],
+"description": "Warfare Expanded is a datapack that adds a number of medieval weapons. Each with their own unique buffs and debuffs. Additionally, This pack also has some achivements in order to spice up stuff a bit.",
+"queries": [
+"weapons"
+],
+"rank": 7.012381153235322
+},
+"QsiPPta0": {
+"slug": "tidal-waves",
+"title": "Tidal",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 97290,
+"follows": 678,
+"author": "Superkat32",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"social"
+],
+"description": "Adds ambient tidal waves to beaches and oceans!",
+"queries": [
+"ambient"
+],
+"rank": 6.988112840268352
+},
+"4jBWaiuq": {
+"slug": "tooltiprareness",
+"title": "TooltipRareness",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 235289,
+"follows": 113,
+"author": "Globox1997",
+"categories": [
+"fabric",
+"game-mechanics"
+],
+"description": "Splits items into rareness groups",
+"queries": [
+"tooltip"
+],
+"rank": 6.971620081466694
+},
+"Qdmqmc2A": {
+"slug": "overenchanted",
+"title": "Over Enchanted",
+"project_type": "mod",
+"license": "CC0-1.0",
+"downloads": 35995,
+"follows": 60,
+"author": "MastroCaleb",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"forge",
+"magic"
+],
+"description": "A simple mod that adds more levels to vanilla enchantments.",
+"queries": [
+"enchant"
+],
+"rank": 6.95636281525692
+},
+"YFkuYUFq": {
+"slug": "world-alive",
+"title": "World Alive: Ambient birds and wildlife",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 35928,
+"follows": 148,
+"author": "DaGreazeMaster",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"mobs"
+],
+"description": "Particle based client side ambient birds and wildlife, based on cosy critters and creepy crawlies. Also contains other ambient things such as mirages in the desert, distant players on horseback, distant boats in the ocean.",
+"queries": [
+"ambient"
+],
+"rank": 6.9555539043496815
+},
+"xLHm9KvS": {
+"slug": "tacz-bullet-proof-enchant-add-on",
+"title": "TACZ Bullet Proof Enchant Add-on",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 569278,
+"follows": 24,
+"author": "zwachinabottle",
+"categories": [
+"fabric",
+"forge"
+],
+"description": "A mod that adds the Bullet Proof enchant to reduce damage from tacz guns",
+"queries": [
+"enchant"
+],
+"rank": 6.95533202943124
+},
+"UfJHrpa9": {
+"slug": "imbued-gear",
+"title": "Imbued Gear",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 35770,
+"follows": 19,
+"author": "fzzyhmstrs",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"magic",
+"quilt"
+],
+"description": "Addon for Amethyst Imbuement that brings new Armor, Weapons, Trinkets, and Materials!",
+"queries": [
+"weapons"
+],
+"rank": 6.953640336231355
+},
+"p3i6u5xr": {
+"slug": "ego-weapons",
+"title": "E.G.O Weapons",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 5645,
+"follows": 8,
+"author": "M3tte",
+"categories": [
+"adventure",
+"equipment",
+"forge",
+"game-mechanics",
+"magic",
+"mobs",
+"technology"
+],
+"description": "Face the Fear. Manufacture the E.G.O. Endure the City.",
+"queries": [
+"weapons"
+],
+"rank": 6.952432609261474
+},
+"QI0EmgZ1": {
+"slug": "matcha-flavoured",
+"title": "Matcha Flavoured",
+"project_type": "mod",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 563473,
+"follows": 3106,
+"author": "klei_wright",
+"categories": [
+"16x",
+"datapack",
+"fabric",
+"food",
+"forge",
+"game-mechanics",
+"minecraft",
+"neoforge",
+"quilt",
+"vanilla-like"
+],
+"description": "Reworks minecraft's gameplay to benefit slower, less technical players",
+"queries": [
+""
+],
+"rank": 6.950880818132681
+},
+"vdl5436m": {
+"slug": "dungeons-plus-towers",
+"title": "Dungeons+: Towers",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 89211,
+"follows": 87,
+"author": "nikvyrn",
+"categories": [
+"adventure",
+"fabric",
+"mobs",
+"worldgen"
+],
+"description": "Generates towers into the world where you can find monsters and loot.",
+"queries": [
+"dungeon"
+],
+"rank": 6.950467086559129
+},
+"ihLE3St2": {
+"slug": "minecraft-but-jumping-enchants",
+"title": "Minecraft But Jumping Enchants",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 35448,
+"follows": 33,
+"author": "Bebu",
+"categories": [
+"adventure",
+"datapack",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge"
+],
+"description": "Every jump randomly enchants a random item in your inventory. Survive the chaos and defeat the Ender Dragon. A Bebu datapack for Minecraft 26.1+.",
+"queries": [
+"enchant"
+],
+"rank": 6.949714235679462
+},
+"jhxX1zVW": {
+"slug": "additional-enchanted-miner",
+"title": "Additional Enchanted Miner",
+"project_type": "mod",
+"license": "LGPL-3.0-only",
+"downloads": 553996,
+"follows": 148,
+"author": "Kotori316",
+"categories": [
+"fabric",
+"forge",
+"neoforge",
+"technology"
+],
+"description": "This mod adds some miners like BC's quarry.",
+"queries": [
+"enchant"
+],
+"rank": 6.943514468253305
+},
+"np6mA6ZR": {
+"slug": "minecraft-dungeon-artifacts",
+"title": "Dungeons Artifacts",
+"project_type": "mod",
+"license": "CC0-1.0",
+"downloads": 13842,
+"follows": 33,
+"author": "Diesse",
+"categories": [
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge",
+"quilt"
+],
+"description": "A datapack that adds the artifacts of Minecaft Dungeon",
+"queries": [
+"dungeon"
+],
+"rank": 6.941512482877423
+},
+"GD1QoExk": {
+"slug": "enchantments-encore",
+"title": "Enchantments Encore",
+"project_type": "mod",
+"license": "GPL-3.0-or-later",
+"downloads": 218038,
+"follows": 471,
+"author": "NiceRon",
+"categories": [
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge",
+"quilt",
+"utility"
+],
+"description": "Supercharges your Minecraft experience with a vast array of new, creative enchantments to enhance weapons, tools, and armor like never before",
+"queries": [
+"weapons",
+"enchant"
+],
+"rank": 6.938552107551764
+},
+"VOFv2Rsg": {
+"slug": "formidulus",
+"title": "Formidulus",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 34397,
+"follows": 205,
+"author": "absolutelyaya",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"mobs"
+],
+"description": "Adds a challenging Souls-Like Boss",
+"queries": [
+"boss"
+],
+"rank": 6.936646807458353
+},
+"22qSPlHn": {
+"slug": "wandrous",
+"title": "Wandrous",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 5391,
+"follows": 115,
+"author": "RoseIsProot",
+"categories": [
+"adventure",
+"magic",
+"neoforge",
+"worldgen"
+],
+"description": "A magic inspired on Noita's spell system, create wands, mix modifiers, make cool spells!",
+"queries": [
+"magic spells",
+"spell"
+],
+"rank": 6.932474177281193
+},
+"mOpmle0U": {
+"slug": "ly-fangs-enchantment",
+"title": "Fangs Enchantment",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 13548,
+"follows": 8,
+"author": "lullaby",
+"categories": [
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"magic",
+"neoforge",
+"quilt"
+],
+"description": "New enchantment for leggings that summon evoker fangs on getting damage!",
+"queries": [
+"enchant"
+],
+"rank": 6.932195629573425
+},
+"NbJ0SkkL": {
+"slug": "war-wither",
+"title": "War Wither",
+"project_type": "mod",
+"license": "GPL-3.0-only",
+"downloads": 85347,
+"follows": 3,
+"author": "Jerotes_",
+"categories": [
+"forge",
+"game-mechanics",
+"mobs"
+],
+"description": "This mod adds a powerful new boss\u2014the \"War Wither\"\u2014which is stronger and more agile than the standard Wither.",
+"queries": [
+"boss"
+],
+"rank": 6.931239142752621
+},
+"JyJgaOrk": {
+"slug": "scriptor-magicae",
+"title": "Scriptor Magicae",
+"project_type": "mod",
+"license": "CC0-1.0",
+"downloads": 84566,
+"follows": 176,
+"author": "ssblur",
+"categories": [
+"adventure",
+"fabric",
+"forge",
+"magic",
+"neoforge",
+"quilt"
+],
+"description": "Discover and write custom spells. Knowledge is power!",
+"queries": [
+"spell"
+],
+"rank": 6.927247141451616
+},
+"sf8l9B73": {
+"slug": "dungeons-dimensions-nether",
+"title": "Dungeons Dimensions: Nether",
+"project_type": "mod",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 84545,
+"follows": 255,
+"author": "Redupro",
+"categories": [
+"adventure",
+"decoration",
+"fabric",
+"food",
+"neoforge",
+"worldgen"
+],
+"description": "Adds terrain content from Minecraft Dungeons for The Nether",
+"queries": [
+"dungeon"
+],
+"rank": 6.927139293875869
+},
+"BxODbXgV": {
+"slug": "alessandrv-enchantments",
+"title": "Alessandrv's Enchantments",
+"project_type": "mod",
+"license": "MIT",
+"downloads": 33618,
+"follows": 36,
+"author": "alessandrv",
+"categories": [
+"adventure",
+"equipment",
+"fabric",
+"game-mechanics"
+],
+"description": "This mod adds vanilla-like enchantments to the game with new mechanics to enhance both singleplayer and multiplayer experience.",
+"queries": [
+"enchant"
+],
+"rank": 6.926701038745126
+},
+"KeXkdmTD": {
+"slug": "attack-speed-enchantment",
+"title": "Attack Speed Enchantment",
+"project_type": "mod",
+"license": "LGPL-3.0-or-later",
+"downloads": 33475,
+"follows": 31,
+"author": "lullaby",
+"categories": [
+"adventure",
+"datapack",
+"equipment",
+"fabric",
+"forge",
+"game-mechanics",
+"neoforge",
+"quilt"
+],
+"description": "Attack Speed is a new enchantment for swords with three levels that increases your attack speed!",
+"queries": [
+"enchant"
+],
+"rank": 6.924850303272199
+},
+"sn2HxtR3": {
+"slug": "crystal-vanilla-tweaks",
+"title": "Crystal Vanilla Tweaks",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 480862,
+"follows": 51,
+"author": "CapTommy",
+"categories": [
+"combat",
+"entities",
+"equipment",
+"gui",
+"items",
+"minecraft",
+"models",
+"tweaks"
+],
+"description": "A edit of the Crystal Vanilla by Nestor. For Crystal PvP or CPVP! The essentials/basics for crystal pvp, includes lower fire, reduced particles and more!",
+"queries": [
+"particles",
+""
+],
+"rank": 9.282029489904922
+},
+"tPtjib62": {
+"slug": "visual-armor-trims",
+"title": "Visual: Armor Trims",
+"project_type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"downloads": 4384004,
+"follows": 2192,
+"author": "thanos",
+"categories": [
+"16x",
+"decoration",
+"equipment",
+"items",
+"minecraft",
+"modded",
+"tweaks",
+"vanilla-like"
+],
+"description": "Your favorite armor trims now show up in your inventory! Works in Vanilla 1.21.5+ \u2694\ufe0f",
+"queries": [
+""
+],
+"rank": 9.04187193236341
+},
+"uBBepXuH": {
+"slug": "animated-items",
+"title": "Animated Items",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"downloads": 3020767,
+"follows": 2131,
+"author": "palettemc",
+"categories": [
+"16x",
+"decoration",
+"equipment",
+"items",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "Animates various item textures",
+"queries": [
+""
+],
+"rank": 8.880118665940568
+},
+"BJKZVS7i": {
+"slug": "living-legend-80k-rewamped",
+"title": "Living Legend Rewamped",
+"project_type": "resourcepack",
+"license": "Apache-2.0",
+"downloads": 73088,
+"follows": 27,
+"author": "GAMER_TIGE99",
+"categories": [
+"16x",
+"combat",
+"environment",
+"gui",
+"minecraft",
+"simplistic",
+"themed",
+"tweaks",
+"vanilla-like"
+],
+"description": "A clean and optimized PvP/SMP resource pack with low particles, smooth GUI, and enhanced visuals for better gameplay.",
+"queries": [
+"particles"
+],
+"rank": 8.463905494593345
+},
+"LkvOW9bO": {
+"slug": "gravelgui",
+"title": "Gravel GUI",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 69865,
+"follows": 18,
+"author": "Dremix",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"simplistic",
+"themed",
+"vanilla-like"
+],
+"description": "Animate your user interface with simple & clean buttons! Inspired by the new Bedrock Edition \"Ore UI\" look.",
+"queries": [
+"gui",
+"ui"
+],
+"rank": 8.44432182089448
+},
+"AsUvHjwh": {
+"slug": "gui-overhaul",
+"title": "GUI Overhaul",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 60651,
+"follows": 145,
+"author": "itsquasi",
+"categories": [
+"gui",
+"minecraft",
+"modded",
+"simplistic",
+"themed",
+"tweaks",
+"vanilla-like"
+],
+"description": "Overhaul the Java Edition GUI, inspired by Bedrock's Ore UI!",
+"queries": [
+"gui",
+"ui"
+],
+"rank": 8.382909565402642
+},
+"6GgEjSHS": {
+"slug": "blinking-ender-eyes",
+"title": "Blinking Ender Eyes",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 2143251,
+"follows": 754,
+"author": "Futureazoo",
+"categories": [
+"16x",
+"blocks",
+"cursed",
+"decoration",
+"items",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "Adds Creepy, Random Blinking to End Portal Blocks and Ender Eyes",
+"queries": [
+""
+],
+"rank": 8.331075061362748
+},
+"rn9jJfqv": {
+"slug": "things-retextured",
+"title": "Things Retextured",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 851532,
+"follows": 34,
+"author": "yurius564",
+"categories": [
+"16x",
+"environment",
+"equipment",
+"gui",
+"items",
+"minecraft",
+"modded",
+"simplistic",
+"tweaks"
+],
+"description": "That's a little modified version for most of Things Mod textures, made for better compatibility with the Create Venture Modpack recipes.",
+"queries": [
+""
+],
+"rank": 8.33020607322452
+},
+"chI5vWhB": {
+"slug": "canon-pc-wallpapers",
+"title": "Canon PC Wallpapers [Cobblemon]",
+"project_type": "resourcepack",
+"license": "MPL-2.0",
+"downloads": 4113388,
+"follows": 28,
+"author": "dhi_holo",
+"categories": [
+"16x",
+"decoration",
+"gui",
+"minecraft",
+"modded",
+"themed",
+"tweaks"
+],
+"description": "This addon adds a variety of wallpapers from Generations 3 through 9 to Cobblemon, via the new Wallpaper Addon Systems.",
+"queries": [
+""
+],
+"rank": 8.214200732568097
+},
+"yE1XChcU": {
+"slug": "rethoughted-spawn-eggs",
+"title": "Rethoughted Spawn Eggs",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"downloads": 643994,
+"follows": 68,
+"author": "CatFromNet",
+"categories": [
+"16x",
+"decoration",
+"equipment",
+"items",
+"minecraft",
+"models",
+"tweaks",
+"vanilla-like"
+],
+"description": "Spawn eggs visual enchancement.",
+"queries": [
+""
+],
+"rank": 8.208888564832689
+},
+"iOf04ekT": {
+"slug": "vanilla-plus-jaronwqhd",
+"title": "Vanilla-Plus",
+"project_type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"downloads": 632857,
+"follows": 324,
+"author": "xSpinHDx",
+"categories": [
+"16x",
+"audio",
+"blocks",
+"combat",
+"entities",
+"equipment",
+"fonts",
+"gui",
+"items",
+"minecraft",
+"models",
+"simplistic",
+"tweaks",
+"utility",
+"vanilla-like"
+],
+"description": "smooth rework of vanilla textures, with focus on tools, \u201cstandard survival\u201d items, particles and more",
+"queries": [
+"particles",
+""
+],
+"rank": 8.201312450562284
+},
+"8262nqZo": {
+"slug": "mace-fusion",
+"title": "Mace Fusion",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 632026,
+"follows": 38,
+"author": "OrkaMC",
+"categories": [
+"16x",
+"combat",
+"equipment",
+"items",
+"minecraft",
+"models",
+"tweaks",
+"vanilla-like"
+],
+"description": "Mace Fusion gives the Minecraft mace a cleaner, more polished look with a refined 3D model",
+"queries": [
+""
+],
+"rank": 8.200741815871114
+},
+"lBQSreft": {
+"slug": "fire-rekindled",
+"title": "Fire Rekindled",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 1455084,
+"follows": 1006,
+"author": "Tec",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"environment",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "Various animated texture overhauls and additions, PBR supported!",
+"queries": [
+""
+],
+"rank": 8.162891049928561
+},
+"5Wz8MWHt": {
+"slug": "vanilla-evolved",
+"title": "Vanilla Evolved",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 569268,
+"follows": 1176,
+"author": "Vixel",
+"categories": [
+"16x",
+"blocks",
+"entities",
+"environment",
+"items",
+"minecraft",
+"models",
+"simplistic",
+"tweaks",
+"vanilla-like"
+],
+"description": "A vanilla minecraft resource pack with an enhanced artistic vision through the use of custom models and textures.",
+"queries": [
+""
+],
+"rank": 8.155324400633578
+},
+"orgtdk9U": {
+"slug": "gui-revision",
+"title": "GUI Revision",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 541678,
+"follows": 682,
+"author": "Vixel",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"simplistic",
+"vanilla-like"
+],
+"description": "Bringing a fresh design by keeping the simplicity of default GUI",
+"queries": [
+"gui",
+""
+],
+"rank": 8.133749214779545
+},
+"zxSxUKhA": {
+"slug": "zapphire-16x",
+"title": "Sapphire 16x",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 31933,
+"follows": 10,
+"author": "FIRESTAR09_10",
+"categories": [
+"16x",
+"blocks",
+"combat",
+"entities",
+"environment",
+"equipment",
+"gui",
+"items",
+"minecraft",
+"models",
+"simplistic",
+"themed",
+"tweaks",
+"vanilla-like"
+],
+"description": "A Blue Themed 16x PvP Texturepack",
+"queries": [
+"16x"
+],
+"rank": 8.1043757014788
+},
+"dJ0i9p1N": {
+"slug": "stoneborn-modded-compatibility-gui",
+"title": "STONEBORN - Modded Compatibility GUI - SBMC",
+"project_type": "resourcepack",
+"license": "GPL-3.0-only",
+"downloads": 483487,
+"follows": 20,
+"author": "Fr_z_n",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"modded",
+"themed",
+"tweaks"
+],
+"description": "A modded GUI compatibility add-on for Stoneborn, which adds support for over 250 mods.",
+"queries": [
+"gui",
+""
+],
+"rank": 8.084393783718943
+},
+"5DkfFqi0": {
+"slug": "smooth-smp-pack",
+"title": "Smooth SMP pack",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 71668,
+"follows": 24,
+"author": "GAMER_TIGE99",
+"categories": [
+"16x",
+"combat",
+"equipment",
+"items",
+"minecraft",
+"simplistic",
+"vanilla-like"
+],
+"description": "Lightweight resource pack that removes or simplifies certain particle effects for a cleaner, vanilla-friendly experience.",
+"queries": [
+"effects"
+],
+"rank": 8.055385878893443
+},
+"n4unEhNq": {
+"slug": "transparent-inventorys",
+"title": "Transparent Inventorys (GUI & HUD)",
+"project_type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"downloads": 148654,
+"follows": 164,
+"author": "xSpinHDx",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"simplistic",
+"tweaks",
+"vanilla-like"
+],
+"description": "Makes all Inventorys Transparent",
+"queries": [
+"gui"
+],
+"rank": 7.972205813887063
+},
+"gLbwPaHh": {
+"slug": "enchanting-table-magic-circle",
+"title": "Enchanting Table Magic Circle",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 855510,
+"follows": 380,
+"author": "Jacosvaldo",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"minecraft",
+"models"
+],
+"description": "Adds a magic circle to the enchanting table that appears when you approach it",
+"queries": [
+"magic",
+""
+],
+"rank": 7.932230166756265
+},
+"dIyWZMgP": {
+"slug": "clean-connected-glass",
+"title": "Clean Connected Glass",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 2131917,
+"follows": 1449,
+"author": "aka_Jammy",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "Adds connected glass without the streaks in the middle",
+"queries": [
+""
+],
+"rank": 7.928772329791704
+},
+"BJoffwm5": {
+"slug": "comforts-modernized",
+"title": "Comforts Modernized",
+"project_type": "resourcepack",
+"license": "LGPL-3.0-only",
+"downloads": 4910638,
+"follows": 105,
+"author": "pedro9006",
+"categories": [
+"16x",
+"items",
+"minecraft",
+"modded",
+"models",
+"vanilla-like"
+],
+"description": "Redone textures for the Comforts mod to make them look faithful to modern Minecraft",
+"queries": [
+""
+],
+"rank": 7.891138804598619
+},
+"FsSrime2": {
+"slug": "essentialui",
+"title": "Essential UI",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 275929,
+"follows": 226,
+"author": "KartoffelChipss",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"simplistic",
+"themed",
+"vanilla-like"
+],
+"description": "A small texturepack, that changes all buttons and the hotbar to fit the style of the Essential mod. With This texturepack your Minecraft will look much cleaner when using the Essential mod",
+"queries": [
+"ui"
+],
+"rank": 7.840813086081952
+},
+"jgv5LTWT": {
+"slug": "reduced-particles",
+"title": "Reduced Particles",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 109715,
+"follows": 6,
+"author": "CapTommy",
+"categories": [
+"combat",
+"environment",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "A pvp themed particle texturepack that reduces the particles",
+"queries": [
+"particles"
+],
+"rank": 7.840305589517012
+},
+"KxcF22pG": {
+"slug": "ccc",
+"title": "ComputerCraft Create",
+"project_type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"downloads": 633114,
+"follows": 70,
+"author": "sashakoshka",
+"categories": [
+"16x",
+"blocks",
+"equipment",
+"gui",
+"items",
+"minecraft",
+"modded",
+"themed",
+"tweaks"
+],
+"description": "ComputerCraft textures that fit in with Create.",
+"queries": [
+""
+],
+"rank": 7.801488776750042
+},
+"uFGhGxal": {
+"slug": "pvp-crosshair",
+"title": "PvP Crosshair",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 1448340,
+"follows": 279,
+"author": "Discorde",
+"categories": [
+"16x",
+"combat",
+"gui",
+"minecraft",
+"simplistic",
+"vanilla-like"
+],
+"description": "The one and only crosshair to PvP with, available on all versions!",
+"queries": [
+""
+],
+"rank": 7.760873523671272
+},
+"5aPp18Lx": {
+"slug": "3d-default",
+"title": "3D Default",
+"project_type": "resourcepack",
+"license": "GPL-3.0-only",
+"downloads": 1413813,
+"follows": 1168,
+"author": "GeForceLegend",
+"categories": [
+"16x",
+"blocks",
+"entities",
+"items",
+"minecraft",
+"models",
+"vanilla-like"
+],
+"description": "A light-weight resource pack mainly provide vanilla-look 3D models",
+"queries": [
+""
+],
+"rank": 7.75039504246309
+},
+"hYTZC3GD": {
+"slug": "door-tweaks",
+"title": "Door Tweaks",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 554626,
+"follows": 390,
+"author": "StormDragon77",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"items",
+"minecraft",
+"models",
+"simplistic",
+"tweaks",
+"vanilla-like"
+],
+"description": "3D windows, side textures and other additions",
+"queries": [
+""
+],
+"rank": 7.74400805509748
+},
+"i05p3PCW": {
+"slug": "better-old-netherrack",
+"title": "Better Old Netherrack",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 3245585,
+"follows": 32,
+"author": "AT-3109",
+"categories": [
+"16x",
+"blocks",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "Tints the old netherrack texture to make it a little easier to look at.",
+"queries": [
+""
+],
+"rank": 7.711294325644605
+},
+"K32Giqwy": {
+"slug": "fogulous",
+"title": "Fogulous",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 196952,
+"follows": 396,
+"author": "FusionSwarly",
+"categories": [
+"environment",
+"minecraft",
+"modded",
+"tweaks",
+"vanilla-like"
+],
+"description": "Adds Biome-Based Ambient Fog Effects",
+"queries": [
+"effects"
+],
+"rank": 7.694382445541312
+},
+"bwYhZ5Le": {
+"slug": "trabens-3d-arrow-models",
+"title": "Traben's 3D Arrow models",
+"project_type": "resourcepack",
+"license": "LGPL-3.0-only",
+"downloads": 1168662,
+"follows": 164,
+"author": "Traben",
+"categories": [
+"16x",
+"entities",
+"items",
+"minecraft",
+"modded",
+"models",
+"simplistic",
+"tweaks"
+],
+"description": "Makes shot arrows look just like their item sprites. Works with all 16x resourcepacks. Requires EMF or OptiFine.",
+"queries": [
+"16x",
+""
+],
+"rank": 7.667692638982167
+},
+"5DF3hBIs": {
+"slug": "cobblemon-interface-modded",
+"title": "Cobblemon Interface: Modded",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 7115096,
+"follows": 120,
+"author": "VinnyStalck",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"modded",
+"themed"
+],
+"description": "Mod support for the Cobblemon Interface resourcepack",
+"queries": [
+""
+],
+"rank": 7.652181374535857
+},
+"FRSckbRo": {
+"slug": "classic-3d",
+"title": "Classic 3D",
+"project_type": "resourcepack",
+"license": "GPL-3.0-only",
+"downloads": 1070517,
+"follows": 795,
+"author": "ThePinkHacker",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"items",
+"minecraft",
+"models",
+"vanilla-like"
+],
+"description": "Classic Minecraft look & feel with revamped 3D models.",
+"queries": [
+""
+],
+"rank": 7.629597625206486
+},
+"ARGDWSQq": {
+"slug": "rct-trainer-textures-plus",
+"title": "Radical Cobblemon Trainer Textures Plus",
+"project_type": "resourcepack",
+"license": "LGPL-3.0-or-later",
+"downloads": 6273692,
+"follows": 107,
+"author": "forestfire",
+"categories": [
+"16x",
+"entities",
+"minecraft",
+"modded",
+"models",
+"themed"
+],
+"description": "A resource pack for the latest version of the Radical Cobblemon Trainers mod.",
+"queries": [
+""
+],
+"rank": 7.597523885922251
+},
+"flwLm9de": {
+"slug": "tears-and-cheers",
+"title": "Tears & Cheers - Ghast Revamp",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 945868,
+"follows": 148,
+"author": "Konci",
+"categories": [
+"16x",
+"entities",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "A simple touchup to the Ghast and Happy Ghast, making them more distinct and expressive!",
+"queries": [
+""
+],
+"rank": 7.575835124410675
+},
+"Rspf9Ia2": {
+"slug": "in-game-brewing-guide",
+"title": "In-Game Brewing Guide",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 132063,
+"follows": 391,
+"author": "PINPAL",
+"categories": [
+"16x",
+"decoration",
+"fonts",
+"gui",
+"minecraft",
+"simplistic",
+"tweaks",
+"utility",
+"vanilla-like"
+],
+"description": "Provides an in-game brewing guide within the \"Brewing Stand\" UI.",
+"queries": [
+"gui",
+"ui"
+],
+"rank": 7.520814042826398
+},
+"1OR06fW9": {
+"slug": "3d-harnesses-x-fresh-animations",
+"title": "3D Harnesses x Fresh Animations",
+"project_type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"downloads": 823731,
+"follows": 118,
+"author": "Mtcd",
+"categories": [
+"entities",
+"equipment",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "3D Harnesses but with Fresh Animations support",
+"queries": [
+""
+],
+"rank": 7.515790682628847
+},
+"Nyfj98b5": {
+"slug": "connected-paths",
+"title": "Connected Paths",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 2036251,
+"follows": 840,
+"author": "Jacosvaldo",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"minecraft",
+"vanilla-like"
+],
+"description": "Connect path-like blocks with Continuity mod",
+"queries": [
+""
+],
+"rank": 7.5088334434068775
+},
+"Srw5RQ6k": {
+"slug": "xalis-enhanced-vanilla",
+"title": "xali's Enhanced Vanilla",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"downloads": 1975258,
+"follows": 2175,
+"author": "xalixilax",
+"categories": [
+"16x",
+"environment",
+"minecraft",
+"vanilla-like"
+],
+"description": "The texture pack for people who hate texture pack.",
+"queries": [
+""
+],
+"rank": 7.495626028076384
+},
+"lkoaSYls": {
+"slug": "re-ocd",
+"title": "rE-oCd",
+"project_type": "resourcepack",
+"license": "Apache-2.0",
+"downloads": 754346,
+"follows": 150,
+"author": "HoshinekoSanti",
+"categories": [
+"16x",
+"blocks",
+"environment",
+"gui",
+"minecraft",
+"simplistic",
+"vanilla-like"
+],
+"description": "An unofficial continuation of FVDisco's oCd resource pack.",
+"queries": [
+""
+],
+"rank": 7.477576348983666
+},
+"hy8Gvwcq": {
+"slug": "duskfall-ui",
+"title": "Duskfall-UI",
+"project_type": "resourcepack",
+"license": "GPL-3.0-only",
+"downloads": 119160,
+"follows": 40,
+"author": "SirKillian",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"simplistic",
+"themed",
+"tweaks"
+],
+"description": "A dark GUI theme.",
+"queries": [
+"ui"
+],
+"rank": 7.476166939344933
+},
+"ojdqgkQK": {
+"slug": "trident-fusion",
+"title": "Trident Fusion",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 663586,
+"follows": 45,
+"author": "OrkaMC",
+"categories": [
+"16x",
+"equipment",
+"minecraft",
+"modded",
+"tweaks",
+"vanilla-like"
+],
+"description": "Trident Fusion gives the classic Minecraft trident a cleaner, more refined appearance",
+"queries": [
+""
+],
+"rank": 7.421903759535622
+},
+"3Rs94nNj": {
+"slug": "red-cpvp-16x",
+"title": "red cpvp 16x",
+"project_type": "resourcepack",
+"license": "Apache-2.0",
+"downloads": 95495,
+"follows": 4,
+"author": "O3kar",
+"categories": [
+"16x",
+"blocks",
+"combat",
+"equipment",
+"gui",
+"items",
+"minecraft",
+"themed",
+"tweaks"
+],
+"description": "A red CPVP pack 16x for better looks",
+"queries": [
+"16x"
+],
+"rank": 7.380026108919523
+},
+"6nx7bid1": {
+"slug": "cubic-leaves",
+"title": "Cubic Leaves",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 587640,
+"follows": 299,
+"author": "zanderest",
+"categories": [
+"blocks",
+"decoration",
+"environment",
+"minecraft",
+"models",
+"simplistic",
+"tweaks",
+"vanilla-like"
+],
+"description": "Bushy leaves built to be extremely fast, without compromising vanilla aesthetics.",
+"queries": [
+""
+],
+"rank": 7.369118740488325
+},
+"Go0Wa8T9": {
+"slug": "transparent-ui",
+"title": "Transparent UI + Mod Support",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 36542,
+"follows": 77,
+"author": "DedMaxim99",
+"categories": [
+"16x",
+"decoration",
+"gui",
+"minecraft",
+"modded",
+"simplistic",
+"themed",
+"tweaks"
+],
+"description": "Semi-transparent UI for more modern and minimalistic look of Minecraft",
+"queries": [
+"ui"
+],
+"rank": 7.362911145047649
+},
+"vaaOMowT": {
+"slug": "spectral",
+"title": "Spectral",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 572322,
+"follows": 1055,
+"author": "Fulmine",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"entities",
+"environment",
+"minecraft",
+"models",
+"themed"
+],
+"description": "A gentle 16x16 resource pack with a familiar yet unique feel.",
+"queries": [
+"16x",
+""
+],
+"rank": 7.357648028688224
+},
+"qEOSTnVx": {
+"slug": "construction-wands-creatifyed",
+"title": "Construction Wands Creatifyed",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 226343,
+"follows": 12,
+"author": "Lavundel",
+"categories": [
+"32x",
+"equipment",
+"items",
+"minecraft",
+"modded",
+"models",
+"themed"
+],
+"description": "Create like textures for the Construction Wand with a slight magical vibe",
+"queries": [
+"magic"
+],
+"rank": 7.354786254849878
+},
+"yORidG7U": {
+"slug": "mechanical-equation-gui-addon-for-shulker-box-tooltip",
+"title": "Mechanical equation GUI Add-on for Shulker Box Tooltip mod",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 35444,
+"follows": 24,
+"author": "Bronzeror",
+"categories": [
+"16x",
+"decoration",
+"gui",
+"minecraft",
+"modded",
+"themed",
+"tweaks"
+],
+"description": "This is an add-on for Mechanical Equation GUI pack,It made unique textures for most of the GUI images of Shulker Box Tooltip mod.",
+"queries": [
+"gui"
+],
+"rank": 7.34966524036331
+},
+"DCHWs5EF": {
+"slug": "bare-bones-x-fresh-animations",
+"title": "Bare Bones x Fresh Animations",
+"project_type": "resourcepack",
+"license": "Unlicense",
+"downloads": 1399973,
+"follows": 958,
+"author": "TeamHibiscus",
+"categories": [
+"16x",
+"entities",
+"minecraft",
+"models",
+"simplistic",
+"themed",
+"vanilla-like"
+],
+"description": "A Recource pack that makes Bare Bones compatible with Fresh Animations",
+"queries": [
+""
+],
+"rank": 7.346122762070368
+},
+"wmps0BbU": {
+"slug": "amethyst-pvp",
+"title": "Amethyst PvP",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 30982,
+"follows": 20,
+"author": "FIRESTAR09_10",
+"categories": [
+"16x",
+"blocks",
+"combat",
+"equipment",
+"gui",
+"items",
+"minecraft",
+"models",
+"simplistic",
+"themed",
+"tweaks",
+"vanilla-like"
+],
+"description": "A Purple Themed 16x PvP Texturepack",
+"queries": [
+"16x"
+],
+"rank": 7.291249603375036
+},
+"CUC4h0GP": {
+"slug": "vanilla-connected-glass",
+"title": "Vanilla Connected Glass",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 489593,
+"follows": 196,
+"author": "sniffercraft34",
+"categories": [
+"blocks",
+"combat",
+"cursed",
+"decoration",
+"minecraft",
+"models",
+"tweaks",
+"vanilla-like"
+],
+"description": "Connected Glass that does not require OptiFine and works with any resource pack!",
+"queries": [
+""
+],
+"rank": 7.289844070247501
+},
+"u69nu00u": {
+"slug": "human-era-villagers-illagers",
+"title": "Human Era: Villagers & Illagers X Fresh Animations",
+"project_type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"downloads": 472821,
+"follows": 799,
+"author": "BishopMCNuggets",
+"categories": [
+"16x",
+"entities",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "[ Java Port ] This pack turns villagers into human players with alot of diversity and variants. Also supports Fresh Animations, instructions in description",
+"queries": [
+""
+],
+"rank": 7.2747059422547355
+},
+"NR2rahl9": {
+"slug": "javaui",
+"title": "JavaUI",
+"project_type": "resourcepack",
+"license": "Apache-2.0",
+"downloads": 24378,
+"follows": 50,
+"author": "nikohalfkino",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"simplistic",
+"tweaks",
+"vanilla-like"
+],
+"description": "Gives Java Edition's buttons an OreUI feel!",
+"queries": [
+"ui"
+],
+"rank": 7.187176186349882
+},
+"JD76nSBi": {
+"slug": "xingluo-ae2-1.21-guiexpansion",
+"title": "XingLuo AE2 1.21 GUIExpansion",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 60930,
+"follows": 19,
+"author": "XingLuo",
+"categories": [
+"16x",
+"decoration",
+"gui",
+"minecraft"
+],
+"description": "XingLuo_AE2_1.21_GUIExpansion - Revamped 1.21.1 interface textures with holographic ME terminals and industrial-flux animations, faithfully recreating Applied Energistics 2's signature tech aesthetic while optimizing for modern versions.",
+"queries": [
+"gui"
+],
+"rank": 7.184902449886655
+},
+"aRYeNvAG": {
+"slug": "clean-pvp-pack",
+"title": "Clean PvP 16x",
+"project_type": "resourcepack",
+"license": "Apache-2.0",
+"downloads": 24046,
+"follows": 3,
+"author": "An_0",
+"categories": [
+"16x",
+"blocks",
+"combat",
+"equipment",
+"gui",
+"items",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "Vanilla-style 16x PvP pack with dagger swords, low fire, smaller totems and food, outlined ores, dark GUI, and quieter explosions.",
+"queries": [
+"16x"
+],
+"rank": 7.181223415092461
+},
+"frGHdTp1": {
+"slug": "cobblehats",
+"title": "CobbleHats - Now Craftable !",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 940276,
+"follows": 60,
+"author": "Lenar",
+"categories": [
+"decoration",
+"equipment",
+"items",
+"minecraft",
+"models",
+"themed"
+],
+"description": "Add various Pok\u00e9mon-themed hats to your game!",
+"queries": [
+""
+],
+"rank": 7.1732599699083694
+},
+"vtFYGarZ": {
+"slug": "cobblemon-classic-grass-pack",
+"title": "Cobblemon Classic Grass Pack",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 5778575,
+"follows": 117,
+"author": "WizzStar",
+"categories": [
+"16x",
+"blocks",
+"minecraft",
+"modded",
+"themed"
+],
+"description": "Gives you the real Pok\u00e9mon feeling in Cobblemon!",
+"queries": [
+""
+],
+"rank": 7.1618215059075165
+},
+"mynxVooj": {
+"slug": "cleanview",
+"title": "CleanView",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 21059,
+"follows": 5,
+"author": "skai6214",
+"categories": [
+"combat",
+"decoration",
+"environment",
+"minecraft",
+"simplistic",
+"tweaks"
+],
+"description": "Removes/No Potion Particles On Your Screen/Smaller Potion Splash",
+"queries": [
+"particles"
+],
+"rank": 7.123643923135949
+},
+"yj9xk24R": {
+"slug": "createmon",
+"title": "CreateMon",
+"project_type": "resourcepack",
+"license": "MPL-2.0",
+"downloads": 807152,
+"follows": 104,
+"author": "Deadlywere",
+"categories": [
+"16x",
+"blocks",
+"items",
+"minecraft",
+"modded",
+"models",
+"themed",
+"tweaks"
+],
+"description": "Retexturing cobblemon blocks to fit with the Create mod.",
+"queries": [
+""
+],
+"rank": 7.106960707764559
+},
+"fJhp04UU": {
+"slug": "shiny-hearts",
+"title": "Shiny Hearts",
+"project_type": "resourcepack",
+"license": "CC-BY-4.0",
+"downloads": 763113,
+"follows": 101,
+"author": "_ray_s",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"vanilla-like"
+],
+"description": "New great look of hearts and other icons in hotbar!",
+"queries": [
+""
+],
+"rank": 7.08259454308735
+},
+"hKfXoTiT": {
+"slug": "purpura-skies-xaeros-minimap-frame",
+"title": "Purpura Skies: Xaero's Minimap Frame",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 1813413,
+"follows": 136,
+"author": "MythicalMontie.",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"modded",
+"themed"
+],
+"description": "A new frame for Xaero's minimap! Perfect for cozy packs.",
+"queries": [
+""
+],
+"rank": 7.058499119671038
+},
+"EJtEdO0N": {
+"slug": "cute-pumpkin",
+"title": "Cute Pumpkin",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 713958,
+"follows": 48,
+"author": "novflix",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"minecraft",
+"simplistic",
+"vanilla-like"
+],
+"description": "A simple resource pack that replaces the carved pumpkin's spooky face with a cute and friendly one.",
+"queries": [
+""
+],
+"rank": 7.053678747161529
+},
+"ly7JS5P4": {
+"slug": "cobblemon-nebula-gui",
+"title": "Cobblemon Nebula GUI",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 6999,
+"follows": 12,
+"author": "Pixelcite",
+"categories": [
+"gui",
+"minecraft",
+"tweaks"
+],
+"description": "A resource pack that overhauls Cobblemon's UI",
+"queries": [
+"gui",
+"ui"
+],
+"rank": 7.045656059983544
+},
+"pwuThzt8": {
+"slug": "gui-sodium",
+"title": "GUISe - GUI like Sodium",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 43572,
+"follows": 69,
+"author": "devter",
+"categories": [
+"decoration",
+"gui",
+"minecraft",
+"simplistic",
+"tweaks"
+],
+"description": "Minecraft GUI in Sodium Mod style",
+"queries": [
+"gui"
+],
+"rank": 7.039307156360754
+},
+"S6XROiqp": {
+"slug": "redstoneauxiliary",
+"title": "\u7ea2\u77f3\u8f85\u52a9RedstoneAuxiliary",
+"project_type": "resourcepack",
+"license": "LGPL-3.0-only",
+"downloads": 1682446,
+"follows": 128,
+"author": "moonboss666",
+"categories": [
+"16x",
+"blocks",
+"minecraft",
+"vanilla-like"
+],
+"description": "This is a redstone auxiliary material package that assists in displaying the redstone information used without changing the original style\n\n\u8fd9\u662f\u4e00\u4e2a\u7ea2\u77f3\u8f85\u52a9\u6750\u8d28\u5305\uff0c\u5728\u4e0d\u6539\u53d8\u539f\u7248\u98ce\u683c\u7684\u60c5\u51b5\uff0c\u5bf9\u7528\u7684\u7ea2\u77f3\u4fe1\u606f\u8fdb\u884c\u8f85\u52a9\u663e\u793a\u7684\u6750\u8d28\u5305",
+"queries": [
+""
+],
+"rank": 7.025943715269225
+},
+"nOD7MgEz": {
+"slug": "fresh-compats",
+"title": "Fresh Compats",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 1648975,
+"follows": 97,
+"author": "IthanMendoza",
+"categories": [
+"16x",
+"entities",
+"minecraft",
+"modded"
+],
+"description": "Fresh Animations addon. Adds compatibility for some mobs from other mods like Supplementaries and Quark",
+"queries": [
+""
+],
+"rank": 7.017216705100639
+},
+"x53V5CaE": {
+"slug": "sleek-ui",
+"title": "Sleek UI",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 40651,
+"follows": 58,
+"author": "Bergundy1",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"tweaks"
+],
+"description": "This is a simple GUI texture pack made for people that want a smooth and sleek interface that can be in a Dark or OLED fashion",
+"queries": [
+"ui"
+],
+"rank": 7.009178055294186
+},
+"ND2jOkOE": {
+"slug": "distinguished-gui",
+"title": "Distinguished GUI",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 40351,
+"follows": 61,
+"author": "zanderest",
+"categories": [
+"gui",
+"minecraft",
+"simplistic",
+"tweaks",
+"vanilla-like"
+],
+"description": "This quintessential GUI pack aims to make the vanilla GUI more distinguished.",
+"queries": [
+"gui"
+],
+"rank": 7.00596191794896
+},
+"MdzUEeJ6": {
+"slug": "clear-lava-and-water",
+"title": "Clear Lava and Water",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 636747,
+"follows": 143,
+"author": "WhiterM",
+"categories": [
+"16x",
+"core-shaders",
+"environment",
+"minecraft",
+"tweaks"
+],
+"description": "This texture pack deletes lava and water overlay (you will see everything in lava and water clearly). Now works with Sodium!",
+"queries": [
+""
+],
+"rank": 7.0039737279500045
+},
+"4XOSYHAs": {
+"slug": "koncipet-ui",
+"title": "KonciPET UI",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 39531,
+"follows": 288,
+"author": "Konci",
+"categories": [
+"16x",
+"decoration",
+"gui",
+"minecraft",
+"simplistic",
+"themed"
+],
+"description": "Redecorates your inventory and adds a little axolotl companion!",
+"queries": [
+"ui"
+],
+"rank": 6.997047648513065
+},
+"ZrnmXWf6": {
+"slug": "more-mob-variants-fresh-animations-addon",
+"title": "More Mob Variants x Fresh Animations",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 617617,
+"follows": 487,
+"author": "nyuppo",
+"categories": [
+"16x",
+"entities",
+"minecraft",
+"modded",
+"themed",
+"vanilla-like"
+],
+"description": "Adds Fresh Animations compatibility to the More Mob Variants mod.",
+"queries": [
+""
+],
+"rank": 6.990726273232316
+},
+"XI4llq79": {
+"slug": "chest-boat-gui",
+"title": "Chest Boat GUI",
+"project_type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"downloads": 96926,
+"follows": 49,
+"author": "opekope2",
+"categories": [
+"gui",
+"minecraft",
+"modded",
+"tweaks"
+],
+"description": "Custom GUI for chest boats",
+"queries": [
+"gui"
+],
+"rank": 6.986485094881594
+},
+"ncfJ93Yj": {
+"slug": "fresh-animations-x-baby-animals-remastered",
+"title": "Fresh Animations x Baby Animals Remastered",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 610659,
+"follows": 170,
+"author": "Riyuki",
+"categories": [
+"16x",
+"entities",
+"minecraft",
+"models",
+"vanilla-like"
+],
+"description": "Fresh Animations compatibility for Baby Animals Remastered.",
+"queries": [
+""
+],
+"rank": 6.985805874031146
+},
+"a0R18CKS": {
+"slug": "shadowstone-tools",
+"title": "Shadowstone Tools: onyx X netherite",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 6011,
+"follows": 23,
+"author": "abdouahabch7",
+"categories": [
+"128x",
+"16x",
+"256x",
+"32x",
+"48x",
+"512x+",
+"64x",
+"8x-",
+"audio",
+"blocks",
+"combat",
+"core-shaders",
+"cursed",
+"decoration",
+"entities",
+"environment",
+"equipment",
+"fonts",
+"gui",
+"items",
+"locale",
+"minecraft",
+"modded",
+"models",
+"realistic",
+"simplistic",
+"themed",
+"tweaks",
+"utility",
+"vanilla-like"
+],
+"description": "In a realm where shadows dance with the flicker of magic, the land is adorned with the essence of onyx. Amidst this enchanted landscape, craftsmen forge tools of unparalleled power, harnessing the very essence of darkness itself.",
+"queries": [
+"magic"
+],
+"rank": 6.979668627207147
+},
+"APfalZZx": {
+"slug": "cobblemon-3d-pokenavs",
+"title": "Cobblemon 3D Pokenavs",
+"project_type": "resourcepack",
+"license": "GPL-3.0-only",
+"downloads": 595976,
+"follows": 53,
+"author": "ImBL4CK_",
+"categories": [
+"16x",
+"items",
+"minecraft",
+"modded",
+"models",
+"simplistic",
+"vanilla-like"
+],
+"description": "a resourcepack that adds 3D models to the mod's pokenavs: Cobblemon Pokenav",
+"queries": [
+""
+],
+"rank": 6.975236058072185
+},
+"SAg9h5Sl": {
+"slug": "better-gui",
+"title": "Better GUI",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 36844,
+"follows": 59,
+"author": "BizCub",
+"categories": [
+"decoration",
+"fonts",
+"gui",
+"items",
+"locale",
+"minecraft",
+"simplistic",
+"tweaks",
+"utility",
+"vanilla-like"
+],
+"description": "Replaces UI with a darker version",
+"queries": [
+"gui",
+"ui"
+],
+"rank": 6.966484631507164
+},
+"yfhsOtAg": {
+"slug": "only-glass-gui",
+"title": "Only Glass GUI",
+"project_type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"downloads": 864,
+"follows": 2,
+"author": "Max223210",
+"categories": [
+"16x",
+"cursed",
+"gui",
+"minecraft",
+"simplistic",
+"themed",
+"tweaks",
+"vanilla-like"
+],
+"description": "resource pack that makes whole minecraft ui made of glass",
+"queries": [
+"gui",
+"ui"
+],
+"rank": 6.941511432634403
+},
+"405SacPR": {
+"slug": "actually-3d-stuff",
+"title": "Actually 3D Stuff",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 1359802,
+"follows": 1149,
+"author": "arch1vways",
+"categories": [
+"16x",
+"minecraft",
+"models",
+"vanilla-like"
+],
+"description": "Your head'll collapse by this all cool 3D stuff!",
+"queries": [
+""
+],
+"rank": 6.933478869394929
+},
+"8dToBBY3": {
+"slug": "fruity-gui",
+"title": "Fruity GUI",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 5348,
+"follows": 10,
+"author": "adve",
+"categories": [
+"48x",
+"gui",
+"minecraft",
+"vanilla-like"
+],
+"description": "Fruity GUI \u2013 a delightfully fresh and juicy take on interface design! This vibrant texture pack transforms your UI into a tropical paradise, bursting with colorful food, adorable hearts, and a smoothly animated armor.",
+"queries": [
+"gui",
+"ui"
+],
+"rank": 6.92900270927219
+},
+"lTw6uEKZ": {
+"slug": "alpha-particles-trasparent-particles",
+"title": "Alpha Particles - Trasparent Particles",
+"project_type": "resourcepack",
+"license": "Apache-2.0",
+"downloads": 5145,
+"follows": 2,
+"author": "Lordd727",
+"categories": [
+"16x",
+"combat",
+"decoration",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "Makes potion particles more subtle and transparent for a cleaner, sleek look.",
+"queries": [
+"particles"
+],
+"rank": 6.912228669619536
+},
+"LIHfShYl": {
+"slug": "old-ui-for-legacy4j",
+"title": "Old UI for Legacy4J",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 79559,
+"follows": 8,
+"author": "omo50",
+"categories": [
+"gui",
+"minecraft",
+"tweaks"
+],
+"description": "Bring back the user interface from older versions of Legacy Console Edition for Legacy4J!",
+"queries": [
+"ui"
+],
+"rank": 6.900743900008912
+},
+"ZpBKASR2": {
+"slug": "xalis-enchanted-books",
+"title": "xali's Enchanted Books",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"downloads": 501987,
+"follows": 943,
+"author": "xalixilax",
+"categories": [
+"16x",
+"items",
+"minecraft",
+"models",
+"themed",
+"vanilla-like"
+],
+"description": "A small CIT that attribute custom textures to enchanted books to be more identifiable.",
+"queries": [
+""
+],
+"rank": 6.900701121751914
+},
+"9dHuFRY9": {
+"slug": "modern-mizunos",
+"title": "Modern Mizuno's",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 495611,
+"follows": 515,
+"author": "coolbot100s",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"environment",
+"minecraft",
+"modded",
+"models",
+"themed"
+],
+"description": "A Mizunos 16x addon, bringing support for versions 1.21+ allowing you to build with the Pale Garden blocks while still using your favorite cottage core resource pack.",
+"queries": [
+"16x",
+""
+],
+"rank": 6.895149699622713
+},
+"3sXwJldG": {
+"slug": "netheritepot-basics",
+"title": "NetheritePot Basics",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 30442,
+"follows": 4,
+"author": "CapTommy",
+"categories": [
+"16x",
+"combat",
+"items",
+"minecraft"
+],
+"description": "The basics for Nethpot or Netherite pot pvp!! features reduced particles and more",
+"queries": [
+"particles"
+],
+"rank": 6.883615821121275
+},
+"DM2EuUiY": {
+"slug": "confluenceotherworld-pbr",
+"title": "Confluence PBR",
+"project_type": "resourcepack",
+"license": "GPL-3.0-or-later",
+"downloads": 76113,
+"follows": 4,
+"author": "Joeylth",
+"categories": [
+"16x",
+"combat",
+"minecraft",
+"modded"
+],
+"description": "An expansion package added PBR effects to Confluence:Otherworld mod",
+"queries": [
+"effects"
+],
+"rank": 6.8815158954553945
+},
+"tN4E9NfV": {
+"slug": "chat-reporting-helper",
+"title": "Chat Reporting Helper",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 18335547,
+"follows": 284,
+"author": "robotkoer",
+"categories": [
+"16x",
+"gui",
+"locale",
+"minecraft",
+"modded",
+"realistic",
+"simplistic",
+"tweaks",
+"vanilla-like"
+],
+"description": "An educational tool that explains chat reporting in a simple and neutral way.",
+"queries": [
+""
+],
+"rank": 6.863294107552806
+},
+"onLBrw8W": {
+"slug": "chrome-yellow-gradient-enchant-glint",
+"title": "Chrome Yellow Gradient Enchantment Glint",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 4347,
+"follows": 8,
+"author": "ALYBH",
+"categories": [
+"decoration",
+"equipment",
+"items",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "Give glint effect a new look, Compatible with 1.15+ versions. The visual effects of this resource pack may differ slightly in versions below 1.19.4.",
+"queries": [
+"effects"
+],
+"rank": 6.839187559935754
+},
+"6b1cPTGp": {
+"slug": "hypr-minecraft",
+"title": "Hypr Minecraft",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 3826,
+"follows": 6,
+"author": "scarcekoi",
+"categories": [
+"16x",
+"blocks",
+"combat",
+"equipment",
+"gui",
+"items",
+"minecraft",
+"themed"
+],
+"description": "A PvP pack made for/by Scarce Koi that uses the beautiful Catppuccin UI resource pack.",
+"queries": [
+"ui"
+],
+"rank": 6.783878598498626
+},
+"BW2CNmr7": {
+"slug": "pixelcatsend-gui",
+"title": "Pixel Cat's End GUI",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 23636,
+"follows": 261,
+"author": "zir",
+"categories": [
+"16x",
+"decoration",
+"gui",
+"minecraft",
+"themed"
+],
+"description": "GUI redesigned in the style of Pixel Cat's End, colorpicked to the site color palette.",
+"queries": [
+"gui"
+],
+"rank": 6.773757685249247
+},
+"SpgcWKWY": {
+"slug": "cobblemon-emissive-ores",
+"title": "Cobblemon Emissive Ores",
+"project_type": "resourcepack",
+"license": "MPL-2.0",
+"downloads": 5901338,
+"follows": 222,
+"author": "Jamesssssssssssssss",
+"categories": [
+"minecraft"
+],
+"description": "Makes Cobblemon ores emit light. Fabric and Forge.",
+"queries": [
+""
+],
+"rank": 6.770951225556377
+},
+"aNcOVoD7": {
+"slug": "spbr",
+"title": "SPBR",
+"project_type": "resourcepack",
+"license": "GPL-3.0-or-later",
+"downloads": 931015,
+"follows": 527,
+"author": "NyaShulker",
+"categories": [
+"16x",
+"blocks",
+"minecraft",
+"models",
+"vanilla-like"
+],
+"description": "A PBR textures pack based on VNR,which in order to provide Physical properties and parallax details for vanilla 16x textures.",
+"queries": [
+"16x",
+""
+],
+"rank": 6.768961342867781
+},
+"S1rcrDD7": {
+"slug": "ctm-overhaul",
+"title": "Connected Textures (CTM) Overhaul",
+"project_type": "resourcepack",
+"license": "CC0-1.0",
+"downloads": 905289,
+"follows": 341,
+"author": "xokz",
+"categories": [
+"16x",
+"blocks",
+"cursed",
+"decoration",
+"minecraft",
+"modded",
+"themed"
+],
+"description": "Connects tons of the vanilla textures!",
+"queries": [
+""
+],
+"rank": 6.756792040645849
+},
+"dspVZXKP": {
+"slug": "fast-better-grass",
+"title": "Fast Better Grass",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 14222478,
+"follows": 2723,
+"author": "robotkoer",
+"categories": [
+"128x",
+"16x",
+"256x",
+"32x",
+"48x",
+"512x+",
+"64x",
+"8x-",
+"decoration",
+"minecraft",
+"models",
+"realistic",
+"simplistic",
+"tweaks",
+"vanilla-like"
+],
+"description": "Makes grass and related blocks use the top texture on the sides. Works with other resource packs!",
+"queries": [
+""
+],
+"rank": 6.752975576010842
+},
+"MKgZqBek": {
+"slug": "oreui-recreation",
+"title": "OreUI Recreation",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 21835,
+"follows": 76,
+"author": "tmc249",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"vanilla-like"
+],
+"description": "A Java recreation of the upcoming Bedrock UI redesign",
+"queries": [
+"ui"
+],
+"rank": 6.739352049045587
+},
+"7OFEgDS3": {
+"slug": "cobblemon-3d-poke-rods",
+"title": "Cobblemon 3D Poke Rods",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"downloads": 5444897,
+"follows": 67,
+"author": "Redcowboy",
+"categories": [
+"32x",
+"minecraft",
+"modded",
+"themed"
+],
+"description": "3D Models for all of Cobblemon's 1.6 Pok\u00e9 Rods",
+"queries": [
+""
+],
+"rank": 6.735990466326552
+},
+"1ocOEl1h": {
+"slug": "emerald-16x",
+"title": "Emerald 16x",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 3290,
+"follows": 2,
+"author": "FIRESTAR09_10",
+"categories": [
+"16x",
+"blocks",
+"combat",
+"entities",
+"equipment",
+"gui",
+"items",
+"minecraft",
+"models",
+"simplistic",
+"themed",
+"tweaks",
+"vanilla-like"
+],
+"description": "A Green Themed 16x PvP Texturepack",
+"queries": [
+"16x"
+],
+"rank": 6.718513939877887
+},
+"6kIJ9bvB": {
+"slug": "purple-cpvp-pack-16x",
+"title": "purple CPVP Pack 16x",
+"project_type": "resourcepack",
+"license": "Apache-2.0",
+"downloads": 52219,
+"follows": 11,
+"author": "O3kar",
+"categories": [
+"16x",
+"blocks",
+"combat",
+"equipment",
+"gui",
+"items",
+"minecraft",
+"themed"
+],
+"description": "A purple CPVP pack 16x for better looks",
+"queries": [
+"16x"
+],
+"rank": 6.717911710718489
+},
+"22zjKOw3": {
+"slug": "transparent-inventory-gui",
+"title": "Transparent GUI",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"downloads": 1252,
+"follows": 7,
+"author": "levikk",
+"categories": [
+"16x",
+"combat",
+"gui",
+"minecraft",
+"simplistic"
+],
+"description": "Replaces the GUI, UI and HUD with a translucent one",
+"queries": [
+"gui",
+"ui"
+],
+"rank": 6.701059354908115
+},
+"6mcKx2Pb": {
+"slug": "pridegui",
+"title": "Pride GUI",
+"project_type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"downloads": 19532,
+"follows": 71,
+"author": "bake",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"tweaks"
+],
+"description": "A LGBTQ+ pride themed GUI resource pack for Minecraft.",
+"queries": [
+"gui"
+],
+"rank": 6.690969008948517
+},
+"16olY6M5": {
+"slug": "glowing",
+"title": "Glowing",
+"project_type": "resourcepack",
+"license": "GPL-3.0-only",
+"downloads": 766697,
+"follows": 905,
+"author": "7777777_4547",
+"categories": [
+"16x",
+"blocks",
+"core-shaders",
+"entities",
+"environment",
+"equipment",
+"items",
+"minecraft",
+"models",
+"tweaks",
+"utility",
+"vanilla-like"
+],
+"description": "Use Optifine/ConnectedTextureMod/Vanilla(CoreShaders) format to make some things glow or emissive for vanilla.",
+"queries": [
+""
+],
+"rank": 6.684629428363181
+},
+"C9SsjFU3": {
+"slug": "bedrock-gui",
+"title": "Bedrock GUI",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 7392,
+"follows": 35,
+"author": "Zetheon",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"simplistic",
+"themed",
+"tweaks",
+"vanilla-like"
+],
+"description": "(sort of) Bedrock style menus in Java Edition!",
+"queries": [
+"gui"
+],
+"rank": 6.669349080759092
+},
+"lVxZ3apv": {
+"slug": "pvp-particles",
+"title": "PvP particles",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 18420,
+"follows": 12,
+"author": "Discorde",
+"categories": [
+"16x",
+"combat",
+"minecraft",
+"tweaks"
+],
+"description": "A resource pack *mostly* for PvPers which changes every potion particle in the game.",
+"queries": [
+"particles"
+],
+"rank": 6.665525335219074
+},
+"Av8h3gd4": {
+"slug": "stardew-valley-theme-for-jade",
+"title": "Stardew Valley Theme for Jade",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 109756,
+"follows": 38,
+"author": "Snownee",
+"categories": [
+"gui",
+"minecraft",
+"modded",
+"themed"
+],
+"description": "Stardew Valley UI Theme",
+"queries": [
+"ui"
+],
+"rank": 6.640467838301382
+},
+"lDxmoWUn": {
+"slug": "yagop",
+"title": "Yet Another Glowing Ores Pack",
+"project_type": "resourcepack",
+"license": "CC0-1.0",
+"downloads": 682290,
+"follows": 14,
+"author": "Nestaan",
+"categories": [
+"16x",
+"blocks",
+"minecraft",
+"vanilla-like"
+],
+"description": "Yet Another Glowing Ore Pack",
+"queries": [
+""
+],
+"rank": 6.633975371279906
+},
+"BozC53Fy": {
+"slug": "refreshed-ui",
+"title": "Remastered UI",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 6621,
+"follows": 38,
+"author": "Renared_688",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "Reworks every UI element, including buttons, the hotbar, icons, the inventory, container menus, etc. (used to be \"Refreshed UI\")",
+"queries": [
+"ui"
+],
+"rank": 6.621579027912009
+},
+"i5iNDIhL": {
+"slug": "applied-interfaces",
+"title": "Applied Interfaces | AE2 GUI",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 1024,
+"follows": 5,
+"author": "Diamond_DP",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"simplistic",
+"themed",
+"vanilla-like"
+],
+"description": "Changes the vanilla's UI to match the UI of the Applied Energistics 2 mod.",
+"queries": [
+"gui",
+"ui"
+],
+"rank": 6.614520538757923
+},
+"F9wQuVGZ": {
+"slug": "particles-updated",
+"title": "[Particle Effects] Particles Updated",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 259490,
+"follows": 95,
+"author": "zdkrr",
+"categories": [
+"8x-",
+"environment",
+"minecraft",
+"modded",
+"themed",
+"tweaks",
+"utility"
+],
+"description": "Updates the Particle Effects mod textures to ones I like better",
+"queries": [
+"particles",
+"effects"
+],
+"rank": 6.6141373621844775
+},
+"Tika7cJz": {
+"slug": "3d-particles",
+"title": "3D Particles",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 16360,
+"follows": 82,
+"author": "enchanted-games",
+"categories": [
+"16x",
+"8x-",
+"core-shaders",
+"environment",
+"minecraft",
+"simplistic",
+"themed",
+"vanilla-like"
+],
+"description": "A resourcepack that makes some of Minecrafts particles 3D",
+"queries": [
+"particles"
+],
+"rank": 6.614048679411942
+},
+"UPLmxEg5": {
+"slug": "shadify",
+"title": "Shadify",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 647291,
+"follows": 86,
+"author": "spunkyinsaan",
+"categories": [
+"core-shaders",
+"environment",
+"minecraft",
+"simplistic",
+"vanilla-like"
+],
+"description": "Removes block shading and makes the game more vibrant",
+"queries": [
+""
+],
+"rank": 6.611106277949719
+},
+"dIJpiHDp": {
+"slug": "croptopia-croppin-refresh",
+"title": "Croptopia: Crop 'n' Refresh!",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 645526,
+"follows": 44,
+"author": "BeanzTheGoblin",
+"categories": [
+"16x",
+"blocks",
+"minecraft",
+"vanilla-like"
+],
+"description": "A texture pack meant to bring a refreshing twist to the textures of the crops in Croptopia!",
+"queries": [
+""
+],
+"rank": 6.609920466843164
+},
+"CghMkzlW": {
+"slug": "purple-gui",
+"title": "Purple GUI",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 15790,
+"follows": 57,
+"author": "MaliMiau",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"modded",
+"simplistic",
+"themed",
+"tweaks"
+],
+"description": "I like purple",
+"queries": [
+"gui"
+],
+"rank": 6.598657086954423
+},
+"FtsaYfOz": {
+"slug": "gui_revision-ru",
+"title": "[RU] GUI Revision",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 6165,
+"follows": 21,
+"author": "s5edranner",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"simplistic",
+"tweaks",
+"vanilla-like"
+],
+"description": "This is addon for resourcepack GUI Revision, which translates crafting table, enchantment table, furnace, blast furnace, smoker and villager trading interface into russian",
+"queries": [
+"gui"
+],
+"rank": 6.590636961931704
+},
+"I3eYO6qL": {
+"slug": "changed-ui",
+"title": "Changed UI",
+"project_type": "resourcepack",
+"license": "CC-BY-4.0",
+"downloads": 15010,
+"follows": 4,
+"author": "gootraxian",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"themed",
+"vanilla-like"
+],
+"description": "Adds the \"Gooey\" UI from the Changed Mod to vanilla, nothing else!",
+"queries": [
+"ui"
+],
+"rank": 6.57666993266815
+},
+"TC6XISro": {
+"slug": "eeveelutions-reimagined",
+"title": "Eeveelutions Reimagined",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"downloads": 3752837,
+"follows": 58,
+"author": "SK4N",
+"categories": [
+"minecraft",
+"modded",
+"models"
+],
+"description": "Bringing you the official remodeled Eeveelutions, now animated and more expressive than ever.",
+"queries": [
+""
+],
+"rank": 6.574360859001358
+},
+"gexnR8g8": {
+"slug": "c-m-y-gradient-glint",
+"title": "C-M-Y Gradient Enchantment Glint",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 2331,
+"follows": 8,
+"author": "ALYBH",
+"categories": [
+"decoration",
+"equipment",
+"items",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "Give glint effect a new look, Compatible with 1.15+ versions. The visual effects of this resource pack may differ slightly in versions below 1.19.4.",
+"queries": [
+"effects"
+],
+"rank": 6.569401413696625
+},
+"oVNsKG3I": {
+"slug": "connected-world-16x",
+"title": "Connected World 16x",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 92654,
+"follows": 38,
+"author": "DedMaxim99",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"minecraft",
+"tweaks",
+"vanilla-like"
+],
+"description": "A pack that adds lots of connected textures for default Minecraft",
+"queries": [
+"16x"
+],
+"rank": 6.566911043335654
+},
+"9tf9GGch": {
+"slug": "villager-in-a-pack",
+"title": "Villager In A Pack",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 577408,
+"follows": 4,
+"author": "JustDoom",
+"categories": [
+"16x",
+"cursed",
+"items",
+"minecraft"
+],
+"description": "Resource Pack for the Villager In A Bukkit plugin",
+"queries": [
+""
+],
+"rank": 6.561490318129439
+},
+"oRwEO2cD": {
+"slug": "gui-bites",
+"title": "Gui Bites",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 5591,
+"follows": 17,
+"author": "WaveAOE",
+"categories": [
+"16x",
+"gui",
+"minecraft",
+"simplistic",
+"tweaks",
+"vanilla-like"
+],
+"description": "Gives health and hunger better visual animations and optionally changes the look of the hotbar and exp bar (Latest Release), plus other changes.",
+"queries": [
+"gui"
+],
+"rank": 6.5482655726687415
+},
+"oL18adaQ": {
+"slug": "new-glowing-ores",
+"title": "New Glowing Ores",
+"project_type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"downloads": 8771948,
+"follows": 3816,
+"author": "GridExpert",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"minecraft",
+"modded",
+"tweaks",
+"utility",
+"vanilla-like"
+],
+"description": "Makes ores glow to make them more visible, and also adds connected outlines to them so you don't miss a single block. Mod support available",
+"queries": [
+""
+],
+"rank": 6.543096543615164
+},
+"jKa9Ievs": {
+"slug": "rays-3d-rails",
+"title": "RAY's 3D Rails",
+"project_type": "resourcepack",
+"license": "MIT",
+"downloads": 3460933,
+"follows": 1358,
+"author": "xR4YM0ND",
+"categories": [
+"16x",
+"blocks",
+"decoration",
+"items",
+"minecraft",
+"models",
+"realistic",
+"tweaks",
+"vanilla-like"
+],
+"description": "3D Block & Item model textures for Rails in Minecraft",
+"queries": [
+""
+],
+"rank": 6.539194446740151
+}
+}

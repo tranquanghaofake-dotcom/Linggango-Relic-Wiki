@@ -1,0 +1,14 @@
+{
+ "slug": "kenney-particle-pack",
+ "root": "{W}/ext/kenney/kenney_particle-pack",
+ "title": "Kenney Particle Pack",
+ "version": "kenney_particle-pack.zip sha256 b631d4b0\u2026",
+ "author": "Kenney (kenney.nl)",
+ "license": "CC0-1.0",
+ "tier": "A",
+ "confidence": "high",
+ "include": [
+  "^PNG \\(Transparent\\)/"
+ ],
+ "note": "soft high-resolution sprites (not pixel art): for CSS glow/smoke layers"
+}

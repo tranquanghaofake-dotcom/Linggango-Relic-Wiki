@@ -1,0 +1,16 @@
+{
+ "slug": "minecraft-26.3",
+ "root": "{W}/git/mcmeta",
+ "title": "Minecraft Java 26.3 (vanilla)",
+ "version": "misode/mcmeta tag 26.3-assets @79962f2",
+ "author": "Mojang",
+ "license": "Minecraft Usage Guidelines",
+ "tier": "A",
+ "confidence": "high",
+ "namespace": "minecraft",
+ "include": [
+  "^assets/minecraft/(textures|particles)/"
+ ],
+ "missing_in": "{W}/git/v1201.txt",
+ "missing_flag": "path not in 1.20.1 (new art, or a file moved since 1.20.1)"
+}

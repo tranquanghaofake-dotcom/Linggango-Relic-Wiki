@@ -1,0 +1,9247 @@
+{
+"k0RPP4IO": {
+"slug": "arphex",
+"title": "Arthropod Phobia Expansions + Horror Bosses / Arachnophobia",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Vllaxa/arthropod",
+"team": "vllax",
+"downloads": 2086878,
+"version": "5.0.2",
+"version_id": "2QgFGJeS",
+"game_versions": [
+"1.20.1"
+],
+"file": "ArPhEx-5.0.2-forge-1.20.1.jar",
+"sha1": "cb754075e0ca32c46da38a38de0abb589eb5460c",
+"url": "https://modrinth.com/mod/arphex",
+"ids": [
+"arphex",
+"geckolib"
+],
+"counts": {
+"particle_def": 60,
+"other": 202,
+"block": 82,
+"other_fx": 20,
+"item": 247,
+"mob_effect": 59,
+"armor": 2,
+"particle": 90
+},
+"anim": 7,
+"jar_exc": [],
+"fx": 376.0
+},
+"xwHe8V3O": {
+"slug": "invocations",
+"title": "Invocations",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/cleannrooster/invocations-spellengine",
+"team": "cleannrooster",
+"downloads": 1579329,
+"version": "1.0.3.1-1.20.1",
+"version_id": "j8kun0VM",
+"game_versions": [
+"1.20.1"
+],
+"file": "invoke-1.0.3.1-1.20.1.jar",
+"sha1": "70e4711d393a7e22764e1f046b74d74a110baf9f",
+"url": "https://modrinth.com/mod/invocations",
+"ids": [
+"invoke"
+],
+"counts": {
+"entity": 1,
+"gui": 4,
+"item": 6,
+"mob_effect": 4,
+"other_fx": 61
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 128.0
+},
+"HQsBdHGd": {
+"slug": "edf-remastered",
+"title": "Ender Dragon Fight Remastered",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/MrGenie151/Ender-Dragon-Fight-Remastered",
+"team": "MrGenie151",
+"downloads": 3126112,
+"version": "4.3+mod",
+"version_id": "sJX8dbua",
+"game_versions": [
+"1.19.4",
+"1.20",
+"1.20.1"
+],
+"file": "edf-remastered-4.3.jar",
+"sha1": "80d348c609b4ee11092f15a3208903bded47c56b",
+"url": "https://modrinth.com/mod/edf-remastered",
+"ids": [
+"mr_edf_remastered"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"fM515JnW": {
+"slug": "ambientsounds",
+"title": "AmbientSounds",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/CreativeMD/AmbientSounds",
+"team": "creativemd",
+"downloads": 41913468,
+"version": "6.3.11",
+"version_id": "skzzVNCx",
+"game_versions": [
+"1.20.1"
+],
+"file": "AmbientSounds_FABRIC_v6.3.11_mc1.20.1.jar",
+"sha1": "0a1875ca8c166263bd0ed601cae6a1ec5d95a633",
+"url": "https://modrinth.com/mod/ambientsounds",
+"ids": [
+"ambientsounds",
+"creativecore"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"icU5P2Mk": {
+"slug": "spartan-weaponry",
+"title": "Spartan Weaponry",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": null,
+"source": "https://github.com/ObliviousSpartan/SpartanWeaponry",
+"team": "ObliviousSpartan",
+"downloads": 13578620,
+"version": "1.20.1-3.2.1",
+"version_id": "4U6gwadt",
+"game_versions": [
+"1.20.1"
+],
+"file": "SpartanWeaponry-1.20.1-forge-3.2.1-all.jar",
+"sha1": "187977cf09972df5773c92b8af5fd342a9d726cb",
+"url": "https://modrinth.com/mod/spartan-weaponry",
+"ids": [
+"shouldersurfing",
+"spartanweaponry"
+],
+"counts": {
+"particle_def": 3,
+"entity": 22,
+"entity_fx": 1,
+"gui": 6,
+"item": 672,
+"mob_effect": 1,
+"other": 18,
+"particle": 2
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 12.0,
+"drop": "few effect files"
+},
+"rI0hvYcd": {
+"slug": "visuality",
+"title": "Visuality",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/PinkGoosik/visuality",
+"team": "PinkGoosik",
+"downloads": 31313446,
+"version": "0.7.1+1.20",
+"version_id": "uhvQD6Ny",
+"game_versions": [
+"1.20",
+"1.20.1",
+"1.20.2"
+],
+"file": "visuality-0.7.1+1.20.jar",
+"sha1": "a4a5fc1edae49126432fc903dd6fdbb88b7251ed",
+"url": "https://modrinth.com/mod/visuality",
+"ids": [
+"visuality"
+],
+"counts": {
+"particle": 45,
+"particle_def": 11
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 135.0
+},
+"VJkx9nDN": {
+"slug": "spellblades-and-such",
+"title": "Spellblades and Such",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/cleannrooster/Spellblade-Next",
+"team": "cleannrooster",
+"downloads": 1942638,
+"version": "2.3.0+1.20.1",
+"version_id": "720mYNSd",
+"game_versions": [
+"1.20.1"
+],
+"file": "spellbladenext-2.3.0+1.20.1.jar",
+"sha1": "e1624284d3b9678128d5b33b3b15d6170374ab34",
+"url": "https://modrinth.com/mod/spellblades-and-such",
+"ids": [
+"spellbladenext"
+],
+"counts": {
+"armor": 19,
+"item": 85,
+"other": 19,
+"other_fx": 67,
+"mob_effect": 16
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 150.0
+},
+"LizDpfct": {
+"slug": "the-aurorian",
+"title": "The Aurorian",
+"type": "mod",
+"license": "MIT",
+"license_url": "https://github.com/shiroroku/TheAurorian/blob/1.12.2/LICENSE.txt",
+"source": "https://github.com/shiroroku/TheAurorian",
+"team": "shiroroku",
+"downloads": 118768,
+"version": "1.12.2-1.2",
+"version_id": "TyZy6sLV",
+"game_versions": [
+"1.12.2"
+],
+"file": "theaurorian-1.12.2-1.2.jar",
+"sha1": "65da335f135558e3ee3a582169258654cda6a496",
+"url": "https://modrinth.com/mod/the-aurorian",
+"ids": [],
+"counts": {
+"item": 487,
+"block": 112,
+"entity": 16,
+"entity_fx": 3,
+"armor": 22,
+"gui": 2
+},
+"anim": 25,
+"jar_exc": [],
+"fx": 32.0
+},
+"BwbT0OZE": {
+"slug": "arsdelight",
+"title": "Ars Nouveau's Flavors & Delight",
+"type": "mod",
+"license": "LGPL-2.1-only",
+"license_url": null,
+"source": "https://github.com/Minecraft-LightLand/Ars-Nouveau-Flavors-Delight",
+"team": "lcy0x1",
+"downloads": 3839322,
+"version": "1.2.2",
+"version_id": "N0FGjRxv",
+"game_versions": [
+"1.20.1"
+],
+"file": "arsdelight-1.2.2.jar",
+"sha1": "0ce119870b6d8697c9d99e5e780a3635928fff8c",
+"url": "https://modrinth.com/mod/arsdelight",
+"ids": [
+"ars_nouveau",
+"arsdelight",
+"farmersdelight"
+],
+"counts": {
+"block": 54,
+"item": 87,
+"mob_effect": 6
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 6.0,
+"drop": "few effect files"
+},
+"nrikgvxm": {
+"slug": "particle-rain",
+"title": "Particle Rain",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/PigCart/particle-rain",
+"team": "PigCart",
+"downloads": 23162808,
+"version": "v4.0.2+1.20.1-forge",
+"version_id": "6YJVNjSI",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "particlerain-4.0.2+1.20.1-forge.jar",
+"sha1": "a548b34411e2dd80936baa18f8dc71084430e29a",
+"url": "https://modrinth.com/mod/particle-rain",
+"ids": [
+"particlerain"
+],
+"counts": {
+"particle_def": 1,
+"particle": 5
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 15.0
+},
+"ED55R9vA": {
+"skip": "file over 80 MB"
+},
+"NrWDtgVf": {
+"skip": "third-party IP"
+},
+"vPr1NAMG": {
+"slug": "x3dungeons",
+"title": "X3R's Dungeons",
+"type": "mod",
+"license": "GPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/x3rmination/x3dungeons",
+"team": "x3rmination",
+"downloads": 12093,
+"version": "1.8.3",
+"version_id": "YKzRpYs6",
+"game_versions": [
+"1.16.4",
+"1.16.5"
+],
+"file": "x3dungeons-1.8.3.jar",
+"sha1": "53b4cc66113f06305a1967b243af83ebaac71090",
+"url": "https://modrinth.com/mod/x3dungeons",
+"ids": [
+"curios",
+"geckolib3",
+"x3dungeons"
+],
+"counts": {
+"entity": 12,
+"item": 45
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 1.0,
+"drop": "few effect files"
+},
+"qPzLkTsE": {
+"slug": "mambience",
+"title": "MAmbience",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": null,
+"source": "https://bitbucket.org/andre111/mambience",
+"team": "andre111",
+"downloads": 68502,
+"version": "5.5.1+1.21.1",
+"version_id": "yAEaUcEd",
+"game_versions": [
+"1.21.1"
+],
+"file": "Mambience-5.5.1+1.21.1.jar",
+"sha1": "2f6a824a9258ae7b4109da4a7c92ec597c3b0337",
+"url": "https://modrinth.com/mod/mambience",
+"ids": [
+"mambience"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"bWabfFX3": {
+"slug": "enchantsmith",
+"title": "Enchantsmith",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Scouter456/Enchantsmith",
+"team": "Scouter567",
+"downloads": 25244,
+"version": "1.0.4-1.20",
+"version_id": "vaNSsdYa",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "enchantsmith-forge-1.0.4-1.20.jar",
+"sha1": "116f6bcccc3bd50c287a64ccfc07e375d93b130a",
+"url": "https://modrinth.com/mod/enchantsmith",
+"ids": [
+"enchantsmith"
+],
+"counts": {
+"block": 1,
+"other": 1,
+"entity": 10,
+"gui": 5
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 2.5,
+"drop": "few effect files"
+},
+"MdwFAVRL": {
+"skip": "third-party IP"
+},
+"B1CcCd9h": {
+"slug": "particular",
+"title": "Particular \u2728",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Chailotl/particular",
+"team": "Chai",
+"downloads": 14849004,
+"version": "1.1.1",
+"version_id": "19UWxtiZ",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "particular-1.1.1.jar",
+"sha1": "f392b6c80edf5518b52ffe7667198202a0bcef8d",
+"url": "https://modrinth.com/mod/particular",
+"ids": [
+"particular"
+],
+"counts": {
+"particle_def": 37,
+"particle": 173
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 519.0
+},
+"QivVPB8W": {
+"slug": "the-graveyard-fabric",
+"title": "The Graveyard (Fabric/Neoforge)",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/finallion/The_Graveyard",
+"team": "LithiumPlus",
+"downloads": 5691069,
+"version": "4.0.0+mc1.20.1-fabric",
+"version_id": "cgUy6o7y",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "graveyard-FABRIC-4.0.0+mc1.20.1.jar",
+"sha1": "878ece15bde32fff743085c8ae02be4402a96d8c",
+"url": "https://modrinth.com/mod/the-graveyard-fabric",
+"ids": [
+"graveyard"
+],
+"counts": {
+"particle_def": 6,
+"block": 117,
+"entity": 87,
+"entity_fx": 6,
+"gui": 1,
+"item": 19,
+"particle": 89
+},
+"anim": 12,
+"jar_exc": [],
+"fx": 291.5
+},
+"hFUzfDsn": {
+"slug": "bosses-of-mass-destruction-forge",
+"title": "Bosses of Mass Destruction Forge",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/CERBON-MODS/Bosses-of-Mass-Destruction-FORGE",
+"team": "CerbonXD",
+"downloads": 4768825,
+"version": "1.1.2",
+"version_id": "2Kw4xPhp",
+"game_versions": [
+"1.20.1"
+],
+"file": "BOMD-Forge-1.20.1-1.1.2.jar",
+"sha1": "232eb28172423cde46e8e1f038c670a01471fa92",
+"url": "https://modrinth.com/mod/bosses-of-mass-destruction-forge",
+"ids": [
+"bosses_of_mass_destruction",
+"cerbons_api",
+"cloth_config",
+"geckolib"
+],
+"counts": {
+"particle_def": 29,
+"block": 12,
+"entity_fx": 2,
+"entity": 11,
+"gui": 3,
+"item": 11,
+"particle": 119
+},
+"anim": 4,
+"jar_exc": [],
+"fx": 366.5,
+"drop": "already in the pack"
+},
+"2VmJJJnd": {
+"slug": "ly-life-steal-enchantment",
+"title": "Life Steal Enchantment",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": "https://github.com/lullaby6/data-packs/blob/main/LICENSE",
+"source": "https://github.com/lullaby6/data-packs/tree/main/_enchantments",
+"team": "lullaby",
+"downloads": 45909,
+"version": "1.1.0+mod",
+"version_id": "m7wwcpdv",
+"game_versions": [
+"26.3"
+],
+"file": "ly-life-steal-enchantment-1.1.0.jar",
+"sha1": "b6ac555b70ba5a4e027267ed166a8a324cb39477",
+"url": "https://modrinth.com/mod/ly-life-steal-enchantment",
+"ids": [
+"mr_ly_lifestealenchantment"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"hvaVU41U": {
+"slug": "aerial-hell",
+"title": "Aerial Hell",
+"type": "mod",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": "https://github.com/nicochart/AerialHell",
+"team": "nicochart",
+"downloads": 45177,
+"version": "0.7.8",
+"version_id": "uOS1x3yv",
+"game_versions": [
+"1.20.1"
+],
+"file": "aerialhell-0.7.8_forge1.20.1.jar",
+"sha1": "29bcc6f0383c61f57f59b642e67bf3a0667cfb59",
+"url": "https://modrinth.com/mod/aerial-hell",
+"ids": [
+"aerialhell"
+],
+"counts": {
+"particle_def": 10,
+"block": 635,
+"entity": 123,
+"environment": 2,
+"gui": 108,
+"item": 333,
+"misc": 2,
+"mob_effect": 8,
+"armor": 16,
+"other": 22,
+"other_fx": 2,
+"particle": 37
+},
+"anim": 45,
+"jar_exc": [],
+"fx": 222.0
+},
+"EdXRAo60": {
+"slug": "ambientadditions",
+"title": "Ambient Additions",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Coda1552/AmbientAdditions",
+"team": "codyhuh",
+"downloads": 710571,
+"version": "1.20.1-1.1.2",
+"version_id": "3EGLyzXD",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "ambientadditions-1.20.1-1.1.2.jar",
+"sha1": "54cc1706b7d591ced432081420f2b3fcea344e3d",
+"url": "https://modrinth.com/mod/ambientadditions",
+"ids": [
+"ambientadditions"
+],
+"counts": {
+"particle_def": 2,
+"armor": 2,
+"block": 5,
+"entity": 61,
+"entity_fx": 1,
+"item": 32,
+"particle": 8
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 27.0
+},
+"AiwNM9O0": {
+"slug": "lr-tactical",
+"title": "[TACZ] LesRaisins Tactical Equipements",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/LesRaisins-Studios/LesRaisins-Tactical-Equipements",
+"team": "xjqsh",
+"downloads": 4105886,
+"version": "0.4.3",
+"version_id": "eygQmqIl",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "lrtactical-1.20.1-0.4.3.jar",
+"sha1": "49670df2d364b48c538de5dd44d464d5ed6f8817",
+"url": "https://modrinth.com/mod/lr-tactical",
+"ids": [
+"lrtactical",
+"tacz"
+],
+"counts": {
+"particle_def": 1,
+"other": 42,
+"gui": 1,
+"item": 1,
+"mob_effect": 3,
+"particle": 18
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 57.5
+},
+"lMWJDrbO": {
+"slug": "epic-samurais",
+"title": "Samurai Dynasty",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": "https://github.com/VeroxUniverse/EpicSamurai-forge/blob/1.19.2-forge/LICENSE.txt",
+"source": "https://github.com/VeroxUniverse/EpicSamurai-forge",
+"team": "Ghost",
+"downloads": 631209,
+"version": "0.0.51-1.20.1-forge",
+"version_id": "KzZfg6EC",
+"game_versions": [
+"1.20.1"
+],
+"file": "samurai_dynasty-0.0.51-1.20.1-forge.jar",
+"sha1": "437c10bb9ada8575fef4f4da83f5a67b53c35047",
+"url": "https://modrinth.com/mod/epic-samurais",
+"ids": [
+"azurelib",
+"curios",
+"samurai_dynasty"
+],
+"counts": {
+"entity": 19,
+"particle_def": 1,
+"armor": 76,
+"block": 37,
+"entity_fx": 2,
+"gui": 1,
+"item": 237,
+"particle": 1,
+"other": 14
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 7.5,
+"drop": "few effect files"
+},
+"MYxjEv5n": {
+"slug": "apprentices-codex",
+"title": "Apprentice's Codex",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/hexqua/apprentice_codex",
+"team": "Aquid",
+"downloads": 245649,
+"version": "1.0.0",
+"version_id": "XpTr9v4v",
+"game_versions": [
+"1.20.1"
+],
+"file": "apprentice_codex-1.0.0+mc1.20.1.jar",
+"sha1": "cbae0457af40b60c61f786a9beaeac424da442cc",
+"url": "https://modrinth.com/mod/apprentices-codex",
+"ids": [
+"apprenticecodex",
+"botania",
+"create",
+"curios",
+"entity_model_features",
+"epicfight",
+"geckolib",
+"irons_lib",
+"irons_spellbooks",
+"jade",
+"lodestone",
+"malum",
+"patchouli"
+],
+"counts": {
+"particle_def": 5,
+"block": 31,
+"entity": 9,
+"entity_fx": 3,
+"other": 62,
+"other_fx": 63,
+"gui": 121,
+"item": 134,
+"mob_effect": 47,
+"particle": 5
+},
+"anim": 16,
+"jar_exc": [],
+"fx": 270.5
+},
+"CXUEmqIy": {
+"skip": "third-party IP"
+},
+"du3UfiLL": {
+"slug": "bosses-of-mass-destruction",
+"title": "Bosses of Mass Destruction",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/miyo6032/bosses-of-mass-destruction",
+"team": "Barribob",
+"downloads": 8155449,
+"version": "1.7.5-1.20.1",
+"version_id": "yoCCX4Cc",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "BOMD-1.7.5-1.20.1.jar",
+"sha1": "6312dfbbc64f5621a3f5169ff6c53f567baee56b",
+"url": "https://modrinth.com/mod/bosses-of-mass-destruction",
+"ids": [
+"bosses_of_mass_destruction"
+],
+"counts": {
+"particle": 119,
+"item": 11,
+"gui": 3,
+"entity": 11,
+"entity_fx": 2,
+"block": 12,
+"particle_def": 29
+},
+"anim": 4,
+"jar_exc": [],
+"fx": 366.5,
+"drop": "already in the pack (Forge port)"
+},
+"T8MMXTpr": {
+"slug": "dripsounds",
+"title": "Drip Sounds",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/PieKing1215/DripSounds-Fabric",
+"team": "PieKing1215",
+"downloads": 7866423,
+"version": "0.6.3+1.20.1-fabric",
+"version_id": "g5z1EQp5",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "Drip Sounds-0.6.3+1.20.1-Fabric.jar",
+"sha1": "bf71b38ab1217ea2feb2c82e14e111ffd1362cd6",
+"url": "https://modrinth.com/mod/dripsounds",
+"ids": [
+"${id}",
+"cloth_config",
+"waterdripsound"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"Dk6su9JN": {
+"slug": "cut-through",
+"title": "Cut Through",
+"type": "mod",
+"license": "MPL-2.0",
+"license_url": null,
+"source": "https://github.com/Fuzss/cutthrough",
+"team": "Fuzs",
+"downloads": 19340145,
+"version": "v8.0.2-1.20.1-Fabric",
+"version_id": "UdH7Njsc",
+"game_versions": [
+"1.20.1"
+],
+"file": "CutThrough-v8.0.2-1.20.1-Fabric.jar",
+"sha1": "c8072e79637d94f96d26dbeb67357f9420957c6c",
+"url": "https://modrinth.com/mod/cut-through",
+"ids": [
+"cutthrough"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"kE2SJN9H": {
+"slug": "chocolate-quest-repoured",
+"title": "Chocolate Quest Repoured",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/TeamChocoQuest/ChocolateQuestRepoured",
+"team": "DerToaster98",
+"downloads": 30277,
+"version": "2.8.0B",
+"version_id": "h7q1h2ao",
+"game_versions": [
+"1.12.2"
+],
+"file": "Chocolate_Quest_Repoured-1.12.2-2.8.0B.jar",
+"sha1": "b1d232b173fe2636cfcca52a60bf7163a36181d6",
+"url": "https://modrinth.com/mod/chocolate-quest-repoured",
+"ids": [],
+"counts": {
+"block": 107,
+"other_fx": 1,
+"entity": 113,
+"entity_fx": 4,
+"gui": 34,
+"item": 172,
+"misc": 45,
+"mob_effect": 1,
+"armor": 26,
+"particle": 1,
+"other": 8
+},
+"anim": 10,
+"jar_exc": [],
+"fx": 41.0
+},
+"H7fshfpD": {
+"slug": "dynamicsurroundingsfabric",
+"title": "Dynamic Surroundings",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/OreCruncher/DynamicSurroundingsFabric",
+"team": "OreCruncher",
+"downloads": 7262605,
+"version": "0.3.3",
+"version_id": "SQuUb0Fo",
+"game_versions": [
+"1.20.1"
+],
+"file": "DynamicSurroundings-Fabric-1.20.1-0.3.3.jar",
+"sha1": "71d6ba63d3f767da2dee09e5be38314decff9379",
+"url": "https://modrinth.com/mod/dynamicsurroundingsfabric",
+"ids": [
+"dsurround"
+],
+"counts": {
+"other": 1,
+"gui": 6,
+"particle": 6
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 21.0
+},
+"xFCYuAs8": {
+"slug": "particle-interactions",
+"title": "Particle Interactions",
+"type": "mod",
+"license": "CC-BY-NC-4.0",
+"license_url": "https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1",
+"source": "https://github.com/Enchanted-Games/block-place-particles",
+"team": "enchanted-games",
+"downloads": 2860038,
+"version": "0.10.5+26.3-neoforge",
+"version_id": "t1pfitvn",
+"game_versions": [
+"26.3"
+],
+"file": "eg_particle_interactions-0.10.5+26.3-neoforge.jar",
+"sha1": "b5883d74a575606ed5029b04e9ea32000db791f8",
+"url": "https://modrinth.com/mod/particle-interactions",
+"ids": [
+"eg_particle_interactions"
+],
+"counts": {
+"other": 2,
+"gui": 3,
+"particle": 146
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 440.5
+},
+"gc8OEnCC": {
+"skip": "file over 80 MB"
+},
+"9Y3a7djB": {
+"slug": "ntm-extended",
+"title": "Hbm's Nuclear Tech - Extended Edition",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Alcatergit/Hbm-s-Nuclear-Tech-GIT",
+"team": "Alcatergit",
+"downloads": 157165,
+"version": "3.0.3",
+"version_id": "WTpRAras",
+"game_versions": [
+"1.12.2"
+],
+"file": "_NTM-Extended-1.12.2-3.0.3.jar",
+"sha1": "f44d5aa88bcb51d5d79900370f59df95674c5a41",
+"url": "https://modrinth.com/mod/ntm-extended",
+"ids": [],
+"counts": {
+"armor": 117,
+"block": 1577,
+"entity": 88,
+"entity_fx": 4,
+"gui": 276,
+"item": 3160,
+"other": 836,
+"misc": 70,
+"other_fx": 46,
+"particle": 27
+},
+"anim": 164,
+"jar_exc": [],
+"fx": 483.0
+},
+"1jvt7RTc": {
+"slug": "axes-are-weapons",
+"title": "Axes Are Weapons",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Fourmisain/AxesAreWeapons",
+"team": "Fourmisain",
+"downloads": 2461318,
+"version": "1.10.2-fabric-1.20.2",
+"version_id": "fBm0nBm4",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "AxesAreWeapons-1.10.2-fabric-1.20.2.jar",
+"sha1": "9158d15cabed11698ad74e6736a40de8c291baba",
+"url": "https://modrinth.com/mod/axes-are-weapons",
+"ids": [
+"axesareweapons"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"4KzWiLBH": {
+"slug": "xp-boost-enchantment",
+"title": "XP Boost Enchantment",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": "https://github.com/lullaby6/data-packs/blob/main/LICENSE",
+"source": "https://github.com/lullaby6/data-packs",
+"team": "lullaby",
+"downloads": 61303,
+"version": "1.0.2+mod",
+"version_id": "8gV8xwDb",
+"game_versions": [
+"26.3"
+],
+"file": "xp-boost-enchantment-1.0.2.jar",
+"sha1": "075a5ca7ef7a6f069748fa615cb1f7c02686ca4c",
+"url": "https://modrinth.com/mod/xp-boost-enchantment",
+"ids": [
+"mr_xp_boostenchantment"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"BCLngNKp": {
+"slug": "stalwart-dungeons",
+"title": "Stalwart Dungeons",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "furti-two",
+"downloads": 2393863,
+"version": "1.2.8",
+"version_id": "vgD645b7",
+"game_versions": [
+"1.20.1"
+],
+"file": "stalwart-dungeons-1.20.1-1.2.8.jar",
+"sha1": "da49b50013deee55861e81664096818357d563ac",
+"url": "https://modrinth.com/mod/stalwart-dungeons",
+"ids": [
+"stalwart_dungeons"
+],
+"counts": {
+"other": 34,
+"block": 60,
+"other_fx": 4,
+"item": 49,
+"mob_effect": 4,
+"armor": 6,
+"particle": 9
+},
+"anim": 4,
+"jar_exc": [],
+"fx": 43.0
+},
+"3FEg0A8D": {
+"slug": "cataclysm-spellbooks",
+"title": "Cataclysm: Spellbooks",
+"type": "mod",
+"license": "LGPL-2.1-only",
+"license_url": null,
+"source": "https://github.com/AceTheEldritchKing/Cataclysm_Spellbooks",
+"team": "AceTheEldritchKing",
+"downloads": 377260,
+"version": "1.2.9-1.20.1",
+"version_id": "e7VE8bSy",
+"game_versions": [
+"1.20.1"
+],
+"file": "cataclysm_spellbooks-1.2.9-1.20.1-all.jar",
+"sha1": "57fbb161849fca19aa12632944b01ce12760c4c4",
+"url": "https://modrinth.com/mod/cataclysm-spellbooks",
+"ids": [
+"azurelib",
+"cataclysm",
+"cataclysm_spellbooks",
+"irons_spellbooks"
+],
+"counts": {
+"particle_def": 1,
+"entity": 25,
+"entity_fx": 2,
+"gui": 68,
+"item": 95,
+"mob_effect": 29,
+"armor": 27,
+"particle": 1,
+"other": 1
+},
+"anim": 2,
+"jar_exc": [],
+"fx": 72.0
+},
+"fThucCjR": {
+"slug": "amethyst-imbuement",
+"title": "Amethyst Imbuement",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/fzzyhmstrs/ai",
+"team": "fzzyhmstrs",
+"downloads": 943840,
+"version": "1.20.1-19.8",
+"version_id": "vRY4HxBN",
+"game_versions": [
+"1.20.1"
+],
+"file": "amethyst_imbuement-1.20.1-19.8.jar",
+"sha1": "8ae33c5bfbc4b2cdf1a197eed1d3d74047e2c331",
+"url": "https://modrinth.com/mod/amethyst-imbuement",
+"ids": [
+"amethyst_imbuement"
+],
+"counts": {
+"particle_def": 1,
+"block": 76,
+"entity": 62,
+"entity_fx": 5,
+"gui": 151,
+"item": 246,
+"misc": 7,
+"mob_effect": 25,
+"other_fx": 98,
+"armor": 12
+},
+"anim": 46,
+"jar_exc": [],
+"fx": 352.5
+},
+"z13R7Et1": {
+"slug": "visuality-forge",
+"title": "Visuality: Reforged",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/DragonsPlusMinecraft/VisualityReforged",
+"team": "RaymondBlaze",
+"downloads": 5907913,
+"version": "2.2.0",
+"version_id": "XuoohJcp",
+"game_versions": [
+"1.20.1"
+],
+"file": "visuality-forge-2.2.0.jar",
+"sha1": "d2e97dc6e001757191beef81c17c5269a2cf5600",
+"url": "https://modrinth.com/mod/visuality-forge",
+"ids": [
+"visuality"
+],
+"counts": {
+"particle": 46,
+"particle_def": 12
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 138.0,
+"drop": "port of visuality (same art)"
+},
+"lDzXAiqs": {
+"slug": "scorched-guns-2",
+"title": "Scorched Guns 2",
+"type": "mod",
+"license": "GPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/ribs498/Scorched-Guns-1.20.1",
+"team": "ribss498",
+"downloads": 372052,
+"version": "0.5.5",
+"version_id": "A57yER99",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "ScorchedGuns-0.5.5-1.20.1.jar",
+"sha1": "a65d1a6fea7b44602c63175a8ea9a144d83a5de5",
+"url": "https://modrinth.com/mod/scorched-guns-2",
+"ids": [
+"backpacked",
+"controllable",
+"curios",
+"framework",
+"scguns"
+],
+"counts": {
+"particle_def": 31,
+"other": 164,
+"other_fx": 45,
+"armor": 29,
+"block": 164,
+"entity": 28,
+"entity_fx": 1,
+"gui": 33,
+"item": 530,
+"mob_effect": 4,
+"particle": 82
+},
+"anim": 114,
+"jar_exc": [],
+"fx": 472.5
+},
+"pYFUU6cq": {
+"slug": "particular-reforged",
+"title": "Particular \u2728 Reforged",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Leclowndu93150/Particular",
+"team": "Leclowndu93150",
+"downloads": 5709987,
+"version": "1.5.7",
+"version_id": "LJTyWvQX",
+"game_versions": [
+"1.20.1"
+],
+"file": "particular-1.20.1-Forge-1.5.7.jar",
+"sha1": "735ad052616e135e45a8c9195f1c22f11274f180",
+"url": "https://modrinth.com/mod/particular-reforged",
+"ids": [
+"particular",
+"tfc"
+],
+"counts": {
+"particle_def": 38,
+"particle": 174
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 522.0,
+"drop": "fork of particular (same art)"
+},
+"pXo36Na4": {
+"slug": "sb-enchantment-effects",
+"title": "Enchantment Effects",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/soullessberry/enchantment-effects",
+"team": "soulless-berry",
+"downloads": 22637,
+"version": "1.1.0+26.3",
+"version_id": "QpyjdEMt",
+"game_versions": [
+"26.3"
+],
+"file": "enchantment-effects-1.1.0+26.3.jar",
+"sha1": "1672fb1bcf8aeac45849ac317b10aaa6f5f9ee72",
+"url": "https://modrinth.com/mod/sb-enchantment-effects",
+"ids": [
+"enchantment-effects"
+],
+"counts": {
+"particle_def": 6,
+"particle": 29
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 87.0
+},
+"vo7reSUa": {
+"slug": "bloxys-structures",
+"title": "Bloxy's Structures",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Bloxy",
+"downloads": 350542,
+"version": "1.16.0",
+"version_id": "vTYgavOZ",
+"game_versions": [
+"1.20.1"
+],
+"file": "bloxysstructures-1.16.0.jar",
+"sha1": "cad66d724142ce62f42382b8640d2e603f8afc1c",
+"url": "https://modrinth.com/mod/bloxys-structures",
+"ids": [
+"bloxysstructures"
+],
+"counts": {
+"particle_def": 1,
+"block": 42,
+"other": 44,
+"other_fx": 3,
+"item": 7,
+"mob_effect": 4,
+"particle": 9
+},
+"anim": 7,
+"jar_exc": [],
+"fx": 44.0
+},
+"MpzVLzy5": {
+"slug": "betternether",
+"title": "BetterNether",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/quiqueck/BetterNether",
+"team": "quiqueck",
+"downloads": 13884402,
+"version": "9.0.11",
+"version_id": "GybmolmI",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "better-nether-9.0.11.jar",
+"sha1": "d4b22061fdc5f28f4e8f236c7f3bcdb20972dc05",
+"url": "https://modrinth.com/mod/betternether",
+"ids": [
+"betternether"
+],
+"counts": {
+"particle_def": 9,
+"block": 662,
+"entity": 84,
+"entity_fx": 1,
+"gui": 9,
+"item": 147,
+"other": 8,
+"armor": 7
+},
+"anim": 9,
+"jar_exc": [],
+"fx": 15.5
+},
+"LfM2UVYA": {
+"slug": "ardas-sculks",
+"title": "Arda's Sculks (Ancient City Portal / Deep Dark Dimension)",
+"type": "mod",
+"license": "LGPL-2.1-only",
+"license_url": null,
+"source": "https://github.com/IxraPlayer/Ardas-Sculks",
+"team": "Ixra",
+"downloads": 135936,
+"version": "1.4.3.5_1",
+"version_id": "haa8Slx0",
+"game_versions": [
+"1.20.1"
+],
+"file": "Arda's Sculks 1.4.3.5_1 [FORGE] [1.20.1].jar",
+"sha1": "f8896015f72e7200f4c578e88428a20a5e62a348",
+"url": "https://modrinth.com/mod/ardas-sculks",
+"ids": [
+"geckolib",
+"jei",
+"sculks_of_arda"
+],
+"counts": {
+"particle_def": 1,
+"other": 156,
+"block": 235,
+"other_fx": 9,
+"entity": 2,
+"item": 104,
+"mob_effect": 6,
+"armor": 6,
+"particle": 6
+},
+"anim": 10,
+"jar_exc": [],
+"fx": 52.0
+},
+"PmIir1iT": {
+"slug": "valoria",
+"title": "Valoria",
+"type": "mod",
+"license": "CC-BY-NC-4.0",
+"license_url": "https://github.com/IriDark/DarkRPG/blob/main/LICENSE",
+"source": "https://github.com/IriDark/Valoria/tree/main",
+"team": "IriDark",
+"downloads": 52913,
+"version": "1.20.1-1.1.0.6",
+"version_id": "xa1XprtA",
+"game_versions": [
+"1.20.1"
+],
+"file": "Valoria-1.20.1-1.1.0.6.jar",
+"sha1": "b26b10a1474751f2a9b1d1906a0e73346cdc02e6",
+"url": "https://modrinth.com/mod/valoria",
+"ids": [
+"curios",
+"geckolib",
+"tridot",
+"valoria"
+],
+"counts": {
+"entity": 93,
+"particle_def": 20,
+"other": 141,
+"block": 400,
+"entity_fx": 8,
+"environment": 5,
+"gui": 77,
+"item": 771,
+"mob_effect": 11,
+"armor": 24,
+"particle": 68
+},
+"anim": 19,
+"jar_exc": [],
+"fx": 288.5
+},
+"SzzJttH8": {
+"slug": "timeless-and-classics-zero",
+"title": "[TaCZ] Timeless and Classics Zero",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/MCModderAnchor/TACZ",
+"team": "craneblock6666",
+"downloads": 33060866,
+"version": "1.1.8-hotfix2",
+"version_id": "AzCBJlex",
+"game_versions": [
+"1.20.1"
+],
+"file": "tacz-1.20.1-1.1.8-hotfix2.jar",
+"sha1": "5c2f72dfe8125ffa863e3b5feafa27d86d7e56ea",
+"url": "https://modrinth.com/mod/timeless-and-classics-zero",
+"ids": [
+"shouldersurfing",
+"tacz"
+],
+"counts": {
+"particle_def": 1,
+"block": 9,
+"other": 26,
+"other_fx": 3,
+"entity": 6,
+"entity_fx": 2,
+"gui": 6,
+"item": 21
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 13.0,
+"drop": "few effect files"
+},
+"C37HUu02": {
+"slug": "medievalweapons",
+"title": "MedievalWeapons",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Globox1997/MedievalWeapons",
+"team": "Globox1997",
+"downloads": 1975392,
+"version": "1.4.8+1.20.1",
+"version_id": "WP327lEb",
+"game_versions": [
+"1.20.1"
+],
+"file": "medievalweapons-1.4.8.jar",
+"sha1": "55bbd52d3e4ec58e77e0d60a656000dde91edf25",
+"url": "https://modrinth.com/mod/medievalweapons",
+"ids": [
+"medievalweapons"
+],
+"counts": {
+"particle_def": 1,
+"item": 515,
+"mob_effect": 2
+},
+"anim": 42,
+"jar_exc": [],
+"fx": 44.0
+},
+"OMiCHIwt": {
+"slug": "voidz",
+"title": "VoidZ",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Globox1997/VoidZ",
+"team": "Globox1997",
+"downloads": 4919315,
+"version": "1.0.11+1.20.1",
+"version_id": "liAgrvFi",
+"game_versions": [
+"1.20.1"
+],
+"file": "voidz-1.0.11.jar",
+"sha1": "5e120c3e3f8195f9295c9d8e544e8a0a7247dd9f",
+"url": "https://modrinth.com/mod/voidz",
+"ids": [
+"voidz"
+],
+"counts": {
+"block": 11
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"nIGZuP7R": {
+"slug": "particulate",
+"title": "Particulate\ud83d\udca6",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/HTRMC/Particulate",
+"team": "DunneWorteI",
+"downloads": 302342,
+"version": "1.0.7+1.21.11",
+"version_id": "J3NRIGlb",
+"game_versions": [
+"1.21.11"
+],
+"file": "particulate-1.0.7+1.21.11.jar",
+"sha1": "e27f443ca2611f779d7d04ec5f1380b427c6fd5b",
+"url": "https://modrinth.com/mod/particulate",
+"ids": [
+"particulate"
+],
+"counts": {
+"particle_def": 37,
+"particle": 173
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 519.0,
+"drop": "fork of particular (same art)"
+},
+"nHORcEHd": {
+"slug": "decubed-dungeons",
+"title": "DeCubed Dungeons (Formerly Dungeons+)",
+"type": "mod",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "technodono",
+"downloads": 1737945,
+"version": "1.8.4b+mod",
+"version_id": "xUbdG5Sj",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "dungeons+-1.8.4b.jar",
+"sha1": "7738ad597e6489d4bd702e03aaad086acd4e77f7",
+"url": "https://modrinth.com/mod/decubed-dungeons",
+"ids": [
+"mr_dungeons"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"SLkQznH5": {
+"slug": "tasty-supplies",
+"title": "Tasty Supplies",
+"type": "mod",
+"license": "MIT",
+"license_url": "https://github.com/atomic-junky/tasty-supplies/blob/main/LICENSE",
+"source": "https://github.com/atomic-junky/tasty-supplies",
+"team": "OneShrimpADay",
+"downloads": 17044,
+"version": "v0.15.0+mod",
+"version_id": "JBTIodXJ",
+"game_versions": [
+"26.1.1",
+"26.1.2",
+"26.2"
+],
+"file": "tasty-supplies-v0.15.0.jar",
+"sha1": "801f0f01ba12c1f29028701d2f7419dee2ed8ab3",
+"url": "https://modrinth.com/mod/tasty-supplies",
+"ids": [
+"mr_tasty_supplies"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"M185nxi6": {
+"slug": "ships",
+"title": "Ships",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": null,
+"source": "https://github.com/EMD0123/Ships",
+"team": "EMD123",
+"downloads": 1674401,
+"version": "3.0.3+mod",
+"version_id": "qD0w21Oo",
+"game_versions": [
+"1.20.6",
+"1.21",
+"1.21.1"
+],
+"file": "ships-3.0.3.jar",
+"sha1": "ff5a5aee5cf073cb66f565f314e5d71fe4418d2f",
+"url": "https://modrinth.com/mod/ships",
+"ids": [
+"mr_ships"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"s5qOekOc": {
+"slug": "electroblobs-wizardry-redux",
+"title": "Electroblob's Wizardry Redux",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Binaris00/ElectroblobsWizardryRedux",
+"team": "Binaris00",
+"downloads": 41223,
+"version": "0.8.9-fabric",
+"version_id": "hy7kW8NG",
+"game_versions": [
+"1.20.1"
+],
+"file": "electroblobs-wizardry-redux-0.8.9-fabric.jar",
+"sha1": "e40b598bd6bc5190ff11509c2a7a7c277ecab81f",
+"url": "https://modrinth.com/mod/electroblobs-wizardry-redux",
+"ids": [
+"ebwizardry"
+],
+"counts": {
+"particle_def": 20,
+"armor": 78,
+"block": 188,
+"entity_fx": 16,
+"entity": 125,
+"environment": 8,
+"gui": 38,
+"item": 367,
+"mob_effect": 27,
+"particle": 132,
+"other_fx": 196
+},
+"anim": 17,
+"jar_exc": [],
+"fx": 883.0
+},
+"DyTvM1dv": {
+"slug": "ambient-environment",
+"title": "Ambient Environment",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/jaredlll08/Ambiance",
+"team": "jaredlll08",
+"downloads": 10060485,
+"version": "11.0.0.1",
+"version_id": "nmf6Pzbc",
+"game_versions": [
+"1.20.1"
+],
+"file": "AmbientEnvironment-fabric-1.20.1-11.0.0.1.jar",
+"sha1": "c1243b45ad28b714f95e9598e5592bdba36340a1",
+"url": "https://modrinth.com/mod/ambient-environment",
+"ids": [
+"ambientenvironment"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"WP5prCOu": {
+"slug": "sky-lands",
+"title": "Sky Lands",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/DeepCanionStudio/SkyLandsForge",
+"team": "DeepCanionStudio",
+"downloads": 98250,
+"version": "0.6.1",
+"version_id": "VmLmxoTX",
+"game_versions": [
+"1.20.1"
+],
+"file": "SkyLands-0.6.1.jar",
+"sha1": "f8b0d9148e658c4dc6508d8e15fef97886a28740",
+"url": "https://modrinth.com/mod/sky-lands",
+"ids": [
+"cloth_config",
+"flying_stuff",
+"geckolib",
+"playeranimator",
+"terra_blender",
+"use_compiled_mods"
+],
+"counts": {
+"particle_def": 19,
+"block": 269,
+"other": 62,
+"other_fx": 2,
+"entity": 20,
+"item": 148,
+"mob_effect": 6,
+"particle": 69,
+"gui": 8
+},
+"anim": 11,
+"jar_exc": [],
+"fx": 232.0
+},
+"SwDIbBHh": {
+"skip": "third-party IP"
+},
+"3dT9sgt4": {
+"slug": "yungs-better-ocean-monuments",
+"title": "YUNG's Better Ocean Monuments",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/YUNG-GANG/YUNGs-Better-Ocean-Monuments",
+"team": "YUNGNICKYOUNG",
+"downloads": 23292068,
+"version": "1.20-Fabric-3.0.4",
+"version_id": "4c00pjbt",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "YungsBetterOceanMonuments-1.20-Fabric-3.0.4.jar",
+"sha1": "e4e512ae388a57d4eb383657e52707c01283d7be",
+"url": "https://modrinth.com/mod/yungs-better-ocean-monuments",
+"ids": [
+"betteroceanmonuments"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"1veFBGT4": {
+"slug": "irons-apothic-invaders",
+"title": "Iron's Apothic Invaders",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Raimu",
+"downloads": 35838,
+"version": "1.0.0",
+"version_id": "JoyvwffA",
+"game_versions": [
+"1.21.1"
+],
+"file": "irons_apothic_invaders_1.0.0.jar",
+"sha1": "320585bf9ef2120545fbe481655cbb09650b7e15",
+"url": "https://modrinth.com/mod/irons-apothic-invaders",
+"ids": [
+"irons_apothic_invaders"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"967vM4zw": {
+"slug": "musket-mod",
+"title": "Musket Mod",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/ewewukek/mc-musketmod",
+"team": "ewewukek",
+"downloads": 554683,
+"version": "1.5.4",
+"version_id": "TMhHD4WK",
+"game_versions": [
+"1.20.1"
+],
+"file": "musketmod-1.20.1-forge-1.5.4.jar",
+"sha1": "44ed6aa820e86e9802ad917d4eddda5877982e5a",
+"url": "https://modrinth.com/mod/musket-mod",
+"ids": [
+"musketmod"
+],
+"counts": {
+"item": 7,
+"entity": 2
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"z9Ve58Ih": {
+"slug": "yungs-better-jungle-temples",
+"title": "YUNG's Better Jungle Temples",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/YUNG-GANG/YUNGs-Better-Jungle-Temples",
+"team": "YUNGNICKYOUNG",
+"downloads": 21445235,
+"version": "1.20-Fabric-2.0.5",
+"version_id": "6LPrzuB0",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "YungsBetterJungleTemples-1.20-Fabric-2.0.5.jar",
+"sha1": "e0c5366159af63c1a0b110ce1a62750d3d75d978",
+"url": "https://modrinth.com/mod/yungs-better-jungle-temples",
+"ids": [
+"betterjungletemples"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"Wb5oqrBJ": {
+"slug": "chat-heads",
+"title": "Chat Heads",
+"type": "mod",
+"license": "MPL-2.0",
+"license_url": null,
+"source": "https://github.com/dzwdz/chat_heads",
+"team": "dzwdz",
+"downloads": 53697773,
+"version": "0.15.7",
+"version_id": "nZ2Esof8",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "chat_heads-0.15.7-fabric-1.20.jar",
+"sha1": "f35f3a2258f69be0a49d098c790869419b3ac2ce",
+"url": "https://modrinth.com/mod/chat-heads",
+"ids": [
+"chat_heads"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"2BwBOmBQ": {
+"slug": "yungs-better-end-island",
+"title": "YUNG's Better End Island",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/yungnickyoung/YUNGs-Better-End-Island",
+"team": "YUNGNICKYOUNG",
+"downloads": 21012667,
+"version": "1.20-Fabric-2.0.6",
+"version_id": "qJTsmyiE",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "YungsBetterEndIsland-1.20-Fabric-2.0.6.jar",
+"sha1": "169bc72b247240b79cad00751e2d5a2b7493a389",
+"url": "https://modrinth.com/mod/yungs-better-end-island",
+"ids": [
+"betterendisland"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"hxerjRLt": {
+"slug": "nice-mobs-remastered",
+"title": "Nice Mobs Remastered",
+"type": "mod",
+"license": "GPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/Explorers-Eden/NiceMobsRemastered",
+"team": "NiceRon",
+"downloads": 208036,
+"version": "1.0",
+"version_id": "I2kfkiJM",
+"game_versions": [
+"1.20",
+"1.20.1",
+"1.20.2"
+],
+"file": "nice_mob_variants.zip",
+"sha1": "0479444780429e6d00aea2fe0b54c42988c01ddc",
+"url": "https://modrinth.com/mod/nice-mobs-remastered",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"KjL0jE2w": {
+"slug": "enhancedvisuals",
+"title": "EnhancedVisuals",
+"type": "mod",
+"license": "LGPL-2.1-only",
+"license_url": null,
+"source": "https://github.com/CreativeMD/EnhancedVisuals",
+"team": "creativemd",
+"downloads": 20547725,
+"version": "1.8.34",
+"version_id": "GceYOI4a",
+"game_versions": [
+"1.20.1"
+],
+"file": "EnhancedVisuals_FABRIC_v1.8.34_mc1.20.1.jar",
+"sha1": "00fc42def46a7f19ba437234e3b5d9f1e00f89c1",
+"url": "https://modrinth.com/mod/enhancedvisuals",
+"ids": [
+"creativecore",
+"enhancedvisuals"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"GTDFctVr": {
+"slug": "zenith-renewed",
+"title": "Zenith Renewed",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Stalemated/ZenithRenewed",
+"team": "Stalemated",
+"downloads": 512622,
+"version": "2.0.2",
+"version_id": "T6bH9nd3",
+"game_versions": [
+"1.20.1"
+],
+"file": "zenith_renewed-2.0.2.jar",
+"sha1": "6d6524da092a9bf81f08b921b21cca21a83ebfd7",
+"url": "https://modrinth.com/mod/zenith-renewed",
+"ids": [
+"zenith"
+],
+"counts": {
+"particle_def": 4,
+"other": 1,
+"block": 60,
+"entity": 4,
+"entity_fx": 1,
+"gui": 20,
+"item": 72,
+"particle": 104
+},
+"anim": 14,
+"jar_exc": [],
+"fx": 338.0
+},
+"egIM2bKK": {
+"slug": "mob-ai-tweaks",
+"title": "Mob AI Tweaks",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Unknowneth/Mob-AI-Tweaks",
+"team": "Unknowneth",
+"downloads": 509776,
+"version": "1.11.2",
+"version_id": "sEVcufgn",
+"game_versions": [
+"1.20.1"
+],
+"file": "mob-ai-tweaks-1.11.2.jar",
+"sha1": "1e8935d35a9fbdb0f9e25a170916c94664a87d09",
+"url": "https://modrinth.com/mod/mob-ai-tweaks",
+"ids": [
+"mob-ai-tweaks"
+],
+"counts": {
+"other": 9
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"ohZT92xo": {
+"slug": "glimmering-tales",
+"title": "Glimmering Tales",
+"type": "mod",
+"license": "LGPL-2.1-only",
+"license_url": null,
+"source": "https://github.com/Minecraft-LightLand/GlimmeringTales",
+"team": "lcy0x1",
+"downloads": 31481,
+"version": "3.0.13",
+"version_id": "NCZqb8Y9",
+"game_versions": [
+"1.21.1"
+],
+"file": "glimmeringtales-3.0.13.jar",
+"sha1": "2b0b97325fe48ecf91ec13237e93e5b206cb5f15",
+"url": "https://modrinth.com/mod/glimmering-tales",
+"ids": [
+"curios",
+"glimmeringtales",
+"l2backpack",
+"l2complements",
+"l2hostility",
+"l2library"
+],
+"counts": {
+"other": 8,
+"entity": 1,
+"other_fx": 9,
+"mob_effect": 1,
+"item": 108,
+"gui": 26,
+"particle": 5,
+"block": 35,
+"particle_def": 1
+},
+"anim": 7,
+"jar_exc": [],
+"fx": 54.0
+},
+"kidLKymU": {
+"slug": "yungs-better-strongholds",
+"title": "YUNG's Better Strongholds",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/YUNG-GANG/YUNGs-Better-Strongholds",
+"team": "YUNGNICKYOUNG",
+"downloads": 19491396,
+"version": "1.20-Fabric-4.0.3",
+"version_id": "yV6hn0bB",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "YungsBetterStrongholds-1.20-Fabric-4.0.3.jar",
+"sha1": "f7a5eb03935abe845c6691ae99ae42889fdd5da1",
+"url": "https://modrinth.com/mod/yungs-better-strongholds",
+"ids": [
+"betterstrongholds"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"U1jdQuSf": {
+"slug": "the-graveyard-forge",
+"title": "The Graveyard (Forge)",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/finallion/The_Graveyard",
+"team": "LithiumPlus",
+"downloads": 1226579,
+"version": "4.0.0+mc1.20.1-forge",
+"version_id": "2mh0cIYX",
+"game_versions": [
+"1.20.1"
+],
+"file": "graveyard-FORGE-4.0.0+mc1.20.1.jar",
+"sha1": "e0fe9e554d14d8ac31aac965a7031f542731df0b",
+"url": "https://modrinth.com/mod/the-graveyard-forge",
+"ids": [
+"geckolib",
+"graveyard",
+"villagertradingplus"
+],
+"counts": {
+"particle_def": 6,
+"block": 117,
+"entity": 87,
+"entity_fx": 6,
+"gui": 1,
+"item": 19,
+"particle": 89
+},
+"anim": 12,
+"jar_exc": [],
+"fx": 291.5,
+"drop": "port of the-graveyard-fabric (same art)"
+},
+"t5FRdP87": {
+"slug": "yungs-better-witch-huts",
+"title": "YUNG's Better Witch Huts",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/YUNG-GANG/YUNGs-Better-Witch-Huts",
+"team": "YUNGNICKYOUNG",
+"downloads": 18781019,
+"version": "1.20-Fabric-3.0.3",
+"version_id": "lYpHN3iF",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "YungsBetterWitchHuts-1.20-Fabric-3.0.3.jar",
+"sha1": "2803abcf20bf150aa735faa409a23406da69415c",
+"url": "https://modrinth.com/mod/yungs-better-witch-huts",
+"ids": [
+"betterwitchhuts"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"5OrL8C4a": {
+"slug": "golem-dungeons",
+"title": "Golem Dungeons",
+"type": "mod",
+"license": "LGPL-2.1-or-later",
+"license_url": null,
+"source": "https://github.com/Minecraft-LightLand/GolemDungeons",
+"team": "lcy0x1",
+"downloads": 470319,
+"version": "1.0.7",
+"version_id": "AKpUr8RI",
+"game_versions": [
+"1.20.1"
+],
+"file": "golemdungeons-1.0.7.jar",
+"sha1": "1d4830cf3b84e253c87381588be74f1e7787ae78",
+"url": "https://modrinth.com/mod/golem-dungeons",
+"ids": [
+"golemdungeons",
+"l2library",
+"modulargolems"
+],
+"counts": {
+"block": 4,
+"other": 3,
+"gui": 1,
+"item": 20
+},
+"anim": 2,
+"jar_exc": [],
+"fx": 2.5,
+"drop": "few effect files"
+},
+"XH8cnjHW": {
+"slug": "euphonium",
+"title": "Euphonium",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/sisby-folk/euphonium",
+"team": "sleepingdragoninn",
+"downloads": 2898071,
+"version": "1.0.3+1.20",
+"version_id": "Bdg5V49U",
+"game_versions": [
+"1.20.1"
+],
+"file": "euphonium-1.0.3+1.20.jar",
+"sha1": "67c9b5c4c52609c98227926f081a488ac6cd9f9c",
+"url": "https://modrinth.com/mod/euphonium",
+"ids": [
+"connectormod",
+"euphonium",
+"fabric_api"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"OZBR5JT5": {
+"slug": "easy-anvils",
+"title": "Easy Anvils",
+"type": "mod",
+"license": "MPL-2.0",
+"license_url": null,
+"source": "https://github.com/Fuzss/easyanvils",
+"team": "Fuzs",
+"downloads": 17884041,
+"version": "v8.0.2-1.20.1-Fabric",
+"version_id": "pA1enJAS",
+"game_versions": [
+"1.20.1"
+],
+"file": "EasyAnvils-v8.0.2-1.20.1-Fabric.jar",
+"sha1": "c889871e3cbd51d513139050069cfc30e0254dac",
+"url": "https://modrinth.com/mod/easy-anvils",
+"ids": [
+"easyanvils"
+],
+"counts": {
+"gui": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.5,
+"drop": "few effect files"
+},
+"XNlO7sBv": {
+"slug": "yungs-better-desert-temples",
+"title": "YUNG's Better Desert Temples",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/YUNG-GANG/YUNGs-Better-Desert-Temples",
+"team": "YUNGNICKYOUNG",
+"downloads": 17622682,
+"version": "1.20-Fabric-3.0.3",
+"version_id": "1Z9HNWpj",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "YungsBetterDesertTemples-1.20-Fabric-3.0.3.jar",
+"sha1": "b8de6410b1ae57a49848f172d5310dc79e731b25",
+"url": "https://modrinth.com/mod/yungs-better-desert-temples",
+"ids": [
+"betterdeserttemples"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"7vxePowz": {
+"slug": "farmers-delight-refabricated",
+"title": "Farmer's Delight Refabricated",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/MehVahdJukaar/FarmersDelightRefabricated",
+"team": "Cassian",
+"downloads": 17280261,
+"version": "1.20.1-2.5.7",
+"version_id": "7H1g1o5h",
+"game_versions": [
+"1.20.1"
+],
+"file": "FarmersDelight-1.20.1-2.5.7+refabricated.jar",
+"sha1": "151ea7390909107b42c6d17e4d9d5f57486d9c89",
+"url": "https://modrinth.com/mod/farmers-delight-refabricated",
+"ids": [
+"farmersdelight"
+],
+"counts": {
+"particle_def": 3,
+"block": 205,
+"entity": 34,
+"gui": 24,
+"item": 143,
+"mob_effect": 2,
+"particle": 17
+},
+"anim": 2,
+"jar_exc": [],
+"fx": 67.0,
+"drop": "port of Farmer's Delight, already in the pack"
+},
+"TG1cHkRf": {
+"slug": "enchanted-vertical-slabs",
+"title": "Enchanted Vertical Slabs",
+"type": "mod",
+"license": "CC-BY-NC-4.0",
+"license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
+"source": "https://github.com/Enchanted-Games/enchanted-vertical-slabs",
+"team": "enchanted-games",
+"downloads": 2709982,
+"version": "2.2.1",
+"version_id": "p53Gwy1h",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "enchanted-vertical-slabs-2.2.1-backport1.20.1-fabric-mc1.20.1.jar",
+"sha1": "a3da82b5bc47cd8940cde546d37ffe017547ec2b",
+"url": "https://modrinth.com/mod/enchanted-vertical-slabs",
+"ids": [
+"evs"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"zun2vT3k": {
+"slug": "desert-dungeon-dungeonz-addon",
+"title": "Desert Dungeon - DungeonZ addon",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "D1scoball",
+"downloads": 1061947,
+"version": "1.0.0",
+"version_id": "dGOSSdyX",
+"game_versions": [
+"1.20.1"
+],
+"file": "desert-dungeon-1.0.0.jar",
+"sha1": "a4e2b32642f4ea179f24a71478c2c66af9bebfbd",
+"url": "https://modrinth.com/mod/desert-dungeon-dungeonz-addon",
+"ids": [
+"desert_dungeon"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"Ht4BfYp6": {
+"slug": "yungs-bridges",
+"title": "YUNG's Bridges",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/YUNG-GANG/YUNGs-Bridges",
+"team": "YUNGNICKYOUNG",
+"downloads": 16555414,
+"version": "1.20-Fabric-4.0.3",
+"version_id": "hvfjXu8d",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "YungsBridges-1.20-Fabric-4.0.3.jar",
+"sha1": "e6be5c5fb116b50ff75910015b19fcc6dadaf4e6",
+"url": "https://modrinth.com/mod/yungs-bridges",
+"ids": [
+"yungsbridges"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"k6kmDkfs": {
+"slug": "cataclysm-summons",
+"title": "Cataclysm Summons",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/PydingAbsorber/CataclysmSummons",
+"team": "Pyding",
+"downloads": 10420,
+"version": "1.0.1",
+"version_id": "ES9hR8IX",
+"game_versions": [
+"1.20.1"
+],
+"file": "CataclysmSummons 1.20.1-1.0.1.jar",
+"sha1": "7d8124ae59f5c25f6d00dfa9ca006c642a938bff",
+"url": "https://modrinth.com/mod/cataclysm-summons",
+"ids": [
+"cataclysm",
+"cs",
+"curios",
+"lionfishapi"
+],
+"counts": {
+"item": 7,
+"other": 1
+},
+"anim": 6,
+"jar_exc": [],
+"fx": 6.0,
+"drop": "few effect files"
+},
+"49ZofO4f": {
+"slug": "enderio",
+"title": "Ender IO",
+"type": "mod",
+"license": "Unlicense",
+"license_url": null,
+"source": "https://github.com/Team-EnderIO/EnderIO",
+"team": "Rover656",
+"downloads": 1029335,
+"version": "6.2.18-beta",
+"version_id": "nJnmg29v",
+"game_versions": [
+"1.20.1"
+],
+"file": "EnderIO-1.20.1-6.2.18-beta-all.jar",
+"sha1": "33587f98f2d96507de0e9d2f57f5ab35328ace7d",
+"url": "https://modrinth.com/mod/enderio",
+"ids": [
+"ae2",
+"computercraft",
+"create",
+"enderio",
+"kubejs_enderio",
+"mekanism"
+],
+"counts": {
+"particle_def": 1,
+"block": 170,
+"other": 13,
+"gui": 99,
+"item": 230,
+"armor": 19,
+"particle": 1
+},
+"anim": 41,
+"jar_exc": [],
+"fx": 93.5
+},
+"JWGBpFUP": {
+"slug": "create-enchantment-industry",
+"title": "Create: Enchantment Industry",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/DragonsPlusMinecraft/CreateEnchantmentIndustry",
+"team": "MarbleGateKeeper",
+"downloads": 6380075,
+"version": "2.5.4b",
+"version_id": "fs3kihCQ",
+"game_versions": [
+"1.20.1"
+],
+"file": "create-enchantment-industry-2.5.4b.jar",
+"sha1": "87612feace11044eb257e4dedb443ce66b57b4d5",
+"url": "https://modrinth.com/mod/create-enchantment-industry",
+"ids": [
+"apotheosis",
+"create",
+"create_dragons_plus",
+"create_enchantment_industry",
+"touhou_little_maid"
+],
+"counts": {
+"block": 34,
+"other": 8,
+"gui": 1,
+"item": 14
+},
+"anim": 13,
+"jar_exc": [],
+"fx": 13.5,
+"drop": "few effect files"
+},
+"ZdEfcqro": {
+"slug": "trickster",
+"title": "Trickster",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://codeberg.org/trans-fish/trickster",
+"team": "enjarai",
+"downloads": 25270,
+"version": "2.0.0-beta.57",
+"version_id": "JcCd5yw3",
+"game_versions": [
+"1.21.1"
+],
+"file": "trickster-2.0.0-beta.57.jar",
+"sha1": "3c7dc0aebbfe7644003d34d04182d78902e52f02",
+"url": "https://modrinth.com/mod/trickster",
+"ids": [
+"trickster"
+],
+"counts": {
+"particle_def": 5,
+"block": 43,
+"entity": 68,
+"entity_fx": 5,
+"other": 65,
+"other_fx": 11,
+"gui": 30,
+"item": 107,
+"mob_effect": 2,
+"particle": 5
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 64.0
+},
+"H5XMjpHi": {
+"slug": "first-person-model",
+"title": "First-person Model",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/tr7zw/FirstPersonModel/",
+"team": "tr7zw",
+"downloads": 15110689,
+"version": "2.7.3",
+"version_id": "kxFDUOmS",
+"game_versions": [
+"1.20.1"
+],
+"file": "firstperson-forge-2.7.3-mc1.20.1.jar",
+"sha1": "229a85332b026a027e960919a263742f1eafbbc2",
+"url": "https://modrinth.com/mod/first-person-model",
+"ids": [
+"firstperson"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"wveGP7nW": {
+"slug": "slayersbeasts",
+"title": "Slayer's Beasts",
+"type": "mod",
+"license": "MIT",
+"license_url": "https://github.com/InvictusSlayer/Slayers-Beasts?tab=MIT-1-ov-file",
+"source": "https://github.com/InvictusSlayer/Slayers-Beasts",
+"team": "InvictusSlayer",
+"downloads": 23810,
+"version": "1.6.1+forge",
+"version_id": "e1rA4syw",
+"game_versions": [
+"1.20.1"
+],
+"file": "slayersbeasts-forge-1.20.1-1.6.1.jar",
+"sha1": "168a80ed892d13c93505f69b66b7008d6571430e",
+"url": "https://modrinth.com/mod/slayersbeasts",
+"ids": [
+"scabbard",
+"slayersbeasts",
+"terrablender"
+],
+"counts": {
+"block": 172,
+"entity": 64,
+"gui": 8,
+"item": 62,
+"mob_effect": 1
+},
+"anim": 7,
+"jar_exc": [],
+"fx": 12.0,
+"drop": "few effect files"
+},
+"Kfr0BQO9": {
+"slug": "enchantments-plus",
+"title": "Enchantments-Plus",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/RobertHoueland/enchantments-plus/",
+"team": "RobertHoueland",
+"downloads": 353747,
+"version": "1.2.2+1.20.1",
+"version_id": "4XJS1jmv",
+"game_versions": [
+"1.20.1"
+],
+"file": "enchantments-plus-fabric-1.2.2+1.20.1.jar",
+"sha1": "804ea667f3131e6dc1b5f2a40ffbfd542aee948c",
+"url": "https://modrinth.com/mod/enchantments-plus",
+"ids": [
+"enchantmentsplus"
+],
+"counts": {
+"mob_effect": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 1.0,
+"drop": "few effect files"
+},
+"GFYCh249": {
+"skip": "third-party IP"
+},
+"bpii4Xsa": {
+"slug": "charmonium",
+"title": "Charmonium",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/svenhjol/Charmonium",
+"team": "svenhjol",
+"downloads": 2182826,
+"version": "6.0.7",
+"version_id": "zGytYDIS",
+"game_versions": [
+"1.20.1"
+],
+"file": "charmonium-fabric-1.20.1-6.0.7.jar",
+"sha1": "7638cded163f55eba8c5cf3e5be55791ef594595",
+"url": "https://modrinth.com/mod/charmonium",
+"ids": [
+"charmonium"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"geljgW9V": {
+"slug": "wind_boost_enchant",
+"title": "Wind Boost Enchantment",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "VincPlyz",
+"downloads": 134564,
+"version": "v2.3+mod",
+"version_id": "BWoYgaCo",
+"game_versions": [
+"26.1",
+"26.2",
+"26.3"
+],
+"file": "wind_boost_enchant-v2.3.jar",
+"sha1": "5cb871c932894bfde769538e052b8b57091b8032",
+"url": "https://modrinth.com/mod/wind_boost_enchant",
+"ids": [
+"mr_wind_boost_enchant"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"xM22oIAv": {
+"slug": "fabled-roots",
+"title": "Fabled Roots",
+"type": "mod",
+"license": "GPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/Explorers-Eden/Fabled-Roots",
+"team": "NiceRon",
+"downloads": 20912,
+"version": "3.5-mod",
+"version_id": "ctF4mvOW",
+"game_versions": [
+"26.3"
+],
+"file": "fabled-roots-3.5.jar",
+"sha1": "479debf863e0527460926e9b13fa440e1556673a",
+"url": "https://modrinth.com/mod/fabled-roots",
+"ids": [
+"mr_fabled_roots"
+],
+"counts": {
+"item": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"5RGE5YW5": {
+"slug": "qu-enchantments",
+"title": "Qu Enchantments",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": null,
+"source": "https://github.com/Quplet/Qu-Enchantments",
+"team": "Quplet",
+"downloads": 122987,
+"version": "1.3.6-1.20",
+"version_id": "pXmkO2BV",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "qu-enchantments-1.3.6-1.20.jar",
+"sha1": "6562429ab4457faa7de16f16c33d1f8d1a212a8c",
+"url": "https://modrinth.com/mod/qu-enchantments",
+"ids": [
+"qu-enchantments"
+],
+"counts": {
+"particle": 4,
+"misc": 1,
+"item": 9,
+"block": 7,
+"particle_def": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 12.0,
+"drop": "few effect files"
+},
+"S2guHrs2": {
+"slug": "fbp-renewed",
+"title": "Fancy Block Particles - Renewed",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": "https://github.com/Hantonik/FancyBlockParticles/blob/1.20.4/LICENSE.md",
+"source": "https://github.com/Hantonik/FancyBlockParticles",
+"team": "Hantonik",
+"downloads": 1813387,
+"version": "20.1.6.0+fabric",
+"version_id": "Xv0q60Qk",
+"game_versions": [
+"1.20.1"
+],
+"file": "FancyBlockParticles-1.20.1-fabric-20.1.6.0.jar",
+"sha1": "4398e5d208f33b42fd2853e50440b65a19c5b981",
+"url": "https://modrinth.com/mod/fbp-renewed",
+"ids": [
+"fbp"
+],
+"counts": {
+"gui": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 1.5,
+"drop": "few effect files"
+},
+"SXmIbFhs": {
+"slug": "enchanting-plus",
+"title": "Enchanting Plus",
+"type": "mod",
+"license": "LGPL-2.1-only",
+"license_url": null,
+"source": "https://github.com/Epoxide-MC/Enchanting-Plus",
+"team": "Darkhax",
+"downloads": 285895,
+"version": "5.0.179",
+"version_id": "14k9zxG5",
+"game_versions": [
+"1.12.2"
+],
+"file": "EnchantingPlus-1.12.2-5.0.179.jar",
+"sha1": "075bd2585f73a83b9105d3e35ae2071c29f0c7c0",
+"url": "https://modrinth.com/mod/enchanting-plus",
+"ids": [],
+"counts": {
+"block": 3,
+"entity": 6,
+"gui": 1,
+"item": 8
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.5,
+"drop": "few effect files"
+},
+"WhbRG4iK": {
+"slug": "fallingleaves",
+"title": "Falling Leaves",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Fourmisain/fallingleaves",
+"team": "Fourmisain",
+"downloads": 28435481,
+"version": "1.15.6+1.20.1",
+"version_id": "flPXaySR",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "fallingleaves-1.15.6+1.20.1.jar",
+"sha1": "9950aaea2a33b1cfc972e881c533384e3bb0a0fb",
+"url": "https://modrinth.com/mod/fallingleaves",
+"ids": [
+"fallingleaves"
+],
+"counts": {
+"particle_def": 3,
+"particle": 9
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 27.0
+},
+"NCPLOWlF": {
+"slug": "withering-heights",
+"title": "Withering Heights: Revamped Wither",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "sleeptalker",
+"downloads": 712466,
+"version": "alpha-1+mod",
+"version_id": "prpDWC8S",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "withering-heights-alpha-1.jar",
+"sha1": "8f28b1a715e10995bd241d94381d050f54d960e2",
+"url": "https://modrinth.com/mod/withering-heights",
+"ids": [
+"mr_withering_heights"
+],
+"counts": {
+"other": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"xMTLdsFH": {
+"slug": "smooth-particles",
+"title": "Smooth Particles",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/watermelone1/Smooth-Particles",
+"team": "watermelone1",
+"downloads": 1753670,
+"version": "1.2.0-1.21",
+"version_id": "iPqG4VSa",
+"game_versions": [
+"1.20.1"
+],
+"file": "smoothparticles-1.2.0-1.20.1.jar",
+"sha1": "a51e6243a5924db5f1a8d6665d75c4d19c707138",
+"url": "https://modrinth.com/mod/smooth-particles",
+"ids": [
+"smoothparticles"
+],
+"counts": {
+"particle": 244,
+"particle_def": 247
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 732.0
+},
+"Eb9MCw6F": {
+"slug": "soulmaster",
+"title": "Soulmaster",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Stalemated/soulmaster",
+"team": "Stalemated",
+"downloads": 279276,
+"version": "1.0.3",
+"version_id": "ez6ArDsx",
+"game_versions": [
+"1.20.1"
+],
+"file": "soulmaster-1.0.3.jar",
+"sha1": "52323a0602776359061cd2733fd8b9237b16f0d6",
+"url": "https://modrinth.com/mod/soulmaster",
+"ids": [
+"soulmaster"
+],
+"counts": {
+"mob_effect": 2,
+"other_fx": 1
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 5.0,
+"drop": "few effect files"
+},
+"IDeYmXlQ": {
+"slug": "ly-reach-enchantment",
+"title": "Reach Enchantment",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": "https://github.com/lullaby6/data-packs/blob/main/LICENSE",
+"source": "https://github.com/lullaby6/data-packs",
+"team": "lullaby",
+"downloads": 17420,
+"version": "1.0.1+mod",
+"version_id": "Z67UUETs",
+"game_versions": [
+"26.3"
+],
+"file": "ly-reach-enchantment-1.0.1.jar",
+"sha1": "c0813e4d6d5f057630acd77ad0152c33f11c3e68",
+"url": "https://modrinth.com/mod/ly-reach-enchantment",
+"ids": [
+"mr_ly_reachenchantment"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"coZxDAGe": {
+"slug": "remnants-eclipsed-realm",
+"title": "Remnants | The Eclipsed Realm",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": null,
+"source": "https://github.com/MeherBenSalem/bosses",
+"team": "NAIZO",
+"downloads": 43192,
+"version": "3.1.0+forge-1.20.1",
+"version_id": "JYEhGUGU",
+"game_versions": [
+"1.20.1"
+],
+"file": "remnant_bosses-forge-1.20.1-3.1.0.jar",
+"sha1": "7c5ef2a65f6dc7740a5d7683657a9e0ac47132b0",
+"url": "https://modrinth.com/mod/remnants-eclipsed-realm",
+"ids": [
+"geckolib",
+"jauml",
+"remnant_bosses"
+],
+"counts": {
+"particle_def": 2,
+"block": 18,
+"other_fx": 35,
+"other": 29,
+"environment": 2,
+"item": 34,
+"armor": 6,
+"particle": 12
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 107.0
+},
+"EIa1eiMm": {
+"slug": "sodium-shadowy-path-blocks",
+"title": "Sodium Shadowy Path Blocks (SSPB)",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Rynnavinx/sodium-shadowy-path-blocks",
+"team": "Rynnavinx",
+"downloads": 25765030,
+"version": "3.4.2",
+"version_id": "PD6Nlt01",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "sodium-shadowy-path-blocks-3.4.2.jar",
+"sha1": "2afe847da4edb058d0d3afe84741405b8f3b7059",
+"url": "https://modrinth.com/mod/sodium-shadowy-path-blocks",
+"ids": [
+"sspb"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"XH09j5fH": {
+"slug": "biome_particle_weather",
+"title": "Biome Particle Weather",
+"type": "mod",
+"license": "MPL-2.0",
+"license_url": null,
+"source": "https://github.com/shadowmaster435/Impactful_Weather",
+"team": "shadowmaster435",
+"downloads": 1613130,
+"version": "5.2.4",
+"version_id": "j9o52aK6",
+"game_versions": [
+"1.20.1"
+],
+"file": "BiomeParticleWeather-5.2.4.jar",
+"sha1": "56a40983b1a7c6c567a991f45589c3920e7f09dc",
+"url": "https://modrinth.com/mod/biome_particle_weather",
+"ids": [
+"biomeparticleweather"
+],
+"counts": {
+"particle_def": 24,
+"gui": 1,
+"particle": 102
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 306.5
+},
+"idMHQ4n2": {
+"slug": "customskinloader",
+"title": "CustomSkinLoader",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/xfl03/MCCustomSkinLoader",
+"team": "xfl03",
+"downloads": 25302847,
+"version": "15.1-Universal",
+"version_id": "yyYvYfZI",
+"game_versions": [
+"26.1.2",
+"26.2",
+"26.3"
+],
+"file": "CustomSkinLoader_Universal-15.1.jar",
+"sha1": "324e6921ecd576e44875981466e7f22170b6541a",
+"url": "https://modrinth.com/mod/customskinloader",
+"ids": [
+"customskinloader-bootstrap"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"dcZM5qnj": {
+"slug": "golem-magicka",
+"title": "Golem Magicka",
+"type": "mod",
+"license": "LGPL-2.1-only",
+"license_url": null,
+"source": "https://github.com/Minecraft-LightLand/Golem-Magicka",
+"team": "lcy0x1",
+"downloads": 603618,
+"version": "0.2.1",
+"version_id": "dgiayLA0",
+"game_versions": [
+"1.20.1"
+],
+"file": "golemmagicka-0.2.1.jar",
+"sha1": "c796b7522fa96c37a1a36c02dd974d2b1feb3671",
+"url": "https://modrinth.com/mod/golem-magicka",
+"ids": [
+"golemmagicka",
+"irons_spellbooks",
+"l2library",
+"modulargolems",
+"touhou_little_maid"
+],
+"counts": {
+"entity": 6
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"EwYg6C78": {
+"slug": "windy",
+"title": "Windy",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": "https://github.com/BonfireMC/Windy/blob/26.1-fabric/LICENSE",
+"source": "https://github.com/BonfireMC-Studios/Windy",
+"team": "mazik",
+"downloads": 1437763,
+"version": "1.1.1+1.20-fabric",
+"version_id": "h8t44pww",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "windy-1.1.1+1.20-fabric.jar",
+"sha1": "2ff257a0082d1b4801c8c54ed963988481d81e84",
+"url": "https://modrinth.com/mod/windy",
+"ids": [
+"windy"
+],
+"counts": {
+"particle_def": 2,
+"particle": 50
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 150.0
+},
+"joX0o9VN": {
+"slug": "aeromancy-additions",
+"title": "SnackPirate's Aeromancy Additions",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/snackerpirater/aero-additions",
+"team": "SnackPirate",
+"downloads": 35195,
+"version": "1.2.8",
+"version_id": "BIUbXz9g",
+"game_versions": [
+"1.21.1"
+],
+"file": "aero_additions-1.2.8.jar",
+"sha1": "dee32c9fa84a9b3796e39846608f8f77591ea56f",
+"url": "https://modrinth.com/mod/aeromancy-additions",
+"ids": [
+"aero_additions",
+"expandability",
+"irons_spellbooks"
+],
+"counts": {
+"entity": 3,
+"gui": 14,
+"item": 12,
+"mob_effect": 5,
+"armor": 1,
+"other_fx": 1
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 15.0
+},
+"2nmJDjSm": {
+"slug": "legendary-mage",
+"title": "[ISS LM]Legendary Mage",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/LOVE-U987/Legendary-Mage/tree/main",
+"team": "LOAE_U987",
+"downloads": 5437,
+"version": "1.1.3",
+"version_id": "Zj6KtEFu",
+"game_versions": [
+"1.21.1"
+],
+"file": "legendarymage-1.1.3.jar",
+"sha1": "d7415eec7248f535aa2cb4eb81728d7c44052372",
+"url": "https://modrinth.com/mod/legendary-mage",
+"ids": [
+"irons_spellbooks",
+"legendarymage",
+"patchouli"
+],
+"counts": {
+"item": 2,
+"mob_effect": 21
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 21.0
+},
+"ZQQtFdbQ": {
+"slug": "lawrences-ambient-fireflies",
+"title": "Lawrence's Ambient Fireflies",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Lawrence360",
+"downloads": 34155,
+"version": "1.2.0+mod",
+"version_id": "fKtwWJF6",
+"game_versions": [
+"26.1.1",
+"26.1.2",
+"26.2"
+],
+"file": "lawrences-ambient-fireflies-1.2.0.jar",
+"sha1": "b268b10601066e7c56c2758e5a3ef9ee26aab93e",
+"url": "https://modrinth.com/mod/lawrences-ambient-fireflies",
+"ids": [
+"mr_lawrences_ambientfireflies"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"aw5e7yPa": {
+"slug": "ice-and-fire-spellbooks",
+"title": "Ice and Fire: Spellbooks",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/AceTheEldritchKing/Ice_And_Fire_Spellbooks",
+"team": "AceTheEldritchKing",
+"downloads": 535231,
+"version": "2.3.2-1.20.1",
+"version_id": "fkpYeaSE",
+"game_versions": [
+"1.20.1"
+],
+"file": "ice_and_fire_spellbooks-2.3.2-1.20.1.jar",
+"sha1": "3378ec381d824c6a153f265a825e056819801eb4",
+"url": "https://modrinth.com/mod/ice-and-fire-spellbooks",
+"ids": [
+"ice_and_fire_spellbooks",
+"iceandfire",
+"irons_spellbooks"
+],
+"counts": {
+"item": 27,
+"armor": 8
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"keeVOz1c": {
+"slug": "mini-bosses-mobs",
+"title": "Enchanted Mobs",
+"type": "mod",
+"license": "CC0-1.0",
+"license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+"source": null,
+"team": "Diesse",
+"downloads": 12922,
+"version": "0.2+mod",
+"version_id": "3WXK8OPw",
+"game_versions": [
+"1.21.1",
+"1.21.2",
+"1.21.3"
+],
+"file": "mini-bosses-mobs-0.2.jar",
+"sha1": "7ba96cbc20f5681c3a3e555e51d2f01103191c20",
+"url": "https://modrinth.com/mod/mini-bosses-mobs",
+"ids": [
+"mr_mini_bossesmobs"
+],
+"counts": {
+"item": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"bAWzYNRd": {
+"slug": "mythicmetals",
+"title": "Mythic Metals",
+"type": "mod",
+"license": "MIT",
+"license_url": "https://github.com/Noaaan/MythicMetals/blob/1.20/LICENSE",
+"source": "https://github.com/Noaaan/MythicMetals",
+"team": "Noaaan",
+"downloads": 1269392,
+"version": "0.19.12+1.20.1",
+"version_id": "qdgcAVPf",
+"game_versions": [
+"1.20.1"
+],
+"file": "mythicmetals-0.19.12+1.20.1.jar",
+"sha1": "b363e67089da9ebd7cc611a1d2a805e716656f32",
+"url": "https://modrinth.com/mod/mythicmetals",
+"ids": [
+"mythicmetals"
+],
+"counts": {
+"armor": 51,
+"block": 123,
+"gui": 1,
+"item": 444,
+"mob_effect": 3,
+"other": 17
+},
+"anim": 21,
+"jar_exc": [],
+"fx": 24.5
+},
+"tnWvxgPP": {
+"skip": "file over 80 MB"
+},
+"sc2Pektv": {
+"slug": "basicweapons",
+"title": "Basic Weapons",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Khazoda/basic-weapons",
+"team": "June",
+"downloads": 480305,
+"version": "1.2.5+1.20.1",
+"version_id": "P2kARD78",
+"game_versions": [
+"1.20.1"
+],
+"file": "basicweapons-1.2.5+1.20.1.jar",
+"sha1": "01f7ebc33bb8ce673f91a203f78caacd29ed169f",
+"url": "https://modrinth.com/mod/basicweapons",
+"ids": [
+"basicweapons"
+],
+"counts": {
+"item": 63
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"DjLobEOy": {
+"slug": "towns-and-towers",
+"title": "Towns and Towers",
+"type": "mod",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "Biban_Auriu",
+"downloads": 19055250,
+"version": "1.12",
+"version_id": "7ZwnSrVW",
+"game_versions": [
+"1.20.1",
+"1.20.2",
+"1.20.4"
+],
+"file": "Towns-and-Towers-1.12-Fabric+Forge.jar",
+"sha1": "5a28ec56457cf1bf154e993cf73dba0428a7921b",
+"url": "https://modrinth.com/mod/towns-and-towers",
+"ids": [
+"cristellib",
+"t_and_t"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"pYVzGeNA": {
+"slug": "mobs-always-drop",
+"title": "Mobs Always Drop",
+"type": "mod",
+"license": "CC-BY-4.0",
+"license_url": null,
+"source": "https://github.com/ivangeevo/mobs-always-drop",
+"team": "ivangeevo",
+"downloads": 190407,
+"version": "1.8",
+"version_id": "mqfiEztw",
+"game_versions": [
+"1.20.1"
+],
+"file": "mobs-always-drop-1.8-1.20.1.jar",
+"sha1": "73854e66439c61ac9abb082314e4f4d970b6e6fe",
+"url": "https://modrinth.com/mod/mobs-always-drop",
+"ids": [
+"mobs_always_drop"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"IhZuHxkl": {
+"slug": "pretty-rain",
+"title": "Pretty Rain",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Leclowndu93150/Pretty-Rain",
+"team": "Leclowndu93150",
+"downloads": 1182010,
+"version": "1.1.3",
+"version_id": "ubdFPI1o",
+"game_versions": [
+"1.20.1"
+],
+"file": "Pretty Rain-1.20.1-Forge-1.1.3.jar",
+"sha1": "9b787b001c0b573927e21fd7b04254f0170e8157",
+"url": "https://modrinth.com/mod/pretty-rain",
+"ids": [
+"cloth_config",
+"particlerain"
+],
+"counts": {
+"particle_def": 4,
+"particle": 4
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 12.0,
+"drop": "few effect files"
+},
+"lWDHr9jE": {
+"slug": "tectonic",
+"title": "Tectonic",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Apollounknowndev/tectonic",
+"team": "Apollo",
+"downloads": 17881213,
+"version": "3.0.17",
+"version_id": "KLmvRxwh",
+"game_versions": [
+"1.20.1"
+],
+"file": "tectonic-3.0.17-forge-1.20.1.jar",
+"sha1": "07bfe13bc1bd75a6277f3d62bf92a549b33067a9",
+"url": "https://modrinth.com/mod/tectonic",
+"ids": [
+"lithostitched",
+"tectonic"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"yP9gqg5C": {
+"slug": "dimensions-dungeons",
+"title": "Dimensions & Dungeons",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "DeeP_Z0nE",
+"downloads": 1662,
+"version": "0.5.0.1",
+"version_id": "tn7cmF5g",
+"game_versions": [
+"1.21.1"
+],
+"file": "dimensionsanddungeons-0.5.0.1.jar",
+"sha1": "6a9c7c10e525356bb00b57296f7afbd0cc69eae8",
+"url": "https://modrinth.com/mod/dimensions-dungeons",
+"ids": [
+"dimensionsanddungeons"
+],
+"counts": {
+"particle_def": 3,
+"armor": 15,
+"block": 156,
+"entity": 30,
+"item": 158,
+"mob_effect": 2,
+"particle": 14
+},
+"anim": 8,
+"jar_exc": [],
+"fx": 52.0
+},
+"6pVlXMty": {
+"slug": "bronze",
+"title": "Bronze",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/khazoda-mods/bronze",
+"team": "June",
+"downloads": 166957,
+"version": "1.0.13+1.20.1",
+"version_id": "ZiYC48Eb",
+"game_versions": [
+"1.20.1"
+],
+"file": "bronze-1.0.13+1.20.1.jar",
+"sha1": "295e3c12c28eb36f3774861d9bb3f62830bbf77b",
+"url": "https://modrinth.com/mod/bronze",
+"ids": [
+"bronze"
+],
+"counts": {
+"block": 13,
+"item": 17,
+"entity": 1,
+"armor": 2
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"QZFdnUQ5": {
+"slug": "immersive-weapons",
+"title": "Immersive Weapons",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/AnonymousHacker1279/ImmersiveWeapons",
+"team": "AnonymousHacker1279",
+"downloads": 26006,
+"version": "v1.27.7",
+"version_id": "PtvgvomK",
+"game_versions": [
+"1.20.1"
+],
+"file": "immersiveweapons-1.20.1-1.27.7.jar",
+"sha1": "4f399fedb6802d3179ac219519444b8bb6ae23b4",
+"url": "https://modrinth.com/mod/immersive-weapons",
+"ids": [
+"immersiveweapons",
+"terrablender"
+],
+"counts": {
+"particle_def": 7,
+"armor": 18,
+"block": 101,
+"entity": 48,
+"entity_fx": 2,
+"environment": 1,
+"gui": 7,
+"item": 259,
+"mob_effect": 5,
+"particle": 18
+},
+"anim": 34,
+"jar_exc": [],
+"fx": 100.5
+},
+"6M87Z355": {
+"slug": "dark-enchanting",
+"title": "Dark Enchanting [NeoForge/Fabric]",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/frqnny/dark-enchanting",
+"team": "frqnny",
+"downloads": 159085,
+"version": "1.0.4+1.20.1",
+"version_id": "cD8610CW",
+"game_versions": [
+"1.20.1"
+],
+"file": "dark-enchanting-1.0.4+1.20.1.jar",
+"sha1": "32141c78600d8245e0aa93f59f5fd60f5ce01897",
+"url": "https://modrinth.com/mod/dark-enchanting",
+"ids": [
+"dark-enchanting"
+],
+"counts": {
+"block": 6,
+"entity": 1,
+"gui": 1,
+"item": 1
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 1.5,
+"drop": "few effect files"
+},
+"lFbgrVlP": {
+"skip": "file over 80 MB"
+},
+"AEZO385x": {
+"slug": "create-enchantment-industry-fabric-legacy",
+"title": "[DEPRECATED]Create Enchantment Industry - Fabric Legacy",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/DragonsPlusMinecraft/CreateEnchantmentIndustry-Fabric",
+"team": "MarbleGateKeeper",
+"downloads": 2503154,
+"version": "1.2.16",
+"version_id": "SI0RzkGk",
+"game_versions": [
+"1.20.1"
+],
+"file": "create_enchantment_industry-1.2.16.jar",
+"sha1": "c1153315e3d0e7d216ca3179e483fe8b9f794433",
+"url": "https://modrinth.com/mod/create-enchantment-industry-fabric-legacy",
+"ids": [
+"create_enchantment_industry"
+],
+"counts": {
+"block": 3,
+"other": 6,
+"gui": 1,
+"item": 5
+},
+"anim": 5,
+"jar_exc": [],
+"fx": 5.5,
+"drop": "few effect files"
+},
+"S7d8HCPo": {
+"slug": "jinghui",
+"title": "JIngHui",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "76561198968458863",
+"downloads": 393519,
+"version": "1.9.6",
+"version_id": "4vENWz0F",
+"game_versions": [
+"1.20.1"
+],
+"file": "jinghui-1.9.6-forge-1.20.1.jar",
+"sha1": "b8f431a15d95e28d35906ae9931c16181e8b0c0f",
+"url": "https://modrinth.com/mod/jinghui",
+"ids": [
+"geckolib",
+"jinghui"
+],
+"counts": {
+"particle_def": 33,
+"block": 96,
+"other": 48,
+"item": 235,
+"mob_effect": 6,
+"armor": 16,
+"particle": 150
+},
+"anim": 6,
+"jar_exc": [],
+"fx": 462.0
+},
+"MC6hfccQ": {
+"slug": "item-interactions-mod",
+"title": "Item interactions mod",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/mineland-2048/item_interactions_mod",
+"team": "mineland",
+"downloads": 384876,
+"version": "2.1.4+1.20.1",
+"version_id": "Jz3KlujH",
+"game_versions": [
+"1.20.1"
+],
+"file": "item-interactions-mod-fabric+1.20.1-2.1.4.jar",
+"sha1": "12090e3826119ed0f717fcef3aa2a07b30f11231",
+"url": "https://modrinth.com/mod/item-interactions-mod",
+"ids": [
+"item_interactions_mod"
+],
+"counts": {
+"gui": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.5,
+"drop": "few effect files"
+},
+"pL8MtgqY": {
+"slug": "apothic-enchanting",
+"title": "Apothic-Enchanting",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Shadows-of-Fire/Apothic-Enchanting",
+"team": "Shadows-of-Fire",
+"downloads": 150182,
+"version": "1.21.1-1.6.4",
+"version_id": "JAQJkLJ1",
+"game_versions": [
+"1.21.1"
+],
+"file": "ApothicEnchanting-1.21.1-1.6.4.jar",
+"sha1": "d88e75b60e97dae8054ee10f3a92aa2bb812b8b9",
+"url": "https://modrinth.com/mod/apothic-enchanting",
+"ids": [
+"apothic_attributes",
+"apothic_enchanting",
+"placebo"
+],
+"counts": {
+"particle_def": 4,
+"other": 1,
+"block": 86,
+"entity": 2,
+"gui": 10,
+"item": 25,
+"particle": 104
+},
+"anim": 3,
+"jar_exc": [],
+"fx": 320.0
+},
+"mSQF1NpT": {
+"slug": "elytra-slot",
+"title": "Elytra Slot",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/illusivesoulworks/elytraslot",
+"team": "TheIllusiveC4",
+"downloads": 14806242,
+"version": "6.4.4+1.20.1",
+"version_id": "k6lA080t",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "elytraslot-forge-6.4.4+1.20.1.jar",
+"sha1": "f11443ef3371fa790eb33cba1a517638a3afcb07",
+"url": "https://modrinth.com/mod/elytra-slot",
+"ids": [
+"caelus",
+"curios",
+"elytraslot"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"HUVG5gEu": {
+"slug": "tridents-n-stuff",
+"title": "Tridents 'n' Stuff",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/fzzyhmstrs/tns",
+"team": "fzzyhmstrs",
+"downloads": 367536,
+"version": "0.2.0+1.20.1",
+"version_id": "Dskdy0NH",
+"game_versions": [
+"1.20.1"
+],
+"file": "tridents_n_stuff-0.2.0+1.20.1.jar",
+"sha1": "bfefa7f6113e7fc837c9a9be5eb5ad1a1d9f64b1",
+"url": "https://modrinth.com/mod/tridents-n-stuff",
+"ids": [
+"tridents_n_stuff"
+],
+"counts": {
+"other": 19,
+"item": 28,
+"mob_effect": 1,
+"other_fx": 1
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 4.0,
+"drop": "few effect files"
+},
+"lL2MtE37": {
+"slug": "bad-wither-no-cookie",
+"title": "Bad Wither No Cookie - Reloaded",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://gitlab.com/kreezxil/BadWitherNoCookie/",
+"team": "kreezxil",
+"downloads": 14419690,
+"version": "3.17.2",
+"version_id": "QpHjZgDn",
+"game_versions": [
+"1.21.2",
+"1.21.3",
+"1.21.4"
+],
+"file": "bwncr-forge-1.20.1-3.17.2.jar",
+"sha1": "fb22bf4c7293cd1791f172918ae81863ed1e81dd",
+"url": "https://modrinth.com/mod/bad-wither-no-cookie",
+"ids": [
+"bwncr"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"kLNLtzWr": {
+"skip": "file over 80 MB"
+},
+"Ry0mgP2K": {
+"slug": "fancy-enchantments",
+"title": "Fancy Enchantments",
+"type": "mod",
+"license": "GPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/FOOLSIX/FancyEnchantments",
+"team": "FOOLSIX",
+"downloads": 131665,
+"version": "1.7.1",
+"version_id": "eQverjDX",
+"game_versions": [
+"1.20.1"
+],
+"file": "fancyenchantments-1.20.1-1.7.1.jar",
+"sha1": "0a2054b4c767e7091a9e58e20496d44318e421b2",
+"url": "https://modrinth.com/mod/fancy-enchantments",
+"ids": [
+"cloth_config",
+"fancyenchantments"
+],
+"counts": {
+"block": 1,
+"entity": 1,
+"item": 13,
+"mob_effect": 9
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 9.0,
+"drop": "few effect files"
+},
+"rYE70b69": {
+"slug": "combat-sense",
+"title": "Combat Sense",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "jinglian666",
+"downloads": 832559,
+"version": "1.0.1",
+"version_id": "4RPRuxYF",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "combatsense-1.0.1.jar",
+"sha1": "a19906e4f4a7b0029f34974ba3ced7231343235a",
+"url": "https://modrinth.com/mod/combat-sense",
+"ids": [
+"combatsense"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"28G1xpgF": {
+"slug": "atmosfera",
+"title": "Atmosfera",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": null,
+"source": "https://github.com/Haven-King/Atmosfera",
+"team": "Fourmisain",
+"downloads": 818952,
+"version": "2.7.2+mc1.20",
+"version_id": "E8BaBaPB",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "atmosfera-2.7.2+mc1.20.jar",
+"sha1": "78bd6027273a6585e956b7831c549f034efc903e",
+"url": "https://modrinth.com/mod/atmosfera",
+"ids": [
+"atmosfera"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"peANz2W6": {
+"slug": "dungeonrpg",
+"title": "DungeonRPG",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": null,
+"team": "Quadrat1c",
+"downloads": 3131,
+"version": "1.0.8",
+"version_id": "3eK2EPSS",
+"game_versions": [
+"26.2"
+],
+"file": "dungeonrpg-1.0.8.jar",
+"sha1": "5d260157eba9e408fd8e9dcb1d0765b15da5fc67",
+"url": "https://modrinth.com/mod/dungeonrpg",
+"ids": [
+"dungeonrpg"
+],
+"counts": {
+"item": 20
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"ubCG349l": {
+"skip": "third-party IP"
+},
+"DT56YDir": {
+"slug": "universal-enchants",
+"title": "Universal Enchants",
+"type": "mod",
+"license": "MPL-2.0",
+"license_url": null,
+"source": "https://github.com/Fuzss/universalenchants",
+"team": "Fuzs",
+"downloads": 1950909,
+"version": "v8.0.0-1.20.1-Fabric",
+"version_id": "zJHxVFXO",
+"game_versions": [
+"1.20.1"
+],
+"file": "UniversalEnchants-v8.0.0-1.20.1-Fabric.jar",
+"sha1": "5fa74e69811ae1a4d94bc111ae76a33ee77b0ba1",
+"url": "https://modrinth.com/mod/universal-enchants",
+"ids": [
+"universalenchants"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"mXL7Z0zq": {
+"slug": "enchantments-expansion",
+"title": "Enchantments Expansion",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": "https://github.com/lullaby6/data-packs/blob/main/LICENSE",
+"source": "https://github.com/lullaby6/data-packs/tree/main/Clumps",
+"team": "lullaby",
+"downloads": 47789,
+"version": "1.2.0+mod",
+"version_id": "soma2IEK",
+"game_versions": [
+"26.2"
+],
+"file": "enchantments-expansion-1.2.0.jar",
+"sha1": "c9c32a676e1254dd68dcedfabd8eb902d9d3c617",
+"url": "https://modrinth.com/mod/enchantments-expansion",
+"ids": [
+"mr_enchantments_expansion"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"GGfyJWnG": {
+"slug": "foodeffecttooltips",
+"title": "Food Effect Tooltips [Fabric / NeoForge]",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/DaFuqs/FoodEffectTooltips",
+"team": "DaFuqs",
+"downloads": 1870781,
+"version": "1.1.1-1.20.0",
+"version_id": "aJiMrtqD",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "foodeffecttooltips-1.1.1-1.20.0.jar",
+"sha1": "346591a33fcb4dc27f9e0ebc46738a1666b9fd14",
+"url": "https://modrinth.com/mod/foodeffecttooltips",
+"ids": [
+"foodeffecttooltips"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"b8PVSzJC": {
+"skip": "third-party IP"
+},
+"ksu3Wms7": {
+"slug": "just-a-lot-more-enchantments",
+"title": "Just a lot more enchantments",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "A_teapot_orbiting_the_sun",
+"downloads": 116387,
+"version": "1.20.1forge-ver1.8",
+"version_id": "9UINCivW",
+"game_versions": [
+"1.20.1"
+],
+"file": "jlme-1.20.1forge-ver1.8-all.jar",
+"sha1": "64f27466595e0352203316098acfbcf5c8e37d9c",
+"url": "https://modrinth.com/mod/just-a-lot-more-enchantments",
+"ids": [
+"jlme",
+"pml"
+],
+"counts": {
+"item": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"nfn13YXA": {
+"slug": "rei",
+"title": "Roughly Enough Items (REI)",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/shedaniel/RoughlyEnoughItems",
+"team": "shedaniel",
+"downloads": 27710293,
+"version": "12.1.785+forge",
+"version_id": "IoS2AjPk",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "RoughlyEnoughItems-12.1.785-forge.jar",
+"sha1": "9289cb01c920c1e539034f53ba3736095a2d4410",
+"url": "https://modrinth.com/mod/rei",
+"ids": [
+"architectury",
+"cloth_config",
+"roughlyenoughitems"
+],
+"counts": {
+"gui": 40
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 20.0
+},
+"dxiyDLYV": {
+"slug": "vanilla-fireflies",
+"title": "Vanilla Fireflies",
+"type": "mod",
+"license": "CC-BY-4.0",
+"license_url": "https://github.com/Komaru-cats/Vanilla_Fireflies/blob/main/LICENSE",
+"source": "https://github.com/Komaru-cats/Vanilla_Fireflies",
+"team": "ItzSkyReed",
+"downloads": 110142,
+"version": "5.1+mod",
+"version_id": "f9FE4diA",
+"game_versions": [
+"26.3"
+],
+"file": "vanilla-fireflies-5.1.jar",
+"sha1": "368aac245fa4042fae39711b423ed173cb13c07c",
+"url": "https://modrinth.com/mod/vanilla-fireflies",
+"ids": [
+"mr_vanilla_fireflies"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"w8V2GMiK": {
+"slug": "spartan-weaponry-unofficial",
+"title": "Spartan Weaponry Unofficial",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": "https://github.com/Mai-xiyu/SpartanWeaponry-NeoForge",
+"source": "https://github.com/Mai-xiyu/SpartanWeaponry-NeoForge",
+"team": "Mai_xiyu",
+"downloads": 107445,
+"version": "1.21.1-1.2.3",
+"version_id": "ygaWB8ji",
+"game_versions": [
+"1.21.1"
+],
+"file": "spartan_weaponry_unofficial-1.2.3-1.21.1.jar",
+"sha1": "d1a2201a68728e42947df185738d69ef3c77216b",
+"url": "https://modrinth.com/mod/spartan-weaponry-unofficial",
+"ids": [
+"spartan_weaponry_unofficial",
+"spartanshieldsunofficial"
+],
+"counts": {
+"particle": 2,
+"entity": 22,
+"entity_fx": 1,
+"other": 18,
+"mob_effect": 1,
+"item": 673,
+"gui": 6,
+"particle_def": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 12.0,
+"drop": "few effect files"
+},
+"vUi6HFie": {
+"slug": "enchantedshulkers",
+"title": "EnchantedShulkers",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/RubixDev/EnchantedShulkers",
+"team": "RubixDev",
+"downloads": 653808,
+"version": "1.2.4+1.20.1",
+"version_id": "4YXMZuAk",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "enchantedshulkers-mc1.20.1-v1.2.4.jar",
+"sha1": "cdb204600965231bea8e12ab79b53be9435d9cb6",
+"url": "https://modrinth.com/mod/enchantedshulkers",
+"ids": [
+"enchantedshulkers"
+],
+"counts": {
+"entity": 103
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"5km6gS6P": {
+"slug": "postmortal-particles",
+"title": "Postmortal Particles",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Superkat32/PostmortalParticles",
+"team": "Superkat32",
+"downloads": 103504,
+"version": "1.0.0-1.20.x",
+"version_id": "aWsO5wvM",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "postmortalparticles-1.0.0-1.20.x.jar",
+"sha1": "d7a38b66e92fc3917f1084fbe46e87330c7e6131",
+"url": "https://modrinth.com/mod/postmortal-particles",
+"ids": [
+"postmortalparticles"
+],
+"counts": {
+"particle": 27,
+"particle_def": 7
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 81.0
+},
+"cUtKlbur": {
+"slug": "rpg_style_more_weapons",
+"title": "RPG Style More Weapons",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "zrikon",
+"downloads": 103390,
+"version": "R_1.0.3",
+"version_id": "H9yu0p55",
+"game_versions": [
+"1.20.1"
+],
+"file": "RPG_Style_More_Weapons_R_1.0.3_Forge_1.20.1.jar",
+"sha1": "363bf998dc4843c1ab9edd4a7e7ae15fad305437",
+"url": "https://modrinth.com/mod/rpg_style_more_weapons",
+"ids": [
+"geckolib",
+"playeranimator",
+"rpg_style_more_weapons_r"
+],
+"counts": {
+"particle_def": 1,
+"other": 102,
+"other_fx": 7,
+"item": 58,
+"armor": 2,
+"particle": 2
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 21.0
+},
+"eNaKubgx": {
+"slug": "ace",
+"title": "Acro's Classical Elements",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/JSJBDEV/ACE/",
+"team": "Acrogenous",
+"downloads": 6375,
+"version": "0.7.2",
+"version_id": "eMQ6Zcbp",
+"game_versions": [
+"1.20.1"
+],
+"file": "ace-0.7.2.jar",
+"sha1": "34d37d1d7ab336025d30db1669cd7eff2decb841",
+"url": "https://modrinth.com/mod/ace",
+"ids": [
+"ace"
+],
+"counts": {
+"block": 1,
+"entity": 3,
+"gui": 1,
+"mob_effect": 8
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 8.5,
+"drop": "few effect files"
+},
+"XOhqdyTf": {
+"slug": "waterdripsound",
+"title": "[LEGACY] Drip Sounds (Forge)",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/PieKing1215/DripSounds-Forge",
+"team": "PieKing1215",
+"downloads": 623018,
+"version": "0.3.2",
+"version_id": "P1UiK8Ux",
+"game_versions": [
+"1.19.4",
+"1.20",
+"1.20.1"
+],
+"file": "DripSounds-1.19.4-0.3.2.jar",
+"sha1": "e91743f0e4a1b8d2e1b795f3ccd4bd4190f5d4c3",
+"url": "https://modrinth.com/mod/waterdripsound",
+"ids": [
+"cloth_config",
+"waterdripsound"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"b8Q0BxnV": {
+"slug": "dimensionaldoors",
+"title": "Dimensional Doors",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/DimensionalDevelopment/DimDoors",
+"team": "Waterpicker",
+"downloads": 247896,
+"version": "5.4.4",
+"version_id": "2mbjY4AI",
+"game_versions": [
+"1.20.1"
+],
+"file": "dimdoors-5.4.4-fabric.jar",
+"sha1": "fccc1aa672e12ac0548bbf3be7a20c6d03507cb2",
+"url": "https://modrinth.com/mod/dimensionaldoors",
+"ids": [
+"dimdoors"
+],
+"counts": {
+"particle_def": 3,
+"block": 104,
+"item": 54,
+"other": 47,
+"armor": 4
+},
+"anim": 26,
+"jar_exc": [],
+"fx": 26.0
+},
+"DfWQAvS4": {
+"slug": "immersive-enchanting",
+"title": "Immersive Enchanting",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": "https://choosealicense.com/licenses/gpl-3.0/#",
+"source": "https://github.com/alfiehanks/Immersive-Enchanting",
+"team": "alfino",
+"downloads": 38382,
+"version": "6.0.1",
+"version_id": "2ozQFJp6",
+"game_versions": [
+"1.20.1"
+],
+"file": "beta-immersiveenchanting-6.0.1-forge-1.20.1.jar",
+"sha1": "a9b177fafdcf5c30d77130a413aedae6c7792d44",
+"url": "https://modrinth.com/mod/immersive-enchanting",
+"ids": [
+"alfinolib",
+"immersiveenchanting"
+],
+"counts": {
+"block": 2,
+"other": 40,
+"other_fx": 3,
+"gui": 27,
+"item": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 19.5
+},
+"R4mVfSYE": {
+"slug": "nekohashizuku-blade",
+"title": "\u96eb\u62d4\u5200\u5251",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/BBuWan22/Shizuku-Blade/tree/master",
+"team": "Buwan22",
+"downloads": 605499,
+"version": "3.7.0",
+"version_id": "Eg1zyMk0",
+"game_versions": [
+"1.20.1"
+],
+"file": "shizuku-blade-3.7.0.jar",
+"sha1": "9115c1d2cbcf4de285e2571e01faaffe8fe043ea",
+"url": "https://modrinth.com/mod/nekohashizuku-blade",
+"ids": [
+"shizuku",
+"slashblade"
+],
+"counts": {
+"block": 3,
+"entity": 2,
+"gui": 7,
+"item": 11
+},
+"anim": 12,
+"jar_exc": [],
+"fx": 15.5
+},
+"yTjEgNSm": {
+"slug": "wavify",
+"title": "Wavify",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Icywhenhot/Tidal",
+"team": "Icywhenhot",
+"downloads": 93194,
+"version": "1.2.1",
+"version_id": "EfmebAR3",
+"game_versions": [
+"1.20.1"
+],
+"file": "wavify-1.2.1-1.20.1-forge.jar",
+"sha1": "ae74454ab6f17a28aa80a622d777116303dfdea2",
+"url": "https://modrinth.com/mod/wavify",
+"ids": [
+"cloth_config",
+"dynamicwaters",
+"streamsreflowing",
+"wavify"
+],
+"counts": {
+"particle_def": 4,
+"particle": 55,
+"other_fx": 7
+},
+"anim": 6,
+"jar_exc": [],
+"fx": 185.0,
+"drop": "fork of tidal-waves (same art)"
+},
+"PQBSg5Tz": {
+"skip": "third-party IP"
+},
+"M08ruV16": {
+"slug": "bobby",
+"title": "Bobby",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Johni0702/bobby",
+"team": "Johni0702",
+"downloads": 22185133,
+"version": "5.0.1.1",
+"version_id": "Uh3M3z1g",
+"game_versions": [
+"1.20.1"
+],
+"file": "bobby-5.0.1.1.jar",
+"sha1": "5089baf307286cf12a347d8e0bff404463936143",
+"url": "https://modrinth.com/mod/bobby",
+"ids": [
+"bobby"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"MFpvbNGE": {
+"slug": "roguelikedungeons",
+"title": "Roguelike Dungeons",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Greymerk/minecraft-roguelike",
+"team": "Greymerk",
+"downloads": 550519,
+"version": "2.1.0-1.20.1-fabric",
+"version_id": "3cXBjCfG",
+"game_versions": [
+"1.20.1"
+],
+"file": "RoguelikeDungeons-2.1.0-1.20.1-fabric.jar",
+"sha1": "236c51da666d5c1aef11631cb307163b06b096cf",
+"url": "https://modrinth.com/mod/roguelikedungeons",
+"ids": [
+"roguelike"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"nt5t82dO": {
+"slug": "immersive-sound",
+"title": "Immersive Sounds",
+"type": "mod",
+"license": "CC0-1.0",
+"license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+"source": null,
+"team": "Diesse",
+"downloads": 87153,
+"version": "0.2+mod",
+"version_id": "npXgTSHC",
+"game_versions": [
+"26.1.1",
+"26.1.2",
+"26.2"
+],
+"file": "immersive-sound-0.2.jar",
+"sha1": "4ee3b3b9f716b819c82a6b688134cdf8729f807b",
+"url": "https://modrinth.com/mod/immersive-sound",
+"ids": [
+"mr_immersive_sound"
+],
+"counts": {
+"item": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"td9zQQBq": {
+"slug": "archon",
+"title": "Archon",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Safrodev/Archon",
+"team": "Safro",
+"downloads": 1367746,
+"version": "0.8.1",
+"version_id": "HFlEAPtz",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "archon-0.8.1.jar",
+"sha1": "c23960db1d0d4143b99c695f40bbe639ed0abf79",
+"url": "https://modrinth.com/mod/archon",
+"ids": [
+"archon"
+],
+"counts": {
+"particle_def": 3,
+"block": 16,
+"entity": 10,
+"gui": 8,
+"item": 68,
+"mob_effect": 6,
+"particle": 9,
+"armor": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 37.0
+},
+"73mSSnCf": {
+"slug": "silent-gear",
+"title": "Silent Gear",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/SilentChaos512/Silent-Gear",
+"team": "SilentChaos512",
+"downloads": 519677,
+"version": "3.6.7",
+"version_id": "2Chvw4VA",
+"game_versions": [
+"1.20.1"
+],
+"file": "silent-gear-1.20.1-3.6.7.jar",
+"sha1": "fe4c1ec5ca037e884832a98f48362f7089a5de63",
+"url": "https://modrinth.com/mod/silent-gear",
+"ids": [
+"silentgear",
+"silentlib"
+],
+"counts": {
+"block": 91,
+"entity": 4,
+"gui": 10,
+"item": 750,
+"armor": 37,
+"other": 1
+},
+"anim": 9,
+"jar_exc": [],
+"fx": 14.0,
+"drop": "few effect files"
+},
+"lftszdkG": {
+"slug": "enchanted-tooltips",
+"title": "Enchanted ToolTips",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/kyrptonaught/EnchantedToolTips",
+"team": "kyrptonaught",
+"downloads": 82233,
+"version": "1.3.7-1.20",
+"version_id": "6VrBZg81",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "EnchantedToolTips-1.3.7-1.20.jar",
+"sha1": "2aa0abc7ac306e627b7f846b82b52d671aff3276",
+"url": "https://modrinth.com/mod/enchanted-tooltips",
+"ids": [
+"enchantedtooltips"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"sGmHWmeL": {
+"slug": "mixintrace",
+"title": "MixinTrace",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/comp500/mixintrace",
+"team": "comp500",
+"downloads": 20637200,
+"version": "1.1.1+1.17",
+"version_id": "LGYOH4RN",
+"game_versions": [
+"1.20.6",
+"1.21",
+"1.21.1"
+],
+"file": "mixintrace-1.1.1+1.17.jar",
+"sha1": "7fbb0130db0e427ee7180d304dfa65c46f0e3b69",
+"url": "https://modrinth.com/mod/mixintrace",
+"ids": [
+"mixintrace"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"UL2FNweH": {
+"slug": "alternative_twilight",
+"title": "alternative_twilight",
+"type": "mod",
+"license": "MIT",
+"license_url": "https://github.com/Lvedy/MinecraftMod-alternative_twilight-forge-1.20.1/blob/master/LICENSE",
+"source": "https://github.com/Lvedy/MinecraftMod-alternative_twilight-forge-1.20.1",
+"team": "Lvedy",
+"downloads": 510094,
+"version": "1.20.1-1.1.0",
+"version_id": "GZf6zudP",
+"game_versions": [
+"1.20.1"
+],
+"file": "alternative_twilight-1.20.1-1.1.0.jar",
+"sha1": "08a5846f20aae993223b0653ffc1dcc5224130c0",
+"url": "https://modrinth.com/mod/alternative_twilight",
+"ids": [
+"alternative_twilight",
+"twilightforest"
+],
+"counts": {
+"entity": 2,
+"item": 2
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"3qAYkBMB": {
+"slug": "polytone",
+"title": "Polytone",
+"type": "mod",
+"license": "GPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/MehVahdJukaar/polytone",
+"team": "MehVahdJukaar",
+"downloads": 19880184,
+"version": "1.20-3.5.26",
+"version_id": "keUL5Iuv",
+"game_versions": [
+"1.20.1"
+],
+"file": "polytone-1.20-3.5.26.jar",
+"sha1": "d5ea70bd8d4a29d436901fd2b6e180147c1bdd2c",
+"url": "https://modrinth.com/mod/polytone",
+"ids": [
+"polytone"
+],
+"counts": {
+"entity": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"XnNmSWmE": {
+"slug": "toxony",
+"title": "Toxony",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/MrFrostyDev/Toxony_Mod",
+"team": "MrFrostyDev",
+"downloads": 29749,
+"version": "0.10.7",
+"version_id": "pDu34HNo",
+"game_versions": [
+"1.21.1"
+],
+"file": "toxony-0.10.7.jar",
+"sha1": "d92e0d0ae2ece85c353f22463fbc7c61595fca20",
+"url": "https://modrinth.com/mod/toxony",
+"ids": [
+"toxony"
+],
+"counts": {
+"particle_def": 7,
+"block": 127,
+"entity": 3,
+"gui": 79,
+"item": 148,
+"mob_effect": 10,
+"armor": 8,
+"particle": 56
+},
+"anim": 5,
+"jar_exc": [],
+"fx": 222.5
+},
+"4sP0LXxp": {
+"slug": "veinminer-enchantment",
+"title": "VeinMiner Enchantment",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/MiraculixxT/Veinminer",
+"team": "Miraculixx",
+"downloads": 18300621,
+"version": "2.13.0",
+"version_id": "2Y8IKaDH",
+"game_versions": [
+"26.1.2",
+"26.2",
+"26.3"
+],
+"file": "veinminer-enchant-2.13.0.jar",
+"sha1": "81c4f97773694925fd51c8e01a9220803a6b8a2b",
+"url": "https://modrinth.com/mod/veinminer-enchantment",
+"ids": [
+"veinminer",
+"veinminer_enchantment"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"aVezg2Cv": {
+"slug": "bosscraft-unofficial-port",
+"title": "BossCraft Respawn : Unofficial Port",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "whistelliger55",
+"downloads": 11464,
+"version": "2.5.0",
+"version_id": "CW6uSDDO",
+"game_versions": [
+"1.20.1"
+],
+"file": "BossCraftRespawn 1.20.1 v2.5.jar",
+"sha1": "44396b525929b0bab00382ae5e995d99797e5b4d",
+"url": "https://modrinth.com/mod/bosscraft-unofficial-port",
+"ids": [
+"bosscraft_respawn"
+],
+"counts": {
+"block": 1,
+"other": 22,
+"other_fx": 3,
+"item": 26,
+"armor": 8
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 6.0,
+"drop": "few effect files"
+},
+"8D0TiNOF": {
+"slug": "vampirism-irons-spells-compatibility",
+"title": "Vampirism Iron's Spells Compatibility",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/xsharov/VampireSpellsAddon",
+"team": "xsharov_",
+"downloads": 28151,
+"version": "1.20.1-0.0.10",
+"version_id": "50hVX8CR",
+"game_versions": [
+"1.20.1"
+],
+"file": "vampire_spells_addon-forge-1.20.1-0.0.10.jar",
+"sha1": "2a0f3a8fd8bc3273201998991cfaeedf6e8e1175",
+"url": "https://modrinth.com/mod/vampirism-irons-spells-compatibility",
+"ids": [
+"irons_spellbooks",
+"vampire_spells_addon",
+"vampirism"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"uoXnS5LM": {
+"skip": "third-party IP"
+},
+"wseEf42M": {
+"skip": "third-party IP"
+},
+"RsDWJdQI": {
+"slug": "enchantmentransfer",
+"title": "Enchantment Transfer",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "GuTaiBai",
+"downloads": 10825,
+"version": "0.5.0",
+"version_id": "wky0ee3K",
+"game_versions": [
+"1.20.1"
+],
+"file": "Enchantment Transfer-1.20.1-0.5.0.jar",
+"sha1": "037b5669b461379913f3f34423150e2c3ca54caf",
+"url": "https://modrinth.com/mod/enchantmentransfer",
+"ids": [
+"gtb"
+],
+"counts": {
+"item": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"8pBLL0kb": {
+"slug": "weaponsexpanded",
+"title": "Weapons Expanded",
+"type": "mod",
+"license": "MIT",
+"license_url": "https://github.com/AngelicTheAngel/weapons_expanded?tab=MIT-1-ov-file",
+"source": "https://github.com/AngelicTheAngel/weapons_expanded",
+"team": "AngelicThe_Angel",
+"downloads": 430615,
+"version": "1.9.3",
+"version_id": "PKsmwcip",
+"game_versions": [
+"1.20.1"
+],
+"file": "weaponsexpanded_1.20.1_1.9.3_forge.jar",
+"sha1": "b54cde7878e23bd3f1e69cb1939fb3ee1ae19fe2",
+"url": "https://modrinth.com/mod/weaponsexpanded",
+"ids": [
+"weaponsexpanded"
+],
+"counts": {
+"entity": 1,
+"item": 92,
+"mob_effect": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 1.0,
+"drop": "few effect files"
+},
+"g646EoqQ": {
+"slug": "cake-chomps",
+"title": "Cake Chomps",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/illusivesoulworks/cakechomps",
+"team": "TheIllusiveC4",
+"downloads": 1075843,
+"version": "6.2.0+1.20.1",
+"version_id": "dp0wT78Q",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "cakechomps-forge-6.2.0+1.20.1.jar",
+"sha1": "dd87808cc1c534f5a87b8e67b5984b20a2c32b50",
+"url": "https://modrinth.com/mod/cake-chomps",
+"ids": [
+"cakechomps"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"CxaV51ez": {
+"slug": "enchanting-system-overhaul",
+"title": "Enchanting System Overhaul",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/CmdrJane/enchanting-system-overhaul",
+"team": "CmdrJane",
+"downloads": 67394,
+"version": "1.2.2",
+"version_id": "mHwxF7TE",
+"game_versions": [
+"1.20.1"
+],
+"file": "eso-fabric-1.20.1-1.2.2.jar",
+"sha1": "c85f9f7f2ea0f30cf2f34d69185c145fdb0106ea",
+"url": "https://modrinth.com/mod/enchanting-system-overhaul",
+"ids": [
+"enchanting-system-overhaul"
+],
+"counts": {
+"gui": 2
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 1.0,
+"drop": "few effect files"
+},
+"NKPOiJ04": {
+"slug": "hit-feedback",
+"title": "Hit Feedback",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/ChloePrime/HitFeedback",
+"team": "ChloePrime",
+"downloads": 422494,
+"version": "1.20.1-1.1.8-forge",
+"version_id": "iUbQYfgb",
+"game_versions": [
+"1.20.1"
+],
+"file": "HitFeedback-1.20.1-1.1.8-forge.jar",
+"sha1": "152e8f188646b76b8ab271cc87d122dfb4abe549",
+"url": "https://modrinth.com/mod/hit-feedback",
+"ids": [
+"architectury",
+"hit_feedback"
+],
+"counts": {
+"particle_def": 2,
+"particle": 12
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 36.0
+},
+"RY1ITisM": {
+"slug": "elemental-enchantments",
+"title": "Elemental enchantments",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": "https://gitlab.com/crepes-o-mods/elemental-enchantments/-/blob/1.20.1/LICENSE",
+"source": "https://gitlab.com/crepes-o-mods/elemental-enchantments",
+"team": "Creerio",
+"downloads": 161363,
+"version": "1.20+1.2.1",
+"version_id": "htpC27Sy",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "elementalenchantments-1.2.1.jar",
+"sha1": "17c3c989b452f256b60f3ae5a72ecf677e21d764",
+"url": "https://modrinth.com/mod/elemental-enchantments",
+"ids": [
+"elementalenchantments"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"rUgZvGzi": {
+"slug": "eating-animation",
+"title": "Eating Animation",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Theoness1/EatingAnimation",
+"team": "theoness1",
+"downloads": 15849535,
+"version": "1.9.61",
+"version_id": "AqXSvu6M",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "eating-animation-1.20+1.9.61.jar",
+"sha1": "d5a8909b0b864eb1a7a2d62368932d264eb60317",
+"url": "https://modrinth.com/mod/eating-animation",
+"ids": [
+"eatinganimationid"
+],
+"counts": {
+"item": 121
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"B8XiXauo": {
+"slug": "ctov-irons-spells-n-spellbooks-compat",
+"title": "CTOV - Iron's Spells 'n Spellbooks compat",
+"type": "mod",
+"license": "CC-BY-NC-4.0",
+"license_url": null,
+"source": null,
+"team": "ChoiceTheorem",
+"downloads": 158252,
+"version": "1.2+mod",
+"version_id": "o57gj0aQ",
+"game_versions": [
+"1.19.4",
+"1.20",
+"1.20.1"
+],
+"file": "ctov-irons-spells-n-spellbooks-compat-1.2.jar",
+"sha1": "6d4d1491dfa1fd52b59e8a8050f1cb969cde300b",
+"url": "https://modrinth.com/mod/ctov-irons-spells-n-spellbooks-compat",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"8ooWzSQP": {
+"slug": "spell-power",
+"title": "Spell Power Attributes",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/ZsoltMolnarrr/SpellPower",
+"team": "ZsoltMolnarrr",
+"downloads": 6185210,
+"version": "1.6.1+1.20.1-forge",
+"version_id": "ko7p47uf",
+"game_versions": [
+"1.20.1"
+],
+"file": "spell_power-forge-1.6.1+1.20.1.jar",
+"sha1": "11073d202f70e543d46ceda95e264652ebafd558",
+"url": "https://modrinth.com/mod/spell-power",
+"ids": [
+"spell_power"
+],
+"counts": {
+"mob_effect": 11
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 11.0,
+"drop": "few effect files"
+},
+"muf0XoRe": {
+"slug": "repurposed-structures-fabric",
+"title": "Repurposed Structures - Fabric",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": null,
+"team": "TelepathicGrunt",
+"downloads": 15068613,
+"version": "7.1.25+1.20.1-fabric",
+"version_id": "jaRcykAY",
+"game_versions": [
+"1.20.1"
+],
+"file": "repurposed_structures-7.1.25+1.20.1-fabric.jar",
+"sha1": "37a3b34dfe97f217f40b5e96b07d284129b83190",
+"url": "https://modrinth.com/mod/repurposed-structures-fabric",
+"ids": [
+"repurposed_structures"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"zrbKKaSr": {
+"slug": "mobchampions",
+"title": "Mob Champions",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/wendall911/MobChampions",
+"team": "wendall911",
+"downloads": 57303,
+"version": "26.3-1.0.2.1-NEOFORGE",
+"version_id": "JIat2dU4",
+"game_versions": [
+"26.3"
+],
+"file": "mobchampions-26.3-neoforge-1.0.2.1-NEOFORGE.jar",
+"sha1": "085189444bc80d36d8c1a5d4327bcc6ff2f6d1b0",
+"url": "https://modrinth.com/mod/mobchampions",
+"ids": [
+"mobchampions",
+"whitenoise"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"TTZunjcO": {
+"slug": "druids-of-storm-and-spirit",
+"title": "Druids of Storm and Spirit",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/cleannrooster/druids",
+"team": "cleannrooster",
+"downloads": 56120,
+"version": "0.9.8.0",
+"version_id": "CP4GTKJa",
+"game_versions": [
+"1.20.1"
+],
+"file": "druids-0.9.8.0.jar",
+"sha1": "80697ff36e46c0fb2b5e0579e147bd0503ff455c",
+"url": "https://modrinth.com/mod/druids-of-storm-and-spirit",
+"ids": [
+"druids"
+],
+"counts": {
+"armor": 1,
+"item": 16,
+"other": 3,
+"other_fx": 14,
+"mob_effect": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 31.0
+},
+"NHzN2FGz": {
+"slug": "rearm",
+"title": "ReArm: Combat Overhaul",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/pajicadvance/rearm",
+"team": "pajic",
+"downloads": 140741,
+"version": "2.5.8+26.3",
+"version_id": "2Q0WFtRF",
+"game_versions": [
+"26.3"
+],
+"file": "rearm-fabric-2.5.8+26.3.jar",
+"sha1": "2dadf19f5873e992840315cfaff82ede97303263",
+"url": "https://modrinth.com/mod/rearm",
+"ids": [
+"rearm"
+],
+"counts": {
+"entity": 2,
+"gui": 11,
+"item": 10,
+"mob_effect": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 6.5,
+"drop": "few effect files"
+},
+"FnMbxgKT": {
+"slug": "luminous-halloween",
+"title": "Luminous: Halloween",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": null,
+"source": null,
+"team": "RipleysMods",
+"downloads": 55546,
+"version": "1.2",
+"version_id": "QcjkFZHk",
+"game_versions": [
+"1.20.1"
+],
+"file": "Luminous Halloween V1.2 - Forge 1.20.1.jar",
+"sha1": "2e65f16e0ff426f7d4420273f44bd14113153a1c",
+"url": "https://modrinth.com/mod/luminous-halloween",
+"ids": [
+"geckolib",
+"luminous_halloween"
+],
+"counts": {
+"particle_def": 1,
+"block": 3,
+"other": 7,
+"other_fx": 2,
+"item": 6,
+"armor": 2,
+"particle": 6
+},
+"anim": 2,
+"jar_exc": [],
+"fx": 24.0
+},
+"gajeT6A2": {
+"slug": "infinity-golem-boss-fight-beta",
+"title": "Infinity Golem Boss Fight",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Medovibee",
+"downloads": 344106,
+"version": "1.0.0",
+"version_id": "PVtJCgqt",
+"game_versions": [
+"1.20.1"
+],
+"file": "infinitygolem-1.0.0-forge-1.20.1.jar",
+"sha1": "65cddff15269a86220a0803c0a22d91c0ab08f0a",
+"url": "https://modrinth.com/mod/infinity-golem-boss-fight-beta",
+"ids": [
+"geckolib",
+"infinitygolem"
+],
+"counts": {
+"other": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"u0YIG3pi": {
+"slug": "enchanting-infuser-add-treasure-enchantments",
+"title": "Enchanting Infuser: Add Treasure Enchantments",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/chrisheib/Enchanting-Infuser-Add-Treasure-Enchantments",
+"team": "STSchiff",
+"downloads": 53011,
+"version": "1.21.1-v1+mod",
+"version_id": "WHUxM5Fn",
+"game_versions": [
+"1.21.1"
+],
+"file": "enchanting-infuser-add-treasure-enchantements-1.jar",
+"sha1": "96eab332103db7443888fedac0272e55632552ee",
+"url": "https://modrinth.com/mod/enchanting-infuser-add-treasure-enchantments",
+"ids": [
+"mr_enchanting_infuseraddtreasureenchantements"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"1rIHWPXR": {
+"skip": "third-party IP"
+},
+"ydBxwDBa": {
+"slug": "much-more-dungeons",
+"title": "Much More Dungeons",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": null,
+"source": "https://github.com/MeherBenSalem/Much-More-Dungeons",
+"team": "NAIZO",
+"downloads": 21115,
+"version": "2.0.0+forge-1.20.1",
+"version_id": "khfqYDDf",
+"game_versions": [
+"1.20.1"
+],
+"file": "muchmoredungeons-forge-1.20.1-2.0.0.jar",
+"sha1": "5e4dc3cfd13e32f8f6d0e9a1e35b0ec6ef79e1d7",
+"url": "https://modrinth.com/mod/much-more-dungeons",
+"ids": [
+"muchmoredungeons"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"1nSvHESm": {
+"slug": "better-combat-x-cataclysm-spellbooks-compatibility",
+"title": "Better Combat x Cataclysm Spellbooks Compatibility",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "PandaCalvin23",
+"downloads": 49617,
+"version": "1.1+mod",
+"version_id": "uYgPW5r9",
+"game_versions": [
+"1.20.6",
+"1.21",
+"1.21.1"
+],
+"file": "better-combat-x-cataclysm-spellbooks-compatibility-1.1.jar",
+"sha1": "f6c1428b1e16bb7d132aeb00a4e5c5d3181fa1f0",
+"url": "https://modrinth.com/mod/better-combat-x-cataclysm-spellbooks-compatibility",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"9BvAozF2": {
+"slug": "unlimited-enchants",
+"title": "Unlimited Enchantments",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "nugrevan",
+"downloads": 19509,
+"version": "26.3+mod",
+"version_id": "yfmwnUds",
+"game_versions": [
+"26.3"
+],
+"file": "unlimited-enchants-26.3.jar",
+"sha1": "de094ab7e4b53f7947eb8766406de08a0c2aa7e3",
+"url": "https://modrinth.com/mod/unlimited-enchants",
+"ids": [
+"mr_unlimited_enchants"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"RJ4U0qmn": {
+"slug": "server-side-horror",
+"title": "Server-Side Horror",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Mars-The-Planet/server-side-horror",
+"team": "MarsThePlanet",
+"downloads": 299367,
+"version": "1.20.1-forge-5",
+"version_id": "vGjYUGG5",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "serversidehorror-1.20.1-forge-5.jar",
+"sha1": "3471e8537357fab2327d6f62887aff53e341e4fe",
+"url": "https://modrinth.com/mod/server-side-horror",
+"ids": [
+"deimos",
+"serversidehorror"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"9P0keNSa": {
+"slug": "spoorn-weapon-attributes",
+"title": "Spoorn Weapon Attributes",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/spoorn/SpoornWeaponAttributes",
+"team": "spoorn",
+"downloads": 47269,
+"version": "5.0-1.20.1",
+"version_id": "JzKnDTG7",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "spoornweaponattributes-5.0-1.20.1-fabric.jar",
+"sha1": "a15cd88f56a0b0fbc578d09a0395116fc549b109",
+"url": "https://modrinth.com/mod/spoorn-weapon-attributes",
+"ids": [
+"spoornweaponattributes"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"5NoWxZyh": {
+"slug": "astralrail-cube",
+"title": "Astralrail Cube",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://gitee.com/daichangs_mc/astralrail-cube",
+"team": "Seraphina-DC",
+"downloads": 18836,
+"version": "2.4",
+"version_id": "rkE1E8fj",
+"game_versions": [
+"1.20.1"
+],
+"file": "astralrail_cube-2.4.jar",
+"sha1": "30d10b1bf676a3f581593ad0d71909cb6fe4fddb",
+"url": "https://modrinth.com/mod/astralrail-cube",
+"ids": [
+"astralrail_cube",
+"irons_spellbooks",
+"kotlinforforge"
+],
+"counts": {
+"block": 2,
+"other": 11,
+"environment": 2,
+"gui": 14,
+"item": 38
+},
+"anim": 17,
+"jar_exc": [],
+"fx": 24.0
+},
+"uhKMw1HH": {
+"skip": "third-party IP"
+},
+"TIo1UXXV": {
+"slug": "more-enchantment-info",
+"title": "More Enchantment Info",
+"type": "mod",
+"license": "CC-BY-SA-4.0",
+"license_url": null,
+"source": "https://github.com/SettingDust/MoreEnchantmentInfo",
+"team": "settingdust",
+"downloads": 745024,
+"version": "0.4.2",
+"version_id": "JaJl8XSj",
+"game_versions": [
+"26.1.1",
+"26.1.2",
+"26.2"
+],
+"file": "more-enchantment-info-0.4.2.jar",
+"sha1": "f36f0118633d45a7b2c03010aaa28880e9cb4efe",
+"url": "https://modrinth.com/mod/more-enchantment-info",
+"ids": [
+"more_enchantment_info_container"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"GkpgRKV2": {
+"slug": "runic-enchanting",
+"title": "Runic Enchanting",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/brotazoa/runic_enchanting",
+"team": "brotazoa",
+"downloads": 46364,
+"version": "1.1+1.20.1",
+"version_id": "sEmrnI7V",
+"game_versions": [
+"1.20.1"
+],
+"file": "runic_enchanting-1.1+1.20.1.jar",
+"sha1": "cdb8eb0b1dd1249c086d0075647a55ef61b60702",
+"url": "https://modrinth.com/mod/runic-enchanting",
+"ids": [
+"runic_enchanting"
+],
+"counts": {
+"block": 35,
+"entity": 44,
+"gui": 3,
+"item": 28,
+"other_fx": 22
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 45.5
+},
+"T5YpEgSg": {
+"slug": "usefulmagic",
+"title": "UsefulMagic",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": null,
+"team": "CooStack",
+"downloads": 46022,
+"version": "3.1.1",
+"version_id": "tkuwx9YJ",
+"game_versions": [
+"1.21.1"
+],
+"file": "UsefulMagic-NeoForge-1.21.1-3.1.1.jar",
+"sha1": "b19fbde3809c4cca9459ed6283498fd4e41feb38",
+"url": "https://modrinth.com/mod/usefulmagic",
+"ids": [
+"cooparticlesapi",
+"geckolib",
+"kotlinforforge",
+"usefulmagic"
+],
+"counts": {
+"particle_def": 1,
+"block": 9,
+"other_fx": 9,
+"entity_fx": 2,
+"gui": 18,
+"item": 55,
+"mob_effect": 2,
+"particle": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 36.0
+},
+"nmJ9dZtI": {
+"slug": "expanded-axe-enchanting",
+"title": "Expanded Axe Enchanting",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": null,
+"source": "https://github.com/SmushyTaco/Expanded-Axe-Enchanting/",
+"team": "SmushyTaco",
+"downloads": 280649,
+"version": "1.0.7",
+"version_id": "docFqSvE",
+"game_versions": [
+"1.20.1"
+],
+"file": "expanded-axe-enchanting-1.0.7.jar",
+"sha1": "c382d0849c54d4527d4981b5c45f0980414e1c2d",
+"url": "https://modrinth.com/mod/expanded-axe-enchanting",
+"ids": [
+"expanded_axe_enchanting"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"5GZUvxmB": {
+"slug": "expanded-bow-enchanting",
+"title": "Expanded Bow Enchanting",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": null,
+"source": "https://github.com/SmushyTaco/Expanded-Bow-Enchanting/",
+"team": "SmushyTaco",
+"downloads": 272273,
+"version": "1.0.0",
+"version_id": "oHKb9m3d",
+"game_versions": [
+"1.20.1"
+],
+"file": "expanded-bow-enchanting-1.0.0.jar",
+"sha1": "a586f0d452115836021d327200ccc3818b69a7b5",
+"url": "https://modrinth.com/mod/expanded-bow-enchanting",
+"ids": [
+"expanded_bow_enchanting"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"lwSm57fu": {
+"slug": "aquamirae-mod-extra-music",
+"title": "[Deprecated] Aquamirae - Boss Music Tweaks",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "TheExiIedFeIIow",
+"downloads": 262480,
+"version": "1.1.0",
+"version_id": "4h5Mu4zF",
+"game_versions": [
+"1.20.1"
+],
+"file": "Aquamirae Mod Boss Music Tweaks 1.20.1 v1.1.0 [FABRIC].jar",
+"sha1": "7034190b0113f7bb63d86a62cd42ebd8e8610bb1",
+"url": "https://modrinth.com/mod/aquamirae-mod-extra-music",
+"ids": [
+"aquamirae",
+"aquamirae_mod_extra_music"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"ILL8mgu6": {
+"slug": "warfare-expanded",
+"title": "Warfare Expanded",
+"type": "mod",
+"license": "Apache-2.0",
+"license_url": null,
+"source": null,
+"team": "mega7",
+"downloads": 40974,
+"version": "1.3",
+"version_id": "TwO7LgfG",
+"game_versions": [
+"1.20",
+"1.20.1",
+"1.20.2"
+],
+"file": "Warfare-Expanded-v1.3.zip",
+"sha1": "7aa93e802aa4ceb15bd99c9cbded0709e671fd74",
+"url": "https://modrinth.com/mod/warfare-expanded",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"QsiPPta0": {
+"slug": "tidal-waves",
+"title": "Tidal",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Superkat32/Tidal",
+"team": "Superkat32",
+"downloads": 97394,
+"version": "0.0.2-beta",
+"version_id": "Rh86Cb7C",
+"game_versions": [
+"1.21.1"
+],
+"file": "tidal-0.0.2-beta.jar",
+"sha1": "1099fa3055eee8ab6c503d40001682fa83c07e04",
+"url": "https://modrinth.com/mod/tidal-waves",
+"ids": [
+"tidal"
+],
+"counts": {
+"particle_def": 9,
+"particle": 55,
+"other_fx": 9
+},
+"anim": 8,
+"jar_exc": [],
+"fx": 191.0
+},
+"4jBWaiuq": {
+"slug": "tooltiprareness",
+"title": "TooltipRareness",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Globox1997/TooltipRareness",
+"team": "Globox1997",
+"downloads": 235421,
+"version": "1.0.9+1.20.1",
+"version_id": "uFZDKZi4",
+"game_versions": [
+"1.20.1"
+],
+"file": "tooltiprareness-1.0.9.jar",
+"sha1": "b494ba221e77cfd3fcd444290fc7bfdc9f6349df",
+"url": "https://modrinth.com/mod/tooltiprareness",
+"ids": [
+"tooltiprareness"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"Qdmqmc2A": {
+"slug": "overenchanted",
+"title": "Over Enchanted",
+"type": "mod",
+"license": "CC0-1.0",
+"license_url": null,
+"source": null,
+"team": "MastroCaleb",
+"downloads": 36017,
+"version": "1.3.0",
+"version_id": "sceo2DgD",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "over-enchanted-forge-1.3.0.jar",
+"sha1": "e9e004e6c5397c4152518c7dcc6b521d63673f67",
+"url": "https://modrinth.com/mod/overenchanted",
+"ids": [
+"overenchanted"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"YFkuYUFq": {
+"slug": "world-alive",
+"title": "World Alive: Ambient birds and wildlife",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "DaGreazeMaster",
+"downloads": 36230,
+"version": "1.2.1",
+"version_id": "WMQlSDyH",
+"game_versions": [
+"1.20.1"
+],
+"file": "world_alive-1.2.2+1.20.1-fabric.jar",
+"sha1": "6f247576480c3102f1d86be34effdd10fb3f43c5",
+"url": "https://modrinth.com/mod/world-alive",
+"ids": [
+"worldalive"
+],
+"counts": {
+"particle_def": 2,
+"particle": 150
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 450.0
+},
+"xLHm9KvS": {
+"slug": "tacz-bullet-proof-enchant-add-on",
+"title": "TACZ Bullet Proof Enchant Add-on",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Zwachinabottle/BulletProofEnchantment/tree/main",
+"team": "zwachinabottle",
+"downloads": 570180,
+"version": "2.0-1.20.1",
+"version_id": "JvGQ9Wcu",
+"game_versions": [
+"1.20.1"
+],
+"file": "bulletarmorenchant-2.0-1.20.1.jar",
+"sha1": "d43c445bc3cd01ffc4c64b4a9cd4214b3d4ba576",
+"url": "https://modrinth.com/mod/tacz-bullet-proof-enchant-add-on",
+"ids": [
+"bulletarmorenchant"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"UfJHrpa9": {
+"slug": "imbued-gear",
+"title": "Imbued Gear",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/fzzyhmstrs/ig",
+"team": "fzzyhmstrs",
+"downloads": 35780,
+"version": "0.4.0+1.20.1",
+"version_id": "mE83C4co",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "imbued_gear-0.4.0+1.20.1.jar",
+"sha1": "7d9be02f96116c62062974e84344bd7adad2fd87",
+"url": "https://modrinth.com/mod/imbued-gear",
+"ids": [
+"imbued_gear"
+],
+"counts": {
+"entity": 15,
+"entity_fx": 1,
+"item": 87,
+"mob_effect": 4,
+"other_fx": 1,
+"armor": 22
+},
+"anim": 7,
+"jar_exc": [],
+"fx": 15.0
+},
+"p3i6u5xr": {
+"slug": "ego-weapons",
+"title": "E.G.O Weapons",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/M3tte/ego_weapons",
+"team": "M3tte",
+"downloads": 5651,
+"version": "1.01.10",
+"version_id": "nE0ezPSV",
+"game_versions": [
+"1.16.5"
+],
+"file": "EGOWeapons-1.01.10.jar",
+"sha1": "444741801ab0a2a3f7fe5a2e935f5a5147356307",
+"url": "https://modrinth.com/mod/ego-weapons",
+"ids": [
+"ego_weapons",
+"epicfight"
+],
+"counts": {
+"particle_def": 167,
+"other": 246,
+"block": 35,
+"other_fx": 13,
+"gui": 25,
+"item": 119,
+"mob_effect": 84,
+"armor": 2,
+"particle": 706
+},
+"anim": 33,
+"jar_exc": [],
+"fx": 2273.5,
+"drop": "X: E.G.O. weapons are Project Moon (Lobotomy Corporation / Limbus Company) IP"
+},
+"QI0EmgZ1": {
+"slug": "matcha-flavoured",
+"title": "Matcha Flavoured",
+"type": "mod",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": "https://github.com/kleiwright/matcha-flavoured",
+"team": "klei_wright",
+"downloads": 566858,
+"version": "1.12.8-beta+dp",
+"version_id": "FKX8AyUV",
+"game_versions": [
+"26.3"
+],
+"file": "MFDP_1_12_8_26_3.zip",
+"sha1": "b98444fc26b285f944e41e10874b130a28191cd4",
+"url": "https://modrinth.com/mod/matcha-flavoured",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"vdl5436m": {
+"slug": "dungeons-plus-towers",
+"title": "Dungeons+: Towers",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "nikvyrn",
+"downloads": 89513,
+"version": "1.0.1",
+"version_id": "kUQvObix",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "towers-1.0.1.jar",
+"sha1": "9ea3f49361b41a850a46226cd7e5b9bac37e07a5",
+"url": "https://modrinth.com/mod/dungeons-plus-towers",
+"ids": [
+"towers"
+],
+"counts": {
+"block": 2
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"ihLE3St2": {
+"slug": "minecraft-but-jumping-enchants",
+"title": "Minecraft But Jumping Enchants",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Bebu",
+"downloads": 35614,
+"version": "1.1.0+mod",
+"version_id": "hso2tYJM",
+"game_versions": [
+"26.3"
+],
+"file": "minecraft-but-jumping-enchants-1.1.0.jar",
+"sha1": "7d38f78b2be4aa330b87988510bab9af8787490d",
+"url": "https://modrinth.com/mod/minecraft-but-jumping-enchants",
+"ids": [
+"mr_minecraft_butjumpingenchants"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"jhxX1zVW": {
+"slug": "additional-enchanted-miner",
+"title": "Additional Enchanted Miner",
+"type": "mod",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Kotori316/QuarryPlus",
+"team": "Kotori316",
+"downloads": 554892,
+"version": "1201.1.136",
+"version_id": "cQSJraHw",
+"game_versions": [
+"1.20.1"
+],
+"file": "AdditionalEnchantedMiner-1.20.1-1201.1.136.jar",
+"sha1": "4a37aab161d61aa8cd34d6058357b1e93c8d77ce",
+"url": "https://modrinth.com/mod/additional-enchanted-miner",
+"ids": [
+"quarryplus"
+],
+"counts": {
+"block": 75,
+"entity": 15,
+"gui": 18,
+"item": 19,
+"armor": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 9.0,
+"drop": "few effect files"
+},
+"np6mA6ZR": {
+"slug": "minecraft-dungeon-artifacts",
+"title": "Dungeons Artifacts",
+"type": "mod",
+"license": "CC0-1.0",
+"license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+"source": null,
+"team": "Diesse",
+"downloads": 13868,
+"version": "0.1+mod",
+"version_id": "e19yAhwo",
+"game_versions": [
+"1.21.1",
+"1.21.2",
+"1.21.3"
+],
+"file": "minecraft-dungeon-artifacts-0.1.jar",
+"sha1": "5bea1bf2b0f33edbe79b71a5c45d78c1b4ba3128",
+"url": "https://modrinth.com/mod/minecraft-dungeon-artifacts",
+"ids": [
+"mr_minecraft_dungeonartifacts"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"GD1QoExk": {
+"slug": "enchantments-encore",
+"title": "Enchantments Encore",
+"type": "mod",
+"license": "GPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/Explorers-Eden/Enchantments-Encore",
+"team": "NiceRon",
+"downloads": 218408,
+"version": "6.0-mod",
+"version_id": "FPZCoN64",
+"game_versions": [
+"26.3"
+],
+"file": "enchantments-encore-6.0.jar",
+"sha1": "cedf900a485cce1ee40c4335176d524a3ab5c9ef",
+"url": "https://modrinth.com/mod/enchantments-encore",
+"ids": [
+"mr_enchantments_encore"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"VOFv2Rsg": {
+"slug": "formidulus",
+"title": "Formidulus",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/absolutelyaya/Formidulus",
+"team": "absolutelyaya",
+"downloads": 34443,
+"version": "0.1.2-beta",
+"version_id": "KPdKLHjS",
+"game_versions": [
+"1.21.1"
+],
+"file": "formidulus-0.1.2-beta.jar",
+"sha1": "2215049257c2d857496bed74c5988e58733ea09c",
+"url": "https://modrinth.com/mod/formidulus",
+"ids": [
+"formidulus"
+],
+"counts": {
+"particle_def": 4,
+"block": 16,
+"entity": 16,
+"gui": 9,
+"item": 7,
+"other": 2,
+"mob_effect": 2,
+"particle": 9
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 33.5
+},
+"22qSPlHn": {
+"slug": "wandrous",
+"title": "Wandrous",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/OHakimen/Wandrous/issues",
+"team": "RoseIsProot",
+"downloads": 5393,
+"version": "1.3.1",
+"version_id": "zqRg4yHU",
+"game_versions": [
+"1.21.1"
+],
+"file": "wandrous-1.3.1.jar",
+"sha1": "c6aafda32eebe057d3f3d917837c6617c1539006",
+"url": "https://modrinth.com/mod/wandrous",
+"ids": [
+"wandrous"
+],
+"counts": {
+"particle_def": 7,
+"block": 30,
+"other": 1,
+"entity": 5,
+"entity_fx": 1,
+"other_fx": 12,
+"gui": 5,
+"item": 117,
+"mob_effect": 3,
+"particle": 4
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 44.5
+},
+"mOpmle0U": {
+"slug": "ly-fangs-enchantment",
+"title": "Fangs Enchantment",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": "https://github.com/lullaby6/data-packs/blob/main/LICENSE",
+"source": "https://github.com/lullaby6/data-packs",
+"team": "lullaby",
+"downloads": 13640,
+"version": "1.0.0+mod",
+"version_id": "kfL5ONtH",
+"game_versions": [
+"26.3"
+],
+"file": "ly-fangs-enchantment-1.0.0.jar",
+"sha1": "909cdb509803c958e988c885e781e840be340ccf",
+"url": "https://modrinth.com/mod/ly-fangs-enchantment",
+"ids": [
+"mr_ly_fangsenchantment"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"NbJ0SkkL": {
+"slug": "war-wither",
+"title": "War Wither",
+"type": "mod",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/Jerotes/JerotesWarehouse",
+"team": "Jerotes_",
+"downloads": 85527,
+"version": "1.0.9",
+"version_id": "r92zdhhH",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "warwither-1.20.1-1.0.9.jar",
+"sha1": "ec655d3f791550c39220bc1daf75fcea68e7d0d6",
+"url": "https://modrinth.com/mod/war-wither",
+"ids": [
+"jerotes",
+"warwither"
+],
+"counts": {
+"particle_def": 6,
+"entity": 4,
+"entity_fx": 2,
+"gui": 4,
+"item": 2,
+"particle": 6
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 24.0
+},
+"JyJgaOrk": {
+"slug": "scriptor-magicae",
+"title": "Scriptor Magicae",
+"type": "mod",
+"license": "CC0-1.0",
+"license_url": null,
+"source": "https://github.com/ssblur/scriptor",
+"team": "ssblur",
+"downloads": 84634,
+"version": "1.2.9-1.20.1-forge",
+"version_id": "wouqVL1E",
+"game_versions": [
+"1.20.1"
+],
+"file": "scriptor-1.2.9-1.20.1-forge-sgd.jar",
+"sha1": "5bd7b7d90eb8beab93630181382bcd753578fa89",
+"url": "https://modrinth.com/mod/scriptor-magicae",
+"ids": [
+"architectury",
+"scriptor"
+],
+"counts": {
+"particle_def": 1,
+"block": 21,
+"entity": 8,
+"entity_fx": 2,
+"gui": 2,
+"item": 51,
+"mob_effect": 4,
+"particle": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 12.0,
+"drop": "few effect files"
+},
+"sf8l9B73": {
+"skip": "third-party IP"
+},
+"BxODbXgV": {
+"slug": "alessandrv-enchantments",
+"title": "Alessandrv's Enchantments",
+"type": "mod",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/alessandrv/alessandrv-enchantments",
+"team": "alessandrv",
+"downloads": 33630,
+"version": "1.5.1",
+"version_id": "NTRJuMu4",
+"game_versions": [
+"1.20.1"
+],
+"file": "alessandrvenchantments-1.5.1.jar",
+"sha1": "55cfa6a9e64a396da827f4cd3bc43071b0361239",
+"url": "https://modrinth.com/mod/alessandrv-enchantments",
+"ids": [
+"alessandrvenchantments"
+],
+"counts": {
+"particle": 85,
+"mob_effect": 13,
+"misc": 2,
+"entity": 3,
+"particle_def": 4
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 268.0
+},
+"KeXkdmTD": {
+"slug": "attack-speed-enchantment",
+"title": "Attack Speed Enchantment",
+"type": "mod",
+"license": "LGPL-3.0-or-later",
+"license_url": "https://github.com/lullaby6/data-packs/blob/main/LICENSE",
+"source": "https://github.com/lullaby6/data-packs",
+"team": "lullaby",
+"downloads": 33625,
+"version": "1.0.0+mod",
+"version_id": "CpWsXSH1",
+"game_versions": [
+"26.3"
+],
+"file": "attack-speed-enchantment-1.0.0.jar",
+"sha1": "00bf803f77a2938906223173c54042007eba5b44",
+"url": "https://modrinth.com/mod/attack-speed-enchantment",
+"ids": [
+"mr_attack_speedenchantment"
+],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"sn2HxtR3": {
+"skip": "file over 80 MB"
+},
+"tPtjib62": {
+"slug": "visual-armor-trims",
+"title": "Visual: Armor Trims",
+"type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"license_url": null,
+"source": "https://github.com/Thanos1716/visuals",
+"team": "thanos",
+"downloads": 4392220,
+"version": "v1.1",
+"version_id": "EgW0bmI7",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "visual-armor-trims-v1.1-1.20.X.zip",
+"sha1": "2ec7cb868b74fb0d4969b39ea9d485cc1e22e30b",
+"url": "https://modrinth.com/resourcepack/visual-armor-trims",
+"ids": [],
+"counts": {
+"other": 96,
+"item": 560
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"uBBepXuH": {
+"slug": "animated-items",
+"title": "Animated Items",
+"type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"license_url": null,
+"source": "https://github.com/palettemc/animated-items",
+"team": "palettemc",
+"downloads": 3026459,
+"version": "1.4",
+"version_id": "dP3a1gIC",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "animated-items-1_20-1 - 1_4.zip",
+"sha1": "38f8d97ed90e64fd117fdc21544887a755172c30",
+"url": "https://modrinth.com/resourcepack/animated-items",
+"ids": [],
+"counts": {
+"item": 54
+},
+"anim": 54,
+"jar_exc": [],
+"fx": 54.0
+},
+"BJKZVS7i": {
+"slug": "living-legend-80k-rewamped",
+"title": "Living Legend Rewamped",
+"type": "resourcepack",
+"license": "Apache-2.0",
+"license_url": null,
+"source": null,
+"team": "GAMER_TIGE99",
+"downloads": 73366,
+"version": "v2",
+"version_id": "tBV0pAOQ",
+"game_versions": [
+"1.21.8",
+"1.21.9",
+"1.21.10"
+],
+"file": "!       \u00a75\u00a7lBANE ( living 80k rewamped ) all versions.zip",
+"sha1": "14ff744c27a242b14363a2f2b2ce520786209daa",
+"url": "https://modrinth.com/resourcepack/living-legend-80k-rewamped",
+"ids": [],
+"counts": {
+"block": 169,
+"other": 289,
+"entity": 90,
+"entity_fx": 6,
+"environment": 10,
+"gui": 358,
+"item": 71,
+"misc": 8,
+"mob_effect": 34,
+"particle": 94
+},
+"anim": 89,
+"jar_exc": [],
+"fx": 596.0
+},
+"LkvOW9bO": {
+"slug": "gravelgui",
+"title": "Gravel GUI",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Dremix",
+"downloads": 70099,
+"version": "1.2.4",
+"version_id": "ZdeLeIGR",
+"game_versions": [
+"26.1.2",
+"26.2",
+"26.3"
+],
+"file": "Gravel GUI 1.2.4.zip",
+"sha1": "5887f2296334915855d948d7b020ffb8817f7e8a",
+"url": "https://modrinth.com/resourcepack/gravelgui",
+"ids": [],
+"counts": {
+"gui": 373
+},
+"anim": 40,
+"jar_exc": [],
+"fx": 226.5
+},
+"AsUvHjwh": {
+"slug": "gui-overhaul",
+"title": "GUI Overhaul",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/itsquasiab/gui-overhaul",
+"team": "itsquasi",
+"downloads": 60747,
+"version": "3.1-1.20.1",
+"version_id": "Hb4ecRcU",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "GUI Overhaul 3.1 [1.20-1.20.1].zip",
+"sha1": "16d7bd203c0f6fcc1aaaf26c228971a0ae40cc7f",
+"url": "https://modrinth.com/resourcepack/gui-overhaul",
+"ids": [],
+"counts": {
+"gui": 77,
+"other": 6
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 39.5
+},
+"6GgEjSHS": {
+"slug": "blinking-ender-eyes",
+"title": "Blinking Ender Eyes",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Futureazoo",
+"downloads": 2146269,
+"version": "26.3_v3.1",
+"version_id": "cQpC4L24",
+"game_versions": [
+"26.1.2",
+"26.2",
+"26.3"
+],
+"file": "EnderEyes_26.3_v3.1.zip",
+"sha1": "f0b2226223ad8e9aa58f27fcadb7eb6b0f43ce29",
+"url": "https://modrinth.com/resourcepack/blinking-ender-eyes",
+"ids": [],
+"counts": {
+"item": 2,
+"block": 5
+},
+"anim": 7,
+"jar_exc": [],
+"fx": 7.0,
+"drop": "few effect files"
+},
+"rn9jJfqv": {
+"slug": "things-retextured",
+"title": "Things Retextured",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "yurius564",
+"downloads": 853064,
+"version": "1.0.0",
+"version_id": "org3ER2r",
+"game_versions": [
+"1.20.1"
+],
+"file": "Things_Retextured.zip",
+"sha1": "cd7822957850d0032799f93fd041f53d479ac7a5",
+"url": "https://modrinth.com/resourcepack/things-retextured",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"chI5vWhB": {
+"skip": "third-party IP"
+},
+"yE1XChcU": {
+"slug": "rethoughted-spawn-eggs",
+"title": "Rethoughted Spawn Eggs",
+"type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"license_url": null,
+"source": null,
+"team": "CatFromNet",
+"downloads": 647660,
+"version": "1.5.1",
+"version_id": "xAqBnH9B",
+"game_versions": [
+"26.1.2",
+"26.2",
+"26.3"
+],
+"file": "Rethoughted Spawn Eggs.zip",
+"sha1": "e6bbb7ca9580c1df29dc5b013cc155da2fbe29fd",
+"url": "https://modrinth.com/resourcepack/rethoughted-spawn-eggs",
+"ids": [],
+"counts": {
+"other": 1,
+"item": 91
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"iOf04ekT": {
+"skip": "file over 80 MB"
+},
+"8262nqZo": {
+"slug": "mace-fusion",
+"title": "Mace Fusion",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "OrkaMC",
+"downloads": 632346,
+"version": "3",
+"version_id": "Z3JtFYNf",
+"game_versions": [
+"26.1.2",
+"26.2",
+"26.3"
+],
+"file": "Mace Fusion 3.zip",
+"sha1": "5b6ed81eded1ecddb40868d7ad848a54abe17694",
+"url": "https://modrinth.com/resourcepack/mace-fusion",
+"ids": [],
+"counts": {
+"item": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"lBQSreft": {
+"slug": "fire-rekindled",
+"title": "Fire Rekindled",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Tectato/Fire_Rekindled",
+"team": "Tec",
+"downloads": 1456456,
+"version": "0.21",
+"version_id": "WkrPuvYe",
+"game_versions": [
+"1.21.9",
+"1.21.10",
+"1.21.11"
+],
+"file": "Fire_Rekindled.zip",
+"sha1": "c90d3fb0641dc1e79b4da4d4e3324ea7bb3fd700",
+"url": "https://modrinth.com/resourcepack/fire-rekindled",
+"ids": [],
+"counts": {
+"particle_def": 14,
+"block": 266,
+"particle": 99
+},
+"anim": 99,
+"jar_exc": [],
+"fx": 396.0
+},
+"5Wz8MWHt": {
+"slug": "vanilla-evolved",
+"title": "Vanilla Evolved",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+"source": null,
+"team": "Vixel",
+"downloads": 569474,
+"version": "1.9.0",
+"version_id": "vmSCMjRs",
+"game_versions": [
+"1.20.1"
+],
+"file": "VanillaEvolved_1.9.0.zip",
+"sha1": "a68830f0004e3a180be061366c983dc1469e964c",
+"url": "https://modrinth.com/resourcepack/vanilla-evolved",
+"ids": [],
+"counts": {
+"particle_def": 5,
+"block": 595,
+"other": 25,
+"entity_fx": 5,
+"entity": 95,
+"environment": 4,
+"item": 235,
+"misc": 4,
+"armor": 10,
+"particle": 102
+},
+"anim": 50,
+"jar_exc": [],
+"fx": 366.0
+},
+"orgtdk9U": {
+"slug": "gui-revision",
+"title": "GUI Revision",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+"source": null,
+"team": "Vixel",
+"downloads": 542280,
+"version": "2.2.0",
+"version_id": "iqvfQNVR",
+"game_versions": [
+"1.20.1"
+],
+"file": "GUIRevision_2.2.0.zip",
+"sha1": "160413e70d2133c8fa8373a8096bfa8ed0bbed7e",
+"url": "https://modrinth.com/resourcepack/gui-revision",
+"ids": [],
+"counts": {
+"gui": 45,
+"item": 5
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 22.5
+},
+"zxSxUKhA": {
+"slug": "zapphire-16x",
+"title": "Sapphire 16x",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "FIRESTAR09_10",
+"downloads": 31955,
+"version": "v2",
+"version_id": "yI0MROXs",
+"game_versions": [
+"1.20.6",
+"1.21",
+"1.21.1"
+],
+"file": "\u00a71\u00a7lSapphire16x.zip",
+"sha1": "fe9282ceb571dd92e9a5693d04243f6a81d2425d",
+"url": "https://modrinth.com/resourcepack/zapphire-16x",
+"ids": [],
+"counts": {
+"block": 13,
+"entity": 1,
+"gui": 40,
+"item": 38,
+"misc": 2,
+"mob_effect": 7,
+"armor": 4,
+"particle": 11
+},
+"anim": 3,
+"jar_exc": [],
+"fx": 63.0
+},
+"dJ0i9p1N": {
+"slug": "stoneborn-modded-compatibility-gui",
+"title": "STONEBORN - Modded Compatibility GUI - SBMC",
+"type": "resourcepack",
+"license": "GPL-3.0-only",
+"license_url": "https://github.com/vizthex123/StonebornModdedCompat/blob/main/LICENSE",
+"source": "https://github.com/vizthex123/StonebornModdedCompat",
+"team": "Fr_z_n",
+"downloads": 486407,
+"version": "3.10.1",
+"version_id": "nfd09CQJ",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "SBMC-1.20.1-3.10.1.zip",
+"sha1": "caf08a338a61d5ab247de70af4e18b65b312c806",
+"url": "https://modrinth.com/resourcepack/stoneborn-modded-compatibility-gui",
+"ids": [],
+"counts": {
+"gui": 4,
+"particle": 26
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 80.0
+},
+"5DkfFqi0": {
+"slug": "smooth-smp-pack",
+"title": "Smooth SMP pack",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "GAMER_TIGE99",
+"downloads": 71978,
+"version": "1.0",
+"version_id": "hqGQgggS",
+"game_versions": [
+"1.21.9",
+"1.21.10",
+"1.21.11"
+],
+"file": "!        \u00a7f\u00a7lSMOOTH SMP PACK (all versiion)!!.zip",
+"sha1": "494a2e7bdc5f21fee00f7cb063798a5bb8becadc",
+"url": "https://modrinth.com/resourcepack/smooth-smp-pack",
+"ids": [],
+"counts": {
+"block": 42,
+"entity": 8,
+"gui": 17,
+"item": 32,
+"misc": 6,
+"armor": 6,
+"particle": 143
+},
+"anim": 19,
+"jar_exc": [],
+"fx": 456.5
+},
+"n4unEhNq": {
+"slug": "transparent-inventorys",
+"title": "Transparent Inventorys (GUI & HUD)",
+"type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "xSpinHDx",
+"downloads": 149046,
+"version": "2",
+"version_id": "jMua6vQK",
+"game_versions": [
+"1.19.4",
+"1.20",
+"1.20.1"
+],
+"file": "\u00a78Transparent-Inventorys.zip",
+"sha1": "5707ab9babd29ff854c979063565bfaf2f48123b",
+"url": "https://modrinth.com/resourcepack/transparent-inventorys",
+"ids": [],
+"counts": {
+"gui": 33
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 16.5
+},
+"gLbwPaHh": {
+"slug": "enchanting-table-magic-circle",
+"title": "Enchanting Table Magic Circle",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "Jacosvaldo",
+"downloads": 856162,
+"version": "2.5",
+"version_id": "kfbhPvBG",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "Enchanting Table Magic Circle v.2.5 (1.19 - 1.20.4).zip",
+"sha1": "c8207a7223b8818e9e8ed5ac07beaf2f00de2fb4",
+"url": "https://modrinth.com/resourcepack/enchanting-table-magic-circle",
+"ids": [],
+"counts": {
+"entity": 24,
+"entity_fx": 22
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 44.0
+},
+"dIyWZMgP": {
+"slug": "clean-connected-glass",
+"title": "Clean Connected Glass",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "aka_Jammy",
+"downloads": 2135088,
+"version": "0.0.2",
+"version_id": "gN2DnGei",
+"game_versions": [
+"26.1.1",
+"26.1.2",
+"26.2"
+],
+"file": "Clean Connected Glass [1.20-26.x].zip",
+"sha1": "31e6d9c9bb51b371ae3c122d1bea6726df378d02",
+"url": "https://modrinth.com/resourcepack/clean-connected-glass",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"BJoffwm5": {
+"slug": "comforts-modernized",
+"title": "Comforts Modernized",
+"type": "resourcepack",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": null,
+"team": "pedro9006",
+"downloads": 4917580,
+"version": "1.1",
+"version_id": "uFrHNRj0",
+"game_versions": [
+"1.20.6",
+"1.21",
+"1.21.1"
+],
+"file": "Comforts Modernized - V1.1.zip",
+"sha1": "34cc0542c57aedc727ea5d3cf8947a14904caa3c",
+"url": "https://modrinth.com/resourcepack/comforts-modernized",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"FsSrime2": {
+"slug": "essentialui",
+"title": "Essential UI",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/KartoffelChipss/essentialui",
+"team": "KartoffelChipss",
+"downloads": 276135,
+"version": "1.0.0",
+"version_id": "93Kigl0R",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "EssentialUI-1.20.zip",
+"sha1": "437032abd3b3dfa485620d3fec7ced092f43b1df",
+"url": "https://modrinth.com/resourcepack/essentialui",
+"ids": [],
+"counts": {
+"gui": 11,
+"misc": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 5.5,
+"drop": "few effect files"
+},
+"jgv5LTWT": {
+"slug": "reduced-particles",
+"title": "Reduced Particles",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "CapTommy",
+"downloads": 110003,
+"version": "1.0",
+"version_id": "NJZv6Kxb",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "Reduced Particles 1.20-1.20.1.zip",
+"sha1": "54d473dfac3f93bae2daba0a12c7df3c854cb809",
+"url": "https://modrinth.com/resourcepack/reduced-particles",
+"ids": [],
+"counts": {
+"particle": 42
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 126.0
+},
+"KxcF22pG": {
+"slug": "ccc",
+"title": "ComputerCraft Create",
+"type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+"source": "https://github.com/sashakoshka/ccc",
+"team": "sashakoshka",
+"downloads": 634836,
+"version": "5.0.1",
+"version_id": "Qo2dTR5E",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "ccc.zip",
+"sha1": "cf6cf368ade9e88a129e00d103d0e9a91a053da3",
+"url": "https://modrinth.com/resourcepack/ccc",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"uFGhGxal": {
+"slug": "pvp-crosshair",
+"title": "PvP Crosshair",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Discorde",
+"downloads": 1452002,
+"version": "1.0",
+"version_id": "wVmEgWX2",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "PvP Crosshair.zip",
+"sha1": "082ae5a52d7d0080f2d02ee2e73d6ada907991b4",
+"url": "https://modrinth.com/resourcepack/pvp-crosshair",
+"ids": [],
+"counts": {
+"gui": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.5,
+"drop": "few effect files"
+},
+"5aPp18Lx": {
+"slug": "3d-default",
+"title": "3D Default",
+"type": "resourcepack",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/GeForceLegend/Minecraft-3D-Default",
+"team": "GeForceLegend",
+"downloads": 1416067,
+"version": "1.16.0",
+"version_id": "ii4vkhQ0",
+"game_versions": [
+"1.20.6",
+"1.21",
+"1.21.1"
+],
+"file": "3D Default 1.20+ v1.16.0.zip",
+"sha1": "a822fd6ecc25fd6e04ede9c2ace414547677258f",
+"url": "https://modrinth.com/resourcepack/3d-default",
+"ids": [],
+"counts": {
+"block": 303,
+"entity": 2,
+"item": 107
+},
+"anim": 65,
+"jar_exc": [],
+"fx": 65.0
+},
+"hYTZC3GD": {
+"slug": "door-tweaks",
+"title": "Door Tweaks",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+"source": null,
+"team": "StormDragon77",
+"downloads": 554960,
+"version": "3.3",
+"version_id": "ZAB4cxzk",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "DoorTweaks-v3.3.zip",
+"sha1": "f900c70889fc8ef7a8ad1366d44d59cba72030e2",
+"url": "https://modrinth.com/resourcepack/door-tweaks",
+"ids": [],
+"counts": {
+"block": 106,
+"item": 24
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"i05p3PCW": {
+"slug": "better-old-netherrack",
+"title": "Better Old Netherrack",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "AT-3109",
+"downloads": 3254351,
+"version": "1.2",
+"version_id": "f1tzAObx",
+"game_versions": [
+"26.1.1",
+"26.1.2",
+"26.2"
+],
+"file": "Better-Old-Netherack-1.2-Golden-Days.zip",
+"sha1": "e0165a6af4f14f57e7f66da532e0a4fdf373c60e",
+"url": "https://modrinth.com/resourcepack/better-old-netherrack",
+"ids": [],
+"counts": {
+"block": 5
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"K32Giqwy": {
+"slug": "fogulous",
+"title": "Fogulous",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "FusionSwarly",
+"downloads": 197114,
+"version": "1.2.0",
+"version_id": "Ret31R9A",
+"game_versions": [
+"24w46a",
+"1.21.4",
+"1.21.5"
+],
+"file": "Fogulous_v1.2.0.zip",
+"sha1": "cbdd8f3d865797698069b8ed37e97567ec67667b",
+"url": "https://modrinth.com/resourcepack/fogulous",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"bwYhZ5Le": {
+"slug": "trabens-3d-arrow-models",
+"title": "Traben's 3D Arrow models",
+"type": "resourcepack",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": null,
+"team": "Traben",
+"downloads": 1172226,
+"version": "1.1",
+"version_id": "o9in2xmh",
+"game_versions": [
+"1.20.6",
+"1.21",
+"1.21.1"
+],
+"file": "trabens-3d-arrows-1.1.zip",
+"sha1": "22b1e80400b24d2080c38ea7b532efa23352d05d",
+"url": "https://modrinth.com/resourcepack/trabens-3d-arrow-models",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"5DF3hBIs": {
+"skip": "third-party IP"
+},
+"FRSckbRo": {
+"slug": "classic-3d",
+"title": "Classic 3D",
+"type": "resourcepack",
+"license": "GPL-3.0-only",
+"license_url": "https://github.thepinkhacker.com/classic-3d-redux/blob/main/LICENSE.md",
+"source": "https://github.thepinkhacker.com/classic-3d-redux",
+"team": "ThePinkHacker",
+"downloads": 1071313,
+"version": "v2.0.0-a.9-1.20",
+"version_id": "zbVnofRR",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "\u00a76\u00a7lClassic 3D\u00a7c v2.0.0-A.9\u00a7e 1.20.zip",
+"sha1": "ebdcd2d68f6b3e7275d9db6f71f77dcd0350a168",
+"url": "https://modrinth.com/resourcepack/classic-3d",
+"ids": [],
+"counts": {
+"other": 4,
+"block": 2,
+"gui": 6
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 3.0,
+"drop": "few effect files"
+},
+"ARGDWSQq": {
+"skip": "third-party IP"
+},
+"flwLm9de": {
+"slug": "tears-and-cheers",
+"title": "Tears & Cheers - Ghast Revamp",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Konci",
+"downloads": 949690,
+"version": "1.3",
+"version_id": "eK9toPku",
+"game_versions": [
+"1.21.6",
+"1.21.7",
+"1.21.8"
+],
+"file": "Tears & Cheers 1.3 - Panorama.zip",
+"sha1": "5353cf2a8550b74add7d8b820f8521329e61ae27",
+"url": "https://modrinth.com/resourcepack/tears-and-cheers",
+"ids": [],
+"counts": {
+"block": 1,
+"entity": 4,
+"gui": 6,
+"item": 2
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 3.0,
+"drop": "few effect files"
+},
+"Rspf9Ia2": {
+"slug": "in-game-brewing-guide",
+"title": "In-Game Brewing Guide",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/PINPAL/Brewing-Guide",
+"team": "PINPAL",
+"downloads": 132271,
+"version": "1.21",
+"version_id": "kuRW0Jy4",
+"game_versions": [
+"1.21.2-pre3",
+"1.21.2-pre4",
+"1.21.2-pre5"
+],
+"file": "Brewing Guide 1.20.1.zip",
+"sha1": "6e894dde504749f95f77734578e2bd8b64d34f6b",
+"url": "https://modrinth.com/resourcepack/in-game-brewing-guide",
+"ids": [],
+"counts": {
+"gui": 2
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 1.0,
+"drop": "few effect files"
+},
+"1OR06fW9": {
+"slug": "3d-harnesses-x-fresh-animations",
+"title": "3D Harnesses x Fresh Animations",
+"type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "Mtcd",
+"downloads": 827593,
+"version": "3.0.1",
+"version_id": "HTeL0VWC",
+"game_versions": [
+"26.1.2",
+"26.2",
+"26.3"
+],
+"file": "3D Harness x Fresh Animations.zip",
+"sha1": "8ee4545592efbb048336193c5e3403e7f63e4862",
+"url": "https://modrinth.com/resourcepack/3d-harnesses-x-fresh-animations",
+"ids": [],
+"counts": {
+"entity": 25
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"Nyfj98b5": {
+"slug": "connected-paths",
+"title": "Connected Paths",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": "https://github.com/Jacosvaldo/Connected-Paths",
+"team": "Jacosvaldo",
+"downloads": 2040677,
+"version": "3.1.1+mc1.20-1.20.1",
+"version_id": "uPjJ3b9c",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "Connected-Paths 1.20-1.20.1 v3.1.1.zip",
+"sha1": "e8ff93bcf8149987c5317257f25ecb746889971b",
+"url": "https://modrinth.com/resourcepack/connected-paths",
+"ids": [],
+"counts": {
+"block": 4
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 1.0,
+"drop": "few effect files"
+},
+"Srw5RQ6k": {
+"slug": "xalis-enhanced-vanilla",
+"title": "xali's Enhanced Vanilla",
+"type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"license_url": null,
+"source": "https://github.com/xalixilax/xali-s-Enhanced-Vanilla-16x",
+"team": "xalixilax",
+"downloads": 1977376,
+"version": "v1.11.2b",
+"version_id": "dEGWry22",
+"game_versions": [
+"1.20.5",
+"1.20.6",
+"1.21"
+],
+"file": "xali's Enhanced Vanilla -1.11.2b-rev.54d51d4.zip",
+"sha1": "4eabdbc6ee1c7f8f197d346438dc9dc48f34fe88",
+"url": "https://modrinth.com/resourcepack/xalis-enhanced-vanilla",
+"ids": [],
+"counts": {
+"block": 229,
+"item": 17,
+"entity": 1,
+"gui": 1
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 1.5,
+"drop": "few effect files"
+},
+"lkoaSYls": {
+"slug": "re-ocd",
+"title": "rE-oCd",
+"type": "resourcepack",
+"license": "Apache-2.0",
+"license_url": null,
+"source": null,
+"team": "HoshinekoSanti",
+"downloads": 755143,
+"version": "1",
+"version_id": "6ASWh5gD",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "rE-oCd-120.zip",
+"sha1": "a7858a14f23ad8d73b4b95e7918310fff3ba2b88",
+"url": "https://modrinth.com/resourcepack/re-ocd",
+"ids": [],
+"counts": {
+"block": 942,
+"entity": 152,
+"entity_fx": 3,
+"environment": 3,
+"gui": 46,
+"misc": 3
+},
+"anim": 64,
+"jar_exc": [],
+"fx": 93.0,
+"drop": "B: continuation of FVDisco's oCd (original licence not checked)"
+},
+"hy8Gvwcq": {
+"slug": "duskfall-ui",
+"title": "Duskfall-UI",
+"type": "resourcepack",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/SirKillian/Duskfall-UI",
+"team": "SirKillian",
+"downloads": 119192,
+"version": "26.1.1",
+"version_id": "nhrmuYpw",
+"game_versions": [
+"26.1",
+"26.1.1"
+],
+"file": "DuskfallUI-26.1.1.zip",
+"sha1": "9af68c3e15e925b53c771cc7d834803f61934fd3",
+"url": "https://modrinth.com/resourcepack/duskfall-ui",
+"ids": [],
+"counts": {
+"gui": 374
+},
+"anim": 24,
+"jar_exc": [],
+"fx": 211.0
+},
+"ojdqgkQK": {
+"slug": "trident-fusion",
+"title": "Trident Fusion",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "OrkaMC",
+"downloads": 663912,
+"version": "3.1",
+"version_id": "DsiEDmau",
+"game_versions": [
+"1.21.6",
+"1.21.7",
+"1.21.8"
+],
+"file": "Trident Fusion 3.1.zip",
+"sha1": "a71681a3a825344b312671b373812e71288ee89b",
+"url": "https://modrinth.com/resourcepack/trident-fusion",
+"ids": [],
+"counts": {
+"other": 1,
+"entity": 4,
+"item": 3
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"3Rs94nNj": {
+"slug": "red-cpvp-16x",
+"title": "red cpvp 16x",
+"type": "resourcepack",
+"license": "Apache-2.0",
+"license_url": null,
+"source": null,
+"team": "O3kar",
+"downloads": 95818,
+"version": "0.0.1",
+"version_id": "cusIadbZ",
+"game_versions": [
+"1.21.9",
+"1.21.10",
+"1.21.11"
+],
+"file": "\u00a7c\u00a7lred cpvp 16x.zip",
+"sha1": "e8efb03541ab5c82211e6253767047a7d0129d9d",
+"url": "https://modrinth.com/resourcepack/red-cpvp-16x",
+"ids": [],
+"counts": {
+"entity": 1,
+"gui": 7,
+"item": 13,
+"block": 14,
+"particle": 68
+},
+"anim": 12,
+"jar_exc": [],
+"fx": 219.5
+},
+"6nx7bid1": {
+"slug": "cubic-leaves",
+"title": "Cubic Leaves",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "zanderest",
+"downloads": 588862,
+"version": "2.4-perf",
+"version_id": "qcHDQhNX",
+"game_versions": [
+"26.1.2",
+"26.2",
+"26.3"
+],
+"file": "Cubic Leaves 2.4 (performance).zip",
+"sha1": "041218e2c3d958cfd0aff9732685e832f3698ee8",
+"url": "https://modrinth.com/resourcepack/cubic-leaves",
+"ids": [],
+"counts": {
+"block": 16
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"Go0Wa8T9": {
+"slug": "transparent-ui",
+"title": "Transparent UI + Mod Support",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "DedMaxim99",
+"downloads": 36612,
+"version": "1",
+"version_id": "AwTkRjWO",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "Transparent UI v1 mc1.20.1.zip",
+"sha1": "2010c299c5d3cdf39d3a10a29d6c07f2b1e8d551",
+"url": "https://modrinth.com/resourcepack/transparent-ui",
+"ids": [],
+"counts": {
+"gui": 126
+},
+"anim": 2,
+"jar_exc": [],
+"fx": 65.0
+},
+"vaaOMowT": {
+"slug": "spectral",
+"title": "Spectral",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "Fulmine",
+"downloads": 572658,
+"version": "0.7.0",
+"version_id": "Ar4ROj6c",
+"game_versions": [
+"1.21.6",
+"1.21.7",
+"1.21.8"
+],
+"file": "Spectral_v0.7.0.zip",
+"sha1": "7ab56138b0dda3e73b56b02bd0ec06db3935a472",
+"url": "https://modrinth.com/resourcepack/spectral",
+"ids": [],
+"counts": {
+"block": 547,
+"other": 3,
+"entity": 32,
+"item": 3
+},
+"anim": 11,
+"jar_exc": [],
+"fx": 11.0,
+"drop": "few effect files"
+},
+"qEOSTnVx": {
+"slug": "construction-wands-creatifyed",
+"title": "Construction Wands Creatifyed",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Lavundel",
+"downloads": 226379,
+"version": "1",
+"version_id": "qcLpKgVb",
+"game_versions": [
+"1.19.4",
+"1.20.1",
+"1.20.2"
+],
+"file": "Construction_Wands_Creatifyed_v1.zip",
+"sha1": "b8a39c21dc3a165abb2bae7f70aa5d92ad2b8074",
+"url": "https://modrinth.com/resourcepack/construction-wands-creatifyed",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"yORidG7U": {
+"slug": "mechanical-equation-gui-addon-for-shulker-box-tooltip",
+"title": "Mechanical equation GUI Add-on for Shulker Box Tooltip mod",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "Bronzeror",
+"downloads": 35492,
+"version": "0.1.0.4",
+"version_id": "SYwUrWua",
+"game_versions": [
+"1.21",
+"1.21.1",
+"1.21.2"
+],
+"file": "\u00a7lShulker-Box-Tooltip-1.16.5~1.21.2-Mechanical-equation-GUI-v0.1.0.zip",
+"sha1": "9440a88e3871983e70320f7a5e43c40f08a9b02e",
+"url": "https://modrinth.com/resourcepack/mechanical-equation-gui-addon-for-shulker-box-tooltip",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"DCHWs5EF": {
+"slug": "bare-bones-x-fresh-animations",
+"title": "Bare Bones x Fresh Animations",
+"type": "resourcepack",
+"license": "Unlicense",
+"license_url": null,
+"source": "https://github.com/Team-Hibiscus/Bare-Bones-x-Fresh-Animations",
+"team": "TeamHibiscus",
+"downloads": 1401091,
+"version": "1.10.4",
+"version_id": "QDcOd0qk",
+"game_versions": [
+"1.21.9",
+"1.21.10",
+"1.21.11"
+],
+"file": "Bare Bones x Fresh Animations 1.10.4.zip",
+"sha1": "ae9de15cdb4fadcce880661ed3850c0462aca05a",
+"url": "https://modrinth.com/resourcepack/bare-bones-x-fresh-animations",
+"ids": [],
+"counts": {
+"entity": 172,
+"entity_fx": 2
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 4.0,
+"drop": "few effect files"
+},
+"wmps0BbU": {
+"slug": "amethyst-pvp",
+"title": "Amethyst PvP",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "FIRESTAR09_10",
+"downloads": 31042,
+"version": "v2",
+"version_id": "19vs1ZRQ",
+"game_versions": [
+"1.20.6",
+"1.21",
+"1.21.1"
+],
+"file": "\u00a75\u00a7lAmethyst 16x.zip",
+"sha1": "84fef886e178147d8f32915e0f1eb3212c041681",
+"url": "https://modrinth.com/resourcepack/amethyst-pvp",
+"ids": [],
+"counts": {
+"block": 13,
+"entity": 1,
+"gui": 40,
+"item": 38,
+"misc": 2,
+"mob_effect": 7,
+"armor": 4,
+"particle": 11
+},
+"anim": 3,
+"jar_exc": [],
+"fx": 63.0
+},
+"CUC4h0GP": {
+"slug": "vanilla-connected-glass",
+"title": "Vanilla Connected Glass",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/sniffercraft34/Vanilla-Connected-Glass",
+"team": "sniffercraft34",
+"downloads": 490397,
+"version": "0.5",
+"version_id": "3JmN7aPv",
+"game_versions": [
+"1.21.3",
+"1.21.4",
+"1.21.5"
+],
+"file": "vanilla-connected-glass-0.5.zip",
+"sha1": "1122163bc961287c927388fde1ddd6455c850648",
+"url": "https://modrinth.com/resourcepack/vanilla-connected-glass",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"u69nu00u": {
+"slug": "human-era-villagers-illagers",
+"title": "Human Era: Villagers & Illagers X Fresh Animations",
+"type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "BishopMCNuggets",
+"downloads": 473603,
+"version": "hevi_3.91.6_full_content",
+"version_id": "V8BbkFtF",
+"game_versions": [
+"26.1.2",
+"26.2",
+"26.3"
+],
+"file": "HumanEraVillagersIllagers[3.91.6].zip",
+"sha1": "c63d36e8eb099cf1add98c5a39a1cf9d67f6ada9",
+"url": "https://modrinth.com/resourcepack/human-era-villagers-illagers",
+"ids": [],
+"counts": {
+"entity": 81,
+"item": 16,
+"misc": 1,
+"mob_effect": 2,
+"other": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 2.0,
+"drop": "few effect files"
+},
+"NR2rahl9": {
+"slug": "javaui",
+"title": "JavaUI",
+"type": "resourcepack",
+"license": "Apache-2.0",
+"license_url": null,
+"source": null,
+"team": "nikohalfkino",
+"downloads": 24534,
+"version": "1.0",
+"version_id": "OE1OYINr",
+"game_versions": [
+"1.21.3",
+"1.21.4",
+"1.21.5"
+],
+"file": "JavaUI.zip",
+"sha1": "930d40d45356522498789824b8202e524b8493a4",
+"url": "https://modrinth.com/resourcepack/javaui",
+"ids": [],
+"counts": {
+"gui": 26
+},
+"anim": 7,
+"jar_exc": [],
+"fx": 20.0
+},
+"JD76nSBi": {
+"slug": "xingluo-ae2-1.21-guiexpansion",
+"title": "XingLuo AE2 1.21 GUIExpansion",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "XingLuo",
+"downloads": 60996,
+"version": "Ext-3.0.2",
+"version_id": "mYeRMCwk",
+"game_versions": [
+"1.20.1"
+],
+"file": "XingLuo_AE2_1.21_GUIExpansion_Ext 3.0.2.zip",
+"sha1": "23742b4f224b0f2916e2bcdaea6e1f8a91d0c019",
+"url": "https://modrinth.com/resourcepack/xingluo-ae2-1.21-guiexpansion",
+"ids": [],
+"counts": {
+"gui": 474,
+"item": 19
+},
+"anim": 22,
+"jar_exc": [],
+"fx": 259.0
+},
+"aRYeNvAG": {
+"slug": "clean-pvp-pack",
+"title": "Clean PvP 16x",
+"type": "resourcepack",
+"license": "Apache-2.0",
+"license_url": null,
+"source": null,
+"team": "An_0",
+"downloads": 24182,
+"version": "1.20.4",
+"version_id": "f2RtNnan",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "Amfich's pvp pack.zip",
+"sha1": "dbf9e1563ce17ca4876ad36c0da4d5641dd66d12",
+"url": "https://modrinth.com/resourcepack/clean-pvp-pack",
+"ids": [],
+"counts": {
+"block": 26,
+"item": 29,
+"armor": 2
+},
+"anim": 4,
+"jar_exc": [],
+"fx": 4.0,
+"drop": "few effect files"
+},
+"frGHdTp1": {
+"skip": "third-party IP"
+},
+"vtFYGarZ": {
+"skip": "third-party IP"
+},
+"mynxVooj": {
+"slug": "cleanview",
+"title": "CleanView",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "skai6214",
+"downloads": 21093,
+"version": "0.1",
+"version_id": "5etZBKls",
+"game_versions": [
+"1.21.3",
+"1.21.4",
+"1.21.5"
+],
+"file": "CleanView.zip",
+"sha1": "777311d80d56bece0231db0c898847eeb52c0a41",
+"url": "https://modrinth.com/resourcepack/cleanview",
+"ids": [],
+"counts": {
+"particle": 8
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 24.0
+},
+"yj9xk24R": {
+"skip": "third-party IP"
+},
+"fJhp04UU": {
+"slug": "shiny-hearts",
+"title": "Shiny Hearts",
+"type": "resourcepack",
+"license": "CC-BY-4.0",
+"license_url": null,
+"source": null,
+"team": "_ray_s",
+"downloads": 766797,
+"version": "1.2",
+"version_id": "shswYS7i",
+"game_versions": [
+"26.3-snapshot-7",
+"26.3-snapshot-8",
+"26.3-snapshot-9"
+],
+"file": "Shiny Hearts.zip",
+"sha1": "ea220c22f61adbdf147f9b12cc2e255a12e6c1d9",
+"url": "https://modrinth.com/resourcepack/shiny-hearts",
+"ids": [],
+"counts": {
+"gui": 58
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 29.0
+},
+"hKfXoTiT": {
+"slug": "purpura-skies-xaeros-minimap-frame",
+"title": "Purpura Skies: Xaero's Minimap Frame",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "MythicalMontie.",
+"downloads": 1817261,
+"version": "1.0.0",
+"version_id": "qYGLAS12",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "PS Shielded - Xaero Frame 1.0.0.zip",
+"sha1": "15ceefc8f79cf1d2ce4599f928fa6aaf826662da",
+"url": "https://modrinth.com/resourcepack/purpura-skies-xaeros-minimap-frame",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"EJtEdO0N": {
+"slug": "cute-pumpkin",
+"title": "Cute Pumpkin",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": "https://github.com/oboikin/cute-pumpkin/blob/main/LICENSE",
+"source": null,
+"team": "novflix",
+"downloads": 714958,
+"version": "1.3",
+"version_id": "zGo77elW",
+"game_versions": [
+"1.21.9",
+"1.21.10",
+"1.21.11"
+],
+"file": "Cute Pumpkin.zip",
+"sha1": "03507b466f7b8945bee4862c442849a97d7d1f16",
+"url": "https://modrinth.com/resourcepack/cute-pumpkin",
+"ids": [],
+"counts": {
+"block": 4,
+"misc": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"ly7JS5P4": {
+"skip": "third-party IP"
+},
+"pwuThzt8": {
+"slug": "gui-sodium",
+"title": "GUISe - GUI like Sodium",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "devter",
+"downloads": 43688,
+"version": "0.6",
+"version_id": "8dWgCYmT",
+"game_versions": [
+"26.3-rc-2",
+"26.3-rc-3",
+"26.3"
+],
+"file": "GUI Sodium 0.6.zip",
+"sha1": "57e6b5e006f1894ae9a97aa60b36b0c8d57cb78d",
+"url": "https://modrinth.com/resourcepack/gui-sodium",
+"ids": [],
+"counts": {
+"gui": 50
+},
+"anim": 1,
+"jar_exc": [],
+"fx": 26.0
+},
+"S6XROiqp": {
+"slug": "redstoneauxiliary",
+"title": "\u7ea2\u77f3\u8f85\u52a9RedstoneAuxiliary",
+"type": "resourcepack",
+"license": "LGPL-3.0-only",
+"license_url": null,
+"source": null,
+"team": "moonboss666",
+"downloads": 1684220,
+"version": "1.1",
+"version_id": "y3SiT1ft",
+"game_versions": [
+"1.20.1"
+],
+"file": "1.20.1\u84dd\u7535\u7ebf\u4e0e\u6c49\u5316v1.1.zip",
+"sha1": "cea5571026014411743aa3e4aae6a8c95b6222dc",
+"url": "https://modrinth.com/resourcepack/redstoneauxiliary",
+"ids": [],
+"counts": {
+"block": 8
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"nOD7MgEz": {
+"slug": "fresh-compats",
+"title": "Fresh Compats",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "IthanMendoza",
+"downloads": 1650421,
+"version": "v1.6",
+"version_id": "EHQK5l1g",
+"game_versions": [
+"1.21.1",
+"1.21.4",
+"1.21.5"
+],
+"file": "FreshCompats_v1.6.zip",
+"sha1": "1f23f04e7b5b1240be46b3ab1959eb6c3485b368",
+"url": "https://modrinth.com/resourcepack/fresh-compats",
+"ids": [],
+"counts": {
+"entity": 2
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"x53V5CaE": {
+"slug": "sleek-ui",
+"title": "Sleek UI",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Bergundy1",
+"downloads": 40679,
+"version": "1.0.9",
+"version_id": "Vo2wI1k7",
+"game_versions": [
+"1.19.4",
+"1.20",
+"1.20.1"
+],
+"file": "Sleek UI 1.19.4 1.0.9 (Dark).zip",
+"sha1": "935ab60513297c53aae659972cbfe09f35715c7a",
+"url": "https://modrinth.com/resourcepack/sleek-ui",
+"ids": [],
+"counts": {
+"gui": 48,
+"item": 19
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 24.0
+},
+"ND2jOkOE": {
+"slug": "distinguished-gui",
+"title": "Distinguished GUI",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "zanderest",
+"downloads": 40373,
+"version": "1.1+1.20",
+"version_id": "TOIria6s",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "Distinguished GUI 1.1+1.20.zip",
+"sha1": "433dd093899771ac7a120f9627c9481a0bc6c0d2",
+"url": "https://modrinth.com/resourcepack/distinguished-gui",
+"ids": [],
+"counts": {
+"gui": 21,
+"item": 5
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 10.5,
+"drop": "few effect files"
+},
+"MdzUEeJ6": {
+"slug": "clear-lava-and-water",
+"title": "Clear Lava and Water",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "WhiterM",
+"downloads": 639101,
+"version": "1.2",
+"version_id": "eYsrzECR",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "CLaW v.1.2 1.17- 1.20.4.zip",
+"sha1": "7c5c05486a0b80e391d3360064836097d99efca4",
+"url": "https://modrinth.com/resourcepack/clear-lava-and-water",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"4XOSYHAs": {
+"slug": "koncipet-ui",
+"title": "KonciPET UI",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Konci",
+"downloads": 39605,
+"version": "2.2.1",
+"version_id": "MvDaYTUE",
+"game_versions": [
+"1.21.6",
+"1.21.7",
+"1.21.8"
+],
+"file": "KonciPET UI 2.2.1.zip",
+"sha1": "f7d253a9cb17295ad45bb181fd9175890a4933fd",
+"url": "https://modrinth.com/resourcepack/koncipet-ui",
+"ids": [],
+"counts": {
+"gui": 338
+},
+"anim": 32,
+"jar_exc": [],
+"fx": 201.0
+},
+"ZrnmXWf6": {
+"slug": "more-mob-variants-fresh-animations-addon",
+"title": "More Mob Variants x Fresh Animations",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+"source": null,
+"team": "nyuppo",
+"downloads": 618051,
+"version": "1.3.1x1.9.2",
+"version_id": "uIOGuHMy",
+"game_versions": [
+"1.20.1",
+"1.20.4",
+"1.21"
+],
+"file": "MoreMobVariants_FreshAnimations_1.3.1-1.9.2.zip",
+"sha1": "eb06ebf0b4c5f5134428dc64ff8c225e12353fe4",
+"url": "https://modrinth.com/resourcepack/more-mob-variants-fresh-animations-addon",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"XI4llq79": {
+"slug": "chest-boat-gui",
+"title": "Chest Boat GUI",
+"type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "opekope2",
+"downloads": 96982,
+"version": "1",
+"version_id": "5dNfatGB",
+"game_versions": [
+"1.19.4",
+"1.20",
+"1.20.1"
+],
+"file": "Chest-Boat-GUI-v1-dark.zip",
+"sha1": "f3a9de91b3bbd74928aa59393dd52980a6a773b4",
+"url": "https://modrinth.com/resourcepack/chest-boat-gui",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"ncfJ93Yj": {
+"slug": "fresh-animations-x-baby-animals-remastered",
+"title": "Fresh Animations x Baby Animals Remastered",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Riyuki",
+"downloads": 611511,
+"version": "0.1",
+"version_id": "rEuJGb8n",
+"game_versions": [
+"1.21.6",
+"1.21.7",
+"1.21.8"
+],
+"file": "Fresh Animations x Baby Animals Remastered v0.1.zip",
+"sha1": "a0b6fb632b132ff78671e8dc0f722372a0c8e25c",
+"url": "https://modrinth.com/resourcepack/fresh-animations-x-baby-animals-remastered",
+"ids": [],
+"counts": {
+"entity": 7
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"a0R18CKS": {
+"slug": "shadowstone-tools",
+"title": "Shadowstone Tools: onyx X netherite",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "abdouahabch7",
+"downloads": 6017,
+"version": "1.0",
+"version_id": "wFgEPV4C",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "onyx tools by koto (1.0).zip",
+"sha1": "4f3fc6f8ce968f37cf4c259265017c947e28e416",
+"url": "https://modrinth.com/resourcepack/shadowstone-tools",
+"ids": [],
+"counts": {
+"item": 5
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"APfalZZx": {
+"skip": "third-party IP"
+},
+"SAg9h5Sl": {
+"slug": "better-gui",
+"title": "Better GUI",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "BizCub",
+"downloads": 36908,
+"version": "1.9.1",
+"version_id": "Og8MOO8S",
+"game_versions": [
+"26.2-rc-2",
+"26.2",
+"26.3"
+],
+"file": "Better-GUI-1.9.1.zip",
+"sha1": "ded054b6dd555be9e0c9a728f60e6464c5ea0b00",
+"url": "https://modrinth.com/resourcepack/better-gui",
+"ids": [],
+"counts": {
+"other": 3,
+"gui": 367,
+"item": 19
+},
+"anim": 14,
+"jar_exc": [],
+"fx": 197.5
+},
+"yfhsOtAg": {
+"slug": "only-glass-gui",
+"title": "Only Glass GUI",
+"type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "Max223210",
+"downloads": 864,
+"version": "0.2",
+"version_id": "p6XWyyXL",
+"game_versions": [
+"1.21.6",
+"1.21.7",
+"1.21.8"
+],
+"file": "Only Glass Gui v0.2.zip",
+"sha1": "150df7b0dee94742bde27019658c9526ec113c19",
+"url": "https://modrinth.com/resourcepack/only-glass-gui",
+"ids": [],
+"counts": {
+"gui": 52
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 26.0
+},
+"405SacPR": {
+"slug": "actually-3d-stuff",
+"title": "Actually 3D Stuff",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "arch1vways",
+"downloads": 1365520,
+"version": "1.5",
+"version_id": "4V80raWR",
+"game_versions": [
+"26.4-snapshot-1",
+"26.4-snapshot-2",
+"26.4-snapshot-3"
+],
+"file": "Actually 3D Stuff.zip",
+"sha1": "f1a414190b379292602a3f01c0add6e733fe3849",
+"url": "https://modrinth.com/resourcepack/actually-3d-stuff",
+"ids": [],
+"counts": {
+"other": 24,
+"other_fx": 6,
+"block": 4,
+"item": 422,
+"particle": 73
+},
+"anim": 17,
+"jar_exc": [],
+"fx": 248.0
+},
+"8dToBBY3": {
+"slug": "fruity-gui",
+"title": "Fruity GUI",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/advexxx/FRUITY-GUI/issues/1",
+"team": "adve",
+"downloads": 5352,
+"version": "1.21.x",
+"version_id": "SkeBJh2C",
+"game_versions": [
+"1.21.3",
+"1.21.4",
+"1.21.5"
+],
+"file": "\u00a7eFruity \u00a75GUI.zip",
+"sha1": "95731cf7a720abd0afc8b178bbb239426703d9b1",
+"url": "https://modrinth.com/resourcepack/fruity-gui",
+"ids": [],
+"counts": {
+"gui": 65
+},
+"anim": 2,
+"jar_exc": [],
+"fx": 34.5
+},
+"lTw6uEKZ": {
+"slug": "alpha-particles-trasparent-particles",
+"title": "Alpha Particles - Trasparent Particles",
+"type": "resourcepack",
+"license": "Apache-2.0",
+"license_url": null,
+"source": null,
+"team": "Lordd727",
+"downloads": 5157,
+"version": "1.21.11",
+"version_id": "K8e28aQB",
+"game_versions": [
+"1.21.9",
+"1.21.10",
+"1.21.11"
+],
+"file": "Alpha_Particles-1.16.2-1.21.9.zip",
+"sha1": "b193e7460f7a21b2d184be838bd5d4212c7de6ae",
+"url": "https://modrinth.com/resourcepack/alpha-particles-trasparent-particles",
+"ids": [],
+"counts": {
+"particle": 8
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 24.0
+},
+"LIHfShYl": {
+"slug": "old-ui-for-legacy4j",
+"title": "Old UI for Legacy4J",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": "https://git.nostalgica.net/Lasting-Legacy/Content-Monorepo",
+"team": "omo50",
+"downloads": 79793,
+"version": "1.0-rp_compat",
+"version_id": "XBeg7tkb",
+"game_versions": [
+"1.21.8",
+"1.21.10"
+],
+"file": "Old UI for Legacy4J (RP Compat).zip",
+"sha1": "b16fedbd6b6d8df87a1532faab1aeb55b89e9c41",
+"url": "https://modrinth.com/resourcepack/old-ui-for-legacy4j",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"ZpBKASR2": {
+"slug": "xalis-enchanted-books",
+"title": "xali's Enchanted Books",
+"type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
+"source": "https://github.com/xalixilax/xali-s-Enchanted-Books-16x/",
+"team": "xalixilax",
+"downloads": 502393,
+"version": "1.0.0-beta.2",
+"version_id": "S75s3AMq",
+"game_versions": [
+"25w04a",
+"25w05a",
+"25w06a"
+],
+"file": "xali's Enchanted Books v1.0.0-beta.2.zip",
+"sha1": "fa8b3b388e3e646135ea6ae99d63c28b24ecd3a3",
+"url": "https://modrinth.com/resourcepack/xalis-enchanted-books",
+"ids": [],
+"counts": {
+"item": 147
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"9dHuFRY9": {
+"slug": "modern-mizunos",
+"title": "Modern Mizuno's",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "coolbot100s",
+"downloads": 496553,
+"version": "0.5.2",
+"version_id": "eejBs3Zq",
+"game_versions": [
+"26.2-snapshot-5",
+"26.2-snapshot-6",
+"26.2-snapshot-7"
+],
+"file": "Modern Mizunos v0.5.2.zip",
+"sha1": "f9aed90e62130d9f26d2f254a1d4b44053279ed5",
+"url": "https://modrinth.com/resourcepack/modern-mizunos",
+"ids": [],
+"counts": {
+"block": 85,
+"entity": 59,
+"item": 70,
+"mob_effect": 6,
+"other": 8,
+"particle": 15
+},
+"anim": 11,
+"jar_exc": [],
+"fx": 62.0,
+"drop": "B: add-on to Mizuno's 16x (base pack licence not checked)"
+},
+"3sXwJldG": {
+"slug": "netheritepot-basics",
+"title": "NetheritePot Basics",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "CapTommy",
+"downloads": 30546,
+"version": "26.3",
+"version_id": "urdxnfdE",
+"game_versions": [
+"26.3"
+],
+"file": "Nethpot Basics 26.3.zip",
+"sha1": "b6a689691021eb0dc48851bb5ba75eb55fe433ce",
+"url": "https://modrinth.com/resourcepack/netheritepot-basics",
+"ids": [],
+"counts": {
+"block": 7,
+"gui": 3,
+"misc": 4,
+"armor": 2,
+"particle": 63
+},
+"anim": 6,
+"jar_exc": [],
+"fx": 196.5
+},
+"DM2EuUiY": {
+"slug": "confluenceotherworld-pbr",
+"title": "Confluence PBR",
+"type": "resourcepack",
+"license": "GPL-3.0-or-later",
+"license_url": null,
+"source": null,
+"team": "Joeylth",
+"downloads": 76259,
+"version": "r5",
+"version_id": "bIwpZ8Dn",
+"game_versions": [
+"1.21.1"
+],
+"file": "Confluence-PBR-Remake-r5.zip",
+"sha1": "0f98b49b8a99722017bf50f6098cc1d77b8c5332",
+"url": "https://modrinth.com/resourcepack/confluenceotherworld-pbr",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"tN4E9NfV": {
+"slug": "chat-reporting-helper",
+"title": "Chat Reporting Helper",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Fabulously-Optimized/fabulously-optimized/tree/main/Resource%20Packs/Chat%20Reporting%20Helper",
+"team": "robotkoer",
+"downloads": 18365811,
+"version": "3.5",
+"version_id": "7zxgLdb2",
+"game_versions": [
+"1.20",
+"1.20.1",
+"1.20.2-rc2"
+],
+"file": "Chat Reporting Helper.zip",
+"sha1": "4b3c263defd89be217bddec65543d0be15cd10f9",
+"url": "https://modrinth.com/resourcepack/chat-reporting-helper",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"onLBrw8W": {
+"slug": "chrome-yellow-gradient-enchant-glint",
+"title": "Chrome Yellow Gradient Enchantment Glint",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "ALYBH",
+"downloads": 4349,
+"version": "260526",
+"version_id": "pSfvD8R9",
+"game_versions": [
+"26.2",
+"26.3-snapshot-1",
+"26.3-snapshot-2"
+],
+"file": "[1.15+]ChromeYellowGradient,ALYBH-RE Enchanted Glint.zip",
+"sha1": "c3fb19e51545feb84f2bff7b6dfa125b1b37cca6",
+"url": "https://modrinth.com/resourcepack/chrome-yellow-gradient-enchant-glint",
+"ids": [],
+"counts": {
+"misc": 4
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"6b1cPTGp": {
+"slug": "hypr-minecraft",
+"title": "Hypr Minecraft",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": "https://github.com/scarcekoi/Hypr-Minecraft/blob/main/LICENSE",
+"source": "https://github.com/scarcekoi/Hypr-Minecraft",
+"team": "scarcekoi",
+"downloads": 3840,
+"version": "0.0.2+1.20-1.20.1",
+"version_id": "AnRpPVpP",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "Hypr Minecraft v0.0.2.zip",
+"sha1": "a9eaa44e77598b82e80fcaf9a31a5e52ee079bb2",
+"url": "https://modrinth.com/resourcepack/hypr-minecraft",
+"ids": [],
+"counts": {
+"block": 943,
+"other_fx": 1,
+"entity": 470,
+"entity_fx": 11,
+"environment": 3,
+"gui": 75,
+"item": 68,
+"misc": 3,
+"other": 3
+},
+"anim": 67,
+"jar_exc": [],
+"fx": 128.5
+},
+"BW2CNmr7": {
+"slug": "pixelcatsend-gui",
+"title": "Pixel Cat's End GUI",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "zir",
+"downloads": 23732,
+"version": "1.1",
+"version_id": "xjbvFql1",
+"game_versions": [
+"1.20.4"
+],
+"file": "\u00a73\u00a7lPixel Cat's End \u00a7f\u00a78[GUI Only].zip",
+"sha1": "50ce88e6ae2870cdfe8ebdffba0777cfb005c870",
+"url": "https://modrinth.com/resourcepack/pixelcatsend-gui",
+"ids": [],
+"counts": {
+"gui": 102,
+"mob_effect": 29
+},
+"anim": 3,
+"jar_exc": [],
+"fx": 83.0
+},
+"SpgcWKWY": {
+"skip": "third-party IP"
+},
+"aNcOVoD7": {
+"slug": "spbr",
+"title": "SPBR",
+"type": "resourcepack",
+"license": "GPL-3.0-or-later",
+"license_url": null,
+"source": "https://github.com/ShulkerSakura/SPBR",
+"team": "NyaShulker",
+"downloads": 933299,
+"version": "16.2",
+"version_id": "jtNbhldU",
+"game_versions": [
+"1.21.2",
+"1.21.3",
+"1.21.4"
+],
+"file": "SPBR-16_2.zip",
+"sha1": "55221318c6b0a817f7edea282f308ddd15b133e5",
+"url": "https://modrinth.com/resourcepack/spbr",
+"ids": [],
+"counts": {
+"block": 2946,
+"entity": 533,
+"entity_fx": 7,
+"gui": 7,
+"item": 1814,
+"misc": 1,
+"armor": 45,
+"particle": 3,
+"other": 2128
+},
+"anim": 84,
+"jar_exc": [],
+"fx": 110.5,
+"drop": "B: based on VNR (another pack, licence not checked)"
+},
+"S1rcrDD7": {
+"slug": "ctm-overhaul",
+"title": "Connected Textures (CTM) Overhaul",
+"type": "resourcepack",
+"license": "CC0-1.0",
+"license_url": null,
+"source": null,
+"team": "xokz",
+"downloads": 906007,
+"version": "v6.0.0Pre-1",
+"version_id": "x7nkmGUO",
+"game_versions": [
+"1.21.9",
+"1.21.10",
+"1.21.11"
+],
+"file": "CTM-Overhaul-V_6.0-Pre1.zip",
+"sha1": "fa60ebe8f76f6ca925efb616eec593221a26ed67",
+"url": "https://modrinth.com/resourcepack/ctm-overhaul",
+"ids": [],
+"counts": {
+"block": 15
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"dspVZXKP": {
+"slug": "fast-better-grass",
+"title": "Fast Better Grass",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/Fabulously-Optimized/fabulously-optimized/tree/main/Resource%20Packs/Fast%20Better%20Grass",
+"team": "robotkoer",
+"downloads": 14244654,
+"version": "26.2",
+"version_id": "U9zNcnWW",
+"game_versions": [
+"26.1.1",
+"26.1.2",
+"26.2"
+],
+"file": "Fast Better Grass.zip",
+"sha1": "3a344f8e36a2e748f11dce1c246b5c6ce91141f1",
+"url": "https://modrinth.com/resourcepack/fast-better-grass",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"MKgZqBek": {
+"slug": "oreui-recreation",
+"title": "OreUI Recreation",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/thetmc249/OreUI-Recreation",
+"team": "tmc249",
+"downloads": 21873,
+"version": "1.2",
+"version_id": "yfyJhQWc",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "OreUI_Recreation_v1.2_for-1.20.1.zip",
+"sha1": "8b87e725a3851a9af61915e5c20e94d11365a27b",
+"url": "https://modrinth.com/resourcepack/oreui-recreation",
+"ids": [],
+"counts": {
+"gui": 38
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 19.0
+},
+"7OFEgDS3": {
+"skip": "third-party IP"
+},
+"1ocOEl1h": {
+"slug": "emerald-16x",
+"title": "Emerald 16x",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "FIRESTAR09_10",
+"downloads": 3294,
+"version": "v2",
+"version_id": "xllr3aM8",
+"game_versions": [
+"1.20.6",
+"1.21",
+"1.21.1"
+],
+"file": "\u00a7a\u00a7lEmerald16x.zip",
+"sha1": "077be9cf89e3ff1c942170bd5e83bdf24c391e5f",
+"url": "https://modrinth.com/resourcepack/emerald-16x",
+"ids": [],
+"counts": {
+"block": 13,
+"entity": 1,
+"gui": 40,
+"item": 38,
+"misc": 2,
+"mob_effect": 7,
+"armor": 4,
+"particle": 11
+},
+"anim": 3,
+"jar_exc": [],
+"fx": 63.0
+},
+"6kIJ9bvB": {
+"slug": "purple-cpvp-pack-16x",
+"title": "purple CPVP Pack 16x",
+"type": "resourcepack",
+"license": "Apache-2.0",
+"license_url": null,
+"source": null,
+"team": "O3kar",
+"downloads": 52435,
+"version": "0.0.1",
+"version_id": "OU1jZsTS",
+"game_versions": [
+"26.1",
+"26.1.1",
+"26.1.2"
+],
+"file": "\u00a75\u00a7L! O3kar Purple.zip",
+"sha1": "173d0277624c230b1781b9fe0432c7951074d7d5",
+"url": "https://modrinth.com/resourcepack/purple-cpvp-pack-16x",
+"ids": [],
+"counts": {
+"block": 19,
+"entity": 5,
+"gui": 76,
+"item": 22,
+"misc": 4,
+"particle": 57
+},
+"anim": 10,
+"jar_exc": [],
+"fx": 219.0
+},
+"22zjKOw3": {
+"slug": "transparent-inventory-gui",
+"title": "Transparent GUI",
+"type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"license_url": null,
+"source": null,
+"team": "levikk",
+"downloads": 1262,
+"version": "1.0",
+"version_id": "zUC8rw6F",
+"game_versions": [
+"26.1",
+"26.1.1",
+"26.1.2"
+],
+"file": "Transparent GUI, UI & HUD.zip",
+"sha1": "f815c1a50a3fbd751158698a75e08160e6555ae1",
+"url": "https://modrinth.com/resourcepack/transparent-inventory-gui",
+"ids": [],
+"counts": {
+"gui": 224
+},
+"anim": 33,
+"jar_exc": [],
+"fx": 145.0
+},
+"6mcKx2Pb": {
+"slug": "pridegui",
+"title": "Pride GUI",
+"type": "resourcepack",
+"license": "CC-BY-SA-4.0",
+"license_url": "https://github.com/Pridecraft-Studios/prideGUI/blob/main/LICENSE",
+"source": "https://git.pridecraft.gay/pridegui",
+"team": "bake",
+"downloads": 19554,
+"version": "5.0.0",
+"version_id": "pGs15MqF",
+"game_versions": [
+"26.2-rc-1",
+"26.2-rc-2",
+"26.2"
+],
+"file": "PrideGUI 5.0.0.zip",
+"sha1": "80b74aebb8e2910b346738ff4b3860a89fa13df9",
+"url": "https://modrinth.com/resourcepack/pridegui",
+"ids": [],
+"counts": {
+"gui": 307
+},
+"anim": 28,
+"jar_exc": [],
+"fx": 181.5
+},
+"16olY6M5": {
+"slug": "glowing",
+"title": "Glowing",
+"type": "resourcepack",
+"license": "GPL-3.0-only",
+"license_url": null,
+"source": "https://github.com/7777777-4547/Glowing",
+"team": "7777777_4547",
+"downloads": 767117,
+"version": "v0.5.0-1.20_OF",
+"version_id": "oUNVaM14",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "Glowing-OF_v0.5.0-mc1.20.zip",
+"sha1": "01da275c33d6aa7bb920f0ed5bdb94a064f7ffac",
+"url": "https://modrinth.com/resourcepack/glowing",
+"ids": [],
+"counts": {
+"block": 285,
+"entity": 32,
+"item": 370,
+"other": 1120,
+"entity_fx": 2
+},
+"anim": 68,
+"jar_exc": [],
+"fx": 72.0
+},
+"C9SsjFU3": {
+"slug": "bedrock-gui",
+"title": "Bedrock GUI",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": "https://github.com/Xetheon/bedrock-gui",
+"team": "Zetheon",
+"downloads": 7398,
+"version": "1.0",
+"version_id": "oK3wl2At",
+"game_versions": [
+"1.19.2-rc1",
+"1.19.2-rc2",
+"1.19.2"
+],
+"file": "Bedrock GUI.zip",
+"sha1": "27b2c7331fb909ca5856b8756755144c2ff5cea5",
+"url": "https://modrinth.com/resourcepack/bedrock-gui",
+"ids": [],
+"counts": {
+"gui": 23
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 11.5,
+"drop": "few effect files"
+},
+"lVxZ3apv": {
+"slug": "pvp-particles",
+"title": "PvP particles",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Discorde",
+"downloads": 18420,
+"version": "1.0-1.20.2+",
+"version_id": "M6V8S2He",
+"game_versions": [
+"26.1-snapshot-3",
+"26.1-snapshot-4",
+"26.1"
+],
+"file": "PvP particles.zip",
+"sha1": "d192b9a266b5cd6df57e438127b725f1c3f1799b",
+"url": "https://modrinth.com/resourcepack/pvp-particles",
+"ids": [],
+"counts": {
+"particle": 8
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 24.0
+},
+"Av8h3gd4": {
+"slug": "stardew-valley-theme-for-jade",
+"title": "Stardew Valley Theme for Jade",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Snownee",
+"downloads": 110226,
+"version": "0.0.5",
+"version_id": "bUoT8db3",
+"game_versions": [
+"1.21.6",
+"1.21.7",
+"1.21.8"
+],
+"file": "JadeStardewValleyTheme.zip",
+"sha1": "8a786d128da657930cc60e978056671589f4e448",
+"url": "https://modrinth.com/resourcepack/stardew-valley-theme-for-jade",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"lDxmoWUn": {
+"slug": "yagop",
+"title": "Yet Another Glowing Ores Pack",
+"type": "resourcepack",
+"license": "CC0-1.0",
+"license_url": null,
+"source": "https://github.com/Nestaan/YAGOP",
+"team": "Nestaan",
+"downloads": 682414,
+"version": "0.1.0",
+"version_id": "caA7PHkI",
+"game_versions": [
+"1.20.2",
+"1.20.3",
+"1.20.4"
+],
+"file": "YAGOP.zip",
+"sha1": "798cada9772d8721fb62204370dd5f3f932665e9",
+"url": "https://modrinth.com/resourcepack/yagop",
+"ids": [],
+"counts": {
+"block": 24,
+"item": 1
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"BozC53Fy": {
+"slug": "refreshed-ui",
+"title": "Remastered UI",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "Renared_688",
+"downloads": 6645,
+"version": "2.1",
+"version_id": "BYpItTrm",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "Refreshed UI v2.1 1.20.1.zip",
+"sha1": "ef047f2725233d533c8aee2fe37376336483d50f",
+"url": "https://modrinth.com/resourcepack/refreshed-ui",
+"ids": [],
+"counts": {
+"gui": 49,
+"item": 19
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 24.5
+},
+"i5iNDIhL": {
+"slug": "applied-interfaces",
+"title": "Applied Interfaces | AE2 GUI",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "Diamond_DP",
+"downloads": 1026,
+"version": "1.1",
+"version_id": "AvKl2niR",
+"game_versions": [
+"1.21.9",
+"1.21.10",
+"1.21.11"
+],
+"file": "applied-interfaces_1-21-11.zip",
+"sha1": "1a53038480c34b04d37fdb4d9c6a13b8a2f010cc",
+"url": "https://modrinth.com/resourcepack/applied-interfaces",
+"ids": [],
+"counts": {
+"gui": 515
+},
+"anim": 40,
+"jar_exc": [],
+"fx": 297.5
+},
+"F9wQuVGZ": {
+"slug": "particles-updated",
+"title": "[Particle Effects] Particles Updated",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "zdkrr",
+"downloads": 259736,
+"version": "0.7",
+"version_id": "z91iEHa2",
+"game_versions": [
+"26.1.2",
+"26.2",
+"26.3"
+],
+"file": "\u00a7aParticles Updated 26.2 \u00a78(0.7) by zdkrr.zip",
+"sha1": "72d8321a5c5ecd2f95520797f4c75f7659740850",
+"url": "https://modrinth.com/resourcepack/particles-updated",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"Tika7cJz": {
+"slug": "3d-particles",
+"title": "3D Particles",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "enchanted-games",
+"downloads": 16368,
+"version": "1.4",
+"version_id": "PAHTZudy",
+"game_versions": [
+"1.21.6",
+"1.21.7",
+"1.21.8"
+],
+"file": "3D_Particles-v1.4.zip",
+"sha1": "9bc6434464bfe210988c6ebc91f18850a9461060",
+"url": "https://modrinth.com/resourcepack/3d-particles",
+"ids": [],
+"counts": {
+"particle_def": 33
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"UPLmxEg5": {
+"slug": "shadify",
+"title": "Shadify",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "spunkyinsaan",
+"downloads": 647669,
+"version": "1.20",
+"version_id": "HChdZiCP",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "Shadify 1.20+.zip",
+"sha1": "54f33d9169d747ea5cf6544f25376ce9ca9b69ac",
+"url": "https://modrinth.com/resourcepack/shadify",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"dIJpiHDp": {
+"slug": "croptopia-croppin-refresh",
+"title": "Croptopia: Crop 'n' Refresh!",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "BeanzTheGoblin",
+"downloads": 645606,
+"version": "2.0",
+"version_id": "9IH5IQ0U",
+"game_versions": [
+"1.20.6",
+"1.21",
+"1.21.1"
+],
+"file": "Crop N Refresh 2.0.zip",
+"sha1": "f0e36fc0de84afd8611d85b6f0fb8050525d26a5",
+"url": "https://modrinth.com/resourcepack/croptopia-croppin-refresh",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"CghMkzlW": {
+"slug": "purple-gui",
+"title": "Purple GUI",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "MaliMiau",
+"downloads": 15798,
+"version": "1.4.1",
+"version_id": "zBk9djaa",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "Purple GUI (1.4.1).zip",
+"sha1": "5dde97e10512239d9e2440157aecc6997929e7c0",
+"url": "https://modrinth.com/resourcepack/purple-gui",
+"ids": [],
+"counts": {
+"gui": 53,
+"item": 19
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 26.5
+},
+"FtsaYfOz": {
+"slug": "gui_revision-ru",
+"title": "[RU] GUI Revision",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "s5edranner",
+"downloads": 6165,
+"version": "1.1",
+"version_id": "V9HHJp0j",
+"game_versions": [
+"1.20",
+"1.20.1",
+"1.20.2"
+],
+"file": "[RU] GUIRevision addon.zip",
+"sha1": "c47b96f5895850773e1aa8c7e82c82657d6561ca",
+"url": "https://modrinth.com/resourcepack/gui_revision-ru",
+"ids": [],
+"counts": {
+"gui": 6
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 3.0,
+"drop": "few effect files"
+},
+"I3eYO6qL": {
+"slug": "changed-ui",
+"title": "Changed UI",
+"type": "resourcepack",
+"license": "CC-BY-4.0",
+"license_url": null,
+"source": null,
+"team": "gootraxian",
+"downloads": 15088,
+"version": "1.20-1.20.1",
+"version_id": "VZWl5wPM",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "ChangedUI-1.20-1.20.1-release.zip",
+"sha1": "fa9cbd1e59345e63d25bdc0ef954e5f9f17f3493",
+"url": "https://modrinth.com/resourcepack/changed-ui",
+"ids": [],
+"counts": {
+"gui": 2
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 1.0,
+"drop": "few effect files"
+},
+"TC6XISro": {
+"slug": "eeveelutions-reimagined",
+"title": "Eeveelutions Reimagined",
+"type": "resourcepack",
+"license": "CC-BY-NC-4.0",
+"license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
+"source": null,
+"team": "SK4N",
+"downloads": 3759120,
+"version": "1.3",
+"version_id": "1IKSorXZ",
+"game_versions": [
+"1.21",
+"1.21.1"
+],
+"file": "EeveelutionsReimagined.zip",
+"sha1": "eb6e0ecfe1500ddebab3d68c6f664a6f2cfb0de3",
+"url": "https://modrinth.com/resourcepack/eeveelutions-reimagined",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"gexnR8g8": {
+"slug": "c-m-y-gradient-glint",
+"title": "C-M-Y Gradient Enchantment Glint",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "ALYBH",
+"downloads": 2333,
+"version": "260526",
+"version_id": "zMykwydx",
+"game_versions": [
+"26.2",
+"26.3-snapshot-1",
+"26.3-snapshot-2"
+],
+"file": "[1.15+]CMY Gradient,ALYBH-RE Enchanted Glint.zip",
+"sha1": "793aaa8c3d21f223731f7ddbfb9ae4c1729eaeb1",
+"url": "https://modrinth.com/resourcepack/c-m-y-gradient-glint",
+"ids": [],
+"counts": {
+"misc": 4
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"oVNsKG3I": {
+"slug": "connected-world-16x",
+"title": "Connected World 16x",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "DedMaxim99",
+"downloads": 92790,
+"version": "1.4",
+"version_id": "TspfLGUK",
+"game_versions": [
+"1.20",
+"1.20.1"
+],
+"file": "Connected World v1.4 for 1.20.zip",
+"sha1": "0fbd72beb682bdb44c0695119b13dcc8c18ae9ce",
+"url": "https://modrinth.com/resourcepack/connected-world-16x",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"9tf9GGch": {
+"slug": "villager-in-a-pack",
+"title": "Villager In A Pack",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": "https://github.com/JustDoom/VillagerInABukkit",
+"team": "JustDoom",
+"downloads": 579312,
+"version": "1.0.0",
+"version_id": "ZBgqIN0Y",
+"game_versions": [
+"26.1.1",
+"26.1.2",
+"26.2"
+],
+"file": "VillagerInABukkitPack.zip",
+"sha1": "f2d4dd5bf8ee221234b738236099b2592c58b8e8",
+"url": "https://modrinth.com/resourcepack/villager-in-a-pack",
+"ids": [],
+"counts": {
+"item": 7
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"oRwEO2cD": {
+"slug": "gui-bites",
+"title": "Gui Bites",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": null,
+"source": null,
+"team": "WaveAOE",
+"downloads": 5593,
+"version": "1.3",
+"version_id": "cnvphxWz",
+"game_versions": [
+"1.20",
+"1.20.1",
+"1.20.2"
+],
+"file": "Gui Bites (Without Expbar and Hotbar changes).zip",
+"sha1": "ed3f5a5cca4d913a948a9aba4728d5044913b2f1",
+"url": "https://modrinth.com/resourcepack/gui-bites",
+"ids": [],
+"counts": {
+"gui": 58
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 29.0
+},
+"oL18adaQ": {
+"slug": "new-glowing-ores",
+"title": "New Glowing Ores",
+"type": "resourcepack",
+"license": "CC-BY-NC-SA-4.0",
+"license_url": null,
+"source": null,
+"team": "GridExpert",
+"downloads": 8794966,
+"version": "1.3-1.20-border",
+"version_id": "YoXl9tp0",
+"game_versions": [
+"1.20.4",
+"1.20.5",
+"1.20.6"
+],
+"file": "NewGlowingOres\u00a76[BV-1.3][1.20].zip",
+"sha1": "5386de443f769021ac09e7be77f04faf4198b7bf",
+"url": "https://modrinth.com/resourcepack/new-glowing-ores",
+"ids": [],
+"counts": {
+"block": 56
+},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+},
+"jKa9Ievs": {
+"slug": "rays-3d-rails",
+"title": "RAY's 3D Rails",
+"type": "resourcepack",
+"license": "MIT",
+"license_url": "https://github.com/xR4YM0ND/RAYs-3D-Rails/blob/main/LICENSE",
+"source": "https://github.com/xR4YM0ND/RAYs-3D-Rails",
+"team": "xR4YM0ND",
+"downloads": 3464441,
+"version": "3.6",
+"version_id": "vTaYwBqs",
+"game_versions": [
+"26.1.2",
+"26.2",
+"26.3"
+],
+"file": "RAYs_3D_Rails_v3.6.zip",
+"sha1": "648bcc967799bb3cefb1d276558f0c8630f46b95",
+"url": "https://modrinth.com/resourcepack/rays-3d-rails",
+"ids": [],
+"counts": {},
+"anim": 0,
+"jar_exc": [],
+"fx": 0.0,
+"drop": "few effect files"
+}
+}

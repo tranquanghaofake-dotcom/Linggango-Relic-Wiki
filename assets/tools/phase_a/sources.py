@@ -45,6 +45,8 @@ MANUAL={
  "Quark":("A-SA","medium","CC BY-NC-SA 3.0 on Modrinth (Quark licence based on it); embed byte for byte"),
  "Deeper and Darker":("A-SA","medium","CC BY-NC-SA 4.0 on Modrinth (deeper-and-darker); the jar declares none; embed byte for byte"),
  "Jaden's Nether Expansion":("B","high","mods.toml says CC BY-NC-SA, Modrinth says CC BY-NC-ND: take the stricter (ND) until the author clarifies"),
+ "MEGA Cells":("A-SA","high","repo README: all assets CC BY-NC-SA 3.0; embed byte for byte"),
+ "Applied Mekanistics":("A-SA","high","repo README: code LGPL-3.0, assets CC BY-NC-SA 3.0; embed byte for byte"),
 }
 EXACT={'Create','Applied Energistics 2','Quark','Deeper and Darker'}
 rows=[]
@@ -61,8 +63,16 @@ def tier(r):
     if 'CC-BY-NC-SA' in parts or 'CC-BY-SA' in parts: return ("A-SA","medium","ShareAlike: embed byte for byte")
     if parts<=OPEN: return ("A","medium" if len(parts)>1 else "medium","open licence declared by the jar/Modrinth; repo not checked for an asset exception")
     return ("B","low","unclassified: "+l)
+import os
+RC=json.load(open(P+'/../repocheck.json')) if os.path.exists(P+'/../repocheck.json') else {}
 for r in d.values():
-    t,conf,note=tier(r); c=r.get('counts',{}); mr=r.get('mr') or {}
+    t,conf,note=tier(r)
+    rc=RC.get(r['title'])
+    if rc and t in('A','A-SA') and conf!='high' and not rc['exceptions'] and any(not f.lower().startswith('readme') for f in rc['files']):
+        conf='high'; note=f"repo {rc['repo']} {'/'.join(f for f in rc['files'] if not f.lower().startswith('readme'))} read at HEAD (automatic scan, no asset exception found)"
+    elif rc and t in('A','A-SA') and conf!='high' and not rc['files']:
+        note+='; repo unreachable at HEAD'
+    c=r.get('counts',{}); mr=r.get('mr') or {}
     lf=';'.join(f"{s}:{v}" for s,v in r['lic_sources'])
     rows.append({'cf_project':r['pid'],'cf_file':r['fid'],'type':r['type'],'title':r['title'],'file':r['file'],'authors':' '.join(r['authors']),
       'cf_url':r.get('cf_url') or '','modrinth':mr.get('slug',''),'source':mr.get('source') or r.get('toml_url') or '',

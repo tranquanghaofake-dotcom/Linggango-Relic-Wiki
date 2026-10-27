@@ -1,0 +1,20 @@
+{
+ "slug": "bedrock-samples",
+ "root": "{W}/git/bedrock/resource_pack",
+ "title": "Minecraft Bedrock resource pack (Mojang/bedrock-samples)",
+ "version": "Mojang/bedrock-samples @46ba6ea (1.26.50.4)",
+ "author": "Mojang",
+ "license": "Minecraft Usage Guidelines",
+ "tier": "A",
+ "confidence": "medium",
+ "namespace": "minecraft",
+ "include": [
+  "^particles/",
+  "^textures/(particle|ui|environment|misc)/",
+  "^textures/flame_atlas"
+ ],
+ "note": "Bedrock Edition art; repo has no LICENSE file, treated like vanilla (Mojang, fan content)",
+ "exclude": [
+  "^textures/ui/.*\\.json$"
+ ]
+}

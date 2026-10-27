@@ -1,0 +1,15 @@
+{
+ "slug": "faithful-32x-1.20.1",
+ "root": "{W}/git/faithful32",
+ "title": "Faithful 32x (Java 1.20.1), effect subset",
+ "version": "Faithful-Resource-Pack/Faithful-Java-32x branch 1.20.1 @cee8b2d",
+ "author": "Faithful Resource Pack",
+ "license": "Faithful License v4",
+ "tier": "A",
+ "confidence": "high",
+ "namespace": "minecraft",
+ "include": [
+  "^assets/minecraft/(textures/(particle|mob_effect|gui|misc|environment)/|particles/)"
+ ],
+ "note": "32 px: breaks the 16 px grid next to item icons. Licence: credit + link faithfulpack.net + licence link; use only what is needed; no paywall/donations around it"
+}
