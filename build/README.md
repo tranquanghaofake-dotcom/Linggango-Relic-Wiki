@@ -53,6 +53,13 @@ The headers of The Path, Equipment, the Build planner, Bosses and Mechanics, and
 - Detail pages carry the same idea in the infobox: the item hangs in an item frame on its Act's wall (`.ip-icon.framed`).
 - Each room says what it is with objects, not lamps: trophy heads, a beacon, a spawner, soul fire, a spyglass, a map, AE2's lit controller… (`--o1..3` on the furniture `--p1..3`, with an optional glow `--g1..3`), a vanilla painting beside the frames (`--paint`, `--pw`, `--ph`) and a drift of vanilla particles (`--pt`, `--pt2`, `--pa` rise or twinkle; the forge, crypt and ritual rooms throw theirs from the object that makes them). All set per room in CSS, all off under reduced motion.
 
+## Pixel rules (checked by `style_check.js`, run by `check.sh`)
+- Square corners only; pixel art at a whole-number scale (or 1/n of a larger source); one frame per thing, never a frame inside a frame; icons are sprites, never emoji. `style_check.js` fails the build on the first three kinds it can measure and lists frames inside frames to look at.
+- New icons and particles go through `pack_audit/uiicons.py <vanilla 1.20.1 textures> <asset library>` (writes `src/uiicons.js`, merged into `ROOMT`, so each is a `--rt-*` variable); `ui(k)` in app.js draws one at 16 px, `ui(k,1)` at x2. The asset library is `assets/` on the `workspace` branch (`catalog.csv` gives each file's source, version and licence; only tiers A, A-SA and A-perm may be used).
+- Rarity frames: `pack_audit/rarity_frames.py` (own work), one 32x32 frame per rarity with its window in the centre: x2 on curio tiles, x6 in the infobox.
+- Display face: Monocraft (`fonts/`, OFL), embedded by build.py; body text Be Vietnam Pro.
+- Icons whose source is not a multiple of 16 px are fitted by `ux.js` (largest k x source or source / k that fits the box).
+
 ## Game effects
 The game's own effects, each where it means something, each off under reduced motion:
 - Enchantment glint (`misc/enchanted_glint_item.png`) scrolls over Mythic and Must-Have items, masked to the item's own pixels: `glint(d)` in app.js.

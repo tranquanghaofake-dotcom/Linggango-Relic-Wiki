@@ -105,3 +105,12 @@ addEventListener("hashchange",()=>{close();markNav();dealGear();remember();
  if(document.activeElement!==hq&&!onPath())hq.value=st.q});
 document.addEventListener("DOMContentLoaded",()=>{markNav();remember();lastGear=/^#gear/.test(location.hash)?location.hash:""});
 })();
+/* pixel art at a whole-number scale: an icon whose source does not divide its box (renders of 23, 24, 48 or 128 px) is drawn at
+   the largest k x source, or source / k, that fits the box, centred in it, instead of being stretched to a fraction */
+{const fitPx=i=>{if(i.tagName!=="IMG"||!i.naturalWidth||i.naturalWidth>256||i.dataset.px)return;const c=getComputedStyle(i);
+  if(!/pixelated|crisp/.test(c.imageRendering))return;const n=i.naturalWidth,bw=parseFloat(c.width),bh=parseFloat(c.height);if(!bw||!bh)return;
+  const s=bw/n,ok=x=>Math.abs(x-Math.round(x))<.02&&Math.round(x)>=1;if(ok(s)||ok(1/s))return;
+  const w=s>=1?Math.floor(s)*n:n/Math.ceil(1/s),h=w*i.naturalHeight/n;i.dataset.px=1;
+  i.style.setProperty("width",w+"px","important");i.style.setProperty("height",h+"px","important");
+  i.style.setProperty("margin",`${(bh-h)/2}px ${(bw-w)/2}px`,"important")};
+ document.addEventListener("load",e=>fitPx(e.target),true);[...document.images].forEach(i=>i.complete&&fitPx(i))}

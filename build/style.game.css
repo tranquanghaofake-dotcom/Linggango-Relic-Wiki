@@ -1453,3 +1453,64 @@ body.qbg{background:linear-gradient(rgba(13,13,13,.5),rgba(13,13,13,.5)),var(--r
 .rqb{width:20px;height:20px}.t .rqb img,.rqb img{width:16px!important;height:16px!important}
 .gx>*{transform:none}
 .slot.big img{width:32px;height:32px}
+
+/* ================= v44: pixel restore, pass 2 (one shape language, one frame per rarity, sprites instead of emoji) =================
+   Rules every new asset must keep (build/style_check.js fails the build otherwise): no rounded corners; pixel art only at an
+   integer scale (or 1/n of a larger source); one frame per thing (a frame never sits inside another frame); icons are sprites. */
+*:not(#_),*:not(#_)::before,*:not(#_)::after{border-radius:0!important} /* :not(#_) outranks class rules that set a radius with !important */
+
+/* display face: Monocraft (build/fonts, embedded by build.py). Pixelify Sans drew B like 8, C like O, 2 like 8 and f like F */
+:root{--disp:Monocraft,ui-monospace,monospace}
+:where(h1,h2,h3,.qb,.gt,.glet,.ip-title){font-family:var(--disp)}
+
+/* sprite icons (ui() in app.js) */
+.ui{display:inline-block;width:16px;height:16px;flex:none;vertical-align:-3px;background:var(--ui) center/auto no-repeat;image-rendering:pixelated}
+.ui2{width:32px;height:32px;vertical-align:middle;background-size:32px 32px}
+
+/* one frame per rarity (pack_audit/rarity_frames.py, own work): 32x32 with the window in the centre, x2 on tiles */
+:is(.tier,.tiles) a.t:is(.r0,.r1,.r2,.r3,.r4,.r5,.r6){box-shadow:none!important}
+:is(.tier,.tiles) a.t.r0{background:var(--rt-rf_0) 0 0/64px 64px no-repeat,#1d1b25!important}
+:is(.tier,.tiles) a.t.r1{background:var(--rt-rf_1) 0 0/64px 64px no-repeat,#1d1b25!important}
+:is(.tier,.tiles) a.t.r2{background:var(--rt-rf_2) 0 0/64px 64px no-repeat,#1d1b25!important}
+:is(.tier,.tiles) a.t.r3{background:var(--rt-rf_3) 0 0/64px 64px no-repeat,#1d1b25!important}
+:is(.tier,.tiles) a.t.r4{background:var(--rt-rf_4) 0 0/64px 64px no-repeat,#1d1b25!important}
+:is(.tier,.tiles) a.t.r5{background:var(--rt-rf_5) 0 0/64px 64px no-repeat,#1d1b25!important}
+:is(.tier,.tiles) a.t.r6{background:var(--rt-rf_6) 0 0/64px 64px no-repeat,#1d1b25!important}
+:is(.tier,.tiles) a.t .star{display:none!important}
+
+/* infobox picture: the Act's wall, one rarity frame at x6, the item at x6 in its window. Gone: the stage's border and outline,
+   the soft light, the item frame under the ornate frame, the ornate frame itself, the 1 px line around gear art. */
+.ip-stage{border:0!important;outline:0!important;box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi)!important}
+.art .ip-stage::after{display:none!important}
+.ip:is(.r3,.r4,.r5,.r6) .ip-art::before,.ip:is(.r4,.r5,.r6) .ip-art::after{display:none!important}
+.ip:is(.r4,.r5,.r6) .ip-stage{inset:14px!important}
+.ip-icon.framed::before{display:block!important;width:192px!important;height:192px!important;background:var(--rt-rf_0) 0 0/192px 192px no-repeat!important}
+.ip.r1 .ip-icon.framed::before{background-image:var(--rt-rf_1)!important}.ip.r2 .ip-icon.framed::before{background-image:var(--rt-rf_2)!important}
+.ip.r3 .ip-icon.framed::before{background-image:var(--rt-rf_3)!important}.ip.r4 .ip-icon.framed::before{background-image:var(--rt-rf_4)!important}
+.ip.r5 .ip-icon.framed::before{background-image:var(--rt-rf_5)!important}.ip.r6 .ip-icon.framed::before{background-image:var(--rt-rf_6)!important}
+.ip-icon.framed>img,.ip-icon.framed .aimg,.ip-icon.framed .aimg img,.ip-icon .gbig img{width:96px!important;height:96px!important}
+.ip-icon .gbig{border:0!important}
+
+/* each Act's air from the pack's own mods: Goety fire (Nether), soul fire (soul sand), end fire (End), Hexerei stars (gilded) */
+.envfx i{width:16px;height:16px}
+.envfx[data-env=nether]{--pt:var(--rt-pt_goety_fire)}
+.envfx[data-env=soul]{--pt:var(--rt-pt_goety_soul)}
+.envfx[data-env=end]{--pt:var(--rt-pt_goety_end)}
+.envfx[data-env=gold]{--pt2:var(--rt-pt_hexerei_star)}
+
+/* room particles and paintings at whole-number scales: particles keep one size and only rise or fade (no scale tween);
+   paintings take their real size in blocks (16 px per block), so they share the room's texel (--b / 16) */
+.room .rpts i{width:round(nearest,calc(var(--b) / 3),8px);height:round(nearest,calc(var(--b) / 3),8px)}
+@keyframes rptRise{0%{opacity:0;transform:translate(0,0)}15%{opacity:.85}100%{opacity:0;transform:translate(calc((var(--k) - 4.5) * 4px),calc(var(--b) * -3.2))}}
+@keyframes rptHop{0%{opacity:0;transform:translate(0,0)}20%{opacity:.9}100%{opacity:0;transform:translate(calc((var(--k) - 4.5) * 2px),calc(var(--b) * -1.1))}}
+.room.room[data-room=forge]{--pw:4;--ph:2}
+.room.room[data-room=ritual]{--pw:4;--ph:4}
+.room.room[data-room=library]{--pw:4;--ph:4}
+.room .rdeco{background-size:100% 100%}
+/* infobox: the wall sits straight in the panel (no second bevel inside the first) */
+.ip-stage{box-shadow:none!important}
+@keyframes envTwinkle{0%,100%{opacity:0}50%{opacity:.95}}
+@keyframes rptTwinkle{0%,100%{opacity:0}50%{opacity:.95}}
+.ip-icon .emb.lg{transform:scale(2)!important}
+.room.room[data-room=library] .rdeco{background:var(--rt-spyglass) 78% 80%/48px 48px no-repeat,var(--rt-map_paper) 0 0/100% 100% no-repeat}
+.ip-title,.ip-ih b,.logo,.gear .grow>.glet{font-family:var(--disp)!important}

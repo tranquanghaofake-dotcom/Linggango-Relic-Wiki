@@ -8,3 +8,4 @@ sum() { sha1sum "$H"/src/*.js index.html static/* | sha1sum; }
 a=$(sum); bash "$H/patches/apply_all.sh" >/dev/null; b=$(sum)
 [ "$a" = "$b" ] && echo "patches: idempotent, build reproducible" || { echo "patches: NOT idempotent (a patch changes src/ when run again)"; exit 1; }
 NODE_PATH=$(npm root -g) node "$H/check.js" dist/Linggango_Relic_Wiki.html
+NODE_PATH=$(npm root -g) node "$H/style_check.js" dist/Linggango_Relic_Wiki.html

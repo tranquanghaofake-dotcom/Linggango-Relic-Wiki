@@ -37,9 +37,13 @@ def base_css():
     return css
 
 style = base_css() if "--raw" in sys.argv else base_css() + "\n" + read(B / "style.game.css")
+# the display face, embedded so the offline file and the site look the same (fonts/README.md)
+import base64
+style = "".join('@font-face{font-family:Monocraft;font-weight:%d;font-display:swap;src:url(data:font/woff2;base64,%s) format("woff2")}\n'
+                % (w, base64.b64encode((B / "fonts" / f).read_bytes()).decode()) for w, f in ((400, "Monocraft.woff2"), (700, "Monocraft-Bold.woff2"))) + style
 import hashlib
 tpl = read(S / "template.html")
-NAMES = ["data.js", "gear_data.js", "wiki_data.js", "scenes.js", "fx3d.js", "app.js", "gear.js", "ux.js"]
+NAMES = ["data.js", "gear_data.js", "wiki_data.js", "scenes.js", "uiicons.js", "fx3d.js", "app.js", "gear.js", "ux.js"]
 
 # dist: one self-contained file for offline use
 html = tpl.replace("{{STYLE}}", "<style>\n" + style + "\n</style>")
