@@ -559,6 +559,8 @@ body{background:radial-gradient(1200px 600px at 70% -10%,rgba(120,80,200,.12),tr
 .tier.seen .t.r4>img,.tier.seen .t.r5>img,.tier.seen .t.r6>img{animation-name:mvA!important;animation-duration:3.4s!important}
 /* skip layout and paint of tiers and tiles that are off screen; animations there stop with them */
 .tier{content-visibility:auto;contain-intrinsic-size:auto 420px}
+/* a collapsed Act is only its header: reserve that, not a full grid, or the page jumps as it scrolls into view */
+.tier.closed{contain-intrinsic-size:auto 56px}
 .t{contain:layout style}
 .t>img,.t .aimg,.t .aimg img{animation-play-state:paused!important}
 .t.vis>img,.t.vis .aimg,.t.vis .aimg img{animation-play-state:running!important}
@@ -1297,3 +1299,111 @@ body.qbg{background:linear-gradient(rgba(13,13,13,.5),rgba(13,13,13,.5)),var(--r
 .ip-sec:is([id$="-attacks"],#s-atk) h2::before{background-image:var(--rt-ftb_alert)!important;width:8px!important}
 @media (max-width:760px){.room .rwall,.room:not(.rhd) .rwall{grid-column:1;grid-row:auto;justify-content:flex-start;margin-right:0;margin-bottom:6px}}
 @media (max-width:760px){.room .rfr small.lg{font-size:8px}}
+
+/* ---------- rooms v39: no lamp in every corner; light comes from what is in the room ----------
+   Each of the three floor pieces (--p1..3) can carry an object on top (--o1..3: a mob head, a candlestick, fire) and can be a
+   light source (--g1..3: glow colour, "0,0,0" for none). Particles rise from the pieces (data-room rules set where). */
+.room .rlamp{display:none}
+.room{--o1:none;--o2:none;--o3:none;--g1:0,0,0;--g2:0,0,0;--g3:0,0,0}
+.room .rprops i{position:relative}
+.room .rprops i::before{content:"";position:absolute;left:0;bottom:100%;width:var(--b);height:var(--b);background:var(--o) 50% 100%/100% 100% no-repeat;image-rendering:pixelated;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.45))}
+.room .rprops i::after{content:"";position:absolute;z-index:-1;left:50%;top:0;width:calc(var(--b) * 5);height:calc(var(--b) * 5);transform:translate(-50%,-50%);border-radius:50%;
+ background:radial-gradient(circle,rgba(var(--g),.42),rgba(var(--g),.1) 45%,transparent 70%);mix-blend-mode:screen;pointer-events:none;animation:lampFlick 5s ease-in-out infinite}
+.room .rprops i:nth-child(1){--o:var(--o1);--g:var(--g1)}.room .rprops i:nth-child(2){--o:var(--o2);--g:var(--g2);animation-delay:-1.7s}.room .rprops i:nth-child(3){--o:var(--o3);--g:var(--g3)}
+/* fire (32 frames) standing on a piece */
+@keyframes fire32{to{background-position-y:calc(var(--b) * -32)}}
+.room .rprops i.fire::before{background-size:var(--b) calc(var(--b) * 32);background-position:0 0;animation:fire32 1.6s steps(32) infinite}
+/* particles rise from the furniture, a short way, never into the title */
+@keyframes rptHop{0%{opacity:0;transform:translate(0,0) scale(.6)}20%{opacity:.9}100%{opacity:0;transform:translate(calc((var(--k) - 4.5) * 2px),calc(var(--b) * -1.1)) scale(1)}}
+.room[data-room]:is([data-room=forge],[data-room=crypt],[data-room=ritual]) .rpts i{left:calc(var(--b) * .75 + var(--src,1) * var(--b) - var(--b) * .5 + var(--k) * 3px);bottom:calc(var(--b) * 1.6);--pa:rptHop;animation-name:rptHop}
+.room[data-room]:is([data-room=forge],[data-room=crypt],[data-room=ritual]) .rpts i:nth-child(3n),.room[data-room]:is([data-room=forge],[data-room=crypt],[data-room=ritual]) .rpts i:nth-child(3n+1){bottom:calc(var(--b) * 1.6)}
+
+/* Equipment: a forge; the blast furnace burns, sparks fly off the anvil */
+.room[data-room=forge]{--p2:var(--rt-grindstone_side);--g1:255,140,40;--src:3;--pt:var(--v-p_spark_0);--pt2:var(--rt-pt_lava);--pd:2.6s}
+/* Build planner: an armory; the armor stand waits for your build, no fire, just daylight on planks */
+.room[data-room=armory]{--dim:.4;--p1:var(--rt-crafting_table_front);--p2:none;--p3:var(--rt-chiseled_bookshelf_occupied);--o2:var(--rt-armor_stand);--pt:none}
+.room[data-room=armory] .rprops i:nth-child(2)::before{height:calc(var(--b) * 2);bottom:0}
+/* The Path: a map room; the journey on the wall (map and compass), books and the cartography table */
+.room[data-room=library]{--p2:var(--rt-cartography_table_side3);--o3:var(--rt-compass_16);--paint:var(--rt-map_paper);--pw:2;--ph:2;--pt:none}
+.room[data-room=library] .rdeco{background:var(--rt-spyglass) 78% 80%/36% 36% no-repeat,var(--rt-map_paper) 0 0/100% 100% no-repeat}
+/* Bosses: a trophy crypt; mob heads on the spawner and the cages, soul fire in the middle */
+.room[data-room=crypt]{--p1:var(--rt-spawner);--p2:var(--v-b_soul_soil);--p3:var(--rt-goety_cursed_cage,var(--rt-spawner));--o1:var(--rt-head_wither_skeleton);--o2:var(--rt-soul_fire_0);--o3:var(--rt-head_skeleton);
+ --g2:80,220,235;--src:2;--pt:var(--v-p_soul_0);--pt2:var(--v-p_soul_5);--pd:4s}
+.room[data-room=crypt] .rprops i:nth-child(2){visibility:visible}
+.room[data-room=crypt] .rprops i:nth-child(1)::before,.room[data-room=crypt] .rprops i:nth-child(3)::before{width:calc(var(--b) * .7);height:calc(var(--b) * .7);left:15%}
+/* Mechanics: Goety's ritual; a soul candlestick on the cage, glyphs drawn to the enchanting table */
+.room[data-room=ritual]{--o2:var(--rt-goety_soul_candlestick);--g2:120,200,255;--g3:170,110,255;--src:3;--pt:var(--v-p_sga_a);--pt2:var(--rt-pt_sga_m);--pd:3.4s}
+/* Must-Have: the treasure; gold, a beacon throwing its beam */
+.room[data-room=vault]{--p1:var(--rt-gold_block);--p2:var(--rt-beacon);--p3:var(--rt-gold_block);--g2:150,240,255}
+.room[data-room=vault] .rprops{display:flex}
+.room[data-room=vault] .rprops i:nth-child(2)::before{width:calc(var(--b) * .38);left:31%;height:calc(var(--b) * 4);background:linear-gradient(rgba(200,250,255,0),rgba(200,250,255,.55) 70%,rgba(255,255,255,.85));filter:none;animation:beamPulse 3s ease-in-out infinite}
+@keyframes beamPulse{50%{opacity:.7}}
+.room[data-room=vault]:not(.rhd) .rwall{margin-right:0}
+/* AE2 storage: the controller's lights run (its own animated overlay), fluix glows */
+.room[data-room=storage]{--p1:var(--rt-ae2_controller_powered);--g1:150,200,255;--g3:170,120,255}
+.room[data-room=storage] .rprops i:nth-child(1)::before{bottom:0;height:var(--b);background:var(--rt-ae2_controller_lights) 0 0/var(--b) calc(var(--b) * 12);animation:ctrl12 2.4s steps(12) infinite;filter:none}
+@keyframes ctrl12{to{background-position-y:calc(var(--b) * -12)}}
+@media (prefers-reduced-motion:reduce){.room .rprops i::before,.room .rprops i::after{animation:none!important}}
+/* things standing on the furniture (heads, candlestick, compass, the armor stand, sparks) get their own block of height, below the words */
+.room.rhd:is([data-room=crypt],[data-room=ritual],[data-room=library],[data-room=armory],[data-room=forge]) .rprops{margin-top:var(--b)}
+
+/* ---------- the game's own effects ---------- */
+/* enchantment glint (vanilla misc/enchanted_glint_item.png): Mythic and Must-Have items shimmer, cut to the item's shape */
+.glint{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;-webkit-mask:var(--gm) center/contain no-repeat;mask:var(--gm) center/contain no-repeat;mix-blend-mode:screen;opacity:.55}
+.glint::before{content:"";position:absolute;inset:-160px;background:var(--rt-glint) 0 0/128px 128px;image-rendering:pixelated;animation:glintMove 7s linear infinite}
+@keyframes glintMove{to{transform:translate(128px,128px)}}
+.tier .t .glint{inset:11px}
+.tier .t:is(.r5,.r6) .glint{inset:16px}
+.ip-icon .glint{inset:0}
+.room .rfr .glint{inset:calc(var(--b) * .19)}
+@media (prefers-reduced-motion:reduce){.glint::before{animation:none}}
+/* the sweep attack (vanilla particle/sweep_0..7, 8 frames of 32px) plays once when the pointer reaches a weapon */
+.gtl.wpn::after,.room[data-room=forge] .rfr::after,.ip-art.wpn::after{content:"";position:absolute;z-index:3;left:50%;top:50%;width:96px;height:96px;transform:translate(-50%,-50%);
+ background:var(--rt-sweep) 0 0/768px 96px;image-rendering:pixelated;opacity:0;pointer-events:none}
+.ip-art.wpn::after{width:192px;height:192px;background-size:1536px 192px}
+.gtl.wpn:hover::after,.room[data-room=forge] .rfr:hover::after{animation:sweepS .32s steps(8) 1 forwards,sweepFade .32s 1 forwards}
+.ip-art.wpn:hover::after{animation:sweepL .36s steps(8) 1 forwards,sweepFade .36s 1 forwards}
+@keyframes sweepS{to{background-position-x:-768px}}
+@keyframes sweepL{to{background-position-x:-1536px}}
+@keyframes sweepFade{0%,95%{opacity:.9}100%{opacity:0}}
+/* each Act's air inside the infobox picture */
+.envfx{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;--pt:none;--pt2:var(--pt);--pa:envRise;--pd:6s}
+.envfx i{position:absolute;bottom:6%;left:calc(8% + var(--k) * 11%);width:14px;height:14px;opacity:0;background:var(--pt) center/100% 100% no-repeat;image-rendering:pixelated;
+ animation:var(--pa) var(--pd) linear infinite;animation-delay:calc(var(--k) * -.83s)}
+.envfx i:nth-child(even){background-image:var(--pt2);animation-duration:calc(var(--pd) * 1.3)}
+@keyframes envRise{0%{opacity:0;transform:translate(0,0)}15%{opacity:.9}100%{opacity:0;transform:translate(calc((var(--k) - 3.5) * 5px),-220px)}}
+@keyframes envFall{0%{opacity:0;transform:translate(0,-230px)}12%{opacity:.85}100%{opacity:0;transform:translate(calc((var(--k) - 3.5) * 3px),0)}}
+@keyframes envTwinkle{0%,100%{opacity:0;transform:scale(.3)}50%{opacity:.95;transform:scale(1)}}
+.envfx[data-env=cave]{--pt:var(--v-p_drip_hang);--pa:envFall;--pd:4.5s}
+.envfx[data-env=nether]{--pt:var(--rt-pt_lava);--pt2:var(--rt-pt_ash);--pd:5s}
+.envfx[data-env=sculk]{--pt:var(--rt-pt_sculk_soul_3);--pd:7s}
+.envfx[data-env=soul]{--pt:var(--v-p_soul_0);--pt2:var(--v-p_soul_5);--pd:6s}
+.envfx[data-env=end]{--pt:var(--rt-pt_portal);--pt2:var(--v-p_glitter_0);--pd:5.5s}
+.envfx[data-env=gold]{--pt:var(--v-p_glitter_0);--pt2:var(--rt-pt_glitter_4);--pa:envTwinkle;--pd:3s}
+.envfx[data-env=gold] i:nth-child(odd){bottom:46%}.envfx[data-env=gold] i:nth-child(3n){bottom:72%}
+@media (prefers-reduced-motion:reduce){.envfx{display:none}.gtl.wpn:hover::after,.room[data-room=forge] .rfr:hover::after,.ip-art.wpn:hover::after{animation:none}}
+.gtl.wpn{position:relative}.gtl.wpn::after{top:34px}
+.envfx[data-env=meadow]{--pt:var(--rt-pt_cherry_3);--pa:envFall;--pd:7s}
+.envfx[data-env=meadow] i{width:10px;height:10px}
+/* Bosses list: each card stands on its arena's block, and the arena's air stirs when the pointer reaches it */
+.bcardl{position:relative;overflow:hidden;isolation:isolate}
+.bcardl::before{content:"";position:absolute;inset:0 0 0 38%;z-index:-1;background:var(--tex) 0 0/32px 32px;image-rendering:pixelated;opacity:.32;
+ -webkit-mask:linear-gradient(90deg,transparent,#000 70%);mask:linear-gradient(90deg,transparent,#000 70%);transition:opacity .15s}
+.bcardl:hover::before,.bcardl:focus-visible::before{opacity:.5}
+.bcardl .envfx{z-index:0;opacity:0;transition:opacity .2s}
+.bcardl .envfx i{animation-play-state:paused}
+.bcardl:hover .envfx,.bcardl:focus-visible .envfx{opacity:1}
+.bcardl:hover .envfx i,.bcardl:focus-visible .envfx i{animation-play-state:running}
+.bcardl>:not(.envfx){position:relative;z-index:1}
+/* The Path panel: the side-boss column is a window onto the Act's world, its block and its air */
+.ppanel .pside{overflow:hidden;isolation:isolate;min-height:150px;background:linear-gradient(90deg,rgba(24,22,30,.86),rgba(24,22,30,.6)),var(--tex) 0 0/32px 32px;image-rendering:pixelated}
+.ppanel .pside .envfx{z-index:-1}
+.ppanel .pside .envfx i{width:18px;height:18px}
+.ppanel .pside>:not(.envfx){position:relative;z-index:1}
+.ppanel .pnone{align-self:center;margin:auto!important;padding:4px 10px;background:rgba(0,0,0,.55);color:#d8d4e4!important}
+.ppanel .pside:has(>.pnone){align-content:center;justify-content:center}
+.ppanel .pside .envfx[data-env=meadow] i{width:12px;height:12px}
+/* The Path: each Act's label is cut from the block its world is made of (dirt, stone, netherrack, end stone…) */
+.tier .tl{background:linear-gradient(180deg,color-mix(in srgb,var(--tc,#555) 28%,rgba(26,24,32,.72)),rgba(26,24,32,.9) 70%),var(--tex) 0 0/32px 32px;image-rendering:pixelated}
+.tier .tl:hover{background:linear-gradient(180deg,color-mix(in srgb,var(--tc,#555) 36%,rgba(26,24,32,.6)),rgba(26,24,32,.82) 70%),var(--tex) 0 0/32px 32px}
+.tier:not(.closed) .tl{background:linear-gradient(180deg,color-mix(in srgb,var(--tc,#555) 28%,rgba(26,24,32,.72)),rgba(26,24,32,.92) 260px),var(--tex) 0 0/32px 32px}

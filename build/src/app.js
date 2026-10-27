@@ -157,7 +157,7 @@ function bossList(){
  document.title="Bosses · Linggango Wiki";
  const ks=ORDER.map(a=>PB[a]).filter(Boolean);ks.splice(ks.indexOf("zoranth_forgotten")+1,0,"warden","wither");
  el("main").innerHTML=`${crumb("Bosses")}${room("crypt",ks.map(k=>{const v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item;return it?{h:"#boss/"+k,i:img(it),n:`${bossName(k)}: summoned with ${v?v.name:u.name}`,l:esc(ACT[bossPath(k)][0])}:null}).filter(Boolean),{head:`<h1>Bosses</h1><p class="lede">Every Keeper in fight order, with the Warden, the Wither and the Ender Dragon where your gear can take them. Each card shows what summons it; open one for the full summon guide and recipe.</p>`,cols:7,label:"Summon items in fight order"})}
-<div class="blist">${ks.map(k=>{const a=bossPath(k),v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item,itn=v?v.name:u&&u.name;return `<a class="bcardl" href="#boss/${k}" style="--tc:${ACT[a][2]}">${emblem(a,"sm")}<span><b>${esc(bossName(k))}</b><small>${SIDEV[k]!=null?`Side boss · ${esc(actL(a))}`:`Opens ${esc(actL(a))}`}</small>${it?`<small class="bsum">${img(it)} ${esc(itn)}</small>`:""}</span></a>`}).join("")}</div>${wikiNav()}`}
+<div class="blist">${ks.map(k=>{const a=bossPath(k),v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item,itn=v?v.name:u&&u.name;return `<a class="bcardl" href="#boss/${k}" style="--tc:${ACT[a][2]};${btex(a,k)}">${envFx(a,k)}${emblem(a,"sm")}<span><b>${esc(bossName(k))}</b><small>${SIDEV[k]!=null?`Side boss · ${esc(actL(a))}`:`Opens ${esc(actL(a))}`}</small>${it?`<small class="bsum">${img(it)} ${esc(itn)}</small>`:""}</span></a>`}).join("")}</div>${wikiNav()}`}
 const ATG={melee:"⚔",proj:"➶",aoe:"◎",summon:"☠",move:"➜",buff:"✦"};
 const atype=d=>/summon|spawns? (a|an|\d|two|three|four|five|six|minions?)|calls? /i.test(d)?"summon":/throws|shoots|fires|projectile|bolt|orb|beam|laser|arrow/i.test(d)?"proj":/ground|area|around it|within \d+ blocks|ring|circle|shockwave|explo/i.test(d)?"aoe":/teleport|dash|charge|leap|jumps|flies/i.test(d)?"move":/heals?|regenerat|gains? resistance|buffs? itself/i.test(d)?"buff":"melee";
 function bossInfoHtml(k){const b=typeof BINFO!=="undefined"&&BINFO[k];if(!b)return "";
@@ -177,7 +177,7 @@ function sidePage(n){const b=typeof SIDEB!=="undefined"&&SIDEB[n],r=(typeof BOSS
    b.attacks&&b.attacks.length&&["atk","Attacks",`<div class="batks">${b.attacks.map(x=>`<div class="batk"><span class="bai bai0 ${atype(x.desc)}">${ATG[atype(x.desc)]}</span><div><b>${esc(x.name)}</b><p>${esc(x.desc)}</p></div></div>`).join("")}</div>`],
    b.drops&&b.drops.length&&["drops","Drops",`<div class="bdrops">${b.drops.map(x=>`<div class="bdrop bag"><span class="slot">${di(x.id)}</span><b>${BYID[x.id]?ilink(x.id,x.n):esc(x.n)}</b><span class="bch">${esc(x.chance||"")}</span></div>`).join("")}</div>${b.drops_note?`<p class="note">${esc(b.drops_note)}</p>`:""}<p class="note">Chances are estimated from the loot table rolls.</p>`]],
   after:src,
-  art:`<div class="ip-art"><div class="ip-stage" style="${tex(a)}"><div class="ip-icon sbpic">${b.img?`<img alt="" src="${b.img}">`:emblem(a,"lg")}</div></div></div>`,
+  art:`<div class="ip-art"><div class="ip-stage" style="${tex(a)}">${envFx(a)}<div class="ip-icon sbpic">${b.img?`<img alt="" src="${b.img}">`:emblem(a,"lg")}</div></div></div>`,
   box:{head:`<span class="ip-slot">${emblem(a,"xs")}</span><div><b>${esc(n)}</b><span>Side boss</span></div>`,
    rows:[["Type","Optional side boss"],b.mod&&["Mod",esc(b.mod)],["Fight in",`<a href="#act/${a}">${esc(actL(a))}</a>`],sl&&["Boss Soul",`for ${esc(sl[0])}`],b.drops&&b.drops.length&&["Drops",String(b.drops.length)]],
    foot:b.entity?idBox(b.entity):""},
@@ -203,7 +203,7 @@ function bossPage(k){
    row&&row[5]&&row[5]!=="—"&&["know","Good to know",`<p>${esc(pathText(row[5]))}</p>`],
    sides.length&&["side","Side bosses at this point",`<div class="tw"><table><tr><th>Boss</th><th>Where / notes</th><th>Useful drops</th></tr>${sides.map(r=>`<tr><td><b>${typeof SIDEB!=="undefined"&&SIDEB[r[0]]?`<a href="#side/${enc(r[0])}">${esc(r[0])}</a>`:esc(r[0])}</b></td><td>${esc(pathText(r[3]).replace(/[^;]*\d+\s*(dmg|damage|armor)[^;]*;?\s*/gi,"").trim()||"—")}</td><td>${r[4].slice(0,5).map(id=>ilink(id)).join(", ")||"—"}</td></tr>`).join("")}</table></div>`]],
   after:`<nav class="pnx">${prev!==undefined?`<a href="#boss/${PB[prev]}"><small>← Previous boss</small>${esc(bossName(PB[prev]))}</a>`:"<span></span>"}${next!==undefined?`<a href="#boss/${PB[next]}"><small>Next boss →</small>${esc(bossName(PB[next]))}</a>`:""}</nav>`,
-  art:`<div class="ip-art"><div class="ip-stage" style="${tex(a)}">${stage}</div></div>`,
+  art:`<div class="ip-art"><div class="ip-stage" style="${btex(a,k)}">${stage}${envFx(a,k)}</div></div>`,
   box:{head:`<span class="ip-slot">${emblem(a,"xs")}</span><div><b>${esc(nm)}</b><span>${kind}</span></div><i class="bossbar" aria-hidden="true"><i></i></i>`,
    rows:[["Type",kind],side?["Fight in",`<a href="#act/${a}">${esc(actL(a))}</a>`]:["Opens",`<a href="#act/${a}">${esc(actL(a))}</a>`],
     sit&&["Summoned with",ilink(sit,sitn)],row&&["Weak to",esc(row[2])],ks&&["Damage",ks[1],"Linggango pack setting"],ks&&ks[2]&&["Armor",ks[2],"Linggango pack setting"],
@@ -494,6 +494,14 @@ const bst=k=>(typeof BST!=="undefined"&&BST[k])||null;
 const emblem=(a,c="")=>{const e=EMB[a],bi=typeof BIMG!=="undefined"&&BIMG[e];return `<span class="emb ${c}" style="--tc:${ACT[a][2]}">${e&&IC[e]?img(e):bi?`<img alt="" src="${bi}">`:`<span class="ph">${esc(ACT[a][0])}</span>`}</span>`};
 const PTEX={"-1":"b_crying_obsidian",0:"b_dirt",2:"b_stone",3:"b_gilded_blackstone",4:"b_deepslate",5:"b_netherrack",6:"b_blackstone",6.1:"b_sculk",6.2:"b_soul_sand",6.3:"b_end_stone",7:"b_obsidian",8:"b_purpur_block",9:"b_crying_obsidian",10:"b_soul_soil",11:"b_reinforced_deepslate_top",12:"b_bedrock"};
 const tex=a=>`--tex:var(--v-${PTEX[a]||"b_stone"})`;
+/* the air of each Act's world, from the same block as its wall: falling petals on the surface, drips in caves, embers and ash in the Nether, souls by soul
+   sand, sculk souls in the deep dark, portal motes in the End, glitter on gilded blackstone (CSS: .envfx[data-env=…]) */
+const PENV={b_dirt:"meadow",b_stone:"cave",b_deepslate:"cave",b_gilded_blackstone:"gold",b_netherrack:"nether",b_blackstone:"nether",b_sculk:"sculk",b_soul_sand:"soul",b_soul_soil:"soul",
+ b_end_stone:"end",b_obsidian:"end",b_purpur_block:"end",b_crying_obsidian:"end",b_reinforced_deepslate_top:"sculk",b_bedrock:"nether"};
+// a boss brings its own air where its arena is plainer than the Act's block
+const BENV={warden:"sculk",wither:"soul",ender_dragon:"end"},BTEX={warden:"b_sculk",wither:"b_soul_sand",ender_dragon:"b_end_stone"};
+const btex=(a,k)=>BTEX[k]?`--tex:var(--v-${BTEX[k]})`:tex(a);
+const envFx=(a,k)=>{const e=BENV[k]||PENV[PTEX[a]];return e?`<span class="envfx" data-env="${e}" aria-hidden="true">${[0,1,2,3,4,5,6,7].map(k=>`<i style="--k:${k}"></i>`).join("")}</span>`:""};
 const SPR=["p_glint","p_sga_a","p_sga_e","p_sga_k","p_sga_r","p_sga_x","p_sga_z","p_glitter_0","p_glitter_3","p_spark_3"];
 const MFSP={terra:"p_glitter_3",brut:"p_critical_hit",leth:"p_critical_hit",summ:"p_glitter_0",enigma:"p_sga_k",armag:"p_flame",celest:"p_glint",goety:"p_soul_5",l2:"p_sga_x",spell:"p_sga_e",blood:"p_drip_hang",tech:"p_spark_3",calam:"p_soul_fire_flame",relic:"p_glitter_6"};
 const isMust=d=>d.r===6;
@@ -583,7 +591,7 @@ const SLU={};
 const slotKey=n=>{const k=n.toLowerCase();return SLA[k]||k.replace(/ /g,"_")};
 const slotIcon=(n,t)=>{const k=slotKey(n),b=(UI[t?"cslotT":"cslot"]||{})[k],c=t?k+"~":k;if(!b)return "";if(!SLU[c])SLU[c]=URL.createObjectURL(new Blob([Uint8Array.from(atob(b),c=>c.charCodeAt(0))],{type:"image/png"}));return SLU[c]};
 const slk=d=>{const u=slotIcon(d.sl[0]||"",1);return u?`<i class="slk" style="--si:url(${u})" title="${esc(d.sl.join(" / "))} slot"></i>`:`<i class="slk tx" title="${esc(d.sl.join(" / "))} slot">${esc((d.sl[0]||"?").slice(0,2))}</i>`};
-const tile=(d,i=99)=>`<a style="--i:${i}" class="t c${d.c} r${d.r}${d.g==="Loot"?" L":""}${d.inv?" inv":""}" data-mf="${mf(d.m)[0]}" href="#i${d.ix}" data-t="${d.ix}" aria-label="${esc(d.n)}">${AN[d.id]?`<span class="aimg" data-an="${esc(d.id)}">${img(d.id)}</span>`:img(d.id)}${d.k>1?`<span class="kv">${d.k}</span>`:""}${isMust(d)?'<span class="star" aria-label="Must-Have">★</span>':""}${rqb(d)}${slk(d)}</a>`;
+const tile=(d,i=99)=>`<a style="--i:${i}" class="t c${d.c} r${d.r}${d.g==="Loot"?" L":""}${d.inv?" inv":""}" data-mf="${mf(d.m)[0]}" href="#i${d.ix}" data-t="${d.ix}" aria-label="${esc(d.n)}">${AN[d.id]?`<span class="aimg" data-an="${esc(d.id)}">${img(d.id)}</span>`:img(d.id)}${d.k>1?`<span class="kv">${d.k}</span>`:""}${glint(d)}${isMust(d)?'<span class="star" aria-label="Must-Have">★</span>':""}${rqb(d)}${slk(d)}</a>`;
 const gcard=(d,i)=>`<a class="gc r${d.r}" style="--i:${Math.min(i,40)}" href="#i${d.ix}" data-t="${d.ix}"><span class="pic">${img(d.id)}</span><b>${esc(d.n)}</b><small>${esc(d.sl.join(", "))} · ${esc(d.m)}</small><span class="gm"><span class="rk">${isMust(d)?"★ Must-Have":RN[d.r]}</span><span class="ak">${esc(actL(d.t))}</span></span></a>`;
 const rbar=xs=>`<span class="bar5">${RNS.map(i=>{const n=xs.filter(d=>d.r===i).length;return n?`<i style="flex:${n};background:${RC[i]}"></i>`:""}).join("")}</span>`;
 const cards=xs=>`<div class="cards">${xs.map(x=>`<a class="card" href="#i${x.ix}" data-t="${x.ix}">${img(x.id)}<span>${esc(x.n)}</span></a>`).join("")}</div>`;
@@ -627,10 +635,10 @@ function navbox(title,groups){groups=(groups||[]).filter(g=>g&&g[1]&&g[1].length
      o      {head: html on the wall (title, lead), min: frames to show even when empty, cols: frames per row, label}
    Each room also hangs a painting beside its frames, its own lights on chains and a drift of vanilla particles (all CSS). */
 function room(kind,items,o={}){const n=Math.max(items.length,o.min||0),xs=[...items,...Array(n-items.length).fill(null)];
- return `<div class="room${o.head?" rhd":""}" data-room="${kind}" style="--cols:${o.cols||8}">${o.head?`<div class="rhead">${o.head}</div>`:""}<span class="rprops" aria-hidden="true"><i></i><i></i><i></i></span>
+ return `<div class="room${o.head?" rhd":""}" data-room="${kind}" style="--cols:${o.cols||8}">${o.head?`<div class="rhead">${o.head}</div>`:""}<span class="rprops" aria-hidden="true"><i></i><i${kind==="crypt"?' class="fire"':""}></i><i></i></span>
 <div class="rwall"><span class="rdeco" aria-hidden="true"></span><nav class="rfrs" aria-label="${esc(o.label||"Items")}">${xs.map(x=>x?`<a class="rfr${x.g?" glow":""}" href="${x.h}"${x.t!=null?` data-t="${x.t}"`:` title="${esc(x.n)}"`} aria-label="${esc(x.n)}">${x.i}${x.l?`<small${x.l.length>3?' class="lg"':""}>${x.l}</small>`:""}</a>`:`<span class="rfr empty" aria-hidden="true"></span>`).join("")}</nav></div>
 <i class="rlamp a" aria-hidden="true"></i><i class="rlamp b" aria-hidden="true"></i><span class="rpts" aria-hidden="true">${[0,1,2,3,4,5,6,7,8,9].map(k=>`<i style="--k:${k}"></i>`).join("")}</span></div>`}
-const rCurio=(d,l,g)=>({h:"#i"+d.ix,i:img(d.id),t:d.ix,n:d.n,l,g});
+const rCurio=(d,l,g)=>({h:"#i"+d.ix,i:img(d.id)+glint(d),t:d.ix,n:d.n,l,g});
 const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.indexOf("zoranth_forgotten");if(i>=0)ks.splice(i+1,0,"warden","wither");return ks};
 /* the wiki-wide groups every detail page ends with; extra = this page's own groups, put first */
 function wikiNav(cur,extra){cur=cur||{};const a=cur.act!=null&&ACT[cur.act]&&ORDER.includes(cur.act)?cur.act:null;
@@ -665,7 +673,7 @@ function pPanel(a,i,path){const xs=D.filter(d=>d.t===a),m=xs.filter(isMust).leng
   ${nb?`<a class="pnext" href="#boss/${nb}">${emblem(bossPath(nb)??a,"sm")}<span><small>Keeper to beat next</small><b>${esc(bossName(nb))}</b></span></a>`:`<p class="pnext end"><span><small>Keeper to beat next</small><b>None: this is the last Act</b></span></p>`}
   ${bw?`<a class="pnext" href="#g${bw.ix}" data-t="g${bw.ix}"><span class="slot sm">${gImg(bw)}</span><span><small>Best melee weapon here</small><b>${esc(bw.n)}</b></span></a>`:""}
   <div class="pbtn"><a class="mcb" href="#act/${a}">See ${xs.length} curios</a><a class="mcb" href="#gear/${a}/ME/w">See gear</a><button class="mcb phere" type="button" data-here="${a}" aria-pressed="false">I'm here</button></div>
- </div><div class="pside">${sides||'<p class="pnone">No side bosses at this Act. Gear up for the Keeper.</p>'}</div></div></div>`}
+ </div><div class="pside">${envFx(a)}${sides||'<p class="pnone">No side bosses at this Act. Gear up for the Keeper.</p>'}</div></div></div>`}
 function pathMap(path){
  return `<section class="gui pmap" id="pmap"><div class="pmh"><div><h2 class="gt">The Path</h2><p class="gs">Pick an Act to see what it opens and who guards it. Press “I'm here” on the Act you reached and the map follows your run.</p></div><p class="prun" id="prun" aria-live="polite"></p></div>
  <div class="ptrack" role="tablist" aria-label="Acts of The Path" style="--n:${path.length}"><div class="pxp" aria-hidden="true"><i id="pxpf"></i></div>
@@ -829,7 +837,7 @@ function page(d){
  // slot neighbours
  const s0=d.sl[0],sx=s0?byRank(D.filter(x=>x.sl.includes(s0))):[],si=sx.indexOf(d),pv=sx[si-1],nx=sx[si+1];
  const near=sx.filter(x=>x!==d).slice(Math.max(0,si-4),Math.max(0,si-4)+8);
- const art=`<div class="ip-art"><span class="ip-badge">${RN[d.r]}</span><div class="ip-stage" style="${tex(d.t)}"><span class="orb" aria-hidden="true">${[0,1,2,3,4,5].map(i=>`<i style="--k:${i};--sp:var(--v-${MFSP[F[0]]||"p_glint"})"></i>`).join("")}</span><div class="ip-icon framed">${ic}</div></div><span class="ip-mini">${ic}</span><span class="ip-path" title="${esc(actL(d.t))}">${emblem(d.t,"xs")}</span></div>`;
+ const art=`<div class="ip-art"><span class="ip-badge">${RN[d.r]}</span><div class="ip-stage" style="${tex(d.t)}">${envFx(d.t)}<span class="orb" aria-hidden="true">${[0,1,2,3,4,5].map(i=>`<i style="--k:${i};--sp:var(--v-${MFSP[F[0]]||"p_glint"})"></i>`).join("")}</span><div class="ip-icon framed">${ic}${glint(d)}</div></div><span class="ip-mini">${ic}</span><span class="ip-path" title="${esc(actL(d.t))}">${emblem(d.t,"xs")}</span></div>`;
  const sib=s0?`<section class="sib"><h2>More ${esc(s0)} curios <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">see all ${sx.length} →</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>← Previous in ${esc(s0)}</small>${esc(pv.n)}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>Next in ${esc(s0)} →</small>${esc(nx.n)}</a>`:""}</nav></section>`:"";
  el("main").innerHTML=article({cls:"r"+d.r,data:` data-mf="${F[0]}"`,
   crumb:`<div class="crumb ip-crumb"><a href="#">Home</a> / <a href="#home">The Path</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>`,
@@ -1014,6 +1022,8 @@ const TOP={COMMON:["#969696","#575757","#3C3C3C"],UNCOMMON:["#9CA028","#6A6D18",
 const VRAR={Common:"COMMON",Uncommon:"UNCOMMON",Rare:"RARE",Epic:"EPIC"};
 const pal=d=>isMust(d)?["#FFE14D","#FFB300","#5A3A00"]:d.ig?(TOP[VRAR[d.ig[0]]]||TOP.CUSTOM):TOP.COMMON;
 const igName=d=>d.ig?`<span class="ign" style="${d.ig[1]==="rainbow"?"":"color:"+d.ig[1]}"${d.ig[1]==="rainbow"?' data-rb="1"':""}>${esc(d.ig[0])}</span>`:'<span class="ign">Unverified</span>';
+/* the enchantment glint over Mythic and Must-Have items, cut to the item's shape (mask = its icon) */
+const glint=d=>d.r>=5&&IC[d.id]?`<span class="glint" style="--gm:url(${icu(d.id)})" aria-hidden="true"></span>`:"";
 const slotImg=(d,cls="")=>IC[d.id]?`<span class="aimg ${cls}"${AN[d.id]?` data-an="${esc(d.id)}"`:""}><img alt="" src="${icu(d.id)}"></span>`:`<span class="ph">${esc(d.n.slice(0,2))}</span>`;
 /* tooltip recipe: mini crafting grid instead of the "Craft at ... from ..." line */
 const RCV=/^(Craft|Combine|Infuse|Perform|Upgrade|Imbue|Forge)\b/;

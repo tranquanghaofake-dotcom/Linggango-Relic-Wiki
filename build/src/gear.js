@@ -141,7 +141,7 @@ function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
 const gHref=g=>g.ps?"#gs"+g.ix:"#g"+g.ix;
 /* a tile is faded when its score in this list is an estimate (a staff's Melee DPS is read, its Mage score is not) */
-const gTile=(g,a,r)=>`<a class="gtl${g.est&&!(r==="ME"&&g.dmg!=null)?" est":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}">${gImg(g)}${g.a===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(g.n)}</span></a>`;
+const gTile=(g,a,r)=>`<a class="gtl${g.est&&!(r==="ME"&&g.dmg!=null)?" est":""}${!g.ps&&g.k!=="armor"?" wpn":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}">${gImg(g)}${g.a===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(g.n)}</span></a>`;
 const GSTATE={a:0,r:"ME",w:"w",q:""};let GALL=false;
 document.addEventListener("click",e=>{if(e.target.closest("[data-gall]")){GALL=true;const y=scrollY;gearPage(location.hash);scrollTo(0,y)}});
 let GLASTH="";
@@ -214,7 +214,7 @@ function gVerdict(g){const r=gMain(g),w=g.ps?"a":"w",acts=ORDER.filter(x=>x!=-1&
 const gStatTable=(g,rows)=>rows.length?`<table class="gst">${rows.map(([ic,n,v,s])=>`<tr><td>${ic?`<i class="ai" style="--ai:var(--v-${ic})"></i>`:""}${n}</td><td class="num">${v}</td><td><span class="tg ${s}">${s==="code"?"Read from the mod":"Pack"}</span></td></tr>`).join("")}${g.sc.ME!=null&&g.dmg!=null?`<tr class="dps"><td>Damage per second</td><td class="num">${gRound(g.sc.ME)}</td><td><span class="tg auto">Wiki estimate</span></td></tr>`:""}</table>`:`<p class="note">Base ${g.k==="armor"?"armor":"damage"} is computed in this mod's code at run time; the wiki could not read it, so this item is ranked by its gate.</p>`;
 /* the best tier of a playstyle at an Act, for the navbox */
 const gTop=(a,r,w,not)=>{const t=gTiers(a,r,w)[0];return t?t[1].filter(x=>x!==not).slice(0,10).map(x=>[gHref(x),esc(x.n)]):[]};
-const gArtBox=(g,set)=>`<div class="ip-art"><div class="ip-stage" style="${tex(g.a)}"><div class="ip-icon${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?"":" framed"}">${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?`<img class="garm" alt="${esc(set.n)} worn" src="${ARMR[set.k]}">`:`<span class="gbig">${img(g.ps?gIcon(g).id:g.id)}</span>`}</div></div></div>`;
+const gArtBox=(g,set)=>`<div class="ip-art${!g.ps&&g.k!=="armor"?" wpn":""}"><div class="ip-stage" style="${tex(g.a)}">${envFx(g.a)}<div class="ip-icon${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?"":" framed"}">${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?`<img class="garm" alt="${esc(set.n)} worn" src="${ARMR[set.k]}">`:`<span class="gbig">${img(g.ps?gIcon(g).id:g.id)}</span>`}</div></div></div>`;
 function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix,[]);
  const r=gMain(g),rows=gStats(g),bon=gBonus(g),set=g.k==="armor"?GS.find(s=>s.p.includes(g.id)):null,w=set?"a":"w",mod=MODN(g.ns);
  el("main").innerHTML=article({cls:"r0 gearart",style:`--tc:${ACT[g.a][2]};${tex(g.a)}`,crumb:crumb('<a href="#gear">Equipment</a>',esc(g.n)),title:esc(g.n),
