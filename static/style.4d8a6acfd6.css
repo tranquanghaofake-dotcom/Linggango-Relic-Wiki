@@ -2423,3 +2423,11 @@ body.qbook .bdrop:not(.bag) .slot{box-shadow:inset 3px 3px 0 var(--slot-lo),inse
 .ghead .scene img{width:384px;height:128px}
 @media (max-width:1180px){.scene img{width:336px;height:112px}.ghead .scene img{width:288px;height:96px}}
 @media (max-width:900px){.phead{grid-template-columns:1fr}.scene{justify-self:start}.ghead .scene{display:none}}
+
+/* ---------- still: the Bosses list and The Path track do not move (user request, v33) ----------
+   No floating emblems, no hover lift, no bounce or growing line; selection and state show by colour and outline only. */
+body.qbook .bcardl .emb img,body.qbook .bcardl .emb .ph,.pmap .emb img,.pmap .emb .ph{animation:none}
+body.qbook .bcardl,body.qbook .bcardl:hover{transform:none;transition:background-color .12s}
+.ptrack .pn .pfr,.ptrack .pn:hover .pfr,.ptrack .pn[aria-selected=true] .pfr{transform:none;transition:none;animation:none}
+.ptrack .pn[aria-selected=true] b{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.pxp i{transition:none}
