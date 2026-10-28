@@ -30,7 +30,8 @@ LGW.SRG = {
   getDefaultValue: ['m_22082_'], getEffect: ['m_19544_'], getAmplifier: ['m_19564_'], getDuration: ['m_19557_'],
   mobAttack: ['m_269333_'], inFire: ['m_269387_'], magic: ['m_269425_'], explosion: ['m_269036_'], fall: ['m_268989_'],
   is: ['m_269533_'], getDamageAfterAbsorb: ['m_19272_'], isEmpty: ['m_41619_'], create: ['m_20615_'],
-  setRemainingFireTicks: ['m_7311_'], moveTo: ['m_7678_'], hurt: ['m_6469_'], getLastDamageSource: ['m_21225_'], playerAttack: ['m_269075_']
+  setRemainingFireTicks: ['m_7311_'], moveTo: ['m_7678_'], hurt: ['m_6469_'], getLastDamageSource: ['m_21225_'], playerAttack: ['m_269075_'],
+  hurtEnemy: ['m_41640_'], getMainHandItem: ['m_21205_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
   BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_' }
@@ -164,6 +165,24 @@ LGW.run = (server, who, name) => {
     c1(level, 'addFreshEntity', d); return d
   }
   var drop = d => { safe('discard', () => c0(d, 'discard')); var j = spawned.indexOf(d); if (j >= 0) spawned.splice(j, 1) }
+  // the hit as the damage events see it, for when Player.attack is stopped before it hurts the target (third run: every weapon
+  // hit cancelled, the bare hand not): LivingAttackEvent -> LivingHurtEvent -> (no armor on the pig) -> LivingDamageEvent with
+  // the player's attack damage, then the held stack's hurtEnemy (on-hit effects written on the item). Mixins into
+  // Player.attack and the vanilla enchantment / crit / sweep maths are not in it.
+  var evHit = () => {
+    var d = dummy(), r = {}, amt = c1(P, 'getAttributeValue', A_AD), src = c1(c0(P, 'damageSources'), 'playerAttack', P)
+    safe('event hit', () => {
+      var a = new LivingAttackEvent(d, src, amt); MinecraftForge.EVENT_BUS.post(a)
+      if (a.isCanceled()) { r.cancelled = 'LivingAttackEvent'; return }
+      var h = new LivingHurtEvent(d, src, amt); MinecraftForge.EVENT_BUS.post(h); amt = h.isCanceled() ? 0 : h.getAmount()
+      var g = new LivingDamageEvent(d, src, amt); MinecraftForge.EVENT_BUS.post(g); amt = g.isCanceled() ? 0 : g.getAmount()
+      r.dmg = Math.round(amt * 100) / 100
+    })
+    safe('event hit hurtEnemy', () => { var st = c0(P, 'getMainHandItem'); c2(st, 'hurtEnemy', d, P) })
+    r.tfx = fx(d); r.fire = c0(d, 'getRemainingFireTicks'); r.sfx = fx(P)
+    drop(d)
+    return r
+  }
   var known = id => { try { return !c0(Item.of(id), 'isEmpty') } catch (e) { return false } }
   var melee = id => {
     reset(); wear(EquipmentSlot.MAINHAND, Item.of(id)); ticks(5)
@@ -176,6 +195,7 @@ LGW.run = (server, who, name) => {
       r.hits.push({ dmg: Math.round((h0 - hp(d)) * 100) / 100, str: Math.round(str * 100) / 100, tfx: fx(d), fire: c0(d, 'getRemainingFireTicks'), sfx: fx(P), heal: Math.round((hp(P) - p0) * 100) / 100, wait: n })
       drop(d)
     }
+    if (r.hits.every(h => h.dmg == 0)) r.ev = evHit()
     return r
   }
 
@@ -223,24 +243,36 @@ LGW.run = (server, who, name) => {
     reset(); wear(EquipmentSlot.MAINHAND, Item.of(id)); ticks(30)
     var r = { item: id, ad: c1(P, 'getAttributeValue', A_AD), str: c1(P, 'getAttackStrengthScale', 0.5) }, d = dummy()
     var src = c1(c0(P, 'damageSources'), 'playerAttack', P)
-    var run = (name, ev, amt) => {
-      var ls = null, bus = -1, steps = []
-      for (var b = 0; b < 6; b++) { try { var l = ev.getListenerList().getListeners(b); if (!ls || l.length > ls.length) { ls = l; bus = b } } catch (e) {} }
-      if (!ls) { r[name] = 'no listener list'; return }
-      var a0 = amt ? ev.getAmount() : 0
-      for (var j = 0; j < ls.length; j++) {
-        try { ls[j].invoke(ev) } catch (e) { steps.push('threw ' + ls[j] + ': ' + e) }
-        if (ev.isCanceled()) { steps.push('CANCELLED by ' + ls[j]); break }
-        if (amt) { var a1 = ev.getAmount(); if (Math.abs(a1 - a0) > 1e-6) { steps.push(a0 + ' -> ' + a1 + ' by ' + ls[j]); a0 = a1 } }
+    // the listeners of an event class on the Forge bus: each mod has its own bus too (400+), so take the bus id with the most
+    var listeners = ev => {
+      var best = null, bus = -1
+      for (var b = 0; b < 4096; b++) {
+        var l; try { l = ev.getListenerList().getListeners(b) } catch (e) { if (b > 64) break; continue }
+        if (l && (!best || l.length > best.length)) { best = l; bus = b }
       }
-      r[name] = { bus: bus, listeners: ls.length, steps: steps, end: amt ? a0 : (ev.isCanceled() ? 'cancelled' : 'passed') }
+      return [best, bus]
     }
-    safe('trace AttackEntityEvent', () => run('AttackEntityEvent', new AttackEntityEvent(P, d), false), id)
-    safe('trace LivingAttackEvent', () => run('LivingAttackEvent', new LivingAttackEvent(d, src, 15), true), id)
-    safe('trace LivingHurtEvent', () => run('LivingHurtEvent', new LivingHurtEvent(d, src, 15), true), id)
-    safe('trace LivingDamageEvent', () => run('LivingDamageEvent', new LivingDamageEvent(d, src, 15), true), id)
+    var run = (name, mk, amt) => {
+      var o = {}, ev = mk()
+      MinecraftForge.EVENT_BUS.post(ev); o.posted = ev.isCanceled() ? 'cancelled' : (amt ? ev.getAmount() : 'passed')
+      var lb = listeners(ev), ls = lb[0], steps = []
+      o.bus = lb[1]; o.listeners = ls ? ls.length : 0
+      if (ls) {
+        ev = mk(); var a0 = amt ? ev.getAmount() : 0
+        for (var j = 0; j < ls.length; j++) {
+          try { ls[j].invoke(ev) } catch (e) { steps.push('threw ' + ls[j] + ': ' + e) }
+          if (ev.isCanceled()) { steps.push('CANCELLED by ' + ls[j]); break }
+          if (amt) { var a1 = ev.getAmount(); if (Math.abs(a1 - a0) > 1e-6) { steps.push(a0 + ' -> ' + a1 + ' by ' + ls[j]); a0 = a1 } }
+        }
+      }
+      o.steps = steps; r[name] = o
+    }
+    safe('trace AttackEntityEvent', () => run('AttackEntityEvent', () => new AttackEntityEvent(P, d), false), id)
+    safe('trace LivingAttackEvent', () => run('LivingAttackEvent', () => new LivingAttackEvent(d, src, 15), true), id)
+    safe('trace LivingHurtEvent', () => run('LivingHurtEvent', () => new LivingHurtEvent(d, src, 15), true), id)
+    safe('trace LivingDamageEvent', () => run('LivingDamageEvent', () => new LivingDamageEvent(d, src, 15), true), id)
     drop(d)
-    safe('trace hurt', () => { var e = dummy(), h = hp(e); r.hurt15 = [c2(e, 'hurt', src, 15), h - hp(e)]; drop(e) }, id)
+    safe('trace event hit', () => { r.eventHit = evHit() }, id)
     safe('trace attack', () => { var e = dummy(), h = hp(e); c1(P, 'attack', e); r.attack = h - hp(e); r.lastSource = '' + c0(e, 'getLastDamageSource'); drop(e) }, id)
     return r
   }
@@ -258,7 +290,9 @@ LGW.run = (server, who, name) => {
     say('check: ' + r.join(', '))
     out.trace = [trace('minecraft:diamond_sword'), trace('minecraft:air')]
     var tr = out.trace[0]
-    say('diamond sword: attack ' + tr.attack + ', direct hurt ' + (tr.hurt15 ? tr.hurt15[1] : '?') + ' (of 15)')
+    var stop = ['AttackEntityEvent', 'LivingAttackEvent'].filter(k => tr[k] && tr[k].posted == 'cancelled')
+    var by = []; stop.forEach(k => tr[k].steps.forEach(x => { if (('' + x).indexOf('CANCELLED') == 0) by.push(x) }))
+    say('diamond sword: attack ' + tr.attack + ', event hit ' + (tr.eventHit ? tr.eventHit.dmg : '?') + '; cancelled: ' + (stop.join(', ') || 'none') + (by.length ? ' ' + by.join('; ').substring(0, 200) : ''))
   }
 
   // run in slices so one server tick never holds the watchdog
