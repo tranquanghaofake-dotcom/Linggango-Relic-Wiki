@@ -206,7 +206,7 @@ function gSrcText(g){const o=[],out=g.ps?gIcon(g).id:g.id;
    :parts[0]==="chests"?`<div class="lcard"><span class="lpic">${pic("ftb_chest")}</span><span class="ltx"><b>${esc(Nm)}</b><small>Chest loot · ${esc(ns)}</small></span></div>`
    :`<div class="lcard"><span class="lpic">${pic("ftb_chest")}</span><span class="ltx"><b>${esc(gLoot(t))}</b></span></div>`});
  if(cards.length)o.push(`<div class="lcards">${cards.join("")}</div>`);
- return o.join("")||'<p class="note">No recipe or loot table found in the pack data (it may come from a boss drop written in code, a trade or a quest reward).</p>'}
+ return o.join("")||(g.ob?"":'<p class="note">No recipe or loot table found in the pack data (it may come from a boss drop written in code, a trade or a quest reward).</p>')}
 /* element and damage type of a weapon, read from its kind, its class and its name (the pack has no field for it) */
 const GDT=[["Slash",/sword|katana|blade|scythe|dagger|sabre|saber|cutlass|claymore|machete|sickle|glaive/i,"ui_sword"],["Pierce",/spear|trident|rapier|lance|bident|pike|javelin|halberd|estoc/i,"dt_pierce"],
  ["Blunt",/hammer|mace|axe|club|maul|flail|cudgel|gauntlet|fist|knuckle|morningstar/i,"dt_blunt"]];

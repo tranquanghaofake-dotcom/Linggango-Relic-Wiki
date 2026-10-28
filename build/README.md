@@ -96,6 +96,7 @@ attributes come from `pack_audit/iss_armor.py` (javap on `ExtendedArmorMaterials
 
 ## Regenerating from the pack
 `gear/` (see `gear/wide/README.md`) and `pack_audit/` (see its README) read the pack's jars (6.6.6hf: the 383 server jars plus the client zip's overrides) and write the JSON in `patches/`. They need the pack downloaded (`gear/dl.py`) and are not part of the daily loop.
+Side bosses (`pack_audit/side_bosses/`, jars only, from `edge.forgecdn.net` with the names in `assets/sources.csv` on `workspace`): `stats.py` (health, armor, attack from each entity's attribute builder, read with javap, plus config defaults and `entitybalance.json` → `patches/side_stats.json`), `renders.py` + `jmodel.py` + `jrender.js` + `pack.py` (portraits of Java-model bosses: the model's `createBodyLayer()` or AdvancedModelBox constructor is run on a small stack machine and drawn like vanilla ModelPart → `patches/side_imgs.json`), `loot_chance.py` (drop chances from the mods' loot tables → `patches/side_drops.json`). The modpack zip itself is not on the CDN under a guessable name, so pack config overrides are not read there; pages say when a number is the mod's default.
 Run those scripts from a folder that has no file named like a stdlib module (`enum.py` used to shadow `enum` and break `import json`; it is now `boss_audit/enum_jars.py`).
 `original/` is the v5 wiki the first `data.js` came from; `gear/prep.py` still reads it. The one-off `transform.py` that did the conversion is on the `workspace` branch.
 
