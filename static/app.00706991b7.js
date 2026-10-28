@@ -631,7 +631,7 @@ const crumb=(...p)=>`<div class="crumb"><a href="#">Home</a> / ${p.join(" / ")}<
 const PACKV="V6.6.6hf";
 function article(o){const secs=(o.secs||[]).filter(Boolean),here=location.hash||"#",b=o.box||{};
  return `<div class="ip art ${o.cls||"r0"}"${o.style?` style="${o.style}"`:""}${o.data||""}>
- <header class="ip-hero"><div class="ip-htext">${o.crumb||""}<h1 class="ip-title">${o.pre||""}${o.title}</h1>${o.lead?`<p class="ip-lead">${o.lead}</p>`:""}${o.meta?`<p class="ip-meta">${o.meta}</p>`:""}${o.head||""}</div></header>
+ <header class="ip-hero"><span class="motes" aria-hidden="true">${"<i></i>".repeat(9)}</span><div class="ip-htext">${o.crumb||""}<h1 class="ip-title">${o.pre||""}${o.title}</h1>${o.lead?`<p class="ip-lead">${o.lead}</p>`:""}${o.meta?`<p class="ip-meta">${o.meta}</p>`:""}${o.head||""}</div></header>
  <div class="ip-body"><div class="ip-main">${secs.map(x=>`<section class="s ip-sec${x[3]?" "+x[3]:""}" id="s-${x[0]}"><h2>${x[1]}</h2>${x[2]}</section>`).join("")}${o.after||""}</div>
  <aside class="ip-side">${o.art||""}${b.rows||b.head?`<div class="ip-info">${b.head?`<div class="ip-ih">${b.head}</div>`:""}<dl>${(b.rows||[]).filter(Boolean).map(([t,v,tt])=>`<dt${tt?` title="${esc(tt)}"`:""}>${t}</dt><dd>${v}</dd>`).join("")}</dl>${b.foot||""}</div>`:""}
  ${secs.length>1?`<nav class="ip-toc" aria-label="On this page"><b>On this page</b><ol>${secs.map(x=>`<li><a href="${here}" data-go="s-${x[0]}">${x[1].replace(/<[^>]+>/g,"")}</a></li>`).join("")}</ol><a href="${here}" class="ip-top" data-top="1">↑ Back to top</a></nav>`:""}</aside></div>
@@ -888,8 +888,10 @@ function statsHtml(d,other){const k=kindOf(d),nm=d.n.toLowerCase();
   cfg=other.filter(x=>x[0]==="pack").map(x=>String(x[1]).split(/:\s*/)).filter(x=>x.length>1);
  const HD=/^(passive effect|active ability|when worn|when equipped|set bonus|abilities?)\s*:?$/i;
  // the title's lead already says the wiki's one-line summary: Stats shows the game's own tooltip (or the summary split, if there is none)
- const lines=tip.some(x=>/\d/.test(x))?tip:sum;      // a tooltip with numbers is the more exact text; one that is only lore is not
+ // the wiki's summary is complete and curated; the game's own tooltip (often wrapped, sometimes only lore) folds away below it
+ const lines=sum;
  return `${head}<ul class="attr">${lines.map(x=>HD.test(x)?`<li class="fxh">${fmt(x)}</li>`:`<li>${statLine(x)}</li>`).join("")}</ul>
+ ${tip.length?`<details class="tipx"><summary>In-game tooltip</summary><ul>${tip.map(x=>HD.test(x)?`<li class="fxh">${fmt(x)}</li>`:`<li>${statLine(x)}</li>`).join("")}</ul></details>`:""}
  ${cfg.length?`<details class="tipx"><summary>Config values (${cfg.length})</summary><table class="cfg">${cfg.map(([a,...b])=>`<tr><td>${esc(a)}</td><td class="num">${esc(b.join(": "))}</td></tr>`).join("")}</table></details>`:""}`}
 const guideHtml=g=>`<div class="gbk">${g.i?`<img alt="" src="${g.i}">`:""}<div><small>📖 ${esc(g.b)} · ${esc(g.e)}</small><p>${esc(g.t)}</p></div></div>`;
 function page(d){
@@ -918,7 +920,7 @@ function page(d){
  const near=sx.filter(x=>x!==d).slice(Math.max(0,si-4),Math.max(0,si-4)+8);
  const art=`<div class="ip-art"><span class="ip-badge">${RN[d.r]}</span><div class="ip-stage" style="${tex(d.t)}">${envFx(d.t)}<span class="orb" aria-hidden="true">${[0,1,2,3,4,5].map(i=>`<i style="--k:${i};--sp:var(--v-${MFSP[F[0]]||"p_glint"})"></i>`).join("")}</span><div class="ip-icon framed">${ic}${glint(d)}</div></div><span class="ip-mini">${ic}</span><span class="ip-path" title="${esc(actL(d.t))}">${emblem(d.t,"xs")}</span></div>`;
  const sib=s0?`<section class="sib"><h2>More ${esc(s0)} curios <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">see all ${sx.length} →</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>← Previous in ${esc(s0)}</small>${esc(pv.n)}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>Next in ${esc(s0)} →</small>${esc(nx.n)}</a>`:""}</nav></section>`:"";
- el("main").innerHTML=article({cls:"r"+d.r,data:` data-mf="${F[0]}"`,
+ el("main").innerHTML=article({cls:"r"+d.r,data:` data-mf="${F[0]}"`,style:`${tex(d.t)};--tc:${ACT[d.t][2]}`,
   crumb:`<div class="crumb ip-crumb"><a href="#">Home</a> / <a href="#home">Curios</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>`,
   pre:isMust(d)?'<span class="mstar">★</span>':"",title:esc(d.n),lead:fmt(d.fx),
   meta:`<span class="ip-fam">${esc(d.m)}</span><span>${rLabel(d)}</span><span>${esc(slot)}</span><span>${loot?"Loot":"Craft"}</span>${d.nw?"<span>new in 6.6.6</span>":""}`,

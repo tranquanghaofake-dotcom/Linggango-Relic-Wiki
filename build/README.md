@@ -60,7 +60,8 @@ The headers of The Path, Equipment, the Build planner, Bosses and Mechanics, and
 - Slot badges: `pack_audit/slot_badges.py` (own work), a 9x9 sign per slot family and for the two ring requirements, x2 in the tile corner.
 - Mob faces for drop cards: `pack_audit/mob_faces.py`, the front of each vanilla mob's head cut from its entity texture.
 - The page background is a deepslate cave wall with ore veins, painted once by app.js from `bg_*` textures (`#cave`).
-- Display face: Monocraft (`fonts/`, OFL), embedded by build.py; body text Be Vietnam Pro.
+- Faces (`fonts/`, OFL, embedded by build.py): titles and section headings in Jersey 15, capitals; labels, tables and small UI in Monocraft; body text Be Vietnam Pro.
+- Article layout: a hero band on the Act's wall; sections flow without boxes under big headings, a pixel divider between them; every card and callout is a "block" (square, two-pixel dark edge, light inner rim, a solid edge under it); table cells are small blocks.
 - Icons whose source is not a multiple of 16 px are fitted by `ux.js` (largest k x source or source / k that fits the box).
 
 ## Motion and speed
