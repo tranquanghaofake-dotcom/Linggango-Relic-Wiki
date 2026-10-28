@@ -11,7 +11,20 @@
 //  - armor: the set is worn for 40 ticks: attribute totals, effects it gives, and a 20-damage hit of each kind sent through
 //    LivingHurtEvent -> armor (CombatRules, which Apothic Attributes replaces with its own curve) -> LivingDamageEvent, so set
 //    bonuses written as event handlers count. The FakePlayer cannot be hurt for real (isInvulnerableTo is true), hence the events.
+// Every step is guarded on its own: a failing step is counted in "errors" (grouped by message, with the cause chain, the
+// first stack frames and up to 5 item ids) and the rest goes on. A check of each step runs first and is reported in chat,
+// as are the first 3 kinds of error.
 var LGW = {}
+// the message of a caught error with its Java causes and where the deepest one was thrown
+LGW.why = e => {
+  var s = '' + e, t = null, last = null, n = 0
+  try { t = e && e.javaException ? e.javaException : (e && e.getStackTrace ? e : null) } catch (x) {}
+  try {
+    while (t && n < 6) { last = t; if (n > 0) s += ' <- ' + t; var c = t.getCause(); if (!c || c == t) break; t = c; n++ }
+    if (last) { var st = last.getStackTrace(), fr = []; for (var k = 0; k < st.length && fr.length < 8; k++) fr.push('' + st[k]); s += ' @ ' + fr.join(' | ') }
+  } catch (x) {}
+  return s
+}
 LGW.run = (server, who, name) => {
   var base = name || 'lgw'
   var ForgeRegistries = Java.loadClass('net.minecraftforge.registries.ForgeRegistries')
@@ -26,14 +39,21 @@ LGW.run = (server, who, name) => {
   var Attributes = Java.loadClass('net.minecraft.world.entity.ai.attributes.Attributes')
   var DamageTypeTags = Java.loadClass('net.minecraft.tags.DamageTypeTags')
   var ResourceLocation = Java.loadClass('net.minecraft.resources.ResourceLocation')
+  var EMPTY = Java.loadClass('net.minecraft.world.item.ItemStack').EMPTY
 
   var plan = JsonIO.read('kubejs/' + base + '_items.json')
   if (!plan) { var m = 'kubejs/' + base + '_items.json is missing'; console.warn('lgw_measure: ' + m); try { who.tell(m) } catch (e) {} return }
   var HITS = plan.hits || 3
   var level = who ? who.level : server.overworld()
   var say = m => { console.info('lgw_measure: ' + m); try { if (who) who.tell(m) } catch (e) {} }
-  var out = { started: '' + new Date(), attrs: {}, melee: {}, armor: {}, errors: {} }
-  var err = (k, e) => { var m = k + ': ' + e; out.errors[m] = (out.errors[m] || 0) + 1 }
+  var out = { started: '' + new Date(), check: {}, attrs: {}, melee: {}, armor: {}, errors: {} }
+  var told = 0
+  var err = (stage, e, id) => {
+    var w = typeof e == 'string' ? e : LGW.why(e), k = stage + ': ' + w.split(' @ ')[0].substring(0, 300)
+    var o = out.errors[k]; if (!o) { o = out.errors[k] = { n: 0, ids: [], at: w }; if (told++ < 3) say('error ' + k.substring(0, 240)) }
+    o.n++; if (id && o.ids.length < 5) o.ids.push(id)
+  }
+  var safe = (stage, f, id) => { try { f(); return true } catch (e) { err(stage, e, id); return false } }
   var P = FakePlayerFactory.get(level, new GameProfile(UUID.fromString('6c9a3f1e-0b7d-4c55-9e2a-1f0d3b4a5c6e'), '[lgw_tester]'))
   // next to whoever ran the command (their chunk is loaded), else above the world spawn
   var sp = level.getSharedSpawnPos()
@@ -42,20 +62,30 @@ LGW.run = (server, who, name) => {
   var SLOT = { HEAD: EquipmentSlot.HEAD, CHEST: EquipmentSlot.CHEST, LEGS: EquipmentSlot.LEGS, FEET: EquipmentSlot.FEET, MAINHAND: EquipmentSlot.MAINHAND, OFFHAND: EquipmentSlot.OFFHAND }
   var rl = s => new ResourceLocation(s)
   var fx = e => { var o = {}; e.getActiveEffects().forEach(i => { o['' + ForgeRegistries.MOB_EFFECTS.getKey(i.getEffect())] = [i.getAmplifier(), i.getDuration()] }); return o }
-  var reset = () => {
-    P.getInventory().clearContent(); P.removeAllEffects(); P.clearFire(); P.setPos(X, Y, Z); P.setYRot(-90); P.setXRot(0)
-    for (var s in SLOT) P.setItemSlot(SLOT[s], Item.empty)
-    for (var i = 0; i < 3; i++) P.doTick()
-    P.setHealth(P.getMaxHealth())
+  // doTick() runs every mod's player-tick handler on the fake player; after 5 failures in a row it is left out and the
+  // rest is measured without ticks (attack strength then does not recharge: each hit records the strength it had)
+  var tickOk = true, tickFails = 0
+  var ticks = n => {
+    for (var i = 0; i < n && tickOk; i++) {
+      if (safe('doTick', () => P.doTick())) tickFails = 0
+      else if (++tickFails >= 5) { tickOk = false; say('the player tick keeps failing; going on without it') }
+    }
   }
-  var ticks = n => { for (var i = 0; i < n; i++) { try { P.doTick() } catch (e) { err('doTick', e) } } }
+  var reset = () => {
+    safe('reset inventory', () => P.getInventory().clearContent())
+    safe('reset effects', () => { P.removeAllEffects(); P.clearFire() })
+    safe('reset position', () => { P.setPos(X, Y, Z); P.setYRot(-90); P.setXRot(0) })
+    safe('reset slots', () => { for (var s in SLOT) P.setItemSlot(SLOT[s], EMPTY) })
+    ticks(3)
+    safe('reset health', () => P.setHealth(P.getMaxHealth()))
+  }
 
   // 1. attribute modifiers of every planned item, per slot
   var slots = [EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND, EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET]
   var attrsOf = id => {
     var st = Item.of(id), r = {}
     slots.forEach(sl => {
-      var mods; try { mods = st.getAttributeModifiers(sl) } catch (e) { err('mods', e); return }
+      var mods; try { mods = st.getAttributeModifiers(sl) } catch (e) { err('mods', e, id); return }
       if (!mods || mods.isEmpty()) return
       var l = []; mods.entries().forEach(en => { var k = ForgeRegistries.ATTRIBUTES.getKey(en.getKey()); l.push(['' + k, en.getValue().getAmount(), '' + en.getValue().getOperation()]) })
       r['' + sl.getName()] = l
@@ -73,14 +103,14 @@ LGW.run = (server, who, name) => {
   var known = id => { try { return !Item.of(id).isEmpty() } catch (e) { return false } }
   var melee = id => {
     reset(); P.setItemSlot(EquipmentSlot.MAINHAND, Item.of(id)); ticks(5)
-    var r = { ad: P.getAttributeValue(Attributes.ATTACK_DAMAGE), as: P.getAttributeValue(Attributes.ATTACK_SPEED), hits: [] }
+    var r = { ad: P.getAttributeValue(Attributes.ATTACK_DAMAGE), as: P.getAttributeValue(Attributes.ATTACK_SPEED), ticked: tickOk, hits: [] }
     for (var k = 0; k < HITS; k++) {
-      var n = 0; while (P.getAttackStrengthScale(0.5) < 1 && n < 400) { ticks(1); n++ }
+      var n = 0; while (tickOk && P.getAttackStrengthScale(0.5) < 1 && n < 400) { ticks(1); n++ }
       var d = dummy(); P.setHealth(Math.max(1, P.getMaxHealth() - 10)); P.removeAllEffects()
-      var h0 = d.getHealth(), p0 = P.getHealth()
-      try { P.attack(d) } catch (e) { err('attack ' + id, e) }
-      r.hits.push({ dmg: Math.round((h0 - d.getHealth()) * 100) / 100, tfx: fx(d), fire: d.getRemainingFireTicks(), sfx: fx(P), heal: Math.round((P.getHealth() - p0) * 100) / 100, wait: n })
-      d.discard(); spawned.pop()
+      var h0 = d.getHealth(), p0 = P.getHealth(), str = P.getAttackStrengthScale(0.5)
+      safe('attack', () => P.attack(d), id)
+      r.hits.push({ dmg: Math.round((h0 - d.getHealth()) * 100) / 100, str: Math.round(str * 100) / 100, tfx: fx(d), fire: d.getRemainingFireTicks(), sfx: fx(P), heal: Math.round((P.getHealth() - p0) * 100) / 100, wait: n })
+      safe('discard', () => d.discard()); spawned.pop()
     }
     return r
   }
@@ -99,27 +129,43 @@ LGW.run = (server, who, name) => {
         if (!s.is(DamageTypeTags.BYPASSES_ARMOR)) v = CombatRules.getDamageAfterAbsorb(v, P.getArmorValue(), P.getAttributeValue(Attributes.ARMOR_TOUGHNESS))
         var b = new LivingDamageEvent(P, s, v); MinecraftForge.EVENT_BUS.post(b)
         o[k] = [Math.round(a.getAmount() * 100) / 100, Math.round((b.isCanceled() ? 0 : b.getAmount()) * 100) / 100]
-      } catch (e) { err('hurt ' + k, e) }
+      } catch (e) { err('hurt ' + k, e, cur) }
     }
     while (spawned.length) { try { spawned.pop().discard() } catch (e) {} }
     return o
   }
+  var cur = ''
   var armor = pieces => {
     reset(); pieces.forEach(pc2 => P.setItemSlot(SLOT[pc2[1]], Item.of(pc2[0]))); ticks(40)
-    return { attrs: extraAttrs(), fx: fx(P), hp: P.getHealth(), abs: P.getAbsorptionAmount(), hurt: hurt() }
+    return { attrs: extraAttrs(), fx: fx(P), hp: P.getHealth(), abs: P.getAbsorptionAmount(), ticked: tickOk, hurt: hurt() }
+  }
+
+  // 0. check each step once and say in chat which ones work
+  var check = () => {
+    var r = []
+    var t = (name, f) => { var ok = safe('check ' + name, f); out.check[name] = ok; r.push(name + (ok ? ' ok' : ' FAILED')) }
+    t('reset', () => { reset() })
+    t('tick', () => P.doTick())
+    t('pig', () => { var d = dummy(); d.discard(); spawned.pop() })
+    t('hold', () => P.setItemSlot(EquipmentSlot.MAINHAND, Item.of('minecraft:iron_sword')))
+    t('attack', () => { var d = dummy(); var h = d.getHealth(); P.attack(d); out.check.ironSword = h - d.getHealth(); d.discard(); spawned.pop() })
+    t('hurt', () => { var h = hurt(); if (!Object.keys(h).length) throw 'no damage kind worked' })
+    say('check: ' + r.join(', '))
   }
 
   // run in slices so one server tick never holds the watchdog
   var jobs = []
   ;(plan.attrs || []).forEach(id => jobs.push(() => { out.attrs[id] = attrsOf(id) }))
-  jobs.push(() => { out.melee['(none)'] = melee('minecraft:air'); out.armor['(none)'] = armor([]) })
-  ;(plan.melee || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', id); return } try { out.melee[id] = melee(id) } catch (e) { err('melee ' + id, e) } }))
-  ;(plan.sets || []).forEach(s => jobs.push(() => { try { out.armor[s.k] = armor(s.p) } catch (e) { err('armor ' + s.k, e) } }))
+  jobs.push(() => { out.melee['(none)'] = melee('minecraft:air') })
+  jobs.push(() => { cur = '(none)'; out.armor['(none)'] = armor([]) })
+  ;(plan.melee || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return } safe('melee', () => { out.melee[id] = melee(id) }, id) }))
+  ;(plan.sets || []).forEach(s => jobs.push(() => { cur = s.k; safe('armor', () => { out.armor[s.k] = armor(s.p) }, s.k) }))
   var i = 0, next = 0
   say('starting: ' + jobs.length + ' measurements; the game slows down until it is done')
+  check()
   var step = () => {
     var t0 = Date.now()
-    while (i < jobs.length && Date.now() - t0 < 200) { try { jobs[i]() } catch (e) { err('job', e) } i++ }
+    while (i < jobs.length && Date.now() - t0 < 200) { safe('job', jobs[i]); i++ }
     if (i < jobs.length) { var pc = Math.floor(i * 100 / jobs.length); if (pc >= next) { say(pc + '% (' + i + '/' + jobs.length + ')'); next += 10 } server.scheduleInTicks(1, step); return }
     out.finished = '' + new Date()
     JsonIO.write('kubejs/' + base + '_measure.json', out)
