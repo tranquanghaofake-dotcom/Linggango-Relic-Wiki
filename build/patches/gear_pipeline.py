@@ -48,6 +48,10 @@ def gear_measure(st):
         if not m: continue
         n = m["n"]
         g["ms"] = {"hit": m["hit"], "sw": m["swings"], "ad": m.get("ad")}
+        # spent after one hit: swung on, it averages its swings (Sharpened Candy Cane: 4, then 1 and 1 at 8 swings a second)
+        if m.get("st") == "once": g["ms"]["hit"] = round(sum(m["swings"]) / len(m["swings"]), 2)
+        if m.get("pct"): g["ms"]["pct"] = m["pct"]
+        if m.get("swx"): g["ms"]["swx"] = m["swx"]
         how = m.get("st")
         # a swing that never lands: by design (the item cancels its own hit), a thrown or shot weapon's melee, or a condition
         if how == "nohit":

@@ -67,6 +67,9 @@ const gAt=g=>{const f=gFxAt(g);if(!Object.keys(f).length)return g.at||{};const o
    Strength from an effect the item gives itself is added on top: the test cleared effects before each swing */
 /* a measured hit stands for normal use unless it read 1 for want of charge ("dull") or rose with the test target ("grows") */
 const gMsUse=g=>!!(g.ms&&g.ms.hit>0&&!/^(dull|grows|cond)$/.test(g.ms.st||""));
+/* a weapon dealing a share of the target's max health is scored against a 1,000-health target (pack_audit/measure: fitted on
+   pigs of 1,000 to 100,000 health); against a boss the pack's boss_intake caps what any hit can take */
+const GPCTREF=1000;
 /* measured to deal no melee damage: by design (the item cancels its own hit) or a thrown / shot weapon swung by hand */
 const gNoMelee=g=>!!(g.ms&&(g.ms.st==="nodmg"||g.ms.st==="nomelee"));
 const gHit=g=>{const at=gAt(g),a=k=>at[k]||[0,0];
@@ -107,12 +110,16 @@ const GOFF={
  /* summon damage (percent), each extra minion slot +25% */
  SU:at=>(1+gS(at,/summon|minion_damage|servant|sentry/,1)+.05*gS(at,/summon_damage|servant|sentry/,0))*(1+.25*gS(at,/^minion_slots$/,0))};
 const gOff=(g,r,a)=>GOFF[r](gAt(g),a);
-/* effective health against the Act's hit: (base HP + max health) x (a + armor)/a, x damage taken, dodge and knockback resistance.
-   Armor is shred by an assumed 10% (L2 Hostility traits, armor-piercing weapons), which toughness weakens */
+/* effective health against the Act's hit D, in health: D x the hits it takes to die.
+   What one hit lands is D x a/(a + armor) (Apothic's formula, the pack's attributeslib.cfg; toughness only blunts armor shred,
+   assumed 10%) x damage taken off x protection of the set's own (measured), but never under the pack's damage floor (13% of the
+   hit, linggango_tweaks [damage_floor]) and never over half the health (hit_cap_fraction 0.5); then dodge and knockback resistance */
+const GFLOORHIT=.13,GHITCAP=.5;
 function gEHP(f,a){const D=GHIT[a]!=null?GHIT[a]:50,A=D<20?10:10+(D-20)/2,at=f.at||{};
  const arm=Math.max(0,f.arm)*(1-.1*(1-Math.min(.6,.02*Math.max(0,f.tough))));
  const dr=Math.min(.8,Math.max(0,f.dtk+gS(at,/^resistance$/,1))),dg=Math.min(.5,gS(at,/^dodge_chance$/,0));
- return Math.max(1,gBaseHP(a)+f.hp)*(A+arm)/A/(1-dr)/(1-dg)*(1+.1*Math.min(1,f.kbr))/(f.ms&&f.ms.evr||1)}
+ const hp=Math.max(1,gBaseHP(a)+f.hp),frac=Math.max(GFLOORHIT,A/(A+arm)*(1-dr)*(f.ms&&f.ms.evr||1));
+ return D*hp/Math.min(D*frac,GHITCAP*hp)/(1-dg)*(1+.1*Math.min(1,f.kbr))}
 /* how hard an item is to get, 0..1: boss and mob drops 1, crafted from many parts up to 1, chest or unknown loot lower */
 const GNOISE=/^(minecraft:crafting_|goety:(craft|ritual)$|ars_nouveau:enchanting_apparatus$)/;
 function gSrc(g){const lt=g.lt||[],rc=g.rc||[];
@@ -165,8 +172,9 @@ function gPool(a,r,w){const ia=oiA(+a);
 const GTC=new Map();
 function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const xs=gPool(a,r,w);let out=[];
  if(xs.length){const b=GTIER.map(()=>[]);
-  // tier = how close an item is to the best one usable at this Act, so old gear slides down as better gear opens
-  const top=xs[0][1]||1;xs.forEach(([g,v])=>{const q=v/top;if(q<GFLOOR)return;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;b[t].push(g)});
+  // tier = how close an item is to the fifth best usable at this Act (old gear slides down as better gear opens). Not the best
+  // one: a single item far ahead (Flames Of Eldritch at Act VIII, 2.5x the next) pushed every other one to D
+  const top=xs[Math.min(4,xs.length-1)][1]||1;xs.forEach(([g,v])=>{const q=v/top;if(q<GFLOOR)return;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;b[t].push(g)});
   out=GTIER.map(([t],i)=>[t,b[i]]);out.top=top}
  GTC.set(key,out);return out}
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
@@ -292,11 +300,12 @@ function gMsHtml(g){const m=g.ms;if(!m)return "";
  if(m.sw){if(m.st==="nodmg")return `<p class="note">Swung in game at a test target it dealt no damage: the item cancels its own hit (it only pushes and slows). Its melee score is 0.</p>`;
   if(m.st==="nomelee")return `<p class="note">Swung by hand at a test target it dealt no damage: it works when thrown, shot or used, so it is not ranked as a melee weapon.</p>`;
   if(m.st==="cond")return `<p class="note">Swung in game by the test player it dealt no damage, though its damage goes through once a hit lands. ${esc(m.why||"It needs a condition the test player did not meet.")} The score assumes you meet it and uses its attack damage.</p>`;
-  const crit=!m.st&&m.sw.some(v=>v>m.hit*1.3),why={dull:`It dealt ${gRound(m.hit)} a swing: a fresh one needs charge or a condition to hit hard (energy tools), so the score uses its attack damage.`,
-   once:"The first swing landed and the next ones dealt 1: it is spent after a hit and recharges. The hit is the first swing.",
+  const crit=!m.st&&!m.swx&&m.sw.some(v=>v>m.hit*1.3),why={dull:`It dealt ${gRound(m.hit)} a swing: a fresh one needs charge or a condition to hit hard (energy tools), so the score uses its attack damage.`,
+   once:"The first swing landed and the next ones dealt 1: it is spent after a hit and recharges. The hit is the average of the three swings.",
+   pct:m.pct?`It deals ${gRound(m.pct.base)} plus ${gRound(m.pct.share*100)}% of the target's max health${m.pct.full?", only while the target is at full health":""}: ${gRound(m.pct.base+m.pct.share*1e3)} against 1,000 health, ${gRound(m.pct.base+m.pct.share*1e4)} against 10,000, ${gRound(m.pct.base+m.pct.share*1e5)} against 100,000 (swung in game on targets of each). The score takes a 1,000-health target; a boss you have not beaten yet can lose at most about a tenth of its health in one burst (the pack's boss_intake), so on bosses the share stops at that.`:"",
    grows:`That is ${gRound(m.hit/Math.max(1,m.ad))}× its attack damage (${gRound(m.ad)}): it adds damage that grows with the target's health (the test target has 100,000) or under a condition (from behind, charged), so the score uses its attack damage.`}[m.st];
-  return `<table class="gst"><tr><td>Hit at full charge</td><td class="num">${gRound(m.hit)}</td></tr><tr><td>Three swings</td><td class="num">${m.sw.map(gRound).join(" · ")}</td></tr>${m.heal?`<tr><td>Health back per hit</td><td class="num">${gRound(m.heal[0])}${m.heal[1]<1?` (${Math.round(m.heal[1]*3)} of 3)`:""}</td></tr>`:""}</table>
-<p class="note">Swung in game at full attack strength on an unarmored test target, by a test player past every Armageddon Keeper. ${why||`The hit is the middle swing${crit?"; the higher one is a random crit":""}, and is what the score uses.`}</p>`}
+  return `<table class="gst"><tr><td>Hit at full charge</td><td class="num">${gRound(m.hit)}</td></tr><tr><td>Three swings</td><td class="num">${m.sw.map(gRound).join(" · ")}</td></tr>${m.swx?`<tr><td>Re-measured</td><td class="num">${m.swx} swings, mean ${gRound(m.hit)}</td></tr>`:""}${m.heal?`<tr><td>Health back per hit</td><td class="num">${gRound(m.heal[0])}${m.heal[1]<1?` (${Math.round(m.heal[1]*3)} of 3)`:""}</td></tr>`:""}</table>
+<p class="note">Swung in game at full attack strength on an unarmored test target, by a test player past every Armageddon Keeper. ${m.swx?`Its hit rose above its attack damage, so it was swung again at five more targets; the hit is the mean of those ${m.swx} swings, random procs included. `:""}${why||`The hit is the middle swing${crit?"; the higher one is a random crit":""}, and is what the score uses.`}</p>`}
  const t=m.taken||{};
  return `<table class="gst"><tr><th>A 20-damage hit</th><th class="num">You take</th><th class="num">No armor</th></tr>${Object.keys(GMK).filter(k=>t[k]!=null).map(k=>`<tr><td>${GMK[k]}</td><td class="num">${gRound(t[k])}</td><td class="num">${gRound(GMN[k])}</td></tr>`).join("")}</table>
 ${m.bonus?`<h3>Set bonus</h3><ul class="gbon attr">${Object.entries(m.bonus).map(([k,v])=>`<li>${v>0?"+":""}${gRound(v)} ${esc(k.replace(/_/g," "))}</li>`).join("")}</ul>`:""}
