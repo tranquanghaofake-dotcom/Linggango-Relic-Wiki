@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Write build/src/wiki_data.js from the pack-read JSON in build/patches: boss summons (summons.json),
-Goety rituals (goety.json, from build/pack_audit/goety.py) and AE2 storage facts (ae2.json)."""
+Goety rituals (goety.json, from build/pack_audit/goety.py), AE2 storage facts (ae2.json) and side-boss stats
+(side_stats.json, from build/pack_audit/side_bosses/stats.py) and portraits (side_imgs.json, from renders.py + jrender.js + pack.py)."""
 import json, pathlib
 H = pathlib.Path(__file__).resolve().parent
 J = lambda f: json.loads((H / f).read_text(encoding="utf-8"))
@@ -18,6 +19,9 @@ out += "const NAMEID=" + json.dumps(J("name_ids.json"), ensure_ascii=False, sepa
 out += "const TAGID=" + json.dumps(J("tag_ids.json"), ensure_ascii=False, separators=(",", ":")) + ",MOBID=" + json.dumps(J("mob_ids.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const BACT=" + json.dumps(J("boss_acts.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const BGRAPH=" + json.dumps(J("boss_graph.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
+out += "const SSTAT=" + json.dumps(J("side_stats.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
+out += "const SDROP=" + json.dumps(J("side_drops.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
+out += "const SIMG=" + json.dumps(J("side_imgs.json"), separators=(",", ":")) + ";\n"
 out += "const BEXTRA=" + json.dumps(J("boss_extra.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 (H.parent / "src" / "wiki_data.js").write_text(out, encoding="utf-8")
 print("wiki_data.js", len(out) // 1024, "kB")

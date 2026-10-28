@@ -1911,3 +1911,8 @@ details.fadv[open]>summary{margin-bottom:8px}
 *:not(#_).fbar .frl #frl{flex:1 1 200px;min-width:160px;max-width:280px}
 *:not(#_).fbar .frl #frlv{flex:none;min-width:3ch;white-space:nowrap}
 *:not(#_).fbar .frl .frq{flex:none;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+/* boss stats table: the number in the body face, the other mode's value (before / in Hardmode) small under it */
+*:not(#_) .tw.bst td b{font:400 15px/1.2 var(--disp)}
+*:not(#_) .tw.bst td small{display:block;opacity:.7;font-size:12px;line-height:1.3}
+*:not(#_) .bstr{opacity:.8;margin-top:8px}
+*:not(#_):not(#__) ul.bstr li{font-size:14px!important;line-height:1.5}

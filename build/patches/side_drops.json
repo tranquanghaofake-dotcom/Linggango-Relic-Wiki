@@ -1,0 +1,463 @@
+{
+"Minister": {
+"src": "mod loot table: goety:entities/minister",
+"drops": [
+{
+"id": "minecraft:emerald",
+"n": "Emerald",
+"chance": "100%",
+"count": "4–16"
+},
+{
+"id": "goety:treasure_pouch",
+"n": "Treasure Pouch",
+"chance": "100%",
+"count": "1"
+}
+]
+},
+"Crone": {
+"src": "mod loot table: goety:entities/crone",
+"drops": [
+{
+"id": "minecraft:book",
+"n": "Book",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "goety:treasure_pouch",
+"n": "Treasure Pouch",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "minecraft:stick",
+"n": "Stick",
+"chance": "82%",
+"count": "0–4"
+},
+{
+"id": "minecraft:glowstone_dust",
+"n": "Glowstone Dust",
+"chance": "55%",
+"count": "0–4"
+},
+{
+"id": "minecraft:sugar",
+"n": "Sugar",
+"chance": "55%",
+"count": "0–4"
+},
+{
+"id": "minecraft:redstone",
+"n": "Redstone",
+"chance": "55%",
+"count": "0–4"
+},
+{
+"id": "minecraft:spider_eye",
+"n": "Spider Eye",
+"chance": "55%",
+"count": "0–4"
+},
+{
+"id": "minecraft:glass_bottle",
+"n": "Glass Bottle",
+"chance": "55%",
+"count": "0–4"
+},
+{
+"id": "minecraft:gunpowder",
+"n": "Gunpowder",
+"chance": "55%",
+"count": "0–4"
+}
+]
+},
+"Heresiarch": {
+"src": "mod loot table: goety:entities/heresiarch",
+"drops": [
+{
+"id": "minecraft:book",
+"n": "Book",
+"chance": "100%",
+"count": "0–4"
+},
+{
+"id": "goety:treasure_pouch",
+"n": "Treasure Pouch",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "minecraft:glowstone_dust",
+"n": "Glowstone Dust",
+"chance": "55%",
+"count": "0–4"
+},
+{
+"id": "minecraft:golden_carrot",
+"n": "Golden Carrot",
+"chance": "55%",
+"count": "0–4"
+},
+{
+"id": "minecraft:redstone",
+"n": "Redstone",
+"chance": "55%",
+"count": "0–4"
+},
+{
+"id": "minecraft:magma_cream",
+"n": "Magma Cream",
+"chance": "55%",
+"count": "0–4"
+},
+{
+"id": "minecraft:gold_ingot",
+"n": "Gold Ingot",
+"chance": "55%",
+"count": "0–4"
+},
+{
+"id": "minecraft:gunpowder",
+"n": "Gunpowder",
+"chance": "55%",
+"count": "0–4"
+}
+]
+},
+"Skull Lord": {
+"src": "mod loot table: goety:entities/skull_lord",
+"drops": [
+{
+"id": "goety:treasure_pouch",
+"n": "Treasure Pouch",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "minecraft:skeleton_skull",
+"n": "Skeleton Skull",
+"chance": "25%",
+"count": "1"
+}
+]
+},
+"Wither Necromancer": {
+"src": "mod loot table: goety:entities/wither_necromancer",
+"drops": [
+{
+"id": "minecraft:blaze_rod",
+"n": "Blaze Rod",
+"chance": "100%",
+"count": "0–2"
+},
+{
+"id": "minecraft:netherite_scrap",
+"n": "Netherite Scrap",
+"chance": "100%",
+"count": "0–2"
+},
+{
+"id": "goety:ectoplasm",
+"n": "Ectoplasm",
+"chance": "100%",
+"count": "0–1"
+},
+{
+"id": "goety:grave_dust",
+"n": "Grave Dust",
+"chance": "100%",
+"count": "0–1"
+},
+{
+"id": "minecraft:bone",
+"n": "Bone",
+"chance": "100%",
+"count": "0–2"
+},
+{
+"id": "goety:treasure_pouch",
+"n": "Treasure Pouch",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "goety:withered_manuscript",
+"n": "Withered Manuscript",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "goety:forbidden_piece",
+"n": "Forbidden Piece",
+"chance": "2%",
+"count": "1"
+},
+{
+"id": "minecraft:wither_skeleton_skull",
+"n": "Wither Skeleton Skull",
+"chance": "2%",
+"count": "1"
+}
+]
+},
+"Brood Mother": {
+"src": "mod loot table: goety:entities/brood_mother",
+"drops": [
+{
+"id": "minecraft:cobweb",
+"n": "Cobweb",
+"chance": "100%",
+"count": "0–4"
+},
+{
+"id": "goety:spider_egg",
+"n": "Spider Egg",
+"chance": "100%",
+"count": "4–8"
+},
+{
+"id": "goety:venomous_fang",
+"n": "Venomous Fang",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "minecraft:spider_eye",
+"n": "Spider Eye",
+"chance": "100%",
+"count": "1–2"
+},
+{
+"id": "goety:treasure_pouch",
+"n": "Treasure Pouch",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "goety:spider_nest",
+"n": "Spider Nest",
+"chance": "11%",
+"count": "1"
+}
+]
+},
+"Wight": {
+"src": "mod loot table: goety:entities/wight",
+"drops": [
+{
+"id": "goety:ectoplasm",
+"n": "Ectoplasm",
+"chance": "100%",
+"count": "4–8"
+},
+{
+"id": "minecraft:ender_pearl",
+"n": "Ender Pearl",
+"chance": "100%",
+"count": "2–4"
+},
+{
+"id": "goety:shadow_essence",
+"n": "Essence of Shadow",
+"chance": "100%",
+"count": "2–4"
+},
+{
+"id": "goety:music_disc_enderman",
+"n": "Music Disc",
+"chance": "2%",
+"count": "1"
+}
+]
+},
+"Ender Keeper": {
+"src": "mod loot table: goety:entities/ender_keeper",
+"drops": [
+{
+"id": "goety:void_echo",
+"n": "Echo of the Void",
+"chance": "100%",
+"count": "2–3"
+},
+{
+"id": "goety:treasure_pouch",
+"n": "Treasure Pouch",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "goety:music_disc_keeper",
+"n": "Music Disc",
+"chance": "10%",
+"count": "1"
+}
+]
+},
+"Redstone Golem": {
+"src": "mod loot table: goety:entities/hostile_redstone_golem",
+"drops": [
+{
+"id": "minecraft:cobblestone",
+"n": "Cobblestone",
+"chance": "100%",
+"count": "6–12"
+},
+{
+"id": "minecraft:redstone",
+"n": "Redstone",
+"chance": "100%",
+"count": "6–10"
+},
+{
+"id": "minecraft:diamond",
+"n": "Diamond",
+"chance": "100%",
+"count": "3–5"
+},
+{
+"id": "goety:treasure_pouch",
+"n": "Treasure Pouch",
+"chance": "100%",
+"count": "1"
+}
+]
+},
+"Tongbi, the Sculptor": {
+"src": "mod loot table: mowziesmobs:entities/sculptor",
+"drops": [
+{
+"id": "mowziesmobs:sculptor_staff",
+"n": "Geomancer Staff",
+"chance": "20%",
+"count": "1"
+},
+{
+"id": "mowziesmobs:geomancer_beads",
+"n": "Geomancer Beads",
+"chance": "20%",
+"count": "1"
+},
+{
+"id": "mowziesmobs:geomancer_robe",
+"n": "Geomancer Robe",
+"chance": "20%",
+"count": "1"
+},
+{
+"id": "mowziesmobs:geomancer_belt",
+"n": "Geomancer Belt",
+"chance": "20%",
+"count": "1"
+},
+{
+"id": "mowziesmobs:geomancer_sandals",
+"n": "Geomancer Sandals",
+"chance": "20%",
+"count": "1"
+}
+]
+},
+"Possessed Paladin": {
+"src": "mod loot table: legendary_monsters:entities/posessed_paladin",
+"drops": [
+{
+"id": "legendary_monsters:corrupted_soul",
+"n": "Corrupted Soul",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "legendary_monsters:soul_great_sword",
+"n": "Soul Great Sword",
+"chance": "100%",
+"count": "1"
+}
+]
+},
+"Withered Abomination": {
+"src": "mod loot table: legendary_monsters:entities/withered_abomination",
+"drops": [
+{
+"id": "legendary_monsters:withered_bone",
+"n": "Withered Bone",
+"chance": "100%",
+"count": "2"
+}
+]
+},
+"Lava Eater": {
+"src": "mod loot table: legendary_monsters:entities/lava_eater",
+"drops": [
+{
+"id": "legendary_monsters:lava_eaters_skin",
+"n": "Lava Eater's Skin",
+"chance": "100%",
+"count": "3"
+}
+]
+},
+"Shulker Mimic": {
+"src": "mod loot table: legendary_monsters:entities/shulker_mimic",
+"drops": [
+{
+"id": "legendary_monsters:large_shulker_shell",
+"n": "Large Shulker Shell",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "minecraft:shulker_shell",
+"n": "Shulker Shell",
+"chance": "100%",
+"count": "3–10"
+}
+]
+},
+"Endersent": {
+"src": "mod loot table: legendary_monsters:entities/endersent",
+"drops": [
+{
+"id": "legendary_monsters:chorus_crystal",
+"n": "Chorus Crystal",
+"chance": "100%",
+"count": "1"
+}
+]
+},
+"Chorusling": {
+"src": "mod loot table: legendary_monsters:entities/chorusling",
+"drops": [
+{
+"id": "legendary_monsters:infected_chorus_fruit",
+"n": "Infected Chorus Fruit",
+"chance": "100%",
+"count": "1–3"
+}
+]
+},
+"Mutant Enderman": {
+"src": "mod loot table: mutantmonsters:entities/mutant_enderman",
+"drops": []
+},
+"Vizier": {
+"src": "mod loot table: goety:entities/vizier",
+"drops": [
+{
+"id": "goety:treasure_pouch",
+"n": "Treasure Pouch",
+"chance": "100%",
+"count": "1"
+},
+{
+"id": "goety:music_disc_vizier",
+"n": "Music Disc",
+"chance": "25%",
+"count": "1"
+}
+]
+}
+}

@@ -180,6 +180,26 @@ function bossInfoHtml(k){const b=typeof BINFO!=="undefined"&&BINFO[k];if(!b)retu
  const ph=b.ph.filter(p=>p.at.length),multi=ph.length>1;
  const atk=ph.length?`<section class="s"><h2>Attacks</h2>${ph.map((p,i)=>`${multi?`<h3>${esc(p.e.replace(/_/g," ").replace(/\b(\w)/g,c=>c.toUpperCase()))}</h3>`:""}<div class="batks">${p.at.map(a=>{const im=a.img?BIMG["g:"+a.img]:a.ic?BIMG[a.ic]:null;return `<div class="batk">${im?`<img class="bai" alt="" src="${im}">`:`<span class="bai bai0 ${atype(a.d)}">${ATG[atype(a.d)]}</span>`}<div><b>${esc(a.n)}</b>${a.ph?`<small class="bph">${esc(a.ph)}</small>`:""}<p>${esc(a.d)}</p></div></div>`}).join("")}</div>`).join("")}</section>`:"";
  return atk+drops}
+// Stats of a boss as a table, one row per phase or body: Keepers from BST (pack overrides, HP bonus, Hardmode), side bosses
+// from SSTAT (the mod jars). hm: the fight comes after the Ender Dragon, so Hardmode's ×2.1 health and damage is the number shown.
+const HMX=2.1,fnum=v=>v==null?"—":String(Math.round(v*10)/10),mobN=e=>e.split(":")[1].replace(/_boss$|_p_?2$/,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+const hmAfter=a=>ORDER.indexOf(a)>=ORDER.indexOf(bossPath("ender_dragon"));
+function statTable(rows,hm,note){if(!rows.length)return "";const has=k=>rows.some(r=>r[k]!=null),cols=[["hp","Health"],["armor","Armor"],["tough","Toughness"],["dmg","Attack"]].filter(c=>has(c[0]));
+ const cell=(r,k)=>{const v=r[k],o=r.o&&r.o[k];return `<td><b>${fnum(v)}</b>${o!=null&&o!==v?`<small>${fnum(o)} ${hm?"before Hardmode":"in Hardmode"}</small>`:""}</td>`};
+ return `<div class="tw bst"><table><tr>${rows.length>1?"<th></th>":""}${cols.map(c=>`<th>${c[1]}</th>`).join("")}${has("hits")?"<th>Hits to win</th>":""}</tr>${rows.map(r=>`<tr>${rows.length>1?`<td>${esc(r.n)}</td>`:""}${cols.map(c=>cell(r,c[0])).join("")}${has("hits")?`<td><b>${r.hits??"—"}</b></td>`:""}</tr>`).join("")}</table></div>${note}`}
+function keeperStats(k){if(typeof BST==="undefined")return "";const ks=k==="discord"?["bringer_of_doom","famine","chaos","discord"]:[k],bs=ks.map(x=>BST[x]).filter(Boolean);if(!bs.length)return "";
+ const hm=bs.some(b=>b.phases.some(p=>p.hardmode&&b.effective.hp===p.hardmode.hp)),rows=[];
+ for(const b of bs)b.phases.forEach((p,i)=>{const e=hm&&p.hardmode?p.hardmode:p.pre_hardmode||p.base,o=hm?p.pre_hardmode:p.hardmode;rows.push({n:b.phases.length>1?`${b.name.split(",")[0]} · phase ${i+1}`:b.name.split(",")[0],...e,o})});
+ const rules=[...new Set(bs.flatMap(b=>b.rules||[]))].filter(x=>!/^Assumption/.test(x));
+ return statTable(rows,hm,`<ul class="how bstr">${rules.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`)}
+function sideStats(n,a){const ss=typeof SSTAT!=="undefined"&&SSTAT[n];if(!ss)return "";const hm=hmAfter(a);
+ const rows=ss.map(s=>{const r={n:mobN(s.entity),armor:s.armor,tough:s.tough,hits:s.hits,hp:s.hp,dmg:s.dmg,o:{}};
+  if(s.hp!=null)(hm?(r.hp=s.hp*HMX,r.o.hp=s.hp):r.o.hp=s.hp*HMX);if(s.dmg)(hm?(r.dmg=s.dmg*HMX,r.o.dmg=s.dmg):r.o.dmg=s.dmg*HMX);return r});
+ const src=[...new Set(ss.map(s=>s.src))];
+ return statTable(rows,hm,`<p class="note">${hm?"Fought after the Ender Dragon, so the numbers include Hardmode (×2.1 health and attack). ":"In Hardmode (after the Ender Dragon) health and attack are ×2.1. "}${src.some(x=>/^pack override/.test(x))?"Includes the pack's own override (entitybalance.json). ":""}Read from the mod's code${src.some(x=>/config/.test(x))?" and its config defaults (the pack may change a config value)":""}.</p>`)}
+const BE=k=>typeof BST!=="undefined"&&BST[k]&&BST[k].effective||null;
+const keeperHp=k=>{const b=typeof BST!=="undefined"&&BST[k];return b&&b.effective&&b.effective.hp?fnum(b.effective.hp)+(b.phases.length>1?" per phase":""):""};
+const sideHp=(n,a)=>{const s=typeof SSTAT!=="undefined"&&SSTAT[n];return s&&s.length===1&&s[0].hp!=null?fnum(s[0].hp*(hmAfter(a)?HMX:1)):""};
 function sidePage(n){const b=typeof SIDEB!=="undefined"&&SIDEB[n],r=(typeof BOSSR!=="undefined"?BOSSR:[]).find(x=>x[0]===n);if(!b){location.replace("#home");return}
  document.title=n+" · Linggango Wiki";const a=r?r[1]:0,pi=typeof PIMG!=="undefined"?PIMG.side[n]:null,sl=typeof BGRAPH!=="undefined"&&BGRAPH.soul&&BGRAPH.soul[n];
  const di=id=>IC[id]?img(id):(typeof BIMG!=="undefined"&&BIMG[id]?`<img alt="" src="${BIMG[id]}">`:"");
@@ -188,12 +208,13 @@ function sidePage(n){const b=typeof SIDEB!=="undefined"&&SIDEB[n],r=(typeof BOSS
  el("main").innerHTML=article({cls:"r0 bossart",style:`--tc:${ACT[a][2]};--rc:${ACT[a][2]}`,crumb:crumb('<a href="#bosses">Bosses</a>',esc(n)),title:esc(n),
   lead:`An optional side boss${b.mod?` from ${esc(b.mod)}`:""}. Fight it with <a href="#act/${a}">${esc(actL(a))}</a> gear.`,
   secs:[["find","Where to find it",`<p class="sbfind">${esc(b.find||"")}</p>${sl?`<p class="sbsoul">${img("linggango_tweaks:boss_soul")}<span><b>Boss Soul</b> · drops its soul, which can go into the ${esc(sl[0])}, the summon for ${esc(sl[1])}.</span></p>`:""}${pi?`<figure class="sbfig"><img class="sbarena" alt="Where it is fought" src="${pi}"></figure>`:""}`],
+   (h=>h&&["stats","Stats",h])(sideStats(n,a)),
    b.attacks&&b.attacks.length&&["atk","Attacks",`<div class="batks">${b.attacks.map(x=>`<div class="batk"><span class="bai bai0 ${atype(x.desc)}">${ATG[atype(x.desc)]}</span><div><b>${esc(x.name)}</b><p>${esc(x.desc)}</p></div></div>`).join("")}</div>`],
-   b.drops&&b.drops.length&&["drops","Drops",`<div class="bdrops">${b.drops.map(x=>`<div class="bdrop bag"><span class="slot">${di(x.id)}</span><b>${BYID[x.id]?ilink(x.id,x.n):esc(x.n)}</b><span class="bch">${esc(x.chance||"")}</span></div>`).join("")}</div>${b.drops_note?`<p class="note">${esc(b.drops_note)}</p>`:""}<p class="note">Chances are estimated from the loot table rolls.</p>`]],
+   b.drops&&b.drops.length&&["drops","Drops",`<div class="bdrops">${b.drops.map(x=>`<div class="bdrop bag"><span class="slot">${di(x.id)}</span><b>${BYID[x.id]?ilink(x.id,x.n):esc(x.n)}</b><span class="bch">${esc(x.chance||"—")}</span>${x.count&&x.count!=="1"?`<small>×${esc(x.count)}</small>`:""}</div>`).join("")}</div>${b.drops_note?`<p class="note">${esc(b.drops_note)}</p>`:""}<p class="note">Chances are estimated from the loot table rolls${b.drops_src?` (the mod's own table; the pack may override it)`:""}.${b.drops.some(x=>!x.chance)?" A dash: the item is not in the loot table (the mod drops it in code or the quest book gives it).":""}</p>`]],
   after:src,
   art:`<div class="ip-art"><div class="ip-stage" style="${tex(a)}">${envFx(a)}<div class="ip-icon sbpic">${b.img?`<img alt="" src="${b.img}">`:emblem(a,"lg")}</div></div></div>`,
   box:{head:`<span class="ip-slot">${emblem(a,"xs")}</span><div><b>${esc(n)}</b><span>Side boss</span></div>`,
-   rows:[["Type","Optional side boss"],b.mod&&["Mod",esc(b.mod)],["Fight in",`<a href="#act/${a}">${esc(actL(a))}</a>`],sl&&["Boss Soul",`for ${esc(sl[0])}`],b.drops&&b.drops.length&&["Drops",String(b.drops.length)]],
+   rows:[["Type","Optional side boss"],b.mod&&["Mod",esc(b.mod)],["Fight in",`<a href="#act/${a}">${esc(actL(a))}</a>`],sideHp(n,a)&&["Health",sideHp(n,a)],sl&&["Boss Soul",`for ${esc(sl[0])}`],b.drops&&b.drops.length&&["Drops",String(b.drops.length)]],
    foot:b.entity?idBox(b.entity):""},
   nav:wikiNav({act:a},[["Side bosses in "+esc(actL(a)),same]])});
  wireArticle()}
@@ -213,15 +234,15 @@ function bossPage(k){
  const stage=B3[k]?`<div class="stage" data-boss="${k}"></div>`:`<div class="ip-icon">${emblem(a,"lg")}</div>`;
  el("main").innerHTML=article({cls:"r0 bossart",data:` data-boss-kind="${esc(k)}"`,style:`--tc:${ACT[a][2]};--rc:${ACT[a][2]}`,crumb:crumb(`<a href="#bosses">Bosses</a>`,esc(nm)),title:esc(nm),
   lead:side?`Optional side fight in <a href="#act/${a}">${esc(actL(a))}</a>: it drops its own curios.`:`${keeper?`The Keeper at the end of ${esc(ORDER[i-1]!=null?actL(ORDER[i-1]):"the start")}.`:"A fight the pack requires."} Defeat it to open <a href="#act/${a}">${esc(actL(a))}</a>.`,
-  secs:[...secsOf(summonHtml(k),"sum"),...secsOf(bossInfoHtml(k),"inf"),opens,
+  secs:[...secsOf(summonHtml(k),"sum"),(h=>h&&["stats","Stats",h])(keeperStats(k)),...secsOf(bossInfoHtml(k),"inf"),opens,
    row&&row[5]&&row[5]!=="—"&&["know","Good to know",`<p>${esc(pathText(row[5]))}</p>`],
    sides.length&&["side","Side bosses at this point",`<div class="tw"><table><tr><th>Boss</th><th>Where / notes</th><th>Useful drops</th></tr>${sides.map(r=>`<tr><td><b>${typeof SIDEB!=="undefined"&&SIDEB[r[0]]?`<a href="#side/${enc(r[0])}">${esc(r[0])}</a>`:esc(r[0])}</b></td><td>${esc(pathText(r[3]).replace(/[^;]*\d+\s*(dmg|damage|armor)[^;]*;?\s*/gi,"").trim()||"—")}</td><td>${r[4].slice(0,5).map(id=>ilink(id)).join(", ")||"—"}</td></tr>`).join("")}</table></div>`]],
   after:`<nav class="pnx">${prev!==undefined?`<a href="#boss/${PB[prev]}"><small>← Previous boss</small>${esc(bossName(PB[prev]))}</a>`:"<span></span>"}${next!==undefined?`<a href="#boss/${PB[next]}"><small>Next boss →</small>${esc(bossName(PB[next]))}</a>`:""}</nav>`,
   art:`<div class="ip-art"><div class="ip-stage" style="${btex(a,k)}">${stage}${envFx(a,k)}</div></div>`,
   box:{head:`<span class="ip-slot">${emblem(a,"xs")}</span><div><b>${esc(nm)}</b><span>${kind}</span></div><i class="bossbar" aria-hidden="true"><i></i></i>`,
    rows:[["Type",kind],side?["Fight in",`<a href="#act/${a}">${esc(actL(a))}</a>`]:["Opens",`<a href="#act/${a}">${esc(actL(a))}</a>`],
-    sit&&["Summoned with",ilink(sit,sitn)],row&&["Weak to",esc(row[2])],ks&&["Damage",ks[1],"Linggango pack setting"],ks&&ks[2]&&["Armor",ks[2],"Linggango pack setting"],
-    vb&&vb.hp&&["Health",String(vb.hp)],row&&row[4]&&row[4]!=="—"&&["Looting Charm",esc(row[4])]],
+    sit&&["Summoned with",ilink(sit,sitn)],row&&["Weak to",esc(row[2])],...(BE(k)?[BE(k).dmg!=null&&["Attack",fnum(BE(k).dmg)],BE(k).armor!=null&&["Armor",fnum(BE(k).armor)]]:[ks&&["Damage",ks[1],"Linggango pack setting"],ks&&ks[2]&&["Armor",ks[2],"Linggango pack setting"]]),
+    keeperHp(k)?["Health",keeperHp(k)]:vb&&vb.hp&&["Health",String(vb.hp)],row&&row[4]&&row[4]!=="—"&&["Looting Charm",esc(row[4])]],
    foot:vb&&vb.line?`<p class="note">${esc(vb.line)}</p>`:""},
   nav:wikiNav({boss:k,act:a})});
  wireArticle()}
@@ -994,6 +1015,11 @@ if(typeof BEXTRA!=="undefined"){const have=new Set(BOSSR.map(r=>r[0]));BEXTRA.fo
  if(typeof BACT!=="undefined")BOSSR.forEach(r=>{if(BACT[r[0]]!=null)r[1]=BACT[r[0]]});
  BOSSR.forEach(r=>{r[2]=({"✓":ui("check"),"🔍":ui("spy"),"❓":ui("q")})[r[2]]||r[2]});
  BOSSR.sort((x,y)=>x[1]-y[1]);const dr=BOSSR.find(r=>/^Draugr/.test(r[0]));if(dr)dr[1]=3}
+// portraits of side bosses drawn with Java models, rendered from the mod jars (build/pack_audit/side_bosses/jmodel.py)
+// drop chances from the mods' loot tables for bosses whose drop list came from the quest book (build/pack_audit/side_bosses/loot_chance.py)
+if(typeof SDROP!=="undefined"&&typeof SIDEB!=="undefined")for(const n in SDROP){const b=SIDEB[n];if(!b)continue;const L=SDROP[n].drops,by=Object.fromEntries(L.map(x=>[x.id,x]));
+ if(!(b.drops||[]).length)b.drops=L.filter(x=>x.id!=="goety:treasure_pouch").slice(0,6);else b.drops.forEach(x=>{const y=by[x.id];if(y&&!x.chance){x.chance=y.chance;x.count=y.count}});b.drops_src=SDROP[n].src}
+if(typeof SIMG!=="undefined"&&typeof SIDEB!=="undefined")for(const n in SIMG)if(SIDEB[n]&&!SIDEB[n].img){SIDEB[n].img=SIMG[n];SIDEB[n].img_src="render"}
 // 6.6.6: no quest chapter is locked any more ([progression_gates] chapters = []); the mods with the most items in each linggango_tweaks:gated/<tier> tag
 const CHAP=[[2,"only 6 items: Ars Nouveau's shaper foci, Enigmatic Legacy's Golem Heart and Magnet Ring, Animus's Hellforged Bow, a Blood Magic teleposer focus"],[3,"Goety (121 items: most foci and ritual gear), Goety Awaken, Ars Nouveau, Blood Magic, Mahou Tsukai, Nature's Aura"],[4,"Goety, Goety Awaken, Ars Nouveau, Goety Cataclysm, Animus, Blood Magic, Hexerei, Mahou Tsukai"],[5,"Nature's Aura, Goety, Blood Magic, Enigmatic Legacy, Mahou Tsukai, Enigmatic Addons"],[6,"Mystical Agriculture, Mekanism (+ Generators), Industrial Foregoing, Applied Flux, ExtendedAE, AE2, Nature's Aura"],[7,"Mekanism, Ad Astra (all of it), Mystical Agriculture, Just Dire Things, Blood Magic, ExtendedAE"],[8,"Evolved Mekanism, Mystical Agriculture, Sanctified Legacy, MEGA Cells, Mekanism"],[9,"Evolved Mekanism, MEGA Cells, SomakeSpells, Mahou Tsukai"],[10,"Evolved Mekanism, MEGA Cells"],[11,"Evolved Mekanism, Mekanism, MEGA Cells"]];
 const sec=(id,t,body)=>`<section class="s" id="${id}"><h2>${t}</h2>${body}</section>`;

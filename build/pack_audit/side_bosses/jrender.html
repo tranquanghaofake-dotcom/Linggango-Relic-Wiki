@@ -1,0 +1,32 @@
+<!doctype html><html><body style="margin:0;background:transparent">
+<!-- Renders a Java entity model read by jmodel.py the way vanilla ModelPart draws it (cube vertices and box UVs from
+     ModelPart.Cube, part pose = translate then rotate Z, Y, X), seen from the front-left like a mob portrait.
+     Serve next to node_modules/three (three@0.169.0) and build/geo2three.js (GeckoLib models); driven by jrender.js. -->
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'three';import {buildGeo} from './geo2three.js';
+const SZ=512,R=new THREE.WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true});R.setSize(SZ,SZ);R.setClearColor(0,0);document.body.appendChild(R.domElement);
+function cube(c,tw,th,mat){
+ let [x,y,z,w,h,d,g,u,v,mir]=c;const x0=x-g,y0=y-g,z0=z-g;let x1=x+w+g,y1=y+h+g,z1=z+d+g,xa=x0;
+ if(mir){[xa,x1]=[x1,xa]}
+ const V=[[xa,y0,z0],[x1,y0,z0],[x1,y1,z0],[xa,y1,z0],[xa,y0,z1],[x1,y0,z1],[x1,y1,z1],[xa,y1,z1]];
+ const f7=u,f8=u+d,f9=u+d+w,f10=u+d+w+w,f11=u+d+w+d,f12=u+d+w+d+w,f13=v,f14=v+d,f15=v+d+h;
+ const P=[[[5,1,2,6],f9,f14,f11,f15],[[0,4,7,3],f7,f14,f8,f15],[[5,4,0,1],f8,f13,f9,f14],[[2,3,7,6],f9,f14,f10,f13],[[1,0,3,2],f8,f14,f9,f15],[[4,5,6,7],f11,f14,f12,f15]];
+ const pos=[],uv=[],idx=[];
+ for(const [vs,u1,v1,u2,v2] of P){let q=[[vs[0],u2,v1],[vs[1],u1,v1],[vs[2],u1,v2],[vs[3],u2,v2]];if(mir)q=q.reverse();
+  const b=pos.length/3;for(const [i,uu,vv] of q){pos.push(...V[i]);uv.push(uu/tw,1-vv/th)}idx.push(b,b+1,b+2,b,b+2,b+3)}
+ const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));geo.setIndex(idx);geo.computeVertexNormals();
+ return new THREE.Mesh(geo,mat)}
+function part(p,tw,th,mat){const o=new THREE.Group();const [x,y,z,rx,ry,rz]=p.pose;o.position.set(x,y,z);o.rotation.order='ZYX';o.rotation.set(rx,ry,rz);
+ for(const c of p.cubes)o.add(cube(c,tw,th,mat));for(const k of p.children)o.add(part(k,tw,th,mat));return o}
+window.ready=true;
+window.renderJava=async(m,tex,yaw=-0.55,pitch=0.12)=>{const t=await new THREE.TextureLoader().loadAsync('data:image/png;base64,'+tex);t.magFilter=t.minFilter=THREE.NearestFilter;t.colorSpace=THREE.SRGBColorSpace;
+ const mat=new THREE.MeshLambertMaterial({map:t,alphaTest:.1,side:THREE.DoubleSide});
+ const S=new THREE.Scene();S.add(new THREE.AmbientLight(0xffffff,2.0));const d=new THREE.DirectionalLight(0xffffff,1.7);d.position.set(-2,3,4);S.add(d);
+ const flip=new THREE.Group();
+ if(m.geo){flip.add(buildGeo(m.geo,t,{faceCamera:false}));flip.rotation.y=Math.PI}   // GeckoLib model: geo2three already faces +z
+ else{flip.scale.set(-1,-1,1);flip.add(part(m.root,m.tw,m.th,mat))}   // vanilla renders models with scale(-1,-1,1)
+ const turn=new THREE.Group();turn.add(flip);turn.rotation.y=Math.PI+yaw;turn.rotation.x=pitch;S.add(turn);  // model front is -z: face the camera, then three-quarter
+ const b=new THREE.Box3().setFromObject(turn),sz=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3()),k=Math.max(sz.x,sz.y)/2*1.04;
+ const cam=new THREE.OrthographicCamera(c.x-k,c.x+k,c.y+k,c.y-k,-1000,1000);cam.position.z=500;R.render(S,cam);return R.domElement.toDataURL('image/png')}
+</script></body></html>
