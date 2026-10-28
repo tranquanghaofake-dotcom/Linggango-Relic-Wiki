@@ -31,7 +31,9 @@ LGW.SRG = {
   mobAttack: ['m_269333_'], inFire: ['m_269387_'], magic: ['m_269425_'], explosion: ['m_269036_'], fall: ['m_268989_'],
   is: ['m_269533_'], getDamageAfterAbsorb: ['m_19272_'], isEmpty: ['m_41619_'], create: ['m_20615_'],
   setRemainingFireTicks: ['m_7311_'], moveTo: ['m_7678_'], hurt: ['m_6469_'], getLastDamageSource: ['m_21225_'], playerAttack: ['m_269075_'],
-  hurtEnemy: ['m_41640_'], getMainHandItem: ['m_21205_']
+  hurtEnemy: ['m_41640_'], getMainHandItem: ['m_21205_'],
+  getAdvancements: ['m_129889_', 'm_8960_'], getAdvancement: ['m_136041_'], award: ['m_135988_'], getOrStartProgress: ['m_135996_'],
+  getCriteria: ['m_138325_'], isDone: ['m_8193_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
   BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_' }
@@ -108,6 +110,27 @@ LGW.run = (server, who, name) => {
   if (who) { X = Math.floor(who.x) + 0.5; Y = Math.floor(who.y) + 3; Z = Math.floor(who.z) + 0.5 }
   else { var sp = c0(level, 'getSharedSpawnPos'); X = c0(sp, 'getX') + 0.5; Y = c0(sp, 'getY') + 3; Z = c0(sp, 'getZ') + 0.5 }
   var spawned = []
+  // Armageddon's progression: tools and armor of a tier deal no damage (LivingAttackEvent cancelled) until the player has that
+  // tier's Keeper advancement (fourth run: every weapon hit cancelled by DiamondToolsDealingDamagesPreventionProcedure). The tester
+  // is given them all, i.e. it measures a player past every Keeper; creative would skip the check too but changes other mods.
+  // Linggango's own item gates exempt FakePlayers.
+  var KEEPERS = ['the_iron_keeper', 'the_gold_keeper', 'the_emerald_keeper', 'the_diamond_keeper', 'the_netherite_keeper', 'the_blood_keeper',
+    'the_shadow_keeper', 'the_cataclysm_keeper', 'the_elvenite_keeper', 'the_voiderite_keeper', 'the_sun_keeper', 'overworld_conqueror']
+  var grant = () => {
+    var mgr, pa, got = [], miss = []
+    if (!safe('grant', () => { mgr = c0(server, 'getAdvancements'); pa = c0(P, 'getAdvancements') })) { say('could not give the tester the Keeper advancements'); return }
+    KEEPERS.forEach(k => {
+      var ok = safe('grant ' + k, () => {
+        var adv = c1(mgr, 'getAdvancement', new ResourceLocation('armageddon_mod:' + k))
+        if (('' + adv) === 'null') throw 'no such advancement'
+        c0(adv, 'getCriteria').keySet().forEach(cr => { c2(pa, 'award', adv, cr) })
+        if (!c0(c1(pa, 'getOrStartProgress', adv), 'isDone')) throw 'not done after award'
+      })
+      ;(ok ? got : miss).push(k)
+    })
+    out.granted = got; if (miss.length) out.notGranted = miss
+    say('tester given ' + got.length + '/' + KEEPERS.length + ' Armageddon Keeper advancements' + (miss.length ? ' (missing: ' + miss.join(', ') + ')' : ''))
+  }
   var SLOT = { HEAD: EquipmentSlot.HEAD, CHEST: EquipmentSlot.CHEST, LEGS: EquipmentSlot.LEGS, FEET: EquipmentSlot.FEET, MAINHAND: EquipmentSlot.MAINHAND, OFFHAND: EquipmentSlot.OFFHAND }
   var rl = s => new ResourceLocation(s)
   var hp = e => c0(e, 'getHealth')
@@ -304,6 +327,7 @@ LGW.run = (server, who, name) => {
   ;(plan.sets || []).forEach(s => jobs.push(() => { cur = s.k; safe('armor', () => { out.armor[s.k] = armor(s.p) }, s.k) }))
   var i = 0, next = 0
   say('starting: ' + jobs.length + ' measurements; the game slows down until it is done')
+  grant()
   check()
   var step = () => {
     var t0 = Date.now()
