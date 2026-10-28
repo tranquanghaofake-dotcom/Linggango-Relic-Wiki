@@ -504,3 +504,11 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Asked:** learn more from minecraft-guides.com; the wiki still looks rough next to it.
 - **Measured there:** titles in a block face (Minecrafter 52/36/24 px, capitals); body 19 px / 1.7; reading column ~750 px + 350 px side; tables of separate cells with a dark edge, inner light rim and a solid underside; callouts the same "block" in colour; pixel dividers between sections; hero with drifting motes.
 - **Done:** Jersey 15 (OFL, `build/fonts/`) for titles; hero band on the Act's wall with motes; flowing sections + dividers; block shape for cards, callouts, infobox, table cells; non-sticky side column with sticky TOC; summary-first Stats; hub titles larger, no empty side-boss box. check.sh green; Curios page 0.87 s, article 0.49 s.
+
+## v49 — merged to main; new gear, station icons, side-boss pictures, clearer layout — main at 1de459d
+- **Asked:** merge to main; reorganise information and layout; modded mobs have no face, Upgrade Forge and Blood Altar no icon; ~270 new items in the 6.6.6hf dump have no page.
+- **Merged:** main fast-forwarded to the branch (aeb784d, CI green), then to 1de459d.
+- **Gear:** `pack_audit/gear_new.py` → `patches/gear_new.json`, stage `gear_added`: 86 new pieces (24 melee, 21 ranged incl. Brutality throwables, 3 magic, 38 armor in 9 sets); left out with reasons: 252 mining tools, 52 with no modifiers, 2 heads. 18 pieces have no readable Act (Thermal utility armor, Malefic Helm, Monocle) and say so. The earlier "~270" was the raw difference; the real gap was 493 ids, most of them tools and upgrade stages.
+- **Icons:** `pack_audit/block_render.py` draws cube and OBJ models isometric; Blood Altar and Upgrade Forge now have icons. Drops by side bosses show the boss's arena picture and link to its page; modded mob textures stay unused (tier B).
+- **Layout:** hub "Start here" (4 questions); Bosses page lists side bosses by Act; side-boss crumbs under Bosses; Curios: relic levels folded, legend above the tiles, 72 tiles per Act then "Show all"; nav "Build planner".
+- **Checks:** check.sh green: 3,973 detail pages, 2,226 gear + 342 sets, 0 script errors, no frame inside a frame.
