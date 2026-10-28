@@ -512,3 +512,9 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Icons:** `pack_audit/block_render.py` draws cube and OBJ models isometric; Blood Altar and Upgrade Forge now have icons. Drops by side bosses show the boss's arena picture and link to its page; modded mob textures stay unused (tier B).
 - **Layout:** hub "Start here" (4 questions); Bosses page lists side bosses by Act; side-boss crumbs under Bosses; Curios: relic levels folded, legend above the tiles, 72 tiles per Act then "Show all"; nav "Build planner".
 - **Checks:** check.sh green: 3,973 detail pages, 2,226 gear + 342 sets, 0 script errors, no frame inside a frame.
+
+## v50 — review pass (logic, UI, data) — main
+- **Asked:** stop updating the summary page; review logic, UI and data bugs and fix them (screenshots: Recently added, footer, hub Equipment, armor stands, legend).
+- **Audits:** `uiaudit.js` (overflow, broken images, clipped text, bad links/text over 50 routes) and `dataudit.js` (Acts vs gates and ingredients, duplicate names, stat ranges, set Acts, drop chances), both in the session scratchpad.
+- **Fixed:** 2 curios raised to their ingredient's Act (Gold Medal); a latent bug in boss_order's Act comparison (Warden/Wither Acts counted as 0 — caught when it lowered Warden Spine and Necrotoxic Shell in a first run, reverted); "Recently added" subtitle named the wrong mods → "New in 6.6.6"; tooltip "Uncommon · Uncommon"; footer credits; clipped item ids; Curses/Virtues badge invisible → ring icon; armor stands drawn from armor layer textures.
+- **Checked and left:** loot-first curios with later recipes (Fire Gauntlet, Tearstone Ring, Chthonic Nectar); gear with alternative recipes; Whisperwaltz speed 20 is the game's value; 17 curio and 51 gear names shared across mods (pages show the mod); 103 one-piece "sets" (single armor pieces ranked in the armor list).
