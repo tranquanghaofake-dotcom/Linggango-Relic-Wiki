@@ -840,13 +840,19 @@ function recipeGui(d){const g=d.gr,stn=g.st.replace(/\s*\(shapeless\)/i,""),kind
 const SRCX={mob:/[Dd]ropped by ([^(;]+?)\s*\(([^)]*)\)/g,bag:/[Cc]omes from (?:the )?(.+?)'s treasure bag \(([^)]+)\)/g,brush:/Brush suspicious blocks at ([^(;]+?) \(([^)]+)\)/g,
  chest:/[Ff]ound in chests at ([^;]+?)(?:, up to ([\d.]+%) per chest)?\.?(?=;|$)/g,tomb:/[Ff]ound in ([A-Z][\w' ]+?) chests \(([^)]+)\)/g,van:/Vanilla chests \(([^)]*)\): ([^;]+?)\.?(?=;|$)/g,
  box:/(?:From an?|Can roll from an?) ([A-Z][\w' ]+?)(?: \(([^)]*)\))?(?= or|[.;]|$)/g,trade:/Bought from ([^.;]+)/g};
+/* a modded mob that is one of the side bosses: its picture is the side boss's own (the pack's screenshot the wiki already shows) */
+const SIDEAL={"archmage gundalf":"Gundalf, Circe, Merlin (Shadow Wizards)","echo of tyros, first flamebearer":"Tyros (fire boss)","the dead king":"Dead King","enraged dead king":"Dead King","leviathan":"The Leviathan"};
+const sideByName=n=>{if(typeof SIDEB==="undefined")return null;const l=n.toLowerCase();if(SIDEAL[l])return SIDEAL[l];return Object.keys(SIDEB).find(k=>{const x=k.toLowerCase();return x===l||x.replace(/^the /,"")===l.replace(/^the /,"")})||null};
+const sidePic=k=>{const pi=typeof PIMG!=="undefined"?PIMG:{};return (pi.side&&pi.side[k])||(SIDEB[k]&&SIDEB[k].img&&pi.scene&&pi.scene[k])||null};
 const bossByName=n=>{n=n.replace(/^the /i,"").toLowerCase();return [...KEEPERS(),...Object.keys(SIDEV||{})].find(k=>{const b=bossName(k).toLowerCase();return b===n||b.startsWith(n)||b.replace(/^the /,"").startsWith(n)})};
 function lootCards(d){const out=[],used=new Set();
  const card=(pic,title,sub,chance,href)=>`<${href?`a href="${href}"`:"div"} class="lcard"><span class="lpic">${pic}</span><span class="ltx"><b>${title}</b>${sub?`<small>${sub}</small>`:""}</span>${chance?`<span class="lch">${esc(chance)}</span>`:""}</${href?"a":"div"}>`;
  const rt=k=>`<i class="lrt" style="--lrt:var(--rt-${k})"></i>`;
  d.src.forEach((line,li)=>{let m,hit=0;const R=k=>{SRCX[k].lastIndex=0;const xs=[];while(m=SRCX[k].exec(line))xs.push(m);return xs};
-  R("mob").forEach(m=>{hit=1;const n=m[1].trim(),bk=bossByName(n),fk="mf_"+n.replace(/s$/,"").toLowerCase().replace(/ /g,"_");
-   out.push(bk?card(emblem(bossPath(bk)??0,"sm"),esc(bossName(bk)),"Boss drop",m[2],"#boss/"+bk):card(typeof ROOMT!=="undefined"&&ROOMT[fk]?rt(fk):rt("spawner"),esc(n),"Mob drop",m[2]))});
+  R("mob").forEach(m=>{hit=1;const n=m[1].trim(),bk=bossByName(n),fk="mf_"+n.replace(/s$/,"").toLowerCase().replace(/ /g,"_"),sk=sideByName(n),sp=sk&&sidePic(sk);
+   out.push(bk?card(emblem(bossPath(bk)??0,"sm"),esc(bossName(bk)),"Boss drop",m[2],"#boss/"+bk)
+    :sk?card(sp?`<img class="lsc" alt="" src="${sp}">`:rt("spawner"),esc(n),"Side boss drop",m[2],"#side/"+enc(sk))
+    :card(typeof ROOMT!=="undefined"&&ROOMT[fk]?rt(fk):rt("spawner"),esc(n),"Mob drop",m[2]))});
   R("bag").forEach(m=>{hit=1;const bk=bossByName(m[1]),bag=bk&&BINFO[bk]&&(BINFO[bk].drops||[]).find(x=>/treasure_?bag/.test(x.id));
    out.push(card(bag&&IC[bag.id]?img(bag.id):bag&&BIMG[bag.id]?`<img alt="" src="${BIMG[bag.id]}">`:bk?emblem(bossPath(bk)??0,"sm"):rt("ftb_chest"),esc(bk?bossName(bk):m[1])+"'s treasure bag","Open the bag the Keeper drops",m[2],bk?"#boss/"+bk:""))});
   R("brush").forEach(m=>{hit=1;out.push(card(rt("lt_sand"),esc(m[1]),"Brush the suspicious blocks",m[2]))});

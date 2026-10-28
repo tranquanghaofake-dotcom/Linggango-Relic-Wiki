@@ -114,6 +114,14 @@ got = 0
 for i in sorted(need):
     b = icon(i)
     if b: IC[i] = b; got += 1
+# stations with no flat texture, only a 3D model: drawn as the inventory draws a block (block_render.py)
+import block_render
+for i, how in (("bloodmagic:altar", ("obj", "assets/bloodmagic/models/bloodaltar.obj", "assets/bloodmagic/textures/models/altar.png")),
+               ("somakespells:upgrade_forge", ("model", "somakespells:item/upgrade_forge"))):
+    if i in IC: continue
+    im = block_render.render_obj(how[1], how[2], rd) if how[0] == "obj" else block_render.render(how[1], rd)
+    if im is not None:
+        bo = io.BytesIO(); im.save(bo, "PNG", optimize=True); IC[i] = base64.b64encode(bo.getvalue()).decode()
 MO = {k: v for k, v in MO.items() if v[1] in IC or v[1] in have}
 for f, d in (("name_ids.json", NI), ("tag_ids.json", TG), ("mob_ids.json", MO), ("gear_icons.json", IC)):
     (P / f).write_text(json.dumps(d, ensure_ascii=False, separators=(",", ":"), sort_keys=True), encoding="utf-8")
