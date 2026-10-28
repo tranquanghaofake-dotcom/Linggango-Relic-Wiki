@@ -581,3 +581,13 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   test hit cancelled = block on cooldown (21, not scored), half-health cap with low max HP, +0.1 attack speed for any non-Armageddon curio.
 - Open: ranged/magic/summon weapon damage is still an Act estimate (lists flat at S/A early); measure shots/spells/minions in game.
   Curio "rarity" (r) on the Curios page is untouched (Act-weighted quantile), the measured tiers live under Equipment.
+
+## 2026-10-28: Stats explained (main c0a785a)
+- Mechanics -> new Stats tab (`#mechanics/stats` scrolls to it): Armor Penetration (Brutality, %) vs Lethality (Brutality, flat,
+  after pen) plus the look-alikes (Iron's armor pierce, TerraCurio armor pass, Celestial Core pen, Goety Revelation needle/enchant
+  piercing, Puffish shreds); the separate crit chances (Brutality 0% base, failed roll cancels jump crits, x1.4; TerraCurio own x1.5
+  roll; Iron's crit damage additive; GTBCS spell crit; TMB bows); dodge; lifesteal (melee) vs omnivamp (all); damage types; summons.
+- Curio stat lines: `statHint` in app.js gives stat names a dotted underline, hover tip, click -> the Stats tab (`a.sth` in CSS).
+- Read from the V6.6.6hf jars. Not confirmed in code: Puffish shred/life steal scaling, how TerraCurio and Brutality crit rolls
+  combine, Slash/Pierce/Blunt bonuses, Goety soul stealing, Goety summon potency, Opposing Force summon damage.
+- Open, left as is (nothing removed): 11 l2backpack curios + heavy_key are not in 6.6.6hf; ~25 instance curios are missing from the wiki.
