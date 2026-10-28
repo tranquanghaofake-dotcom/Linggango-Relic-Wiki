@@ -1,0 +1,2438 @@
+{
+"_source": "build/pack_audit/gear_new.py over gear_runtime.json (6.6.6hf dump) and the pack's jars",
+"ge": [
+{
+"id": "alexscaves:ortholance",
+"n": "Ortholance",
+"ns": "alexscaves",
+"k": "magic",
+"a": 4,
+"ga": 4,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [
+"alexscaves:gameplay/deep_one_knight_barter"
+],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "alexscaves:sharpened_candy_cane",
+"n": "Sharpened Candy Cane",
+"ns": "alexscaves",
+"k": "melee",
+"a": 4,
+"ga": 4,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [
+"alexscaves:entities/caniac"
+],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "animus:hand_of_death",
+"n": "Hand of Death",
+"ns": "animus",
+"k": "melee",
+"a": 7,
+"ga": 7,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "bloodmagic:soulforge",
+"i": [
+"bloodmagic:soulforge",
+"animus:runic_sentient_scythe",
+"bloodmagic:demonslate",
+"minecraft:dragon_breath",
+"malum:rune_of_culling"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "armageddon_mod:iron_colossus_arm",
+"n": "Eternal Steel Hammer",
+"ns": "armageddon_mod",
+"k": "melee",
+"a": 2,
+"ga": 2,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [
+"armageddon_mod:gameplay/iron_colossus_treasure_bag"
+],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:absolute_zero",
+"n": "Absolute Zero",
+"ns": "brutality",
+"k": "ranged",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:blue_ice",
+"minecraft:glass_bottle",
+"terramity:sapphire"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:beach_ball",
+"n": "Beach Ball",
+"ns": "brutality",
+"k": "ranged",
+"a": 7,
+"ga": 7,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:light_blue_dye",
+"minecraft:orange_dye",
+"minecraft:pink_dye",
+"minecraft:white_wool"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:blast_barrel",
+"n": "Blast Barrel",
+"ns": "brutality",
+"k": "ranged",
+"a": 7,
+"ga": 7,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:netherite_scrap",
+"minecraft:tnt",
+"minecraft:barrel",
+"terramity:daemonium_chunk"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:bouncy_dynamite",
+"n": "Bouncy Dynamite",
+"ns": "brutality",
+"k": "ranged",
+"a": 4,
+"ga": 4,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shapeless",
+"i": [
+"minecraft:crafting_shapeless",
+"brutality:pink_slime_ball",
+"brutality:pink_slime_ball",
+"brutality:pink_slime_ball",
+"brutality:pink_slime_ball",
+"brutality:pink_slime_ball",
+"brutality:pink_slime_ball",
+"brutality:pink_slime_ball",
+"brutality:pink_slime_ball",
+"brutality:dynamite"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:cavendish",
+"n": "Cavendish",
+"ns": "brutality",
+"k": "ranged",
+"a": 4,
+"ga": 4,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:golden_pickaxe",
+"minecraft:shears",
+"terramity:topaz"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:cinder_block",
+"n": "Cinder Block",
+"ns": "brutality",
+"k": "ranged",
+"a": 4,
+"ga": 4,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shapeless",
+"i": [
+"minecraft:crafting_shapeless",
+"minecraft:stone",
+"minecraft:smooth_stone",
+"minecraft:andesite",
+"minecraft:polished_andesite",
+"minecraft:clay_ball",
+"minecraft:light_gray_concrete_powder"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:crimson_delight",
+"n": "Crimson Delight",
+"ns": "brutality",
+"k": "ranged",
+"a": 4,
+"ga": 4,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"terramity:ruby",
+"minecraft:apple"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:deck_of_fate",
+"n": "Deck Of Fate",
+"ns": "brutality",
+"k": "ranged",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"terramity:sapphire",
+"terramity:ruby",
+"terramity:topaz",
+"terramity:onyx",
+"terramity:gaianite_cluster",
+"terramity:cardboard",
+"terramity:daemonium_chunk"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:dynamite",
+"n": "Dynamite",
+"ns": "brutality",
+"k": "ranged",
+"a": 4,
+"ga": 4,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:string",
+"minecraft:paper",
+"minecraft:tnt"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:golden_phoenix",
+"n": "Golden Phoenix",
+"ns": "brutality",
+"k": "ranged",
+"a": 7,
+"ga": 7,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"terramity:spikes",
+"minecraft:melon"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:holy_hand_grenade",
+"n": "Holy Hand Grenade",
+"ns": "brutality",
+"k": "ranged",
+"a": 7,
+"ga": 7,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"terramity:reverium",
+"minecraft:tnt"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:ice_cube",
+"n": "Ice Cube",
+"ns": "brutality",
+"k": "ranged",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:ice",
+"terramity:sapphire_block"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:overclocked_toaster",
+"n": "Overclocked Toaster",
+"ns": "brutality",
+"k": "ranged",
+"a": 7,
+"ga": 7,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:iron_block",
+"minecraft:bread",
+"minecraft:lever",
+"terramity:circuit_board",
+"minecraft:iron_trapdoor"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:perfume_bottle",
+"n": "Perfume Bottle",
+"ns": "brutality",
+"k": "ranged",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:poppy",
+"minecraft:glass_bottle",
+"terramity:ruby"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:permafrost_cube",
+"n": "Permafrost Cube",
+"ns": "brutality",
+"k": "ranged",
+"a": 7,
+"ga": 7,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:blue_ice",
+"brutality:ice_cube"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:photon",
+"n": "Photon",
+"ns": "brutality",
+"k": "ranged",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:pouch_o_photons",
+"n": "Pouch O' Photons",
+"ns": "brutality",
+"k": "ranged",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:sticky_bomb",
+"n": "Sticky Bomb",
+"ns": "brutality",
+"k": "ranged",
+"a": 4,
+"ga": 4,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:redstone_torch",
+"terramity:circuit_board",
+"brutality:blue_slime_ball",
+"minecraft:tnt",
+"minecraft:clay_ball"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:sticky_dynamite",
+"n": "Sticky Dynamite",
+"ns": "brutality",
+"k": "ranged",
+"a": 4,
+"ga": 4,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shapeless",
+"i": [
+"minecraft:crafting_shapeless",
+"brutality:blue_slime_ball",
+"brutality:blue_slime_ball",
+"brutality:blue_slime_ball",
+"brutality:blue_slime_ball",
+"brutality:blue_slime_ball",
+"brutality:blue_slime_ball",
+"brutality:blue_slime_ball",
+"brutality:blue_slime_ball",
+"brutality:dynamite"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:vampire_knives",
+"n": "Vampire Knives",
+"ns": "brutality",
+"k": "ranged",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"brutality:iron_knife",
+"terramity:chthonic_nectar",
+"terramity:chthonic_crystal"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "brutality:winter_melon",
+"n": "Winter Melon",
+"ns": "brutality",
+"k": "ranged",
+"a": 7,
+"ga": 7,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:packed_ice",
+"minecraft:melon"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "cataclysm:coral_bardiche",
+"n": "Coral Bardiche",
+"ns": "cataclysm",
+"k": "melee",
+"a": 2,
+"ga": 2,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "cataclysm:gauntlet_of_bulwark",
+"n": "Gauntlet of Bulwark",
+"ns": "cataclysm",
+"k": "melee",
+"a": 8,
+"ga": 8,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cataclysm:weapon_fusion",
+"i": [
+"cataclysm:weapon_fusion",
+"cataclysm:gauntlet_of_guard",
+"cataclysm:bulwark_of_the_flame"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "cataclysm:gauntlet_of_guard",
+"n": "Gauntlet of Guard",
+"ns": "cataclysm",
+"k": "melee",
+"a": 8,
+"ga": 8,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [
+"cataclysm:entities/ender_guardian"
+],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "cataclysm:gauntlet_of_maelstrom",
+"n": "Gauntlet of Maelstrom",
+"ns": "cataclysm",
+"k": "melee",
+"a": 8,
+"ga": 8,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cataclysm:weapon_fusion",
+"i": [
+"cataclysm:weapon_fusion",
+"cataclysm:gauntlet_of_guard",
+"cataclysm:sandstorm_in_a_bottle"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "cataclysm:infernal_forge",
+"n": "Infernal Forge",
+"ns": "cataclysm",
+"k": "melee",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [
+"cataclysm:entities/netherite_monstrosity"
+],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "cataclysm:soul_render",
+"n": "Soul Render",
+"ns": "cataclysm",
+"k": "melee",
+"a": 7,
+"ga": 7,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"cataclysm:black_steel_ingot",
+"cataclysm:cursium_ingot"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "cataclysm:the_annihilator",
+"n": "The Annihilator",
+"ns": "cataclysm",
+"k": "melee",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"cataclysm:black_steel_ingot",
+"cataclysm:cursium_ingot"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "cataclysm:the_immolator",
+"n": "The Immolator",
+"ns": "cataclysm",
+"k": "melee",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cataclysm:weapon_fusion",
+"i": [
+"cataclysm:weapon_fusion",
+"cataclysm:the_annihilator",
+"cataclysm:ignitium_ingot"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "cataclysm:the_incinerator",
+"n": "The Incinerator",
+"ns": "cataclysm",
+"k": "melee",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:blaze_rod",
+"cataclysm:ignitium_ingot",
+"minecraft:netherite_sword"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "cataclysm:void_forge",
+"n": "Void Forge",
+"ns": "cataclysm",
+"k": "melee",
+"a": 7,
+"ga": 7,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cataclysm:weapon_fusion",
+"i": [
+"cataclysm:weapon_fusion",
+"cataclysm:infernal_forge",
+"cataclysm:void_core"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "eeeabsmobs:skyfall_hammer",
+"n": "Skyfall Hammer",
+"ns": "eeeabsmobs",
+"k": "melee",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "goety:malefic_helm",
+"n": "Malefic Helm",
+"ns": "goety",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "HELMET",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "legendary_monsters:mossy_hammer",
+"n": "Mossy Hammer",
+"ns": "legendary_monsters",
+"k": "melee",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:chiseled_stone_bricks",
+"minecraft:moss_block",
+"legendary_monsters:nature_crystal",
+"minecraft:stick"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "linggango_tweaks:swampbuster",
+"n": "River-Prawn Greatclaw",
+"ns": "linggango_tweaks",
+"k": "melee",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"linggango_tweaks:claw",
+"minecraft:iron_ingot",
+"minecraft:stick"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "macabre:chanisword",
+"n": "Stiff Chainsword",
+"ns": "macabre",
+"k": "melee",
+"a": 11,
+"ga": 11,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shapeless",
+"i": [
+"minecraft:crafting_shapeless",
+"macabre:gomoria_heart",
+"macabre:fearmonger"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "macabre:true_gorescythe",
+"n": "Soaked Gorescythe",
+"ns": "macabre",
+"k": "melee",
+"a": 11,
+"ga": 11,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shapeless",
+"i": [
+"minecraft:crafting_shapeless",
+"macabre:baal_heart",
+"macabre:gorescythe"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "mahoutsukai:theripper",
+"n": "The Ripper",
+"ns": "mahoutsukai",
+"k": "melee",
+"a": 4,
+"ga": 4,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "mekaweapons:mekatana",
+"n": "Meka-Tana",
+"ns": "mekaweapons",
+"k": "melee",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"#forge:ingots/steel",
+"mekanism:pellet_polonium",
+"#forge:circuits/ultimate",
+"mekanism:basic_induction_cell",
+"mekanism:hdpe_sheet",
+"mekaweapons:katana_blade"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "mob_grinding_utils:monocle",
+"n": "Monocle",
+"ns": "mob_grinding_utils",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "HELMET",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:awakened_supremium_boots",
+"n": "Awakened Supremium Boots",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "mysticalagriculture:awakening",
+"i": [
+"mysticalagriculture:awakening",
+"mysticalagriculture:awakened_supremium_gemstone",
+"mysticalagriculture:awakened_supremium_ingot",
+"mysticalagriculture:awakened_supremium_gemstone",
+"mysticalagriculture:awakened_supremium_ingot",
+"mysticalagriculture:supremium_boots"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "BOOTS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:awakened_supremium_chestplate",
+"n": "Awakened Supremium Chestplate",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "mysticalagriculture:awakening",
+"i": [
+"mysticalagriculture:awakening",
+"mysticalagriculture:awakened_supremium_gemstone",
+"mysticalagriculture:awakened_supremium_ingot",
+"mysticalagriculture:awakened_supremium_gemstone",
+"mysticalagriculture:awakened_supremium_ingot",
+"mysticalagriculture:supremium_chestplate"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "CHESTPLATE",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:awakened_supremium_helmet",
+"n": "Awakened Supremium Helmet",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "mysticalagriculture:awakening",
+"i": [
+"mysticalagriculture:awakening",
+"mysticalagriculture:awakened_supremium_gemstone",
+"mysticalagriculture:awakened_supremium_ingot",
+"mysticalagriculture:awakened_supremium_gemstone",
+"mysticalagriculture:awakened_supremium_ingot",
+"mysticalagriculture:supremium_helmet"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "HELMET",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:awakened_supremium_leggings",
+"n": "Awakened Supremium Leggings",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "mysticalagriculture:awakening",
+"i": [
+"mysticalagriculture:awakening",
+"mysticalagriculture:awakened_supremium_gemstone",
+"mysticalagriculture:awakened_supremium_ingot",
+"mysticalagriculture:awakened_supremium_gemstone",
+"mysticalagriculture:awakened_supremium_ingot",
+"mysticalagriculture:supremium_leggings"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "LEGGINGS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:imperium_boots",
+"n": "Imperium Boots",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:imperium_gemstone",
+"mysticalagriculture:imperium_ingot",
+"mysticalagriculture:tertium_boots"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "BOOTS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:imperium_chestplate",
+"n": "Imperium Chestplate",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:imperium_gemstone",
+"mysticalagriculture:imperium_ingot",
+"mysticalagriculture:tertium_chestplate"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "CHESTPLATE",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:imperium_helmet",
+"n": "Imperium Helmet",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:imperium_gemstone",
+"mysticalagriculture:imperium_ingot",
+"mysticalagriculture:tertium_helmet"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "HELMET",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:imperium_leggings",
+"n": "Imperium Leggings",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:imperium_gemstone",
+"mysticalagriculture:imperium_ingot",
+"mysticalagriculture:tertium_leggings"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "LEGGINGS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:inferium_boots",
+"n": "Inferium Boots",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:inferium_gemstone",
+"mysticalagriculture:inferium_ingot",
+"minecraft:diamond_boots"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "BOOTS",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:inferium_chestplate",
+"n": "Inferium Chestplate",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:inferium_gemstone",
+"mysticalagriculture:inferium_ingot",
+"minecraft:diamond_chestplate"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "CHESTPLATE",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:inferium_helmet",
+"n": "Inferium Helmet",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:inferium_gemstone",
+"mysticalagriculture:inferium_ingot",
+"minecraft:diamond_helmet"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "HELMET",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:inferium_leggings",
+"n": "Inferium Leggings",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:inferium_gemstone",
+"mysticalagriculture:inferium_ingot",
+"minecraft:diamond_leggings"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "LEGGINGS",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:prudentium_boots",
+"n": "Prudentium Boots",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:prudentium_gemstone",
+"mysticalagriculture:prudentium_ingot",
+"mysticalagriculture:inferium_boots"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "BOOTS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:prudentium_chestplate",
+"n": "Prudentium Chestplate",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:prudentium_gemstone",
+"mysticalagriculture:prudentium_ingot",
+"mysticalagriculture:inferium_chestplate"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "CHESTPLATE",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:prudentium_helmet",
+"n": "Prudentium Helmet",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:prudentium_gemstone",
+"mysticalagriculture:prudentium_ingot",
+"mysticalagriculture:inferium_helmet"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "HELMET",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:prudentium_leggings",
+"n": "Prudentium Leggings",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:prudentium_gemstone",
+"mysticalagriculture:prudentium_ingot",
+"mysticalagriculture:inferium_leggings"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "LEGGINGS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:supremium_boots",
+"n": "Supremium Boots",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:supremium_gemstone",
+"mysticalagriculture:supremium_ingot",
+"mysticalagriculture:imperium_boots"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "BOOTS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:supremium_chestplate",
+"n": "Supremium Chestplate",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:supremium_gemstone",
+"mysticalagriculture:supremium_ingot",
+"mysticalagriculture:imperium_chestplate"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "CHESTPLATE",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:supremium_helmet",
+"n": "Supremium Helmet",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:supremium_gemstone",
+"mysticalagriculture:supremium_ingot",
+"mysticalagriculture:imperium_helmet"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "HELMET",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:supremium_leggings",
+"n": "Supremium Leggings",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:supremium_gemstone",
+"mysticalagriculture:supremium_ingot",
+"mysticalagriculture:imperium_leggings"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "LEGGINGS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:tertium_boots",
+"n": "Tertium Boots",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:tertium_gemstone",
+"mysticalagriculture:tertium_ingot",
+"mysticalagriculture:prudentium_boots"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "BOOTS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:tertium_chestplate",
+"n": "Tertium Chestplate",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:tertium_gemstone",
+"mysticalagriculture:tertium_ingot",
+"mysticalagriculture:prudentium_chestplate"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "CHESTPLATE",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:tertium_helmet",
+"n": "Tertium Helmet",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:tertium_gemstone",
+"mysticalagriculture:tertium_ingot",
+"mysticalagriculture:prudentium_helmet"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "HELMET",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "mysticalagriculture:tertium_leggings",
+"n": "Tertium Leggings",
+"ns": "mysticalagriculture",
+"k": "armor",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "cucumber:shaped_transfer_damage",
+"i": [
+"cucumber:shaped_transfer_damage",
+"mysticalagriculture:tertium_gemstone",
+"mysticalagriculture:tertium_ingot",
+"mysticalagriculture:prudentium_leggings"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "LEGGINGS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from.",
+"dump": 1
+},
+{
+"id": "opposing_force:trembling_slammer",
+"n": "Trembling Slammer",
+"ns": "opposing_force",
+"k": "melee",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"opposing_force:guzzler_scales",
+"#forge:ingots/gold",
+"opposing_force:trembler_shell"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "somakespells:tide_piercer",
+"n": "Tide Piercer",
+"ns": "somakespells",
+"k": "magic",
+"a": 5,
+"ga": 5,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"irons_spellbooks:mithril_ingot",
+"iss_magicfromtheeast:red_shaft",
+"minecraft:nautilus_shell"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "species:spectralibur",
+"n": "Spectralibur",
+"ns": "species",
+"k": "melee",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "terramity:devastation",
+"n": "Devastation",
+"ns": "terramity",
+"k": "melee",
+"a": 10,
+"ga": 10,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"terramity:profanum",
+"terramity:nyxium_pickaxe",
+"terramity:exodium_pickaxe",
+"terramity:reverium_pickaxe"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "terramity:hellfire_flurry",
+"n": "Hellfire Flurry",
+"ns": "terramity",
+"k": "magic",
+"a": 7,
+"ga": 7,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:dragon_breath",
+"terramity:spiteful_soul",
+"terramity:hellspec_alloy",
+"terramity:pump_action_shotgun"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+},
+{
+"id": "thermal:beekeeper_boots",
+"n": "Beekeeper Boots",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "BOOTS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "thermal:beekeeper_chestplate",
+"n": "Beekeeper Chestplate",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "CHESTPLATE",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "thermal:beekeeper_helmet",
+"n": "Beekeeper Helmet",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "HELMET",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "thermal:beekeeper_leggings",
+"n": "Beekeeper Leggings",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "LEGGINGS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "thermal:diving_boots",
+"n": "Diving Boots",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "BOOTS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "thermal:diving_chestplate",
+"n": "Diving Chestplate",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "CHESTPLATE",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "thermal:diving_helmet",
+"n": "Diving Helmet",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "HELMET",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "thermal:diving_leggings",
+"n": "Diving Leggings",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "LEGGINGS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "thermal:hazmat_boots",
+"n": "Hazmat Boots",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "BOOTS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "thermal:hazmat_chestplate",
+"n": "Hazmat Chestplate",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "CHESTPLATE",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "thermal:hazmat_helmet",
+"n": "Hazmat Helmet",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "HELMET",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "thermal:hazmat_leggings",
+"n": "Hazmat Leggings",
+"ns": "thermal",
+"k": "armor",
+"a": 0,
+"ga": 0,
+"at": {},
+"src": [],
+"rc": [],
+"lt": [],
+"cls": [],
+"off": {},
+"sl": "LEGGINGS",
+"ob": "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start.",
+"dump": 1
+},
+{
+"id": "weapon:fightersfist",
+"n": "Fighter's fist",
+"ns": "weapon",
+"k": "melee",
+"a": 6,
+"ga": 6,
+"at": {},
+"src": [],
+"rc": [
+{
+"t": "minecraft:crafting_shaped",
+"i": [
+"minecraft:crafting_shaped",
+"minecraft:string",
+"minecraft:leather",
+"minecraft:netherite_scrap",
+"minecraft:rabbit_hide"
+]
+}
+],
+"lt": [],
+"cls": [],
+"off": {},
+"dump": 1
+}
+],
+"gs": [
+{
+"k": "mysticalagriculture:awakened_supremium",
+"n": "Awakened Supremium",
+"p": [
+"mysticalagriculture:awakened_supremium_helmet",
+"mysticalagriculture:awakened_supremium_chestplate",
+"mysticalagriculture:awakened_supremium_leggings",
+"mysticalagriculture:awakened_supremium_boots"
+],
+"a": 5,
+"kn": true
+},
+{
+"k": "mysticalagriculture:imperium",
+"n": "Imperium",
+"p": [
+"mysticalagriculture:imperium_helmet",
+"mysticalagriculture:imperium_chestplate",
+"mysticalagriculture:imperium_leggings",
+"mysticalagriculture:imperium_boots"
+],
+"a": 5,
+"kn": true
+},
+{
+"k": "mysticalagriculture:inferium",
+"n": "Inferium",
+"p": [
+"mysticalagriculture:inferium_helmet",
+"mysticalagriculture:inferium_chestplate",
+"mysticalagriculture:inferium_leggings",
+"mysticalagriculture:inferium_boots"
+],
+"a": 5,
+"kn": true
+},
+{
+"k": "mysticalagriculture:prudentium",
+"n": "Prudentium",
+"p": [
+"mysticalagriculture:prudentium_helmet",
+"mysticalagriculture:prudentium_chestplate",
+"mysticalagriculture:prudentium_leggings",
+"mysticalagriculture:prudentium_boots"
+],
+"a": 5,
+"kn": true
+},
+{
+"k": "mysticalagriculture:supremium",
+"n": "Supremium",
+"p": [
+"mysticalagriculture:supremium_helmet",
+"mysticalagriculture:supremium_chestplate",
+"mysticalagriculture:supremium_leggings",
+"mysticalagriculture:supremium_boots"
+],
+"a": 5,
+"kn": true
+},
+{
+"k": "mysticalagriculture:tertium",
+"n": "Tertium",
+"p": [
+"mysticalagriculture:tertium_helmet",
+"mysticalagriculture:tertium_chestplate",
+"mysticalagriculture:tertium_leggings",
+"mysticalagriculture:tertium_boots"
+],
+"a": 5,
+"kn": true
+},
+{
+"k": "thermal:beekeeper",
+"n": "Beekeeper",
+"p": [
+"thermal:beekeeper_helmet",
+"thermal:beekeeper_chestplate",
+"thermal:beekeeper_leggings",
+"thermal:beekeeper_boots"
+],
+"a": 0,
+"kn": true
+},
+{
+"k": "thermal:diving",
+"n": "Diving",
+"p": [
+"thermal:diving_helmet",
+"thermal:diving_chestplate",
+"thermal:diving_leggings",
+"thermal:diving_boots"
+],
+"a": 0,
+"kn": true
+},
+{
+"k": "thermal:hazmat",
+"n": "Hazmat",
+"p": [
+"thermal:hazmat_helmet",
+"thermal:hazmat_chestplate",
+"thermal:hazmat_leggings",
+"thermal:hazmat_boots"
+],
+"a": 0,
+"kn": true
+}
+],
+"skipped": {
+"held item with no attack damage": [
+"block_factorys_bosses:dragon_skull",
+"mutantmonsters:mutant_skeleton_skull"
+],
+"mining tool": [
+"armageddon_mod:bloody_hoe",
+"armageddon_mod:bloody_paxel",
+"armageddon_mod:bloody_pickaxe",
+"armageddon_mod:bloody_shovel",
+"armageddon_mod:elvenite_hoe",
+"armageddon_mod:elvenite_paxel",
+"armageddon_mod:elvenite_pickaxe",
+"armageddon_mod:elvenite_shovel",
+"armageddon_mod:gilded_hoe",
+"armageddon_mod:gilded_paxel",
+"armageddon_mod:gilded_pickaxe",
+"armageddon_mod:gilded_shovel",
+"armageddon_mod:helionite_hoe",
+"armageddon_mod:helionite_paxel",
+"armageddon_mod:helionite_pickaxe",
+"armageddon_mod:helionite_shovel",
+"armageddon_mod:hollow_pickaxe",
+"armageddon_mod:hollow_shovel",
+"armageddon_mod:prismatic_hoe",
+"armageddon_mod:prismatic_pickaxe",
+"armageddon_mod:prismatic_shovel",
+"armageddon_mod:voiderite_hoe",
+"armageddon_mod:voiderite_paxel",
+"armageddon_mod:voiderite_pickaxe",
+"armageddon_mod:voiderite_shovel",
+"bloodmagic:soulpickaxe",
+"bloodmagic:soulshovel",
+"cataclysm:black_steel_hoe",
+"cataclysm:black_steel_pickaxe",
+"cataclysm:black_steel_shovel",
+"celestial_core:guardian_ocean_hoe",
+"celestial_core:guardian_ocean_pickaxe",
+"celestial_core:guardian_ocean_shovel",
+"celestial_core:sakura_hoe",
+"celestial_core:sakura_pickaxe",
+"celestial_core:sakura_shovel",
+"celestial_core:virtual_gold_hoe",
+"celestial_core:virtual_gold_pickaxe",
+"celestial_core:virtual_gold_shovel",
+"composite_material:allay_steel_hoe",
+"composite_material:allay_steel_pickaxe",
+"composite_material:allay_steel_shovel",
+"composite_material:amethyst_hoe",
+"composite_material:amethyst_pickaxe",
+"composite_material:amethyst_shovel",
+"composite_material:echoium_hoe",
+"composite_material:echoium_pickaxe",
+"composite_material:echoium_shovel",
+"composite_material:etherite_hoe",
+"composite_material:etherite_pickaxe",
+"composite_material:etherite_shovel",
+"composite_material:obsidian_hoe",
+"composite_material:obsidian_pickaxe",
+"composite_material:obsidian_shovel",
+"composite_material:primitive_hoe",
+"composite_material:primitive_pickaxe",
+"composite_material:primitive_shovel",
+"composite_material:vanitatium_hoe",
+"composite_material:vanitatium_pickaxe",
+"composite_material:vanitatium_shovel",
+"deeperdarker:resonarium_hoe",
+"deeperdarker:resonarium_pickaxe",
+"deeperdarker:resonarium_shovel",
+"deeperdarker:warden_hoe",
+"deeperdarker:warden_pickaxe",
+"deeperdarker:warden_shovel",
+"dungeonnowloading:mendstone_pickaxe",
+"evolvedmekanism:better_gold_hoe",
+"evolvedmekanism:better_gold_paxel",
+"evolvedmekanism:better_gold_pickaxe",
+"evolvedmekanism:better_gold_shovel",
+"evolvedmekanism:plaslitherite_hoe",
+"evolvedmekanism:plaslitherite_paxel",
+"evolvedmekanism:plaslitherite_pickaxe",
+"evolvedmekanism:plaslitherite_shovel",
+"evolvedmekanism:refined_redstone_paxel",
+"experienceobelisk:cognitive_hoe",
+"experienceobelisk:cognitive_pickaxe",
+"experienceobelisk:cognitive_shovel",
+"goety:dark_hoe",
+"immersiveengineering:hoe_steel",
+"immersiveengineering:pickaxe_steel",
+"immersiveengineering:shovel_steel",
+"justdirethings:blazegold_hoe",
+"justdirethings:blazegold_pickaxe",
+"justdirethings:blazegold_shovel",
+"justdirethings:celestigem_hoe",
+"justdirethings:celestigem_paxel",
+"justdirethings:celestigem_pickaxe",
+"justdirethings:celestigem_shovel",
+"justdirethings:eclipsealloy_hoe",
+"justdirethings:eclipsealloy_paxel",
+"justdirethings:eclipsealloy_pickaxe",
+"justdirethings:eclipsealloy_shovel",
+"justdirethings:ferricore_hoe",
+"justdirethings:ferricore_pickaxe",
+"justdirethings:ferricore_shovel",
+"l2complements:eternium_hoe",
+"l2complements:eternium_pickaxe",
+"l2complements:eternium_shovel",
+"l2complements:poseidite_hoe",
+"l2complements:poseidite_pickaxe",
+"l2complements:poseidite_shovel",
+"l2complements:sculkium_hoe",
+"l2complements:sculkium_pickaxe",
+"l2complements:sculkium_shovel",
+"l2complements:shulkerate_hoe",
+"l2complements:shulkerate_pickaxe",
+"l2complements:shulkerate_shovel",
+"l2complements:totemic_gold_hoe",
+"l2complements:totemic_gold_pickaxe",
+"l2complements:totemic_gold_shovel",
+"legendary_monsters:enderitium_hoe",
+"legendary_monsters:enderitium_pickaxe",
+"legendary_monsters:enderitium_shovel",
+"linggango_tweaks:emerald_hoe",
+"linggango_tweaks:emerald_pickaxe",
+"linggango_tweaks:emerald_shovel",
+"macabre:abhorrent_hoe",
+"macabre:abhorrent_pickaxe",
+"macabre:abhorrent_shovel",
+"macabre:blood_clot_hoe",
+"macabre:blood_clot_pickaxe",
+"macabre:blood_clot_shovel",
+"macabre:brittle_hoe",
+"macabre:brittle_pickaxe",
+"macabre:brittle_shovel",
+"macabre:dired_shovel",
+"macabre:drenched_hoe",
+"macabre:drenched_pickaxe",
+"macabre:drenched_shovel",
+"macabre:dried_hoe",
+"macabre:dried_pickaxe",
+"macabre:ferrum_hoe",
+"macabre:ferrum_pickaxe",
+"macabre:ferrum_shovel",
+"macabre:plasma_hoe",
+"macabre:plasma_pickaxe",
+"macabre:plasma_shovel",
+"macabre:soaked_hoe",
+"macabre:soaked_pickaxe",
+"macabre:soaked_shovel",
+"macabre:teething_hoe",
+"macabre:teething_pickaxe",
+"macabre:teething_shovel",
+"macabre:wasted_hoe",
+"macabre:wasted_pickaxe",
+"macabre:wasted_shovel",
+"mekanism:atomic_disassembler",
+"mekanism:meka_tool",
+"mekanismtools:bronze_paxel",
+"mekanismtools:diamond_paxel",
+"mekanismtools:gold_paxel",
+"mekanismtools:iron_paxel",
+"mekanismtools:lapis_lazuli_paxel",
+"mekanismtools:netherite_paxel",
+"mekanismtools:osmium_hoe",
+"mekanismtools:osmium_paxel",
+"mekanismtools:osmium_pickaxe",
+"mekanismtools:osmium_shovel",
+"mekanismtools:refined_glowstone_hoe",
+"mekanismtools:refined_glowstone_paxel",
+"mekanismtools:refined_glowstone_pickaxe",
+"mekanismtools:refined_glowstone_shovel",
+"mekanismtools:refined_obsidian_hoe",
+"mekanismtools:refined_obsidian_paxel",
+"mekanismtools:refined_obsidian_pickaxe",
+"mekanismtools:refined_obsidian_shovel",
+"mekanismtools:steel_hoe",
+"mekanismtools:steel_paxel",
+"mekanismtools:steel_pickaxe",
+"mekanismtools:steel_shovel",
+"minecraft:diamond_shovel",
+"minecraft:golden_hoe",
+"minecraft:golden_pickaxe",
+"minecraft:golden_shovel",
+"minecraft:netherite_hoe",
+"minecraft:netherite_pickaxe",
+"naturesaura:depth_hoe",
+"naturesaura:depth_pickaxe",
+"naturesaura:depth_shovel",
+"naturesaura:infused_iron_hoe",
+"naturesaura:infused_iron_pickaxe",
+"naturesaura:infused_iron_shovel",
+"naturesaura:sky_hoe",
+"naturesaura:sky_pickaxe",
+"naturesaura:sky_shovel",
+"opposing_force:bone_hoe",
+"opposing_force:bone_pickaxe",
+"opposing_force:bone_shovel",
+"opposing_force:emerald_hoe",
+"opposing_force:emerald_pickaxe",
+"opposing_force:emerald_shovel",
+"opposing_force:lapis_hoe",
+"opposing_force:lapis_pickaxe",
+"opposing_force:lapis_shovel",
+"saintsdragons:worldroot_hoe",
+"saintsdragons:worldroot_pickaxe",
+"saintsdragons:worldroot_shovel",
+"soulsweapons:moonstone_hoe",
+"soulsweapons:moonstone_pickaxe",
+"soulsweapons:moonstone_shovel",
+"terramity:conductite_hoe",
+"terramity:conductite_pickaxe",
+"terramity:conductite_shovel",
+"terramity:cosmilite_hoe",
+"terramity:cosmilite_pickaxe",
+"terramity:cosmilite_shovel",
+"terramity:dimlite_hoe",
+"terramity:dimlite_pickaxe",
+"terramity:exodium_hoe",
+"terramity:exodium_pickaxe",
+"terramity:exodium_shovel",
+"terramity:hellspec_pickaxe",
+"terramity:hellspec_shovel",
+"terramity:iridium_hoe",
+"terramity:iridium_pickaxe",
+"terramity:iridium_shovel",
+"terramity:nyxium_hoe",
+"terramity:nyxium_pickaxe",
+"terramity:onyx_hoe",
+"terramity:onyx_pickaxe",
+"terramity:onyx_shovel",
+"terramity:reverium_hoe",
+"terramity:reverium_pickaxe",
+"terramity:reverium_shovel",
+"terramity:ruby_hoe",
+"terramity:ruby_pickaxe",
+"terramity:ruby_shovel",
+"terramity:sapphire_hoe",
+"terramity:sapphire_pickaxe",
+"terramity:sapphire_shovel",
+"terramity:topaz_hoe",
+"terramity:topaz_pickaxe",
+"terramity:virentium_hoe",
+"terramity:virentium_pickaxe",
+"terramity:virentium_shovel",
+"terramity:void_hoe",
+"terramity:void_pickaxe",
+"terramity:void_shovel",
+"undergarden:cloggrum_hoe",
+"undergarden:cloggrum_pickaxe",
+"undergarden:cloggrum_shovel",
+"undergarden:forgotten_hoe",
+"undergarden:forgotten_pickaxe",
+"undergarden:forgotten_shovel",
+"undergarden:froststeel_hoe",
+"undergarden:froststeel_pickaxe",
+"undergarden:froststeel_shovel",
+"undergarden:utherium_hoe",
+"undergarden:utherium_pickaxe",
+"undergarden:utherium_shovel"
+],
+"no modifiers (stats in NBT, or none)": [
+"block_factorys_bosses:dragon_guard_shield",
+"bloodmagic:soulscythe",
+"born_in_chaos_v1:fel_lamp",
+"born_in_chaos_v1:lord_pumpkinheads_lamp",
+"brutality:crease_of_creation",
+"composite_material:etherite_shield",
+"goetyawaken:ripplewalk",
+"opposing_force:black_blaster",
+"opposing_force:blaster",
+"opposing_force:blue_blaster",
+"opposing_force:brown_blaster",
+"opposing_force:cyan_blaster",
+"opposing_force:gray_blaster",
+"opposing_force:green_blaster",
+"opposing_force:light_blue_blaster",
+"opposing_force:light_gray_blaster",
+"opposing_force:lime_blaster",
+"opposing_force:magenta_blaster",
+"opposing_force:orange_blaster",
+"opposing_force:pink_blaster",
+"opposing_force:purple_blaster",
+"opposing_force:red_blaster",
+"opposing_force:white_blaster",
+"opposing_force:yellow_blaster",
+"quark:backpack",
+"summonity:copper_controller",
+"summonity:miniature_sun",
+"summonity:prismatic_lantern",
+"summonity:psy_fly",
+"summonity:tarot_deck",
+"summonity:turret_remote",
+"summonity:warriors_arsenal",
+"terramity:asphodel",
+"terramity:big_iron",
+"terramity:blasphemic_rapture",
+"terramity:celestial_sixty",
+"terramity:cosmic_storm",
+"terramity:davy_jones",
+"terramity:divine_intervention",
+"terramity:five_thousand_magnum",
+"terramity:fortunes_favor",
+"terramity:gaias_tempest",
+"terramity:nihility",
+"terramity:olympus",
+"terramity:onyx_storm",
+"terramity:plaguebringer",
+"terramity:planet_buster",
+"terramity:requiem",
+"terramity:six_shooter",
+"terramity:stairway_to_heaven",
+"terramity:titanomachy",
+"terramity:vulcan"
+]
+}
+}
