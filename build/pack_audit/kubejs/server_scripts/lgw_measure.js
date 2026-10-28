@@ -14,7 +14,33 @@
 // Every step is guarded on its own: a failing step is counted in "errors" (grouped by message, with the cause chain, the
 // first stack frames and up to 5 item ids) and the rest goes on. A check of each step runs first and is reported in chat,
 // as are the first 3 kinds of error.
+// Minecraft methods are called through K(): Rhino turns the runtime (SRG) names into Mojang ones, but not on every class
+// (the first run failed on FakePlayer.clearFire, likely a mod's mixin redeclaring it), so each call falls back to the SRG
+// name. The table comes from Mojang's server.txt and MCPConfig's joined.tsrg for 1.20.1, matched by full descriptor.
 var LGW = {}
+LGW.SRG = {
+  clearFire: ['m_20095_'], setPos: ['m_6034_'], setYRot: ['m_146922_'], setXRot: ['m_146926_'], getRemainingFireTicks: ['m_20094_'],
+  discard: ['m_146870_'], setNoGravity: ['m_20242_'], setSilent: ['m_20225_'], setInvulnerable: ['m_20331_'],
+  damageSources: ['m_269291_', 'm_269111_'], getX: ['m_20185_', 'm_123341_'], getY: ['m_20186_', 'm_123342_'], getZ: ['m_20189_', 'm_123343_'],
+  removeAllEffects: ['m_21219_'], getActiveEffects: ['m_21220_'], getAttributeValue: ['m_21133_'], getAttribute: ['m_21051_', 'm_22099_'],
+  setHealth: ['m_21153_'], getMaxHealth: ['m_21233_'], getHealth: ['m_21223_'], getArmorValue: ['m_21230_'], getAttributes: ['m_21204_'],
+  getInventory: ['m_150109_'], getAttackStrengthScale: ['m_36403_'], attack: ['m_5706_'], getAbsorptionAmount: ['m_6103_'],
+  setItemSlot: ['m_8061_'], doTick: ['m_9240_'], setNoAi: ['m_21557_'], getSharedSpawnPos: ['m_220360_'], addFreshEntity: ['m_7967_'],
+  clearContent: ['m_6211_'], setBaseValue: ['m_22100_'], getValue: ['m_22135_'], getSyncableAttributes: ['m_22170_'],
+  getDefaultValue: ['m_22082_'], getEffect: ['m_19544_'], getAmplifier: ['m_19564_'], getDuration: ['m_19557_'],
+  mobAttack: ['m_269333_'], inFire: ['m_269387_'], magic: ['m_269425_'], explosion: ['m_269036_'], fall: ['m_268989_'],
+  is: ['m_269533_'], getDamageAfterAbsorb: ['m_19272_'], isEmpty: ['m_41619_'], create: ['m_20615_']
+}
+LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
+  BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_' }
+// the member name to use on o: the Mojang one if Rhino shows it, else the first SRG name o has
+LGW.K = (o, n) => {
+  try { if (o[n] != null) return n } catch (x) {}
+  var l = LGW.SRG[n] || []
+  for (var j = 0; j < l.length; j++) { try { if (o[l[j]] != null) return l[j] } catch (x) {} }
+  return n
+}
+LGW.fld = (o, n) => { var v = null; try { v = o[n] } catch (x) {} if (v == null) v = o[LGW.FLD[n]]; return v }
 // the message of a caught error with its Java causes and where the deepest one was thrown
 LGW.why = e => {
   var s = '' + e, t = null, last = null, n = 0
@@ -27,6 +53,12 @@ LGW.why = e => {
 }
 LGW.run = (server, who, name) => {
   var base = name || 'lgw'
+  var K = LGW.K, fld = LGW.fld
+  // calls by arity: Rhino picks the overload by argument count, so no padding with undefined
+  var c0 = (o, n) => o[K(o, n)]()
+  var c1 = (o, n, a) => o[K(o, n)](a)
+  var c2 = (o, n, a, b) => o[K(o, n)](a, b)
+  var c3 = (o, n, a, b, d) => o[K(o, n)](a, b, d)
   var ForgeRegistries = Java.loadClass('net.minecraftforge.registries.ForgeRegistries')
   var FakePlayerFactory = Java.loadClass('net.minecraftforge.common.util.FakePlayerFactory')
   var GameProfile = Java.loadClass('com.mojang.authlib.GameProfile')
@@ -39,7 +71,9 @@ LGW.run = (server, who, name) => {
   var Attributes = Java.loadClass('net.minecraft.world.entity.ai.attributes.Attributes')
   var DamageTypeTags = Java.loadClass('net.minecraft.tags.DamageTypeTags')
   var ResourceLocation = Java.loadClass('net.minecraft.resources.ResourceLocation')
-  var EMPTY = Java.loadClass('net.minecraft.world.item.ItemStack').EMPTY
+  var EMPTY = fld(Java.loadClass('net.minecraft.world.item.ItemStack'), 'EMPTY')
+  var A_HP = fld(Attributes, 'MAX_HEALTH'), A_ARMOR = fld(Attributes, 'ARMOR'), A_TOUGH = fld(Attributes, 'ARMOR_TOUGHNESS')
+  var A_AD = fld(Attributes, 'ATTACK_DAMAGE'), A_AS = fld(Attributes, 'ATTACK_SPEED'), T_BYPASS = fld(DamageTypeTags, 'BYPASSES_ARMOR')
 
   var plan = JsonIO.read('kubejs/' + base + '_items.json')
   if (!plan) { var m = 'kubejs/' + base + '_items.json is missing'; console.warn('lgw_measure: ' + m); try { who.tell(m) } catch (e) {} return }
@@ -56,28 +90,36 @@ LGW.run = (server, who, name) => {
   var safe = (stage, f, id) => { try { f(); return true } catch (e) { err(stage, e, id); return false } }
   var P = FakePlayerFactory.get(level, new GameProfile(UUID.fromString('6c9a3f1e-0b7d-4c55-9e2a-1f0d3b4a5c6e'), '[lgw_tester]'))
   // next to whoever ran the command (their chunk is loaded), else above the world spawn
-  var sp = level.getSharedSpawnPos()
-  var X = who ? Math.floor(who.x) + 0.5 : sp.getX() + 0.5, Y = who ? Math.floor(who.y) + 3 : sp.getY() + 3, Z = who ? Math.floor(who.z) + 0.5 : sp.getZ() + 0.5
+  var X, Y, Z
+  if (who) { X = Math.floor(who.x) + 0.5; Y = Math.floor(who.y) + 3; Z = Math.floor(who.z) + 0.5 }
+  else { var sp = c0(level, 'getSharedSpawnPos'); X = c0(sp, 'getX') + 0.5; Y = c0(sp, 'getY') + 3; Z = c0(sp, 'getZ') + 0.5 }
   var spawned = []
   var SLOT = { HEAD: EquipmentSlot.HEAD, CHEST: EquipmentSlot.CHEST, LEGS: EquipmentSlot.LEGS, FEET: EquipmentSlot.FEET, MAINHAND: EquipmentSlot.MAINHAND, OFFHAND: EquipmentSlot.OFFHAND }
   var rl = s => new ResourceLocation(s)
-  var fx = e => { var o = {}; e.getActiveEffects().forEach(i => { o['' + ForgeRegistries.MOB_EFFECTS.getKey(i.getEffect())] = [i.getAmplifier(), i.getDuration()] }); return o }
+  var hp = e => c0(e, 'getHealth')
+  var wear = (sl, st) => c2(P, 'setItemSlot', sl, st)
+  var fx = e => {
+    var o = {}
+    c0(e, 'getActiveEffects').forEach(i => { o['' + ForgeRegistries.MOB_EFFECTS.getKey(c0(i, 'getEffect'))] = [c0(i, 'getAmplifier'), c0(i, 'getDuration')] })
+    return o
+  }
   // doTick() runs every mod's player-tick handler on the fake player; after 5 failures in a row it is left out and the
   // rest is measured without ticks (attack strength then does not recharge: each hit records the strength it had)
   var tickOk = true, tickFails = 0
   var ticks = n => {
     for (var i = 0; i < n && tickOk; i++) {
-      if (safe('doTick', () => P.doTick())) tickFails = 0
+      if (safe('doTick', () => c0(P, 'doTick'))) tickFails = 0
       else if (++tickFails >= 5) { tickOk = false; say('the player tick keeps failing; going on without it') }
     }
   }
   var reset = () => {
-    safe('reset inventory', () => P.getInventory().clearContent())
-    safe('reset effects', () => { P.removeAllEffects(); P.clearFire() })
-    safe('reset position', () => { P.setPos(X, Y, Z); P.setYRot(-90); P.setXRot(0) })
-    safe('reset slots', () => { for (var s in SLOT) P.setItemSlot(SLOT[s], EMPTY) })
+    safe('reset inventory', () => c0(c0(P, 'getInventory'), 'clearContent'))
+    safe('reset effects', () => c0(P, 'removeAllEffects'))
+    safe('reset fire', () => c0(P, 'clearFire'))
+    safe('reset position', () => { c3(P, 'setPos', X, Y, Z); c1(P, 'setYRot', -90); c1(P, 'setXRot', 0) })
+    safe('reset slots', () => { for (var s in SLOT) wear(SLOT[s], EMPTY) })
     ticks(3)
-    safe('reset health', () => P.setHealth(P.getMaxHealth()))
+    safe('reset health', () => c1(P, 'setHealth', c0(P, 'getMaxHealth')))
   }
 
   // 1. attribute modifiers of every planned item, per slot
@@ -94,23 +136,31 @@ LGW.run = (server, who, name) => {
   }
 
   // 2. melee: swing at a dummy pig
-  var dummy = () => {
-    var d = level.createEntity('minecraft:pig'); d.setPos(X + 1.2, Y, Z); d.setNoAi(true); d.setSilent(true); d.setNoGravity(true); d.setInvulnerable(false)
-    spawned.push(d)
-    d.getAttribute(Attributes.MAX_HEALTH).setBaseValue(100000); d.getAttribute(Attributes.ARMOR).setBaseValue(0); d.setHealth(100000)
-    level.addFreshEntity(d); return d
+  var pigType = null
+  var newPig = () => {
+    try { return level.createEntity('minecraft:pig') } catch (e) {}
+    if (!pigType) pigType = ForgeRegistries.ENTITY_TYPES.getValue(rl('minecraft:pig'))
+    return c1(pigType, 'create', level)
   }
-  var known = id => { try { return !Item.of(id).isEmpty() } catch (e) { return false } }
+  var dummy = () => {
+    var d = newPig()
+    c3(d, 'setPos', X + 1.2, Y, Z); c1(d, 'setNoAi', true); c1(d, 'setSilent', true); c1(d, 'setNoGravity', true); c1(d, 'setInvulnerable', false)
+    spawned.push(d)
+    c1(c1(d, 'getAttribute', A_HP), 'setBaseValue', 100000); c1(c1(d, 'getAttribute', A_ARMOR), 'setBaseValue', 0); c1(d, 'setHealth', 100000)
+    c1(level, 'addFreshEntity', d); return d
+  }
+  var drop = d => { safe('discard', () => c0(d, 'discard')); var j = spawned.indexOf(d); if (j >= 0) spawned.splice(j, 1) }
+  var known = id => { try { return !c0(Item.of(id), 'isEmpty') } catch (e) { return false } }
   var melee = id => {
-    reset(); P.setItemSlot(EquipmentSlot.MAINHAND, Item.of(id)); ticks(5)
-    var r = { ad: P.getAttributeValue(Attributes.ATTACK_DAMAGE), as: P.getAttributeValue(Attributes.ATTACK_SPEED), ticked: tickOk, hits: [] }
+    reset(); wear(EquipmentSlot.MAINHAND, Item.of(id)); ticks(5)
+    var r = { ad: c1(P, 'getAttributeValue', A_AD), as: c1(P, 'getAttributeValue', A_AS), ticked: tickOk, hits: [] }
     for (var k = 0; k < HITS; k++) {
-      var n = 0; while (tickOk && P.getAttackStrengthScale(0.5) < 1 && n < 400) { ticks(1); n++ }
-      var d = dummy(); P.setHealth(Math.max(1, P.getMaxHealth() - 10)); P.removeAllEffects()
-      var h0 = d.getHealth(), p0 = P.getHealth(), str = P.getAttackStrengthScale(0.5)
-      safe('attack', () => P.attack(d), id)
-      r.hits.push({ dmg: Math.round((h0 - d.getHealth()) * 100) / 100, str: Math.round(str * 100) / 100, tfx: fx(d), fire: d.getRemainingFireTicks(), sfx: fx(P), heal: Math.round((P.getHealth() - p0) * 100) / 100, wait: n })
-      safe('discard', () => d.discard()); spawned.pop()
+      var n = 0; while (tickOk && c1(P, 'getAttackStrengthScale', 0.5) < 1 && n < 400) { ticks(1); n++ }
+      var d = dummy(); c1(P, 'setHealth', Math.max(1, c0(P, 'getMaxHealth') - 10)); c0(P, 'removeAllEffects')
+      var h0 = hp(d), p0 = hp(P), str = c1(P, 'getAttackStrengthScale', 0.5)
+      safe('attack', () => c1(P, 'attack', d), id)
+      r.hits.push({ dmg: Math.round((h0 - hp(d)) * 100) / 100, str: Math.round(str * 100) / 100, tfx: fx(d), fire: c0(d, 'getRemainingFireTicks'), sfx: fx(P), heal: Math.round((hp(P) - p0) * 100) / 100, wait: n })
+      drop(d)
     }
     return r
   }
@@ -118,26 +168,36 @@ LGW.run = (server, who, name) => {
   // 3. armor: wear the set, read what it gives, send test hits through the damage events
   var ATTR = ['minecraft:generic.armor', 'minecraft:generic.armor_toughness', 'minecraft:generic.max_health', 'minecraft:generic.movement_speed', 'minecraft:generic.knockback_resistance',
     'minecraft:generic.attack_damage', 'minecraft:generic.attack_speed', 'minecraft:generic.luck']
-  var extraAttrs = () => { var o = {}; P.getAttributes().getSyncableAttributes().forEach(a => { var k = '' + ForgeRegistries.ATTRIBUTES.getKey(a.getAttribute()); var v = a.getValue(), b = a.getAttribute().getDefaultValue(); if (Math.abs(v - b) > 1e-9 || ATTR.indexOf(k) >= 0) o[k] = Math.round(v * 1000) / 1000 }); return o }
-  var hurt = () => {
-    var ds = level.damageSources(), src = { melee: ds.mobAttack(dummy()), fire: ds.inFire(), magic: ds.magic(), explosion: ds.explosion(null, null), fall: ds.fall() }
+  var extraAttrs = () => {
     var o = {}
+    c0(c0(P, 'getAttributes'), 'getSyncableAttributes').forEach(a => {
+      var at = c0(a, 'getAttribute'), k = '' + ForgeRegistries.ATTRIBUTES.getKey(at), v = c0(a, 'getValue'), b = c0(at, 'getDefaultValue')
+      if (Math.abs(v - b) > 1e-9 || ATTR.indexOf(k) >= 0) o[k] = Math.round(v * 1000) / 1000
+    })
+    return o
+  }
+  var cur = ''
+  var hurt = () => {
+    var ds = c0(level, 'damageSources'), src = {}, o = {}
+    safe('hurt sources', () => {
+      src.melee = c1(ds, 'mobAttack', dummy()); src.fire = c0(ds, 'inFire'); src.magic = c0(ds, 'magic')
+      src.explosion = c2(ds, 'explosion', null, null); src.fall = c0(ds, 'fall')
+    }, cur)
     for (var k in src) {
       var s = src[k]
       try {
         var a = new LivingHurtEvent(P, s, 20); MinecraftForge.EVENT_BUS.post(a); var v = a.isCanceled() ? 0 : a.getAmount()
-        if (!s.is(DamageTypeTags.BYPASSES_ARMOR)) v = CombatRules.getDamageAfterAbsorb(v, P.getArmorValue(), P.getAttributeValue(Attributes.ARMOR_TOUGHNESS))
+        if (!c1(s, 'is', T_BYPASS)) v = c3(CombatRules, 'getDamageAfterAbsorb', v, c0(P, 'getArmorValue'), c1(P, 'getAttributeValue', A_TOUGH))
         var b = new LivingDamageEvent(P, s, v); MinecraftForge.EVENT_BUS.post(b)
         o[k] = [Math.round(a.getAmount() * 100) / 100, Math.round((b.isCanceled() ? 0 : b.getAmount()) * 100) / 100]
       } catch (e) { err('hurt ' + k, e, cur) }
     }
-    while (spawned.length) { try { spawned.pop().discard() } catch (e) {} }
+    while (spawned.length) drop(spawned[spawned.length - 1])
     return o
   }
-  var cur = ''
   var armor = pieces => {
-    reset(); pieces.forEach(pc2 => P.setItemSlot(SLOT[pc2[1]], Item.of(pc2[0]))); ticks(40)
-    return { attrs: extraAttrs(), fx: fx(P), hp: P.getHealth(), abs: P.getAbsorptionAmount(), ticked: tickOk, hurt: hurt() }
+    reset(); pieces.forEach(pc2 => wear(SLOT[pc2[1]], Item.of(pc2[0]))); ticks(40)
+    return { attrs: extraAttrs(), fx: fx(P), hp: hp(P), abs: c0(P, 'getAbsorptionAmount'), ticked: tickOk, hurt: hurt() }
   }
 
   // 0. check each step once and say in chat which ones work
@@ -145,10 +205,10 @@ LGW.run = (server, who, name) => {
     var r = []
     var t = (name, f) => { var ok = safe('check ' + name, f); out.check[name] = ok; r.push(name + (ok ? ' ok' : ' FAILED')) }
     t('reset', () => { reset() })
-    t('tick', () => P.doTick())
-    t('pig', () => { var d = dummy(); d.discard(); spawned.pop() })
-    t('hold', () => P.setItemSlot(EquipmentSlot.MAINHAND, Item.of('minecraft:iron_sword')))
-    t('attack', () => { var d = dummy(); var h = d.getHealth(); P.attack(d); out.check.ironSword = h - d.getHealth(); d.discard(); spawned.pop() })
+    t('tick', () => c0(P, 'doTick'))
+    t('pig', () => { drop(dummy()) })
+    t('hold', () => wear(EquipmentSlot.MAINHAND, Item.of('minecraft:iron_sword')))
+    t('attack', () => { var d = dummy(), h = hp(d); c1(P, 'attack', d); out.check.ironSword = h - hp(d); drop(d) })
     t('hurt', () => { var h = hurt(); if (!Object.keys(h).length) throw 'no damage kind worked' })
     say('check: ' + r.join(', '))
   }
@@ -169,7 +229,7 @@ LGW.run = (server, who, name) => {
     if (i < jobs.length) { var pc = Math.floor(i * 100 / jobs.length); if (pc >= next) { say(pc + '% (' + i + '/' + jobs.length + ')'); next += 10 } server.scheduleInTicks(1, step); return }
     out.finished = '' + new Date()
     JsonIO.write('kubejs/' + base + '_measure.json', out)
-    while (spawned.length) { try { spawned.pop().discard() } catch (e) {} }
+    while (spawned.length) drop(spawned[spawned.length - 1])
     say('done: kubejs/' + base + '_measure.json (' + Object.keys(out.melee).length + ' weapons, ' + Object.keys(out.armor).length + ' sets, ' + Object.keys(out.errors).length + ' kinds of error)')
     if (plan.stop) server.runCommandSilent('stop')
   }
@@ -178,8 +238,8 @@ LGW.run = (server, who, name) => {
 ServerEvents.loaded(event => { var p = JsonIO.read('kubejs/lgw_items.json'); if (p && p.auto) event.server.scheduleInTicks(200, () => LGW.run(event.server, null, 'lgw')) })
 // lgw_measure_test reads kubejs/lgw_test_items.json (a handful of items, about a minute) and writes kubejs/lgw_test_measure.json
 ServerEvents.customCommand('lgw_measure_test', event => {
-  try { LGW.run(event.server, event.player, 'lgw_test') } catch (e) { console.error('lgw_measure failed: ' + e); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
+  try { LGW.run(event.server, event.player, 'lgw_test') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
 })
 ServerEvents.customCommand('lgw_measure', event => {
-  try { LGW.run(event.server, event.player, 'lgw') } catch (e) { console.error('lgw_measure failed: ' + e); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
+  try { LGW.run(event.server, event.player, 'lgw') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
 })
