@@ -732,13 +732,32 @@ function navbox(title,groups){groups=(groups||[]).filter(g=>g&&g[1]&&g[1].length
 const slotRow=(xs,label)=>`<nav class="srow" aria-label="${esc(label)}">${xs.map(x=>`<a class="sslot" href="${x.h}"${x.t!=null?` data-t="${x.t}"`:` title="${esc(x.n)}"`} aria-label="${esc(x.n)}">${x.i}${x.l?`<small>${x.l}</small>`:""}</a>`).join("")}</nav>`;
 const rCurio=(d,l,g)=>({h:"#i"+d.ix,i:img(d.id)+glint(d),t:d.ix,n:d.n,l,g});
 const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.indexOf("zoranth_forgotten");if(i>=0)ks.splice(i+1,0,"warden","wither");return ks};
+/* update log, newest first */
+function changesPage(){
+ document.title="Changes · Linggango Wiki";
+ el("main").innerHTML=`${crumb("Changes")}<h1>Changes</h1><p class="lede">What's new on the wiki, newest first.</p>
+<section class="s" id="c-2026-10-28"><h2>October 28, 2026</h2>
+<h3>New</h3><ul>
+<li><b><a href="#mechanics/stats">Stats explained</a></b> (Mechanics › Stats): a plain guide to stats that look alike but work differently.<ul>
+<li><b>Armor Penetration vs Lethality:</b> penetration removes a <i>percentage</i> of the enemy's armor (better against heavily armored enemies); lethality removes a <i>fixed amount</i> (better against lightly armored ones).</li>
+<li><b>Crit chances:</b> there are several, from different mods, and they don't add together. Brutality's crit starts at 0% and a failed roll also cancels a normal jump crit; TerraCurio has its own separate roll; spell crit only applies to spells.</li>
+<li>Also covers dodge, lifesteal (melee only) vs omnivamp (all damage), damage types and summon stats.</li></ul></li>
+<li><b>Stat tooltips on curio pages:</b> stat names have a dotted underline. Hover one for a short explanation, or click it to open the full guide.</li>
+<li><b>Changes:</b> this page.</li></ul>
+<h3>Fixed</h3><ul>
+<li>Warden health is now 700 and Wither health is now 500.</li>
+<li>Act II boss armor corrected: Goblin Lord 12, Eldorath 18, Arion 15–20.</li></ul>
+<p class="note">A few formulas couldn't be confirmed in the mods' code; the guide marks those "not confirmed in code" instead of guessing.</p>
+</section>${wikiNav()}`;
+}
+
 /* the wiki-wide groups every detail page ends with; extra = this page's own groups, put first */
 function wikiNav(cur,extra){cur=cur||{};const a=cur.act!=null&&ACT[cur.act]&&ORDER.includes(cur.act)?cur.act:null;
  return navbox("Linggango Wiki",[...(extra||[]),
   ["Keepers",KEEPERS().map(k=>["#boss/"+k,esc(bossName(k)),k===cur.boss])],
   ["The Path",ORDER.filter(x=>x>=0).map(x=>["#act/"+x,esc(actL(x)),x===a])],
   ["Equipment"+(a!=null?" at "+esc(actL(a)):""),[["ME","Melee"],["RA","Ranged"],["MA","Mage"],["SU","Summon"]].map(([r,t])=>[`#gear/${a!=null?a:ORDER[0]}/${r}/w`,t]).concat([[`#gear/${a!=null?a:ORDER[0]}/ME/a`,"Armor sets"]])],
-  ["Tools",[["#build","Build planner"],["#bosses","Bosses"],["#mechanics","Mechanics"]]]])}
+  ["Tools",[["#build","Build planner"],["#bosses","Bosses"],["#mechanics","Mechanics"],["#changes","Changes"]]]])}
 function activeBar(){const P=[];
  st.c.forEach(k=>P.push(["c",k,ROLE[k]]));st.r.forEach(k=>P.push(["r",k,RN[k]]));st.x.forEach(k=>P.push(["x",k,k.slice(2)]));st.g.forEach(k=>P.push(["g",k,k]));
  if(st.nw)P.push(["nw","","New in 6.6.6"]);if(st.m)P.push(["m","",st.m]);if(st.s)P.push(["s","","Slot "+st.s]);if(st.a!=="")P.push(["a","","Up to "+actL(st.a)]);if(st.q)qTokens().forEach(e=>P.push(["qt",e.raw,qLabel(e)]));
@@ -1167,7 +1186,7 @@ function renderBase(){
  // the quest-book background (Linggango FTB Quests Theme) behind every progression page
  document.body.classList.toggle("qbg",h==="#home"||/^#(act|boss|side)\//.test(h)||h==="#bosses");
  document.body.classList.toggle("qbook",h==="#bosses"||h.startsWith("#boss/")||h.startsWith("#side/"));
- document.body.classList.toggle("noside",/^#i\d/.test(h)||h.startsWith("#side/")||h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics"||h.startsWith("#mechanics/"));
+ document.body.classList.toggle("noside",/^#i\d/.test(h)||h.startsWith("#side/")||h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics"||h.startsWith("#mechanics/")||h==="#changes");
  if(innerWidth<=760&&(h.startsWith("#i")||h==="#guide")){el("side").classList.add("closed");el("fold").setAttribute("aria-expanded","false")}
  const soft=SOFT;SOFT=false;const mn=el("main");if(!soft){mn.classList.remove("enter");void mn.offsetWidth;mn.classList.add("enter")}
  const m=h.match(/^#(slot|act|mod)\/(.+)$/);
@@ -1176,6 +1195,7 @@ function renderBase(){
  else if(h==="#bosses")bossList();
  else if(h.startsWith("#boss/"))bossPage(h.slice(6));
  else if(h==="#mechanics"||h.startsWith("#mechanics/"))mechPage();
+ else if(h==="#changes")changesPage();
  else if(h.startsWith("#side/"))sidePage(h.slice(6));
  else if(m)hubList(m[1],m[2]);
  else if(h==="#mods")hubList("mods");

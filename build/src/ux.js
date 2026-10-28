@@ -8,7 +8,7 @@
 const RMQ=matchMedia("(prefers-reduced-motion:reduce)");
 
 /* ---------- section marker in the header nav ---------- */
-const SEC=[[/^#(home|i\d|act\/|slot\/|mod)/,"#home"],[/^#(gear|gs?\d)/,"#gear"],[/^#build/,"#build"],[/^#(bosses|boss\/|side\/)/,"#bosses"],[/^#mechanics/,"#mechanics"]];
+const SEC=[[/^#(home|i\d|act\/|slot\/|mod)/,"#home"],[/^#(gear|gs?\d)/,"#gear"],[/^#build/,"#build"],[/^#(bosses|boss\/|side\/)/,"#bosses"],[/^#mechanics/,"#mechanics"],[/^#changes/,"#changes"]];
 function markNav(){const h=decodeURIComponent(location.hash),s=(SEC.find(x=>x[0].test(h))||[])[1];
  document.querySelectorAll(".top .nav a").forEach(a=>a.getAttribute("href")===s?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"))}
 
@@ -26,7 +26,7 @@ function dealGear(){const h=location.hash;if(!/^#gear/.test(h)){lastGear="";retu
 /* ---------- quick search ---------- */
 const QS={open:false,inp:null,items:[],sel:0,idx:null};
 const box=document.createElement("div");box.id="qs";box.setAttribute("role","listbox");box.setAttribute("aria-label","Search results");box.hidden=true;document.body.appendChild(box);
-const PAGES=[["Curios","#home","Every curio by the Act you can get it in"],["Equipment","#gear","Weapon and armor tier lists"],["Build planner","#build","Plan curio slots and see stat totals"],["Bosses","#bosses","Keepers in fight order, with summon guides"],["Mechanics","#mechanics","Goety rituals and AE2 storage"]];
+const PAGES=[["Curios","#home","Every curio by the Act you can get it in"],["Equipment","#gear","Weapon and armor tier lists"],["Build planner","#build","Plan curio slots and see stat totals"],["Bosses","#bosses","Keepers in fight order, with summon guides"],["Mechanics","#mechanics","Goety rituals and AE2 storage"],["Changes","#changes","What's new on the wiki"]];
 function index(){if(QS.idx)return QS.idx;const o=[];
  const add=(n,h,ic,meta,kind,w,c,t)=>o.push({n,l:n.toLowerCase(),h,ic,meta,kind,w,c,t});
  PAGES.forEach(([n,h,m])=>add(n,h,()=>'<span class="qpg" aria-hidden="true">'+n[0]+"</span>",m,"Page",3));
