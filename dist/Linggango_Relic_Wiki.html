@@ -7965,7 +7965,7 @@ const howText=d=>{const u=lootCards(d).used,tr=textRecipe(d);if(tr)u.add(tr.i);c
    clause, with numbers picked out (blue = bonus, red = cost, as in the game's tooltip). The in-game tooltip follows with
    its wrapped lines joined back into sentences, then the pack's config numbers as a small table. No source tags. */
 const ELEM={"Fire":"fire","Ice":"ice","Water":"water","Lightning":"lightning","Dark":"dark","Holy":"holy","Blood":"blood","Ender / Eldritch":"ender","Poison / Nature":"nature"};
-const DMGT=[["Slash",/\bslash/i,"ui_sword"],["Pierce",/\bpierc/i,"dt_pierce"],["Blunt",/\bblunt/i,"dt_blunt"],["Magic",/\b(magic|spell)\b[^.;]*\b(damage|power)|\bspell (power|damage)/i,"dt_magic"],
+const DMGT=[["Slash",/\bslash(ing)? damage|[+\-−]\s?[\d.]+%? slash\b/i,"ui_sword"],["Pierce",/\bpierc(e|ing) damage|[+\-−]\s?[\d.]+%? pierce\b/i,"dt_pierce"],["Blunt",/\bblunt damage|[+\-−]\s?[\d.]+%? blunt\b/i,"dt_blunt"],["Magic",/\b(magic|spell)\b[^.;]*\b(damage|power)|\bspell (power|damage)/i,"dt_magic"],
  ["Projectile",/\b(projectile|arrow|ranged)\b[^.;]*damage|\bdamage[^.;]*\b(projectile|arrow)/i,"ui_bow"],["Melee",/\b(melee|attack) damage|\bmelee\b/i,"ui_sword"],["Summon",/\b(summon|minion)s?\b[^.;]*damage/i,"ui_bone"]];
 const ELX=[["Fire",/\b(ignite|on fire|fire damage|burn|flame)/i],["Ice",/\b(freez|frost|ice damage)/i],["Lightning",/\b(lightning|thunder|shock)/i],["Holy",/\bholy\b/i]];
 const kindOf=d=>{const txt=d.fx+" "+d.st.join(" "),el=(d.mt||[]).filter(k=>k.startsWith("e:")).map(k=>k.slice(2));ELX.forEach(([e,re])=>{if(!el.includes(e)&&re.test(d.fx))el.push(e)});return {el,dt:DMGT.filter(x=>x[1].test(txt))}};
