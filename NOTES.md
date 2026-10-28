@@ -565,3 +565,19 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - First run's attribute part also added 115 items to `gear_runtime.json` (dump_gear.js had missed them).
 - Open: wiki text for Armageddon's Keeper locks per item (needs tag membership: forge:diamond_tools… + Armageddon config list);
   re-measure "grows" weapons on a 1,000-health target to split %-health from conditions; curio attributes not measured yet.
+
+## 2026-10-29: ranking audit, re-measured weapons, curios measured and tiered
+- Pack rules the ranking now follows (read from config + bytecode): Apothic armor a/(a+armor) (toughness only blunts shred),
+  13% damage floor, a hit after armor never over half max health, hit_soft_cap x3 on stacked accessory hit bonuses (sqrt past it),
+  lifesteal cap 10% of max health a tick, boss_intake (unbeaten bosses: >=30 s fight, ~10% a burst), Terramity accessory stacking
+  (2nd 50%, 3rd 25%), ladder_difficulty (+1% mob health/damage a level, up to 200 by keepers + 30 hardmode). Floor + cap are in
+  gEHP; soft cap, Terramity stacking, ladder levels and damage affinity are NOT modelled yet (GHIT is still a hand table).
+- Fixes from measurements: cardboard sword 0; 23 thrown/shot items out of Melee; cursed/LP-bound weapons keep stats + condition;
+  JDT uncharged tools keep stats; 12 median-estimated sets measured with no armor; Resonarium (durability absorbs hits) bounded by
+  the floor; once-weapons average swings; tiers vs the 5th best (one outlier had pushed whole Acts to D).
+- lgw_measure_extra: %-max-health weapons fitted (Nightfall 60+5%, BotRK 41+1%, Valettein 24+3% full-health only), scored at 1,000 HP.
+  Turning the pig failed (moveTo on Pig maps to m_20219_, a 5-arg overload mismatch): front/behind not measured (Shadowstep x7 unknown).
+- Curios: 1,318 measured; Equipment -> Curios tab (357 tiered). Pitfalls of a bare tester handled: GCTX conditions (53 not tiered),
+  test hit cancelled = block on cooldown (21, not scored), half-health cap with low max HP, +0.1 attack speed for any non-Armageddon curio.
+- Open: ranged/magic/summon weapon damage is still an Act estimate (lists flat at S/A early); measure shots/spells/minions in game.
+  Curio "rarity" (r) on the Curios page is untouched (Act-weighted quantile), the measured tiers live under Equipment.
