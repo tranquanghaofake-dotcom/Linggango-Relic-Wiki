@@ -66,9 +66,11 @@ const gAt=g=>{const f=gFxAt(g);if(!Object.keys(f).length)return g.at||{};const o
    unarmored target, so every damage event of the pack is in it and a random crit is not), else (base + bonus) from the attributes.
    Strength from an effect the item gives itself is added on top: the test cleared effects before each swing */
 /* a measured hit stands for normal use unless it read 1 for want of charge ("dull") or rose with the test target ("grows") */
-const gMsUse=g=>!!(g.ms&&g.ms.hit>0&&g.ms.st!=="dull"&&g.ms.st!=="grows");
+const gMsUse=g=>!!(g.ms&&g.ms.hit>0&&!/^(dull|grows|cond)$/.test(g.ms.st||""));
+/* measured to deal no melee damage: by design (the item cancels its own hit) or a thrown / shot weapon swung by hand */
+const gNoMelee=g=>!!(g.ms&&(g.ms.st==="nodmg"||g.ms.st==="nomelee"));
 const gHit=g=>{const at=gAt(g),a=k=>at[k]||[0,0];
- if(gMsUse(g))return g.ms.hit+((gFxAt(g).attack_damage||[0])[0]);return (g.dmg+a("attack_damage")[0])*(1+a("attack_damage")[1])};
+ if(gNoMelee(g))return 0;if(gMsUse(g))return g.ms.hit+((gFxAt(g).attack_damage||[0])[0]);return (g.dmg+a("attack_damage")[0])*(1+a("attack_damage")[1])};
 /* melee: damage per second = hit x speed, x crit (chance capped at 100%: +50% plus crit damage), x lifesteal (attributes, and the
    health a measured hit gave back) and reach, + damage over time from what a hit puts on the target */
 function gMelee(g){const at=gAt(g),a=k=>at[k]||[0,0];
@@ -110,7 +112,7 @@ const gOff=(g,r,a)=>GOFF[r](gAt(g),a);
 function gEHP(f,a){const D=GHIT[a]!=null?GHIT[a]:50,A=D<20?10:10+(D-20)/2,at=f.at||{};
  const arm=Math.max(0,f.arm)*(1-.1*(1-Math.min(.6,.02*Math.max(0,f.tough))));
  const dr=Math.min(.8,Math.max(0,f.dtk+gS(at,/^resistance$/,1))),dg=Math.min(.5,gS(at,/^dodge_chance$/,0));
- return Math.max(1,gBaseHP(a)+f.hp)*(A+arm)/A/(1-dr)/(1-dg)*(1+.1*Math.min(1,f.kbr))}
+ return Math.max(1,gBaseHP(a)+f.hp)*(A+arm)/A/(1-dr)/(1-dg)*(1+.1*Math.min(1,f.kbr))/(f.ms&&f.ms.evr||1)}
 /* how hard an item is to get, 0..1: boss and mob drops 1, crafted from many parts up to 1, chest or unknown loot lower */
 const GNOISE=/^(minecraft:crafting_|goety:(craft|ritual)$|ars_nouveau:enchanting_apparatus$)/;
 function gSrc(g){const lt=g.lt||[],rc=g.rc||[];
@@ -124,7 +126,7 @@ const gR3=v=>Math.round(v*1000)/1000;
 /* roles a weapon is listed for: its kind first; a staff that also buffs minions is listed for Summon too,
    and any weapon whose melee damage is readable (staves, spears, gunblades) is a Melee candidate at its real DPS */
 const gKindRoles=g=>{const k=g.k==="melee"?["ME"]:g.k==="ranged"?["RA"]:g.k==="summon"?["SU"]:["MA"].concat(gOff(g,"SU",g.a)>1.001?["SU"]:[]);
- return g.dmg!=null&&!k.includes("ME")?k.concat("ME"):k};
+ return g.dmg!=null&&!k.includes("ME")&&!gNoMelee(g)?k.concat("ME"):k};
 GE.forEach(g=>{g.sc={};if(g.k!=="armor")gKindRoles(g).forEach(r=>g.sc[r]=null);if(g.dmg!=null&&g.sc.ME!==undefined)g.sc.ME=gR3(gMelee(g))});
 /* melee weapons whose base damage lives in code we could not read: estimated from same-gate weapons */
 const GEST={};
@@ -135,12 +137,13 @@ const GEST={};
   if(g.k==="ranged"||g.k==="magic"||g.k==="summon"){g.est=1;for(const r in g.sc)if(r!=="ME")g.sc[r]=gRound(gEstScore(g,r)*100)}})}
 /* armor sets: score = output multiplier for the role x effective health ^ the role's weight, so a set has to earn its place in a list
    by what it adds (spell power, crit, summon damage) or by how much longer it keeps you alive; a plain set is the fallback everywhere.
-   Sets whose base armor is computed in code get the median armor, toughness and health of known sets of their Act (robes x0.7, others x0.8) */
+   Sets whose base armor is computed in code get the median armor, toughness and health of known sets of their Act (robes x0.7, others x0.8),
+   unless they were worn in game (pack_audit/measure): then the measured numbers stand, 0 armor included */
 const GROBE=/robe|crown|hat|hood|cowl|mask/;
 {const kn=GS.filter(s=>s.kn&&s.arm>0),med={};
  const medAt=a=>{const k=oiA(a);if(!med[k]){let v=kn.filter(s=>oiA(s.a)<=k&&oiA(s.a)>=k-1);if(!v.length)v=kn;
   const m=f=>v.map(s=>s[f]).sort((x,y)=>x-y)[v.length>>1];med[k]={arm:m("arm"),tough:m("tough"),hp:m("hp")}}return med[k]};
- GS.forEach(s=>{if(s.kn&&s.arm>0){s.f=s;return}
+ GS.forEach(s=>{if(s.kn&&(s.arm>0||s.ms)){s.f=s;return}
   const m=medAt(s.a),x=s.p.some(id=>GROBE.test(id.split(":")[1]))?.7:.8;s.est=1;
   s.f={arm:m.arm*x,tough:m.tough*x,hp:Math.max(s.hp,m.hp*x),kbr:s.kbr||0,dtk:s.dtk||0,at:s.at}})
  /* worn effects of the pieces count in the survival formula: Resistance as damage taken, Health Boost and Absorption as health */
@@ -286,7 +289,9 @@ function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix
    next to no armor, and the set bonus the game gives beyond the pieces' own stats */
 const GMK={melee:"Melee",fire:"Fire",explosion:"Explosion",magic:"Magic",fall:"Fall"};
 function gMsHtml(g){const m=g.ms;if(!m)return "";
- if(m.sw){if(!(m.hit>0))return `<p class="note">Swung at a test target it deals no melee damage: it works when thrown, shot or used.</p>`;
+ if(m.sw){if(m.st==="nodmg")return `<p class="note">Swung in game at a test target it dealt no damage: the item cancels its own hit (it only pushes and slows). Its melee score is 0.</p>`;
+  if(m.st==="nomelee")return `<p class="note">Swung by hand at a test target it dealt no damage: it works when thrown, shot or used, so it is not ranked as a melee weapon.</p>`;
+  if(m.st==="cond")return `<p class="note">Swung in game by the test player it dealt no damage, though its damage goes through once a hit lands. ${esc(m.why||"It needs a condition the test player did not meet.")} The score assumes you meet it and uses its attack damage.</p>`;
   const crit=!m.st&&m.sw.some(v=>v>m.hit*1.3),why={dull:`It dealt ${gRound(m.hit)} a swing: a fresh one needs charge or a condition to hit hard (energy tools), so the score uses its attack damage.`,
    once:"The first swing landed and the next ones dealt 1: it is spent after a hit and recharges. The hit is the first swing.",
    grows:`That is ${gRound(m.hit/Math.max(1,m.ad))}× its attack damage (${gRound(m.ad)}): it adds damage that grows with the target's health (the test target has 100,000) or under a condition (from behind, charged), so the score uses its attack damage.`}[m.st];
@@ -295,7 +300,7 @@ function gMsHtml(g){const m=g.ms;if(!m)return "";
  const t=m.taken||{};
  return `<table class="gst"><tr><th>A 20-damage hit</th><th class="num">You take</th><th class="num">No armor</th></tr>${Object.keys(GMK).filter(k=>t[k]!=null).map(k=>`<tr><td>${GMK[k]}</td><td class="num">${gRound(t[k])}</td><td class="num">${gRound(GMN[k])}</td></tr>`).join("")}</table>
 ${m.bonus?`<h3>Set bonus</h3><ul class="gbon attr">${Object.entries(m.bonus).map(([k,v])=>`<li>${v>0?"+":""}${gRound(v)} ${esc(k.replace(/_/g," "))}</li>`).join("")}</ul>`:""}
-<p class="note">Worn in game; each hit was sent through the game's damage events and armor, so set bonuses written as event handlers count. Magic and fall damage skip armor. The bare player (20 health) took ${gRound(GMN.melee)} of the 20 melee hit, half their health: the pack held the hit there, a cap a set's armor usually brings the hit under.${m.bonus?" The set bonus is what the game gives beyond the pieces' own stats, and is counted in the score.":""}</p>`}
+${m.evr?`<p class="note">It let through ${Math.round(m.evr*100)}% of what its armor alone would: protection of its own beyond armor (Resonarium, for one, takes part of each hit of 4 or more as armor durability), counted in the score.</p>`:""}<p class="note">Worn in game; each hit was sent through the game's damage events and armor, so set bonuses written as event handlers count. Magic and fall damage skip armor. The bare player (20 health) took ${gRound(GMN.melee)} of the 20 melee hit, half their health: the pack held the hit there, a cap a set's armor usually brings the hit under.${m.bonus?" The set bonus is what the game gives beyond the pieces' own stats, and is counted in the score.":""}</p>`}
 /* "Effects" section: what the item does on hit, worn, held or used (read from its code), then its own tooltip lines */
 const GWHEN={hit:"On hit",worn:"While worn",carried:"While held or carried",use:"On use",release:"When you release the shot"};
 const gRom=n=>["","I","II","III","IV","V","VI","VII","VIII","IX","X"][n]||String(n);

@@ -35,6 +35,10 @@ def gear_fx(st):
         fx = [dict(r, src=i) for i in x["p"] for r in (by[i].get("fx", []) if i in by else []) if r.get("when") == "worn"]
         if fx: x["fx"] = fx
 MS = json.loads((H / "gear_measure.json").read_text(encoding="utf-8"))
+# melee weapons whose swing needs a condition the test player did not meet, read from the item's code
+COND = [("enigmaticlegacy:", "Only a bearer of the Ring of the Seven Curses can use it (Enigmatic Legacy's isTheCursedOne)."),
+        ("enigmaticaddons:", "Only a bearer of the Ring of the Seven Curses can use it (Enigmatic Legacy's isTheCursedOne)."),
+        ("animus:spear_bound", "It has to be activated first (right-click, paid in Blood Magic Life Points).")]
 def ename(e):
     return e.split(":")[1].replace("_", " ").title()
 def gear_measure(st):
@@ -44,7 +48,16 @@ def gear_measure(st):
         if not m: continue
         n = m["n"]
         g["ms"] = {"hit": m["hit"], "sw": m["swings"], "ad": m.get("ad")}
-        if m.get("st"): g["ms"]["st"] = m["st"]
+        how = m.get("st")
+        # a swing that never lands: by design (the item cancels its own hit), a thrown or shot weapon's melee, or a condition
+        if how == "nohit":
+            how = "nodmg" if m.get("evc") else ("nomelee" if g.get("k") != "melee" else "cond")
+            if how == "cond":
+                g["ms"]["why"] = next((w for p, w in COND if g["id"].startswith(p)), "")
+        # 1 a swing from a weapon whose full stats hit far harder: the stack in the test was uncharged (Just Dire Things and other
+        # energy tools read attack damage 1 until charged), so the measured hit is not its use
+        if not how and m["hit"] <= 1 and (g.get("dmg") or 0) > 2: how = "dull"
+        if how: g["ms"]["st"] = how
         if m.get("heal"): g["ms"]["heal"] = [m["heal"][0], round(m["heal"][1] / n, 2)]
         rec = []
         for who, key in (("target", "tfx"), ("self", "sfx")):
@@ -69,6 +82,12 @@ def gear_measure(st):
         m = S.get(x["k"])
         if not m: continue
         x["ms"] = {"taken": m["taken"]}
+        if m.get("evr"): x["ms"]["evr"] = m["evr"]
+        # armor, toughness and health worn in game stand for the set where the stats could not be read (they were the Act's
+        # median, 12 sets: Iron's gold, Mekanism hazmat, jetpack... have no armor at all)
+        if not x.get("kn"):
+            x["arm"], x["tough"], x["kbr"] = m["arm"], m["tough"], m["kbr"]
+            x["hp"] = round(m["hp"] - 20, 2); x["kn"] = True; x["msk"] = 1
         if m.get("bonus"):
             x["ms"]["bonus"] = m["bonus"]
             b = m["bonus"]; at = x.setdefault("at", {})

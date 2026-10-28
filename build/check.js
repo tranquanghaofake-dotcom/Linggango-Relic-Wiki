@@ -40,7 +40,8 @@ const { chromium } = require('playwright'), path = require('path');
       if (g.ga && !A.has(g.ga)) bad.push('gate ' + id + ' ' + g.ga);
       for (const r in g.sc) if (!Number.isFinite(g.sc[r])) bad.push('score ' + id + ' ' + r);
     }
-    for (const g of GE) if (g.k === 'melee' && g.dmg != null && !(g.sc.ME > 0)) bad.push('dps ' + g.id);
+    // a melee weapon has a damage score, unless the game showed it deals none (gNoMelee: Create's cardboard sword cancels its own hit)
+    for (const g of GE) if (g.k === 'melee' && g.dmg != null && !(g.sc.ME > 0) && !gNoMelee(g)) bad.push('dps ' + g.id);
     if ('TA' in GROLE) bad.push('Tank role is back');                   // retired: four playstyles only
     // a set's score is a function of the Act it is judged at: finite and positive for every role and Act
     for (const s of GS) for (const r in GROLE) for (const a of acts) if (!(gScore(s, r, a) > 0)) bad.push(`set score ${s.k} ${r} ${a}`);

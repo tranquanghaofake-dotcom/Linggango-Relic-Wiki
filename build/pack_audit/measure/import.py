@@ -36,7 +36,14 @@ for id_, v in M["melee"].items():
     #  "once": the first swing lands, the next ones do 1 (spent, recharging): the first swing is the hit;
     #  "grows": far above the attack damage: damage from the target's health (the test pig has 100,000) or a condition
     #  (behind the target, a charged hit), which a plain number would overstate
-    if max(d) <= 1 and ad > 2: o["st"] = "dull"
+    # every swing 0: "nohit"; evc when the hit was also cancelled sent straight through the damage events (the item stops its
+    # own melee damage, e.g. Create's cardboard sword), else the hit is fine once it lands and the swing needs a condition
+    ev = v.get("ev") or {}
+    if max(d) <= 0:
+        o["st"] = "nohit"
+        if ev.get("cancelled"): o["evc"] = 1
+        elif ev.get("dmg"): o["evd"] = r2(ev["dmg"])
+    elif max(d) <= 1 and ad > 2: o["st"] = "dull"
     elif d[0] > 1 and all(x <= 1 for x in d[1:]): o["st"] = "once"; o["hit"] = r2(d[0])
     elif ad > 0 and o["hit"] > 1.6 * ad: o["st"] = "grows"
     tf = fx_of(hits, "tfx")
@@ -95,7 +102,17 @@ none_taken = taken(M["armor"]["(none)"].get("hurt"))
 sets = {}
 for k, v in M["armor"].items():
     if k == "(none)": continue
-    o = {"taken": taken(v.get("hurt")), "hp": r2(v.get("hp", 0))}
+    at = v.get("attrs", {})
+    o = {"taken": taken(v.get("hurt")), "hp": r2(v.get("hp", 0)), "arm": r2(at.get("minecraft:generic.armor", 0)),
+         "tough": r2(at.get("minecraft:generic.armor_toughness", 0)), "kbr": r2(at.get("minecraft:generic.knockback_resistance", 0))}
+    # protection the armor formula does not see (a hurt or damage handler: Resonarium pushes a hit to the floor): the melee hit
+    # that got through, against Apothic's a / (a + armor) on what the hurt event left, held to the pack's half-health cap and
+    # 13% floor. Below 0.85 of it, the share is kept and counts as damage taken off
+    pre, post = (v.get("hurt") or {}).get("melee", [0, 0])
+    if pre > 0:
+        av = 10 if pre < 20 else 10 + (pre - 20) / 2
+        pred = max(min(pre * av / (av + o["arm"]), 0.5 * v.get("hp", 20)), 0.13 * pre)
+        if pred > 0 and post < 0.85 * pred: o["evr"] = r2(post / pred)
     if v.get("abs"): o["abs"] = r2(v["abs"])
     fx = [{"effect": e, "level": amp + 1, "ticks": dur} for e, (amp, dur) in (v.get("fx") or {}).items()]
     if fx: o["fx"] = fx
