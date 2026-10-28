@@ -22,6 +22,8 @@ out += "const BGRAPH=" + json.dumps(J("boss_graph.json"), ensure_ascii=False, se
 out += "const SSTAT=" + json.dumps(J("side_stats.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const SDROP=" + json.dumps(J("side_drops.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const SIMG=" + json.dumps(J("side_imgs.json"), separators=(",", ":")) + ";\n"
+_cm = J("curio_measure.json")
+out += "const CM=" + json.dumps(_cm["curios"], ensure_ascii=False, separators=(",", ":")) + ",CMREF=" + json.dumps(_cm["ref_hit"]) + ";\n"
 out += "const BEXTRA=" + json.dumps(J("boss_extra.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 (H.parent / "src" / "wiki_data.js").write_text(out, encoding="utf-8")
 print("wiki_data.js", len(out) // 1024, "kB")

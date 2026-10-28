@@ -964,6 +964,7 @@ function page(d){
  if(relic.length&&!RL[d.id])sh+=`<div class="tw"><table><thead><tr><th>Stat</th><th>On pickup (random)</th><th>Max upgrade</th></tr></thead><tbody>${relic.map(r=>relicRows(r[1])).join("")}</tbody></table></div>`;
  sh=statsHtml(d,other)+sh;
  if(sh)secs.push(["stats","Stats",sh]);
+ if(typeof gCurioMs==="function"){const mh=gCurioMs(d);if(mh)secs.push(["ms","Measured in game",mh])}
  if(d.uid.length)secs.push(["uses","Used to craft",`<div class="cards">${d.uid.map(o=>{const t=BYID[o];return `<a class="card"${t?` href="#i${t.ix}" data-t="${t.ix}"`:""}>${img(o)}<span>${esc(NM[o]||o)}${t?"":' <span class="meta">(not a curio)</span>'}</span></a>`}).join("")}</div>`]);
  const bar=(v,l)=>`<div class="sg" style="grid-template-columns:150px 1fr;margin:var(--s1) 0"><span>${l}</span><div class="bar"><i style="width:${Math.round(Math.min(5,Math.max(0,v))*20)}%;background:var(--rc);opacity:.55"></i><span>${(+v).toFixed(1)} / 5</span></div></div>`;
   const same=D.filter(x=>x!==d&&x.m===d.m&&x.t===d.t).slice(0,8);

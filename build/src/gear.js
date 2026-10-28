@@ -117,7 +117,7 @@ const gOff=(g,r,a)=>GOFF[r](gAt(g),a);
 const GFLOORHIT=.13,GHITCAP=.5;
 function gEHP(f,a){const D=GHIT[a]!=null?GHIT[a]:50,A=D<20?10:10+(D-20)/2,at=f.at||{};
  const arm=Math.max(0,f.arm)*(1-.1*(1-Math.min(.6,.02*Math.max(0,f.tough))));
- const dr=Math.min(.8,Math.max(0,f.dtk+gS(at,/^resistance$/,1))),dg=Math.min(.5,gS(at,/^dodge_chance$/,0));
+ const dr=Math.min(.8,Math.max(-2,f.dtk+gS(at,/^resistance$/,1))),dg=Math.min(.5,gS(at,/^dodge_chance$/,0));
  const hp=Math.max(1,gBaseHP(a)+f.hp),frac=Math.max(GFLOORHIT,A/(A+arm)*(1-dr)*(f.ms&&f.ms.evr||1));
  return D*hp/Math.min(D*frac,GHITCAP*hp)/(1-dg)*(1+.1*Math.min(1,f.kbr))}
 /* how hard an item is to get, 0..1: boss and mob drops 1, crafted from many parts up to 1, chest or unknown loot lower */
@@ -147,9 +147,12 @@ const GEST={};
    Sets whose base armor is computed in code get the median armor, toughness and health of known sets of their Act (robes x0.7, others x0.8),
    unless they were worn in game (pack_audit/measure): then the measured numbers stand, 0 armor included */
 const GROBE=/robe|crown|hat|hood|cowl|mask/;
+/* the median armor, toughness and health of known sets at an Act (also the typical set a curio is judged on) */
+let gMedAt;
 {const kn=GS.filter(s=>s.kn&&s.arm>0),med={};
  const medAt=a=>{const k=oiA(a);if(!med[k]){let v=kn.filter(s=>oiA(s.a)<=k&&oiA(s.a)>=k-1);if(!v.length)v=kn;
   const m=f=>v.map(s=>s[f]).sort((x,y)=>x-y)[v.length>>1];med[k]={arm:m("arm"),tough:m("tough"),hp:m("hp")}}return med[k]};
+ gMedAt=medAt;
  GS.forEach(s=>{if(s.kn&&(s.arm>0||s.ms)){s.f=s;return}
   const m=medAt(s.a),x=s.p.some(id=>GROBE.test(id.split(":")[1]))?.7:.8;s.est=1;
   s.f={arm:m.arm*x,tough:m.tough*x,hp:Math.max(s.hp,m.hp*x),kbr:s.kbr||0,dtk:s.dtk||0,at:s.at}})
@@ -159,6 +162,60 @@ const GSC=new Map();
 function gSetScore(s,r,a){const key=s.ix+r+a;let v=GSC.get(key);
  if(v==null){v=gRound(gOff(s,r,a)*Math.pow(gEHP(s.f,a),GSURV[r]));GSC.set(key,v)}return v}
 GS.forEach(s=>{s.sc={};for(const r of ["ME","RA","MA","SU"])s.sc[r]=gSetScore(s,r,s.a)});
+/* ---------- curios, measured in game (pack_audit/measure/import_curios.py → CM) ----------
+   A curio's score for a role at an Act is what it multiplies a typical build by when worn on top of it, on the sets' scale:
+   the role's output bonus (GOFF) on its measured attribute changes, with its measured hit change on a diamond sword (its flat
+   attack damage counted against the Act's typical weapon hit, the rest, % and event bonuses, as a multiplier), × (effective health
+   with it ÷ without it)^k, on the median set of the Act (gEHP: armor, health, dodge, Resistance and Health Boost it gives, and
+   damage it was measured to cut beyond its armor). 1 = nothing the test could see. Conditions, active abilities, kill and
+   low-health effects are not in it; the pack's x3 soft cap on stacked accessory hit bonuses binds only builds, not one curio. */
+const GCK=k=>k.slice(k.indexOf(":")+1).replace(/^generic\./,"");
+const GCADD=/^(attack_damage|max_mana|minion_slots|entity_reach|max_health|armor|armor_toughness|knockback_resistance|gun_damage|casting_speed|life_?steal|dodge_chance|ars_nouveau\.perk\.max_mana|.*spell_damage)$/;
+function gCurioAt(m){const at={},add=(k,i,v)=>{(at[k]=at[k]||[0,0])[i]+=v},d=m.d||{};
+ for(const k in d){const p=GCK(k),v=d[k];if(p==="attack_speed")add(p,1,v/4);else add(p,GCADD.test(p)?0:1,v)}
+ if(m.hit){const x=m.hit-1-(d["minecraft:generic.attack_damage"]||0)/CMREF;if(Math.abs(x)>.005)add("attack_damage",1,x)}
+ for(const [e,l] of m.fx||[]){if(e==="minecraft:resistance")add("resistance",1,.2*l);if(e==="minecraft:health_boost"||e==="minecraft:absorption")add("max_health",0,4*l)}
+ return at}
+const GCS=new Map();
+function gCurioScore(c,r,a){const key=c.id+r+a;let v=GCS.get(key);if(v!=null)return v;const m=CM[c.id];if(!m)return 1;
+ const at=gCurioAt(m),b=gMedAt(a),o=k=>(at[k]||[0,0])[0];
+ const base={arm:b.arm,tough:b.tough,hp:b.hp,kbr:0,dtk:0,at:{}};
+ // damage it cut (or added) beyond its own armor: an 8 hit of each kind, measured over what its armor alone lets through (a = 10;
+ // magic and fall skip armor), weighted by how often each kind hits you: melee .6, magic .15, fire .1, explosion .1, fall .05
+ const pred=10/(10+Math.max(0,o("armor"))),tk=m.tk||{},GKW={melee:.6,magic:.15,fire:.1,explosion:.1,fall:.05};
+ let ex=0;for(const k in GKW)ex+=GKW[k]*(tk[k]!=null?tk[k]/(k==="magic"||k==="fall"?1:pred):1);
+ const f={arm:b.arm+o("armor"),tough:b.tough+o("armor_toughness"),hp:b.hp+o("max_health"),kbr:o("knockback_resistance"),dtk:Math.abs(1-ex)>.02?1-ex:0,
+  at:{dodge_chance:[o("dodge_chance"),0],resistance:at.resistance||[0,0]}};
+ v=gRound(GOFF[r](at,a)*Math.pow(gEHP(f,a)/gEHP(base,a),GSURV[r])*1000)/1000;GCS.set(key,v);return v}
+const gIsCurio=x=>!!(x&&x.ro&&x.st);
+/* the test player was bare: no armor, nothing in hand when its attributes were read, standing still, at full health when read and
+   at 10 under it (half, for a 20-health tester) when swinging, below Y 0, in daylight
+   (the user's flat test world). A curio whose text depends on one of those met it in the test (Championship Belt's unarmed
+   damage and empty-slot armor, Spelunker Talisman's Resistance below Y 0) or hid its cost (Venerated Locket loses the armor the
+   tester did not have): its numbers would not hold in a real build, so it is shown but not tiered */
+const GCTX=/unarmed|bare[- ]?hand|empty armou?r slot|empty armor slots|without armou?r|lose all (your )?armou?r|armou?r stops working|armou?r debuff|standing still|stand still|below y ?0|underground|at full health|full health|health you (have )?lose|health you (have )?lost|missing health|low(er)? health|below \d+ ?% (of )?(your )?(max )?(health|hp)|during the day|in daylight|daytime|at night|during the night|nighttime/i;
+const gCtx=c=>{const m=GCTX.exec([c.fx||"",...(c.st||[])].join(" | "));return m?m[0]:""};
+/* the curio page's "Measured in game" section */
+const gCName=p=>p.replace(/^ars_nouveau\.perk\./,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+function gCurioMs(c){const m=typeof CM!=="undefined"&&CM[c.id];if(!m)return "";const d=m.d||{},rows=[];
+ for(const k in d){const p=GCK(k),v=d[k],pc=!GCADD.test(p)&&p!=="attack_speed";
+  rows.push(`<li>${v>0?"+":"−"}${pc?gRound(Math.abs(v)*100)+"%":gRound(Math.abs(v))} ${esc(gCName(p))} <span class="meta">${esc(k.split(":")[0])}</span></li>`)}
+ const tk=m.tk||{},K={melee:"Melee",fire:"Fire",explosion:"Explosion",magic:"Magic",fall:"Fall"};
+ const fxl=(m.fx||[]).map(([e,l,t])=>`${esc(gCName(e.split(":")[1]))} ${gRom(l)}${t>0&&t<2e4?` (${gRound(t/20)} s, renewed)`:""}`);
+ const tfx=(m.tfx||[]).map(([e,l,t])=>`${esc(gCName(e.split(":")[1]))} ${gRom(l)} for ${gRound(t/20)} s`);
+ const a=c.t,ctx=gCtx(c),sc=ctx?[]:Object.keys(GROLE).map(r=>[r,gCurioScore(c,r,a)]).filter(x=>x[1]>1.005).sort((p,q)=>q[1]-p[1]);
+ const any=rows.length||m.hit||Object.keys(tk).length||fxl.length||tfx.length||m.hp||m.fire||m.heal||m.neg;
+ if(!any)return `<p class="note">Worn alone in game (in its ${esc(m.sl)} slot) it changed nothing the test can see: no attribute, no change to a sword hit, no change to damage taken, no effect. What it does needs a condition (low health, a kill, being hit, night, a key press) or works on something else (mobs, loot, blocks); its text above says what.</p>`;
+ return `${sc.length?`<p class="gverd" style="--gc:${GTIER[0][2]}"><b>${gTierOf(c,a,sc[0][0],"c")||"–"}</b><span>On a typical ${esc(actL(a))} build it adds ${sc.map(([r,v])=>`<strong>+${Math.round((v-1)*100)}%</strong> ${GROLE[r]}`).join(", ")}. <a href="#gear/${a}/${sc[0][0]}/c">See the curio tiers</a></span></p>`:""}
+${ctx?`<p class="note">Not tiered: what it does depends on “${esc(ctx)}”, and the bare test player (no armor, empty hands when read, standing still, at full health when read and half health when swinging, below Y 0, in daylight) met that condition or hid its cost, so these numbers would not hold in a real build.</p>`:""}
+${rows.length?`<h3>Attributes</h3><ul class="gbon attr">${rows.join("")}</ul>`:""}
+${m.hit?`<table class="gst"><tr><td>Diamond sword hit</td><td class="num">${gRound(CMREF)} → ${gRound(CMREF*m.hit)} (${m.hit>1?"+":""}${gRound((m.hit-1)*100)}%)</td></tr></table>`:""}
+${Object.keys(tk).length?`<table class="gst"><tr><th>An 8-damage hit</th><th class="num">You take</th><th class="num">Without it</th></tr>${Object.keys(K).filter(k=>tk[k]!=null).map(k=>`<tr><td>${K[k]}</td><td class="num">${gRound(8*tk[k])}</td><td class="num">8</td></tr>`).join("")}</table>`:""}
+${(m.neg||[]).includes("fall")?`<p class="note">It cancelled the test fall damage: no fall damage while worn.</p>`:""}${(m.neg||[]).some(k=>k!=="fall")?`<p class="note">It cancelled the test hit outright (${m.neg.filter(k=>k!=="fall").map(k=>K[k]||k).join(", ")}): it blocks such hits, often on a cooldown or by chance, which one test hit cannot measure, so the block is not in its score. The pack still lets 13% of a hit an accessory zeroes land (zeroed_hit_floor).</p>`:""}
+${m.hp?`<table class="gst"><tr><td>Max health</td><td class="num">${m.hp>0?"+":""}${gRound(m.hp)}</td></tr></table>`:""}
+${fxl.length?`<h3>While worn</h3><ul class="gbon">${fxl.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}
+${tfx.length||m.fire||m.heal?`<h3>On hit</h3><ul class="gbon">${tfx.map(x=>`<li>${x} on the target</li>`).join("")}${m.fire?`<li>Sets the target on fire for ${m.fire} s</li>`:""}${m.heal?`<li>Heals you ${gRound(m.heal)}</li>`:""}</ul>`:""}
+<p class="note">Worn alone in game in its ${esc(m.sl)} slot on a bare 20-health test player for two seconds, then two diamond-sword swings and an 8-damage hit of each kind through the game's damage events. Conditional effects (low health, kills, being hit, active abilities) are not in these numbers.</p>`}
 /* an item's score for a role at an Act: weapons have one score; a set's depends on the Act (the hit it faces, the HP and hit it adds to) */
 const gScore=(g,r,a)=>g.ps?gSetScore(g,r,a):g.sc[r];
 /* hidden from the lists (search still finds them): items the pack disables, creative-only items
@@ -167,6 +224,8 @@ const GCREATIVE=new Set(["irons_spellbooks:gold_crown"]);
 const gHidden=g=>(g.ob&&g.ob[0]==="!")||/creative only/i.test(g.n)||(g.ps?g.p:[g.id]).some(id=>GCREATIVE.has(id));
 /* pool for Act a, role r: everything unlocked at or before a */
 function gPool(a,r,w){const ia=oiA(+a);
+ // curios: those a measured change makes better for the role, by how much they add (score - 1)
+ if(w==="c")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)).map(d=>[d,gCurioScore(d,r,+a)-1]).filter(x=>x[1]>.005).sort((p,q)=>q[1]-p[1]);
  const xs=(w==="a"?GS:GE.filter(g=>g.k!=="armor")).filter(g=>g.sc[r]!=null&&oiA(g.a)<=ia&&!gHidden(g));
  return xs.map(g=>[g,gScore(g,r,+a)]).sort((p,q)=>q[1]-p[1])}
 const GTC=new Map();
@@ -180,14 +239,14 @@ function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
 const gHref=g=>g.ps?"#gs"+g.ix:"#g"+g.ix;
 /* a tile is faded when its score in this list is an estimate (a staff's Melee DPS is read, its Mage score is not) */
-const gTile=(g,a,r)=>`<a class="gtl${g.est&&!(r==="ME"&&g.dmg!=null)?" est":""}${!g.ps&&g.k!=="armor"?" wpn":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}">${gImg(g)}${g.a===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(g.n).replace(/ \((Lv|Tier|Mk) /g," ($1&nbsp;")}</span></a>`;
+const gTile=(g,a,r)=>gIsCurio(g)?`<a class="gtl" href="#i${g.ix}" data-t="${g.ix}"><span class="slot">${img(g.id)}</span>${g.t===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}<span>${esc(g.n)}</span></a>`:`<a class="gtl${g.est&&!(r==="ME"&&g.dmg!=null)?" est":""}${!g.ps&&g.k!=="armor"?" wpn":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}">${gImg(g)}${g.a===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(g.n).replace(/ \((Lv|Tier|Mk) /g," ($1&nbsp;")}</span></a>`;
 const GSTATE={a:0,r:"ME",w:"w",q:""};let GALL=false;
 document.addEventListener("click",e=>{if(e.target.closest("[data-gall]")){GALL=true;const y=scrollY;gearPage(location.hash);scrollTo(0,y)}});
 let GLASTH="";
 try{Object.assign(GSTATE,JSON.parse(localStorage.getItem("lgw-gear")||"{}"))}catch(e){}
 GSTATE.q="";
 function gearPage(h){
- const m=h.match(/^#gear(?:\/([\d.]+))?(?:\/(\w\w))?(?:\/([wa]))?/);if(m){if(m[1]!=null)GSTATE.a=+m[1];if(m[2])GSTATE.r=m[2];if(m[3])GSTATE.w=m[3]}
+ const m=h.match(/^#gear(?:\/([\d.]+))?(?:\/(\w\w))?(?:\/([wac]))?/);if(m){if(m[1]!=null)GSTATE.a=+m[1];if(m[2])GSTATE.r=m[2];if(m[3])GSTATE.w=m[3]}
  if(!ORDER.includes(+GSTATE.a))GSTATE.a=0;if(!GROLE[GSTATE.r])GSTATE.r="ME";   // old links and saved state can still say TA (Tank, retired)
  try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){}
  const {a,r,w}=GSTATE;document.title=`Equipment tier list · ${actL(a)} · Linggango Wiki`;
@@ -199,11 +258,11 @@ function gearPage(h){
  ${room("forge",tiers.flatMap(([t,xs])=>xs.map(g=>({h:gHref(g),i:gImg(g),t:(g.ps?"s":"g")+g.ix,n:g.n,l:esc(t)}))).slice(0,10),{head:`<span class="gem">${emblem(a,"lg")}</span><div><h1>Equipment tier list</h1>
  <p class="lede">The best weapons and armor sets for each playstyle at <b>${esc(actL(a))}</b>: everything you can use once ${a==0?"you start":esc(UNL[a]||"")+" is beaten"}, ranked against the best you have at that point.</p></div>`,min:5,cols:5,label:"Best at this Act"})}
  <nav class="gacts" aria-label="Act">${ORDER.filter(x=>x!=-1).map(x=>`<a href="${go(x,r,w)}" style="--tc:${ACT[x][2]}"${x===+a?' aria-current="page"':""} title="${esc(actF(x))}"><span class="gx">${emblem(x,"xs")}</span><b>${esc(ACT[x][0])}</b></a>`).join("")}</nav>
- <div class="gbar"><div class="gseg" role="tablist" aria-label="Weapons or armor">${[["w",ui("sword")+" Weapons"],["a",ui("chest")+" Armor sets"]].map(([k,t])=>`<a role="tab" href="${go(a,r,k)}"${k===w?' aria-selected="true"':""}>${t}</a>`).join("")}</div>
+ <div class="gbar"><div class="gseg" role="tablist" aria-label="Weapons or armor">${[["w",ui("sword")+" Weapons"],["a",ui("chest")+" Armor sets"],["c",ui("star")+" Curios"]].map(([k,t])=>`<a role="tab" href="${go(a,r,k)}"${k===w?' aria-selected="true"':""}>${t}</a>`).join("")}</div>
  <div class="gseg roles" role="tablist" aria-label="Playstyle">${roles.map(k=>`<a role="tab" href="${go(a,k,w)}" style="--rc:${ROLE_C[k]||"#8a8f99"}"${k===r?' aria-selected="true"':""}>${GROLE[k]}</a>`).join("")}</div>
  <input id="gq" type="search" autocomplete="off" name="gearq" placeholder="Find a weapon or set…" value="${esc(GSTATE.q)}" aria-label="Find gear"></div>
- ${q?gSearch(q,a):`<div class="gtl-list">${tiers.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>Show ${xs.length-48} more</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join(""):`<p class="note">No ${w==="a"?"armor":"weapons"} for ${GROLE[r]} unlocked by ${esc(actL(a))} yet.</p>`}</div>`}
- <div class="gfoot"><p><b>${pool}</b> ${w==="a"?"sets":"weapons"} usable at ${esc(actL(a))}.${+a!==ORDER[0]?' <i class="gnew">NEW</i> unlocks at this Act.':""} Faded tiles are <b>estimated</b>: their damage is computed in code the wiki could not read, so they are ranked by when and how you get them (see below).</p>
+ ${q?gSearch(q,a):`<div class="gtl-list">${tiers.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>Show ${xs.length-48} more</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join(""):`<p class="note">No ${w==="a"?"armor":w==="c"?"curios measured to help":"weapons"} for ${GROLE[r]} unlocked by ${esc(actL(a))} yet.</p>`}</div>`}
+ <div class="gfoot"><p><b>${pool}</b> ${w==="a"?"sets":w==="c"?`curios usable at ${esc(actL(a))} measured to help ${GROLE[r]}`:"weapons"}${w==="c"?"":` usable at ${esc(actL(a))}`}.${w==="c"?" Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page.":""}${+a!==ORDER[0]?' <i class="gnew">NEW</i> unlocks at this Act.':""} Faded tiles are <b>estimated</b>: their damage is computed in code the wiki could not read, so they are ranked by when and how you get them (see below).</p>
  <details class="ghow"><summary>How the tiers are worked out</summary><ul>
  <li><b>Act</b>: the Keeper gate from Linggango's own progression tags (<code>forge:iron_tools</code> … <code>forge:helionite_armor</code>): gear tagged Diamond is locked until Eldorath falls, and so on. Gear with no tag sits at the Act of its hardest ingredient or drop (Nether materials need Act V, a Nether Star the Wither, End loot the Ender Dragon).</li>
  <li><b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does. Better Combat clears the target's hurt cooldown on every hit, so fast weapons are not capped at two hits a second. Staves, spears and gunblades whose melee damage is readable are ranked here too.</li>
