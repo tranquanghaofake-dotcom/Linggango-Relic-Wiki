@@ -33,10 +33,10 @@ LGW.SRG = {
   setRemainingFireTicks: ['m_7311_'], moveTo: ['m_7678_'], hurt: ['m_6469_'], getLastDamageSource: ['m_21225_'], playerAttack: ['m_269075_'],
   hurtEnemy: ['m_41640_'], getMainHandItem: ['m_21205_'],
   getAdvancements: ['m_129889_', 'm_8960_'], getAdvancement: ['m_136041_'], award: ['m_135988_'], getOrStartProgress: ['m_135996_'],
-  getCriteria: ['m_138325_'], isDone: ['m_8193_']
+  getCriteria: ['m_138325_'], isDone: ['m_8193_'], grantProgress: ['m_8196_'], getAbilities: ['m_150110_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
-  BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_' }
+  BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_' }
 // the member name to use on o: the Mojang one if Rhino shows it, else the first SRG name o has
 LGW.K = (o, n) => {
   try { if (typeof o[n] === 'function') return n } catch (x) {}
@@ -123,12 +123,27 @@ LGW.run = (server, who, name) => {
       var ok = safe('grant ' + k, () => {
         var adv = c1(mgr, 'getAdvancement', new ResourceLocation('armageddon_mod:' + k))
         if (('' + adv) === 'null') throw 'no such advancement'
-        c0(adv, 'getCriteria').keySet().forEach(cr => { c2(pa, 'award', adv, cr) })
-        if (!c0(c1(pa, 'getOrStartProgress', adv), 'isDone')) throw 'not done after award'
+        // Forge's award() refuses FakePlayers (fifth run: 0 of 12), so the progress is also ticked off directly
+        var crit = c0(adv, 'getCriteria').keySet()
+        crit.forEach(cr => { try { c2(pa, 'award', adv, cr) } catch (e) {} })
+        var pr = c1(pa, 'getOrStartProgress', adv)
+        if (!c0(pr, 'isDone')) crit.forEach(cr => { c1(pr, 'grantProgress', cr) })
+        if (!c0(pr, 'isDone')) throw 'not done after award or grantProgress'
       })
       ;(ok ? got : miss).push(k)
     })
     out.granted = got; if (miss.length) out.notGranted = miss
+    // last resort: Armageddon lets abilities.instabuild through; only that flag is set, the game mode stays survival
+    if (miss.length) {
+      var ok = safe('instabuild', () => {
+        var ab = c0(P, 'getAbilities')
+        try { ab.instabuild = true } catch (e) {}
+        if (fld(ab, 'instabuild') !== true) ab[LGW.FLD.instabuild] = true
+        if (fld(ab, 'instabuild') !== true) throw 'flag did not stick'
+      })
+      out.instabuild = ok
+      say(ok ? 'Keepers not given; abilities.instabuild set instead (Armageddon lets it through)' : 'neither the Keepers nor instabuild could be set: tiered weapons will read 0')
+    }
     say('tester given ' + got.length + '/' + KEEPERS.length + ' Armageddon Keeper advancements' + (miss.length ? ' (missing: ' + miss.join(', ') + ')' : ''))
   }
   var SLOT = { HEAD: EquipmentSlot.HEAD, CHEST: EquipmentSlot.CHEST, LEGS: EquipmentSlot.LEGS, FEET: EquipmentSlot.FEET, MAINHAND: EquipmentSlot.MAINHAND, OFFHAND: EquipmentSlot.OFFHAND }
