@@ -1641,3 +1641,76 @@ table.cfg{border-collapse:collapse;margin-top:4px;font-size:14px}table.cfg td{pa
 .room3 .rhead h1{font-size:32px}.room3 .rhead .lede,.room3 .rhead p{font-size:14px;line-height:1.5}
 .room3 .rpt{width:16px;height:16px;background-size:16px 16px}
 .room3 .rglyph{width:16px;height:16px;margin:16px;-webkit-mask-size:16px 16px;mask-size:16px 16px}
+
+/* ===================== v46: pass 4 =====================
+   One GUI vocabulary for every box, as in the game: a raised panel (ink edge with its corner texel cut, light top-left,
+   dark bottom-right) for containers and cards, a sunken well for slots and lists, the vanilla text field for inputs.
+   All three are 6x6 nine-slices (gui_panels.py) shown at x2, so every edge is 2 texels = 4 px. */
+:root{--r0:#9c9ca4;--r1:#d6bf55;--r2:#4fb8a9;--r3:#a77fdc;--r4:#e3893c;--r5:#d84b40;--r6:#f2c544}
+*:not(#_):is(.gui,.ip-sec,.ip-info,.ip-toc,#side,.tier,.mbox,.mnote,.mhero,.whyb,.grow,.gbg>div,.bbar,.mcard,.bcardl,.ip-art,.navbox,.fbar,.ppanel,.pmap){
+ border:4px solid transparent!important;border-image:var(--rt-gp_panel) 2 fill / 4px stretch!important;box-shadow:none!important;background-color:transparent!important;image-rendering:pixelated}
+*:not(#_):is(#main section.s:not(.ip-sec),.bpg>section,.mech section,.ghow,.gbox){border:4px solid transparent!important;border-image:var(--rt-gp_panel) 2 fill / 4px stretch!important;box-shadow:none!important;background-color:transparent!important}
+*:not(#_):is(.gc,.lcard,.pnext,.kchip,.bcard){border:4px solid transparent!important;border-image:var(--rt-gp_card) 2 / 4px stretch!important;box-shadow:none!important;background-clip:padding-box!important}
+*:not(#_):is(.gc,.lcard,.pnext,.kchip){background:#2c2c31!important}
+*:not(#_).gc{border-left-color:transparent!important}
+*:not(#_).gc::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--rc,var(--r0))}
+*:not(#_):is(ul.attr,.lpic,.unlock,details.tipx table.cfg){border:4px solid transparent!important;border-image:var(--rt-gp_inset) 2 fill / 4px stretch!important;box-shadow:none!important;background:transparent!important}
+*:not(#_).ip-meta>span{border:4px solid transparent!important;border-image:var(--rt-gp_card) 2 fill / 4px stretch!important;box-shadow:none!important;background:transparent!important;padding:0 6px!important}
+
+/* text fields: the game's own (black with a grey edge, white when focused); selects look like buttons */
+*:not(#_):is(input[type=search],input[type=text],#fv,#q,#hq,#fq,.gsearch input){border:2px solid #a0a0a0!important;border-image:none!important;background:#000!important;color:#e0e0e0!important;box-shadow:none!important;
+ font:500 14px var(--body)!important;padding:7px 10px!important;height:36px;outline:0}
+*:not(#_):is(input[type=search],input[type=text],#fv,#q,#hq,#fq):focus{border-color:#fff!important}
+*:not(#_):is(input[type=search],input[type=text],#fv,#q,#hq,#fq)::placeholder{color:#7a7a7a}
+*:not(#_) select{height:36px;padding:0 28px 0 10px!important;border:4px solid transparent!important;border-image:var(--rt-btn) 2 2 3 2 fill / 4px 4px 6px stretch!important;background:transparent!important;
+ color:#fff!important;font:500 14px var(--body)!important;text-shadow:2px 2px 0 #3f3f3f;appearance:none;-webkit-appearance:none;image-rendering:pixelated;cursor:pointer;
+ background-image:linear-gradient(45deg,transparent 50%,#fff 50%),linear-gradient(135deg,#fff 50%,transparent 50%)!important;background-position:calc(100% - 13px) 50%,calc(100% - 8px) 50%!important;background-size:5px 5px!important;background-repeat:no-repeat!important}
+*:not(#_) select option{background:#222;color:#eee}
+
+/* the curio filter bar: one row to search, one to add a field filter, one for relic levels */
+*:not(#_).fbar{display:grid!important;gap:10px!important;padding:12px 14px!important;margin:0 0 16px!important}
+*:not(#_).fbar .fbr{display:flex!important;flex-wrap:wrap;gap:8px!important;align-items:center!important}
+*:not(#_).fbar #fq{flex:1 1 320px!important}
+*:not(#_).fbar .fadd #fk{flex:0 0 150px}*:not(#_).fbar .fadd #fv{flex:1 1 200px!important;max-width:320px!important}
+*:not(#_).fbar .fadd .chip,*:not(#_).fbar .fadd .ghost{height:36px}
+*:not(#_).fbar .fn{font:600 12.5px var(--body)!important;color:var(--gui-mute)!important}
+*:not(#_).fbar .frl label{font:600 12.5px var(--body)!important;color:var(--gui-mute)!important}
+*:not(#_).fbar .frl #frl{flex:0 1 240px}
+
+/* curio tiles: a slot with a crisp two-pixel rarity rim (light top-left, dark bottom-right), no texture to blur */
+*:not(#_):is(.tier,.tiles) a.t{width:64px!important;height:64px!important;background:#1f1f23!important;background-image:none!important;
+ --rl:color-mix(in srgb,var(--rc) 70%,#fff);--rd:color-mix(in srgb,var(--rc) 60%,#000);
+ box-shadow:0 0 0 2px #0b0b0d,inset 2px 2px 0 0 var(--rl),inset -2px -2px 0 0 var(--rd),inset 4px 4px 0 0 #121214,inset -4px -4px 0 0 #303036!important}
+/* Legendary and up: small corner brackets inside the slot; Mythic a notch top and bottom; Must-Have a gold one */
+*:not(#_):is(.tier,.tiles) a.t:is(.r4,.r5,.r6){background-image:
+ linear-gradient(var(--rc),var(--rc)),linear-gradient(var(--rc),var(--rc)),linear-gradient(var(--rc),var(--rc)),linear-gradient(var(--rc),var(--rc)),
+ linear-gradient(var(--rc),var(--rc)),linear-gradient(var(--rc),var(--rc)),linear-gradient(var(--rc),var(--rc)),linear-gradient(var(--rc),var(--rc))!important;
+ background-size:6px 2px,2px 6px,6px 2px,2px 6px,6px 2px,2px 6px,6px 2px,2px 6px!important;background-repeat:no-repeat!important;
+ background-position:left 6px top 6px,left 6px top 6px,right 6px top 6px,right 6px top 6px,left 6px bottom 6px,left 6px bottom 6px,right 6px bottom 6px,right 6px bottom 6px!important;background-origin:border-box!important;background-clip:border-box!important}
+*:not(#_):is(.tier,.tiles) a.t:is(.r5,.r6)::after{content:"";position:absolute;left:50%;top:2px;width:10px;height:2px;margin-left:-5px;background:var(--rl);box-shadow:0 56px 0 var(--rd);pointer-events:none}
+*:not(#_):is(.tier,.tiles) a.t:hover{box-shadow:0 0 0 2px #fff,inset 2px 2px 0 0 var(--rl),inset -2px -2px 0 0 var(--rd),inset 4px 4px 0 0 #121214,inset -4px -4px 0 0 #303036!important}
+.sbdg{width:14px!important;height:14px!important;background-size:14px 14px!important;left:6px!important;bottom:6px!important}
+.sbdg.rqbd{left:auto!important;right:6px!important;top:6px!important;bottom:auto!important}
+.sbdg.lg{left:auto!important;bottom:auto!important}
+/* the infobox picture: the same crisp rim around the item, no frame texture */
+*:not(#_) .ip-icon.framed::before{background:#1f1f23!important;--rl:color-mix(in srgb,var(--rc) 70%,#fff);--rd:color-mix(in srgb,var(--rc) 60%,#000);
+ box-shadow:0 0 0 2px #0b0b0d,inset 2px 2px 0 0 var(--rl),inset -2px -2px 0 0 var(--rd),inset 4px 4px 0 0 #121214,inset -4px -4px 0 0 #303036!important}
+*:not(#_) .ip.r0 .ip-icon.framed::before{--rc:var(--r0)}
+
+/* the one line that says when and how a curio opens */
+.unlock{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;margin:0 0 12px;font:500 14.5px/1.55 var(--body);color:var(--gui-ink)}
+.unlock .ui{margin-top:3px;flex:none}.unlock span{color:var(--gui-mute)}.unlock b{color:#fff}
+ul.attr li.fxh{padding-left:0;font:700 11.5px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--gui-mute);margin-top:4px}
+ul.attr li.fxh::before{display:none}
+
+/* rooms: a picture now (no item frames), set in a sunken edge */
+.room3{border:4px solid transparent;border-image:var(--rt-gp_inset) 2 / 4px stretch;box-shadow:none!important;height:296px;box-sizing:border-box}
+.room3 .rfrs{display:none}
+/* a row of inventory slots (home page lists, ME cells) */
+.srow{display:flex;flex-wrap:wrap;gap:0;margin-top:10px}
+.sslot{position:relative;width:56px;height:56px;display:grid;place-items:center;border:4px solid transparent;border-image:var(--rt-gp_inset) 2 fill / 4px stretch;image-rendering:pixelated;text-decoration:none}
+.sslot:hover,.sslot:focus-visible{outline:2px solid #fff;outline-offset:-2px;background:rgba(255,255,255,.12)}
+*:not(#_) .sslot>img,*:not(#_) .sslot .aimg{width:32px!important;height:32px!important;image-rendering:pixelated}
+.sslot small{position:absolute;right:1px;bottom:-2px;font:700 10px var(--body);color:#fff;text-shadow:1px 1px 0 #000,-1px 0 0 #000;pointer-events:none}
+*:not(#_) ol.how li{padding-left:18px!important}
+*:not(#_) ol.how li::before{content:""!important;left:4px!important;top:15px!important;width:6px!important;height:6px!important;background:var(--gui-mute)!important;box-shadow:none!important;border:0!important}

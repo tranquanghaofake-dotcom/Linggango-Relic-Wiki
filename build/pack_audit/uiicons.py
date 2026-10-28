@@ -16,6 +16,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import rarity_frames   # own work: one frame per rarity (rf_0 … rf_6, big rfb_0 … rfb_6)
 import slot_badges     # own work: slot and ring-requirement badges (sb_*)
 import mob_faces       # mob faces cut from vanilla entity textures (mf_*)
+import gui_panels      # own work: raised panel, card and sunken well nine-slices (gp_*)
 V, L = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
 OUT = pathlib.Path(__file__).resolve().parents[1] / "src" / "uiicons.js"
 VANILLA = {  # key: item texture
@@ -69,6 +70,7 @@ def png(im):
 for r, im in enumerate(rarity_frames.frames()): items[f"rf_{r}"] = png(im)
 for r, im in enumerate(rarity_frames.frames(64)): items[f"rfb_{r}"] = png(im)
 for k, im in slot_badges.badges().items(): items[f"sb_{k}"] = png(im)
+for k, im in gui_panels.panels().items(): items[k] = png(im)
 for k, im in mob_faces.faces(V).items(): items["mf_" + k.lower().replace(" ", "_")] = png(im)
 OUT.write_text("Object.assign(ROOMT," + "{" + ",".join(f'"{k}":"{v}"' for k, v in items.items()) + "});\n")
 print(OUT, len(items), "textures")

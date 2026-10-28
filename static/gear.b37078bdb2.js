@@ -197,7 +197,7 @@ function gBonus(g){const fold=g.k==="armor"?(g.arm!=null?["armor","armor_toughne
 function gSrcText(g){const o=[],out=g.ps?gIcon(g).id:g.id;
  const slot=(x,n)=>{const t=GBY[x]||BYID[x],nm=x.startsWith("#")?"any "+x.split(":")[1].split("/").pop().replace(/_/g," "):BYID[x]?BYID[x].n:NM[x]||nmI(x),
   h=GBY[x]?`#g${GBY[x].ix}`:BYID[x]?`#i${BYID[x].ix}`:"";
-  return `<${h?`a href="${h}"`:"div"} class="mcs"${GBY[x]?` data-t="g${GBY[x].ix}"`:BYID[x]?` data-t="${BYID[x].ix}"`:""} title="${esc(nm)}">${x.startsWith("#")?`<span class="ph">${esc(nm)}</span><span class="tagm">#</span>`:IC[x]?img(x):`<span class="ph">${esc(nm)}</span>`}${n>1?`<span class="cnt">${n}</span>`:""}</${h?"a":"div"}>`};
+  return `<${h?`a href="${h}"`:"div"} class="mcs"${GBY[x]?` data-t="g${GBY[x].ix}"`:BYID[x]?` data-t="${BYID[x].ix}"`:""} title="${esc(nm)}">${x.startsWith("#")?(typeof TAGID!=="undefined"&&IC[TAGID[x]]?img(TAGID[x]):`<span class="ph">${esc(nm)}</span>`)+`<span class="tagm">#</span>`:IC[x]?img(x):`<span class="ph">${esc(nm)}</span>`}${n>1?`<span class="cnt">${n}</span>`:""}</${h?"a":"div"}>`};
  g.rc.forEach(r=>{const ing=[...new Set(r.i)].filter(x=>x!==r.t&&!GNOISE.test(x)).slice(0,9),st=gStation(r.t);
   o.push(`<div class="mcwin k-row"><div class="mct"><span class="mcst">${stIcon(st)}</span>${esc(st)}</div><div class="mcrow"><div class="mcg mrow">${ing.map(x=>slot(x,r.i.filter(y=>y===x).length)).join("")}</div><i class="mca" aria-hidden="true"></i><div class="mcs big">${img(out)}</div></div></div>`)});
  const cards=g.lt.map(t=>{const [ns,p]=t.split(":"),parts=p.split("/"),what=parts.slice(1).join(" ").replace(/_/g," "),Nm=what.replace(/\b\w/g,c=>c.toUpperCase()),
