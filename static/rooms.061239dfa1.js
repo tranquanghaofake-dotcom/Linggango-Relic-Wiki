@@ -73,15 +73,15 @@ function rPaint(el){const k=el.dataset.room,spec=ROOMK[k];if(!spec||typeof ROOMT
   put:(x,y,t,o={})=>deco.push([x,y,t,o]),over:(x,y,t,o={})=>over.push([x,y,t,o]),icon:(x,y,id,o={})=>icons.push([x,y,id,o]),
   anim:(x,y,t,fr,ms,o={})=>anims.push([x,y,t,fr,ms,o]),lamp:(x,y,l,c)=>lights.push([x,y,l,c]),pt:(x,y,t,o={})=>pts.push([x,y,t,o]),
   hang:(x,t,len)=>{for(let y=1;y<=len;y++)deco.push([x,y,y<len?"ri_chain":t,{}])},
-  stand:(x,m)=>{deco.push([x,4,"stand",{}]);[["helmet",2.45],["chestplate",3.05],["leggings",3.55],["boots",3.95]].forEach(([p,y])=>deco.push([x,y,`ri_${m}_${p}`,{}]))},
+  stand:(x,m)=>deco.push([x,3,"as_"+m,{tall:1}]),     // an armor stand wearing the set: 1 block wide, 2 tall (armor_stand.py)
   beamUp:(x,y)=>anims.push([x,0,"beam",1,0,{h:y}])};
  spec(g);
- const keys=new Set([...wall,...deco,...over].map(e=>e[2]).filter(t=>t!=="stand"));
+ const keys=new Set([...wall,...deco,...over].map(e=>e[2]));
  Promise.all([...keys].map(t=>rImg(t).ready).concat(icons.map(e=>(rIcon(e[2])||{ready:Promise.resolve()}).ready))).then(()=>{
   if(!el.isConnected)return;const cv=el.querySelector(".rcv");cv.width=C*16;cv.height=RR*16;cv.style.width=C*RB+"px";cv.style.height=RR*RB+"px";cv.style.left=ox+"px";
   const x2=cv.getContext("2d");x2.imageSmoothingEnabled=false;x2.fillStyle="#141416";x2.fillRect(0,0,cv.width,cv.height);
-  const draw=([x,y,t,o={}])=>{if(t==="stand"){x2.fillStyle="#6b4f2a";x2.fillRect(x*16+7,y*16-20,2,36);x2.fillRect(x*16+3,y*16+14,10,2);x2.fillRect(x*16+4,y*16-12,8,2);return}
-   const im=RIMG[t];if(!im||!im.width)return;const s=o.s||1,w=16*s,h=16*s;
+  const draw=([x,y,t,o={}])=>{
+   const im=RIMG[t];if(!im||!im.width)return;if(o.tall){x2.drawImage(im,0,0,16,32,x*16,y*16,16,32);return}const s=o.s||1,w=16*s,h=16*s;
    if(o.rot){x2.save();x2.translate(x*16+8,y*16+8);x2.rotate(Math.PI/2);x2.drawImage(im,0,0,16,16,-8,-8,16,16);x2.restore()}
    else x2.drawImage(im,0,0,16,16,Math.round(x*16+(16-w)/2),Math.round(y*16+(o.dy||0)+(16-h)/2),w,h)};
   wall.forEach(draw);

@@ -17,6 +17,7 @@ import rarity_frames   # own work: one frame per rarity (rf_0 … rf_6, big rfb_
 import slot_badges     # own work: slot and ring-requirement badges (sb_*)
 import mob_faces       # mob faces cut from vanilla entity textures (mf_*)
 import gui_panels      # own work: raised panel, card and sunken well nine-slices (gp_*)
+import armor_stand     # armor stands wearing vanilla sets, from the game's armor textures (as_*)
 V, L = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
 OUT = pathlib.Path(__file__).resolve().parents[1] / "src" / "uiicons.js"
 VANILLA = {  # key: item texture
@@ -75,6 +76,7 @@ for k, im in gui_panels.panels().items(): items[k] = png(im)
 from PIL import Image
 _ic = Image.open(V / "gui/icons.png").convert("RGBA")
 items["xp_bg"] = png(_ic.crop((0, 64, 182, 69))); items["xp_fill"] = png(_ic.crop((0, 69, 182, 74)))
+for m in ("iron", "diamond", "netherite"): items["as_" + m] = png(armor_stand.stand(V, m))
 for k, im in mob_faces.faces(V).items(): items["mf_" + k.lower().replace(" ", "_")] = png(im)
 OUT.write_text("Object.assign(ROOMT," + "{" + ",".join(f'"{k}":"{v}"' for k, v in items.items()) + "});\n")
 print(OUT, len(items), "textures")

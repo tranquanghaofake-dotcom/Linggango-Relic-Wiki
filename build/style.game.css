@@ -1870,3 +1870,14 @@ details.fadv[open]>summary{margin-bottom:8px}
 .tiles .tmore{margin:8px 100% 0 0;flex:0 0 auto}
 /* a closed Act is just its header bar: the section draws no frame of its own around it */
 *:not(#_):not(#__).tier.closed{border:0!important;border-image:none!important;background:none!important;box-shadow:none!important}
+/* the item id wraps instead of being cut off */
+*:not(#_) .ip-id code{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;overflow-wrap:anywhere;word-break:break-all;font:12.5px var(--disp)}
+/* New in 6.6.6: full width, two columns of rows */
+*:not(#_):not(#__).hcols{display:block!important}
+*:not(#_):not(#__) ul.latest{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px!important}
+*:not(#_):not(#__) ul.latest a{background:#24242a!important;border:2px solid var(--edge);box-shadow:inset 0 0 0 2px rgba(255,255,255,.04)}
+@media (max-width:760px){*:not(#_):not(#__) ul.latest{grid-template-columns:1fr}}
+/* ring requirement: the ring's own icon in the tile corner, on a dark plate */
+.rqring{position:absolute;z-index:3;right:4px;top:4px;display:grid;place-items:center;width:20px;height:20px;background:rgba(10,10,12,.85);box-shadow:0 0 0 2px #0b0b0d}
+.rqring img{width:16px!important;height:16px!important;image-rendering:pixelated;filter:none!important;animation:none!important}
+.rqring.lg{position:relative;right:auto;top:auto;display:inline-grid;vertical-align:-5px;margin-right:6px}

@@ -116,8 +116,23 @@ def main():
             d["t"] = d["a"] = a; nc += 1
             why = "Boss drop: sits at its boss's Act in the quest-book order"
             d["why"] = [w for w in d.get("why", []) if not w.startswith(("Random loot", "Earliest at Act", "Boss drop:"))] + [why]
+    # a crafted curio whose only recipe needs another curio (a specific item, not "any of a tag") cannot come before that
+    # curio: Blood Howl Pendant needs the Gold Medal, which only Archmage Gundalf drops. Loot curios keep their Act.
+    by = {d["id"]: d for d in Dd}; nr = 0
+    # the Warden (6.1) and Wither (6.2) Acts sit between Act VI and the Dragon Act (ORDER above has no place for them)
+    ok = lambda a: ORDER.index(6) + round(a - 6, 1) * 3 if a in (6.1, 6.2) else oi(a)
+    for _ in range(4):
+        for d in Dd:
+            if d.get("g") != "Craft" or not d.get("gr"): continue
+            need = [by[c[0]]["t"] for c in d["gr"]["c"] if c and c[0] in by and not c[1] and c[0] != d["id"]]
+            if not need: continue
+            m = max(need, key=ok)
+            if ok(m) > ok(d["t"]):
+                d["t"] = m; d["a"] = max(d["a"], m, key=ok); nr += 1
+                why = "Needs a curio from a later Act: sits where its ingredient becomes available"
+                d["why"] = [w for w in d.get("why", []) if not w.startswith("Needs a curio")] + [why]
     P.write_text("const D=" + json.dumps(Dd, ensure_ascii=False, separators=(",", ":")) + s[e:], encoding="utf-8")
-    print("boss_order:", len(A), "bosses;", nc, "curios raised to their boss's Act")
+    print("boss_order:", len(A), "bosses;", nc, "curios raised to their boss's Act;", nr, "raised to an ingredient's Act")
 
 if __name__ == "__main__":
     main()

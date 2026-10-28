@@ -550,7 +550,7 @@ const BYID={};D.forEach((d,i)=>{d.ix=i;d.c=d.ro[0];BYID[d.id]=d});
 const RQRING={Curses:"enigmaticlegacy:cursed_ring",Virtues:"covenant_of_the_seven:virtue_ring"},RQRX=/requires (?:the )?(?:Ring of )?(?:the )?Seven (?:Curses|Virtues)|Seven (?:Curses|Virtues) bearers only|\(Seven (?:Curses|Virtues)(?: path)?\)|Break the Ring of (?:the )?Seven Curses/i;
 D.forEach(d=>{if(d.id===RQRING.Curses||d.id===RQRING.Virtues)return;const m=RQRX.exec([d.fx,...d.st,...d.src].join(" | "));if(m)d.rq=/curses/i.test(m[0])?"Curses":"Virtues"});
 const rqName=d=>"Ring of the Seven "+d.rq;
-const rqb=(d,cls="")=>d.rq?`<i class="sbdg rqbd${cls}" style="--sb:var(--rt-sb_rq_${d.rq.toLowerCase()})" title="Requires the ${rqName(d)}" aria-label="Requires the ${rqName(d)}"></i>`:"";
+const rqb=(d,cls="")=>d.rq?`<i class="rqring${cls}" title="Requires the ${rqName(d)}" aria-label="Requires the ${rqName(d)}">${img(RQRING[d.rq])}</i>`:"";
 const TOTAL=count(D);
 const usedBy=id=>D.filter(d=>d.gr&&d.gr.c.some(c=>c&&c[0]===id));
 const SLOTS=(()=>{const c={};D.forEach(d=>d.sl.forEach(s=>(c[s]=c[s]||[]).push(d)));return Object.entries(c).sort((a,b)=>b[1].length-a[1].length)})();
@@ -725,7 +725,7 @@ function startHere(){const h=pHere(),ok=h!==null&&ACT[h]&&ORDER.includes(h),a=ok
  </section>`}
 function hubHome(){
  document.title="Linggango Wiki";document.body.classList.add("hub");
- const pick=byRank(D.filter(d=>d.r===5)).slice(0,8),news=D.filter(d=>d.nw).slice(-10).reverse();
+ const pick=byRank(D.filter(d=>d.r===5)).slice(0,8),news=byRank(D.filter(d=>d.nw)).slice(0,12);
  const path=ORDER.filter(a=>a>=0&&D.some(d=>d.t===a));
  const node=a=>{const n=D.filter(d=>d.t===a).length,m=D.filter(d=>d.t===a&&isMust(d)).length;return `<a class="adv${VBOSS[a]?" ch":""}" style="--tc:${ACT[a][2]}" href="#act/${a}"><span class="afr">${emblem(a,"sm")}</span><b>${actL(a)}</b><small>${a?`after ${esc(UNL[a])}`:"start"}</small><em>${n} curios${m?` · ${m} ★`:""}</em></a>`};
  el("main").innerHTML=`<section class="title-scr hero"><div class="pano" aria-hidden="true"></div>
@@ -745,9 +745,9 @@ ${typeof GE!=="undefined"?`<section class="gui"><h2 class="gt">Equipment</h2><p 
  <section class="gui"><h2 class="gt">Mythic</h2><p class="gs">The rarest curios in the pack.</p>
  <div class="feat">${pick.map(d=>`<a class="fc r${d.r}" href="#i${d.ix}" data-t="${d.ix}"><span class="slot">${img(d.id)}</span><span><b>${esc(d.n)}</b><span class="mo">${esc(d.m)} · ${actL(d.t)}</span><p>${esc(d.fx)}</p></span></a>`).join("")}</div></section>
  <div class="hcols">
- ${news.length?`<section class="gui"><h2 class="gt">Recently added</h2><p class="gs">From Wizard Terra Curios, Curios of Calamity and Ars Extensions.</p><ul class="latest">${news.map(d=>`<li><a href="#i${d.ix}" data-t="${d.ix}"><span class="slot sm">${img(d.id)}</span><span>${esc(d.n)}</span><span class="meta">${esc(d.m)}</span></a></li>`).join("")}</ul></section>`:""}
+ ${news.length?`<section class="gui"><h2 class="gt">New in 6.6.6</h2><p class="gs">${D.filter(d=>d.nw).length} curios the pack added in 6.6.6, from ${(m=>Object.keys(m).sort((x,y)=>m[y]-m[x]).map(esc).join(", "))(D.filter(d=>d.nw).reduce((m,d)=>(m[d.m]=(m[d.m]||0)+1,m),{}))}. <a href="#home" id="seenew">See them all →</a></p><ul class="latest">${news.map(d=>`<li><a href="#i${d.ix}" data-t="${d.ix}"><span class="slot sm">${img(d.id)}</span><span>${esc(d.n)}</span><span class="meta">${esc(d.m)}</span></a></li>`).join("")}</ul></section>`:""}
 </div>`;
- pathMapWire(path);el("hs").onsubmit=e=>{e.preventDefault();const v=el("hq").value.trim();if(!v)return;el("q").value=v;st.q=v.toLowerCase();location.hash="#home"};
+ pathMapWire(path);{const sn=el("seenew");if(sn)sn.onclick=()=>{st.nw=true;save()}}el("hs").onsubmit=e=>{e.preventDefault();const v=el("hq").value.trim();if(!v)return;el("q").value=v;st.q=v.toLowerCase();location.hash="#home"};
 }
 
 
@@ -1146,7 +1146,7 @@ function showTipBase(n){const d=D[+n.dataset.t];if(!d)return;tipFor=n;const F=mf
  <div class="thd"><span class="tslot">${slotImg(d)}</span><div class="tht"><div class="tnm" style="color:${nc}"${d.ig&&d.ig[1]==="rainbow"?' data-rb="1"':""}>${isMust(d)?ui("star"):""}${esc(d.n)}</div><div class="tsub">${esc(d.sl.join(", "))} · ${d.g==="Loot"?"Loot":"Craft"}</div></div></div>
  <div class="tbd"><p class="tfx">${fmt(d.fx)}</p>${RL[d.id]?rlTip(d):""}${evo().from[d.id]?`<p class="tevo">⟲ Evolves from ${esc(BYID[evo().from[d.id]].n)}</p>`:""}${(evo().to[d.id]||[]).map(t=>`<p class="tevo">⟳ Evolves into ${esc(BYID[t].n)}</p>`).join("")}${SK.i[d.id]?`<p class="tsk">${skTag(d.id)}</p>`:""}${stats.length?`<ul class="tst">${stats.map(([t,x])=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${d.gk?`<p class="tlock">${ui("lock")} Locked until ${GK[d.gk]} falls</p>`:""}${d.rq?`<p class="tlock trq">${ui("lock")} ${img(RQRING[d.rq])} Requires the ${rqName(d)}</p>`:""}${isMust(d)?`<p class="tmust">${ui("star")} Must-Have: get it as soon as ${esc(actL(d.t))} opens.</p>`:""}
  ${d.gr?tipRecipe(d):""}${(x=>x.length?`<p class="tsrc">${fmt(x.join(" "))}</p>`:"")((d.gr?d.src.filter(x=>!RCV.test(x)):d.src).slice(0,2))}<p class="twhere">${esc(actL(d.t))}${d.a!==d.t?` · with luck from ${esc(actL(d.a))}`:""}</p></div>
- <div class="tft"><span class="tmod">${esc(d.m)}</span><span class="trt">${igName(d)} · ${RN[d.r]}</span></div></div>`;c=w.firstElementChild;TIPC.set(d.ix,c)}tip.replaceChildren(c);
+ <div class="tft"><span class="tmod">${esc(d.m)}</span><span class="trt">${RN[d.r]}</span></div></div>`;c=w.firstElementChild;TIPC.set(d.ix,c)}tip.replaceChildren(c);
  if(lastAct)lastAct.classList.remove("act");lastAct=n.classList.contains("t")?n:null;if(lastAct)lastAct.classList.add("act");
  const first=!tip.classList.contains("on");place(n);tip.classList.add("on");if(first)tip.classList.add("in");decorate(tip)}
 function place(n){const r=n.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight,vw=innerWidth,vh=innerHeight;
