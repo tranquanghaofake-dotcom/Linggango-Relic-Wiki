@@ -29,7 +29,8 @@ LGW.SRG = {
   clearContent: ['m_6211_'], setBaseValue: ['m_22100_'], getValue: ['m_22135_'], getSyncableAttributes: ['m_22170_'],
   getDefaultValue: ['m_22082_'], getEffect: ['m_19544_'], getAmplifier: ['m_19564_'], getDuration: ['m_19557_'],
   mobAttack: ['m_269333_'], inFire: ['m_269387_'], magic: ['m_269425_'], explosion: ['m_269036_'], fall: ['m_268989_'],
-  is: ['m_269533_'], getDamageAfterAbsorb: ['m_19272_'], isEmpty: ['m_41619_'], create: ['m_20615_']
+  is: ['m_269533_'], getDamageAfterAbsorb: ['m_19272_'], isEmpty: ['m_41619_'], create: ['m_20615_'],
+  setRemainingFireTicks: ['m_7311_'], moveTo: ['m_7678_'], hurt: ['m_6469_'], getLastDamageSource: ['m_21225_'], playerAttack: ['m_269075_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
   BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_' }
@@ -67,6 +68,7 @@ LGW.run = (server, who, name) => {
   var c1 = (o, n, a) => o[K(o, n)](a)
   var c2 = (o, n, a, b) => o[K(o, n)](a, b)
   var c3 = (o, n, a, b, d) => o[K(o, n)](a, b, d)
+  var c5 = (o, n, a, b, d, e, f) => o[K(o, n)](a, b, d, e, f)
   var ForgeRegistries = Java.loadClass('net.minecraftforge.registries.ForgeRegistries')
   var FakePlayerFactory = Java.loadClass('net.minecraftforge.common.util.FakePlayerFactory')
   var GameProfile = Java.loadClass('com.mojang.authlib.GameProfile')
@@ -75,6 +77,8 @@ LGW.run = (server, who, name) => {
   var MinecraftForge = Java.loadClass('net.minecraftforge.common.MinecraftForge')
   var LivingHurtEvent = Java.loadClass('net.minecraftforge.event.entity.living.LivingHurtEvent')
   var LivingDamageEvent = Java.loadClass('net.minecraftforge.event.entity.living.LivingDamageEvent')
+  var LivingAttackEvent = Java.loadClass('net.minecraftforge.event.entity.living.LivingAttackEvent')
+  var AttackEntityEvent = Java.loadClass('net.minecraftforge.event.entity.player.AttackEntityEvent')
   var CombatRules = Java.loadClass('net.minecraft.world.damagesource.CombatRules')
   var Attributes = Java.loadClass('net.minecraft.world.entity.ai.attributes.Attributes')
   var DamageTypeTags = Java.loadClass('net.minecraft.tags.DamageTypeTags')
@@ -124,8 +128,9 @@ LGW.run = (server, who, name) => {
   var reset = () => {
     safe('reset inventory', () => c0(c0(P, 'getInventory'), 'clearContent'))
     safe('reset effects', () => c0(P, 'removeAllEffects'))
-    safe('reset fire', () => c0(P, 'clearFire'))
-    safe('reset position', () => { c3(P, 'setPos', X, Y, Z); c1(P, 'setYRot', -90); c1(P, 'setXRot', 0) })
+    // clearFire and setYRot are not reachable on the FakePlayer under either name (second run); these do the same
+    safe('reset fire', () => { try { c0(P, 'clearFire') } catch (e) { c1(P, 'setRemainingFireTicks', 0) } })
+    safe('reset position', () => { try { c5(P, 'moveTo', X, Y, Z, -90, 0) } catch (e) { c3(P, 'setPos', X, Y, Z) } })
     safe('reset slots', () => { for (var s in SLOT) wear(SLOT[s], EMPTY) })
     ticks(3)
     safe('reset health', () => c1(P, 'setHealth', c0(P, 'getMaxHealth')))
@@ -211,6 +216,35 @@ LGW.run = (server, who, name) => {
     return { attrs: extraAttrs(), fx: fx(P), hp: hp(P), abs: c0(P, 'getAbsorptionAmount'), ticked: tickOk, hurt: hurt() }
   }
 
+  // why a weapon hit does no damage (second run: 0 for every weapon, 1 bare-handed): each Forge event of the hit is run through
+  // its listeners one at a time, the way EventBus.post does, noting which listener cancels it or changes the amount; then a
+  // direct hurt() and a real attack on fresh pigs
+  var trace = id => {
+    reset(); wear(EquipmentSlot.MAINHAND, Item.of(id)); ticks(30)
+    var r = { item: id, ad: c1(P, 'getAttributeValue', A_AD), str: c1(P, 'getAttackStrengthScale', 0.5) }, d = dummy()
+    var src = c1(c0(P, 'damageSources'), 'playerAttack', P)
+    var run = (name, ev, amt) => {
+      var ls = null, bus = -1, steps = []
+      for (var b = 0; b < 6; b++) { try { var l = ev.getListenerList().getListeners(b); if (!ls || l.length > ls.length) { ls = l; bus = b } } catch (e) {} }
+      if (!ls) { r[name] = 'no listener list'; return }
+      var a0 = amt ? ev.getAmount() : 0
+      for (var j = 0; j < ls.length; j++) {
+        try { ls[j].invoke(ev) } catch (e) { steps.push('threw ' + ls[j] + ': ' + e) }
+        if (ev.isCanceled()) { steps.push('CANCELLED by ' + ls[j]); break }
+        if (amt) { var a1 = ev.getAmount(); if (Math.abs(a1 - a0) > 1e-6) { steps.push(a0 + ' -> ' + a1 + ' by ' + ls[j]); a0 = a1 } }
+      }
+      r[name] = { bus: bus, listeners: ls.length, steps: steps, end: amt ? a0 : (ev.isCanceled() ? 'cancelled' : 'passed') }
+    }
+    safe('trace AttackEntityEvent', () => run('AttackEntityEvent', new AttackEntityEvent(P, d), false), id)
+    safe('trace LivingAttackEvent', () => run('LivingAttackEvent', new LivingAttackEvent(d, src, 15), true), id)
+    safe('trace LivingHurtEvent', () => run('LivingHurtEvent', new LivingHurtEvent(d, src, 15), true), id)
+    safe('trace LivingDamageEvent', () => run('LivingDamageEvent', new LivingDamageEvent(d, src, 15), true), id)
+    drop(d)
+    safe('trace hurt', () => { var e = dummy(), h = hp(e); r.hurt15 = [c2(e, 'hurt', src, 15), h - hp(e)]; drop(e) }, id)
+    safe('trace attack', () => { var e = dummy(), h = hp(e); c1(P, 'attack', e); r.attack = h - hp(e); r.lastSource = '' + c0(e, 'getLastDamageSource'); drop(e) }, id)
+    return r
+  }
+
   // 0. check each step once and say in chat which ones work
   var check = () => {
     var r = []
@@ -222,6 +256,9 @@ LGW.run = (server, who, name) => {
     t('attack', () => { var d = dummy(), h = hp(d); c1(P, 'attack', d); out.check.ironSword = h - hp(d); drop(d) })
     t('hurt', () => { var h = hurt(); if (!Object.keys(h).length) throw 'no damage kind worked' })
     say('check: ' + r.join(', '))
+    out.trace = [trace('minecraft:diamond_sword'), trace('minecraft:air')]
+    var tr = out.trace[0]
+    say('diamond sword: attack ' + tr.attack + ', direct hurt ' + (tr.hurt15 ? tr.hurt15[1] : '?') + ' (of 15)')
   }
 
   // run in slices so one server tick never holds the watchdog
