@@ -64,6 +64,12 @@ The headers of The Path, Equipment, the Build planner, Bosses and Mechanics, and
 - Article layout: a hero band on the Act's wall; sections flow without boxes under big headings, a pixel divider between them; every card and callout is a "block" (square, two-pixel dark edge, light inner rim, a solid edge under it); table cells are small blocks.
 - Icons whose source is not a multiple of 16 px are fitted by `ux.js` (largest k x source or source / k that fits the box).
 
+## Spacing rules (checked by `style_check.js`)
+- One scale, defined once in `src/v5.css`: `--s1` 4 · `--s2` 8 · `--s3` 12 · `--s4` 16 · `--s5` 24 · `--s6` 32 · `--s7` 48 · `--s8` 64 px (two texels is the smallest step, the 8 px grid the main one). Every margin, padding and gap is one of them; literal 0 / 1 / 2 px only for hairline nudges, negatives only where borders overlap, values over 64 px are layout sizes. `style_check.js` fails the build on any other px value in the stylesheets or the JS templates.
+- Each role has one step (the rhythm block at the end of `style.game.css`): `--s1` icon to its label, a heading to its own sub-line; `--s2` inside chips and badges, between tiles and slots, a sub-heading to its content; `--s3` inside cards and panels, label to value, breadcrumb / title / lead; `--s4` between blocks in one section and from a section heading to its content; `--s5` between panels in a column, between groups on a list page, above a sub-heading; `--s6` between article sections, hero to body, body to navbox.
+- Spacing between siblings comes from one place: the parent's `gap`, or `* + *` margins, never both (the side column once had both: 48 px between panels). Browser default margins on `p`, `ul`, `h3` inside sections are reset by the rhythm block.
+- Inventory slot grids (Build planner, recipe windows) stay edge to edge on purpose: that is the game's own slot pitch.
+
 ## Motion and speed
 Learned from minecraft-guides.com and measured with Chromium (Curios page, 1440 px): motion marks an event and stops.
 - Nothing loops on hundreds of elements: curio tiles rise in once when their Act comes into view (`.seen2`), article sections and cards once when they reach the screen (`.rv` → `.in`), buttons sink two pixels while pressed. Only transform and opacity animate, so the compositor plays them.

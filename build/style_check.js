@@ -3,8 +3,21 @@
 //   - has rounded corners (the look is pixel GUI: square corners only);
 //   - draws pixel art (a source of 64 px or less) at a scale that is not a whole number, nor 1/n of the source;
 //   - uses an emoji as an icon (any emoji-presentation character, or a pictograph inside a button, chip, badge, heading or label).
+//   - (static, in the sources) sets a margin, padding or gap to a px length off the spacing scale: steps are var(--s1..s8)
+//     (4 8 12 16 24 32 48 64), literal 0 / 1 / 2 px for hairline nudges, negatives for border overlaps, over 64 px for layout sizes.
 // Prints, without failing, edges drawn within 40 px inside another edge (frame inside a frame), to look at by eye.
-const { chromium } = require('playwright'), path = require('path');
+const { chromium } = require('playwright'), path = require('path'), fs = require('fs');
+function spacingOffScale() {
+  const H = __dirname, out = [];
+  for (const f of ['style.game.css', 'src/v5.css', 'src/app.js', 'src/gear.js', 'src/ux.js', 'src/rooms.js', 'src/template.html']) {
+    const t = fs.readFileSync(path.join(H, f), 'utf8');
+    for (const m of t.matchAll(/(?<![\w-])((?:margin|padding)(?:-[a-z]+){0,2}|gap|row-gap|column-gap|grid-gap)\s*:\s*([^;}"`]*)/g)) {
+      if (/calc\(|env\(/.test(m[2])) continue;
+      for (const v of m[2].matchAll(/(?<![\w.-])(-)?(\d*\.?\d+)px\b/g)) { const n = +v[2]; if (!v[1] && n > 2 && n <= 64) out.push(`${f}: ${m[1]}:${m[2].trim().slice(0, 40)}`) }
+    }
+  }
+  return out;
+}
 (async () => {
   const b = await chromium.launch(), p = await b.newPage({ viewport: { width: 1440, height: 900 } }), errs = [];
   p.on('pageerror', e => errs.push(e.message));
@@ -12,7 +25,7 @@ const { chromium } = require('playwright'), path = require('path');
   await p.waitForTimeout(2500);
   const sample = await p.evaluate(() => ['#i' + D[0].ix, '#i' + D[Math.floor(D.length / 2)].ix, '#g0', '#gs0', '#boss/' + KEEPERS()[3], '#side/' + encodeURIComponent(Object.keys(SIDEB)[0])]);
   const routes = ['#', '#home', '#gear', '#bosses', '#build', '#mechanics', ...sample];
-  const fails = [], warn = [];
+  const fails = spacingOffScale().map(x => 'spacing ' + x), warn = [];
   for (const r of routes) {
     await p.evaluate(h => { location.hash = h }, r); await p.waitForTimeout(1800);
     const res = await p.evaluate(async () => {
@@ -51,7 +64,7 @@ const { chromium } = require('playwright'), path = require('path');
     for (const k of ['round', 'scale', 'emoji']) for (const [s, n] of Object.entries(res[k])) fails.push(`${r} ${k}: ${s} (${n})`);
     for (const [s, n] of Object.entries(res.nest)) warn.push(`${r} ${s} (${n})`);
   }
-  console.log('style: ' + (fails.length ? fails.length + ' problems' : 'square corners, whole-number pixel scales, sprite icons') + (warn.length ? '; frames inside frames to look at: ' + warn.length : ''));
+  console.log('style: ' + (fails.length ? fails.length + ' problems' : 'square corners, whole-number pixel scales, sprite icons, spacing on the scale') + (warn.length ? '; frames inside frames to look at: ' + warn.length : ''));
   fails.slice(0, 40).forEach(x => console.log('  FAIL ' + x)); warn.slice(0, 15).forEach(x => console.log('  look ' + x));
   if (errs.length) console.log('  script errors: ' + errs.slice(0, 3).join(' | '));
   await b.close(); process.exit(fails.length || errs.length ? 1 : 0);
