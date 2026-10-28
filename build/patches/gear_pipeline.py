@@ -11,6 +11,9 @@ generated file back. Stages run in the order below, each is a function on {GE, G
   7 boss_order.gear     boss drops sit at their boss's Act
   8 gear_fx             what an item does on hit, while worn or held, on use (gear_fx.json, pack_audit/gear_fx.py: the mod's bytecode
                         and tooltip lines); a set carries the effects its pieces give while worn. Scoring reads them in src/gear.js
+ 8b gear_measure        measured in game (gear_measure.json, pack_audit/measure/import.py from kubejs/lgw_measure.js): a weapon's hit and
+                        what its hits put on the target or the attacker replace the code reading of the same effects; a set's
+                        worn effects replace its pieces' guesses, its set bonus is added, and the damage it lets through is kept
   9 drop_curios         items the curio list (data.js) already has and the gear reading found no stats for: Goety's robes
                         and crowns are Curios items (common/items/curios), not armor, so they left 0-armor rows and empty sets
   then every Act is snapped onto the wiki's Acts
@@ -31,6 +34,55 @@ def gear_fx(st):
     for x in st["GS"]:
         fx = [dict(r, src=i) for i in x["p"] for r in (by[i].get("fx", []) if i in by else []) if r.get("when") == "worn"]
         if fx: x["fx"] = fx
+MS = json.loads((H / "gear_measure.json").read_text(encoding="utf-8"))
+def ename(e):
+    return e.split(":")[1].replace("_", " ").title()
+def gear_measure(st):
+    I, S = MS["items"], MS["sets"]
+    for g in st["GE"]:
+        m = I.get(g["id"])
+        if not m: continue
+        n = m["n"]
+        g["ms"] = {"hit": m["hit"], "sw": m["swings"], "ad": m.get("ad")}
+        if m.get("st"): g["ms"]["st"] = m["st"]
+        if m.get("heal"): g["ms"]["heal"] = [m["heal"][0], round(m["heal"][1] / n, 2)]
+        rec = []
+        for who, key in (("target", "tfx"), ("self", "sfx")):
+            for e in m.get(key, []):
+                r = {"when": "hit", "who": who, "effect": e["effect"], "name": ename(e["effect"]), "level": e["level"], "ticks": e["ticks"], "ms": 1}
+                if e["n"] < n: r["chance"] = round(e["n"] / n, 2)
+                rec.append(r)
+        if m.get("fire"):
+            r = {"when": "hit", "who": "target", "fire": m["fire"][0], "ms": 1}
+            if m["fire"][1] < n: r["chance"] = round(m["fire"][1] / n, 2)
+            rec.append(r)
+        # a code-read on-hit effect the swings did not show: kept if the code gives it a chance, else it needs a condition the
+        # test did not meet (night, a charged hit, a mob type) and is listed but not scored
+        seen = {(r["who"], r.get("effect"), bool(r.get("fire"))) for r in rec}
+        old = []
+        for r in g.get("fx", []):
+            if r.get("when") == "hit" and (r.get("who"), r.get("effect"), bool(r.get("fire"))) in seen: continue
+            if r.get("when") == "hit" and not r.get("chance"): r = dict(r, unseen=1)
+            old.append(r)
+        if rec or old: g["fx"] = rec + old
+    for x in st["GS"]:
+        m = S.get(x["k"])
+        if not m: continue
+        x["ms"] = {"taken": m["taken"]}
+        if m.get("bonus"):
+            x["ms"]["bonus"] = m["bonus"]
+            b = m["bonus"]; at = x.setdefault("at", {})
+            if "armor" in b: x["arm"] = round(x.get("arm", 0) + b["armor"], 2)
+            if "armor_toughness" in b: x["tough"] = round(x.get("tough", 0) + b["armor_toughness"], 2)
+            for k in ("attack_damage", "attack_speed"):
+                if k in b: at[k] = [round((at.get(k) or [0, 0])[0] + b[k], 3), (at.get(k) or [0, 0])[1]]
+        # the full set worn for 40 ticks shows which of the pieces' effects really apply; effects the code reading saw but the
+        # wearer did not get (conditions: night, low health, water...) stay, the "one of these" guesses go
+        fx = [{"when": "worn", "who": "self", "effect": e["effect"], "name": ename(e["effect"]), "level": e["level"], "ticks": e["ticks"], "ms": 1} for e in m.get("fx", [])]
+        got = {r["effect"] for r in fx}
+        keep = [dict(r, unseen=1) for r in x.get("fx", []) if not r.get("maybe") and r.get("effect") not in got]
+        if fx or keep: x["fx"] = fx + keep
+        elif "fx" in x: del x["fx"]
 def drop_curios(st):
     s = (H.parent / "src" / "data.js").read_text(encoding="utf-8"); D, _ = json.JSONDecoder().raw_decode(s, s.index("["))
     cur = {d["id"] for d in D}
@@ -38,7 +90,7 @@ def drop_curios(st):
     st["GE"] = [g for g in st["GE"] if g["id"] not in gone]
     for x in st["GS"]: x["p"] = [i for i in x["p"] if i not in gone]
     st["GS"] = [x for x in st["GS"] if x["p"]]
-for stage in (gear_extra.apply, gear_gate.apply, gear_fix.apply, gear_stats.apply, gear_added.apply, gear_runtime.apply, boss_order.gear, gear_fx, drop_curios):
+for stage in (gear_extra.apply, gear_gate.apply, gear_fix.apply, gear_stats.apply, gear_added.apply, gear_runtime.apply, boss_order.gear, gear_fx, gear_measure, drop_curios):
     stage(st)
 # the wiki's Acts (app.js ORDER) have no Warden / Wither step: 6.1 and 6.2 sit in Act VI (a stray 6.1 once put a battleaxe at Act 0)
 snap = lambda a: max(x for x in boss_order.ORDER if x <= a)
@@ -47,6 +99,6 @@ for x in st["GE"] + st["GS"]:
         if x.get(f) is not None: x[f] = snap(x[f])
     if x.get("mg"): x["mg"][0] = snap(x["mg"][0])
 d = lambda x: json.dumps(x, separators=(",", ":"), ensure_ascii=False)
-out = "const GE=" + d(st["GE"]) + ",GS=" + d(st["GS"]) + ",GNS=" + d(st["GNS"]) + ";\nObject.assign(IC," + d(st["IC"]) + ");"
+out = "const GE=" + d(st["GE"]) + ",GS=" + d(st["GS"]) + ",GNS=" + d(st["GNS"]) + ",GMN=" + d(MS["none_taken"]) + ";\nObject.assign(IC," + d(st["IC"]) + ");"
 (H.parent / "src" / "gear_data.js").write_text(out, encoding="utf-8")
 print("gear_pipeline: %d gear, %d sets, %d icons" % (len(st["GE"]), len(st["GS"]), len(st["IC"])))
