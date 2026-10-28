@@ -591,3 +591,5 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Read from the V6.6.6hf jars. Not confirmed in code: Puffish shred/life steal scaling, how TerraCurio and Brutality crit rolls
   combine, Slash/Pierce/Blunt bonuses, Goety soul stealing, Goety summon potency, Opposing Force summon damage.
 - Open, left as is (nothing removed): 11 l2backpack curios + heavy_key are not in 6.6.6hf; ~25 instance curios are missing from the wiki.
+- Changes page (`#changes`, main 37c77879): plain-language update log, newest first, hand-written in `changesPage()` in app.js.
+  Linked from the top nav, quick search (ux.js PAGES) and wikiNav Tools. Add a new dated `<section>` at the top for each update.
