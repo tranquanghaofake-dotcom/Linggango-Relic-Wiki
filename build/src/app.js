@@ -161,8 +161,14 @@ ${u.recipe?`<h3>Crafting the ${esc(u.name)}</h3><div class="sumcraft">${sumGrid(
 function bossList(){
  document.title="Bosses · Linggango Wiki";
  const ks=ORDER.map(a=>PB[a]).filter(Boolean);ks.splice(ks.indexOf("zoranth_forgotten")+1,0,"warden","wither");
- el("main").innerHTML=`${crumb("Bosses")}${room("crypt",ks.map(k=>{const v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item;return it?{h:"#boss/"+k,i:img(it),n:`${bossName(k)}: summoned with ${v?v.name:u.name}`,l:esc(ACT[bossPath(k)][0])}:null}).filter(Boolean),{head:`<h1>Bosses</h1><p class="lede">Every Keeper in fight order, with the Warden, the Wither and the Ender Dragon where your gear can take them. Each card shows what summons it; open one for the full summon guide and recipe.</p>`,cols:7,label:"Summon items in fight order"})}
-<div class="blist">${ks.map(k=>{const a=bossPath(k),v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item,itn=v?v.name:u&&u.name;return `<a class="bcardl" href="#boss/${k}" style="--tc:${ACT[a][2]};${btex(a,k)}">${envFx(a,k)}${emblem(a,"sm")}<span><b>${esc(bossName(k))}</b><small>${SIDEV[k]!=null?`Side boss · ${esc(actL(a))}`:`Opens ${esc(actL(a))}`}</small>${it?`<small class="bsum">${img(it)} ${esc(itn)}</small>`:""}</span></a>`}).join("")}</div>${wikiNav()}`}
+ el("main").innerHTML=`${crumb("Bosses")}${room("crypt",ks.map(k=>{const v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item;return it?{h:"#boss/"+k,i:img(it),n:`${bossName(k)}: summoned with ${v?v.name:u.name}`,l:esc(ACT[bossPath(k)][0])}:null}).filter(Boolean),{head:`<h1>Bosses</h1><p class="lede">The Keepers in fight order: beating each one opens the next Act. Below them, the optional side bosses by Act. Open any boss for how to summon it, its attacks and its drops.</p>`,cols:7,label:"Summon items in fight order"})}
+<h2 class="gt bsec">Keepers and vanilla bosses</h2><div class="blist">${ks.map(k=>{const a=bossPath(k),v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],it=v?v.item:u&&u.item,itn=v?v.name:u&&u.name;return `<a class="bcardl" href="#boss/${k}" style="--tc:${ACT[a][2]};${btex(a,k)}">${envFx(a,k)}${emblem(a,"sm")}<span><b>${esc(bossName(k))}</b><small>${SIDEV[k]!=null?`Side boss · ${esc(actL(a))}`:`Opens ${esc(actL(a))}`}</small>${it?`<small class="bsum">${img(it)} ${esc(itn)}</small>`:""}</span></a>`}).join("")}</div>${sideList()}${wikiNav()}`}
+/* optional bosses, by the Act you can take them on; each opens its own page */
+function sideList(){if(typeof SIDEB==="undefined")return "";const rows=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(r=>SIDEB[r[0]]&&!/Keeper/.test(r[0]));
+ const acts=ORDER.filter(a=>rows.some(r=>r[1]===a));if(!acts.length)return "";
+ return `<h2 class="gt bsec">Side bosses</h2><p class="gs">Optional fights, by the Act your gear can take them. Many drop curios and materials you need later.</p>
+ ${acts.map(a=>`<div class="sbact" style="--tc:${ACT[a][2]}"><h3>${emblem(a,"xs")} ${esc(actL(a))}</h3><div class="sbgrid">${rows.filter(r=>r[1]===a).map(r=>{const sp=sidePic(r[0]);
+  return `<a class="sbc" href="#side/${enc(r[0])}">${sp?`<img alt="" src="${sp}">`:`<span class="sbn"><i class="lrt" style="--lrt:var(--rt-spawner)"></i></span>`}<b>${esc(r[0])}</b></a>`}).join("")}</div></div>`).join("")}`}
 const ATG={melee:ui("sword",1),proj:ui("bow",1),aoe:ui("aoe",1),summon:ui("summon",1),move:ui("move",1),buff:ui("buff",1)};
 const atype=d=>/summon|spawns? (a|an|\d|two|three|four|five|six|minions?)|calls? /i.test(d)?"summon":/throws|shoots|fires|projectile|bolt|orb|beam|laser|arrow/i.test(d)?"proj":/ground|area|around it|within \d+ blocks|ring|circle|shockwave|explo/i.test(d)?"aoe":/teleport|dash|charge|leap|jumps|flies/i.test(d)?"move":/heals?|regenerat|gains? resistance|buffs? itself/i.test(d)?"buff":"melee";
 function bossInfoHtml(k){const b=typeof BINFO!=="undefined"&&BINFO[k];if(!b)return "";
@@ -176,7 +182,7 @@ function sidePage(n){const b=typeof SIDEB!=="undefined"&&SIDEB[n],r=(typeof BOSS
  const di=id=>IC[id]?img(id):(typeof BIMG!=="undefined"&&BIMG[id]?`<img alt="" src="${BIMG[id]}">`:"");
  const same=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(x=>x[1]===a&&SIDEB[x[0]]).map(x=>["#side/"+enc(x[0]),esc(x[0]),x[0]===n]);
  const src=`${b.src_note?`<p class="note">Source: ${esc(b.src_note)}</p>`:""}${b.sources&&b.sources.length?`<p class="note">Sources: ${b.sources.map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/,"").split("/")[0])}</a>`).join(" · ")}</p>`:""}`;
- el("main").innerHTML=article({cls:"r0 bossart",style:`--tc:${ACT[a][2]};--rc:${ACT[a][2]}`,crumb:crumb('<a href="#home">Curios</a>',esc(n)),title:esc(n),
+ el("main").innerHTML=article({cls:"r0 bossart",style:`--tc:${ACT[a][2]};--rc:${ACT[a][2]}`,crumb:crumb('<a href="#bosses">Bosses</a>',esc(n)),title:esc(n),
   lead:`An optional side boss${b.mod?` from ${esc(b.mod)}`:""}. Fight it with <a href="#act/${a}">${esc(actL(a))}</a> gear.`,
   secs:[["find","Where to find it",`<p class="sbfind">${esc(b.find||"")}</p>${sl?`<p class="sbsoul">${img("linggango_tweaks:boss_soul")}<span><b>Boss Soul</b> · drops its soul, which can go into the ${esc(sl[0])}, the summon for ${esc(sl[1])}.</span></p>`:""}${pi?`<figure class="sbfig"><img class="sbarena" alt="Where it is fought" src="${pi}"></figure>`:""}`],
    b.attacks&&b.attacks.length&&["atk","Attacks",`<div class="batks">${b.attacks.map(x=>`<div class="batk"><span class="bai bai0 ${atype(x.desc)}">${ATG[atype(x.desc)]}</span><div><b>${esc(x.name)}</b><p>${esc(x.desc)}</p></div></div>`).join("")}</div>`],
@@ -417,7 +423,7 @@ function fbar(n,total){
  return `<div class="fbar" role="search"><div class="fbr"><input id="fq" type="search" autocomplete="off" spellcheck="false" name="pathq" placeholder="Search, or filter: mod:terramity slot:ring stat:damage…" aria-label="Search and filter curios" value="${esc(st.q)}"><span class="fn">${n===total?`${total} curios`:`${n} of ${total}`}</span></div>
 <div class="fbr fadd"><select id="fk" aria-label="Filter field">${QFIELDS.map(([k,t])=>`<option value="${k}"${k===FKEY?" selected":""}>${t}</option>`).join("")}</select><input id="fv" list="fvl" autocomplete="off" name="filterv" placeholder="e.g. Terramity…" aria-label="Filter value"><datalist id="fvl"></datalist><button class="chip" id="fgo">Add filter</button><button class="ghost" id="fhelp" aria-expanded="${FHINT}">How it works</button></div>
 <p class="fhint" id="fhint"${FHINT?"":" hidden"}>Words search names, effects, stats and sources. Add <b>field:value</b> to narrow it down, e.g. <code>mod:terramity slot:ring stat:damage</code>. The same field twice means either one (<code>slot:ring slot:charm</code>); different fields must all match. Put <b>-</b> in front to exclude (<code>-mod:brutality</code>) and quotes around spaces (<code>stat:"attack speed"</code>). Fields: mod, slot, stat, effect, source, act, rarity, role, type, tag, name. Sidebar filters stack with these.</p>
-<div class="fbr frl"><label for="frl">Relic level in tooltips</label><input id="frl" type="range" min="0" max="${RLMAX}" value="${Math.min(st.rl,RLMAX)}"><b id="frlv">${st.rl>=RLMAX?"Max":st.rl}</b><label class="frq">Stars <select id="frq">${RLQO(st.rq)}</select></label><span class="fn">${Object.keys(RL).length} Relics and More Relics curios; each stops at its own max</span></div>
+<details class="fadv"${st.rl?" open":""}><summary>Relic levels in tooltips</summary><div class="fbr frl"><label for="frl">Relic level</label><input id="frl" type="range" min="0" max="${RLMAX}" value="${Math.min(st.rl,RLMAX)}"><b id="frlv">${st.rl>=RLMAX?"Max":st.rl}</b><label class="frq">Stars <select id="frq">${RLQO(st.rq)}</select></label><span class="fn">${Object.keys(RL).length} Relics and More Relics curios; each stops at its own max</span></div></details>
 ${activeBar()}</div>`}
 function fbind(){const q=el("fq");if(!q)return;
  const rl=el("frl");rl.oninput=()=>{st.rl=+rl.value;el("frlv").textContent=st.rl>=RLMAX?"Max":st.rl;TIPC.clear();save()};
@@ -708,6 +714,15 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
   const b=e.target.closest(".phere");if(b){const a=+b.dataset.here;try{pHere()===a?localStorage.removeItem(PHKEY):localStorage.setItem(PHKEY,a)}catch(e){}paint()}});
  map.querySelector(".ptrack").addEventListener("keydown",e=>{const k={ArrowRight:1,ArrowLeft:-1,Home:-99,End:99}[e.key];if(!k)return;e.preventDefault();sel(Math.max(0,Math.min(path.length-1,k===-99?0:k===99?path.length-1:cur+k)),true)});
  const h=pHere(),hi=h===null?-1:path.indexOf(h);paint();if(hi>0){pans[0].hidden=true;tabs[0].setAttribute("aria-selected","false");tabs[0].tabIndex=-1;pans[hi].hidden=false;tabs[hi].setAttribute("aria-selected","true");tabs[hi].tabIndex=0;cur=hi}}
+/* the four questions players come to the wiki with, each answered by one page (uses the reader's "I'm here" Act when set) */
+function startHere(){const h=pHere(),ok=h!==null&&ACT[h]&&ORDER.includes(h),a=ok?h:ORDER.find(x=>x>=0),nb=NEXTB[a];
+ const q=(href,ic,t,s)=>`<a class="sq" href="${href}"><span class="sqi">${ic}</span><span><b>${t}</b><small>${s}</small></span></a>`;
+ return `<section class="sqs" aria-label="Start here">
+ ${q(`#act/${a}`,emblem(a,"sm"),"What can I get now?",`Every curio you can reach at ${esc(actL(a))}${ok?"":" (press “I'm here” on The Path to set your Act)"}.`)}
+ ${q(nb?`#boss/${nb}`:"#bosses",nb?emblem(bossPath(nb)??a,"sm"):ui("sword",1),"How do I beat the next boss?",nb?`${esc(bossName(nb))}: how to summon it, its attacks and drops.`:"Every Keeper and side boss, in fight order.")}
+ ${q(`#gear/${a}/ME/w`,ui("sword",1),"Which weapon or armor is best?",`Tier lists for melee, ranged, mage and summon at ${esc(actL(a))}.`)}
+ ${q("#build",ui("chest",1),"Plan my curio build",`Fill your slots and see the summed stats.`)}
+ </section>`}
 function hubHome(){
  document.title="Linggango Wiki";document.body.classList.add("hub");
  const pick=byRank(D.filter(d=>d.r===5)).slice(0,8),news=D.filter(d=>d.nw).slice(-10).reverse();
@@ -718,6 +733,7 @@ function hubHome(){
  <form class="hsearch" id="hs" role="search"><input id="hq" type="search" name="hubq" spellcheck="false" placeholder="Search curios, gear, bosses…" aria-label="Search curios" autocomplete="off"></form>
  <nav class="tbtns" aria-label="Start">${hereBtns()}</nav>
  <p class="tcorner l">Linggango ${PACKV}<br>Linggango Wiki</p><p class="tcorner r">${TOTAL} curios · ${MODS.length} mods<br>${D.filter(d=>d.gk).length} Keeper-gated</p></section>
+ ${startHere()}
  ${pathMap(path)}
 ${typeof GE!=="undefined"?`<section class="gui"><h2 class="gt">Equipment</h2><p class="gs">${GE.filter(g=>g.k!=="armor").length} weapons and ${GS.length} armor sets from the pack, ranked for each playstyle at every Act. Best melee weapon as you progress:</p>
  ${(()=>{const runs=[];ORDER.filter(a=>a!=-1).forEach(a=>{const t=gTiers(a,"ME","w"),g=t.length&&t[0][1][0];if(!g)return;const l=runs[runs.length-1];if(l&&l.g===g)l.b=a;else runs.push({g,a,b:a})});
@@ -782,12 +798,16 @@ function modPage(m){
    With filters on, every Act with matches is open unless closed by hand (st.cl). */
 let pathXs=[];
 const tierOpen=a=>fOn()?!st.cl.includes(a):(st.op||[pHere()??ORDER[0]]).includes(a);
-const tierTiles=ys=>ys.length?ys.map((d,i)=>tile(d,i)).join(""):'<span class="empty">No items match the filters.</span>';
+/* an Act shows its first 72 curios (best first) and a button for the rest: Act 0-I alone has over 600 */
+const TMORE=72;
+const tierTiles=(ys,all)=>ys.length?(all||ys.length<=TMORE+12?ys:ys.slice(0,TMORE)).map((d,i)=>tile(d,i)).join("")+(!all&&ys.length>TMORE+12?`<button type="button" class="mcb tmore" data-more="${ys[0].t}">Show all ${ys.length} curios</button>`:""):'<span class="empty">No items match the filters.</span>';
+document.addEventListener("click",e=>{const b=e.target.closest(".tmore");if(!b)return;const a=+b.dataset.more,t=b.closest(".tiles");t.innerHTML=tierTiles(pathXs.filter(d=>d.t===a),1);decorate(t.closest(".tier"))});
 function home(xs,asTable){pathXs=xs;
  let h=`${crumb("Curios")}${room("library",D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).map(d=>rCurio(d,esc(ACT[d.t][0]),1)),{head:`<h1 class="qb">Curios</h1>
  <p class="lede">Every curio, grouped by the Act you can get it in. Open an Act below to see its curios; hover one for its tooltip.</p>`,cols:8,label:"Must-Have curios"})}
-  <div class="legend lgl"><span title="Frame colour: rarity, brighter = rarer"><i class="lgr"></i>Rarity</span><span title="Curio slot it goes in">${sbadge("Ring"," lg")}Slot</span><span title="Variants merged into one tile"><b class="lgn">16</b>Variants</span><span title="Must-Have: get it first"><b class="lgs">★</b>Must-Have</span><span title="Needs the Seven Curses or Virtues ring">${rqb({rq:"Curses"}," lg")}Curses ring</span></div>
- ${fbar(xs.length,D.length)}${xs.length?"":`<p class="note">No curios match these filters. Remove one above or clear them all.</p>`}`;
+
+ ${fbar(xs.length,D.length)}
+<div class="legend lgl"><span title="Frame colour: rarity, brighter = rarer"><i class="lgr"></i>Rarity</span><span title="Curio slot it goes in">${sbadge("Ring"," lg")}Slot</span><span title="Variants merged into one tile"><b class="lgn">16</b>Variants</span><span title="Must-Have: get it first"><b class="lgs">★</b>Must-Have</span><span title="Needs the Seven Curses or Virtues ring">${rqb({rq:"Curses"}," lg")}Curses ring</span></div>${xs.length?"":`<p class="note">No curios match these filters. Remove one above or clear them all.</p>`}`;
  seedBg("path"+st.a,xs.filter(d=>d.r>=4));
  if(!asTable){
   for(const a of ORDER){if(st.a!==""&&a>+st.a)continue;const ys=xs.filter(d=>d.t===a);if((a===-1||fOn())&&!ys.length)continue;const cl=!tierOpen(a);

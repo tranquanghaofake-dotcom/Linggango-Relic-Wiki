@@ -1844,3 +1844,29 @@ main:not(#_):not(#__){background:#151517!important;box-shadow:0 0 0 2px var(--ed
 .lcard:has(.lsc){grid-template-columns:104px 1fr auto}
 .lcard .lpic:has(.lsc){width:104px}
 .lpic .lsc{width:96px!important;height:44px!important;object-fit:cover;image-rendering:auto}
+
+/* ===================== v49: information layout =====================
+   Hub: four questions a player comes with, each one card to the page that answers it. Bosses: Keepers, then side bosses
+   by Act. Curios: one filter block (relic levels folded away), the legend right above the tiles it explains. */
+.sqs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:0 0 22px}
+.sq{display:grid;grid-template-columns:48px minmax(0,1fr);gap:12px;align-items:center;padding:14px 16px;text-decoration:none;color:var(--gui-ink);
+ background:#24242a;border:2px solid var(--edge);box-shadow:var(--block);transition:transform .12s cubic-bezier(.2,.7,.2,1)}
+.sq:hover{transform:translateY(-2px)}
+.sqi{display:grid;place-items:center;width:48px;height:48px;background:var(--slot);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi)}
+.sq b{display:block;font:400 21px/1.05 var(--title);text-transform:uppercase;color:#fff}
+.sq small{display:block;margin-top:4px;font-size:13px;line-height:1.4;color:var(--gui-mute)}
+@media (max-width:1100px){.sqs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.sqs{grid-template-columns:1fr}}
+.gt.bsec{margin:26px 0 12px!important}
+.sbact{margin:0 0 16px}.sbact h3{display:flex;align-items:center;gap:8px;font:400 20px var(--title);text-transform:uppercase;margin:0 0 8px;color:var(--tc)}
+.sbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.sbc{display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px;align-items:center;padding:6px 10px 6px 6px;text-decoration:none;color:var(--gui-ink);background:#24242a;border:2px solid var(--edge);box-shadow:var(--block)}
+.sbc:hover{transform:translateY(-2px)}.sbc{transition:transform .12s}
+.sbc img{width:72px;height:36px;object-fit:cover}.sbc .sbn{display:grid;place-items:center;width:72px;height:36px;background:var(--slot);font:400 18px var(--title)}
+.sbc b{font:600 14px/1.3 var(--body)}
+details.fadv>summary{cursor:pointer;font:600 12.5px var(--body);color:var(--gui-mute);padding:2px 0}
+details.fadv[open]>summary{margin-bottom:8px}
+.sbc .sbn .lrt{width:32px;height:32px}
+.tiles .tmore{margin:8px 100% 0 0;flex:0 0 auto}
+/* a closed Act is just its header bar: the section draws no frame of its own around it */
+*:not(#_):not(#__).tier.closed{border:0!important;border-image:none!important;background:none!important;box-shadow:none!important}
