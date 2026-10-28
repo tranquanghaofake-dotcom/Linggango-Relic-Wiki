@@ -549,3 +549,19 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Gear effects:** `pack_audit/gear_fx.py` (javap over hurtEnemy / onArmorTick / inventoryTick / use / releaseUsing + own helpers; effect names via srg→Mojang map and the mods' registry classes) → 263 items with effects, 429 with tooltip lines. Scored: poison/wither/fire/instant damage on hit (35 melee weapons gain DoT), Strength/Resistance/Health Boost/Absorption worn (no set had one in code: set bonuses mostly live in event handlers).
 - **In-game measurement:** `kubejs/server_scripts/lgw_measure.js` + `measure/prep.py` ready. Running a Forge server here was blocked by the session's safety classifier (external code); the Forge installer and its 65 libraries were fetched and SHA-1-checked (maven.creeperhost.net mirror = official hashes; maven.minecraftforge.net runs at ~10 KB/s). Waiting on the user: allow running the server here, or run the script in their own game.
 - **Curio list:** not re-ranked this round.
+
+## 2026-10-28 (late): gear measured in game
+- `build/pack_audit/kubejs/server_scripts/lgw_measure.js`, run by the user in their own game (the container may not run the pack's
+  server). Seven rounds to get it working; what each taught, for the next KubeJS script:
+  - Rhino: `var` only (const/let in a re-called function = "redeclaration"); some Mojang names are not mapped on some classes
+    (FakePlayer.clearFire, setYRot, Pig.hurt): call through a Mojang-then-SRG lookup (`LGW.K`, SRG matched by descriptor from
+    server.txt + joined.tsrg); never `==`/`===` null on Java values (KubeJS specialEquals makes an empty ItemStack equal null): typeof.
+  - Armageddon tier locks (`*ToolsDealingDamagesPreventionProcedure`) cancel LivingAttackEvent for a tier's tools until that
+    tier's Keeper advancement; Forge's award() refuses FakePlayers, so the criteria are granted on AdvancementProgress directly.
+  - Finding a cancelling listener: post the event, then replay it listener by listener on the bus id with the most listeners
+    (Forge bus was 453 here; each mod has its own bus).
+- Result (1,038 weapons, 328 sets) → `pack_audit/measure/import.py` → `patches/gear_measure.json` → stage `gear_measure`.
+  Percent-of-health weapons (Nightfall 5,060 on the 100k pig) and uncharged energy tools are flagged and keep the attribute hit.
+- First run's attribute part also added 115 items to `gear_runtime.json` (dump_gear.js had missed them).
+- Open: wiki text for Armageddon's Keeper locks per item (needs tag membership: forge:diamond_tools… + Armageddon config list);
+  re-measure "grows" weapons on a 1,000-health target to split %-health from conditions; curio attributes not measured yet.
