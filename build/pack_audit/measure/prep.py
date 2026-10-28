@@ -1,7 +1,10 @@
 """Write the plan for kubejs/server_scripts/lgw_measure.js: which items to measure in game.
-Usage: prep.py OUT.json [--test] [--auto --stop]
+Usage: prep.py OUT.json [--test] [--extra] [--auto --stop]
   copy OUT.json to the game's kubejs/lgw_items.json (or kubejs/lgw_test_items.json with --test: 5 weapons, 2 sets, 10 items);
   --auto starts it 200 ticks after a dedicated server loads, --stop shuts the server down when done
+--extra writes the second plan instead (kubejs/lgw_extra_items.json, /kubejs custom_command lgw_measure_extra): the weapons the
+  first run marked "grows" (patches/gear_measure.json), to swing at several targets, and every curio of the wiki, worn one at a time;
+  with --test as well: 2 of those weapons and 6 curios, for kubejs/lgw_extra_test_items.json (/kubejs custom_command lgw_measure_extra_test).
 attrs: every gear item and curio of the wiki; melee: every weapon with a melee score; sets: every armor set with its pieces' slots.
 The result (kubejs/lgw_measure.json) goes back into build/patches/ the way gear_runtime.json does."""
 import json, sys, pathlib, re
@@ -19,5 +22,15 @@ if "--test" in sys.argv:
     melee = [g["id"] for g in GE if g.get("fx") and g.get("dmg") is not None][:3] + ["minecraft:diamond_sword", "minecraft:netherite_axe"]
     plan.update(attrs=melee + ["minecraft:diamond_chestplate", "minecraft:netherite_helmet"] + plan["attrs"][:6], melee=melee,
                 sets=[x for x in plan["sets"] if x["k"] in ("minecraft:diamond", "minecraft:netherite")][:2] or plan["sets"][:2])
+if "--extra" in sys.argv:
+    M = json.loads((H / "patches" / "gear_measure.json").read_text(encoding="utf-8"))
+    grows = sorted(k for k, v in M["items"].items() if v.get("st") == "grows")
+    cur = sorted(x["id"] for x in D)
+    if "--test" in sys.argv:
+        grows = [g for g in grows if g in ("lethality:nightfall", "brutality:shadowstep")] or grows[:2]
+        cur = [x for x in ("armageddon_mod:pendant_of_convergence", "armageddon_mod:anhk_aegis", "terramity:ultra_sniffer_fur") if x in cur] + cur[:3]
+    plan = {"hits": 3, "stop": "--stop" in sys.argv, "auto": "--auto" in sys.argv, "grows": grows, "curios": cur}
+    json.dump(plan, open(sys.argv[1], "w"), indent=0)
+    print(len(grows), "weapons to re-measure,", len(cur), "curios ->", sys.argv[1]); sys.exit()
 json.dump(plan, open(sys.argv[1], "w"), indent=0)
 print(len(plan["attrs"]), "items,", len(plan["melee"]), "melee,", len(plan["sets"]), "sets ->", sys.argv[1])
