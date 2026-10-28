@@ -86,8 +86,17 @@ def geo_for(i, extra=()):
         if re.fullmatch(r'(left|right)(_?arm)?|flash|muzzle_?flash', b['name'].lower()): b['cubes'] = []
     return {'geo': geo, 'tex': base64.b64encode(rd(T[0])).decode(), 'src': [g, T[0]]}
 
+# items whose model or picture has another name than the item (read from the mod's renderer classes and model files)
+GEOX = {f'ars_nouveau:{b}_spell_book': ('assets/ars_nouveau/geo/spellbook_closed.geo.json', 'assets/ars_nouveau/textures/item/spellbook_purple.png') for b in ('novice', 'apprentice', 'archmage')}
+# (ars_nouveau:spell_bow, spellbow.geo.json, draws only its gold trim this way: left as a placeholder)
+FLATX = {'mahoutsukai:weapon_projectile_bow': 'mahoutsukai:item/weapon_projectile_bow_standby'}   # the bow at rest
+
 def plan(i):
     ns, p = i.split(':')
+    if i in FLATX: return {'kind': 'flat', 'png': png_b64(FLATX[i]), 'tex': FLATX[i]}
+    if i in GEOX:
+        g, t = GEOX[i]; geo = json.loads(rd(g))
+        return {'kind': 'geo', 'geo': geo, 'tex': base64.b64encode(rd(t)).decode(), 'src': [g, t]}
     r = resolve(f'{ns}:item/{p}')
     if r is None: return {'kind': 'none'}
     if r['kind'] == 'flat':
@@ -120,7 +129,11 @@ def plan(i):
 
 if __name__ == '__main__':
     out = {}; c = collections.Counter()
+    import os
+    only = os.environ.get('ONLY')   # ONLY=dump: just the pieces added from the in-game dump
     for g in GE:
+        if only == 'dump' and not g.get('dump'): continue
+        if only and only != 'dump' and g['id'] not in only.split(','): continue   # or a comma-separated list of ids
         pl = plan(g['id']); out[g['id']] = pl; c[(g['k'], pl['kind'])] += 1
     for k, v in sorted(c.items()): print(k, v)
     json.dump(out, open('plan.json', 'w'))

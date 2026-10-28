@@ -168,7 +168,10 @@ function sideList(){if(typeof SIDEB==="undefined")return "";const rows=(typeof B
  const acts=ORDER.filter(a=>rows.some(r=>r[1]===a));if(!acts.length)return "";
  return `<h2 class="gt bsec">Side bosses</h2><p class="gs">Optional fights, by the Act your gear can take them. Many drop curios and materials you need later.</p>
  ${acts.map(a=>`<div class="sbact" style="--tc:${ACT[a][2]}"><h3>${emblem(a,"xs")} ${esc(actL(a))}</h3><div class="sbgrid">${rows.filter(r=>r[1]===a).map(r=>{const sp=sidePic(r[0]);
-  return `<a class="sbc" href="#side/${enc(r[0])}">${sp?`<img alt="" src="${sp}">`:`<span class="sbn"><i class="lrt" style="--lrt:var(--rt-spawner)"></i></span>`}<b>${esc(r[0])}</b></a>`}).join("")}</div></div>`).join("")}`}
+  const k=sideKey(r[0]),ki=k?(IC[k.id]?img(k.id):`<img alt="" src="${BIMG[k.id]}">`):`<i class="lrt" style="--lrt:var(--rt-spawner)"></i>`;
+  return `<a class="sbc${sp?" pic":""}" href="#side/${enc(r[0])}">${sp?`<img class="sbbg" alt="" src="${sp}">`:""}<span class="sbk">${ki}</span><span class="sbt"><b>${esc(r[0])}</b><small>${k?"Drops "+esc(k.n):esc(SIDEB[r[0]].mod||"Side boss")}</small></span></a>`}).join("")}</div></div>`).join("")}`}
+/* the drop a side boss is fought for: a curio first, then a modded item, then anything with a picture */
+const sideKey=n=>{const ds=((SIDEB[n]||{}).drops||[]).filter(x=>x.id&&(IC[x.id]||(typeof BIMG!=="undefined"&&BIMG[x.id])));return ds.find(x=>BYID[x.id])||ds.find(x=>!/^minecraft:/.test(x.id))||ds[0]||null};
 const ATG={melee:ui("sword",1),proj:ui("bow",1),aoe:ui("aoe",1),summon:ui("summon",1),move:ui("move",1),buff:ui("buff",1)};
 const atype=d=>/summon|spawns? (a|an|\d|two|three|four|five|six|minions?)|calls? /i.test(d)?"summon":/throws|shoots|fires|projectile|bolt|orb|beam|laser|arrow/i.test(d)?"proj":/ground|area|around it|within \d+ blocks|ring|circle|shockwave|explo/i.test(d)?"aoe":/teleport|dash|charge|leap|jumps|flies/i.test(d)?"move":/heals?|regenerat|gains? resistance|buffs? itself/i.test(d)?"buff":"melee";
 function bossInfoHtml(k){const b=typeof BINFO!=="undefined"&&BINFO[k];if(!b)return "";
@@ -718,7 +721,7 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
 function startHere(){const h=pHere(),ok=h!==null&&ACT[h]&&ORDER.includes(h),a=ok?h:ORDER.find(x=>x>=0),nb=NEXTB[a];
  const q=(href,ic,t,s)=>`<a class="sq" href="${href}"><span class="sqi">${ic}</span><span><b>${t}</b><small>${s}</small></span></a>`;
  return `<section class="sqs" aria-label="Start here">
- ${q(`#act/${a}`,emblem(a,"sm"),"What can I get now?",`Every curio you can reach at ${esc(actL(a))}${ok?"":" (press “I'm here” on The Path to set your Act)"}.`)}
+ ${q(`#act/${a}`,emblem(a,"sm"),"What can I get now?",`Every curio you can reach at ${esc(actL(a))}.${ok?"":" Set your Act on The Path."}`)}
  ${q(nb?`#boss/${nb}`:"#bosses",nb?emblem(bossPath(nb)??a,"sm"):ui("sword",1),"How do I beat the next boss?",nb?`${esc(bossName(nb))}: how to summon it, its attacks and drops.`:"Every Keeper and side boss, in fight order.")}
  ${q(`#gear/${a}/ME/w`,ui("sword",1),"Which weapon or armor is best?",`Tier lists for melee, ranged, mage and summon at ${esc(actL(a))}.`)}
  ${q("#build",ui("chest",1),"Plan my curio build",`Fill your slots and see the summed stats.`)}
@@ -836,9 +839,12 @@ function relicRows(line){
    Enchanting Apparatus, Nature's Aura) the ingredients on pedestals in a ring around the altar. A drop shows who or what
    gives it: the mob's face (mob_faces.py; a spawner for modded mobs), the Keeper's emblem for a treasure bag, a chest
    with the structures, a suspicious block for brushing, the container item. Lines that say something else stay as text. */
-const rcNm=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||c[0]):"Any "+(c[1].split(":")[1]||c[1]).replace(/_/g," ");
+let IDNM=null;const idName=id=>{if(!IDNM){IDNM={};if(typeof NAMEID!=="undefined")for(const k in NAMEID)IDNM[NAMEID[k]]??=k}return IDNM[id]};
+const rcNm=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||idName(c[0])||c[0]):"Any "+(c[1].split(":")[1]||c[1]).replace(/_/g," ");
 const STATION=[[/Dark Altar|Ritual Goety/,"goety:dark_altar","ring"],[/Enchanting Apparatus/,"","ring"],[/Ritual of the Forest|Natural Altar|Offering Table/,"","ring"],
- [/Blood Altar|Imbuement|Cursed Infuser|Mixing Cauldron/,"goety:cursed_infuser","ring"],[/Smithing/,"minecraft:smithing_table","row"],[/Tinkerer|Upgrade Forge/,"","row"],[/Crafting Table/,"","grid"]];
+ [/Blood Altar|Imbuement|Cursed Infuser|Mixing Cauldron/,"goety:cursed_infuser","ring"],[/Smithing/,"minecraft:smithing_table","row"],[/Tinkerer|Upgrade Forge|Alchemy Array/,"","row"],[/Crafting Table/,"","grid"]];
+/* stations whose use the generic line gets wrong */
+const STHOW={"Alchemy Array":"draw the array with Arcane Ashes, drop the first item on it, then the second","Hellfire Forge":"any slots; needs Demon Will in a Tartaric Gem in the forge"};
 /* the station's own block: its name in the pack's lang files (name_icons.py) gives the item; the vanilla table stays vanilla */
 const STN={"Ritual Goety":"Dark Altar","Ritual of the Forest":"Natural Altar","Crafting Table":"","Enchanting Apparatus":"Enchanting Apparatus"};
 const stIcon=st=>{const base=st.replace(/\s*\(.*\)\s*$/,"").replace(/^an? /,""),inner=(st.match(/\(([^)]+)\)/)||[])[1];
@@ -853,7 +859,7 @@ function recipeGui(d){const g=d.gr,stn=g.st.replace(/\s*\(shapeless\)/i,""),kind
  else if(kind==="row")inputs=`<div class="mcg mrow">${flat.map(c=>slot(c)).join("")}</div>`;
  else inputs=grid?`<div class="mcg" style="grid-template-columns:repeat(${g.w},var(--sz))">${g.c.map(c=>slot(c)).join("")}</div>`:`<div class="mcg free">${flat.map(c=>slot(c)).join("")}</div>`;
  const list=`<ol class="mcl">${ing.map(e=>{const t=BYID[e.c[0]];return `<li><span class="mcs sm">${e.c[0]?img(e.c[0]):""}</span><b>${e.n}×</b> ${t?`<a href="#i${t.ix}" data-t="${t.ix}">${esc(rcNm(e.c))}</a>`:esc(rcNm(e.c))}${e.c[1]?` <span class="tg">any ${esc(e.c[1].replace(/^#|^[a-z_]+:/g,"").replace(/_/g," "))}</span>`:""}</li>`}).join("")}</ol>`;
- const how=kind==="ring"?"put the ingredients on the pedestals around it, then start the ritual":kind==="row"?"the ingredients go in left to right":grid?"shaped: the layout matters":"shapeless: any arrangement";
+ const how=STHOW[stn.replace(/\s*\(.*\)\s*$/,"")]||(kind==="ring"?"put the ingredients on the pedestals around it, then start the ritual":kind==="row"?"the ingredients go in left to right":grid?"shaped: the layout matters":"shapeless: any arrangement");
  return `<div class="mcwin k-${kind}"><div class="mct"><span class="mcst">${stIcon(stn)}</span>${esc(stn)}<span>${how}</span></div>
  <div class="mcrow">${inputs}<i class="mca" aria-hidden="true"></i>${slot([d.id,""]," big").replace(/<\/div>$/,`${g.n>1?`<span class="cnt">${g.n}</span>`:""}</div>`)}</div>
  <div class="mcli"><div class="mch">Ingredients</div>${list}</div></div>`}
@@ -883,14 +889,14 @@ function lootCards(d){const out=[],used=new Set();
   R("trade").forEach(m=>{hit=1;out.push(card(rt("lt_emerald"),esc(m[1]),"Trade",""))});
   if(hit)used.add(li)});
  return {html:out.length?`<div class="lcards">${out.join("")}</div>`:"",used}}
-/* no recipe export for it: read the ingredients from the "Craft at … from A, B and C" line, as a row with the station */
+/* no recipe in the pack files (curio_recipes.json): the ingredients the "Craft at … from A, B and C" line names, as a row with the station */
 const TXRC=/^(?:Craft|Combine|Infuse|Forge|Upgrade|Imbue|Perform) (?:at|in|on) (?:an? |the )?(.+?)(?: from|:| with) (.+?)\.*$/;
 let DROPN=null;const dropId=n=>{if(!DROPN){DROPN={};for(const k in BINFO)(BINFO[k].drops||[]).forEach(x=>{if(x.n)DROPN[x.n.toLowerCase()]=x.id})}return DROPN[n.toLowerCase()]};
 function textRecipe(d){if(d.gr)return null;for(let i=0;i<d.src.length;i++){const m=d.src[i].match(TXRC);if(!m)continue;
   const names=m[2].replace(/\.+$/,"").split(/,\s*|\s+and\s+/).map(x=>x.trim()).filter(Boolean),ids=names.map(n=>NAMEID[n]||(D.find(x=>x.n===n)||{}).id||dropId(n));
   if(!ids.some(id=>id&&(IC[id]||BIMG[id])))continue;
   const slot=(id,n)=>{const t=BYID[id];return `<div class="mcs"${t?` data-t="${t.ix}"`:""} title="${esc(n)}">${id&&IC[id]?img(id):id&&BIMG[id]?`<img alt="" src="${BIMG[id]}">`:`<span class="ph">${esc(n)}</span>`}</div>`};
-  return {i,html:`<div class="mcwin k-row"><div class="mct"><span class="mcst">${stIcon(m[1])}</span>${esc(m[1].replace(/^a /,""))}<span>ingredients from the item's own text</span></div>
+  return {i,html:`<div class="mcwin k-row"><div class="mct"><span class="mcst">${stIcon(m[1])}</span>${esc(m[1].replace(/^a /,""))}<span>ingredients</span></div>
   <div class="mcrow"><div class="mcg mrow">${ids.map((id,j)=>slot(id,names[j])).join("")}</div><i class="mca" aria-hidden="true"></i><div class="mcs big">${img(d.id)}</div></div></div>`}}return null}
 const howVisual=d=>(d.gr?recipeGui(d):(textRecipe(d)||{}).html||"")+lootCards(d).html;
 const howText=d=>{const u=lootCards(d).used,tr=textRecipe(d);if(tr)u.add(tr.i);const xs=d.src.filter((x,i)=>!u.has(i)&&!(d.gr&&RCV.test(x))&&!/^Key requirement: locked behind/i.test(x));return xs.length?`<ol class="how">${xs.map(x=>`<li>${fmt(x)}</li>`).join("")}</ol>`:""};

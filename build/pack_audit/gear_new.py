@@ -111,6 +111,7 @@ for i in new:
     slots = R[i]; nm = lang.get(i) or i.split(":")[1].replace("_", " ").title()
     allm = [m for s in slots.values() for m in s]
     if TOOL.search(i): skipped["mining tool"].append(i); continue
+    if re.match(r"thermal:(hazmat|diving|beekeeper)_", i): skipped["Thermal utility armor (its jar is not in the pack download: no name, icon or recipe to read)"].append(i); continue
     if not any(m[1] for m in allm): skipped["no modifiers (stats in NBT, or none)"].append(i); continue
     arm = [s for s in slots if s in SLOT]
     if arm and "mainhand" not in slots:

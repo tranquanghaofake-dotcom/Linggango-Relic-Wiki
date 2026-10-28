@@ -17,3 +17,13 @@ Scripts to copy into the pack's `kubejs/` folder (single player with cheats, or 
 `quests/boss_graph.py <chapters dir>` turns the Bosses chapter into `patches/boss_graph.json` (dependencies, dimension, and since 6.6.6 the
 Keeper summon each Boss Soul goes into). The pack ships its quest files encrypted (LGQ1); the script reads them in plain SNBT.
 `summons.py` also reads the 6.6.6 summon routes (`kubejs/data/linggango_integration/recipes/38_summon_routes`) and the Boss Soul slot.
+
+## curio_recipes.py: recipe grids for curios that showed only an ingredient row
+`python3 build/pack_audit/curio_recipes.py <dir of *.jar> <the pack's overrides/kubejs>` finds the recipe of each crafted curio
+without a grid: Crafting Table (shaped, shapeless), Blood Magic's Hellfire Forge and Alchemy Array. Order as in game: what the KubeJS
+server scripts add (`kubejs_recipes.js` runs them under node against a stand-in recipe event and prints adds and removes), then
+`kubejs/data` recipes, then the mod jars; anything the scripts remove is skipped. Writes `patches/curio_recipes.json` (grids and
+ingredient names) and icons for new ingredients into `patches/gear_icons.json`; `patches/curio_recipes.py` (first step of
+`apply_all.sh`, so `boss_order` sees the new ingredients) puts them into `data.js`, marking each grid `grx`.
+2026-10-28: 70 of 86 found (44 Crafting Table, 26 Blood Magic); 14 source lines name other or fewer ingredients than the pack's
+recipe (usually tags, or the line was written from the mod's own recipe). The other 16 are upgrades, rituals and special mechanics.
