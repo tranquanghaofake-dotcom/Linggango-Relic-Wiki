@@ -43,7 +43,7 @@ style = "".join('@font-face{font-family:Monocraft;font-weight:%d;font-display:sw
                 % (w, base64.b64encode((B / "fonts" / f).read_bytes()).decode()) for w, f in ((400, "Monocraft.woff2"), (700, "Monocraft-Bold.woff2"))) + style
 import hashlib
 tpl = read(S / "template.html")
-NAMES = ["data.js", "gear_data.js", "wiki_data.js", "scenes.js", "uiicons.js", "fx3d.js", "app.js", "gear.js", "ux.js"]
+NAMES = ["data.js", "gear_data.js", "wiki_data.js", "scenes.js", "uiicons.js", "rooms.js", "fx3d.js", "app.js", "gear.js", "ux.js"]
 
 # dist: one self-contained file for offline use
 html = tpl.replace("{{STYLE}}", "<style>\n" + style + "\n</style>")

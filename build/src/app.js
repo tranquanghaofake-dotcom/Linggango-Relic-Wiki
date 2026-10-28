@@ -433,7 +433,7 @@ function fbind(){const q=el("fq");if(!q)return;
 
 "use strict";
 /* ---------- constants ---------- */
-const ACT={"-1":["L2","L2 Artifacts: drops from L2 Hostility mobs by level","#c58bff","L2 Artifacts"],0:["0–I","Sticks and Stones: before Iron Colossus","#9fb3a6"],2:["II","after Iron Colossus","#c7ccd1"],3:["III","after the Goblin Lord","#f0cf5a"],4:["IV","after Arion","#5fd08a"],5:["V","after Eldorath: the Nether opens","#ff8a5c"],6:["VI","after Zoranth the Forgotten","#9b8bd9"],6.1:["Warden","after the Warden","#2ec4b6","Warden Act"],6.2:["Wither","after the Wither","#a7a3b8","Wither Act"],6.3:["Dragon","after the Ender Dragon: Hardmode ×2.1","#d36bff","Ender Dragon Act"],7:["VII","after the Elvenite Paladin","#7be0c0"],8:["VIII","after Vaedric","#b678e6"],9:["IX","after The Discord, Keeper of the Calamities","#e8875f"],10:["X","after Sanghor","#e05a5a"],11:["XI","after Zoranth Newborn","#ffb347"],12:["XII","after Nyxaris, the Shadow Keeper","#8f7bff"]};
+const ACT={"-1":["L2","L2 Artifacts: drops from L2 Hostility mobs by level","#a98bd0","L2 Artifacts"],0:["0–I","Sticks and Stones: before Iron Colossus","#9fb3a6"],2:["II","after Iron Colossus","#c7ccd1"],3:["III","after the Goblin Lord","#d9bd5e"],4:["IV","after Arion","#62b882"],5:["V","after Eldorath: the Nether opens","#df8a62"],6:["VI","after Zoranth the Forgotten","#9b8bd9"],6.1:["Warden","after the Warden","#3fa79c","Warden Act"],6.2:["Wither","after the Wither","#a7a3b8","Wither Act"],6.3:["Dragon","after the Ender Dragon: Hardmode ×2.1","#ab7fd0","Ender Dragon Act"],7:["VII","after the Elvenite Paladin","#76c4a8"],8:["VIII","after Vaedric","#a67fcc"],9:["IX","after The Discord, Keeper of the Calamities","#e8875f"],10:["X","after Sanghor","#cf5c56"],11:["XI","after Zoranth Newborn","#e0a352"],12:["XII","after Nyxaris, the Shadow Keeper","#8c80d4"]};
 const ORDER=[0,2,3,4,5,6,6.3,7,8,9,10,11,12];
 const VBOSS={6.3:"dragon"};
 /* the Warden and the Wither are optional: their curios and gear sit in Act VI, and they show as side bosses there */
@@ -446,7 +446,7 @@ const ROLE={ME:"Melee",RA:"Ranged",MA:"Mage",SU:"Summon",MO:"Movement",HE:"Healt
 const ROLE_C={ME:"#d9534f",RA:"#e0a030",MA:"#4f7fe0",SU:"#2fb5a8",MO:"#47b05a",HE:"#e05a8a",TA:"#8a8f99",UT:"#9a6ad0"};
 const RN=["Common","Uncommon","Rare","Epic","Legendary","Mythic","Must-Have ★"];
 const RNS=[0,1,2,3,4,5,6].reverse();
-const RC=["#ffffff","#ffff55","#55ffff","#ff55ff","#ffaa00","#ff5555","#ffd21f"];
+const RC=["#a9a7ad","#c9b45a","#5fb3a7","#9a7bcf","#d07f3c","#c4483c","#e3b440"];
 const TAGN={relic:"Relic formula",pack:"Pack setting",tooltip:"In-game tooltip",code:"Mod default",auto:"Read from the mod"};
 const TAGT={relic:"Relics-mod formula with the pack config applied",pack:"Value set in the Linggango pack config",tooltip:"Text shown on the item in game",code:"Default value inside the mod",auto:"Read automatically from the mod: check it against the in-game tooltip"};
 const MFAM=[["calam",/^(Wizard Terra|Curios of Calamity)/,"CALAMITY"],["terra",/^Terramity/,"TERRAMITY"],["brut",/^Brutality/,"BRUTALITY"],["leth",/^Lethality/,"LETHALITY"],["summ",/^Summonity/,"SUMMONITY"],["enigma",/^Enigmatic/,"Enigmatic"],["armag",/^Armageddon/,"ARMAGEDDON"],["celest",/^Celestial/,"CELESTIAL"],["goety",/^(Goety|Covenant)/,"Goety"],["blood",/^(Blood Magic|Animus)/,"Blood Magic"],["l2",/^(L2|Fallen Traits)/,"L2 HOSTILITY"],["spell",/^(Iron's|T\.O Magic|Somake|Ars |Ars$|Adam's|Caster|GTBC|Nature's Aura|Mahou)/,"ARCANE"],["tech",/^(Powah|Thermal|AE2|Sophisticated|Mekanism|Create|Applied)/,"TECH"],["relic",/./,"Relic"]];
@@ -515,6 +515,18 @@ const srcText=d=>Array.isArray(d.src)?d.src.join(" "):d.src;
 /* floating relics behind the page, re-seeded per view */
 const bgfx=document.createElement("div");bgfx.id="bgfx";bgfx.setAttribute("aria-hidden","true");document.body.prepend(bgfx);
 let bgKey="";
+/* the page background: a deepslate cave wall with tuff and cobbled patches and small ore veins, painted once at 16 px per block
+   and shown at x4 behind everything (#cave). Seeded, toroidal, so it repeats without a seam. Textures: uiicons.js (bg_*). */
+{const T=typeof ROOMT!=="undefined"?ROOMT:{},need=["bg_deepslate","bg_cobbled_deepslate","bg_tuff"];
+ if(need.every(k=>T[k])){const W=32,Hh=20,cv=document.createElement("canvas");cv.width=W*16;cv.height=Hh*16;const g=cv.getContext("2d");
+  let sd=7;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
+  const blobs=[...Array(9)].map(()=>[rnd()*W,rnd()*Hh,1.5+rnd()*2.5,rnd()<.5?"bg_tuff":"bg_cobbled_deepslate"]);
+  const ores=["bg_deepslate_coal_ore","bg_deepslate_iron_ore","bg_deepslate_copper_ore","bg_deepslate_coal_ore","bg_deepslate_gold_ore","bg_deepslate_redstone_ore","bg_deepslate_lapis_ore","bg_deepslate_iron_ore","bg_deepslate_diamond_ore","bg_deepslate_emerald_ore"];
+  const map=[...Array(Hh)].map((_,y)=>[...Array(W)].map((_,x)=>{for(const[bx,by,r,k]of blobs){const dx=Math.min(Math.abs(x-bx),W-Math.abs(x-bx)),dy=Math.min(Math.abs(y-by),Hh-Math.abs(y-by));if(dx*dx+dy*dy<r*r)return k}return "bg_deepslate"}));
+  for(let i=0;i<14;i++){const k=ores[Math.floor(rnd()*ores.length)];let x=Math.floor(rnd()*W),y=Math.floor(rnd()*Hh);for(let n=1+Math.floor(rnd()*3);n--;){map[y][x]=k;x=(x+(rnd()<.5?1:0))%W;y=(y+(rnd()<.5?1:0))%Hh}}
+  const ims={};let left=0;const draw=()=>{for(let y=0;y<Hh;y++)for(let x=0;x<W;x++)g.drawImage(ims[map[y][x]],x*16,y*16);
+   const c=document.createElement("div");c.id="cave";c.setAttribute("aria-hidden","true");c.style.setProperty("--cave",`url(${cv.toDataURL()})`);document.body.prepend(c)};
+  const keys=[...new Set(map.flat())];left=keys.length;keys.forEach(k=>{const im=new Image();im.onload=()=>{if(!--left)draw()};im.src="data:image/png;base64,"+T[k];ims[k]=im})}}
 function seedBg(key,pool){return;bgKey=key;pool=pool.filter(d=>IC[d.id]);if(!pool.length)pool=D.filter(d=>d.r>=4&&IC[d.id]);
  const W=["i_netherite_sword","i_diamond_sword","i_trident","i_bow","i_totem_of_undying","i_nether_star","i_echo_shard","i_heart_of_the_sea"];
  const N=innerWidth<760?0:14,R=Math.ceil(N/2)||1,gx=i=>i%2?1.5+(i*3)%5:92+(i*2)%5,gy=(i,o=0)=>((Math.floor(i/2)+.5+o)/R*94+3+((i*17)%5-2)).toFixed(1);let h="";
@@ -531,7 +543,7 @@ const BYID={};D.forEach((d,i)=>{d.ix=i;d.c=d.ro[0];BYID[d.id]=d});
 const RQRING={Curses:"enigmaticlegacy:cursed_ring",Virtues:"covenant_of_the_seven:virtue_ring"},RQRX=/requires (?:the )?(?:Ring of )?(?:the )?Seven (?:Curses|Virtues)|Seven (?:Curses|Virtues) bearers only|\(Seven (?:Curses|Virtues)(?: path)?\)|Break the Ring of (?:the )?Seven Curses/i;
 D.forEach(d=>{if(d.id===RQRING.Curses||d.id===RQRING.Virtues)return;const m=RQRX.exec([d.fx,...d.st,...d.src].join(" | "));if(m)d.rq=/curses/i.test(m[0])?"Curses":"Virtues"});
 const rqName=d=>"Ring of the Seven "+d.rq;
-const rqb=(d,cls="")=>d.rq?`<i class="rqb rq${d.rq[0]}${cls}" title="Requires the ${rqName(d)}" aria-label="Requires the ${rqName(d)}">${img(RQRING[d.rq])}</i>`:"";
+const rqb=(d,cls="")=>d.rq?`<i class="sbdg rqbd${cls}" style="--sb:var(--rt-sb_rq_${d.rq.toLowerCase()})" title="Requires the ${rqName(d)}" aria-label="Requires the ${rqName(d)}"></i>`:"";
 const TOTAL=count(D);
 const usedBy=id=>D.filter(d=>d.gr&&d.gr.c.some(c=>c&&c[0]===id));
 const SLOTS=(()=>{const c={};D.forEach(d=>d.sl.forEach(s=>(c[s]=c[s]||[]).push(d)));return Object.entries(c).sort((a,b)=>b[1].length-a[1].length)})();
@@ -595,7 +607,10 @@ const SLA={"living armour":"living_armour_socket","binding key":"bindingkey","wi
 const SLU={};
 const slotKey=n=>{const k=n.toLowerCase();return SLA[k]||k.replace(/ /g,"_")};
 const slotIcon=(n,t)=>{const k=slotKey(n),b=(UI[t?"cslotT":"cslot"]||{})[k],c=t?k+"~":k;if(!b)return "";if(!SLU[c])SLU[c]=URL.createObjectURL(new Blob([Uint8Array.from(atob(b),c=>c.charCodeAt(0))],{type:"image/png"}));return SLU[c]};
-const slk=d=>{const u=slotIcon(d.sl[0]||"",1);return u?`<i class="slk" style="--si:url(${u})" title="${esc(d.sl.join(" / "))} slot"></i>`:`<i class="slk tx" title="${esc(d.sl.join(" / "))} slot">${esc((d.sl[0]||"?").slice(0,2))}</i>`};
+/* slot badge in the tile corner (slot_badges.py): one drawn sign per slot family */
+const SBK={Charm:"charm",Accessory:"curio",Curio:"curio",Anklet:"anklet",Blasphemy:"skull",Scroll:"scroll",Ring:"ring",Head:"head",Hands:"hands",Glove:"hands",Focus:"orb",Spellbook:"book",Back:"back",Spellstone:"orb",Heart:"heart",Necklace:"necklace",Belt:"belt","Living Armour":"living","Hostility Curse":"skull",Elytra:"elytra","Binding Key":"key",Feet:"feet",Body:"body",Bracelet:"bracelet",Talent:"talent",Magnetizer:"magnet",Bundle:"bundle",Sacrament:"chalice"};
+const sbadge=(s,cls="")=>`<i class="sbdg${cls}" style="--sb:var(--rt-sb_${SBK[s]||"curio"})" title="${esc(s)} slot" aria-hidden="true"></i>`;
+const slk=d=>sbadge(d.sl[0]||"Curio");
 const tile=(d,i=99)=>`<a style="--i:${i}" class="t c${d.c} r${d.r}${d.g==="Loot"?" L":""}${d.inv?" inv":""}" data-mf="${mf(d.m)[0]}" href="#i${d.ix}" data-t="${d.ix}" aria-label="${esc(d.n)}">${AN[d.id]?`<span class="aimg" data-an="${esc(d.id)}">${img(d.id)}</span>`:img(d.id)}${d.k>1?`<span class="kv">${d.k}</span>`:""}${glint(d)}${isMust(d)?'<span class="star" aria-label="Must-Have">★</span>':""}${rqb(d)}${slk(d)}</a>`;
 const gcard=(d,i)=>`<a class="gc r${d.r}" style="--i:${Math.min(i,40)}" href="#i${d.ix}" data-t="${d.ix}"><span class="pic">${img(d.id)}</span><b>${esc(d.n)}</b><small>${esc(d.sl.join(", "))} · ${esc(d.m)}</small><span class="gm"><span class="rk">${isMust(d)?ui("star")+"Must-Have":RN[d.r]}</span><span class="ak">${esc(actL(d.t))}</span></span></a>`;
 const rbar=xs=>`<span class="bar5">${RNS.map(i=>{const n=xs.filter(d=>d.r===i).length;return n?`<i style="flex:${n};background:${RC[i]}"></i>`:""}).join("")}</span>`;
@@ -631,18 +646,7 @@ const idBox=id=>`<div class="ip-id"><code id="ipid">${esc(id)}</code><button typ
 /* navbox: the block of related links at the foot of a page. groups = [[label, [[href, text, current?], …]], …]; empty groups drop out */
 function navbox(title,groups){groups=(groups||[]).filter(g=>g&&g[1]&&g[1].length);if(!groups.length)return "";
  return `<details class="navbox" open><summary>${title}</summary><dl>${groups.map(([l,xs])=>`<dt>${l}</dt><dd>${xs.map(([h,t,on])=>on?`<b aria-current="page">${t}</b>`:`<a href="${h}">${t}</a>`).join('<i aria-hidden="true"> · </i>')}</dd>`).join("")}</dl></details>`}
-/* ---------- rooms: the wiki's own interior ----------
-   Grown from the forge and armory pictures once drawn for Equipment and the planner: instead of a picture beside the title,
-   the page header is the room. A wall of vanilla blocks, a floor, lanterns, furniture, and item frames that hold real items
-   of the page (links with their tooltips), so the picture is also the page's first menu. Which blocks and lights a room uses
-   lives in style.game.css ([data-room=forge] …); textures come from scenes.js (ROOMT, build/pack_audit/scenes.py).
-     items  [{h: href, i: icon html, t: data-t for the tooltip, n: name, l: small label, g: glow frame}]
-     o      {head: html on the wall (title, lead), min: frames to show even when empty, cols: frames per row, label}
-   Each room also hangs a painting beside its frames, its own lights on chains and a drift of vanilla particles (all CSS). */
-function room(kind,items,o={}){const n=Math.max(items.length,o.min||0),xs=[...items,...Array(n-items.length).fill(null)];
- return `<div class="room${o.head?" rhd":""}" data-room="${kind}" style="--cols:${o.cols||8}">${o.head?`<div class="rhead">${o.head}</div>`:""}<span class="rprops" aria-hidden="true"><i></i><i${kind==="crypt"?' class="fire"':""}></i><i></i></span>
-<div class="rwall"><span class="rdeco" aria-hidden="true"></span><nav class="rfrs" aria-label="${esc(o.label||"Items")}">${xs.map(x=>x?`<a class="rfr${x.g?" glow":""}" href="${x.h}"${x.t!=null?` data-t="${x.t}"`:` title="${esc(x.n)}"`} aria-label="${esc(x.n)}">${x.i}${x.l?`<small${x.l.length>3?' class="lg"':""}>${x.l}</small>`:""}</a>`:`<span class="rfr empty" aria-hidden="true"></span>`).join("")}</nav></div>
-<i class="rlamp a" aria-hidden="true"></i><i class="rlamp b" aria-hidden="true"></i><span class="rpts" aria-hidden="true">${[0,1,2,3,4,5,6,7,8,9].map(k=>`<i style="--k:${k}"></i>`).join("")}</span></div>`}
+/* rooms: rooms.js */
 const rCurio=(d,l,g)=>({h:"#i"+d.ix,i:img(d.id)+glint(d),t:d.ix,n:d.n,l,g});
 const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.indexOf("zoranth_forgotten");if(i>=0)ks.splice(i+1,0,"warden","wither");return ks};
 /* the wiki-wide groups every detail page ends with; extra = this page's own groups, put first */
@@ -780,7 +784,7 @@ const tierTiles=ys=>ys.length?ys.map((d,i)=>tile(d,i)).join(""):'<span class="em
 function home(xs,asTable){pathXs=xs;
  let h=`${crumb("Curios")}${room("library",D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).map(d=>rCurio(d,esc(ACT[d.t][0]),1)),{head:`<h1 class="qb">Curios</h1>
  <p class="lede">Every curio, grouped by the Act you can get it in. On the wall: the Must-Have curios, in the order their Acts open.</p>`,cols:8,label:"Must-Have curios"})}
-  <div class="legend lgl"><span title="Frame colour: rarity, brighter = rarer"><i class="lgr"></i>Rarity</span><span title="Curio slot it goes in"><i class="slk lg" style="--si:url(${slotIcon("Ring")})"></i>Slot</span><span title="Variants merged into one tile"><b class="lgn">16</b>Variants</span><span title="Must-Have: get it first"><b class="lgs">★</b>Must-Have</span><span title="Needs the Seven Curses or Virtues ring">${rqb({rq:"Curses"}," lg")}Curses ring</span></div>
+  <div class="legend lgl"><span title="Frame colour: rarity, brighter = rarer"><i class="lgr"></i>Rarity</span><span title="Curio slot it goes in">${sbadge("Ring"," lg")}Slot</span><span title="Variants merged into one tile"><b class="lgn">16</b>Variants</span><span title="Must-Have: get it first"><b class="lgs">★</b>Must-Have</span><span title="Needs the Seven Curses or Virtues ring">${rqb({rq:"Curses"}," lg")}Curses ring</span></div>
  ${fbar(xs.length,D.length)}${xs.length?"":`<p class="note">No curios match these filters. Remove one above or clear them all.</p>`}`;
  seedBg("path"+st.a,xs.filter(d=>d.r>=4));
  if(!asTable){
@@ -805,6 +809,82 @@ function relicRows(line){
   rows+=m?`<tr><td>${esc(m[1])}</td><td class="num">${esc(m[2])}</td><td class="num">${m[3]?`${esc(m[4])} <span class="meta">(lv ${m[3]})</span>`:"—"}</td></tr>`:`<tr><td colspan="3">${esc(s)}</td></tr>`});
  if(note)rows+=`<tr><td colspan="3" class="meta">${esc(note)}</td></tr>`;return rows}
 
+/* ---------- How to get it, as pictures ----------
+   A recipe shows its station: the crafting grid, the smithing row, or for a ritual (Goety's Dark Altar, Ars Nouveau's
+   Enchanting Apparatus, Nature's Aura) the ingredients on pedestals in a ring around the altar. A drop shows who or what
+   gives it: the mob's face (mob_faces.py; a spawner for modded mobs), the Keeper's emblem for a treasure bag, a chest
+   with the structures, a suspicious block for brushing, the container item. Lines that say something else stay as text. */
+const rcNm=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||c[0]):"Any "+(c[1].split(":")[1]||c[1]).replace(/_/g," ");
+const STATION=[[/Dark Altar|Ritual Goety/,"goety:dark_altar","ring"],[/Enchanting Apparatus/,"","ring"],[/Ritual of the Forest|Natural Altar|Offering Table/,"","ring"],
+ [/Blood Altar|Imbuement|Cursed Infuser|Mixing Cauldron/,"goety:cursed_infuser","ring"],[/Smithing/,"minecraft:smithing_table","row"],[/Tinkerer|Upgrade Forge/,"","row"],[/Crafting Table/,"","grid"]];
+const stIcon=st=>{const m=STATION.find(x=>x[0].test(st));const id=m&&m[1];if(id&&IC[id])return img(id);
+ return `<i class="sti" style="--sti:var(--rt-${/Apparatus|Imbuement/.test(st)?"enchanting_table_side":/Forest|Natural|Offering/.test(st)?"xali_lectern_front_2":/Tinkerer|Forge/.test(st)?"smithing_table_front":"crafting_table_front"})"></i>`};
+function recipeGui(d){const g=d.gr,stn=g.st.replace(/\s*\(shapeless\)/i,""),kind=(STATION.find(x=>x[0].test(stn))||[,,"grid"])[2],grid=kind==="grid"&&g.l===0&&!/shapeless/i.test(g.st);
+ const ing=[],seen={};g.c.forEach(c=>{if(!c)return;const k=c[0]+"|"+c[1];if(!seen[k]){seen[k]={c,n:0};ing.push(seen[k])}seen[k].n++});
+ const slot=(c,cls="",k)=>{const sty=k!=null?` style="--k:${k}"`:"";if(!c)return `<div class="mcs${cls}"${sty}></div>`;const t=BYID[c[0]];
+  return `<div class="mcs${cls}"${sty} data-k="${esc(c[0]+"|"+c[1])}"${t?` data-t="${t.ix}"`:""} title="${esc(rcNm(c))}${c[1]?" (any item tagged "+esc(c[1].replace(/^#/,""))+")":""}">${c[0]?img(c[0]):'<span class="ph">'+esc(rcNm(c))+'</span>'}${c[1]?'<span class="tagm" aria-label="tag">#</span>':""}</div>`};
+ const flat=ing.flatMap(e=>Array(e.n).fill(e.c));let inputs;
+ if(kind==="ring"){const n=flat.length;inputs=`<div class="mring" style="--n:${n}">${flat.map((c,i)=>slot(c,"",i)).join("")}<span class="mcen" title="${esc(stn)}">${stIcon(stn)}</span></div>`}
+ else if(kind==="row")inputs=`<div class="mcg mrow">${flat.map(c=>slot(c)).join("")}</div>`;
+ else inputs=grid?`<div class="mcg" style="grid-template-columns:repeat(${g.w},var(--sz))">${g.c.map(c=>slot(c)).join("")}</div>`:`<div class="mcg free">${flat.map(c=>slot(c)).join("")}</div>`;
+ const list=`<ol class="mcl">${ing.map(e=>{const t=BYID[e.c[0]];return `<li><span class="mcs sm">${e.c[0]?img(e.c[0]):""}</span><b>${e.n}×</b> ${t?`<a href="#i${t.ix}" data-t="${t.ix}">${esc(rcNm(e.c))}</a>`:esc(rcNm(e.c))}${e.c[1]?` <span class="tg">any ${esc(e.c[1].replace(/^#|^[a-z_]+:/g,"").replace(/_/g," "))}</span>`:""}</li>`}).join("")}</ol>`;
+ const how=kind==="ring"?"put the ingredients on the pedestals around it, then start the ritual":kind==="row"?"the ingredients go in left to right":grid?"shaped: the layout matters":"shapeless: any arrangement";
+ return `<div class="mcwin k-${kind}"><div class="mct"><span class="mcst">${stIcon(stn)}</span>${esc(stn)}<span>${how}</span></div>
+ <div class="mcrow">${inputs}<i class="mca" aria-hidden="true"></i>${slot([d.id,""]," big").replace(/<\/div>$/,`${g.n>1?`<span class="cnt">${g.n}</span>`:""}</div>`)}</div>
+ <div class="mcli"><div class="mch">Ingredients</div>${list}</div></div>`}
+const SRCX={mob:/[Dd]ropped by ([^(;]+?)\s*\(([^)]*)\)/g,bag:/[Cc]omes from (?:the )?(.+?)'s treasure bag \(([^)]+)\)/g,brush:/Brush suspicious blocks at ([^(;]+?) \(([^)]+)\)/g,
+ chest:/[Ff]ound in chests at ([^;]+?)(?:, up to ([\d.]+%) per chest)?\.?(?=;|$)/g,tomb:/[Ff]ound in ([A-Z][\w' ]+?) chests \(([^)]+)\)/g,van:/Vanilla chests \(([^)]*)\): ([^;]+?)\.?(?=;|$)/g,
+ box:/(?:From an?|Can roll from an?) ([A-Z][\w' ]+?)(?: \(([^)]*)\))?(?= or|[.;]|$)/g,trade:/Bought from ([^.;]+)/g};
+const bossByName=n=>{n=n.replace(/^the /i,"").toLowerCase();return [...KEEPERS(),...Object.keys(SIDEV||{})].find(k=>{const b=bossName(k).toLowerCase();return b===n||b.startsWith(n)||b.replace(/^the /,"").startsWith(n)})};
+function lootCards(d){const out=[],used=new Set();
+ const card=(pic,title,sub,chance,href)=>`<${href?`a href="${href}"`:"div"} class="lcard"><span class="lpic">${pic}</span><span class="ltx"><b>${title}</b>${sub?`<small>${sub}</small>`:""}</span>${chance?`<span class="lch">${esc(chance)}</span>`:""}</${href?"a":"div"}>`;
+ const rt=k=>`<i class="lrt" style="--lrt:var(--rt-${k})"></i>`;
+ d.src.forEach((line,li)=>{let m,hit=0;const R=k=>{SRCX[k].lastIndex=0;const xs=[];while(m=SRCX[k].exec(line))xs.push(m);return xs};
+  R("mob").forEach(m=>{hit=1;const n=m[1].trim(),bk=bossByName(n),fk="mf_"+n.replace(/s$/,"").toLowerCase().replace(/ /g,"_");
+   out.push(bk?card(emblem(bossPath(bk)??0,"sm"),esc(bossName(bk)),"Boss drop",m[2],"#boss/"+bk):card(typeof ROOMT!=="undefined"&&ROOMT[fk]?rt(fk):rt("spawner"),esc(n),"Mob drop",m[2]))});
+  R("bag").forEach(m=>{hit=1;const bk=bossByName(m[1]),bag=bk&&BINFO[bk]&&(BINFO[bk].drops||[]).find(x=>/treasure_?bag/.test(x.id));
+   out.push(card(bag&&IC[bag.id]?img(bag.id):bag&&BIMG[bag.id]?`<img alt="" src="${BIMG[bag.id]}">`:bk?emblem(bossPath(bk)??0,"sm"):rt("ftb_chest"),esc(bk?bossName(bk):m[1])+"'s treasure bag","Open the bag the Keeper drops",m[2],bk?"#boss/"+bk:""))});
+  R("brush").forEach(m=>{hit=1;out.push(card(rt("lt_sand"),esc(m[1]),"Brush the suspicious blocks",m[2]))});
+  R("tomb").forEach(m=>{hit=1;out.push(card(rt("ftb_chest"),esc(m[1])+" chests","Chest loot",m[2]))});
+  R("chest").forEach(m=>{hit=1;out.push(card(rt("ftb_chest"),esc(m[1].replace(/ and (\d+) more places/," +$1 more")),"Chest loot",m[2]?"up to "+m[2]:""))});
+  R("van").forEach(m=>{hit=1;const c=m[2].match(/^(.+?) ([\d.]+%)$/);out.push(card(rt("ftb_chest"),esc(c?c[1]:m[2]),"Vanilla chest loot",c?c[2]:""))});
+  R("box").forEach(m=>{const id=NAMEID[m[1]];if(!id&&!/Bag|Box|Chest|Crate/.test(m[1]))return;hit=1;out.push(card(id&&IC[id]?img(id):rt("lt_bundle"),esc(m[1]),m[2]?esc(m[2]):"Open it for a random roll",""))});
+  R("trade").forEach(m=>{hit=1;out.push(card(rt("lt_emerald"),esc(m[1]),"Trade",""))});
+  if(hit)used.add(li)});
+ return {html:out.length?`<div class="lcards">${out.join("")}</div>`:"",used}}
+/* no recipe export for it: read the ingredients from the "Craft at … from A, B and C" line, as a row with the station */
+const TXRC=/^(?:Craft|Combine|Infuse|Forge|Upgrade|Imbue|Perform) (?:at|in|on) (?:an? |the )?(.+?)(?: from|:| with) (.+?)\.*$/;
+let DROPN=null;const dropId=n=>{if(!DROPN){DROPN={};for(const k in BINFO)(BINFO[k].drops||[]).forEach(x=>{if(x.n)DROPN[x.n.toLowerCase()]=x.id})}return DROPN[n.toLowerCase()]};
+function textRecipe(d){if(d.gr)return null;for(let i=0;i<d.src.length;i++){const m=d.src[i].match(TXRC);if(!m)continue;
+  const names=m[2].replace(/\.+$/,"").split(/,\s*|\s+and\s+/).map(x=>x.trim()).filter(Boolean),ids=names.map(n=>NAMEID[n]||(D.find(x=>x.n===n)||{}).id||dropId(n));
+  if(!ids.some(id=>id&&(IC[id]||BIMG[id])))continue;
+  const slot=(id,n)=>{const t=BYID[id];return `<div class="mcs"${t?` data-t="${t.ix}"`:""} title="${esc(n)}">${id&&IC[id]?img(id):id&&BIMG[id]?`<img alt="" src="${BIMG[id]}">`:`<span class="ph">${esc(n)}</span>`}</div>`};
+  return {i,html:`<div class="mcwin k-row"><div class="mct"><span class="mcst">${stIcon(m[1])}</span>${esc(m[1].replace(/^a /,""))}<span>ingredients from the item's own text</span></div>
+  <div class="mcrow"><div class="mcg mrow">${ids.map((id,j)=>slot(id,names[j])).join("")}</div><i class="mca" aria-hidden="true"></i><div class="mcs big">${img(d.id)}</div></div></div>`}}return null}
+const howVisual=d=>(d.gr?recipeGui(d):(textRecipe(d)||{}).html||"")+lootCards(d).html;
+const howText=d=>{const u=lootCards(d).used,tr=textRecipe(d);if(tr)u.add(tr.i);const xs=d.src.filter((x,i)=>!u.has(i)&&!(d.gr&&RCV.test(x)));return xs.length?`<ol class="how">${xs.map(x=>`<li>${fmt(x)}</li>`).join("")}</ol>`:""};
+
+/* ---------- Stats, readable ----------
+   First what the curio is (element, damage types it touches), then the effect as the wiki sums it up, one line per
+   clause, with numbers picked out (blue = bonus, red = cost, as in the game's tooltip). The in-game tooltip follows with
+   its wrapped lines joined back into sentences, then the pack's config numbers as a small table. No source tags. */
+const ELEM={"Fire":"fire","Ice":"ice","Water":"water","Lightning":"lightning","Dark":"dark","Holy":"holy","Blood":"blood","Ender / Eldritch":"ender","Poison / Nature":"nature"};
+const DMGT=[["Slash",/\bslash/i,"ui_sword"],["Pierce",/\bpierc/i,"dt_pierce"],["Blunt",/\bblunt/i,"dt_blunt"],["Magic",/\b(magic|spell)\b[^.;]*\b(damage|power)|\bspell (power|damage)/i,"dt_magic"],
+ ["Projectile",/\b(projectile|arrow|ranged)\b[^.;]*damage|\bdamage[^.;]*\b(projectile|arrow)/i,"ui_bow"],["Melee",/\b(melee|attack) damage|\bmelee\b/i,"ui_sword"],["Summon",/\b(summon|minion)s?\b[^.;]*damage/i,"ui_bone"]];
+const ELX=[["Fire",/\b(ignite|on fire|fire damage|burn|flame)/i],["Ice",/\b(freez|frost|ice damage)/i],["Lightning",/\b(lightning|thunder|shock)/i],["Holy",/\bholy\b/i]];
+const kindOf=d=>{const txt=d.fx+" "+d.st.join(" "),el=(d.mt||[]).filter(k=>k.startsWith("e:")).map(k=>k.slice(2));ELX.forEach(([e,re])=>{if(!el.includes(e)&&re.test(d.fx))el.push(e)});return {el,dt:DMGT.filter(x=>x[1].test(txt))}};
+const kchip=(k,label,cls)=>`<span class="kchip ${cls}"><i style="--kc:var(--rt-${k})"></i>${esc(label)}</span>`;
+function statLine(t){const h=fmt(t).replace(/(^|[\s(])([+\-−]\s?\d[\d.,]*\s?%?|x\s?\d[\d.]*|×\s?\d[\d.]*|\d[\d.,]*\s?%)/g,(m,a,n)=>`${a}<b class="${/^[\-−]/.test(n)?"neg":"pos"}">${n}</b>`);return h}
+function joinTip(xs){const out=[];xs.forEach(x=>{x=String(x).trim();if(!x)return;const p=out[out.length-1];
+ if(p&&!/[.!?:)]$/.test(p)&&/^[a-z(…]/.test(x))out[out.length-1]=p+" "+x;else out.push(x)});return out}
+function statsHtml(d,other){const k=kindOf(d),nm=d.n.toLowerCase();
+ const head=(k.el.length||k.dt.length)?`<div class="kinds">${k.el.length?`<span class="klab">Element</span>${k.el.map(e=>kchip("el_"+(ELEM[e]||"fire"),e.replace(" / ","/"),"el")).join("")}`:""}${k.dt.length?`<span class="klab">Damage</span>${k.dt.map(x=>kchip(x[2],x[0],"dt")).join("")}`:""}</div>`:"";
+ const sum=d.fx.split(/;\s*/).filter(Boolean),tip=joinTip(other.filter(x=>x[0]!=="pack").map(x=>x[1])).filter(x=>x.toLowerCase()!==nm&&!/^obtain\b/i.test(x)&&!/^(hold shift|the finale$)/i.test(x)),
+  cfg=other.filter(x=>x[0]==="pack").map(x=>String(x[1]).split(/:\s*/)).filter(x=>x.length>1);
+ const HD=/^(passive effect|active ability|when worn|when equipped|set bonus|abilities?)\s*:?$/i;
+ return `${head}<ul class="attr">${sum.map(x=>`<li>${statLine(x)}</li>`).join("")}</ul>
+ ${tip.length?`<details class="tipx"><summary>In-game tooltip</summary><ul>${tip.map(x=>HD.test(x)?`<li class="fxh">${fmt(x)}</li>`:`<li>${statLine(x)}</li>`).join("")}</ul></details>`:""}
+ ${cfg.length?`<details class="tipx"><summary>Pack config values</summary><table class="cfg">${cfg.map(([a,...b])=>`<tr><td>${esc(a)}</td><td class="num">${esc(b.join(": "))}</td></tr>`).join("")}</table></details>`:""}`}
 const guideHtml=g=>`<div class="gbk">${g.i?`<img alt="" src="${g.i}">`:""}<div><small>📖 ${esc(g.b)} · ${esc(g.e)}</small><p>${esc(g.t)}</p></div></div>`;
 function page(d){
  document.title=d.n+" · Linggango Wiki";seedBg("item"+d.m,D.filter(x=>x.m===d.m));
@@ -813,28 +893,15 @@ function page(d){
  const rqLock=d.rq?`<p class="lede"><span class="badge lockb"><i class="lk" aria-hidden="true"></i>RING-LOCKED</span>Only for bearers of the <a href="#i${BYID[RQRING[d.rq]].ix}">${rqName(d)}</a>: you need that ring to craft or use this curio.</p>`:"";
  const must=isMust(d)?`<div class="mh-banner"><span class="mhs">★</span><div><b>Must-Have</b><p>${!/etching|charm_of_looting/.test(d.id)?"It adds curio slots, so you can wear more curios at once: every other relic on this wiki gets better with it.":/etching/.test(d.id)?"An Etching turns one of your Catastrophe Scroll curses into a blessing and is an ingredient for most Celestial Artifacts relics.":"A Looting Charm unlocks L2 Hostility trait drops; without the right tier worn, trait mobs drop nothing extra."} Get it as soon as ${esc(actL(d.t))} opens and keep it in every build. Base power rating: <b>${RN[d.br]}</b>.</p></div></div>`:"";
  const scarce=d.sca?`<div class="mh-banner sca"><span class="mhs">⛏</span><div><b>Scarce Act 0 material</b><p>Daemonium and Iridium need a high-tier pickaxe to mine, but Terramity structures can drop them in chests. That makes this craftable early with luck, so it is rated one rarity higher than other Act 0 curios.</p></div></div>`:"";
- secs.push(["get",loot?"Where it drops":"How to get it",`${must}${scarce}<ol class="how">${d.src.map(x=>`<li>${fmt(x)}</li>`).join("")}</ol>${lock}${rqLock}<p class="note">${d.a===-1?"Dropped by L2 Hostility mobs depending on their level, not tied to a boss milestone.":d.a!==d.t?`Earliest with luck: ${actL(d.a)}. Realistic: ${actL(d.t)} (${ACT[d.t][1]}).`:`Available from ${actL(d.t)} (${ACT[d.t][1]}).`}</p>`]);
+ secs.push(["get",loot?"Where it drops":"How to get it",`${must}${scarce}${howVisual(d)}${howText(d)}${lock}${rqLock}<p class="note">${d.a===-1?"Dropped by L2 Hostility mobs depending on their level, not tied to a boss milestone.":d.a!==d.t?`Earliest with luck: ${actL(d.a)}. Realistic: ${actL(d.t)} (${ACT[d.t][1]}).`:`Available from ${actL(d.t)} (${ACT[d.t][1]}).`}</p>`]);
  {const gu=typeof GUIDE!=="undefined"&&GUIDE[d.id];if(gu)secs.push(["guide","From the guide book",guideHtml(gu)])}
  {const ev=evoSec(d);if(ev)secs.push(["evo","Evolution",ev])}
  const rel=d.tg.map((t,j)=>[t,d.st[j],d.sr&&d.sr[j]]),relic=rel.filter(r=>r[0]==="relic"),other=rel.filter(r=>r[0]!=="relic");
  let sh="";
  if(RL[d.id])secs.push(["levels","Relic levels",rlPanel(d.id)]);
  if(relic.length&&!RL[d.id])sh+=`<div class="tw"><table><thead><tr><th>Stat</th><th>On pickup (random)</th><th>Max upgrade</th></tr></thead><tbody>${relic.map(r=>relicRows(r[1])).join("")}</tbody></table></div>`;
- if(other.length){const HD=/^(passive effect|active ability|when worn|when equipped|set bonus|abilities?)\s*:?$/i;
-  sh+=`<ul class="fxl">${other.map(([t,x,raw])=>HD.test(String(x).trim())?`<li class="fxh">${fmt(x)}</li>`:`<li title="Source: ${esc(TAGN[t]||t)}${raw?" · "+esc(raw):""}">${fmt(x)}</li>`).join("")}</ul>`}
+ sh=statsHtml(d,other)+sh;
  if(sh)secs.push(["stats","Stats",sh]);
- if(d.gr){const g=d.gr,grid=g.l===0&&!/shapeless/i.test(g.st),stn=g.st.replace(/\s*\(shapeless\)/i,"");
-  // one entry per distinct ingredient, in first-seen order, with how many cells it fills
-  const ing=[],seen={};g.c.forEach(c=>{if(!c)return;const k=c[0]+"|"+c[1];if(!seen[k]){seen[k]={c,n:0};ing.push(seen[k])}seen[k].n++});
-  const nm=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||c[0]):"Any "+(c[1].split(":")[1]||c[1]).replace(/_/g," ");
-  const slot=(c,big)=>{if(!c)return `<div class="mcs${big?" big":""}"></div>`;const k=esc(c[0]+"|"+c[1]),t=BYID[c[0]];
-   return `<div class="mcs${big?" big":""}" data-k="${k}"${t?` data-t="${t.ix}"`:""} title="${esc(nm(c))}${c[1]?" (any item tagged "+esc(c[1].replace(/^#/,""))+")":""}">${c[0]?img(c[0]):'<span class="ph">'+esc(nm(c))+'</span>'}${c[1]?'<span class="tagm" aria-label="tag">#</span>':""}</div>`};
-  const inputs=grid?`<div class="mcg" style="grid-template-columns:repeat(${g.w},var(--sz))">${g.c.map(c=>slot(c)).join("")}</div>`
-   :`<div class="mcg free">${ing.flatMap(e=>Array(e.n).fill(e.c)).map(c=>slot(c)).join("")}</div>`;
-  const list=`<ol class="mcl">${ing.map(e=>{const t=BYID[e.c[0]];return `<li data-k="${esc(e.c[0]+"|"+e.c[1])}"><span class="mcs sm">${e.c[0]?img(e.c[0]):""}</span><b>${e.n}×</b> ${t?`<a href="#i${t.ix}" data-t="${t.ix}">${esc(nm(e.c))}</a>`:esc(nm(e.c))}${e.c[1]?` <span class="tg">tag ${esc(e.c[1].replace(/^#/,""))}</span>`:""}</li>`}).join("")}</ol>`;
-  secs.push(["recipe","Recipe",`<div class="mcwin"><div class="mct">${esc(stn)}<span>${grid?"shaped: the layout matters":"shapeless: any arrangement"}</span></div>
-  <div class="mcrow">${inputs}<i class="mca" aria-hidden="true"></i>${slot([d.id,""],true).replace('</div>',`${g.n>1?`<span class="cnt">${g.n}</span>`:""}</div>`)}</div>
-  <div class="mcli"><div class="mch">Ingredients</div>${list}${ing.some(e=>e.c[1])?'<p class="mcn"># = any item with that tag works; the icon shows one of them.</p>':""}</div></div>`])}
  if(d.uid.length)secs.push(["uses","Used to craft",`<div class="cards">${d.uid.map(o=>{const t=BYID[o];return `<a class="card"${t?` href="#i${t.ix}" data-t="${t.ix}"`:""}>${img(o)}<span>${esc(NM[o]||o)}${t?"":' <span class="meta">(not a curio)</span>'}</span></a>`}).join("")}</div>`]);
  const bar=(v,l)=>`<div class="sg" style="grid-template-columns:150px 1fr;margin:4px 0"><span>${l}</span><div class="bar"><i style="width:${Math.round(Math.min(5,Math.max(0,v))*20)}%;background:var(--rc);opacity:.55"></i><span>${(+v).toFixed(1)} / 5</span></div></div>`;
   const same=D.filter(x=>x!==d&&x.m===d.m&&x.t===d.t).slice(0,8);

@@ -6,7 +6,7 @@ const GKIND={melee:"Melee weapon",ranged:"Ranged weapon",magic:"Staff / magic we
 const GTIER_R=[.85,.7,.55,.4,0];
 /* gear under a quarter of the best at an Act is left off its list (still found by search and on its own page) */
 const GFLOOR=.25;
-const GTIER=[["S",.06,"#ff5f6d"],["A",.2,"#ffb347"],["B",.4,"#ffe066"],["C",.65,"#7bd88f"],["D",1.01,"#7aa7ff"]];
+const GTIER=[["S",.06,"#d0564c"],["A",.2,"#d98a3d"],["B",.4,"#cdb45a"],["C",.65,"#6fa86a"],["D",1.01,"#6f8fc4"]];
 const GSLOT={HELMET:"Head",CHESTPLATE:"Chest",LEGGINGS:"Legs",BOOTS:"Feet"};
 const GATTR={attack_damage:"Attack Damage",attack_speed:"Attack Speed",armor:"Armor",armor_toughness:"Armor Toughness",max_health:"Max Health",
  knockback_resistance:"Knockback Resistance",movement_speed:"Speed",luck:"Luck",critical_strike_chance:"Critical Chance",critical_strike_damage:"Critical Damage",
@@ -192,10 +192,31 @@ function gStats(g){const rows=[];
  return rows}
 function gBonus(g){const fold=g.k==="armor"?(g.arm!=null?["armor","armor_toughness","knockback_resistance"]:[]):[g.dmg!=null?"attack_damage":"",g.spd!=null?"attack_speed":""];
  return Object.entries(g.at).flatMap(([k,[a,m]])=>gMod(k,fold.includes(k)?0:a,m))}
-function gSrcText(g){const o=[];
- g.rc.forEach(r=>{const ing=[...new Set(r.i)].filter(x=>x!==r.t&&!/^(minecraft:crafting_|goety:(craft|ritual)$|ars_nouveau:enchanting_apparatus$)/.test(x)).slice(0,9);o.push(`<div class="grc"><span class="grt">${esc(gStation(r.t))}</span>${ing.map(x=>{const n=r.i.filter(y=>y===x).length,c=n>1?`<b class="gn">${n}×</b>`:"";return x.startsWith("#")?`<span class="gin tag" title="${esc(x)}">${c}any ${esc(x.split(":")[1].split("/").pop().replace(/_/g," "))}</span>`:`<a class="gin" ${GBY[x]?`href="#g${GBY[x].ix}" data-t="g${GBY[x].ix}"`:BYID[x]?`href="#i${BYID[x].ix}" data-t="${BYID[x].ix}"`:""}>${img(x)}${c}<span>${esc(BYID[x]?BYID[x].n:NM[x]||nmI(x))}</span></a>`}).join("")}</div>`)});
- g.lt.forEach(t=>o.push(`<div class="glt">${esc(gLoot(t))}</div>`));
+/* How to get, as pictures (like a curio page): each recipe as its station with the ingredient slots and the result,
+   each loot table as a card (the mob's face, a chest). The pack exports gear recipes as ingredient lists, not grids. */
+function gSrcText(g){const o=[],out=g.ps?gIcon(g).id:g.id;
+ const slot=(x,n)=>{const t=GBY[x]||BYID[x],nm=x.startsWith("#")?"any "+x.split(":")[1].split("/").pop().replace(/_/g," "):BYID[x]?BYID[x].n:NM[x]||nmI(x),
+  h=GBY[x]?`#g${GBY[x].ix}`:BYID[x]?`#i${BYID[x].ix}`:"";
+  return `<${h?`a href="${h}"`:"div"} class="mcs"${GBY[x]?` data-t="g${GBY[x].ix}"`:BYID[x]?` data-t="${BYID[x].ix}"`:""} title="${esc(nm)}">${x.startsWith("#")?`<span class="ph">${esc(nm)}</span><span class="tagm">#</span>`:IC[x]?img(x):`<span class="ph">${esc(nm)}</span>`}${n>1?`<span class="cnt">${n}</span>`:""}</${h?"a":"div"}>`};
+ g.rc.forEach(r=>{const ing=[...new Set(r.i)].filter(x=>x!==r.t&&!GNOISE.test(x)).slice(0,9),st=gStation(r.t);
+  o.push(`<div class="mcwin k-row"><div class="mct"><span class="mcst">${stIcon(st)}</span>${esc(st)}</div><div class="mcrow"><div class="mcg mrow">${ing.map(x=>slot(x,r.i.filter(y=>y===x).length)).join("")}</div><i class="mca" aria-hidden="true"></i><div class="mcs big">${img(out)}</div></div></div>`)});
+ const cards=g.lt.map(t=>{const [ns,p]=t.split(":"),parts=p.split("/"),what=parts.slice(1).join(" ").replace(/_/g," "),Nm=what.replace(/\b\w/g,c=>c.toUpperCase()),
+   fk="mf_"+what.toLowerCase().replace(/ /g,"_"),pic=k=>`<i class="lrt" style="--lrt:var(--rt-${k})"></i>`;
+  return parts[0]==="entities"?`<div class="lcard"><span class="lpic">${pic(ROOMT[fk]?fk:"spawner")}</span><span class="ltx"><b>${esc(Nm)}</b><small>Mob drop · ${esc(ns)}</small></span></div>`
+   :parts[0]==="chests"?`<div class="lcard"><span class="lpic">${pic("ftb_chest")}</span><span class="ltx"><b>${esc(Nm)}</b><small>Chest loot · ${esc(ns)}</small></span></div>`
+   :`<div class="lcard"><span class="lpic">${pic("ftb_chest")}</span><span class="ltx"><b>${esc(gLoot(t))}</b></span></div>`});
+ if(cards.length)o.push(`<div class="lcards">${cards.join("")}</div>`);
  return o.join("")||'<p class="note">No recipe or loot table found in the pack data (it may come from a boss drop written in code, a trade or a quest reward).</p>'}
+/* element and damage type of a weapon, read from its kind, its class and its name (the pack has no field for it) */
+const GDT=[["Slash",/sword|katana|blade|scythe|dagger|sabre|saber|cutlass|claymore|machete|sickle|glaive/i,"ui_sword"],["Pierce",/spear|trident|rapier|lance|bident|pike|javelin|halberd|estoc/i,"dt_pierce"],
+ ["Blunt",/hammer|mace|axe|club|maul|flail|cudgel|gauntlet|fist|knuckle|morningstar/i,"dt_blunt"]];
+const GEL=[["Fire",/fire|flame|blaze|inferno|lava|magma|ember|infernal|burn|hellfire|ignis|pyre|scorch/i],["Ice",/frost|ice|frozen|glacial|snow|cryo|winter|blizzard/i],
+ ["Lightning",/thunder|lightning|storm|volt|tesla|spark|zeus/i],["Ender / Eldritch",/void|ender|\bend\b|eldritch|abyss/i],["Dark",/shadow|dark|wither|soul|cursed|night|umbral|necro/i],
+ ["Holy",/holy|divine|radiant|celestial|angel|sun|solar|light\b|sacred|paladin/i],["Blood",/blood|sangu|vampir|hemo|crimson/i],["Poison / Nature",/poison|venom|toxic|nature|thorn|vine|verdant|plague/i],["Water",/water|ocean|tide|aqua|sea|coral|hydro/i]];
+function gKinds(g){if(g.k==="armor")return "";const nm=g.n+" "+g.id,cl=(g.cls||[]).join(" ");
+ const dt=g.k==="ranged"?[["Projectile",0,"ui_bow"]]:g.k==="magic"?[["Magic",0,"dt_magic"]]:g.k==="summon"?[["Summon",0,"ui_bone"]]:GDT.filter(x=>x[1].test(nm+" "+cl)).slice(0,1);
+ const el=GEL.filter(x=>x[1].test(nm)).slice(0,2).map(x=>x[0]);if(!dt.length&&!el.length)return "";
+ return `<div class="kinds">${el.length?`<span class="klab">Element</span>${el.map(e=>kchip("el_"+(ELEM[e]||"fire"),e.replace(" / ","/"),"el")).join("")}`:""}${dt.length?`<span class="klab">Damage</span>${dt.map(x=>kchip(x[2],x[0],"dt")).join("")}`:""}<span class="kest" title="The pack has no field for these: the wiki reads them from the weapon's kind and name">estimate</span></div>`}
 const gStation=t=>{t=String(t);const m={"minecraft:crafting_shaped":"Crafting Table","minecraft:crafting_shapeless":"Crafting Table (shapeless)","minecraft:smithing_transform":"Smithing Table","minecraft:smithing":"Smithing Table","kubejs:shaped":"Crafting Table (pack recipe)","kubejs:shapeless":"Crafting Table (pack recipe, shapeless)","adamsarsplus:a_armor_upgrade":"Armor upgrade (Adam's Ars Plus)","ars_elemental:armor_upgrade":"Armor upgrade (Ars Elemental)","ars_nouveau:enchanting_apparatus":"Enchanting Apparatus (Ars Nouveau)","goety:ritual":"Goety ritual","justdirethings:tier_upgrade":"Tier upgrade (Just Dire Things)","l2archery:bow_craft":"Bow crafting (L2 Archery)","celestisynth:starlit_factory":"Starlit Factory (Celestisynth)","saintsdragons:draconic_crucible":"Draconic Crucible (Saint's Dragons)","cataclysm:weapon_fusion":"Weapon Fusion (Cataclysm)","biomancy:bio_forging":"Bio-Forge (Biomancy)","mekanism:mek_data":"Crafting Table (Mekanism, keeps data)","bloodmagic:soulforge":"Hellfire Forge (Blood Magic)","bloodmagic:array":"Alchemy Array (Blood Magic)","simplymore:unique_upgrade":"Unique upgrade (Simply More)","hexerei:mixingcauldron":"Mixing Cauldron (Hexerei)","create:mechanical_crafting":"Mechanical Crafter (Create)","kubejs:recipes.create.mechanical_crafting":"Mechanical Crafter (Create, pack recipe)","farmersdelight:cutting":"Cutting Board (Farmer's Delight)"};
  return m[t]||t.replace(/^kubejs:/,"Pack recipe: ").split(":").pop().replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase())};
 const gLoot=t=>{const [ns,p]=t.split(":");const parts=p.split("/");const kind=parts[0];const what=parts.slice(1).join(" ").replace(/_/g," ");
@@ -211,7 +232,7 @@ function gVerdict(g){const r=gMain(g),w=g.ps?"a":"w",acts=ORDER.filter(x=>x!=-1&
  const span=on.length>1?`Acts ${esc(ACT[on[0]][0])}–${esc(ACT[on[on.length-1]][0])}`:`Act ${esc(ACT[on[0]][0])}`;
  return `<p class="gverd" style="--gc:${bt[2]}"><b>${bt[0]}</b><span><strong>${best<=1?"Worth using":best<=2?"Usable":"Weak"}</strong> as ${GROLE[r]} gear: ${bt[0]} tier at ${span}.${k>0?` Replace it by Act ${esc(ACT[acts[k]][0])}.`:""}</span></p>`}
 /* gear pages use the shared article layout (app.js): sections, infobox, "On this page", navbox */
-const gStatTable=(g,rows)=>rows.length?`<table class="gst">${rows.map(([ic,n,v,s])=>`<tr><td>${ic?`<i class="ai" style="--ai:var(--v-${ic})"></i>`:""}${n}</td><td class="num">${v}</td><td><span class="tg ${s}">${s==="code"?"Read from the mod":"Pack"}</span></td></tr>`).join("")}${g.sc.ME!=null&&g.dmg!=null?`<tr class="dps"><td>Damage per second</td><td class="num">${gRound(g.sc.ME)}</td><td><span class="tg auto">Wiki estimate</span></td></tr>`:""}</table>`:`<p class="note">Base ${g.k==="armor"?"armor":"damage"} is computed in this mod's code at run time; the wiki could not read it, so this item is ranked by its gate.</p>`;
+const gStatTable=(g,rows)=>rows.length?`${gKinds(g)}<table class="gst">${rows.map(([ic,n,v])=>`<tr><td>${ic?`<i class="ai" style="--ai:var(--v-${ic})"></i>`:""}${n}</td><td class="num">${v}</td></tr>`).join("")}${g.sc.ME!=null&&g.dmg!=null?`<tr class="dps"><td>Damage per second <span class="kest">estimate</span></td><td class="num">${gRound(g.sc.ME)}</td></tr>`:""}</table>`:`<p class="note">Base ${g.k==="armor"?"armor":"damage"} is computed in this mod's code at run time; the wiki could not read it, so this item is ranked by its gate.</p>`;
 /* the best tier of a playstyle at an Act, for the navbox */
 const gTop=(a,r,w,not)=>{const t=gTiers(a,r,w)[0];return t?t[1].filter(x=>x!==not).slice(0,10).map(x=>[gHref(x),esc(x.n)]):[]};
 const gArtBox=(g,set)=>`<div class="ip-art${!g.ps&&g.k!=="armor"?" wpn":""}"><div class="ip-stage" style="${tex(g.a)}">${envFx(g.a)}<div class="ip-icon${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?"":" framed"}">${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?`<img class="garm" alt="${esc(set.n)} worn" src="${ARMR[set.k]}">`:`<span class="gbig">${img(g.ps?gIcon(g).id:g.id)}</span>`}</div></div></div>`;
@@ -221,7 +242,7 @@ function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix
   lead:`${esc(GKIND[g.k])}${g.sl?` for the ${esc(GSLOT[g.sl].toLowerCase())}`:""} from ${esc(mod)}, usable from ${esc(actL(g.a))}${g.ga?` once ${esc(GATEN[g.ga])} falls`:""}.`,
   head:gVerdict(set||g),
   secs:[["get","How to get",`${g.ob?`<p class="gob${g.ob[0]==="!"?" bad":g.ob[0]==="?"?" unk":""}">${esc(g.ob.replace(/^[!?]/,""))}</p>`:""}${gSrcText(g)}`],
-   ["stats","Stats",gStatTable(g,rows)+(bon.length?`<h3>Bonuses</h3><ul class="gbon">${bon.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul><p class="note">From the mod's own modifiers, the Linggango <i>attributesetter</i> rebalance and the pack's runtime tweaks (linggango_tweaks: per-mod damage buffs and the tier damage floor), added on top of the base stats.</p>`:"")],
+   ["stats","Stats",gStatTable(g,rows)+(bon.length?`<h3>Bonuses</h3><ul class="gbon attr">${bon.map(x=>`<li>${statLine(x)}</li>`).join("")}</ul><p class="note">From the mod's own modifiers, the Linggango <i>attributesetter</i> rebalance and the pack's runtime tweaks (linggango_tweaks: per-mod damage buffs and the tier damage floor), added on top of the base stats.</p>`:"")],
    ["tier","Tier by Act",set?`<p class="note">The ${esc(set.n)} set as ${GROLE[gMain(set)]} armor, compared with every set usable at each Act.</p>${gTimeline(set)}<h3>Set</h3><a class="gsetl" href="#gs${set.ix}" data-t="s${set.ix}">${gImg(set)}<span>${esc(set.n)} · ${set.ps.length} piece${set.ps.length>1?"s":""}</span></a>`:`<p class="note">${GROLE[r]} weapons, compared with everything usable at each Act.</p>${gTimeline(g)}`],
    typeof GUIDE!=="undefined"&&GUIDE[g.id]&&["guide","From the guide book",guideHtml(GUIDE[g.id])],
    g.lv&&g.lv.length&&["forms","Other levels and forms",`<p class="note">This page shows the strongest version. The same weapon also exists as: ${g.lv.map(x=>`<code>${esc(x)}</code>`).join(", ")}.</p>`]],

@@ -2888,3 +2888,130 @@ body.qbg{background:linear-gradient(rgba(13,13,13,.5),rgba(13,13,13,.5)),var(--r
 .ip-icon .emb.lg{transform:scale(2)!important}
 .room.room[data-room=library] .rdeco{background:var(--rt-spyglass) 78% 80%/48px 48px no-repeat,var(--rt-map_paper) 0 0/100% 100% no-repeat}
 .ip-title,.ip-ih b,.logo,.gear .grow>.glet{font-family:var(--disp)!important}
+
+/* ===================== v45: pass 3 =====================
+   Muted material colours instead of the game's chat colours; a deepslate cave wall behind the page; thin frames
+   (one ink texel, one bevelled colour texel); drawn slot badges. Rarity colours are the mid tones of rarity_frames.py. */
+:root{
+ --r0:#a9a7ad;--r1:#c9b45a;--r2:#5fb3a7;--r3:#9a7bcf;--r4:#d07f3c;--r5:#c4483c;--r6:#e3b440;
+ --void:#121214;--void2:#1a1a1d;--ink:#ecebe6;--mute:#a6a5a0;
+ --gui:#222226;--gui2:#2a2a2f;--gui-hover:#323238;--gui-hi:#3d3d44;--gui-lo:#0b0b0d;--gui-ink:#ecebe6;--gui-mute:#a3a29d;--gui-link:#e2c56a;--gui-line:#34343b;
+ --slot:#16161a;--slot-hi:#38383f;--slot-lo:#060607;
+ --btn:#3a3a40;--btn-hi:#5c5c64;--btn-lo:#151518;
+ --xp:#7fb33f;--gold:#d9a43e;--yellow:#e2d06a;--boss:#b65aa6;--ring:#e2d06a;--accent:#7fb33f;
+ --bevel:inset 2px 2px 0 var(--gui-hi),inset -2px -2px 0 var(--gui-lo);
+}
+body{background:#0e0e10!important}
+#cave{position:fixed;inset:0;z-index:0;pointer-events:none;
+ background:radial-gradient(ellipse 70% 55% at 50% -5%,rgba(255,196,120,.07),transparent 70%),
+  radial-gradient(ellipse 120% 90% at 50% 40%,transparent 40%,rgba(5,5,6,.55) 100%),
+  linear-gradient(rgba(14,14,16,.80),rgba(14,14,16,.86)),var(--cave) 0 0/2048px 1280px repeat;image-rendering:pixelated}
+main,footer{position:relative;z-index:1}#side{z-index:2}
+
+/* panels: one ink line and one bevel, no drop shadow under them */
+*:not(#_):is(.gui,.ip-sec,.ip-info,.ip-toc,#side,.tier,.mbox,.mnote,.mhero,.whyb,.grow,.gbg>div,.bbar,.mcard,.bcardl,.ip-art,.navbox){box-shadow:0 0 0 2px var(--gui-lo),var(--bevel)!important}
+*:not(#_)#main section.s:not(.ip-sec),*:not(#_).bpg>section,*:not(#_).mech section,*:not(#_).ghow,*:not(#_).gbox{box-shadow:0 0 0 2px var(--gui-lo),var(--bevel)!important}
+.ip-info,.navbox{border:0!important;border-image:none!important;background:var(--gui)!important}
+ol.how li{background:none!important;box-shadow:none!important;border-bottom:2px solid var(--gui-line);padding-top:6px!important;padding-bottom:8px!important}
+ol.how li:last-child{border-bottom:0}
+
+/* curio tiles: the thin frame, no glow */
+*:not(#_):is(.tier,.tiles) a.t{box-shadow:none!important;filter:none!important}
+.sbdg{position:absolute;z-index:3;left:4px;bottom:4px;width:18px;height:18px;background:var(--sb) 0 0/18px 18px no-repeat;image-rendering:pixelated;pointer-events:auto}
+.sbdg.rqbd{left:auto;right:4px;top:4px;bottom:auto}
+.sbdg.lg{position:relative;left:auto;bottom:auto;display:inline-block;vertical-align:-4px;margin-right:6px}
+*:not(#_) .t .slk,*:not(#_) .t .rqb{display:none!important}
+.legend .lgr{background:linear-gradient(90deg,var(--r0),var(--r1),var(--r2),var(--r3),var(--r4),var(--r5),var(--r6))!important}
+
+/* cards and chips: rarity as a thin left line in the muted colour, no glow */
+*:not(#_).gc{box-shadow:0 0 0 2px var(--gui-lo),inset 2px 0 0 var(--rc,var(--r0)),var(--bevel)!important;background:var(--gui)!important;border:0!important}
+*:not(#_).gc .rk{background:none!important;color:var(--rc)!important}
+
+/* How to get it: station GUI first, then a card per drop source */
+.ip-sec .mcwin{margin:0 0 14px}
+.mct{align-items:center!important}
+.mcst{display:inline-grid;place-items:center;width:32px;height:32px}.mcst img,.mcst .sti{width:32px;height:32px;image-rendering:pixelated}
+.sti{display:inline-block;background:var(--sti) 0 0/100% 100%;image-rendering:pixelated}
+.mrow{display:flex!important;gap:4px}
+.mring{--R:84px;position:relative;width:calc(var(--R) * 2 + var(--sz));height:calc(var(--R) * 2 + var(--sz));flex:none}
+.mring>.mcs{position:absolute;left:calc(50% - var(--sz) / 2 + cos(calc(var(--k) / var(--n) * 360deg - 90deg)) * var(--R));top:calc(50% - var(--sz) / 2 + sin(calc(var(--k) / var(--n) * 360deg - 90deg)) * var(--R))}
+.mring::before{content:"";position:absolute;inset:calc(var(--sz) / 2);border:2px dashed #8b8b8b;opacity:.9}
+.mcen{position:absolute;left:50%;top:50%;width:64px;height:64px;transform:translate(-50%,-50%);display:grid;place-items:center;background:#8b8b8b;box-shadow:inset 2px 2px 0 #373737,inset -2px -2px 0 #fff}
+.mcen img,.mcen .sti{width:48px;height:48px;image-rendering:pixelated}
+.lcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin:0 0 14px}
+.lcard{display:grid;grid-template-columns:52px 1fr auto;align-items:center;gap:12px;padding:8px 12px 8px 8px;background:var(--gui2);box-shadow:0 0 0 2px var(--gui-lo),var(--bevel);color:var(--gui-ink);text-decoration:none}
+a.lcard:hover{background:var(--gui-hover)}
+.lpic{width:52px;height:52px;display:grid;place-items:center;background:var(--slot);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi)}
+.lpic img{width:32px;height:32px;image-rendering:pixelated}.lpic .emb{transform:none!important}
+.lrt{display:block;width:48px;height:48px;background:var(--lrt) 0 0/100% 100% no-repeat;image-rendering:pixelated}
+.ltx{display:grid;gap:1px;min-width:0}.ltx b{font:600 15px/1.3 var(--body)}.ltx small{color:var(--gui-mute);font-size:12.5px}
+.lch{font:700 15px var(--disp);color:var(--yellow);white-space:nowrap}
+/* Stats */
+.kinds{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0 0 12px}
+.klab{font:700 11px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--gui-mute);margin-left:6px}.klab:first-child{margin-left:0}
+.kchip{display:inline-flex;align-items:center;gap:6px;padding:3px 9px 3px 5px;font:600 13.5px var(--body);color:var(--gui-ink);background:var(--gui2);box-shadow:0 0 0 2px var(--gui-lo),inset 2px 2px 0 var(--gui-hi)}
+.kchip i{width:16px;height:16px;background:var(--kc) 0 0/16px 16px;image-rendering:pixelated}
+ul.attr{list-style:none;margin:0;padding:10px 14px;background:#141416;box-shadow:0 0 0 2px var(--gui-lo),inset 0 0 0 2px #2b2140;display:grid;gap:4px}
+ul.attr li{font:500 15.5px/1.5 var(--body);color:#d9d6cf;padding-left:16px;position:relative}
+ul.attr li::before{content:"";position:absolute;left:2px;top:.65em;width:6px;height:6px;background:var(--rc,var(--r0))}
+b.pos{color:#8aa6e8;font-weight:700}b.neg{color:#d9706a;font-weight:700}
+details.tipx{margin-top:10px}details.tipx>summary{cursor:pointer;font:600 13px var(--body);color:var(--gui-mute);padding:4px 0}
+details.tipx ul{list-style:none;margin:4px 0 0;padding:0 0 0 2px;display:grid;gap:3px}details.tipx li{font-size:14.5px;color:var(--gui-ink)}
+details.tipx li.fxh{font:700 11.5px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--gui-mute);margin-top:4px}
+table.cfg{border-collapse:collapse;margin-top:4px;font-size:14px}table.cfg td{padding:3px 18px 3px 0;border-bottom:1px solid var(--gui-line)}
+/* the meta chips under the title: neutral, rarity as a small square */
+*:not(#_).ip-meta>span{background:var(--gui2)!important;border:0!important;box-shadow:0 0 0 2px var(--gui-lo)!important;color:var(--gui-ink)!important}
+*:not(#_) .aimg.anim>img.strip{width:100%!important;height:calc(var(--n) * 100%)!important;max-height:none!important}
+*:not(#_) ol.how li{background:none!important;box-shadow:none!important;border-bottom:2px solid var(--gui-line);padding:6px 4px 8px 40px!important}
+*:not(#_) ol.how li:last-child{border-bottom:0}
+*:not(#_) ol.how li::before{top:6px!important}
+.mcli{align-self:start!important}
+.k-row .mcrow{flex-wrap:wrap}
+*:not(#_).mh-banner{background:#24200f!important;color:#e9dcb0!important;box-shadow:0 0 0 2px var(--gui-lo),inset 2px 0 0 var(--r6)!important;border:0!important}
+.kest{font:600 11px var(--body);color:var(--gui-mute);border:1px dashed var(--gui-line);padding:1px 6px;margin-left:6px;cursor:help}
+.k-row .mcs[href]{text-decoration:none}
+.gst{width:auto!important;min-width:320px}
+*:not(#_) ul.gbon.attr{padding:10px 14px}*:not(#_) ul.gbon.attr li{list-style:none}
+/* tier letters: Monocraft draws S like 5 and B like 8, so the letters use the body face */
+*:not(#_) :is(.glet,.gtime b,.gverd b){font-family:var(--body)!important;font-weight:800!important}
+
+/* rooms (rooms.js): a lit cross-section, six blocks of 48 px; everything moving is a frame strip or a particle */
+.room3{position:relative;height:288px;overflow:hidden;margin:0 0 18px;background:#141416;box-shadow:0 0 0 2px var(--gui-lo);isolation:isolate}
+.room3 .rcv{position:absolute;top:0;image-rendering:pixelated;z-index:0}
+.room3 .rfx{position:absolute;inset:0;z-index:1;pointer-events:none}
+.room3 .rhead{position:absolute;top:48px;z-index:3;color:#fff;text-shadow:2px 2px 0 #000}
+.room3 .rhead h1{margin:0 0 8px;font:700 36px/1.1 var(--disp);color:#fff;text-shadow:3px 3px 0 #000}
+.room3 .rhead .lede,.room3 .rhead p{margin:0;font:500 15px/1.6 var(--body);color:#e8e4da;max-width:560px}
+.room3 .rhead:has(.gem){display:flex;gap:16px;align-items:flex-start}
+.room3 .rfrs{position:absolute;z-index:2;display:grid;gap:0}
+.room3 .rfr{position:relative;width:48px;height:48px;display:grid;place-items:center;background:var(--rt-ri_item_frame,var(--rt-item_frame)) 0 0/48px 48px no-repeat;image-rendering:pixelated;text-decoration:none}
+.room3 .rfr.glow{background-image:var(--rt-ri_glow_item_frame,var(--rt-glow_item_frame))}
+.room3 .rfr.empty{opacity:.75}
+*:not(#_) .room3 .rfr>img,*:not(#_) .room3 .rfr .aimg,*:not(#_) .room3 .rfr .ph{width:32px!important;height:32px!important;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.45));image-rendering:pixelated}
+.room3 .rfr small{position:absolute;right:1px;bottom:-1px;font:700 10px var(--body);color:#fff;text-shadow:1px 1px 0 #000,-1px 0 0 #000;pointer-events:none}
+.room3 .rfr small.lg{font-size:8.5px}
+.room3 .rfr:hover,.room3 .rfr:focus-visible{filter:brightness(1.25);outline:2px solid #fff;outline-offset:-2px}
+.room3 .ranim,.room3 .ricon{position:absolute;width:48px;height:48px;background:var(--tex) 0 0/48px calc(var(--fr,1) * 48px) no-repeat;image-rendering:pixelated;
+ animation:rstrip var(--ms) steps(var(--fr)) infinite}
+@keyframes rstrip{to{background-position-y:calc(var(--fr) * -48px)}}
+.room3 .ricon{background-size:48px 48px;animation:none}
+.room3 .bob{animation:rbob 2.4s ease-in-out infinite!important}
+@keyframes rbob{50%{transform:translateY(-6px)}}
+.room3 .rbeam{position:absolute;width:12px;background:linear-gradient(rgba(190,250,255,.0),rgba(190,250,255,.55) 30%,rgba(220,255,255,.75));mix-blend-mode:screen;animation:rbeam 3s ease-in-out infinite}
+@keyframes rbeam{50%{opacity:.7}}
+.room3 .rpt{position:absolute;width:12px;height:12px;background:var(--sp) 0 0/12px 12px;image-rendering:pixelated;opacity:0;animation:rrise 3s linear infinite}
+.room3 .rpt.lava,.room3 .rpt.spark{animation-name:rpop;animation-duration:2.2s}
+.room3 .rpt.soul,.room3 .rpt.glitter,.room3 .rpt.smoke{animation-duration:4s}
+@keyframes rrise{0%{opacity:0;transform:translate(0,0)}15%{opacity:1}100%{opacity:0;transform:translate(6px,-60px)}}
+@keyframes rpop{0%{opacity:0;transform:translate(0,0)}10%{opacity:1}50%{transform:translate(10px,-30px)}100%{opacity:0;transform:translate(18px,6px)}}
+.room3 .rglyph{position:absolute;width:12px;height:12px;margin:18px;background:#fff;-webkit-mask:var(--sp) 0 0/12px 12px;mask:var(--sp) 0 0/12px 12px;opacity:0;animation:rglyph 3.2s ease-in infinite}
+.room3 .rglyph.pur{background:#c9a5ff}
+@keyframes rglyph{0%{opacity:0;transform:translate(0,-10px)}20%{opacity:.95}90%{opacity:.8}100%{opacity:0;transform:translate(var(--dx),var(--dy))}}
+@media (prefers-reduced-motion:reduce){.room3 .ranim,.room3 .bob,.room3 .rbeam{animation:none!important}.room3 .rpt,.room3 .rglyph{display:none}}
+.room3 .rfr{background-image:var(--rt-item_frame)!important}.room3 .rfr.glow{background-image:var(--rt-glow_item_frame)!important}
+.room3 .ricon{background:var(--tex) center/32px 32px no-repeat;filter:drop-shadow(0 3px 0 rgba(0,0,0,.4))}
+.room3 .ricon.big{background-size:48px 48px}
+.room3 .rover{position:absolute;width:48px;height:48px;background:var(--tex) 0 0/48px 48px;image-rendering:pixelated;z-index:1}
+.room3 .rhead h1{font-size:32px}.room3 .rhead .lede,.room3 .rhead p{font-size:14px;line-height:1.5}
+.room3 .rpt{width:16px;height:16px;background-size:16px 16px}
+.room3 .rglyph{width:16px;height:16px;margin:16px;-webkit-mask-size:16px 16px;mask-size:16px 16px}
