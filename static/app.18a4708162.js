@@ -460,7 +460,8 @@ const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 const enc=encodeURIComponent;
 const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
 const ICU={};
-const icu=id=>{let u=ICU[id];if(!u&&IC[id]){const b=atob(IC[id]),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);u=ICU[id]=URL.createObjectURL(new Blob([a],{type:"image/png"}))}return u};
+/* an icon as a data: URL. Decoding the base64 into a Blob in script cost ~0.5 s on the Curios page; the browser decodes data: URLs itself, off the main script */
+const icu=id=>{let u=ICU[id];if(!u&&IC[id])u=ICU[id]="data:image/png;base64,"+IC[id];return u};
 let GEK=null;
 const phGlyph=id=>{if(!GEK&&typeof GE!=="undefined"){GEK={};GE.forEach(g=>GEK[g.id]=g)}const g=GEK&&GEK[id];if(!g)return null;return g.k==="armor"?({HELMET:ui("helmet",1),CHESTPLATE:ui("chest",1),LEGGINGS:ui("legs",1),BOOTS:ui("boots",1)}[g.sl]||ui("chest",1)):ui("sword",1)};
 const img=(id,cls)=>{if(/^forge:(partial_)?nbt$|textures\//.test(id))return "";if(IC[id])return `<img alt="" decoding="async" src="${icu(id)}"${cls?` class="${cls}"`:""}>`;const gl=phGlyph(id);return gl?`<span class="ph gph" title="No flat icon: this item only has a 3D model in its mod">${gl}</span>`:`<span class="ph" data-id="${esc(id)}">${esc((NM[id]||id.split(":")[1]||"?").slice(0,2))}</span>`};

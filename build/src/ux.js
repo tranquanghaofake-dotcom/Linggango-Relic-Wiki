@@ -107,10 +107,30 @@ document.addEventListener("DOMContentLoaded",()=>{markNav();remember();lastGear=
 })();
 /* pixel art at a whole-number scale: an icon whose source does not divide its box (renders of 23, 24, 48 or 128 px) is drawn at
    the largest k x source, or source / k, that fits the box, centred in it, instead of being stretched to a fraction */
-{const fitPx=i=>{if(i.tagName!=="IMG"||!i.naturalWidth||i.naturalWidth>256||i.dataset.px)return;const c=getComputedStyle(i);
+{const fit=i=>{if(i.dataset.px)return;const c=getComputedStyle(i);
   if(!/pixelated|crisp/.test(c.imageRendering))return;const n=i.naturalWidth,bw=parseFloat(c.width),bh=parseFloat(c.height);if(!bw||!bh)return;
-  const s=bw/n,ok=x=>Math.abs(x-Math.round(x))<.02&&Math.round(x)>=1;if(ok(s)||ok(1/s))return;
+  const s=bw/n,ok=x=>Math.abs(x-Math.round(x))<.02&&Math.round(x)>=1;if(ok(s)||ok(1/s)){i.dataset.px=0;return}
   const w=s>=1?Math.floor(s)*n:n/Math.ceil(1/s),h=w*i.naturalHeight/n;i.dataset.px=1;
-  i.style.setProperty("width",w+"px","important");i.style.setProperty("height",h+"px","important");
-  i.style.setProperty("margin",`${(bh-h)/2}px ${(bw-w)/2}px`,"important")};
+  return ()=>{i.style.setProperty("width",w+"px","important");i.style.setProperty("height",h+"px","important");i.style.setProperty("margin",`${(bh-h)/2}px ${(bw-w)/2}px`,"important")}};
+ // batched: all reads in one frame, then all writes, so the page lays out once, not once per image
+ let q=[],raf=0;const flush=()=>{raf=0;const xs=q;q=[];xs.map(fit).forEach(f=>f&&f())};
+ const fitPx=i=>{if(i.tagName!=="IMG"||!i.naturalWidth||i.naturalWidth>256||i.dataset.px)return;q.push(i);if(!raf)raf=requestAnimationFrame(flush)};
  document.addEventListener("load",e=>fitPx(e.target),true);[...document.images].forEach(i=>i.complete&&fitPx(i))}
+/* motion that says something and then stops (see style.game.css v47):
+   - .zz pauses everything inside a room, an Act's tiles or a picture while it is off screen
+   - an Act's tiles rise in once when the Act first comes into view (.seen2)
+   - article sections, cards and drop cards rise in once as they reach the screen (.rv → .in), a few at a time
+   - the experience bar at the bottom fills as you read a long page, and flashes once at the end */
+{const RMo=matchMedia("(prefers-reduced-motion:reduce)").matches;
+ const vis=new IntersectionObserver(es=>es.forEach(e=>{const t=e.target;t.classList.toggle("zz",!e.isIntersecting);if(e.isIntersecting&&t.classList.contains("tier"))t.classList.add("seen2")}),{rootMargin:"200px 0px"});
+ const rv=new IntersectionObserver(es=>{let k=0;es.forEach(e=>{if(!e.isIntersecting)return;e.target.style.setProperty("--rvi",k++);e.target.classList.add("in");rv.unobserve(e.target)})},{rootMargin:"0px 0px -40px 0px"});
+ const watch=r=>{if(!r.querySelectorAll)return;
+  r.querySelectorAll(".tier:not([data-zo]),.room3:not([data-zo]),.ip-art:not([data-zo]),.bcard:not([data-zo])").forEach(x=>{x.dataset.zo=1;vis.observe(x)});
+  if(!RMo)r.querySelectorAll(".ip-sec:not(.rv),.gc:not(.rv),.lcard:not(.rv),.mcwin:not(.rv),.bcard:not(.rv),.navbox:not(.rv)").forEach(x=>{x.classList.add("rv");rv.observe(x)})};
+ new MutationObserver(ms=>{for(const m of ms)if(m.addedNodes.length){watch(document);return}}).observe(document.documentElement,{childList:true,subtree:true});watch(document);
+ const xb=document.createElement("div");xb.id="xpb";xb.setAttribute("aria-hidden","true");xb.innerHTML="<i></i>";document.body.appendChild(xb);let full=false,q=0;
+ const xp=()=>{q=0;const art=document.querySelector(".ip.art"),H=document.documentElement.scrollHeight-innerHeight;
+  if(!art||H<innerHeight*.5){xb.classList.remove("on");return}const f=Math.min(1,Math.max(0,scrollY/H));xb.classList.toggle("on",scrollY>40);xb.style.setProperty("--xp",f.toFixed(3));
+  if(f>.995&&!full){full=true;xb.classList.remove("full");void xb.offsetWidth;xb.classList.add("full")}else if(f<.98)full=false};
+ addEventListener("scroll",()=>{if(!q)q=requestAnimationFrame(xp)},{passive:true});addEventListener("hashchange",()=>setTimeout(xp,300));
+ document.addEventListener("visibilitychange",()=>document.documentElement.classList.toggle("zz",document.hidden))}

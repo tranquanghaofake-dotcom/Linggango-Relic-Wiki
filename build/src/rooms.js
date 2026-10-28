@@ -90,9 +90,13 @@ function rPaint(el){const k=el.dataset.room,spec=ROOMK[k];if(!spec||typeof ROOMT
   /* light: the room's level, raised near lamps by (lamp level − blocks away), per texel blended between block centres */
   const L=[];for(let y=0;y<RR;y++){L[y]=[];for(let x=0;x<C;x++){let l=g.amb;for(const[lx,ly,lv]of lights)l=Math.max(l,lv-Math.abs(lx-x)-Math.abs(ly-y));L[y][x]=l}}
   const at=(x,y)=>L[Math.max(0,Math.min(RR-1,y))][Math.max(0,Math.min(C-1,x))];
-  for(let ty=0;ty<RR*16;ty+=2)for(let tx=0;tx<C*16;tx+=2){const fx=tx/16-.5,fy=ty/16-.5,x0=Math.floor(fx),y0=Math.floor(fy),ax=fx-x0,ay=fy-y0;
-   const l=Math.round(at(x0,y0)*(1-ax)*(1-ay)+at(x0+1,y0)*ax*(1-ay)+at(x0,y0+1)*(1-ax)*ay+at(x0+1,y0+1)*ax*ay),a=.8*Math.pow(1-l/15,1.6);
-   if(a>.01){x2.fillStyle=`rgba(8,7,12,${a.toFixed(3)})`;x2.fillRect(tx,ty,2,2)}}
+  // one shade value per 2x2 texels, written into an image half the canvas size and drawn at x2 without smoothing (one draw call)
+  const sw=C*8,sh=RR*8,sh_=document.createElement("canvas");sh_.width=sw;sh_.height=sh;const sx=sh_.getContext("2d"),id=sx.createImageData(sw,sh),A=[];
+  for(let l=0;l<=15;l++)A[l]=Math.round(255*.8*Math.pow(1-l/15,1.6));
+  for(let ty=0;ty<sh;ty++)for(let tx=0;tx<sw;tx++){const fx=tx/8-.5,fy=ty/8-.5,x0=Math.floor(fx),y0=Math.floor(fy),ax=fx-x0,ay=fy-y0;
+   const l=Math.round(at(x0,y0)*(1-ax)*(1-ay)+at(x0+1,y0)*ax*(1-ay)+at(x0,y0+1)*(1-ax)*ay+at(x0+1,y0+1)*ax*ay),o=(ty*sw+tx)*4;
+   id.data[o]=8;id.data[o+1]=7;id.data[o+2]=12;id.data[o+3]=A[Math.max(0,Math.min(15,l))]}
+  sx.putImageData(id,0,0);x2.drawImage(sh_,0,0,sw,sh,0,0,C*16,RR*16);
   x2.globalCompositeOperation="lighter";
   for(const[lx,ly,lv,c]of lights){const gx=lx*16+8,gy=ly*16+8,r=lv*7,gr=x2.createRadialGradient(gx,gy,0,gx,gy,r);gr.addColorStop(0,`rgba(${c},.14)`);gr.addColorStop(1,`rgba(${c},0)`);x2.fillStyle=gr;x2.fillRect(gx-r,gy-r,2*r,2*r)}
   x2.globalCompositeOperation="source-over";
@@ -100,7 +104,9 @@ function rPaint(el){const k=el.dataset.room,spec=ROOMK[k];if(!spec||typeof ROOMT
   /* moving parts, in page pixels */
   const fx=el.querySelector(".rfx"),P=(x,y)=>`left:${x*RB+ox}px;top:${y*RB}px`;let h="";
   anims.forEach(([x,y,t,fr,ms,o])=>{if(t==="beam"){h+=`<i class="rbeam" style="left:${x*RB+ox+18}px;top:0;height:${o.h*RB+RB/2}px"></i>`;return}
-   h+=`<i class="ranim${o.cls?" "+o.cls:""}" style="${P(x,y)};--tex:var(--rt-${t});--fr:${fr};--ms:${ms}ms;${o.alt?"animation-direction:alternate;":""}${o.delay?`animation-delay:${o.delay}ms;`:""}"></i>`});
+   // a frame strip moves inside its block by transform (the compositor plays it; no repaint per frame); one frame does not move
+   h+=fr>1?`<i class="ranim${o.cls?" "+o.cls:""}" style="${P(x,y)};--tex:var(--rt-${t});--fr:${fr};--ms:${ms}ms;${o.alt?"--dir:alternate;":""}${o.delay?`--dl:${o.delay}ms;`:""}"><b></b></i>`
+    :`<i class="rstill${o.cls?" "+o.cls:""}" style="${P(x,y)};--tex:var(--rt-${t})"></i>`});
   over.filter(e=>anims.some(a=>a[0]===e[0]&&a[1]===e[1])).forEach(([x,y,t])=>h+=`<i class="rover" style="${P(x,y)};--tex:var(--rt-${t})"></i>`);
   icons.forEach(([x,y,id,o])=>{if(RIMG["ic:"+id])h+=`<i class="ricon${o.cls?" "+o.cls:""}${o.big?" big":""}" style="${P(x,y)};--tex:url(${RIMG["ic:"+id].src})"></i>`});
   const PT={flame:"p_flame",lava:"p_lava",spark:"p_spark_0",soul:"p_soul_5",glitter:"p_glitter_3"};
@@ -110,6 +116,9 @@ function rPaint(el){const k=el.dataset.room,spec=ROOMK[k];if(!spec||typeof ROOMT
   fx.innerHTML=h;
   const hd=el.querySelector(".rhead");if(hd){hd.style.left=Math.max(16,RB+ox)+"px";hd.style.width=((T-1)*RB+ox-Math.max(16,RB+ox))+"px"}
   el.dataset.p=W})}
-{const ro=typeof ResizeObserver!=="undefined"&&new ResizeObserver(es=>es.forEach(e=>{const el=e.target;if(+el.dataset.p!==el.clientWidth){clearTimeout(el._rt);el._rt=setTimeout(()=>rPaint(el),120)}}));
- const scan=()=>document.querySelectorAll(".room3:not([data-w])").forEach(el=>{el.dataset.w=1;rPaint(el);if(ro)ro.observe(el)});
+// painted from a ResizeObserver, which reports the room's width after the page's own layout: asking for it earlier would
+// force that layout (~0.15 s on the Curios page) before the first paint. The first report paints at once, later ones after 120 ms.
+{const ro=typeof ResizeObserver!=="undefined"&&new ResizeObserver(es=>es.forEach(e=>{const el=e.target,w=Math.round(e.contentRect.width);if(+el.dataset.p===w)return;
+  if(!el.dataset.p)rPaint(el);else{clearTimeout(el._rt);el._rt=setTimeout(()=>rPaint(el),120)}}));
+ const scan=()=>document.querySelectorAll(".room3:not([data-w])").forEach(el=>{el.dataset.w=1;if(ro)ro.observe(el);else rPaint(el)});
  new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes)if(n.nodeType===1&&(n.matches(".room3")||n.querySelector(".room3"))){scan();return}}).observe(document.documentElement,{childList:true,subtree:true})}

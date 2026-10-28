@@ -63,6 +63,13 @@ The headers of The Path, Equipment, the Build planner, Bosses and Mechanics, and
 - Display face: Monocraft (`fonts/`, OFL), embedded by build.py; body text Be Vietnam Pro.
 - Icons whose source is not a multiple of 16 px are fitted by `ux.js` (largest k x source or source / k that fits the box).
 
+## Motion and speed
+Learned from minecraft-guides.com and measured with Chromium (Curios page, 1440 px): motion marks an event and stops.
+- Nothing loops on hundreds of elements: curio tiles rise in once when their Act comes into view (`.seen2`), article sections and cards once when they reach the screen (`.rv` → `.in`), buttons sink two pixels while pressed. Only transform and opacity animate, so the compositor plays them.
+- Off-screen rooms, Acts and pictures are paused (`.zz`, ux.js), and everything is paused in a hidden tab; an Act's tiles are not laid out until near the screen (`content-visibility:auto`).
+- Icons are data: URLs (`icu`), not Blobs decoded in script; odd-sized icons are fitted in one batch per frame (ux.js); rooms paint from a ResizeObserver (no forced layout) and shade their light in one image.
+- Result on the Curios page: load 2.4 s → 0.95 s, idle style work 910 ms per 4 s → 0. The experience bar at the bottom of a long article shows how far you have read (`#xpb`, the HUD's own XP bar texture).
+
 ## Game effects
 The game's own effects, each where it means something, each off under reduced motion:
 - Enchantment glint (`misc/enchanted_glint_item.png`) scrolls over Mythic and Must-Have items, masked to the item's own pixels: `glint(d)` in app.js.

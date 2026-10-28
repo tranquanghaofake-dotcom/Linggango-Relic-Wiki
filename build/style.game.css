@@ -1636,7 +1636,7 @@ table.cfg{border-collapse:collapse;margin-top:4px;font-size:14px}table.cfg td{pa
 @media (prefers-reduced-motion:reduce){.room3 .ranim,.room3 .bob,.room3 .rbeam{animation:none!important}.room3 .rpt,.room3 .rglyph{display:none}}
 .room3 .rfr{background-image:var(--rt-item_frame)!important}.room3 .rfr.glow{background-image:var(--rt-glow_item_frame)!important}
 .room3 .ricon{background:var(--tex) center/32px 32px no-repeat;filter:drop-shadow(0 3px 0 rgba(0,0,0,.4))}
-.room3 .ricon.big{background-size:48px 48px}
+.room3 .ricon.big{background-size:32px 32px}
 .room3 .rover{position:absolute;width:48px;height:48px;background:var(--tex) 0 0/48px 48px;image-rendering:pixelated;z-index:1}
 .room3 .rhead h1{font-size:32px}.room3 .rhead .lede,.room3 .rhead p{font-size:14px;line-height:1.5}
 .room3 .rpt{width:16px;height:16px;background-size:16px 16px}
@@ -1714,3 +1714,41 @@ ul.attr li.fxh::before{display:none}
 .sslot small{position:absolute;right:1px;bottom:-2px;font:700 10px var(--body);color:#fff;text-shadow:1px 1px 0 #000,-1px 0 0 #000;pointer-events:none}
 *:not(#_) ol.how li{padding-left:18px!important}
 *:not(#_) ol.how li::before{content:""!important;left:4px!important;top:15px!important;width:6px!important;height:6px!important;background:var(--gui-mute)!important;box-shadow:none!important;border:0!important}
+
+/* ===================== v47: pass 5 — motion and speed (lessons from minecraft-guides.com) =====================
+   Motion says something happened (a list arrives, a button is pressed, you read further), then stops: no idle loops
+   on hundreds of tiles. Everything moves by transform or opacity only, so the compositor plays it; whatever is off
+   screen is paused; long lists skip rendering until they are near the screen. All of it off under reduced motion. */
+/* rooms: frame strips by transform inside their block */
+.room3 .ranim{overflow:hidden;background:none!important;animation:none!important}
+.room3 .ranim>b{position:absolute;left:0;top:0;width:48px;height:calc(var(--fr) * 48px);background:var(--tex) 0 0/48px 100% no-repeat;image-rendering:pixelated;
+ animation:rstrip2 var(--ms) steps(var(--fr)) var(--dl,0s) infinite var(--dir,normal);will-change:transform}
+@keyframes rstrip2{to{transform:translateY(-100%)}}
+.room3 .rstill{position:absolute;width:48px;height:48px;background:var(--tex) center/32px 32px no-repeat;image-rendering:pixelated;filter:drop-shadow(0 3px 0 rgba(0,0,0,.4))}
+/* nothing moves while it is off screen (rooms.js and app.js mark it .zz) */
+.zz,.zz *,.zz *::before,.zz *::after{animation-play-state:paused!important}
+/* long lists: an Act's tiles are laid out and painted only near the screen */
+.tier{content-visibility:auto;contain-intrinsic-size:auto 420px}
+/* curio tiles: no idle bobbing; they rise in once, a few at a time, when their Act comes into view; hover lifts them */
+*:not(#_) .tier .t>img,*:not(#_) .tier .t .aimg{animation:none!important}
+@media (prefers-reduced-motion:no-preference){
+ .tier:not(.seen2) a.t{opacity:0}
+ .tier.seen2 a.t{animation:mcRise .42s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(min(var(--i,0),24) * 14ms)}
+ *:not(#_) .tier a.t{transition:transform .12s cubic-bezier(.2,.7,.2,1)}
+ *:not(#_) .tier a.t:hover{transform:translateY(-2px)}
+ /* article sections and cards rise in once as they reach the screen */
+ .rv{opacity:0}.rv.in{animation:mcRise .5s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--rvi,0) * 60ms)}
+}
+@keyframes mcRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* buttons press down like the game's: two pixels lower and a shade darker while held */
+*:not(#_):is(.mcb,.chip,.ghost,button.pill,.gseg a,.gacts a):active{transform:translateY(2px);filter:brightness(.88)}
+*:not(#_):is(.mcb,.chip,.ghost,button.pill,.gseg a,.gacts a){transition:filter .1s,transform .06s}
+*:not(#_):is(.mcb,.chip,.ghost,.gseg a,.gacts a):hover{filter:brightness(1.12)}
+/* the experience bar: how far down a page you have read, drawn with the game's own XP bar */
+#xpb{position:fixed;left:50%;bottom:10px;z-index:60;width:364px;height:10px;margin-left:-182px;background:var(--rt-xp_bg) 0 0/364px 10px;image-rendering:pixelated;opacity:0;transition:opacity .25s;pointer-events:none}
+#xpb.on{opacity:1}
+#xpb>i{position:absolute;inset:0;background:var(--rt-xp_fill) 0 0/364px 10px;image-rendering:pixelated;transform-origin:0 0;transform:scaleX(var(--xp,0))}
+#xpb>b{position:absolute;left:50%;top:-20px;transform:translateX(-50%);font:700 16px var(--disp);color:#80ff20;text-shadow:2px 0 0 #000,-2px 0 0 #000,0 2px 0 #000,0 -2px 0 #000}
+#xpb.full>i{animation:xpFlash .6s ease-out}
+@keyframes xpFlash{20%{filter:brightness(2.2)}}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1!important}.tier a.t{opacity:1!important;animation:none!important}#xpb.full>i{animation:none}}
