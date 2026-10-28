@@ -262,7 +262,7 @@ function mechPage(){
  const made=[...new Map(G.rituals.filter(r=>r.out_id&&BYID[r.out_id]).map(r=>[r.out_id,BYID[r.out_id]])).values()].slice(0,8);
  el("main").innerHTML=`${crumb("Mechanics")}${room("ritual",made.map(d=>rCurio(d)),{head:`<h1>Mechanics</h1><p class="lede">How the pack's bigger systems work: Goety's dark rituals and AE2 storage, with Linggango's own changes.</p>`,cols:4,label:"Curios made by rituals"})}
 
-<nav class="mtabs"><a href="#mechanics" data-go="m-goety">Goety rituals</a><a href="#mechanics" data-go="m-ae2">AE2 storage</a></nav>
+<nav class="mtabs"><a href="#mechanics" data-go="m-goety">Goety rituals</a><a href="#mechanics" data-go="m-ae2">AE2 storage</a><a href="#mechanics" data-go="m-stats">Stats</a></nav>
 <section class="s" id="m-goety"><h2>Goety: Dark Rituals</h2>
 <div class="flow">
 <div class="fst">${islot("goety:totem_of_souls",1)}<b>1. Fill a totem</b><span>Kill mobs with a Totem of Roots / Souls in your hotbar</span></div><i class="far">→</i>
@@ -299,11 +299,62 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 <p class="note">Linggango makes them expensive: each DISK drive needs 2 Quartz Glass, 3 Quantum Entangled Singularities, 2 Netherite Ingots, a Nether Star and the matching AE2 storage component (pack recipe; the DISK Housing swaps the component for an empty slot), and they open at ${act(6)} (256k at ${act(7)}).</p>
 <h3>Wireless and curios</h3>
 <p>The wireless range is ${A.wireless_range} blocks around a Wireless Access Point before boosters. These terminals can be worn in the Curio slot, so you can use them without holding them: ${A.curio.map(esc).join(", ")}. The plain Wireless Terminal can't.</p>
+</section>
+<section class="s" id="m-stats"><h2>Stats explained</h2>
+<p>Several mods in the pack add stats with similar names that work differently. This is what each one does, read from the mods' code in V6.6.6hf. Where the code path could not be traced, the row says so.</p>
+<h3>Armor Penetration vs Lethality</h3>
+<p><b>Armor Penetration</b> (Brutality) is a <b>percentage</b>: it removes a share of the target's armor. <b>Lethality</b> (Brutality) is <b>flat</b>: it subtracts a fixed number of armor points after penetration. So penetration is worth more against heavily armored targets (Keepers, armored bosses), lethality against lightly armored ones. Both only count for hits a player makes, and not for damage that already ignores armor.</p>
+<p class="note">Example: a target with 20 armor. +50% Armor Penetration leaves 10; then 5 Lethality leaves 5. Against a 4-armor mob the same 50% only removes 2, while 5 Lethality removes all 4.</p>
+<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>Kind</th><th>What it does</th></tr>
+<tr><td><b>Armor Penetration</b></td><td>Brutality</td><td>Percent</td><td>Effective armor = armor × (1 − penetration). Player hits only, applied before vanilla armor math.</td></tr>
+<tr><td><b>Lethality</b></td><td>Brutality</td><td>Flat</td><td>Subtracts its value from the target's armor, after Armor Penetration.</td></tr>
+<tr><td><b>Armor pierce</b> (flat)</td><td>Iron's Lib</td><td>Flat</td><td>Armor = max(0, armor − value), rounded down. Same idea as Lethality.</td></tr>
+<tr><td><b>Armor pass</b></td><td>TerraCurio</td><td>Flat</td><td>Armor = max(0, armor − value). The Star Cloak's falling stars subtract 3 more.</td></tr>
+<tr><td><b>Armor / toughness penetration</b></td><td>Celestial Core</td><td>Percent</td><td>Cuts the target's armor (or toughness) by that share for the hit: armor × (1 − value).</td></tr>
+<tr><td><b>Needle armor penetration</b>, <b>enchantment piercing</b></td><td>Goety Revelation</td><td>Recovery</td><td>Gives back part of the damage armor (or Protection enchantments) took away: damage = after + (before − after) × value. Only in Goety Revelation's own attacks.</td></tr>
+<tr><td><b>Armor / toughness shred</b></td><td>Puffish Skills</td><td>Percent</td><td>Lowers the target's armor (or toughness) by a share. Exact scaling not confirmed in code.</td></tr>
+<tr><td><b>Resistance shred</b> (all, magic, melee, ranged)</td><td>Puffish Skills</td><td>Percent</td><td>Lowers the target's matching damage resistance. Exact scaling not confirmed in code.</td></tr>
+</table></div>
+<h3>Critical hits</h3>
+<p>There is more than one crit chance. They come from different mods and do not add up into one number.</p>
+<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does</th></tr>
+<tr><td><b>Critical Strike Chance</b></td><td>Brutality</td><td>Melee crits. The base is 0%. A crit needs the normal falling (jump) hit <b>and</b> this roll; if the roll fails, the jump crit is cancelled too.</td></tr>
+<tr><td><b>Critical Strike Damage</b></td><td>Brutality</td><td>Sets the crit multiplier. Base ×1.4 (vanilla is ×1.5).</td></tr>
+<tr><td><b>Critical chance</b></td><td>TerraCurio</td><td>A separate roll for hits that are not already jump crits; a success deals ×1.5. How it combines with Brutality's roll is not confirmed in code.</td></tr>
+<tr><td><b>Crit damage</b></td><td>Iron's Lib</td><td>Added on top of whatever crit multiplier the hit already has (+25% turns ×1.4 into ×1.65).</td></tr>
+<tr><td><b>Spell crit chance / damage</b></td><td>GTBCS</td><td>Only for Iron's Spells damage. Its own roll and multiplier, apart from melee crits.</td></tr>
+<tr><td><b>Bow crit chance</b></td><td>Too Many Bows</td><td>Crits with that mod's bows. Not traced further.</td></tr>
+</table></div>
+<h3>Dodge</h3>
+<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does</th></tr>
+<tr><td><b>Dodge Chance</b></td><td>Brutality</td><td>Chance to avoid a hit completely. Capped at 95%.</td></tr>
+<tr><td><b>Dodge chance</b></td><td>Iron's Lib</td><td>Chance to cancel an incoming hit; a dodge plays the shield sound and gives a second of invulnerability.</td></tr>
+<tr><td>Dodge window / dodge damage</td><td>Linggango Tweaks</td><td>Registered as stats, but no code found that uses them.</td></tr>
+</table></div>
+<h3>Healing from damage</h3>
+<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does</th></tr>
+<tr><td><b>Lifesteal</b></td><td>Brutality</td><td>Heals a share of the <b>melee</b> damage you deal.</td></tr>
+<tr><td><b>Omnivamp</b></td><td>Brutality</td><td>Heals a share of <b>all</b> damage you deal (spells, projectiles, summons included).</td></tr>
+<tr><td><b>Life steal</b></td><td>Puffish Skills</td><td>Heals relative to damage dealt. Exact scaling not confirmed in code.</td></tr>
+<tr><td><b>Soul stealing</b></td><td>Goety Revelation</td><td>Formula not traced.</td></tr>
+</table></div>
+<h3>Damage types</h3>
+<p>Brutality adds <b>Slash</b>, <b>Pierce</b> and <b>Blunt</b> damage stats. Linggango sorts weapons into these types with its own item tags (the Damage chips on curio pages). No code was found that applies the bonus, so treat these stats as not confirmed in code.</p>
+<h3>Summons</h3>
+<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does</th></tr>
+<tr><td><b>Minion Damage</b></td><td>Summonity</td><td>Multiplies your minions' damage. Lower when you are not holding a summoning item or whip.</td></tr>
+<tr><td><b>Summon Damage</b></td><td>Iron's Spells</td><td>Multiplies the damage of summoned creatures; it also scales Summonity minion damage.</td></tr>
+<tr><td>Linggango's summon bridge</td><td>Linggango Tweaks</td><td>Iron's and Goety summons you own also get your Minion Damage, capped at ×2.</td></tr>
+<tr><td><b>Servant capacity</b></td><td>Goety Awaken</td><td>More servants at once (added, not multiplied).</td></tr>
+<tr><td>Summon potency, Summon damage (Opposing Force)</td><td>Goety Awaken, Opposing Force</td><td>Not traced.</td></tr>
+</table></div>
+<p class="note">Read from the mod jars in the V6.6.6hf instance. Stat names on curio pages have a dotted underline: hover one for the short version, or click it to come back here.</p>
 </section>${wikiNav()}`;
  const q=el("rq"),t=el("rt"),kk=el("rk"),rs=[...el("main").querySelectorAll(".rtab tr[data-ty]")];
  const f=()=>{const v=q.value.trim().toLowerCase();let n=0;rs.forEach(r=>{const ok=(!t.value||r.dataset.ty===t.value)&&(!kk.value||r.dataset.k===kk.value)&&(!v||r.dataset.q.includes(v));r.hidden=!ok;n+=ok});el("rn").textContent=`${n} of ${rs.length}`};
  [q,t,kk].forEach(x=>x.addEventListener("input",f));f();
  el("main").querySelectorAll(".mtabs [data-go]").forEach(a=>a.onclick=e=>{e.preventDefault();el(a.dataset.go).scrollIntoView({behavior:"smooth"})});
+ {const sec=decodeURIComponent(location.hash).split("/")[1];if(sec)setTimeout(()=>{const n=el("m-"+sec);if(n)n.scrollIntoView()})}
 }
 
 const rIngr=x=>{const c={};x.gr.c.forEach(e=>{if(e&&e[0])c[e[0]]=(c[e[0]]||0)+1});return Object.entries(c)};
@@ -516,8 +567,8 @@ const AIR=[[/armor toughness|\btoughness\b/i,"fx_resistance"],[/🦺|\barmou?r\b
  [/\bdarkness\b|\bblind\w*/i,"fx_darkness"],[/\bglow\w*/i,"fx_glowing"],[/🏹|\barrows?\b|\branged\b|\bprojectiles?\b/i,"i_bow"],[/☠|\blethality\b|\bexecute\w*/i,"fx_instant_damage"]];
 const EMO=/^[☀-➿\uD83C-\uDBFF]/;
 function fmt(t){let h=esc(t).replace(/️/g,"");for(const [re,k] of AIR){let done=false;h=h.split(/(<[^>]+>)/).map(seg=>done||seg[0]==="<"?seg:seg.replace(re,m=>{done=true;return `<i class="ai" style="--ai:var(--v-${k})" aria-hidden="true"></i>${EMO.test(m)?"":m}`})).join("")}return h}
-const VBI={warden:{n:"Warden",hp:500,url:"https://minecraft.wiki/w/Warden",line:"Melee 16 / 30 / 45 (Easy / Normal / Hard); the ranged Sonic Boom ignores armor and shields.",sum:"Calls up from a Sculk Shrieker in the Deep Dark after repeated warnings. Drops a Sculk Catalyst.",pack:"Linggango's Hardmode ×2.1 does not apply to the Warden."},
- wither:{n:"Wither",hp:300,url:"https://minecraft.wiki/w/Wither",line:"Linggango stats: 32 damage, 20 armor. Below half health its armor makes it immune to arrows.",sum:"Build a T of 4 Soul Sand or Soul Soil and put 3 Wither Skeleton Skulls on top. Always drops a Nether Star.",pack:"Its Nether Star feeds Curse of Envy, which opens every L2 trait-item recipe."},
+const VBI={warden:{n:"Warden",hp:700,url:"https://minecraft.wiki/w/Warden",line:"Melee 16 / 30 / 45 (Easy / Normal / Hard); the ranged Sonic Boom ignores armor and shields.",sum:"Calls up from a Sculk Shrieker in the Deep Dark after repeated warnings. Drops a Sculk Catalyst.",pack:"Linggango's Hardmode ×2.1 does not apply to the Warden."},
+ wither:{n:"Wither",hp:500,url:"https://minecraft.wiki/w/Wither",line:"Linggango stats: 32 damage, 20 armor. Below half health its armor makes it immune to arrows.",sum:"Build a T of 4 Soul Sand or Soul Soil and put 3 Wither Skeleton Skulls on top. Always drops a Nether Star.",pack:"Its Nether Star feeds Curse of Envy, which opens every L2 trait-item recipe."},
  dragon:{n:"Ender Dragon",hp:200,url:"https://minecraft.wiki/w/Ender_Dragon",line:"Heals from End Crystals on the obsidian pillars; first kill gives 12,000 XP and the Dragon Egg.",sum:"Its death opens the End Gateways to the outer islands: End Cities, Shulkers, Elytra.",pack:"Required before the Elvenite Paladin. Killing it switches on Hardmode: ×2.1 mob health and damage."}};
 const CUBE='<span class="cube"><i class="f"></i><i class="t"></i><i class="l"></i><i class="r"></i><i class="b"></i></span>';
 const head3d=(k,c="")=>`<span class="h3d h-${k} ${c}" aria-hidden="true"><span class="rig">${CUBE.replace('class="cube"','class="cube mn"')}${k==="wither"?CUBE.replace('class="cube"','class="cube sm sl"')+CUBE.replace('class="cube"','class="cube sm sr"'):""}</span></span>`;
@@ -932,7 +983,12 @@ const DMGT=[["Slash",/\bslash(ing)? damage|[+\-−]\s?[\d.]+%? slash\b/i,"ui_swo
 const ELX=[["Fire",/\b(ignite|on fire|fire damage|burn|flame)/i],["Ice",/\b(freez|frost|ice damage)/i],["Lightning",/\b(lightning|thunder|shock)/i],["Holy",/\bholy\b/i]];
 const kindOf=d=>{const txt=d.fx+" "+d.st.join(" "),el=(d.mt||[]).filter(k=>k.startsWith("e:")).map(k=>k.slice(2));ELX.forEach(([e,re])=>{if(!el.includes(e)&&re.test(d.fx))el.push(e)});return {el,dt:DMGT.filter(x=>x[1].test(txt))}};
 const kchip=(k,label,cls)=>`<span class="kchip ${cls}"><i style="--kc:var(--rt-${k})"></i>${esc(label)}</span>`;
-function statLine(t){const h=fmt(t).replace(/(^|[\s(])([+\-−]\s?\d[\d.,]*\s?%?|x\s?\d[\d.]*|×\s?\d[\d.]*|\d[\d.,]*\s?%)/g,(m,a,n)=>`${a}<b class="${/^[\-−]/.test(n)?"neg":"pos"}">${n}</b>`);return h}
+/* stat names on curio pages: short hover text, click goes to Mechanics › Stats */
+const STATH=[[/\barmor penetration\b/i,"Percent: removes that share of the target's armor (Brutality). Best vs heavy armor."],[/\blethality\b/i,"Flat: subtracts armor points after penetration (Brutality). Best vs light armor."],[/\barmor pierce\b/i,"Usually flat armor removal (Iron's Lib), like Lethality."],[/\barmor pass\b/i,"Flat: subtracts armor points (TerraCurio)."],[/\benchantment piercing\b/i,"Gives back part of the damage Protection enchantments removed (Goety Revelation attacks only)."],[/\b(armor|toughness) shred\b/i,"Lowers the target's armor or toughness by a share (Puffish Skills)."],
+ [/\bcritical strike chance\b/i,"Brutality melee crit roll; a failed roll also cancels the jump crit."],[/\bcritical strike damage\b/i,"Brutality crit multiplier (base ×1.4)."],[/\bcritical chance\b/i,"One of several crit chances; TerraCurio's is its own ×1.5 roll."],[/\bspell crit\b/i,"Iron's Spells damage only; separate from melee crits."],[/\bcrit damage\b/i,"Added on top of the hit's crit multiplier."],[/\bcrit chance\b/i,"There are several crit chances; see Mechanics › Stats."],
+ [/\bdodge chance\b/i,"Chance to avoid a hit completely."],[/\bomnivamp\b/i,"Heals a share of all damage you deal."],[/\blife ?steal\b/i,"Heals a share of melee damage you deal."],[/\bminion damage\b/i,"Multiplies minion damage (Summonity); lower without a summoning item or whip in hand."],[/\bsummon damage\b/i,"Multiplies summoned creatures' damage (Iron's Spells)."]];
+function statHint(h){for(const [re,tip] of STATH){const m=h.match(re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/stats" title="${esc(tip)}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
+function statLine(t){const h=fmt(t).replace(/(^|[\s(])([+\-−]\s?\d[\d.,]*\s?%?|x\s?\d[\d.]*|×\s?\d[\d.]*|\d[\d.,]*\s?%)/g,(m,a,n)=>`${a}<b class="${/^[\-−]/.test(n)?"neg":"pos"}">${n}</b>`);return statHint(h)}
 function joinTip(xs){const out=[];xs.forEach(x=>{x=String(x).trim();if(!x)return;const p=out[out.length-1];
  if(p&&!/[.!?:)]$/.test(p)&&/^[a-z(…]/.test(x))out[out.length-1]=p+" "+x;else out.push(x)});return out}
 function statsHtml(d,other){const k=kindOf(d),nm=d.n.toLowerCase();
@@ -992,7 +1048,7 @@ const cf=k=>`<span class="badge" title="${CF[k][1]}">${CF[k][0]} ${CF[k][1]}</sp
 const ACTS=[
 ["0","— (Sticks and Stones)","—","—","—","Pale Branch (Heart slot): stand still for 3 s for Resistance V and knockback immunity. Phantom Finger (+2 Ring) is craftable from the start.","code"],
 ["I","The Iron Colossus","Blunt / Lightning","Iron (Act II)","—","—","code"],
-["II","The Goblin Lord","Fire / Slash","Gold (Act III)","—","Goblin Army invasions start appearing. Its treasure bag gives the Gilded Plate for the Unpolished Charm. 6.6.6 made the first four Keepers less tanky (armor 12 instead of 30).","code"],
+["II","The Goblin Lord","Fire / Slash","Gold (Act III)","—","Goblin Army invasions start appearing. Its treasure bag gives the Gilded Plate for the Unpolished Charm. 6.6.6 made the first four Keepers less tanky (the Goblin Lord's armor is 12 instead of 30; Eldorath has 18, Arion 15 to 20).","code"],
 ["III","Arion","Frost / Pierce","Emerald (Act IV)","Unpolished","Unpolished Charm = Gilded Plate + Emerald Totem (Arion's summon item), so it can be made before the fight. With it worn, Gravity-trait mobs (level ≥ 50) drop Dragon's Breath → True Enderian Scarf, Enderian Treads. Thrash Gloves. Beating Arion unlocks the Illager Crusade invasion (finale: the Vizier) and natural Goety mob spawns; Night of Chaos moved to after the Ender Dragon in 6.6.6.","code"],
 ["IV","Eldorath","Blunt / Nature","Diamond (Act V)","—","Defeating it opens the Nether. Elvenite and Bloody ore in deepslate only need mining power 3. 6.6.6: armor 18 instead of 40.","code"],
 ["V","Zoranth the Forgotten","Frost / Holy (fought in the Nether)","Netherite (Act VI)","Magical","The Magical Charm needs Celestial Netherite from the Nether. Grave Gloves (Grave Dust from the Reaper). Magical trait drops for the Study Lectern: Hard Ice, Explosion Shard, Life Essence.","code"],
@@ -1111,7 +1167,7 @@ function renderBase(){
  // the quest-book background (Linggango FTB Quests Theme) behind every progression page
  document.body.classList.toggle("qbg",h==="#home"||/^#(act|boss|side)\//.test(h)||h==="#bosses");
  document.body.classList.toggle("qbook",h==="#bosses"||h.startsWith("#boss/")||h.startsWith("#side/"));
- document.body.classList.toggle("noside",/^#i\d/.test(h)||h.startsWith("#side/")||h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics");
+ document.body.classList.toggle("noside",/^#i\d/.test(h)||h.startsWith("#side/")||h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics"||h.startsWith("#mechanics/"));
  if(innerWidth<=760&&(h.startsWith("#i")||h==="#guide")){el("side").classList.add("closed");el("fold").setAttribute("aria-expanded","false")}
  const soft=SOFT;SOFT=false;const mn=el("main");if(!soft){mn.classList.remove("enter");void mn.offsetWidth;mn.classList.add("enter")}
  const m=h.match(/^#(slot|act|mod)\/(.+)$/);
@@ -1119,7 +1175,7 @@ function renderBase(){
  else if(h.startsWith("#build"))buildPage(h);
  else if(h==="#bosses")bossList();
  else if(h.startsWith("#boss/"))bossPage(h.slice(6));
- else if(h==="#mechanics")mechPage();
+ else if(h==="#mechanics"||h.startsWith("#mechanics/"))mechPage();
  else if(h.startsWith("#side/"))sidePage(h.slice(6));
  else if(m)hubList(m[1],m[2]);
  else if(h==="#mods")hubList("mods");

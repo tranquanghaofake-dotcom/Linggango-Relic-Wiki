@@ -1702,6 +1702,7 @@ table.cfg{border-collapse:collapse;margin-top:var(--s1);font-size:14px}table.cfg
 .unlock .ui{margin-top:var(--s1);flex:none}.unlock span{color:var(--gui-mute)}.unlock b{color:#fff}
 ul.attr li.fxh{padding-left:0;font:700 11.5px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--gui-mute);margin-top:var(--s1)}
 ul.attr li.fxh::before{display:none}
+a.sth{color:inherit;text-decoration:underline dotted;text-underline-offset:3px;cursor:help}a.sth:hover{color:#fff}
 
 /* rooms: a picture now (no item frames), set in a sunken edge */
 .room3{border:4px solid transparent;border-image:var(--rt-gp_inset) 2 / 4px stretch;box-shadow:none!important;height:296px;box-sizing:border-box}
