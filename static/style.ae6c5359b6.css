@@ -3212,3 +3212,6 @@ main:not(#_):not(#__){background:#151517!important;box-shadow:0 0 0 2px var(--ed
 *:not(#_):not(#__).ppanel .pside:has(>.pnone){min-height:0!important;padding:14px!important;border-left-width:0!important}
 /* list cards (Mythic on the hub, related curios): a rarity notch instead of a coloured left bar */
 *:not(#_):not(#__).gc::after{width:4px;top:8px;bottom:auto;height:16px;left:-2px}
+/* Build planner side column: the column itself has no frame; each pane inside is one block */
+*:not(#_):not(#__).bside{border:0!important;border-image:none!important;background:none!important;box-shadow:none!important;padding:0!important}
+*:not(#_):not(#__):is(.bside .bpane,.bside .bpick){border:2px solid var(--edge)!important;border-image:none!important;background:#202024!important;background-clip:padding-box!important;box-shadow:var(--block)!important}
