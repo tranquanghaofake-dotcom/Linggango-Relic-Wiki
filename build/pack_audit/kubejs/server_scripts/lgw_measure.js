@@ -35,12 +35,20 @@ LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285
   BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_' }
 // the member name to use on o: the Mojang one if Rhino shows it, else the first SRG name o has
 LGW.K = (o, n) => {
-  try { if (o[n] != null) return n } catch (x) {}
+  try { if (typeof o[n] === 'function') return n } catch (x) {}
   var l = LGW.SRG[n] || []
-  for (var j = 0; j < l.length; j++) { try { if (o[l[j]] != null) return l[j] } catch (x) {} }
+  for (var j = 0; j < l.length; j++) { try { if (typeof o[l[j]] === 'function') return l[j] } catch (x) {} }
   return n
 }
-LGW.fld = (o, n) => { var v = null; try { v = o[n] } catch (x) {} if (v == null) v = o[LGW.FLD[n]]; return v }
+// No == or === against null on Java values: KubeJS's Rhino runs both through specialEquals, and an empty ItemStack equals null
+// there (ItemStack.EMPTY looked missing). typeof does not compare. A missing member reads as undefined on an object and
+// throws on a class.
+LGW.none = v => typeof v === 'undefined'
+LGW.fld = (o, n) => {
+  var v; try { v = o[n] } catch (x) {}
+  if (LGW.none(v)) { try { v = o[LGW.FLD[n]] } catch (x) {} }
+  return v
+}
 // the message of a caught error with its Java causes and where the deepest one was thrown
 LGW.why = e => {
   var s = '' + e, t = null, last = null, n = 0
@@ -72,6 +80,7 @@ LGW.run = (server, who, name) => {
   var DamageTypeTags = Java.loadClass('net.minecraft.tags.DamageTypeTags')
   var ResourceLocation = Java.loadClass('net.minecraft.resources.ResourceLocation')
   var EMPTY = fld(Java.loadClass('net.minecraft.world.item.ItemStack'), 'EMPTY')
+  if (LGW.none(EMPTY)) EMPTY = Item.of('minecraft:air')
   var A_HP = fld(Attributes, 'MAX_HEALTH'), A_ARMOR = fld(Attributes, 'ARMOR'), A_TOUGH = fld(Attributes, 'ARMOR_TOUGHNESS')
   var A_AD = fld(Attributes, 'ATTACK_DAMAGE'), A_AS = fld(Attributes, 'ATTACK_SPEED'), T_BYPASS = fld(DamageTypeTags, 'BYPASSES_ARMOR')
 
@@ -177,6 +186,8 @@ LGW.run = (server, who, name) => {
     return o
   }
   var cur = ''
+  // magic and fall skip armor in vanilla's bypasses_armor tag; the tag is read when it can be
+  var bypass = (k, s) => { try { return !!c1(s, 'is', T_BYPASS) } catch (e) { return k == 'magic' || k == 'fall' } }
   var hurt = () => {
     var ds = c0(level, 'damageSources'), src = {}, o = {}
     safe('hurt sources', () => {
@@ -187,7 +198,7 @@ LGW.run = (server, who, name) => {
       var s = src[k]
       try {
         var a = new LivingHurtEvent(P, s, 20); MinecraftForge.EVENT_BUS.post(a); var v = a.isCanceled() ? 0 : a.getAmount()
-        if (!c1(s, 'is', T_BYPASS)) v = c3(CombatRules, 'getDamageAfterAbsorb', v, c0(P, 'getArmorValue'), c1(P, 'getAttributeValue', A_TOUGH))
+        if (!bypass(k, s)) v = c3(CombatRules, 'getDamageAfterAbsorb', v, c0(P, 'getArmorValue'), c1(P, 'getAttributeValue', A_TOUGH))
         var b = new LivingDamageEvent(P, s, v); MinecraftForge.EVENT_BUS.post(b)
         o[k] = [Math.round(a.getAmount() * 100) / 100, Math.round((b.isCanceled() ? 0 : b.getAmount()) * 100) / 100]
       } catch (e) { err('hurt ' + k, e, cur) }
