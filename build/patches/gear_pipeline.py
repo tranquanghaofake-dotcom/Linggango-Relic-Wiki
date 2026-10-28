@@ -9,7 +9,9 @@ generated file back. Stages run in the order below, each is a function on {GE, G
   5b gear_added       weapons and armor only the 6.6.6hf in-game dump has (gear_new.json, pack_audit/gear_new.py)
   6 gear_runtime        attribute modifiers read in game (the pack's own kubejs dump_gear) replace the jar reading where present
   7 boss_order.gear     boss drops sit at their boss's Act
-  8 drop_curios         items the curio list (data.js) already has and the gear reading found no stats for: Goety's robes
+  8 gear_fx             what an item does on hit, while worn or held, on use (gear_fx.json, pack_audit/gear_fx.py: the mod's bytecode
+                        and tooltip lines); a set carries the effects its pieces give while worn. Scoring reads them in src/gear.js
+  9 drop_curios         items the curio list (data.js) already has and the gear reading found no stats for: Goety's robes
                         and crowns are Curios items (common/items/curios), not armor, so they left 0-armor rows and empty sets
   then every Act is snapped onto the wiki's Acts
 Scoring is not here: src/gear.js ranks from the facts these stages leave."""
@@ -17,6 +19,18 @@ import json, pathlib
 import gear_rebuild, gear_extra, gear_gate, gear_fix, gear_stats, gear_added, gear_runtime, boss_order
 H = pathlib.Path(__file__).resolve().parent
 st = gear_rebuild.load()
+def gear_fx(st):
+    F = json.loads((H / "gear_fx.json").read_text(encoding="utf-8"))
+    by = {}
+    for g in st["GE"]:
+        f = F.get(g["id"])
+        if not f: continue
+        if f.get("fx"): g["fx"] = f["fx"]
+        if f.get("tip"): g["tip"] = f["tip"]
+        by[g["id"]] = g
+    for x in st["GS"]:
+        fx = [dict(r, src=i) for i in x["p"] for r in (by[i].get("fx", []) if i in by else []) if r.get("when") == "worn"]
+        if fx: x["fx"] = fx
 def drop_curios(st):
     s = (H.parent / "src" / "data.js").read_text(encoding="utf-8"); D, _ = json.JSONDecoder().raw_decode(s, s.index("["))
     cur = {d["id"] for d in D}
@@ -24,7 +38,7 @@ def drop_curios(st):
     st["GE"] = [g for g in st["GE"] if g["id"] not in gone]
     for x in st["GS"]: x["p"] = [i for i in x["p"] if i not in gone]
     st["GS"] = [x for x in st["GS"] if x["p"]]
-for stage in (gear_extra.apply, gear_gate.apply, gear_fix.apply, gear_stats.apply, gear_added.apply, gear_runtime.apply, boss_order.gear, drop_curios):
+for stage in (gear_extra.apply, gear_gate.apply, gear_fix.apply, gear_stats.apply, gear_added.apply, gear_runtime.apply, boss_order.gear, gear_fx, drop_curios):
     stage(st)
 # the wiki's Acts (app.js ORDER) have no Warden / Wither step: 6.1 and 6.2 sit in Act VI (a stray 6.1 once put a battleaxe at Act 0)
 snap = lambda a: max(x for x in boss_order.ORDER if x <= a)

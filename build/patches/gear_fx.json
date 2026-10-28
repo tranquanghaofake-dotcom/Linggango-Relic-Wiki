@@ -1,0 +1,9286 @@
+{
+"adamsarsplus:adam_boots": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:adam_boots_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:adam_hood": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:adam_hood_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:adam_leggings": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:adam_leggings_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:adam_robes": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:adam_robes_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:cade_boots": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:cade_boots_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:cade_hood": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:cade_hood_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:cade_leggings": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:cade_leggings_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:cade_robes": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:cade_robes_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:camr_boots": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:camr_boots_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:camr_hood": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:camr_hood_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:camr_leggings": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:camr_leggings_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:camr_robes": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:camr_robes_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:matt_boots": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:matt_boots_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:matt_hood": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:matt_hood_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:matt_leggings": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:matt_leggings_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:matt_robes": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:matt_robes_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:nick_boots": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:nick_boots_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:nick_hood": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:nick_hood_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:nick_leggings": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:nick_leggings_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:nick_robes": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:nick_robes_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:ryan_boots": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:ryan_boots_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:ryan_hood": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:ryan_hood_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:ryan_leggings": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:ryan_leggings_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:ryan_robes": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"adamsarsplus:ryan_robes_a": {
+"fx": [
+{
+"effect": "adamsarsplus:walking_blizzard",
+"level": 2,
+"maybe": true,
+"name": "Walking Blizzard",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:flame_deity_aura",
+"level": 1,
+"maybe": true,
+"name": "Flame Deity Aura",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:earthen_heart",
+"level": 1,
+"maybe": true,
+"name": "Earthen Heart",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 3,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:holy_legion",
+"level": 1,
+"maybe": true,
+"name": "Holy Legion",
+"ticks": 100,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:abyssal_domination",
+"level": 1,
+"maybe": true,
+"name": "Abyssal Domination",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"alexscaves:cloak_of_darkness": {
+"fx": [
+{
+"effect": "alexscaves:darkness_incarnate",
+"level": 1,
+"name": "Darkness Incarnate",
+"ticks": 0,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Use Special Ability when empowered to become Darkness Incarnate",
+"You cannot use this ability in the light..."
+]
+},
+"alexscaves:extinction_spear": {
+"fx": [
+{
+"fire": 5,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"alexscaves:hood_of_darkness": {
+"fx": [
+{
+"effect": "alexscaves:darkness_incarnate",
+"level": 1,
+"name": "Darkness Incarnate",
+"ticks": 0,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"alexscaves:raygun": {
+"tip": [
+"Charge: %s/%s"
+]
+},
+"alexsmobs:centipede_leggings": {
+"tip": [
+"Enables Wall Climbing"
+]
+},
+"alexsmobs:emu_leggings": {
+"tip": [
+"Chance to avoid projectile damage"
+]
+},
+"alexsmobs:flying_fish_boots": {
+"tip": [
+"Enables gliding by jumping out of water"
+]
+},
+"alexsmobs:frontier_cap": {
+"tip": [
+"+0.1 Speed while Sneaking"
+]
+},
+"alexsmobs:froststalker_helmet": {
+"tip": [
+"Froststalkers follow the horn"
+]
+},
+"alexsmobs:novelty_hat": {
+"tip": [
+"He was number one!"
+]
+},
+"alexsmobs:roadrunner_boots": {
+"tip": [
+"+0.1 Speed on Sand"
+]
+},
+"alexsmobs:rocky_chestplate": {
+"tip": [
+"Enables rolling by sprinting"
+]
+},
+"alexsmobs:sombrero": {
+"tip": [
+"Worn in a Goofy Fashion"
+]
+},
+"alexsmobs:unsettling_kimono": {
+"tip": [
+"Most Undead creatures become neutral"
+]
+},
+"animus:hellforged_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"animus:sentient_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"animus:spear_sentient": {
+"fx": [
+{
+"effect": "minecraft:wither",
+"level": 1,
+"name": "Wither",
+"ticks": null,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:absorption",
+"level": 1,
+"name": "Absorption",
+"ticks": 127,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"armageddon_mod:antique_melted_iron_sword": {
+"tip": [
+"Shoots 4 Melted Iron Block around you damaging your enemies.",
+"[Colossus Rampage]",
+"When right clicked:",
+"Has a chance to strike with molten metal (12% chance).",
+"[Melted Iron]",
+"When an entity is hit:",
+"It wasn't just a stick apparently.."
+]
+},
+"armageddon_mod:apprentice_builder_armor_boots": {
+"tip": [
+"Speed II",
+"Jump Boost II",
+"When Full set equipped :",
+"+3 Block Reach!"
+]
+},
+"armageddon_mod:apprentice_builder_armor_chestplate": {
+"tip": [
+"+3 Block Reach!",
+"Jump Boost II",
+"Speed II",
+"When Full set equipped :"
+]
+},
+"armageddon_mod:apprentice_builder_armor_helmet": {
+"tip": [
+"+3 Block Reach!",
+"When Full set equipped :",
+"Speed II",
+"Jump Boost II"
+]
+},
+"armageddon_mod:apprentice_builder_armor_leggings": {
+"tip": [
+"When Full set equipped :",
+"Jump Boost II",
+"Speed II",
+"+3 Block Reach!"
+]
+},
+"armageddon_mod:aqua_tide": {
+"tip": [
+"When right clicked:",
+"Water Breathing III (15s)"
+]
+},
+"armageddon_mod:arion_helmet_helmet": {
+"tip": [
+"The Legendary helmet of Arion!"
+]
+},
+"armageddon_mod:bloody_armor_boots": {
+"tip": [
+"Hemorrhage Immunity!",
+"When an entity is killed, heals you of one heart",
+"When Full set equipped :"
+]
+},
+"armageddon_mod:bloody_armor_chestplate": {
+"tip": [
+"When Full set equipped :",
+"Hemorrhage Immunity!",
+"When an entity is killed, heals you of one heart"
+]
+},
+"armageddon_mod:bloody_armor_helmet": {
+"tip": [
+"When Full set equipped :",
+"When an entity is killed, heals you of one heart",
+"Hemorrhage Immunity!"
+]
+},
+"armageddon_mod:bloody_armor_leggings": {
+"tip": [
+"Hemorrhage Immunity!",
+"When Full set equipped :",
+"When an entity is killed, heals you of one heart"
+]
+},
+"armageddon_mod:bloody_axe": {
+"tip": [
+"Heals you for one heart",
+"When an entity is killed:",
+"[Blood Drain]"
+]
+},
+"armageddon_mod:bloody_scythe": {
+"tip": [
+"[Blood Drain]",
+"When an entity is killed:",
+"Heals you for one heart"
+]
+},
+"armageddon_mod:bloody_sword": {
+"tip": [
+"Heals you for one heart",
+"[Blood Drain]",
+"When an entity is killed:"
+]
+},
+"armageddon_mod:bloody_throwing_dagger": {
+"tip": [
+"2s Cooldown",
+"18 Ranged Damage"
+]
+},
+"armageddon_mod:broken_sword_of_the_element_schulk": {
+"tip": [
+"[Blackout]",
+"Inflict Darkness I (5 seconds)",
+"When an entity is hit:"
+]
+},
+"armageddon_mod:calamitous_armor_boots": {
+"tip": [
+"Born from calamity, its durability unmatched."
+]
+},
+"armageddon_mod:calamitous_armor_chestplate": {
+"tip": [
+"Born from calamity, its durability unmatched."
+]
+},
+"armageddon_mod:calamitous_armor_helmet": {
+"tip": [
+"Born from calamity, its durability unmatched."
+]
+},
+"armageddon_mod:calamitous_armor_leggings": {
+"tip": [
+"Born from calamity, its durability unmatched."
+]
+},
+"armageddon_mod:cleaver_of_the_starved": {
+"tip": [
+"When an entity is hit:",
+"[Hunger Fang]",
+"Steal your enemies's food and slow them!"
+]
+},
+"armageddon_mod:diamond_pike": {
+"tip": [
+"Longer Reach"
+]
+},
+"armageddon_mod:diamond_throwing_dagger": {
+"tip": [
+"2s Cooldown",
+"10 Ranged Damage"
+]
+},
+"armageddon_mod:dragons_fang": {
+"tip": [
+"When right clicked:",
+"Shoots a Dragon Fireball from your sword",
+"[Dragonflare]",
+"When held:",
+"When an entity is hit",
+"Become immune to Dragonbreath damage",
+"Can perfom a Dragon's Slash (14% chance)",
+"[Dragon's Bite]"
+]
+},
+"armageddon_mod:eclipsium_edge": {
+"tip": [
+"Deals 15 additional damage!",
+"[Cataclysmic Slash]",
+"Gains a powerful buff for 15 seconds that will reduce your enemies to ashes with each successive hit.",
+"[Shattered Blade]",
+"When a Boss is hit:",
+"When right clicked:"
+]
+},
+"armageddon_mod:eclipsium_reaper": {
+"tip": [
+"Deals 15 additional damage!",
+"[Cataclysmic Slash]",
+"When a Boss is hit:",
+"Gains a powerful buff for 15 seconds that will reduce your enemies to ashes with each successive hit.",
+"[Shattered Blade]",
+"When right clicked:"
+]
+},
+"armageddon_mod:elvenite_throwing_dagger": {
+"tip": [
+"2s Cooldown",
+"14 Ranged Damage"
+]
+},
+"armageddon_mod:emerald_pike": {
+"tip": [
+"Longer Reach"
+]
+},
+"armageddon_mod:expert_builder_armor_boots": {
+"tip": [
+"Jump Boost II",
+"When Full set equipped :",
+"+4 Block Reach!",
+"Speed III"
+]
+},
+"armageddon_mod:expert_builder_armor_chestplate": {
+"tip": [
+"When Full set equipped :",
+"Jump Boost II",
+"Speed III",
+"+4 Block Reach!"
+]
+},
+"armageddon_mod:expert_builder_armor_helmet": {
+"tip": [
+"When Full set equipped :",
+"Jump Boost II",
+"Speed III",
+"+4 Block Reach!"
+]
+},
+"armageddon_mod:expert_builder_armor_leggings": {
+"tip": [
+"+4 Block Reach!",
+"Speed III",
+"Jump Boost II",
+"When Full set equipped :"
+]
+},
+"armageddon_mod:fork_of_lamentations": {
+"tip": [
+"Throws a serie of forks that pierces through the ennemies and stuns them.",
+"[Forks of Doom]",
+"When right clicked:",
+"Can explode shorlty on the target (25%chance)",
+"[Spike of Doom]",
+"When an entity is hit:"
+]
+},
+"armageddon_mod:gilded_goblins_mace": {
+"tip": [
+"When right clicked:",
+"Push back all enemies around you and inflict Weakness I on them.",
+"[Lord's Growl]",
+"When an entity is hit:",
+"Has a chance to Stun the target and inflicting Poison I (35% chance).",
+"[Lord's Uppercut]"
+]
+},
+"armageddon_mod:gilded_pike": {
+"tip": [
+"Longer Reach"
+]
+},
+"armageddon_mod:golden_pike": {
+"tip": [
+"Longer Reach"
+]
+},
+"armageddon_mod:golden_throwing_dagger": {
+"tip": [
+"3s Cooldown",
+"4 Ranged Damage"
+]
+},
+"armageddon_mod:helionite_armor_boots": {
+"tip": [
+"When full set is equipped:",
+"If an entity hits you, 10% chance of spawning a Sunbeam!"
+]
+},
+"armageddon_mod:helionite_armor_chestplate": {
+"tip": [
+"If an entity hits you, 10% chance of spawning a Sunbeam!",
+"When full set is equipped:"
+]
+},
+"armageddon_mod:helionite_armor_helmet": {
+"tip": [
+"When full set is equipped:",
+"If an entity hits you, 5% chance of spawning a Sunbeam!"
+]
+},
+"armageddon_mod:helionite_armor_leggings": {
+"tip": [
+"When full set is equipped:",
+"If an entity hits you, 10% chance of spawning a Sunbeam!"
+]
+},
+"armageddon_mod:helionite_axe": {
+"tip": [
+"When an entity is hit:",
+"[Helios's Touch]",
+"Ignites the target for 10 seconds"
+]
+},
+"armageddon_mod:helionite_scythe": {
+"tip": [
+"[Helios's Touch]",
+"When an entity is hit:",
+"Ignites the target for 10 seconds"
+]
+},
+"armageddon_mod:helionite_sword": {
+"tip": [
+"When an entity is hit:",
+"[Helios's Touch]",
+"Ignites the target for 10 seconds"
+]
+},
+"armageddon_mod:helionite_throwing_dagger": {
+"tip": [
+"20 Ranged Damage",
+"2s Cooldown"
+]
+},
+"armageddon_mod:hellforged_bident": {
+"tip": [
+"[Ghost Spears]",
+"Has a 30% chance to damage the entities next to your target.",
+"When an entity is hit:"
+]
+},
+"armageddon_mod:hollow_axe": {
+"tip": [
+"Allows you to mine blocks farther"
+]
+},
+"armageddon_mod:illagers_executioner": {
+"tip": [
+"[Old Remnant]",
+"When a villager is hit:",
+"Executes him instantly..",
+"Deals a critical strike if the target is below 25% health",
+"[Brutal Sentence]",
+"Has a chance of summoning an Evoker Fang.",
+"When an entity is hit:"
+]
+},
+"armageddon_mod:incendarius": {
+"tip": [
+"Flamebound Pact",
+"Summons a wave of flame around you and ignites every entities",
+"[Inferno Burst]",
+"When right clicked:"
+]
+},
+"armageddon_mod:indomita_furia": {
+"tip": [
+"When right clicked on block:",
+"[Cosmos Rift]",
+"When enough power, summons a Rift with a star fall around you.",
+"When an entity is hit:",
+"[Untamed Fury]",
+"Unless you are strong enough, this sword will harm you. You must master it through perseverance. (100 hits needed)",
+"[Master's Wrath]",
+"Summons a Star from above dealing high damage and stunning enemies."
+]
+},
+"armageddon_mod:iron_colossus_arm": {
+"tip": [
+"When an entity is hit:",
+"[Colossus Fist]",
+"Like a Pickaxe!",
+"Stuns the target for 1s.",
+"Made of the arm of the fallen Iron Colossus"
+]
+},
+"armageddon_mod:iron_pike": {
+"tip": [
+"Longer Reach"
+]
+},
+"armageddon_mod:iron_throwing_dagger": {
+"tip": [
+"8 Ranged Damage",
+"3s Cooldown"
+]
+},
+"armageddon_mod:lament_of_khyros": {
+"tip": [
+"Throws a spear that pierces through the ennemies and stuns them.",
+"When right clicked:",
+"[Spear of the End]"
+]
+},
+"armageddon_mod:marrow_club": {
+"tip": [
+"Has a chance to Stun your target!",
+"On hit:"
+]
+},
+"armageddon_mod:netherite_lostsword": {
+"tip": [
+"For 10 seconds you'll make more damage and set entities around you on fire during each hit.",
+"When right clicked:",
+"[Fiery Touch]"
+]
+},
+"armageddon_mod:netherite_throwing_dagger": {
+"tip": [
+"2s Cooldown",
+"12 Ranged Damage"
+]
+},
+"armageddon_mod:novice_builder_armor_boots": {
+"tip": [
+"+1.5 Block Reach!",
+"Jump Boost I",
+"Speed I",
+"When Full set equipped :"
+]
+},
+"armageddon_mod:novice_builder_armor_chestplate": {
+"tip": [
+"Speed I",
+"When Full set equipped :",
+"+1.5 Block Reach!",
+"Jump Boost I"
+]
+},
+"armageddon_mod:novice_builder_armor_helmet": {
+"tip": [
+"+1.5 Block Reach!",
+"Jump Boost I",
+"Speed I",
+"When Full set equipped :"
+]
+},
+"armageddon_mod:novice_builder_armor_leggings": {
+"tip": [
+"When Full set equipped :",
+"Speed I",
+"Jump Boost I",
+"+1.5 Block Reach!"
+]
+},
+"armageddon_mod:piglins_battleaxe": {
+"tip": [
+"Fast as Gold!",
+"When an entity is hit:",
+"Deals increased knockbacks",
+"[Brute's Blow]",
+"When held:",
+"Increases your Strenght level as your health decreases",
+"[Brute's Rage]"
+]
+},
+"armageddon_mod:primalis": {
+"tip": [
+"When right clicked and sneaking:",
+"[Primal Forces]",
+"Cycles between the powers of Fire, Air, Water, and Nature to shape your strike.",
+"Fire can burn your enemies.",
+"Air will launch you in the sky.",
+"Ice will freeze your enemies if hit.",
+"Nature will launch a grass blade and poison your enemies."
+]
+},
+"armageddon_mod:primitive_pike": {
+"tip": [
+"Longer Reach"
+]
+},
+"armageddon_mod:prismatic_axe": {
+"tip": [
+"When an entity is hit and submerged in water:",
+"[Sea Power]",
+"Gains Haste and Water Breathing",
+"When submerged in water:",
+"[Prismatic Touch]",
+"Deals x1.5 damage and inflicts Slowness + Mining Fatigue"
+]
+},
+"armageddon_mod:prismatic_sword": {
+"tip": [
+"When an entity is hit and submerged in water:",
+"[Prismatic Touch]",
+"When submerged in water:",
+"[Sea Power]",
+"Deals x1.5 damage and inflicts Slowness + Mining Fatigue",
+"Gains Haste and Water Breathing"
+]
+},
+"armageddon_mod:radiant_sanctifier": {
+"tip": [
+"When an entity is hit:",
+"[Divine Retribution]",
+"Inflicts Blindness and Glowing  on hit."
+]
+},
+"armageddon_mod:sanguir": {
+"tip": [
+"When right clicked:",
+"When an entity is killed:",
+"Heals you for one heart.",
+"[Blood Drain]",
+"When an entity is hit:",
+"Has a 30% chance to damage the entities around your target.",
+"[Crimson Spears]",
+"Applies Bleeding V to all enemies around you and damage them."
+]
+},
+"armageddon_mod:scalding_silence": {
+"tip": [
+"When right clicked:",
+"Covers you in ashes and grants you 3 devastating inferno hits.",
+"[Ashfall Cloak]",
+"When an entity is hit:",
+"Sets the target on fire.",
+"[Cinder Touch]"
+]
+},
+"armageddon_mod:scorching_staff": {
+"tip": [
+"Shoots a Fireball that can damage bosses",
+"[Fire Ball]",
+"When right clicked"
+]
+},
+"armageddon_mod:scytheofthe_withered_shadow": {
+"tip": [
+"Burns every entities in a large radius dealing heavy damage.",
+"Inflicts Wither I (10 seconds)",
+"When right clicked:",
+"[Hellfire Cloud]",
+"When entity is hit:",
+"[Withered Touch]"
+]
+},
+"armageddon_mod:shivering_shard": {
+"tip": [
+"When an entity is hit:",
+"[Frostbite]",
+"Frozes the target of +15% per hit",
+"Inflicts Slowness on hit."
+]
+},
+"armageddon_mod:skyfang_tempest": {
+"tip": [
+"When an entity is hit:",
+"Deals damage in a large zone around you striking lightnings and sending the targets in to air.",
+"[Howling Slash]",
+"[Tempest]",
+"When right clicked:",
+"Can performs a Howling Slash dealing damage in a short zone and sending the target into the air. (20% chance)"
+]
+},
+"armageddon_mod:spear_of_longinus": {
+"tip": [
+"When right clicked:",
+"Performs a massive forward dash, piercing through all enemies and setting them on fire.",
+"[Echo of Instrumentality]",
+"Can throw a Spear of Instrumentality in front of you. (30% chance)",
+"[Spear Dance]",
+"When swung:"
+]
+},
+"armageddon_mod:staff_of_the_abyss": {
+"tip": [
+"Shoots an Abyssal Ball that can damage bosses",
+"[Abyssal Ball]",
+"When right clicked"
+]
+},
+"armageddon_mod:staff_of_the_cosmos": {
+"tip": [
+"[Star Rain]",
+"Summons a Star Rain above the enemies that can damage bosses!",
+"When right clicked on block:"
+]
+},
+"armageddon_mod:stone_pike": {
+"tip": [
+"Longer Reach"
+]
+},
+"armageddon_mod:sword_of_the_element_schulk": {
+"tip": [
+"When an entity is hit:",
+"Inflicts Darkness I (5 seconds)",
+"[Blackout]",
+"When right clicked:",
+"Fires a small warden blast",
+"[Warden's Blast]"
+]
+},
+"armageddon_mod:thalassar": {
+"tip": [
+"[Abyssal Touch]",
+"Deals x1.5 damage and inflicts Slowness + Mining Fatigue",
+"When an entity is hit and submerged in water:",
+"[Abyss Power]",
+"Gains Haste and Water Breathing",
+"When submerged in water:",
+"When right clicked:",
+"[Abyssal Balls]"
+]
+},
+"armageddon_mod:the_annihilation": {
+"tip": [
+"A devastating dash that ignites Void Flame and Chaos State, exploding after a brief delay to annihilate nearby foes.",
+"When right clicked:",
+"[Rift of Annihilation]",
+"Combine the power of Fire and VoidFlame to burn your enemies.",
+"When entity is hit:",
+"[Chaotic Voidflame]"
+]
+},
+"armageddon_mod:the_chaos_saber": {
+"tip": [
+"When entity is hit:",
+"[Chaos State]",
+"Explode after a quick time",
+"Explode after a quick time"
+]
+},
+"armageddon_mod:the_chaosphere_blade": {
+"tip": [
+"When swung:",
+"[Chaotic Sacrifice]",
+"Unleashes a devastating slash of chaos that pierces through your enemies. (33% chance)",
+"When entity is hit:",
+"[Chaotic Strikes]",
+"Applicts a random debuff to the target"
+]
+},
+"armageddon_mod:the_doom_caller_bell": {
+"tip": [
+"Rain a meteor onto ennemies's head",
+"[Doom Call]",
+"When right clicked on block:"
+]
+},
+"armageddon_mod:the_duskfire_blade": {
+"tip": [
+"When right clicked:",
+"Inflicts Amaterasu randomly",
+"When an entity is hit:",
+"Burns the enemies with Amaterasu, slow them and strike ligthnings!",
+"[Nyxaris's Shockwave]"
+]
+},
+"armageddon_mod:the_emerald_wrath": {
+"tip": [
+"The Legendary Sword of Arion!",
+"Hero Of the Village I",
+"When in main hand:",
+"Performs a short range dash that deals damage to your enemies.",
+"[Arion's Dash]",
+"When right cliked:"
+]
+},
+"armageddon_mod:the_exsanguination": {
+"tip": [
+"When an entity is killed:",
+"When right clicked:",
+"Releases a burst of continual sanguine damage at your position.",
+"[Laceration]",
+"When an entity is hit:",
+"Inflicts Hemorrhage I (5 seconds)",
+"[Sanguine Wound]",
+"[Blood Drain]"
+]
+},
+"armageddon_mod:the_eye_of_the_sun": {
+"tip": [
+"When right clicked:",
+"[Sun Tempest]",
+"Ignites and strikes all nearby enemies with Sunbeam, dealing 25 damage",
+"When an entity is hit:",
+"[Helios's Touch]",
+"Ignites the target for 10 seconds"
+]
+},
+"armageddon_mod:the_gale_piercer": {
+"tip": [
+"When an entity is hit:",
+"[Howling Tempest]",
+"Has a chance to project the target into the air."
+]
+},
+"armageddon_mod:the_holy_sword": {
+"tip": [
+"[Sacred Land]",
+"When right clicked:",
+"Ignites the targets and strikes a lightning on them in a large zone.",
+"When an entity is hit:",
+"Can performs a Holy Slash , which deals additional damage to enemies by setting them ablaze (18% chance)",
+"[Holy Slash]"
+]
+},
+"armageddon_mod:the_hungery_axe": {
+"tip": [
+"When right clicked:",
+"Takes a bite out of the tool to nourish yourself.",
+"When a block is destroyed:",
+"[Little Bite]",
+"Nourishes you of +1 food and saturation."
+]
+},
+"armageddon_mod:the_lost_voidblade": {
+"tip": [
+"[Voidflame Teleportation]",
+"When right clicked:",
+"Teleports you where you looking at and makes a small Voidflame Explosion.",
+"When entity is hit:",
+"Inflicts Void Flame I (8 seconds)"
+]
+},
+"armageddon_mod:the_north_star": {
+"tip": [
+"Frostbite",
+"Frozes the ennemies around you and spawn an ice block on them!",
+"[Winter's Frost]",
+"When right clicked:"
+]
+},
+"armageddon_mod:the_oathbreaker_of_chaos": {
+"tip": [
+"Give you Strenght I (5 seconds)",
+"When an entity is hit:",
+"When right clicked:",
+"Stun, launch the enemies and set them on fire",
+"[Oathbreaker's Rule]",
+"Has a chance to Stun the enemy",
+"[Headbreaker]"
+]
+},
+"armageddon_mod:the_prismatic_blade": {
+"tip": [
+"Shoots a serie of Prismatic Balls in front of you that slow your ennemies.",
+"[Prismatic Balls]",
+"When submerged in water:",
+"Deals x1.5 damage and inflicts Slowness + Mining Fatigue",
+"[Prismatic Touch]",
+"When an entity is hit and submerged in water:",
+"When right clicked:",
+"Gains Haste and Water Breathing"
+]
+},
+"armageddon_mod:the_rift_piercer": {
+"tip": [
+"Randomly teleport the target",
+"[Blink Slash]",
+"When an entity is hit:"
+]
+},
+"armageddon_mod:the_scarlet_guillotine": {
+"tip": [
+"[Blood Drain]",
+"When an entity is killed:",
+"[Blood Slash]",
+"When right clicked:",
+"Inflicts Hemorrhage I (5 seconds)",
+"[Sanguine Wound]",
+"When an entity is hit:",
+"Heals you of one heart"
+]
+},
+"armageddon_mod:the_scorchfang": {
+"tip": [
+"When an entity is hit:",
+"Sets the target on fire.",
+"[Flamebound Pact]"
+]
+},
+"armageddon_mod:the_specters_judgement": {
+"tip": [
+"More chance to get spirits when an entity dies!"
+]
+},
+"armageddon_mod:the_stick": {
+"tip": [
+"It is just a simple stick.. ?"
+]
+},
+"armageddon_mod:the_sword_of_the_starved": {
+"tip": [
+"Reap your enemies's hunger and slow them shortly",
+"[Devour]",
+"The hungrier you are, the more damage the sword deals",
+"[Gluttonous Strike]",
+"When an entity is hit:",
+"Randomly inflict Hunger and Slowness",
+"When an entity has Hunger, deals 20% additonal damage"
+]
+},
+"armageddon_mod:the_teleportation_dagger": {
+"tip": [
+"Unbreakable",
+"When thrown:",
+"[Warp Rush]",
+"Teleports the player where the dagger lands"
+]
+},
+"armageddon_mod:the_titans_oath": {
+"tip": [
+"[Titan's Punch]",
+"When an entity is hit:",
+"Has a chance to stun the target and strike it with lightning.",
+"Knocks targets down and sets them on fire",
+"[Titan's Rule]",
+"When right clicked:"
+]
+},
+"armageddon_mod:the_vampiric_blade": {
+"tip": [
+"Drains life from all nearby mobs, replenishing your health with each strike",
+"When an entity is hit:",
+"[Crimson Bleeding]",
+"Hitting an enemy has a chance to restore your health (75% chance)",
+"Has another chance of dealing a critical Vampiric Strike (25% chance)",
+"When right clicked:",
+"[Bloodbane]"
+]
+},
+"armageddon_mod:the_voidfang_saber": {
+"tip": [
+"An ancient flame made of void that deals very high damage",
+"An ancient flame made of void that deals very high damage",
+"When entity is hit:",
+"[VoidFlame]"
+]
+},
+"armageddon_mod:the_warden_slayer": {
+"tip": [
+"-Donor Item-",
+"Release the trapped souls in a devastating burst, inflicting massive damage, Darkness, and Stun to all nearby enemies.",
+"[Souls Release]",
+"When right clicked:",
+"Each strike infuses the target with Resonance effect, causing a violent sonic implosion after three hits.",
+"[Sonic Rupture]",
+"When an entity is hit:",
+"albinoorange"
+]
+},
+"armageddon_mod:the_whisper_of_poison": {
+"tip": [
+"When an entity is hit:",
+"Inflicts Poison on hit.",
+"[Toxin's Kiss]"
+]
+},
+"armageddon_mod:the_wilting_virescence": {
+"tip": [
+"Lauches 3 Lingering Potions of Poison in front of you!",
+"[Poisonous's Splash]",
+"When right clicked:",
+"Toxin's Kiss"
+]
+},
+"armageddon_mod:the_world_breaker_axe": {
+"tip": [
+"When right clicked:",
+"Sets the target on fire",
+"When an entity is hit:",
+"impact and setting them ablaze.",
+"Launches enemies into the air, dealing heavy damage upon",
+"[Hell's Rift]"
+]
+},
+"armageddon_mod:the_world_flare_axe": {
+"tip": [
+"[Helios's Touch]",
+"When an entity is hit:",
+"Ignites the target for 10 seconds",
+"[Sundering Strike]",
+"When right clicked:",
+"Launches enemies into the air, dealing 25 impact damage while striking them with lightning and flames."
+]
+},
+"armageddon_mod:the_worldshaper_axe": {
+"tip": [
+"Launches enemies into the air and deals 8 damage on",
+"impact.",
+"When right clicked:",
+"[World Rift]"
+]
+},
+"armageddon_mod:true_aqua_tide": {
+"tip": [
+"Randomly inflicts Mining Fatigue I",
+"Water Breathing I",
+"When tool in hand tick:",
+"[Guardian's Slap]",
+"When an entity is hit:",
+"Launches ennemies into the air and drow them dealing 10 damages",
+"[Aqua Tide]",
+"When right clicked:"
+]
+},
+"armageddon_mod:true_helionite_sword": {
+"tip": [
+"When an entity is hit:",
+"[Helios's Touch]",
+"Ignites the target for 10 seconds",
+"When right clicked:",
+"[Helios's Shockwave]",
+"Burns the enemies, slows them and strikes lightnings!",
+"[Zenithian's Aura]",
+"Just holding this sword will set nerby foes on fire"
+]
+},
+"armageddon_mod:ultimate_sword_of_the_element_schulk": {
+"tip": [
+"[Warden's Explosion]",
+"Fires a warden blast and triggers a small sculk explosion around you.",
+"When an entity is hit:",
+"[Blackout]",
+"Inflicts Darkness I (5 seconds)",
+"When right clicked:"
+]
+},
+"armageddon_mod:unstable_axe": {
+"tip": [
+"Explodes around the block",
+"[Anarchic Destruction]",
+"When a block is broken:"
+]
+},
+"armageddon_mod:voiderite_armor_boots": {
+"tip": [
+"Voidflame Immunity"
+]
+},
+"armageddon_mod:voiderite_armor_chestplate": {
+"tip": [
+"Voidflame Immunity"
+]
+},
+"armageddon_mod:voiderite_armor_helmet": {
+"tip": [
+"Voidflame Immunity"
+]
+},
+"armageddon_mod:voiderite_armor_leggings": {
+"tip": [
+"Voidflame Immunity"
+]
+},
+"armageddon_mod:voiderite_axe": {
+"tip": [
+"Inflicts Voidflame shortly",
+"When an entity is hit:",
+"[Voidflame]"
+]
+},
+"armageddon_mod:voiderite_scythe": {
+"tip": [
+"[Voidflame]",
+"When an entity is hit:",
+"Inflicts Voidflame shortly"
+]
+},
+"armageddon_mod:voiderite_sword": {
+"tip": [
+"[Voidflame]",
+"Inflicts Voidflame shortly",
+"When an entity is hit:"
+]
+},
+"armageddon_mod:voiderite_throwing_dagger": {
+"tip": [
+"16 Ranged Damage",
+"2s Cooldown"
+]
+},
+"armageddon_mod:withered_spineblade": {
+"tip": [
+"When right clicked:",
+"[Withered Skulls]",
+"Shoots a bunch of Withered Skulls in front of you",
+"When an entity is hit:",
+"[Withered Kiss]",
+"Inflicts Wither I to your target"
+]
+},
+"armageddon_mod:woe_splitter": {
+"tip": [
+"Inflicts Chaos State to every ennemies arround you and slow them.",
+"[Despair Wave]",
+"When right clicked:"
+]
+},
+"armageddon_mod:yugure": {
+"tip": [
+"A sudden burst of collapsing starlight launches the target skyward before gravity claims them back (5% chance)",
+"[Stellar Uplift]",
+"Dashes forward with the force of collapsing stars, slashing everything in your path.",
+"[Galaxy's Rupture]",
+"When an entity is hit:",
+"When right clicked:"
+]
+},
+"ars_nouveau:spell_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"block_factorys_bosses:knight_sword": {
+"tip": [
+"On Right-Click:",
+"Throw a powerful Slash"
+]
+},
+"bloodmagic:soulaxe": {
+"fx": [
+{
+"effect": "minecraft:wither",
+"level": 1,
+"name": "Wither",
+"ticks": null,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:absorption",
+"level": 1,
+"name": "Absorption",
+"ticks": 127,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"bloodmagic:soulsword": {
+"fx": [
+{
+"effect": "minecraft:wither",
+"level": 1,
+"name": "Wither",
+"ticks": null,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:absorption",
+"level": 1,
+"name": "Absorption",
+"ticks": 127,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"born_in_chaos_v1:birch_branches": {
+"tip": [
+"-Deals more damage to naughty players"
+]
+},
+"born_in_chaos_v1:damned_demomans_hat_helmet": {
+"tip": [
+"-The hat cannot be taken off",
+"-You detonate when your health is low"
+]
+},
+"born_in_chaos_v1:dark_metal_armor_helmet": {
+"tip": [
+"Full set bonus:",
+"-You go into a rampage when your health is low",
+"-Wither resistance"
+]
+},
+"born_in_chaos_v1:dark_ritual_dagger": {
+"tip": [
+"-Right clicking on an animal or minion will sacrifice it, healing you and granting you the strength effect",
+"-Extends and enhances the effects received from sacrifice"
+]
+},
+"born_in_chaos_v1:darkwarblade": {
+"tip": [
+"-This weapon is excessively heavy, making it difficult to use without a strength effect",
+"-The attacks have a devastating effect"
+]
+},
+"born_in_chaos_v1:frostbitten_blade": {
+"tip": [
+"-Attacks freeze the enemy, gradually slowing them down, each repeated attack on the target increases the effect",
+"-Right click to create an icy splash that freezes all enemies around you",
+"-Increases the power of ice splash"
+]
+},
+"born_in_chaos_v1:great_reaper_axe": {
+"tip": [
+"-When you kill an enemy, you enter a rampage, each subsequent kill in a row increases the effect of the rampage up to five times"
+]
+},
+"born_in_chaos_v1:intoxicating_dagger": {
+"tip": [
+"-Attacks inflict intoxication on the enemy"
+]
+},
+"born_in_chaos_v1:lord_pumpkinheads_hat_helmet": {
+"tip": [
+"-Enhances pumpkin weapons",
+"-Makes you immune to fire and soul stratification",
+"-Envelops the one who attacks you with infernal fire"
+]
+},
+"born_in_chaos_v1:missionary_hat_helmet": {
+"tip": [
+"-Summons a controlled baby skeleton when you are attacked by a monster. When triggered, casts magic depletion on you"
+]
+},
+"born_in_chaos_v1:nightmare_mantleofthe_night_helmet": {
+"tip": [
+"-Increases the effectiveness of dark magic weapons and items",
+"-You move faster in the dark"
+]
+},
+"born_in_chaos_v1:nightmare_scythe": {
+"tip": [
+"-Attacks heal you, wither the attacked target and prevent them from using some magical abilities",
+"-Increases scythe lifesteal and wither damage"
+]
+},
+"born_in_chaos_v1:nut_hammer": {
+"tip": [
+"-Attacks have a chance to knock off the headgear of the attacked target"
+]
+},
+"born_in_chaos_v1:sharpened_dark_metal_sword": {
+"tip": [
+"-Deals more damage to undead"
+]
+},
+"born_in_chaos_v1:shell_mace": {
+"tip": [
+"-Deals more damage to enemies in water or rain"
+]
+},
+"born_in_chaos_v1:skullbreaker_hammer": {
+"tip": [
+"-Jumping attacks stun the enemy"
+]
+},
+"born_in_chaos_v1:soul_cutlass": {
+"tip": [
+"-Attacks apply soul stratification, which slows the target and, when the effect ends, deals damage based on the target's current health",
+"-Reduces the effect's activation time"
+]
+},
+"born_in_chaos_v1:soulbane": {
+"tip": [
+"When wearing Lord Pumpkinhead's hat:",
+"-Attacks apply soul stratification and envelope the enemy in infernal fire, which slows the target and, when the effect ends, deals damage based on the target's current health"
+]
+},
+"born_in_chaos_v1:spider_bite_sword": {
+"tip": [
+"-Makes all baby spiders you summon automatically tamed",
+"-Attacks infect the target. When an infected enemy dies, a baby spider may appear",
+"While in inventory:"
+]
+},
+"born_in_chaos_v1:spiny_shell_armor_helmet": {
+"tip": [
+"-Deals retaliatory damage to whoever attacks you",
+"-Doubles retaliation damage. You no longer take damage from spiny shell"
+]
+},
+"born_in_chaos_v1:spiritual_guide_sombrero_helmet": {
+"tip": [
+"-Enhances baby skeleton summoned by bonescaller staff"
+]
+},
+"born_in_chaos_v1:spiritual_sword": {
+"tip": [
+"-Deals more damage to spirits"
+]
+},
+"born_in_chaos_v1:sweet_sword": {
+"tip": [
+"-Right click to take a bite to restore a small amount of hunger"
+]
+},
+"bosses_of_mass_destruction:earthdive_spear": {
+"tip": [
+"Grants short range teleport through solid blocks"
+]
+},
+"brutality:absolute_zero": {
+"tip": [
+"Freezing to the touch",
+"-Throws out a Bottle of Liquid Nitrogen that freezes and slows nearby mobs"
+]
+},
+"brutality:amaterasu": {
+"fx": [
+{
+"effect": "minecraft:glowing",
+"level": 1,
+"name": "Glowing",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Inflicts Glowing for 5 seconds",
+"-Cleanses Darkness from the target",
+"-Deal 2x Damage to targets inflicted with Darkness"
+]
+},
+"brutality:atomic_judgement": {
+"tip": [
+"Handle with care",
+"-Generates a nuclear explosion at the target's location",
+"-Launch yourself into the air, exploding when reaching the ground, only if you are crouching",
+"-Explosion scales off distance fallen",
+"-Immunity to Radiation",
+"-Reduced fall Damage"
+]
+},
+"brutality:bamboo_staff": {
+"tip": [
+"Equality for all"
+]
+},
+"brutality:blade_of_the_ruined_king": {
+"tip": [
+"Love ruins all",
+"-Additionally deal 8% of the target's current ❤ Health as Physical Damage",
+"-Applies Ruined for 6 seconds, stacking up to 3 times. The third stack consumes them all to slow the target by 30% for 1 second",
+"-Launches a Spectral Maw in front of the user that inflicts Stunned for 3 ticks",
+"-Spectral Maw distance is based on charge time"
+]
+},
+"brutality:blast_barrel": {
+"tip": [
+"-Throws out a Barrel that explodes after 2 bounces or 5 seconds"
+]
+},
+"brutality:bouncy_dynamite": {
+"tip": [
+"-Throws out a stick of Bouncy Dynamite that explodes after 3 seconds"
+]
+},
+"brutality:cavendish": {
+"tip": [
+"-Throws out a Banana that stays on the ground as a Banana Peel"
+]
+},
+"brutality:chopstick": {
+"tip": [
+"-Dual-wielding this item provides additional Attack Speed and Knockback"
+]
+},
+"brutality:crimson_scissor_blade": {
+"tip": [
+"-Consume 4 ❤ Health to launch a Bloodslash",
+"-Bloodslashes heal 4 ❤ Health per Enemy hit"
+]
+},
+"brutality:darkin_blade": {
+"fx": [
+{
+"heal": 0.0,
+"when": "hit",
+"who": "self"
+}
+],
+"tip": [
+"I am not your enemy, I am The Enemy!",
+"-Every few seconds, charge up an empowered attack",
+"-Empowered attacks deal an additional 10% Max ❤ Health Magic Damage and heals"
+]
+},
+"brutality:darkin_scythe": {
+"fx": [
+{
+"effect": "minecraft:slowness",
+"level": 3,
+"name": "Slowness",
+"ticks": 20,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"Darkin",
+"Shadow Assasin",
+"Will you prove worthy?",
+"-20% of Damage is dealt as Magic Damage",
+"-Heals for 20% of Damage dealt",
+"-Damages enemies up to 7 blocks in front of the user",
+"-Damages enemies up to 5 blocks in front of the user, additionally knocks up hit mobs",
+"-Gain 40% movement speed and you can phase through mobs"
+]
+},
+"brutality:deathsaw": {
+"fx": [
+{
+"effect": "brutality:pulverized",
+"level": 2,
+"name": "Pulverized",
+"ticks": 5,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"Handle with care",
+"-Inflicts Pulverized I for 5 ticks",
+"-Start the Deathsaw, dealing damage to all mobs in 5 blocks in front of the user",
+"-Looking up while next to a wall causes the user to climb it"
+]
+},
+"brutality:deck_of_fate": {
+"tip": [
+"-Throws out a Fate Card, each Fate Card has 1 out of 5 effects:",
+"-Inflicts Slowness II for 3 seconds",
+"-Stuns the target for 5 ticks",
+"-Ignites enemies for 5 seconds",
+"-Inflicts Poison II for 3 seconds",
+"-Inflicts Wither II for 3 seconds"
+]
+},
+"brutality:depth_crusher": {
+"tip": [
+"-Launches a Depth Crusher that bounces off walls",
+"-Summons homing projectiles on each bounce"
+]
+},
+"brutality:diamond_knife": {
+"fx": [
+{
+"effect": "brutality:scored",
+"level": 2,
+"name": "§mScored",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "brutality:scored",
+"level": 1,
+"name": "§mScored",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Inflicts a stack of Scored for 3 seconds",
+"-Maximum of 2 stacks"
+]
+},
+"brutality:double_down": {
+"tip": [
+"-Transmutes into a random sword, gaining their abilities and stats",
+"-The random sword will have a maximum of 50 durability and will revert once broken",
+"-The random sword cannot be repaired",
+"-Stronger swords are harder to roll, chances are increased with each level of Luck"
+]
+},
+"brutality:dull_knife": {
+"tip": [
+"-Channel different emotions to augment yourself. Only works in Main Hand",
+"-Swap between 4 different emotions, granting different buffs and debuffs",
+"Neutral",
+"Does Nothing",
+"Happy",
+"+50% Speed",
+"+50% Attack Speed",
+"-30% Attack Damage"
+]
+},
+"brutality:dynamite": {
+"tip": [
+"-Throws out a stick of Dynamite that explodes after 3 seconds"
+]
+},
+"brutality:event_horizon": {
+"tip": [
+"-Dislodge the Black Hole, moving it above the user",
+"-The Black Hole pulls in nearby mobs, dealing Damage",
+"-Deals reverse knockback"
+]
+},
+"brutality:frostmourne": {
+"fx": [
+{
+"effect": "minecraft:strength",
+"level": 21,
+"name": "Strength",
+"ticks": 3,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "minecraft:resistance",
+"level": 21,
+"name": "Resistance",
+"ticks": 3,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"All will serve in death",
+"-Right click to unleash a wave of icy death, damaging enemies in a 15 block radius.",
+"-You gain Resistance and Strength and heal scaling with each enemy hit",
+"-Summons several strays that fight for the user",
+"-A maximum of 10 strays can be summoned at a time"
+]
+},
+"brutality:frying_pan": {
+"fx": [
+{
+"effect": "brutality:mashed",
+"level": 2,
+"name": "§4Mashed",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Inflicts Mashed II for 3 seconds"
+]
+},
+"brutality:gold_knife": {
+"fx": [
+{
+"effect": "brutality:scored",
+"level": 2,
+"name": "§mScored",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "brutality:scored",
+"level": 1,
+"name": "§mScored",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Inflicts a stack of Scored for 3 seconds",
+"-Maximum of 3 stacks"
+]
+},
+"brutality:gungnir": {
+"tip": [
+"Has yet to miss a target",
+"-Throws a spear that locks into the nearest target in a 25 block radius",
+"-The spear will home onto the target until it is hit 3 times",
+"-Returns to the owner"
+]
+},
+"brutality:holy_hand_grenade": {
+"tip": [
+"-Throws out a Holy Hand Grenade that explodes after 3 seconds"
+]
+},
+"brutality:ice_cube": {
+"tip": [
+"-Throws out an Ice Cube that freezes enemies on hit"
+]
+},
+"brutality:iron_knife": {
+"fx": [
+{
+"effect": "brutality:scored",
+"level": 1,
+"name": "§mScored",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Inflicts a stack of Scored for 3 seconds",
+"-Maximum of 1 stack"
+]
+},
+"brutality:jackpot": {
+"tip": [
+"Just give me one more chance...",
+"-Randomly an additional (-5 to 10) Damage"
+]
+},
+"brutality:metal_ruler": {
+"tip": [
+"It's sharp",
+"-Deals additional Damage based on the height of the target"
+]
+},
+"brutality:noir_boots": {
+"tip": [
+"-Conceals the wearer's nametag from others"
+]
+},
+"brutality:noir_chestplate": {
+"tip": [
+"-Conceals the wearer's nametag from others"
+]
+},
+"brutality:noir_helmet": {
+"tip": [
+"-Conceals the wearer's nametag from others"
+]
+},
+"brutality:noir_leggings": {
+"tip": [
+"-Conceals the wearer's nametag from others"
+]
+},
+"brutality:old_gpu": {
+"tip": [
+"OH MY PC-",
+"-Lowers the game's graphics",
+"-Cannot be changed"
+]
+},
+"brutality:onyx_phasesaber": {
+"fx": [
+{
+"fire": 3,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Sets enemies on fire for 3 seconds",
+"-Deals Magic Damage"
+]
+},
+"brutality:overclocked_toaster": {
+"tip": [
+"-Throws out an Overclocked Toaster that shoots out Toast at the nearest enemy"
+]
+},
+"brutality:perfume_bottle": {
+"tip": [
+"-Throws out a Bottle of Perfume that causes Mobs to target the nearest Entity",
+"-Ignites when near Fire"
+]
+},
+"brutality:permafrost_cube": {
+"tip": [
+"-Throws out a Permafrost Cube that freezes nearby enemies on hit"
+]
+},
+"brutality:photon": {
+"tip": [
+"-Throws out a single Photon that is unaffected by gravity",
+"-Damage scales based on projectile speed"
+]
+},
+"brutality:potato_masher": {
+"fx": [
+{
+"effect": "brutality:mashed",
+"level": 3,
+"name": "§4Mashed",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Inflicts Mashed III for 5 seconds"
+]
+},
+"brutality:pouch_o_photons": {
+"tip": [
+"-Throws out (3 - 10) Photons",
+"-Damage scales based on projectile speed"
+]
+},
+"brutality:prismatic_greatsword": {
+"tip": [
+"-Reduce Ability Cooldowns by 1 second per Enemy hit"
+]
+},
+"brutality:providence": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"The heavens have spoken",
+"-Shoots out light arrows instead of normal arrows",
+"-Light arrows deal extra Damage to undead, pierce multiple mobs and have less gravity",
+"-Does not consume arrows, only works when directly under the Sun"
+]
+},
+"brutality:rhitta": {
+"tip": [
+"The one who stands at the pinnacle of all races",
+"-Summons a miniature Sun above the user",
+"-The Sun burns all nearby mobs",
+"-Unable to be used at night",
+"-Gets stronger the closer it is to Noon"
+]
+},
+"brutality:rhongomyniad": {
+"tip": [
+"-Fire a Piercing Ray of Holy Light"
+]
+},
+"brutality:royal_guardian_sword": {
+"fx": [
+{
+"effect": "brutality:pulverized",
+"level": 26,
+"name": "Pulverized",
+"ticks": 3,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"None shall sully The King's name",
+"-Inflicts Pulverized XXV for 3 ticks"
+]
+},
+"brutality:ruby_phasesaber": {
+"fx": [
+{
+"fire": 3,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Sets enemies on fire for 3 seconds",
+"-Deals Magic Damage"
+]
+},
+"brutality:sapphire_phasesaber": {
+"fx": [
+{
+"fire": 3,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Sets enemies on fire for 3 seconds",
+"-Deals Magic Damage"
+]
+},
+"brutality:seventh_star": {
+"tip": [
+"\"I should probably increase the starboard requirement lol\"",
+"-Launches 3 stars at where the user is aiming",
+"-Launches stars in 8 directions around the user",
+"-Detonate all launched stars in a 250 block radius",
+"-Stars stick to mobs and blocks"
+]
+},
+"brutality:shadowflame_scissor_blade": {
+"fx": [
+{
+"effect": "brutality:nyxium_fire",
+"level": 1,
+"name": "Nyxium Fire",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Launch a Shadowflame Slash that inflicts Shadowflame",
+"-Inflicts Shadowflame"
+]
+},
+"brutality:shadowstep": {
+"fx": [
+{
+"effect": "minecraft:darkness",
+"level": 1,
+"name": "Darkness",
+"ticks": 5,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"-Teleports behind the target you are looking at",
+"-Backstabs do 7x Damage",
+"You cannot teleport there"
+]
+},
+"brutality:spatula": {
+"fx": [
+{
+"effect": "brutality:mashed",
+"level": 1,
+"name": "§4Mashed",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "brutality:scored",
+"level": 1,
+"name": "§mScored",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Knocks enemies up",
+"-Inflicts Mashed I for 3 seconds",
+"-Inflicts Scored I for 3 seconds"
+]
+},
+"brutality:sticky_bomb": {
+"tip": [
+"-Throws out a Sticky Bomb that can be detonated remotely",
+"-Detonate all nearby Sticky Bombs",
+"Cannot have more than 10 Sticky Bombs present"
+]
+},
+"brutality:sticky_dynamite": {
+"tip": [
+"-Throws out a stick of Sticky Dynamite that explodes after 3 seconds"
+]
+},
+"brutality:supernova": {
+"tip": [
+"The power of the Cosmos",
+"-Deals 10 Damage to mobs within the original target",
+"-Summon a belt of asteroids that orbit the player and deal Damage when colliding with entities"
+]
+},
+"brutality:terra_boots": {
+"tip": [
+"-Grants Stoneform when crouching, increasing Armor Toughness and Damage Resistance, but you are unable to move"
+]
+},
+"brutality:terra_chestplate": {
+"tip": [
+"-Grants Stoneform when crouching, increasing Armor Toughness and Damage Resistance, but you are unable to move"
+]
+},
+"brutality:terra_helmet": {
+"tip": [
+"-Grants Stoneform when crouching, increasing Armor Toughness and Damage Resistance, but you are unable to move"
+]
+},
+"brutality:terra_leggings": {
+"tip": [
+"-Grants Stoneform when crouching, increasing Armor Toughness and Damage Resistance, but you are unable to move"
+]
+},
+"brutality:the_golden_spatula": {
+"fx": [
+{
+"effect": "brutality:mashed",
+"level": 2,
+"name": "§4Mashed",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "brutality:scored",
+"level": 2,
+"name": "§mScored",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Knocks enemies up",
+"-Inflicts Mashed II for 5 seconds",
+"-Inflicts Scored II for 5 seconds"
+]
+},
+"brutality:thunderbolt": {
+"tip": [
+"Crafted by the hand of the mighty god Zeus",
+"-Gain increased movement speed upon striking an enemy",
+"-Launches a Thunderbolt at high-speed with reduced gravity",
+"-Summon a downpour of lightning bolts around the player",
+"-Multiple Thunderbolts can be thrown at the same time",
+"-Does not consume ammo"
+]
+},
+"brutality:topaz_phasesaber": {
+"fx": [
+{
+"fire": 3,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Sets enemies on fire for 3 seconds",
+"-Deals Magic Damage"
+]
+},
+"brutality:tsukuyomi": {
+"fx": [
+{
+"effect": "minecraft:darkness",
+"level": 1,
+"name": "Darkness",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Inflicts Darkness for 5 seconds",
+"-Cleanses Glowing from the target",
+"-Deal 2x Damage to targets inflicted with Glowing"
+]
+},
+"brutality:vampire_knives": {
+"tip": [
+"-Throws out 4 - 8 Vampire Knifes",
+"-Velocity scales with ‼ Attack Speed"
+]
+},
+"brutality:void_knife": {
+"fx": [
+{
+"effect": "brutality:scored",
+"level": 2,
+"name": "§mScored",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "brutality:scored",
+"level": 1,
+"name": "§mScored",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "brutality:pulverized",
+"level": 4,
+"name": "Pulverized",
+"ticks": 3,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Inflicts a stack of Scored for 3 seconds",
+"-Maximum of 4 stacks",
+"-Inflicts Pulverized III for 3 ticks"
+]
+},
+"brutality:whisk": {
+"fx": [
+{
+"effect": "brutality:mashed",
+"level": 1,
+"name": "§4Mashed",
+"ticks": 200,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"-Inflicts Mashed I for 10 seconds"
+]
+},
+"brutality:whisperwaltz": {
+"tip": [
+"-Applies Pulverized I for 1 tick"
+]
+},
+"brutality:winter_melon": {
+"tip": [
+"-Throws out a Winter Melon that slows and freezes nearby enemies"
+]
+},
+"brutality:wooden_ruler": {
+"tip": [
+"-Deals additional Damage based on the height of the target"
+]
+},
+"cataclysm:ancient_spear": {
+"tip": [
+"Left click to shoot a Sandstorm"
+]
+},
+"cataclysm:bloom_stone_pauldrons": {
+"tip": [
+"Press the %s to fire amethyst clusters around you that damage entities."
+]
+},
+"cataclysm:cursed_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"You can shoot 3 Phantom Arrows"
+]
+},
+"cataclysm:cursium_boots": {
+"fx": [
+{
+"effect": "minecraft:glowing",
+"level": 1,
+"name": "Glowing",
+"ticks": 160,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Ghostly Weightless",
+"Reduce fall damage, Press %s to back step"
+]
+},
+"cataclysm:cursium_chestplate": {
+"fx": [
+{
+"effect": "minecraft:glowing",
+"level": 1,
+"name": "Glowing",
+"ticks": 160,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Undead Revive",
+"Revived to 5 health upon death and granted invincibility for 5 seconds",
+"After invincible, the Entity is debuffed for 6 minutes and cannot be revived during debuff"
+]
+},
+"cataclysm:cursium_helmet": {
+"fx": [
+{
+"effect": "minecraft:glowing",
+"level": 1,
+"name": "Glowing",
+"ticks": 160,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Ghost Vision",
+"Press %s to give a glow effect to the LivingEntity behind the wall in the Area."
+]
+},
+"cataclysm:cursium_leggings": {
+"fx": [
+{
+"effect": "minecraft:glowing",
+"level": 1,
+"name": "Glowing",
+"ticks": 160,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Ghost Dodge",
+"Ignore the attack with a low probability. The probability increases if the attack is a projectile"
+]
+},
+"cataclysm:gauntlet_of_bulwark": {
+"tip": [
+"Hold right click for 1 second to push nearby entities and inflict Blazing Brand",
+"Release to charge forward and damage entities in front"
+]
+},
+"cataclysm:gauntlet_of_guard": {
+"tip": [
+"When in your main hand, right click to pull entities"
+]
+},
+"cataclysm:gauntlet_of_maelstrom": {
+"tip": [
+"Right click to summon a Void Vortex"
+]
+},
+"cataclysm:ignitium_boots": {
+"fx": [
+{
+"effect": "cataclysm:blazing_brand",
+"level": 2,
+"name": "Blazing Brand",
+"ticks": 160,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Lava Walker"
+]
+},
+"cataclysm:ignitium_chestplate": {
+"fx": [
+{
+"effect": "cataclysm:blazing_brand",
+"level": 2,
+"name": "Blazing Brand",
+"ticks": 160,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Can be combined with an elytra"
+]
+},
+"cataclysm:ignitium_helmet": {
+"fx": [
+{
+"effect": "cataclysm:blazing_brand",
+"level": 2,
+"name": "Blazing Brand",
+"ticks": 160,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Gaze of Heat",
+"Press %s to give a Blazing Brand effect to the LivingEntity."
+]
+},
+"cataclysm:ignitium_leggings": {
+"fx": [
+{
+"effect": "cataclysm:blazing_brand",
+"level": 2,
+"name": "Blazing Brand",
+"ticks": 160,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Flame Reflex"
+]
+},
+"cataclysm:infernal_forge": {
+"tip": [
+"When in your main hand, right click at a block to cause AOE damage",
+"(FYI, this is a pickaxe)"
+]
+},
+"cataclysm:monstrous_helm": {
+"fx": [
+{
+"effect": "cataclysm:monstrous",
+"level": 1,
+"name": "Monstrous",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+],
+"tip": [
+"While worn, if you fall below half health knock back nearby entities"
+]
+},
+"cataclysm:soul_render": {
+"tip": [
+"You can Rush of Render"
+]
+},
+"cataclysm:void_forge": {
+"tip": [
+"When in main hand, right click at a block to summon Void Runes in a fan shape",
+"(Still a pickaxe)"
+]
+},
+"celestisynth:aquaflora": {
+"tip": [
+"Swipethrough",
+"Every skill cast gives 3 seconds of speed to the caster.",
+"Petal Pierces",
+"Activate: Right-click",
+"Launches a series of attacks capable of penetrating a row of entities.",
+"Blasting Off Together",
+"Activate: Right-click while holding SHIFT",
+"Uses a head-butt against a group of entities, pushing them away and inflicting significant damage. Activating this ability initiates the Blooming State, altering the weapon's skill set."
+]
+},
+"celestisynth:breezebreaker": {
+"tip": [
+"Agile",
+"The player gains a huge jump boost and fall damage immunity while holding the item, but takes 2.3x damage from all the other damage sources.",
+"Benevolent Soul",
+"Every 15 skill casts activate or deactivate this passive. While active, the player gains a speed boost and reduces skill cooldowns by half. The effect wears off after 8 seconds.",
+"Galestorm",
+"Activate: Right-click",
+"Unleashes a powerful wind slash that inflicts tremendous damage upon impact.",
+"Dual Galestorm"
+]
+},
+"celestisynth:crescentia": {
+"tip": [
+"Heavy-Hitter",
+"The player gains a level of damage resistance while holding the item - normal attacks with this item slows down the target for a few seconds.",
+"Lunar Celebration Barrage",
+"Activate: Right-click",
+"Unleash a dazzling barrage of strikes on nearby entities, accompanied by a mesmerizing firework display.",
+"Eye of the Dragon",
+"Activate: Right-click while holding SHIFT",
+"Unleash a set of dragon-like projectiles, dragging enemies along with it whilst continuously slashing them."
+]
+},
+"celestisynth:frostbound": {
+"tip": [
+"Whispering Cold",
+"Inflicting harm upon a target using this weapon induces a frostbound condition, significantly diminishing their strength and reducing their speed.",
+"Icicle Array",
+"When holding the right-button with the Frostbound, the weapon consumes Frostbound Shards and shoots them out towards nearby random entities, freezing them for a few seconds.",
+"Dance of the Seven-Thousand Snowflakes",
+"Activate: Right-click",
+"Executes a rhythmic movement sequence that inflicts damage on nearby entities multiple times, afflicting them with a frostbound effect.",
+"Calamity Frost Cast"
+]
+},
+"celestisynth:keres": {
+"fx": [
+{
+"heal": 0.85,
+"when": "hit",
+"who": "self"
+},
+{
+"effect": "celestisynth:hellbane",
+"level": 1,
+"name": "Hell Bane",
+"ticks": 100,
+"when": "hit",
+"who": "self"
+}
+],
+"tip": [
+"Hellbane Sequence",
+"After consecutively attacking targets 5 times in a row, the holder activates a Hellbane state - which increases the Keres' lifesteal and repeatedly ejects homing shadow projectiles towards nearby enemies.",
+"Consumption",
+"While using the Keres to cast a skill, the holder sacrifices 1.5 health every few seconds, but every single skill regenerates the holder's health to some degree when it lands on a target.",
+"Cursebane Affliction",
+"When a skill hit a target, it gives a Cursebane effect to the target for 5 seconds. The effect reduces the healing rate of the target significantly.",
+"Blood-Red Severity",
+"Activate: Right-click"
+]
+},
+"celestisynth:poltergeist": {
+"tip": [
+"Phantom Tag",
+"All skills of this weapon tags every affected entity with a Phantom Tag. Slain foes with the tag become monstrous Aberrants that draw in nearby entities for 5 seconds.",
+"Cosmic Steel Annihilation",
+"Activate: Right-click",
+"Executes a smash to the ground, dealing massive burst damage on surrounding entities. After 10 consecutive strikes, the weapon enables it's \"Aberrant Form\", allowing the next strike to enlarge and mutate a sucking aberrant from the ground. Killing an entity during \"Aberrant Form\" or jumping midair while striking instantly resets the cooldown of this ability.",
+"Barrier Call",
+"Activate: Right-click while holding SHIFT",
+"Creates a protective barrier capable of shattering any incoming projectiles while forcefully propelling the player backwards."
+]
+},
+"celestisynth:rainfall_serenity": {
+"tip": [
+"Eons, and Eons Through the Sky",
+"Activate: Fully charged bow",
+"When the bow is released, it emits a laser that can pierce through every entity, marking each with a \"Quasar Mark\" for 5 seconds. This mark can trigger nearby entities to shoot lasers at the marked target.",
+"Quasar Rainfall",
+"Activate: Hit Entity with weapon",
+"When the laser strikes a target with a \"Quasar Mark\", a portal spawns above and lasers will rain down around the target.",
+"True Serenity",
+"Activate: Right-click while holding SHIFT"
+]
+},
+"celestisynth:solaris": {
+"fx": [
+{
+"fire": 5,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"Ember's Blessing",
+"The player gains fire immunity while holding the item - normal attacks with this item sets the target on fire for a few seconds.",
+"Solar Bomb Formation",
+"When holding the right-button with the Solaris, the player can summon up to 5 solar bombs that will circle around them. Hurting a target redirects a solar bomb to them.",
+"Spinning Flames - Full Round",
+"Activate: Right-click",
+"Perform a graceful spin, inflicting damage and burning nearby entities.",
+"Spinning Flames - Soul Straight Dash"
+]
+},
+"cnb:cinder_sword_4": {
+"fx": [
+{
+"fire": 2,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"composite_material:allay_steel_boots": {
+"fx": [
+{
+"heal": 20.0,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"composite_material:allay_steel_chestplate": {
+"fx": [
+{
+"heal": 20.0,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"composite_material:allay_steel_helmet": {
+"fx": [
+{
+"heal": 20.0,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"composite_material:allay_steel_leggings": {
+"fx": [
+{
+"heal": 20.0,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"composite_material:lacerator": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"composite_material:primitive_boots": {
+"fx": [
+{
+"effect": "composite_material:primitive_health_boost",
+"level": 2,
+"name": "Primitive Health Boost",
+"ticks": 210,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"composite_material:primitive_chestplate": {
+"fx": [
+{
+"effect": "composite_material:primitive_health_boost",
+"level": 2,
+"name": "Primitive Health Boost",
+"ticks": 210,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"composite_material:primitive_helmet": {
+"fx": [
+{
+"effect": "composite_material:primitive_health_boost",
+"level": 2,
+"name": "Primitive Health Boost",
+"ticks": 210,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"composite_material:primitive_leggings": {
+"fx": [
+{
+"effect": "composite_material:primitive_health_boost",
+"level": 2,
+"name": "Primitive Health Boost",
+"ticks": 210,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"composite_material:scapegoat": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"create:cardboard_sword": {
+"tip": [
+"Bonk. A _mostly_ _harmless_, yet powerful weapon of choice."
+]
+},
+"create:copper_backtank": {
+"tip": [
+"Provides _Pressurized_ _Air_ to Equipment that requires it.",
+"_Collects_ _Pressurized_ _Air_ at a rate depending on the Rotational Speed.",
+"When Worn",
+"When placed, Powered by Kinetics",
+"A _Wearable_ _Tank_ for carrying Pressurized Air."
+]
+},
+"create:copper_diving_boots": {
+"tip": [
+"Wielder _descends_ more _quickly_ in liquids. Grants the ability to _walk_ and _jump_ underwater. Wielder also is no longer affected by _Mechanical_ _Belts_.",
+"When Worn",
+"A pair of _heavy_ _boots_, allowing for better traversal of the Ocean floor."
+]
+},
+"create:copper_diving_helmet": {
+"tip": [
+"Provides the _Water Breathing_ effect, slowly draining _Air Pressure_ from the Backtank.",
+"When Worn",
+"Together with a _Backtank_, allows the wielder to _breathe_ _underwater_ for an extended amount of time."
+]
+},
+"create:netherite_backtank": {
+"tip": [
+"Provides _Pressurized_ _Air_ to Equipment that requires it.",
+"_Collects_ _Pressurized_ _Air_ at a rate depending on the Rotational Speed.",
+"When Worn",
+"When placed, Powered by Kinetics",
+"A _Wearable_ _Tank_ for carrying Pressurized Air."
+]
+},
+"create:netherite_diving_boots": {
+"tip": [
+"Wielder _descends_ more _quickly_ in liquids. Grants the ability to _walk_ and _jump_ underwater. Wielder also is no longer affected by _Mechanical_ _Belts_.",
+"When Worn",
+"A pair of _heavy_ _boots_, allowing for better traversal of the Ocean floor, including Oceans made of Lava."
+]
+},
+"create:netherite_diving_helmet": {
+"tip": [
+"Provides immunity to _Fire_ and _Lava_, slowly draining _Air Pressure_ from the Backtank. Also grants _improved vision_ in Lava",
+"When Worn (Full set)",
+"Together with a _Netherite Backtank_, this can protect you from _extreme heat_. To be effective, _Legs and Feet_ have to be covered in _Netherite_, too."
+]
+},
+"create:potato_cannon": {
+"tip": [
+"_Shoots_ a suitable item from your _Inventory_.",
+"_No_ _Durability_ will be used. Instead, _Air_ _pressure_ is drained from the Tank",
+"When R-Clicked",
+"While wearing Backtank",
+"Launches your home-grown vegetables at Enemies. Can be powered with _Air_ _Pressure_ from a _Backtank_"
+]
+},
+"dungeonnowloading:life_stealer": {
+"tip": [
+"Health Drain",
+"Heals the user 20% of the dealt damage"
+]
+},
+"dungeonnowloading:spawner_boots": {
+"fx": [
+{
+"effect": "minecraft:regeneration",
+"level": 1,
+"name": "Regeneration",
+"ticks": 200,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"dungeonnowloading:spawner_chestplate": {
+"fx": [
+{
+"effect": "minecraft:regeneration",
+"level": 1,
+"name": "Regeneration",
+"ticks": 200,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"dungeonnowloading:spawner_helmet": {
+"fx": [
+{
+"effect": "minecraft:regeneration",
+"level": 1,
+"name": "Regeneration",
+"ticks": 200,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"dungeonnowloading:spawner_leggings": {
+"fx": [
+{
+"effect": "minecraft:regeneration",
+"level": 1,
+"name": "Regeneration",
+"ticks": 200,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"dungeonnowloading:spawner_sword": {
+"tip": [
+"Soul Dispersion",
+"Harms the user by 1 damage, but deals 3 additional damage"
+]
+},
+"dungeonnowloading:vertex_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"Arrow Conversion",
+"Can convert Arrow to Vertex Arrow upon fully charging"
+]
+},
+"dungeonsdelight:stained_cleaver": {
+"fx": [
+{
+"fire": 7,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "dungeonsdelight:ravenous_rush",
+"level": 1,
+"name": "Ravenous Rush",
+"ticks": 160,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"dungeonsdelight:stained_knife": {
+"fx": [
+{
+"fire": 7,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "dungeonsdelight:ravenous_rush",
+"level": 1,
+"name": "Ravenous Rush",
+"ticks": 160,
+"when": "hit",
+"who": "self"
+}
+]
+},
+"eeeabsmobs:buster_gauntlet": {
+"tip": [
+"Right-click to fire a grenade, dealing up to %1$s explosive damage"
+]
+},
+"eeeabsmobs:chainsword": {
+"tip": [
+"When there is no attack cooldown, dealing damage to the same type of target stacks 1 layer of Rend, increasing damage by %1$s per stack, up to %2$s stacks. Decays by 1 stack per second; switching targets resets the stack count"
+]
+},
+"eeeabsmobs:doombolt_battleaxe": {
+"tip": [
+"Hold right-click to throw. Upon impact, it releases an area-of-effect surge and automatically returns. While crouching, right-click the ground to release multiple electric surges in a fan-shaped area ahead"
+]
+},
+"eeeabsmobs:guardian_axe": {
+"tip": [
+"Sweep damage: [ %1$s ]",
+"Right-click on the ground to release a skill that deals magic damage equal to the user's weapon damage (ignoring armor, with the damage decreasing over distance)"
+]
+},
+"eeeabsmobs:immortal_staff": {
+"tip": [
+"Right-click to launch a shaman bomb, with a 25% base chance to fire a special projectile (this base probability is affected by luck or bad luck)"
+]
+},
+"eeeabsmobs:immortal_sword": {
+"fx": [
+{
+"effect": "eeeabsmobs:erode_effect",
+"level": 1,
+"name": "Erode",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"Gives the attacker the erosion status"
+]
+},
+"experienceobelisk:cognitive_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"fromtheshadows:devil_splitter": {
+"fx": [
+{
+"heal": 6.0,
+"when": "hit",
+"who": "self"
+}
+]
+},
+"goety:bonehead_hammer": {
+"fx": [
+{
+"fire": 4,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goety:dark_metal_scythe": {
+"fx": [
+{
+"fire": 4,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goety:dark_scythe": {
+"fx": [
+{
+"fire": 4,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goety:death_scythe": {
+"fx": [
+{
+"fire": 4,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goety:great_hammer": {
+"fx": [
+{
+"fire": 4,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goety:stormlander": {
+"fx": [
+{
+"fire": 4,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goety_revelation:apocalyptium_boots": {
+"tip": [
+"Fluid Walker",
+"Immunity to Fall Damage"
+]
+},
+"goety_revelation:apocalyptium_chestplate": {
+"tip": [
+"Apostle Title",
+"When taking lethal damage: 15% chance to negate damage and heal self"
+]
+},
+"goety_revelation:apocalyptium_helmet": {
+"tip": [
+"Immunity to Blindness, Darkness, and Radius effects"
+]
+},
+"goety_revelation:apocalyptium_leggings": {
+"tip": [
+"Immunity to Slowness",
+"50% Projectile Reflection"
+]
+},
+"goety_revelation:bow_of_revelation": {
+"tip": [
+"The Lord said,",
+"\"I loathe the flamboyant swords.\"",
+"\"From then on, raise the bows to carry out the Crusade.\""
+]
+},
+"goety_revelation:spectre_boots": {
+"tip": [
+"Nullifies Sculk Sensor Detection"
+]
+},
+"goety_revelation:spectre_chestplate": {
+"tip": [
+"Immunity to Sonic Damage"
+]
+},
+"goety_revelation:spectre_helmet": {
+"tip": [
+"Immunity to Blindness and Darkness effects"
+]
+},
+"goety_revelation:spider_boots": {
+"tip": [
+"Immunity to Fall Damage"
+]
+},
+"goety_revelation:spider_chestplate": {
+"tip": [
+"Allow free passage through the spider web."
+]
+},
+"goety_revelation:spider_helmet": {
+"tip": [
+"Night Vision",
+"Immunity to Blindness"
+]
+},
+"goetyawaken:claymore": {
+"tip": [
+"True Sweep"
+]
+},
+"goetyawaken:dark_ice_axe": {
+"fx": [
+{
+"effect": "goetyawaken:wane",
+"level": 1,
+"name": "Wane",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goetyawaken:dark_netherite_bow": {
+"fx": [
+{
+"effect": "goetyawaken:wane",
+"level": 1,
+"name": "Wane",
+"ticks": 120,
+"when": "release",
+"who": "self"
+},
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"goetyawaken:frost_scythe": {
+"fx": [
+{
+"fire": 4,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goetyawaken:grave_bane": {
+"tip": [
+"The Smite enchantment will have twice the effectiveness"
+]
+},
+"goetyawaken:moonlight_cut": {
+"fx": [
+{
+"chance": 0.05,
+"effect": "goetyawaken:sapped",
+"level": 1,
+"name": "Sapped",
+"ticks": 200,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goetyawaken:mooshroom_mace": {
+"fx": [
+{
+"effect": "goetyawaken:stunned",
+"level": 1,
+"name": "Stunned",
+"ticks": 40,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "goetyawaken:cursed",
+"level": 1,
+"name": "Cursed",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goetyawaken:mushroom_hat": {
+"tip": [
+"Grants immunity to poison and acid venom, provides resistance to negative effects, and actively attacks enemies"
+]
+},
+"goetyawaken:obsidian_claymore": {
+"fx": [
+{
+"effect": "goetyawaken:wane",
+"level": 1,
+"name": "Wane",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goetyawaken:potato_staff": {
+"fx": [
+{
+"effect": "minecraft:poison",
+"level": 1,
+"name": "Poison",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"goetyawaken:starless_night": {
+"fx": [
+{
+"effect": "goetyawaken:wane",
+"level": 1,
+"name": "Wane",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "goetyawaken:void_touched",
+"level": 1,
+"name": "Void Touched",
+"ticks": 40,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"Also Can be used as Focus Spell",
+"Blue Moon",
+"Void Strike",
+"Shared Pain"
+]
+},
+"goetyawaken:truth_seeker": {
+"tip": [
+"Committed"
+]
+},
+"goetydelight:apocalyptium_knife": {
+"tip": [
+"Attacks ignore armor, enchantments, and resistances",
+"Killing mobs produces more Delight drops",
+"Right-click to harvest crops and produce more drops"
+]
+},
+"goetydelight:stone_sword_skewer": {
+"tip": [
+"Effect lasts 10 minutes",
+"Increases base attack damage; the bonus scales up as health decreases",
+"Grants 17% dodge chance",
+"Immune to one fatal damage instance",
+"After death immunity triggers, health cap is locked to 1 and self-healing is disabled",
+"\"I did not come to bring peace to the earth\"",
+"\"but a sword\""
+]
+},
+"hazennstuff:fireblossom_battlemage_crown": {
+"tip": [
+"Dawning the Fireblossom Crown improves your affinity with magic. This armor set is dedicated to MtheNinja."
+]
+},
+"hazennstuff:fireblossom_battlemage_helmet": {
+"tip": [
+"Dawning the Battlemage Helmet improves your sword mastery. This armor set is dedicated to MtheNinja."
+]
+},
+"hazennstuff:ravens_bane": {
+"tip": [
+"Bare the weapon of a great infernal mage. This weapon resonates well with the scroll-forge..."
+]
+},
+"industrialforegoing:infinity_launcher": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"irons_spellbooks:autoloader_crossbow": {
+"tip": [
+"> Automatically loads next available projectile while in inventory. Crouch-Click to cancel"
+]
+},
+"irons_spellbooks:infernal_sorcerer_chestplate": {
+"tip": [
+"Dealing Fire Spell Damage adds a stack of Immolation to the creature",
+"At 3 Immolation stacks, cause an explosion (%s damage), spreading Immolation"
+]
+},
+"irons_spellbooks:wizard_helmet": {
+"tip": [
+"Wizard Hood",
+"Wizard Hat"
+]
+},
+"justdirethings:bow_blazegold": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"justdirethings:bow_celestigem": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"justdirethings:bow_eclipsealloy": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"justdirethings:bow_ferricore": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"legendary_monsters:annihilator_boots": {
+"fx": [
+{
+"effect": "legendary_monsters:unbreakable",
+"level": 1,
+"name": "Unbreakable",
+"ticks": 4,
+"when": "worn",
+"who": "self"
+},
+{
+"fire": 3,
+"when": "worn",
+"who": "target"
+}
+]
+},
+"legendary_monsters:annihilator_chestplate": {
+"fx": [
+{
+"effect": "legendary_monsters:unbreakable",
+"level": 1,
+"name": "Unbreakable",
+"ticks": 4,
+"when": "worn",
+"who": "self"
+},
+{
+"fire": 3,
+"when": "worn",
+"who": "target"
+}
+]
+},
+"legendary_monsters:annihilator_helmet": {
+"fx": [
+{
+"effect": "legendary_monsters:unbreakable",
+"level": 1,
+"name": "Unbreakable",
+"ticks": 4,
+"when": "worn",
+"who": "self"
+},
+{
+"fire": 3,
+"when": "worn",
+"who": "target"
+}
+]
+},
+"legendary_monsters:annihilator_leggings": {
+"fx": [
+{
+"effect": "legendary_monsters:unbreakable",
+"level": 1,
+"name": "Unbreakable",
+"ticks": 4,
+"when": "worn",
+"who": "self"
+},
+{
+"fire": 3,
+"when": "worn",
+"who": "target"
+}
+]
+},
+"legendary_monsters:monstrous_anchor": {
+"fx": [
+{
+"effect": "legendary_monsters:stun",
+"level": 1,
+"name": "Stun",
+"ticks": 60,
+"when": "release",
+"who": "self"
+}
+]
+},
+"legendary_monsters:the_tesseract": {
+"fx": [
+{
+"fire": 3,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:bladecrest_oathsword": {
+"fx": [
+{
+"fire": 3,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:blighted_cleaver": {
+"fx": [
+{
+"effect": "lethality:acid_venom",
+"level": 1,
+"name": "Acid Venom",
+"ticks": 80,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "lethality:hellfire",
+"level": 1,
+"name": "Hellfire",
+"ticks": 80,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:broken_biome_blade": {
+"fx": [
+{
+"effect": "minecraft:slowness",
+"level": 2,
+"name": "Slowness",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"fire": 4,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:poison",
+"level": 2,
+"name": "Poison",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:caustic_edge": {
+"fx": [
+{
+"effect": "lethality:acid_venom",
+"level": 1,
+"name": "Acid Venom",
+"ticks": 40,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:defiled_greatsword": {
+"fx": [
+{
+"effect": "lethality:acid_venom",
+"level": 1,
+"name": "Acid Venom",
+"ticks": 200,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "lethality:hellfire",
+"level": 1,
+"name": "Hellfire",
+"ticks": 200,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:devils_devastation": {
+"fx": [
+{
+"effect": "lethality:nyxium_fire",
+"level": 1,
+"name": "Nyxium Fire",
+"ticks": 200,
+"when": "hit",
+"who": "target"
+},
+{
+"fire": 10,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:exalted_oathblade": {
+"fx": [
+{
+"effect": "lethality:nyxium_fire",
+"level": 1,
+"name": "Nyxium Fire",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"fire": 5,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:forbidden_oathblade": {
+"fx": [
+{
+"effect": "lethality:nyxium_fire",
+"level": 2,
+"name": "Nyxium Fire",
+"ticks": 75,
+"when": "hit",
+"who": "target"
+},
+{
+"fire": 3,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:gaels_greatsword": {
+"fx": [
+{
+"effect": "lethality:hex_flames",
+"level": 1,
+"name": "Flames Hex",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "lethality:stained_calamity",
+"level": 1,
+"name": "Stained Calamity",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:grievance": {
+"fx": [
+{
+"effect": "lethality:hex_flames",
+"level": 1,
+"name": "Flames Hex",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "lethality:stained_calamity",
+"level": 1,
+"name": "Stained Calamity",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "lethality:brimstone_flames_buff",
+"level": 1,
+"name": "Brimstone Flames",
+"ticks": 200,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "lethality:ability_cooldown",
+"level": 1,
+"name": "Ability Cooldown",
+"ticks": 600,
+"when": "use",
+"who": "self"
+}
+]
+},
+"lethality:hf_meowrasama": {
+"fx": [
+{
+"effect": "lethality:vulnerable",
+"level": 1,
+"name": "Vulnerable",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "lethality:crumbling",
+"level": 1,
+"name": "Crumbling",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "lethality:electric_shock_effect",
+"level": 1,
+"name": "Electric Shock Effect",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "lethality:blade_mode",
+"level": 1,
+"name": "Bloodshed",
+"ticks": 200,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "lethality:ability_cooldown",
+"level": 1,
+"name": "Ability Cooldown",
+"ticks": 600,
+"when": "use",
+"who": "self"
+}
+]
+},
+"lethality:miasma": {
+"fx": [
+{
+"effect": "minecraft:poison",
+"level": 2,
+"name": "Poison",
+"ticks": 80,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:hunger",
+"level": 1,
+"maybe": true,
+"name": "Hunger",
+"ticks": 100,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 2,
+"maybe": true,
+"name": "Speed",
+"ticks": 40,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "minecraft:haste",
+"level": 4,
+"maybe": true,
+"name": "Haste",
+"ticks": 40,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "lethality:lifesteal",
+"level": 1,
+"maybe": true,
+"name": "Lifesteal",
+"ticks": 40,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"lethality:nightfall": {
+"fx": [
+{
+"heal": 0.6,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "lethality:iron_will",
+"level": 1,
+"name": "Iron Will",
+"ticks": 200,
+"when": "use",
+"who": "self"
+}
+]
+},
+"lethality:nightmare_sword": {
+"fx": [
+{
+"effect": "lethality:vulnerable",
+"level": 1,
+"name": "Vulnerable",
+"ticks": 200,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:real_knife": {
+"fx": [
+{
+"effect": "lethality:rage",
+"level": 1,
+"name": "Megalomaniac",
+"ticks": 660,
+"when": "use",
+"who": "self"
+}
+]
+},
+"lethality:sacrifice": {
+"fx": [
+{
+"effect": "lethality:hex_flames",
+"level": 1,
+"name": "Flames Hex",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "lethality:stained_calamity",
+"level": 1,
+"name": "Stained Calamity",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:tainted_blade": {
+"fx": [
+{
+"effect": "minecraft:poison",
+"level": 2,
+"name": "Poison",
+"ticks": 125,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:vehemence": {
+"fx": [
+{
+"effect": "lethality:hex_flames",
+"level": 1,
+"name": "Flames Hex",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "lethality:stained_calamity",
+"level": 1,
+"name": "Stained Calamity",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"lethality:violence": {
+"fx": [
+{
+"effect": "lethality:hex_flames",
+"level": 1,
+"name": "Flames Hex",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "lethality:stained_calamity",
+"level": 1,
+"name": "Stained Calamity",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"meetyourfight:cocktail_cutlass": {
+"tip": [
+"%1$d%% chance for attacks give potion effects"
+]
+},
+"meetyourfight:depth_star": {
+"fx": [
+{
+"fire": 4,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"Can charge a short range shockwave",
+"Damage increases with attack damage"
+]
+},
+"mekanism:electric_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"mekaweapons:meka_gun": {
+"fx": [
+{
+"fire": 0,
+"when": "use",
+"who": "target"
+}
+]
+},
+"mowziesmobs:blowgun": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"Charges quickly",
+"Short range",
+"Only shoot darts"
+]
+},
+"mowziesmobs:earthrend_gauntlet": {
+"tip": [
+"Boulder Lift\nRight-click earthen ground to lift a boulder\nPunch boulder to fire it as projectile\nCharge right-click to lift bigger boulders",
+"Tunnel\nRight-click the air to start tunneling through the ground\nHold right-click and look in the direction you'd like to dig\nRelease right-click to surface and stop tunneling",
+"Pillar Rise\nHold both Sneak and Jump to rise upward on a pillar of earth\nThe pillar's width increases if it grows through geomancy boulders",
+"Recharges while in inventory"
+]
+},
+"mowziesmobs:geomancer_beads": {
+"tip": [
+"+3 attack when punching (including attacks with the Earthrend Gauntlet)"
+]
+},
+"mowziesmobs:geomancer_belt": {
+"tip": [
+"+4 armor and +1 knockback resist while you are inflicted with Slowness"
+]
+},
+"mowziesmobs:geomancer_robe": {
+"tip": [
+"Chance to spawn a geomancy boulder nearby when you deal or take damage"
+]
+},
+"mowziesmobs:geomancer_sandals": {
+"tip": [
+"Gain increased movement speed for 3 seconds after falling more than 4 blocks"
+]
+},
+"mowziesmobs:naga_fang_dagger": {
+"fx": [
+{
+"effect": "minecraft:poison",
+"level": 1,
+"name": "Poison",
+"ticks": 3,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"Poisons targets",
+"Deals double damage from behind"
+]
+},
+"mowziesmobs:sculptor_staff": {
+"tip": [
+"Spawns three small rocks that fire as projectiles after a delay",
+"Look in the direction you want the rocks to fire, then right-click"
+]
+},
+"mowziesmobs:sol_visage": {
+"tip": [
+"Never breaks",
+"Equip, then right-click while holding another mask to summon minions",
+"Right-click a minion to return it to its mask"
+]
+},
+"mowziesmobs:spear": {
+"tip": [
+"Extends attack range by 1.5 blocks",
+"1/3 chance to instantly kill animals with less than 30 health"
+]
+},
+"mowziesmobs:umvuthana_mask_bliss": {
+"tip": [
+"Grants jump boost",
+"I wonder if...?"
+]
+},
+"mowziesmobs:umvuthana_mask_faith": {
+"tip": [
+"Grants health boost",
+"I wonder if...?"
+]
+},
+"mowziesmobs:umvuthana_mask_fear": {
+"tip": [
+"Grants swiftness",
+"I wonder if...?"
+]
+},
+"mowziesmobs:umvuthana_mask_fury": {
+"tip": [
+"Grants strength",
+"I wonder if...?"
+]
+},
+"mowziesmobs:umvuthana_mask_misery": {
+"tip": [
+"Grants resistance",
+"I wonder if...?"
+]
+},
+"mowziesmobs:umvuthana_mask_rage": {
+"tip": [
+"Grants haste",
+"I wonder if...?"
+]
+},
+"mowziesmobs:wrought_axe": {
+"tip": [
+"Never breaks",
+"Right-click to attack in an large arc",
+"Shift-right-click to slam the ground and create a shockwave"
+]
+},
+"mowziesmobs:wrought_helmet": {
+"tip": [
+"Never breaks"
+]
+},
+"naturesaura:depth_sword": {
+"fx": [
+{
+"effect": "minecraft:slowness",
+"level": 3,
+"name": "Slowness",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:levitation",
+"level": 3,
+"name": "Levitation",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"naturesaura:infused_iron_sword": {
+"fx": [
+{
+"effect": "minecraft:slowness",
+"level": 3,
+"name": "Slowness",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:levitation",
+"level": 3,
+"name": "Levitation",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"naturesaura:sky_sword": {
+"fx": [
+{
+"effect": "minecraft:slowness",
+"level": 3,
+"name": "Slowness",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:levitation",
+"level": 3,
+"name": "Levitation",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"opposing_force:inferno_staff": {
+"fx": [
+{
+"fire": 3,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"opposing_force:laser_blade": {
+"tip": [
+"Color:",
+"Dyeable"
+]
+},
+"opposing_force:spark_blade": {
+"fx": [
+{
+"effect": "opposing_force:electrified",
+"level": 1,
+"name": "Electrified",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "opposing_force:electrified",
+"level": 1,
+"name": "Electrified",
+"ticks": 100,
+"when": "release",
+"who": "self"
+}
+]
+},
+"opposing_force:strato_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"opposing_force:umber_dagger": {
+"fx": [
+{
+"effect": "opposing_force:gloom_toxin",
+"level": 1,
+"name": "Gloom Toxin",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"opposing_force:vile_boulder": {
+"fx": [
+{
+"effect": "opposing_force:slug_infestation",
+"level": 1,
+"name": "Slug Infestation",
+"ticks": 400,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"primitive_mobs:goblin_mace": {
+"tip": [
+"Damages armour quickly, whatever it is made of"
+]
+},
+"saintsdragons:blood_tempest_katana": {
+"fx": [
+{
+"fire": 8,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"Press R to use \"Heaven's Divide\"",
+"Raevyxian Wrath",
+"On hit, chain up to 5 lightning arcs from enemies, seeking additional targets.",
+"Heaven's Divide",
+"Press R to dash forward at blinding speed, striking everything in your path while chaining lightning.",
+"\"Those who survive swear the sky was cut before they were.\""
+]
+},
+"saintsdragons:dragonlord_sword": {
+"fx": [
+{
+"fire": 8,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"Worldscar",
+"Press R to conjure 3 forward-facing magma pillars.",
+"\"The blade strikes not at its enemies, but at the world beneath them. Molten pillars erupt from the earth, marking the path of the Dragonlord's wrath.\""
+]
+},
+"simplymore:ascended_idol": {
+"tip": [
+"Unique Effect: Blessed",
+"Chance on hit to spread holy water,",
+"creating an aura of purity in which",
+"you gain regeneration and have",
+"negative effects cured.",
+"An enlightened power harmonizes within."
+]
+},
+"simplymore:black_pearl": {
+"tip": [
+"Unique Effect: Plunder",
+"Chance on hit to steal a positive",
+"status effect.",
+"Blast forward an explosive cannonball.",
+"This will hurt you if too close."
+]
+},
+"simplymore:blade_of_the_grotesque": {
+"fx": [
+{
+"effect": "simplymore:solidified",
+"level": 1,
+"name": "Solidified",
+"ticks": null,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "simplymore:grotesque_ward",
+"level": 1,
+"name": "Warded Evil",
+"ticks": 50,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: False Appearance",
+"While held gain an aura which slows and weakens",
+"enemies the longer they stay inside of it.",
+"Holding this weapon slows you down.",
+"Solidify for %s seconds, during which you may not",
+"attack nor move, but gain extra defense.",
+"If you are hit during this, return to normal",
+"and stun others inside your aura for a short duration."
+]
+},
+"simplymore:boas_fang": {
+"fx": [
+{
+"effect": "simplymore:constricted",
+"level": 1,
+"name": "Constricted",
+"ticks": null,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:poison",
+"level": 1,
+"name": "Poison",
+"ticks": 1,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 1,
+"name": "Speed",
+"ticks": 1,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Deadly Embrace",
+"Chance on hit to constrict enemies.",
+"Constricted enemies begin to suffocate",
+"and are slowed.",
+"Dash backwards and launch a blast of",
+"poison. Gain speed when dashing back."
+]
+},
+"simplymore:brassturn": {
+"tip": [
+"Unique Effect: Aging Mechanisms",
+"Hitting targets causes this weapon to oxidize,",
+"lowering its swing speed to a halt. Chance on",
+"hit to summon a jet of steam which flings people up.",
+"Gradually remove the oxidization from the weapon.",
+"This sometimes sprays sparks which can stun enemies."
+]
+},
+"simplymore:cindergorge": {
+"fx": [
+{
+"effect": "minecraft:nausea",
+"level": 1,
+"name": "Nausea",
+"ticks": 150,
+"when": "release",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Searing Barbs",
+"While held gain slight thorns.",
+"If somebody is on fire when they take thorns damage",
+"they take additional fire damage.",
+"Spin violently, flinging flames in all directions.",
+"After spinning, gain nausea equal to the length of",
+"your spin."
+]
+},
+"simplymore:culterex": {
+"fx": [
+{
+"effect": "minecraft:glowing",
+"level": 1,
+"name": "Glowing",
+"ticks": 10,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "simplymore:soul_health",
+"level": 2,
+"name": "Soul Health",
+"ticks": 100,
+"when": "use",
+"who": "self"
+},
+{
+"heal": 2.0,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "simplymore:hex",
+"level": 1,
+"name": "Hex",
+"ticks": 0,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "simplymore:hex",
+"level": 1,
+"name": "Hex",
+"ticks": null,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"Unique Effect: Ancient Occult",
+"Chance on hit to raise the duration of Hex.",
+"Target someone, if they do not have a hex, then",
+"hex them for a duration based on the amount of",
+"positive status effect they have. Hex's effects",
+"become worse the longer it is sustained.",
+"If your target does have hex, expel it and",
+"gain temporary health dependent on how"
+]
+},
+"simplymore:darksent": {
+"tip": [
+"Unique Effect: Accursed",
+"Chance on hit to spread unholy water,",
+"creating an aura of corruption which",
+"inflicts wither and weakness",
+"to enemies within.",
+"Curse all enemies nearby for a short",
+"duration. Cursed enemies are blinded and",
+"slowed heavily upon taking damage."
+]
+},
+"simplymore:deaths_eyrie": {
+"fx": [
+{
+"effect": "simplymore:bleed",
+"level": 1,
+"name": "Bleeding",
+"ticks": null,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:glowing",
+"level": 1,
+"name": "Glowing",
+"ticks": 10,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Murder's Heed",
+"While held, summon a crow to follow you.",
+"Chance on hit to inflict bleed and summon another",
+"crow, up to a maximum of 5. The more crows that follow you,",
+"the longer and more severe the bleed effect.",
+"Command all crows to attack a single target, causing them",
+"to swarm, damage and blind the enemy. The more crows commanded,",
+"the longer the crows swarm. Part of the damage inflicted is"
+]
+},
+"simplymore:diamond_lance": {
+"fx": [
+{
+"effect": "simplymore:lance_mounted",
+"level": 1,
+"name": "Friendship",
+"ticks": 9999999,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"simplymore:earthshatter": {
+"fx": [
+{
+"effect": "simplymore:armor_crunch",
+"level": 1,
+"name": "Armour Crunch",
+"ticks": 200,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"Unique Effect: Shattering Edge",
+"This weapon breaks shields.",
+"Chance on hit to inflict Armor Crunch,",
+"making an opponent's armor less effective.",
+"This effect stacks.",
+"After a short charge, slam downwards, shattering the",
+"ground around you, causing those hit to be launched,",
+"weakened, slowed and inflicted with armor crunch."
+]
+},
+"simplymore:exedrill": {
+"fx": [
+{
+"effect": "simplymore:lance_mounted",
+"level": 1,
+"name": "Friendship",
+"ticks": 9999999,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Excavation",
+"Hitting enemies will heat this weapon up.",
+"Chance on hit to tremble the ground, causing slowness and",
+"mining fatigue to those nearby. This chance is increased",
+"whilst mounted. Causing tremors will greatly heat this weapon.",
+"Once fully heated, your next attack will cause an explosion",
+"and earthquake which throws enemies away.",
+"Throw rocks at your enemies which shatter"
+]
+},
+"simplymore:glimmerstep": {
+"fx": [
+{
+"effect": "simplymore:starlight",
+"level": 1,
+"name": "Starlight",
+"ticks": null,
+"when": "hit",
+"who": "self"
+},
+{
+"effect": "simplymore:starlight",
+"level": 1,
+"name": "Starlight",
+"ticks": 0,
+"when": "hit",
+"who": "self"
+},
+{
+"effect": "minecraft:blindness",
+"level": 1,
+"name": "Blindness",
+"ticks": null,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "simplymore:lance_mounted",
+"level": 1,
+"name": "Friendship",
+"ticks": 9999999,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Supernova",
+"Chance on hit to gain stacks of Starlight, up to %s.",
+"While you have stacks of Starlight, you gain random",
+"bursts of speed, dependent on the amount of stacks.",
+"This chance is increased whilst mounted.",
+"Charge to consume all your Starlight, but explode into",
+"stardust which damages based on the stacks consumed.",
+"This will damage both you and allies, but for less"
+]
+},
+"simplymore:gold_lance": {
+"fx": [
+{
+"effect": "simplymore:lance_mounted",
+"level": 1,
+"name": "Friendship",
+"ticks": 9999999,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"simplymore:grandfrost": {
+"fx": [
+{
+"effect": "simplymore:chill",
+"level": 1,
+"name": "Chill",
+"ticks": 0,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "simplymore:chill",
+"level": 1,
+"name": "Chill",
+"ticks": 0,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "minecraft:slowness",
+"level": 1,
+"name": "Slowness",
+"ticks": 3,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Oppressive Blizzard",
+"Chance to chill opponents on hit.",
+"Blocking opponents are always frozen.",
+"Conjure a gale to blast away others close",
+"to you, chilling and deeply slowing them."
+]
+},
+"simplymore:great_slither": {
+"fx": [
+{
+"effect": "simplymore:venom",
+"level": 1,
+"name": "Toxic",
+"ticks": 0,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:poison",
+"level": 1,
+"name": "Poison",
+"ticks": 0,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"Unique Effect: Poisonous Grasp",
+"Chance on hit to inflict poison.",
+"If the target already has poison, inflict venom.",
+"Summon a cone of fangs out in front",
+"of you, which inflict venom and slow heavily."
+]
+},
+"simplymore:holylight": {
+"tip": [
+"Unique Effect: Blessed",
+"Chance on hit to spread holy water,",
+"creating an aura of purity in which",
+"you gain regeneration and have",
+"negative effects cured.",
+"Grant you and all allies nearby a short",
+"blessing. If you take damage while it is active,",
+"nullify it and heal for %s hearts instead."
+]
+},
+"simplymore:iron_lance": {
+"fx": [
+{
+"effect": "simplymore:lance_mounted",
+"level": 1,
+"name": "Friendship",
+"ticks": 9999999,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"simplymore:jester_penetrate": {
+"fx": [
+{
+"effect": "minecraft:strength",
+"level": 1,
+"maybe": true,
+"name": "Strength",
+"ticks": 20,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "minecraft:haste",
+"level": 2,
+"maybe": true,
+"name": "Haste",
+"ticks": 20,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 1,
+"maybe": true,
+"name": "Speed",
+"ticks": 20,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "simplymore:lance_mounted",
+"level": 1,
+"maybe": true,
+"name": "Friendship",
+"ticks": 9999999,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Deadliest Minecraft Player",
+"While held, gain speed, strength and haste.",
+"This effect only occurs if held in the",
+"mainhand."
+]
+},
+"simplymore:lustrous_moxie": {
+"fx": [
+{
+"effect": "simplymore:radiant_mark",
+"level": 1,
+"name": "Radiant Mark",
+"ticks": null,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "simplymore:radiant_mark",
+"level": 1,
+"name": "Radiant Mark",
+"ticks": 200,
+"when": "hit",
+"who": "target"
+}
+],
+"tip": [
+"Unique Effect: Radiant Mark",
+"Chance on hit to apply Radiant Mark.",
+"You deal true damage equal to the level of",
+"Radiant Mark on the target on each hit.",
+"Radiant Mark is stackable, but has a lower",
+"duration the more it is applied.",
+"After a short windup, teleport to the",
+"to the closest foe inflicted with Radiant Mark."
+]
+},
+"simplymore:matterbane": {
+"tip": [
+"Unique Effect: Negative Energy",
+"Chance on hit to spawn a beta particle",
+"which travels %s blocks, deals damage and",
+"pierces walls and shields.",
+"Spawn a rift which will connect to enemies within",
+"10 blocks. These enemies glow, are slowed",
+"and are pulled back if they attempt",
+"to leave the rift's range."
+]
+},
+"simplymore:molten_flare": {
+"fx": [
+{
+"effect": "simplymore:molten_flare",
+"level": 1,
+"name": "Smoking Execution",
+"ticks": 100,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Smoking Execution",
+"Chance on hit to erupt damaging lava around you.",
+"Empower your next swing, causing it",
+"to swing much faster and erupt with",
+"more ferocity."
+]
+},
+"simplymore:myrmedge": {
+"fx": [
+{
+"effect": "simplymore:grasping",
+"level": 1,
+"name": "Grasping",
+"ticks": null,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 1,
+"name": "Speed",
+"ticks": 25,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "minecraft:mining_fatigue",
+"level": 2,
+"name": "Mining Fatigue",
+"ticks": 10,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "minecraft:weakness",
+"level": 2,
+"name": "Weakness",
+"ticks": 10,
+"when": "carried",
+"who": "self"
+},
+{
+"heal": 1.0,
+"when": "carried",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Hunter's Instincts",
+"The more hungry you are, the faster you move",
+"and the more damage you deal.",
+"Grasp an enemy in front of you, sapping hunger and",
+"health to fill your hunger bar. If you reach",
+"full hunger, you begin to fill your health.",
+"After %s seconds, spit the target away.",
+"While you are grasping someone, you cannot attack,"
+]
+},
+"simplymore:netherite_lance": {
+"fx": [
+{
+"effect": "simplymore:lance_mounted",
+"level": 1,
+"name": "Friendship",
+"ticks": 9999999,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"simplymore:perforiscus": {
+"fx": [
+{
+"effect": "simplymore:bloom",
+"level": 1,
+"name": "Bloom",
+"ticks": null,
+"when": "hit",
+"who": "self"
+},
+{
+"effect": "simplymore:bloom",
+"level": 1,
+"name": "Bloom",
+"ticks": 8,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Wither and Bloom",
+"Each hit with this weapon will grant a stack of bloom, up to 15.",
+"The more bloom stacks you have, your defenses will be",
+"gradually buffed.",
+"Consume 8 stacks of bloom to create a flower field",
+"around you. Allies stood inside of the field are buffed."
+]
+},
+"simplymore:revvengine": {
+"fx": [
+{
+"effect": "simplymore:bleed",
+"level": 1,
+"name": "Bleeding",
+"ticks": 0,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "simplymore:ravenous",
+"level": 1,
+"name": "Ravenous",
+"ticks": null,
+"when": "release",
+"who": "self"
+},
+{
+"effect": "simplymore:bleed",
+"level": 1,
+"name": "Bleeding",
+"ticks": 0,
+"when": "release",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Kickback",
+"The more damaged you are, the more damage you deal.",
+"Chance on hit to inflict bleed.",
+"Charge up the blade, with three stages depending on",
+"how long you charge. The range and damage of these",
+"abilities are based on the more damaged you are."
+]
+},
+"simplymore:runic_lance": {
+"fx": [
+{
+"effect": "simplymore:lance_mounted",
+"level": 1,
+"name": "Friendship",
+"ticks": 9999999,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"simplymore:ruptured_idol": {
+"tip": [
+"A remnant energy resonates within."
+]
+},
+"simplymore:ruyi_jingu_bang": {
+"tip": [
+"Unique Effect: The Monkey King",
+"Charge up the weapon before dealing a devastating",
+"slam. The longer it charges, the larger the weapon",
+"becomes, increasing the damage and range of the blow."
+]
+},
+"simplymore:serpentine_valour": {
+"tip": [
+"Unique Effect: Fatal Strike",
+"This weapon deals 4 additional damage if",
+"the target has poison or venom.",
+"Summon 4 poison bolts above you which",
+"will chase down enemies. Poison bolts",
+"will wait 2 seconds before firing if an enemy",
+"is within 5 blocks of you when spawning."
+]
+},
+"simplymore:smouldering_ruin": {
+"fx": [
+{
+"effect": "minecraft:wither",
+"level": 1,
+"name": "Wither",
+"ticks": 0,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "simplymore:withering_fate",
+"level": 1,
+"name": "Withering Fate",
+"ticks": 1,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "simplymore:mistified",
+"level": 1,
+"name": "Misty Step",
+"ticks": 10000,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Doomsayer",
+"Chance on hit to inflict wither. If",
+"the target has Withering Fate, add an",
+"additional level of it.",
+"Jump backwards and turn into mist.",
+"If there is a target within 10 blocks",
+"in front of you, teleport to them, leaving",
+"a slash that inflicts Withering Fate."
+]
+},
+"simplymore:soul_foreseer": {
+"fx": [
+{
+"effect": "simplymore:soul_lock",
+"level": 1,
+"name": "Soul Lock",
+"ticks": 0,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:glowing",
+"level": 1,
+"name": "Glowing",
+"ticks": 10,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:slowness",
+"level": 1,
+"name": "Slowness",
+"ticks": 3,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "minecraft:blindness",
+"level": 1,
+"name": "Blindness",
+"ticks": 0,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "minecraft:wither",
+"level": 1,
+"name": "Wither",
+"ticks": 1,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Soul Foresight",
+"Chance on hit to steal and judge an",
+"enemy's soul. While the target is without",
+"their soul, positive effects are drained much",
+"faster. After %s seconds, their soul is returned.",
+"Return a target's soul prematurely, blinding,",
+"slowing and teleporting them to you."
+]
+},
+"simplymore:stasis": {
+"tip": [
+"Unique Effect: Stagnation",
+"Chance on hit to shock the enemy, rendering",
+"their abilities on cooldown for a few seconds.",
+"After charging, erupt lightning around you.",
+"The lightning does not hurt you."
+]
+},
+"simplymore:tarnished_idol": {
+"tip": [
+"Unique Effect: Accursed",
+"Chance on hit to spread unholy water,",
+"creating an aura of corruption which",
+"inflicts wither and weakness",
+"to enemies within.",
+"A fallen power crashes within."
+]
+},
+"simplymore:the_blood_harvester": {
+"fx": [
+{
+"heal": null,
+"when": "hit",
+"who": "self"
+},
+{
+"effect": "simplymore:bleed",
+"level": 1,
+"name": "Bleeding",
+"ticks": 0,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "simplymore:harvest",
+"level": 1,
+"name": "Sanguine Harvest",
+"ticks": 0,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Blood Sense",
+"This weapon has %s lifesteal.",
+"Enter a harvest for %s seconds. While inside of a harvest,",
+"this weapon gains %s lifesteal, you gain speed and haste,",
+"you begin to inflict bleed, and you can sniff out",
+"other entities nearby."
+]
+},
+"simplymore:the_pan": {
+"tip": [
+"Unique Effect: Kitchen Magic",
+"Chance on hit to knockback the enemy."
+]
+},
+"simplymore:the_vessel_breach": {
+"fx": [
+{
+"heal": null,
+"when": "hit",
+"who": "self"
+},
+{
+"effect": "simplymore:bleed",
+"level": 1,
+"name": "Bleeding",
+"ticks": 0,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "simplymore:rage",
+"level": 1,
+"name": "Adrenaline Rage",
+"ticks": 0,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "minecraft:resistance",
+"level": 5,
+"name": "Resistance",
+"ticks": 12,
+"when": "use",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Blood Purger",
+"This weapon has %s lifesteal.",
+"Cut yourself for %s of your health to",
+"enter a rage. While enraged, you bleed",
+"but may not take damage otherwise.",
+"You also gain %s lifesteal, a damage",
+"increase and inflict bleed."
+]
+},
+"simplymore:tidebreaker": {
+"fx": [
+{
+"effect": "simplymore:tidebreaker_rain",
+"level": 1,
+"name": "Madness Rain",
+"ticks": 0,
+"when": "hit",
+"who": "self"
+}
+],
+"tip": [
+"Unique Effect: Drowned God’s Favor",
+"Chance on hit to cause rainfall around you",
+"which inflicts insanity. Insanity causes random",
+"head movements, weakness and slowness.",
+"Manifest insanity, causing the last person you hit",
+"to swap places with you, provided you hit them within",
+"the last %s seconds and they are within %s blocks."
+]
+},
+"simplymore:timekeeper": {
+"fx": [
+{
+"fire": 5,
+"when": "use",
+"who": "target"
+},
+{
+"effect": "minecraft:blindness",
+"level": 1,
+"name": "Blindness",
+"ticks": null,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "minecraft:slowness",
+"level": 1,
+"name": "Slowness",
+"ticks": 3,
+"when": "use",
+"who": "self"
+}
+]
+},
+"simplymore:vipers_call": {
+"tip": [
+"Unique Effect: Unending Venom",
+"While held, status effects that run out stay",
+"active until you unequip the weapon, albeit",
+"at its weakest level.",
+"This effect only occurs if held in the",
+"mainhand.",
+"Summon a large ring around yourself",
+"which damages and poisons enemies."
+]
+},
+"simplyswords:arcanethyst": {
+"fx": [
+{
+"effect": "minecraft:levitation",
+"level": 2,
+"name": "Levitation",
+"ticks": 60,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"simplyswords:brimstone_claymore": {
+"fx": [
+{
+"fire": 3,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"simplyswords:decaying_relic": {
+"fx": [
+{
+"effect": "minecraft:regeneration",
+"level": 9,
+"name": "Regeneration",
+"ticks": 40,
+"when": "hit",
+"who": "self"
+},
+{
+"effect": "minecraft:weakness",
+"level": 1,
+"name": "Weakness",
+"ticks": 160,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"simplyswords:dormant_relic": {
+"fx": [
+{
+"effect": "minecraft:regeneration",
+"level": 9,
+"name": "Regeneration",
+"ticks": 40,
+"when": "hit",
+"who": "self"
+},
+{
+"effect": "minecraft:weakness",
+"level": 1,
+"name": "Weakness",
+"ticks": 160,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"simplyswords:emberblade": {
+"fx": [
+{
+"effect": "minecraft:strength",
+"level": 1,
+"name": "Strength",
+"ticks": 0,
+"when": "release",
+"who": "self"
+},
+{
+"effect": "minecraft:speed",
+"level": 1,
+"name": "Speed",
+"ticks": 1,
+"when": "release",
+"who": "self"
+},
+{
+"effect": "minecraft:haste",
+"level": 1,
+"name": "Haste",
+"ticks": 0,
+"when": "release",
+"who": "self"
+}
+]
+},
+"simplyswords:emberlash": {
+"fx": [
+{
+"heal": 100.0,
+"when": "use",
+"who": "self"
+}
+]
+},
+"simplyswords:harbinger": {
+"fx": [
+{
+"effect": "minecraft:weakness",
+"level": 1,
+"name": "Weakness",
+"ticks": 160,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"simplyswords:icewhisper": {
+"fx": [
+{
+"effect": "minecraft:slowness",
+"level": 4,
+"name": "Slowness",
+"ticks": 120,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "minecraft:slowness",
+"level": 1,
+"name": "Slowness",
+"ticks": 120,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"simplyswords:magiblade": {
+"tip": [
+"Your Decaying Relic seems to be quivering",
+"Your Decaying Relic seems gravitated to the block beneath you"
+]
+},
+"simplyswords:magiscythe": {
+"fx": [
+{
+"effect": "simplyswords:magistorm",
+"level": 1,
+"name": "Magistorm",
+"ticks": 1,
+"when": "use",
+"who": "self"
+}
+]
+},
+"simplyswords:magispear": {
+"tip": [
+"Your Decaying Relic seems to have been influenced by something",
+"Your Decaying Relic seems to be reacting to the darkness"
+]
+},
+"simplyswords:ribboncleaver": {
+"fx": [
+{
+"effect": "simplyswords:ribboncleave",
+"level": 1,
+"name": "Ribboncleave",
+"ticks": 60,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "simplyswords:resilience",
+"level": 1,
+"name": "Resilience",
+"ticks": 15,
+"when": "use",
+"who": "self"
+}
+]
+},
+"simplyswords:righteous_relic": {
+"fx": [
+{
+"effect": "minecraft:regeneration",
+"level": 1,
+"name": "Regeneration",
+"ticks": 40,
+"when": "hit",
+"who": "self"
+}
+]
+},
+"simplyswords:soulrender": {
+"fx": [
+{
+"effect": "minecraft:weakness",
+"level": 1,
+"name": "Weakness",
+"ticks": null,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:weakness",
+"level": 1,
+"name": "Weakness",
+"ticks": 0,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:slowness",
+"level": 1,
+"name": "Slowness",
+"ticks": null,
+"when": "hit",
+"who": "target"
+},
+{
+"effect": "minecraft:slowness",
+"level": 1,
+"name": "Slowness",
+"ticks": 0,
+"when": "hit",
+"who": "target"
+},
+{
+"heal": 6.0,
+"when": "use",
+"who": "self"
+}
+]
+},
+"simplyswords:stars_edge": {
+"fx": [
+{
+"heal": 0.0,
+"when": "hit",
+"who": "self"
+}
+]
+},
+"simplyswords:sunfire": {
+"fx": [
+{
+"effect": "minecraft:regeneration",
+"level": 2,
+"name": "Regeneration",
+"ticks": 40,
+"when": "hit",
+"who": "self"
+}
+]
+},
+"simplyswords:tainted_relic": {
+"fx": [
+{
+"effect": "minecraft:weakness",
+"level": 1,
+"name": "Weakness",
+"ticks": 160,
+"when": "hit",
+"who": "target"
+}
+]
+},
+"simplyswords:whisperwind": {
+"fx": [
+{
+"effect": "simplyswords:fatal_flicker",
+"level": 1,
+"name": "Fatal Flicker",
+"ticks": 12,
+"when": "use",
+"who": "self"
+},
+{
+"effect": "minecraft:absorption",
+"level": 1,
+"name": "Absorption",
+"ticks": 100,
+"when": "use",
+"who": "self"
+}
+]
+},
+"species:crankbow": {
+"tip": [
+"%s/%s",
+"Ramps up in speed"
+]
+},
+"species:spectralibur": {
+"tip": [
+"Thou hath not the strength to wield me...",
+"Where was thine courage?",
+"%1$s fragment",
+"Converts souls into Spectres",
+"Can Release:",
+"%1$s Spectre",
+"%1$s Spectres",
+"%1$s Jousting Spectre"
+]
+},
+"terramity:conductite_armor_boots": {
+"tip": [
+"-180 second cooldown",
+"Armor Set Ability:",
+"-Factory Reset: Clear ALL status effects"
+]
+},
+"terramity:conductite_armor_chestplate": {
+"tip": [
+"-180 second cooldown",
+"-Factory Reset: Clear ALL status effects",
+"Armor Set Ability:"
+]
+},
+"terramity:conductite_armor_leggings": {
+"tip": [
+"Armor Set Ability:",
+"-Factory Reset: Clear ALL status effects",
+"-180 second cooldown"
+]
+},
+"terramity:conjuror_boots": {
+"tip": [
+"Passive Effect:",
+"-Grants Speed II"
+]
+},
+"terramity:conjuror_helmet": {
+"tip": [
+"+20% Damage reduction to magic, fire, and explosions",
+"Passive Effect:"
+]
+},
+"terramity:cosmilite_armor_boots": {
+"tip": [
+"Armor Set Ability:",
+"-Toggle to flip your own gravity"
+]
+},
+"terramity:cosmilite_armor_chestplate": {
+"tip": [
+"Armor Set Ability:",
+"-Toggle to flip your own gravity"
+]
+},
+"terramity:cosmilite_armor_helmet": {
+"tip": [
+"Armor Set Ability:",
+"-Toggle to flip your own gravity"
+]
+},
+"terramity:cosmilite_armor_leggings": {
+"tip": [
+"Armor Set Ability:",
+"-Toggle to flip your own gravity"
+]
+},
+"terramity:dimlite_boots": {
+"tip": [
+"-8 second cooldown",
+"-Blast a sonic boom that deals weak damage and propels you backwards",
+"Armor Set Ability:"
+]
+},
+"terramity:dimlite_chestplate": {
+"tip": [
+"-Blast a sonic boom that deals weak damage and propels you backwards",
+"Armor Set Ability:",
+"-8 second cooldown"
+]
+},
+"terramity:dimlite_helmet": {
+"tip": [
+"-Blast a sonic boom that deals weak damage and propels you backwards",
+"Armor Set Ability:",
+"-8 second cooldown"
+]
+},
+"terramity:dimlite_leggings": {
+"tip": [
+"Armor Set Ability:",
+"-Blast a sonic boom that deals weak damage and propels you backwards",
+"-8 second cooldown"
+]
+},
+"terramity:exodium_warlock_boots": {
+"tip": [
+"-20% Dash cooldown",
+"Passive Effect (Full Set):",
+"-Toggle Shadowstep, placing temporary invisible blocks beneath your feet, essentially walking on air",
+"Armor Set Ability:"
+]
+},
+"terramity:exodium_warlock_chestplate": {
+"tip": [
+"-Toggle Shadowstep, placing temporary invisible blocks beneath your feet, essentially walking on air",
+"Passive Effect (Full Set):",
+"-20% Dash cooldown",
+"Armor Set Ability:"
+]
+},
+"terramity:exodium_warlock_helmet": {
+"tip": [
+"Armor Set Ability:",
+"-20% Dash cooldown",
+"-Toggle Shadowstep, placing temporary invisible blocks beneath your feet, essentially walking on air",
+"Passive Effect (Full Set):"
+]
+},
+"terramity:exodium_warlock_leggings": {
+"tip": [
+"-20% Dash cooldown",
+"Passive Effect (Full Set):",
+"-Toggle Shadowstep, placing temporary invisible blocks beneath your feet, essentially walking on air",
+"Armor Set Ability:"
+]
+},
+"terramity:gundalfs_hat_helmet": {
+"tip": [
+"Passive Effect:",
+"-25% Ability cooldown"
+]
+},
+"terramity:hamstick_cudgel": {
+"tip": [
+"Increased damage dealt equal to 1/4 of your saturation"
+]
+},
+"terramity:hellspec_boots": {
+"tip": [
+"-Grants Life Steal for 25 seconds",
+"Armor Set Ability:",
+"-60 second cooldown"
+]
+},
+"terramity:hellspec_chestplate": {
+"tip": [
+"-60 second cooldown",
+"-Grants Life Steal for 25 seconds",
+"Armor Set Ability:"
+]
+},
+"terramity:hellspec_helmet": {
+"tip": [
+"-Grants Life Steal for 25 seconds",
+"Armor Set Ability:",
+"-60 second cooldown"
+]
+},
+"terramity:hellspec_leggings": {
+"tip": [
+"-60 second cooldown",
+"-Grants Life Steal for 25 seconds",
+"Armor Set Ability:"
+]
+},
+"terramity:murasama": {
+"tip": [
+"\"There will be blood!\"",
+"-Slash forward incredibly fast, dealing damage to anything in your way",
+"On Right Click:"
+]
+},
+"terramity:nyxium_knight_boots": {
+"tip": [
+"-45 second cooldown",
+"Passive Effect (Full Set):",
+"-Immunity to fire and Shadowflame",
+"-20% Ability cooldown",
+"Armor Set Ability:",
+"-Cast a ring of fire that inflicts Shadowflame at your feet"
+]
+},
+"terramity:nyxium_knight_chestplate": {
+"tip": [
+"-Immunity to fire and Shadowflame",
+"-20% Ability cooldown",
+"-45 second cooldown",
+"Passive Effect (Full Set):",
+"Armor Set Ability:",
+"-Cast a ring of fire that inflicts Shadowflame at your feet"
+]
+},
+"terramity:nyxium_knight_helmet": {
+"tip": [
+"-Immunity to fire and Shadowflame",
+"-20% Ability cooldown",
+"Armor Set Ability:",
+"-Cast a ring of fire that inflicts Shadowflame at your feet",
+"-45 second cooldown",
+"Passive Effect (Full Set):"
+]
+},
+"terramity:nyxium_knight_leggings": {
+"tip": [
+"-Cast a ring of fire that inflicts Shadowflame at your feet",
+"-45 second cooldown",
+"Armor Set Ability:",
+"-20% Ability cooldown",
+"Passive Effect (Full Set):",
+"-Immunity to fire and Shadowflame"
+]
+},
+"terramity:onyx_armor_boots": {
+"tip": [
+"Armor Set Ability:",
+"-Triggers a random teleport, similar to a chorus fruit",
+"-30 second cooldown"
+]
+},
+"terramity:onyx_armor_chestplate": {
+"tip": [
+"-30 second cooldown",
+"Armor Set Ability:",
+"-Triggers a random teleport, similar to a chorus fruit"
+]
+},
+"terramity:onyx_armor_helmet": {
+"tip": [
+"-Triggers a random teleport, similar to a chorus fruit",
+"Armor Set Ability:",
+"-30 second cooldown"
+]
+},
+"terramity:onyx_armor_leggings": {
+"tip": [
+"-Triggers a random teleport, similar to a chorus fruit",
+"-30 second cooldown",
+"Armor Set Ability:"
+]
+},
+"terramity:reverium_paladin_boots": {
+"tip": [
+"Armor Set Ability:",
+"-Cast a holy beam wherever you're looking that does damage and inflicts Vulnerability",
+"-30 second cooldown"
+]
+},
+"terramity:reverium_paladin_chestplate": {
+"tip": [
+"Armor Set Ability:",
+"-Cast a holy beam wherever you're looking that does damage and inflicts Vulnerability",
+"-30 second cooldown"
+]
+},
+"terramity:reverium_paladin_helmet": {
+"tip": [
+"Armor Set Ability:",
+"-30 second cooldown",
+"-Cast a holy beam wherever you're looking that does damage and inflicts Vulnerability"
+]
+},
+"terramity:reverium_paladin_leggings": {
+"tip": [
+"-Cast a holy beam wherever you're looking that does damage and inflicts Vulnerability",
+"Armor Set Ability:",
+"-30 second cooldown"
+]
+},
+"terramity:ruby_armor_boots": {
+"tip": [
+"-120 second cooldown",
+"-Grants Fire Resistance for 10 seconds",
+"Armor Set Ability:"
+]
+},
+"terramity:ruby_armor_chestplate": {
+"tip": [
+"-Grants Fire Resistance for 10 seconds",
+"Armor Set Ability:",
+"-120 second cooldown"
+]
+},
+"terramity:ruby_armor_helmet": {
+"tip": [
+"-120 second cooldown",
+"-Grants Fire Resistance for 10 seconds",
+"Armor Set Ability:"
+]
+},
+"terramity:ruby_armor_leggings": {
+"tip": [
+"-Grants Fire Resistance for 10 seconds",
+"-120 second cooldown",
+"Armor Set Ability:"
+]
+},
+"terramity:sapphire_armor_boots": {
+"tip": [
+"Armor Set Ability:",
+"-Grants Water Breathing for 30 seconds",
+"-120 second cooldown"
+]
+},
+"terramity:sapphire_armor_chestplate": {
+"tip": [
+"-120 second cooldown",
+"-Grants Water Breathing for 30 seconds",
+"Armor Set Ability:"
+]
+},
+"terramity:sapphire_armor_helmet": {
+"tip": [
+"-Grants Water Breathing for 30 seconds",
+"Armor Set Ability:",
+"-120 second cooldown"
+]
+},
+"terramity:sapphire_armor_leggings": {
+"tip": [
+"-Grants Water Breathing for 30 seconds",
+"-120 second cooldown",
+"Armor Set Ability:"
+]
+},
+"terramity:sword_of_the_imprisoned": {
+"tip": [
+"-Strike yourself with lightning and empower your next swing to release a wave of burning magma",
+"\"Secret Stone? Demon King?\"",
+"On Right Click:"
+]
+},
+"terramity:topaz_armor_boots": {
+"tip": [
+"-30 second cooldown",
+"Armor Set Ability:",
+"-Grants Slow Falling for 8 seconds"
+]
+},
+"terramity:topaz_armor_chestplate": {
+"tip": [
+"Armor Set Ability:",
+"-Grants Slow Falling for 8 seconds",
+"-30 second cooldown"
+]
+},
+"terramity:topaz_armor_helmet": {
+"tip": [
+"Armor Set Ability:",
+"-Grants Slow Falling for 8 seconds",
+"-30 second cooldown"
+]
+},
+"terramity:topaz_armor_leggings": {
+"tip": [
+"-Grants Slow Falling for 8 seconds",
+"-30 second cooldown",
+"Armor Set Ability:"
+]
+},
+"terramity:virentium_armor_boots": {
+"tip": [
+"Armor Set Ability:",
+"-Toggle Dripleaf Step, placing temporary dripleaf blocks beneath your feet"
+]
+},
+"terramity:virentium_armor_chestplate": {
+"tip": [
+"-Toggle Dripleaf Step, placing temporary dripleaf blocks beneath your feet",
+"Armor Set Ability:"
+]
+},
+"terramity:virentium_armor_helmet": {
+"tip": [
+"-Toggle Dripleaf Step, placing temporary dripleaf blocks beneath your feet",
+"Armor Set Ability:"
+]
+},
+"terramity:virentium_armor_leggings": {
+"tip": [
+"Armor Set Ability:",
+"-Toggle Dripleaf Step, placing temporary dripleaf blocks beneath your feet"
+]
+},
+"terramity:void_mage_boots": {
+"tip": [
+"Armor Set Ability:",
+"-Grants Phasing for 5 seconds",
+"-60 second cooldown"
+]
+},
+"terramity:void_mage_chestplate": {
+"tip": [
+"-60 second cooldown",
+"-Grants Phasing for 5 seconds",
+"Armor Set Ability:"
+]
+},
+"terramity:void_mage_helmet": {
+"tip": [
+"-Grants Phasing for 5 seconds",
+"-60 second cooldown",
+"Armor Set Ability:"
+]
+},
+"terramity:void_mage_leggings": {
+"tip": [
+"Armor Set Ability:",
+"-Grants Phasing for 5 seconds",
+"-60 second cooldown"
+]
+},
+"tiered:pyrekings_edict": {
+"fx": [
+{
+"fire": 6,
+"when": "use",
+"who": "target"
+}
+]
+},
+"too_many_bows:aethers_call": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:ancient_sage_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:arc_heavens": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"Unleash the power of the storm.",
+"Strikes foes with lightning on a direct hit."
+]
+},
+"too_many_bows:arcane_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:astral_bound": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:auroras_grace": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:burnt_relic": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"Ancient relic bow",
+"Once used by Ancient Gods, still holds a flicker of power...",
+"Infinite arrows and enhanced damage"
+]
+},
+"too_many_bows:crimson_nexus": {
+"fx": [
+{
+"fire": 200,
+"when": "release",
+"who": "target"
+},
+{
+"heal": 1.0,
+"when": "carried",
+"who": "self"
+},
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:dark_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:demons_grasp": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:dragons_breath": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:dusk_reaper": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:emerald_sage_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"Grants bonus XP upon hitting enemies"
+]
+},
+"too_many_bows:ethereal_hunter": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:flame_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"Harness the Power of Fire",
+"Shoots flaming arrows that cause fiery explosions.",
+"A legendary bow forged in the heart of a volcano."
+]
+},
+"too_many_bows:frostbite": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:hunter_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"Effective against passive mobs.",
+"[Hold Shift] for more info",
+"Strong against:",
+"Cows",
+"Pigs",
+"Sheep",
+"Chickens",
+"Rabbits"
+]
+},
+"too_many_bows:ironclad_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"Forged with iron, tempered in battle",
+"Magnetic Pulse: Pulls enemies towards the point of impact",
+"Arrows have magnetic force.."
+]
+},
+"too_many_bows:necro_flame_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:radiance": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:scatter_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:sentinels_wrath": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"Effective against raiders.",
+"[Hold Shift] for more info",
+"Strong against:",
+"Pillagers",
+"Vindicators",
+"Evokers",
+"Ravagers",
+"Illusioners"
+]
+},
+"too_many_bows:shulker_blast": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:solar_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:spectral_whisper": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"Arrows pierce through the first obstacle.",
+"This bow fires spectral arrows that pass through blocks, damaging entities."
+]
+},
+"too_many_bows:torchbearer": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:twin_shadows": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:verdant_vigor": {
+"fx": [
+{
+"effect": "minecraft:health_boost",
+"level": 2,
+"name": "Health Boost",
+"ticks": 100,
+"when": "carried",
+"who": "self"
+},
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:verdant_viper": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:webstring": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+]
+},
+"too_many_bows:wind_bow": {
+"fx": [
+{
+"fire": 100,
+"when": "release",
+"who": "target"
+}
+],
+"tip": [
+"A bow that harnesses the breath of the skies.",
+"Ability: Gale Burst\n • On impact, release a gust of wind\n • Knocks nearby foes outward\n • Direct hits deal light magic damage",
+"Tailwind: Hitting an enemy or surface grants\n • Speed II for a short duration\n • Slow Falling to reposition mid-air",
+"\"The wind does not follow—it leads.\""
+]
+},
+"traveloptics:cursed_wraithguard_boots": {
+"fx": [
+{
+"effect": "traveloptics:phantom_rage",
+"level": 1,
+"name": "Phantom Rage",
+"ticks": 300,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:cursed_wraithguard_chestplate": {
+"fx": [
+{
+"effect": "traveloptics:phantom_rage",
+"level": 1,
+"name": "Phantom Rage",
+"ticks": 300,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:cursed_wraithguard_crown": {
+"fx": [
+{
+"effect": "traveloptics:phantom_rage",
+"level": 1,
+"name": "Phantom Rage",
+"ticks": 300,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:cursed_wraithguard_spectral_wrapping": {
+"fx": [
+{
+"effect": "traveloptics:phantom_rage",
+"level": 1,
+"name": "Phantom Rage",
+"ticks": 300,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:deepling_mage_armor_boots": {
+"fx": [
+{
+"effect": "minecraft:water_breathing",
+"level": 1,
+"name": "Water Breathing",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"traveloptics:deepling_mage_armor_helmet": {
+"fx": [
+{
+"effect": "minecraft:water_breathing",
+"level": 1,
+"name": "Water Breathing",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"traveloptics:deepling_mage_armor_leggings": {
+"fx": [
+{
+"effect": "minecraft:water_breathing",
+"level": 1,
+"name": "Water Breathing",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"traveloptics:deepling_mage_armor_robe": {
+"fx": [
+{
+"effect": "minecraft:water_breathing",
+"level": 1,
+"name": "Water Breathing",
+"ticks": 200,
+"when": "worn",
+"who": "self"
+}
+]
+},
+"traveloptics:forlorn_harbinger_boots": {
+"fx": [
+{
+"effect": "minecraft:night_vision",
+"level": 1,
+"name": "Night Vision",
+"ticks": 240,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "traveloptics:crimson_descend",
+"level": 1,
+"name": "Crimson Descend",
+"ticks": 12000,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:forlorn_harbinger_hood": {
+"fx": [
+{
+"effect": "minecraft:night_vision",
+"level": 1,
+"name": "Night Vision",
+"ticks": 240,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "traveloptics:crimson_descend",
+"level": 1,
+"name": "Crimson Descend",
+"ticks": 12000,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:forlorn_harbinger_leggings": {
+"fx": [
+{
+"effect": "minecraft:night_vision",
+"level": 1,
+"name": "Night Vision",
+"ticks": 240,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "traveloptics:crimson_descend",
+"level": 1,
+"name": "Crimson Descend",
+"ticks": 12000,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:forlorn_harbinger_robe": {
+"fx": [
+{
+"effect": "minecraft:night_vision",
+"level": 1,
+"name": "Night Vision",
+"ticks": 240,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "traveloptics:crimson_descend",
+"level": 1,
+"name": "Crimson Descend",
+"ticks": 12000,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:staff_of_the_storm_empress": {
+"tip": [
+"Can be obtained by defeating Scylla",
+"◆ Passive:",
+"While held in either hand, increases Cryostorm radius by +2 and boosts its damage by 15%. Also raises the maximum number of Hydrocharge chain targets to 5"
+]
+},
+"traveloptics:tectonic_crest_armor_boots": {
+"fx": [
+{
+"effect": "minecraft:fire_resistance",
+"level": 1,
+"name": "Fire Resistance",
+"ticks": 200,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:tectonic_crest_armor_chestplate": {
+"fx": [
+{
+"effect": "minecraft:fire_resistance",
+"level": 1,
+"name": "Fire Resistance",
+"ticks": 200,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:tectonic_crest_armor_helmet": {
+"fx": [
+{
+"effect": "minecraft:fire_resistance",
+"level": 1,
+"name": "Fire Resistance",
+"ticks": 200,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:tectonic_crest_armor_leggings": {
+"fx": [
+{
+"effect": "minecraft:fire_resistance",
+"level": 1,
+"name": "Fire Resistance",
+"ticks": 200,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"traveloptics:titanlord_scepter": {
+"tip": [
+"Right-click a tamed baby Tremorzilla with a Tremor Core. Ensure the Tremorzilla is tamed by the same owner to receive the reward.",
+"+1 Recasts to Annihilation spell"
+]
+},
+"traveloptics:wand_of_final_light": {
+"tip": [
+"Can be crafted"
+]
+}
+}

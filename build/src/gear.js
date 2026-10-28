@@ -44,11 +44,30 @@ const GSURV={ME:1,RA:.7,SU:.6,MA:.6};
 const gS=(at,rx,p)=>{let t=0;for(const k in at)if(rx.test(k))t+=at[k][p];return t};
 const gS2=(at,rx)=>gS(at,rx,0)+gS(at,rx,1);
 const GCC=/^(crit_chance|crit_rate|critical_strike_chance)$/,GCD=/^(crit_damage|critical_strike_damage)$/;
-/* melee: damage per second = (base + bonus) x speed, x crit (chance capped at 100%: +50% plus crit damage), x lifesteal and reach */
-function gMelee(g){const a=k=>g.at[k]||[0,0];
+/* effects read from the item's code (gear_fx.json): only those with a number the game itself uses are scored.
+   On hit, on the target: poison does 1 damage every 25>>(level-1) ticks, wither every 40>>(level-1), fire 1 a second, instant
+   damage 6x2^(level-1) at once; kept up as long as chance x attacks a second x duration reaches 1.
+   On the wearer or holder: Strength +3 attack damage a level, Resistance -20% damage taken a level, Health Boost and Absorption
+   +4 health a level. Effects a mod adds (bleeding, soul burn...) are listed on the page but not scored: their numbers live in code. */
+const GDOT={"minecraft:poison":L=>20/(25>>Math.min(4,L-1)),"minecraft:wither":L=>20/(40>>Math.min(5,L-1))};
+const gFxOn=(g,when,who)=>(g.fx||[]).filter(r=>!r.maybe&&(when.includes(r.when))&&r.who===who);
+function gFxDot(g,spd){let dps=0,burst=0;
+ for(const r of gFxOn(g,["hit"],"target")){const c=r.chance||1,up=Math.min(1,c*spd*Math.max(.05,(r.ticks||r.fire*20||20)/20));
+  if(r.fire)dps+=1*Math.min(1,c*spd*r.fire);else if(GDOT[r.effect])dps+=GDOT[r.effect](r.level||1)*up;else if(r.effect==="minecraft:instant_damage")burst+=6*Math.pow(2,(r.level||1)-1)*c}
+ return dps+burst*spd}
+/* the same effects as attributes {attr:[add, mul]}, so the playstyle and survival formulas below take them like any bonus */
+function gFxAt(g){const o={},add=(k,i,v)=>{(o[k]=o[k]||[0,0])[i]+=v};
+ for(const r of gFxOn(g,["worn","carried"],"self")){const L=r.level||1;
+  if(r.effect==="minecraft:strength")add("attack_damage",0,3*L);if(r.effect==="minecraft:resistance")add("resistance",1,.2*L);
+  if(r.effect==="minecraft:health_boost"||r.effect==="minecraft:absorption")add("max_health",0,4*L)}
+ return o}
+const gAt=g=>{const f=gFxAt(g);if(!Object.keys(f).length)return g.at||{};const o={...(g.at||{})};for(const k in f)o[k]=[(o[k]||[0,0])[0]+f[k][0],(o[k]||[0,0])[1]+f[k][1]];return o};
+/* melee: damage per second = (base + bonus) x speed, x crit (chance capped at 100%: +50% plus crit damage), x lifesteal and reach,
+   + damage over time from what a hit puts on the target */
+function gMelee(g){const at=gAt(g),a=k=>at[k]||[0,0];
  const hit=(g.dmg+a("attack_damage")[0])*(1+a("attack_damage")[1]),spd=Math.max(.25,(g.spd||1.6)+a("attack_speed")[0])*(1+a("attack_speed")[1]);
- const cc=Math.min(1,gS2(g.at,GCC)),cd=gS2(g.at,GCD);
- return hit*spd*(1+cc*(.5+cd))*(1+.5*gS(g.at,/^life_?steal$/,0))*(1+.05*a("entity_reach")[0])}
+ const cc=Math.min(1,gS2(at,GCC)),cd=gS2(at,GCD);
+ return hit*spd*(1+cc*(.5+cd))*(1+.5*gS(at,/^life_?steal$/,0))*(1+.05*a("entity_reach")[0])+gFxDot(g,spd)}
 const GME=GE.filter(g=>g.k==="melee"&&g.dmg!=null);
 /* the melee frontier at an Act: the ten best real (not estimated) weapons usable there; their mean DPS and mean hit */
 const GFR={};
@@ -78,7 +97,7 @@ const GOFF={
   return Math.max(iron,ars)},
  /* summon damage (percent), each extra minion slot +25% */
  SU:at=>(1+gS(at,/summon|minion_damage|servant|sentry/,1)+.05*gS(at,/summon_damage|servant|sentry/,0))*(1+.25*gS(at,/^minion_slots$/,0))};
-const gOff=(g,r,a)=>GOFF[r](g.at||{},a);
+const gOff=(g,r,a)=>GOFF[r](gAt(g),a);
 /* effective health against the Act's hit: (base HP + max health) x (a + armor)/a, x damage taken, dodge and knockback resistance.
    Armor is shred by an assumed 10% (L2 Hostility traits, armor-piercing weapons), which toughness weakens */
 function gEHP(f,a){const D=GHIT[a]!=null?GHIT[a]:50,A=D<20?10:10+(D-20)/2,at=f.at||{};
@@ -116,7 +135,9 @@ const GROBE=/robe|crown|hat|hood|cowl|mask/;
   const m=f=>v.map(s=>s[f]).sort((x,y)=>x-y)[v.length>>1];med[k]={arm:m("arm"),tough:m("tough"),hp:m("hp")}}return med[k]};
  GS.forEach(s=>{if(s.kn&&s.arm>0){s.f=s;return}
   const m=medAt(s.a),x=s.p.some(id=>GROBE.test(id.split(":")[1]))?.7:.8;s.est=1;
-  s.f={arm:m.arm*x,tough:m.tough*x,hp:Math.max(s.hp,m.hp*x),kbr:s.kbr||0,dtk:s.dtk||0,at:s.at}})}
+  s.f={arm:m.arm*x,tough:m.tough*x,hp:Math.max(s.hp,m.hp*x),kbr:s.kbr||0,dtk:s.dtk||0,at:s.at}})
+ /* worn effects of the pieces count in the survival formula: Resistance as damage taken, Health Boost and Absorption as health */
+ GS.forEach(s=>{if(!s.fx)return;const f=gFxAt(s);if(!Object.keys(f).length)return;s.f={...s.f,at:gAt(s),hp:(s.f.hp||0)+((f.max_health||[0])[0])}})}
 const GSC=new Map();
 function gSetScore(s,r,a){const key=s.ix+r+a;let v=GSC.get(key);
  if(v==null){v=gRound(gOff(s,r,a)*Math.pow(gEHP(s.f,a),GSURV[r]));GSC.set(key,v)}return v}
@@ -243,6 +264,7 @@ function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix
   head:gVerdict(set||g),
   secs:[["get","How to get",`${g.ob?`<p class="gob${g.ob[0]==="!"?" bad":g.ob[0]==="?"?" unk":""}">${esc(g.ob.replace(/^[!?]/,""))}</p>`:""}${gSrcText(g)}`],
    ["stats","Stats",gStatTable(g,rows)+(bon.length?`<h3>Bonuses</h3><ul class="gbon attr">${bon.map(x=>`<li>${statLine(x)}</li>`).join("")}</ul><p class="note">From the mod's own modifiers, the Linggango <i>attributesetter</i> rebalance and the pack's runtime tweaks (linggango_tweaks: per-mod damage buffs and the tier damage floor), added on top of the base stats.</p>`:"")],
+   (h=>h&&["fx","Effects",h])(gFxHtml(g)),
    ["tier","Tier by Act",set?`<p class="note">The ${esc(set.n)} set as ${GROLE[gMain(set)]} armor, compared with every set usable at each Act.</p>${gTimeline(set)}<h3>Set</h3><a class="gsetl" href="#gs${set.ix}" data-t="s${set.ix}">${gImg(set)}<span>${esc(set.n)} · ${set.ps.length} piece${set.ps.length>1?"s":""}</span></a>`:`<p class="note">${GROLE[r]} weapons, compared with everything usable at each Act.</p>${gTimeline(g)}`],
    typeof GUIDE!=="undefined"&&GUIDE[g.id]&&["guide","From the guide book",guideHtml(GUIDE[g.id])],
    g.lv&&g.lv.length&&["forms","Other levels and forms",`<p class="note">This page shows the strongest version. The same weapon also exists as: ${g.lv.map(x=>`<code>${esc(x)}</code>`).join(", ")}.</p>`]],
@@ -252,10 +274,22 @@ function gearItemPage(g){document.title=g.n+" · Linggango Wiki";seedBg("g"+g.ix
    foot:idBox(g.id)},
   nav:wikiNav({act:g.a},[set&&["Set pieces",set.ps.map(p=>["#g"+p.ix,esc(p.n),p===g])],[`Best ${esc(GROLE[set?gMain(set):r])} ${set?"sets":"weapons"} at ${esc(actL(g.a))}`,gTop(g.a,set?gMain(set):r,w,set||g)]])});
  wireArticle();decorate()}
+/* "Effects" section: what the item does on hit, worn, held or used (read from its code), then its own tooltip lines */
+const GWHEN={hit:"On hit",worn:"While worn",carried:"While held or carried",use:"On use",release:"When you release the shot"};
+const gRom=n=>["","I","II","III","IV","V","VI","VII","VIII","IX","X"][n]||String(n);
+function gFxLine(r){const who=r.who==="target"?"the target":"you",ch=r.chance&&r.chance<1?` (${Math.round(r.chance*100)}% chance)`:"";
+ if(r.fire)return `Sets ${who} on fire for ${r.fire} s${ch}`;if(r.heal)return `Heals you ${gRound(r.heal)} health${ch}`;
+ const t=r.ticks>0?` for ${gRound(r.ticks/20)} s`:"";return `${esc(r.name||r.effect)} ${gRom(r.level||1)} on ${who}${t}${ch}${r.maybe?" (one of these, by the armor's material)":""}`}
+function gFxHtml(g){const fx=g.fx||[],tip=g.tip||[];if(!fx.length&&!tip.length)return "";
+ const by={};fx.forEach(r=>(by[r.when]=by[r.when]||[]).push(r));
+ const scored=gFxOn(g,["hit"],"target").some(r=>r.fire||GDOT[r.effect]||r.effect==="minecraft:instant_damage")||Object.keys(gFxAt(g)).length;
+ return `${Object.keys(by).length?`<table class="gst gfx">${Object.entries(by).map(([w,rs])=>`<tr><td>${GWHEN[w]||esc(w)}</td><td>${rs.map(gFxLine).join("<br>")}</td></tr>`).join("")}</table>
+<p class="note">Read from the item's code${g.fx&&g.fx.some(r=>r.src)?" (each piece's own effect while worn)":""}. ${scored?"Poison, wither, fire, instant damage, Strength, Resistance and Health Boost are counted in its score. ":""}Effects a mod adds are listed, not scored, and set bonuses written elsewhere in a mod may be missing.</p>`:""}${tip.length?`<h3>From its tooltip</h3><ul class="gbon">${tip.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}`}
 function gearSetPage(s){document.title=s.n+" set · Linggango Wiki";seedBg("gs"+s.ix,[]);const r=gMain(s),mod=MODN(s.k.split(":")[0]);
  el("main").innerHTML=article({cls:"r0 gearart",style:`--tc:${ACT[s.a][2]};${tex(s.a)}`,crumb:crumb('<a href="#gear/'+GSTATE.a+'/'+r+'/a">Equipment</a>',esc(s.n)),title:esc(s.n)+" set",
   lead:`${s.ps.length}-piece armor set from ${esc(mod)}, usable from ${esc(actL(s.a))}.`,head:gVerdict(s),
   secs:[["set","Full set",`<table class="gst">${s.kn?`<tr><td><i class="ai" style="--ai:var(--v-gui_armor)"></i>Armor</td><td class="num">${gRound(s.arm)}</td></tr><tr><td><i class="ai" style="--ai:var(--v-fx_resistance)"></i>Toughness</td><td class="num">${gRound(s.tough)}</td></tr>`:`<tr><td colspan="2" class="note">Base armor is computed in code the wiki could not read.</td></tr>`}${s.hp?`<tr><td><i class="ai" style="--ai:var(--v-gui_heart)"></i>Max Health</td><td class="num">${s.hp>0?"+":""}${gRound(s.hp)}</td></tr>`:""}${s.kbr?`<tr><td>Knockback Resistance</td><td class="num">${gRound(s.kbr)}</td></tr>`:""}${s.dtk?`<tr><td>Damage taken</td><td class="num">${s.dtk>0?"−":"+"}${gRound(Math.abs(s.dtk)*100)}%</td></tr>`:""}</table>`],
+   (h=>h&&["fx","Effects",h])(gFxHtml({fx:s.fx,tip:[]})),
    ["pieces","Pieces",`<div class="gpcs">${s.ps.map(p=>`<a href="#g${p.ix}" data-t="g${p.ix}">${img(p.id)}<span>${esc(p.n)}</span><small>${p.arm!=null?gRound(p.arm)+" armor":""}${gBonus(p).length?" · "+gBonus(p).slice(0,2).join(", "):""}</small></a>`).join("")}</div>`],
    ["tier","Tier by Act",`<p class="note">As a ${GROLE[r]} set.</p>${gTimeline(s)}<p class="note">${gRoles(s).length?`Its bonuses raise ${gRoles(s).map(k=>GROLE[k]).join(", ")} output; `:"It has no playstyle bonus, so it is ranked on how long it keeps you alive; "}every set is also in each other playstyle's list, scored on its defense and whatever bonus it has for that playstyle.</p>`]],
   art:gArtBox(s,s),

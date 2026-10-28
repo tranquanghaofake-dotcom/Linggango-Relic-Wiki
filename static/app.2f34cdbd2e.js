@@ -184,7 +184,7 @@ function bossInfoHtml(k){const b=typeof BINFO!=="undefined"&&BINFO[k];if(!b)retu
 // from SSTAT (the mod jars). hm: the fight comes after the Ender Dragon, so Hardmode's ×2.1 health and damage is the number shown.
 const HMX=2.1,fnum=v=>v==null?"—":String(Math.round(v*10)/10),mobN=e=>e.split(":")[1].replace(/_boss$|_p_?2$/,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
 const hmAfter=a=>ORDER.indexOf(a)>=ORDER.indexOf(bossPath("ender_dragon"));
-function statTable(rows,hm,note){if(!rows.length)return "";const has=k=>rows.some(r=>r[k]!=null),cols=[["hp","Health"],["armor","Armor"],["tough","Toughness"],["dmg","Attack"]].filter(c=>has(c[0]));
+function statTable(rows,hm,note){if(!rows.length)return "";const has=k=>rows.some(r=>r[k]!=null),cols=[["hp","Health"],["armor","Armor"],["tough","Toughness"],["dmg","Attack"],["cap","Most damage per hit"]].filter(c=>has(c[0]));
  const cell=(r,k)=>{const v=r[k],o=r.o&&r.o[k];return `<td><b>${fnum(v)}</b>${o!=null&&o!==v?`<small>${fnum(o)} ${hm?"before Hardmode":"in Hardmode"}</small>`:""}</td>`};
  return `<div class="tw bst"><table><tr>${rows.length>1?"<th></th>":""}${cols.map(c=>`<th>${c[1]}</th>`).join("")}${has("hits")?"<th>Hits to win</th>":""}</tr>${rows.map(r=>`<tr>${rows.length>1?`<td>${esc(r.n)}</td>`:""}${cols.map(c=>cell(r,c[0])).join("")}${has("hits")?`<td><b>${r.hits??"—"}</b></td>`:""}</tr>`).join("")}</table></div>${note}`}
 function keeperStats(k){if(typeof BST==="undefined")return "";const ks=k==="discord"?["bringer_of_doom","famine","chaos","discord"]:[k],bs=ks.map(x=>BST[x]).filter(Boolean);if(!bs.length)return "";
@@ -193,10 +193,10 @@ function keeperStats(k){if(typeof BST==="undefined")return "";const ks=k==="disc
  const rules=[...new Set(bs.flatMap(b=>b.rules||[]))].filter(x=>!/^Assumption/.test(x));
  return statTable(rows,hm,`<ul class="how bstr">${rules.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`)}
 function sideStats(n,a){const ss=typeof SSTAT!=="undefined"&&SSTAT[n];if(!ss)return "";const hm=hmAfter(a);
- const rows=ss.map(s=>{const r={n:mobN(s.entity),armor:s.armor,tough:s.tough,hits:s.hits,hp:s.hp,dmg:s.dmg,o:{}};
+ const rows=ss.map(s=>{const r={n:mobN(s.entity),armor:s.armor,tough:s.tough,hits:s.hits,hp:s.hp,dmg:s.dmg,cap:s.cap,o:{}};
   if(s.hp!=null)(hm?(r.hp=s.hp*HMX,r.o.hp=s.hp):r.o.hp=s.hp*HMX);if(s.dmg)(hm?(r.dmg=s.dmg*HMX,r.o.dmg=s.dmg):r.o.dmg=s.dmg*HMX);return r});
  const src=[...new Set(ss.map(s=>s.src))];
- return statTable(rows,hm,`<p class="note">${hm?"Fought after the Ender Dragon, so the numbers include Hardmode (×2.1 health and attack). ":"In Hardmode (after the Ender Dragon) health and attack are ×2.1. "}${src.some(x=>/^pack override/.test(x))?"Includes the pack's own override (entitybalance.json). ":""}Read from the mod's code${src.some(x=>/config/.test(x))?" and its config defaults (the pack may change a config value)":""}.</p>`)}
+ return statTable(rows,hm,`<p class="note">${hm?"Fought after the Ender Dragon, so the numbers include Hardmode (×2.1 health and attack). ":"In Hardmode (after the Ender Dragon) health and attack are ×2.1. "}${src.some(x=>/pack config|pack override/.test(x))?"Includes the pack's own settings ("+esc([...new Set(src.join("; ").match(/pack config [^ ]+|entitybalance\.json/g)||[])].map(x=>x.replace("pack config ","")).join(", "))+"). ":""}${rows.some(r=>r.cap!=null)?"Most damage per hit: one hit never takes more than this off the boss. ":""}Base values read from the mod's code.</p>`)}
 const BE=k=>typeof BST!=="undefined"&&BST[k]&&BST[k].effective||null;
 const keeperHp=k=>{const b=typeof BST!=="undefined"&&BST[k];return b&&b.effective&&b.effective.hp?fnum(b.effective.hp)+(b.phases.length>1?" per phase":""):""};
 const sideHp=(n,a)=>{const s=typeof SSTAT!=="undefined"&&SSTAT[n];return s&&s.length===1&&s[0].hp!=null?fnum(s[0].hp*(hmAfter(a)?HMX:1)):""};

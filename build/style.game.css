@@ -1944,3 +1944,5 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 *:not(#_):not(#__):not(#___) .lk,*:not(#_):not(#__):not(#___) .ki{margin-right:var(--s1)!important}
 /* side-boss cards: the drop line wraps to two lines instead of being cut off */
 *:not(#_):not(#__):not(#___) .sbc small{white-space:normal!important;display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+/* gear Effects table: when (on hit, while worn...) on the left, what happens on the right */
+*:not(#_) .gst.gfx td:first-child{white-space:nowrap;font-weight:600;padding-right:var(--s4);vertical-align:top}
