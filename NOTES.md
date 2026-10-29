@@ -640,3 +640,10 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Stats: upstream rewrote the section from the mods' code; the local corrections were dropped. Checked: Warden 700 HP, Wither 500 HP, Goblin Lord armor 12, Eldorath armor 18, Arion armor 15/20 against `entitybalance.json`.
 - Build share links now store item indices (`#build/<p>/<fingerprint>/<slot>=<index>~lvl~abilities~stars`). Old `#build/<p>/<slot>=<id>` links still load. Stale links show a warning. The fingerprint changes whenever the item list changes.
 - Motion: relic icon shine and tile bob, and Path particles, run only on hover or not at all. The title drift and two floating icons still loop; waiting on the user.
+
+## 29 Oct 2026 (session: consumables, main e64da4364)
+- Build planner has a Consumables row (5 permanent home boons, not in totals), a Food buffs row (linggango_tweaks' three meal tiers, one at a time, plus Golden Apple) and a Potions row (6 combat potions). Share link parts: `|*` home boons, `|^` food, `|~` potions.
+- Checked against `linggango_tweaks-common.toml`: food tiers 5/10/15 % and 10/15/20 min; higher tiers replace lower ones.
+- Potion and Golden Apple numbers are vanilla, not from the pack. Strength II was corrected to +6 melee damage. Enchanted Golden Apple was dropped: no source found for its numbers. Still to check in game: Golden Apple, Jump Boost II.
+- Phone width (375px): the consumables grid stacks and does not scroll sideways.
+- Still open: Path title drift and the two floating icons (user has not decided).
