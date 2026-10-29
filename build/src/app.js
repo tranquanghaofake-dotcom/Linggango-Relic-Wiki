@@ -15,7 +15,7 @@ function ui(k,big){return `<i class="ui${big?" ui2":""}" style="--ui:var(--${UIK
 // Player curio slots: merged curios/slots data from the base pack jars (Scroll, Spellstone, Focus are registered in code: assumed 1)
 var SLOT_BASE={Head:1,Necklace:2,Back:1,Body:1,Belt:1,Hands:2,Ring:2,Bracelet:2,Glove:2,Anklet:2,Feet:2,Charm:6,Accessory:6,Heart:1,Spellbook:1,Scroll:1,Spellstone:1,Talent:2,Focus:1,"Hostility Curse":1,Curio:1,Elytra:1,"Binding Key":1,Magnetizer:1,Bundle:1};
 var STAT_ALIAS={"Knockback Res":"Knockback Resistance","Knockback resistance":"Knockback Resistance","Increased reach":"Reach","Increased block reach":"Block Reach","Step Height Addition":"Step Height"};
-var BS={p:12,s:{}},BPICK=null,BINSP=null;
+var BS={p:12,s:{}},BPICK=null,BINSP=null,BSTALE=false;
 
 function slotAdds(d){
  if(d._sa)return d._sa;const o={};
@@ -42,11 +42,11 @@ const rlId=k=>k.split("#")[0],bKey=(n,id)=>(n[id]=(n[id]||0)+1)>1?id+"#"+n[id]:i
 function bKeys(){const n={};return Object.values(BS.s).flat().map(id=>bKey(n,id))}
 function bCaps(){const c={...SLOT_BASE};bKeys().filter(k=>k===rlId(k)||bStk(rlId(k))).forEach(k=>{const id=rlId(k),a=RL[id]?rlSlots(k):slotAdds(BYID[id]);for(const s in a)c[s]+=a[s]});return c}
 function bParse(h){
- const [,p,c]=decodeURIComponent(h).split("/");BS={p:p!==undefined&&p!==""&&ACT[p]&&ORDER.includes(+p)?+p:ORDER[ORDER.length-1],s:{}};
+ const [,p,f,b]=decodeURIComponent(h).split("/"),v=f!==undefined&&!f.includes("="),c=v?b:f;BSTALE=v&&f!==DFP;BS={p:p!==undefined&&p!==""&&ACT[p]&&ORDER.includes(+p)?+p:ORDER[ORDER.length-1],s:{}};
  const n={};(c||"").split("|").filter(Boolean).forEach(part=>{const [k,ids]=part.split("=");if(k in SLOT_BASE)BS.s[k]=(ids||"").split(",").map(x=>bLv(x,n)).filter(i=>BYID[i]&&bFits(BYID[i],k))})}
 // "id~level~a.b.c~stars": level, ability points and per-stat stars ("-" any roll, 0-9, a=10); invalid spends are trimmed to fit
-function bLv(x,n){const [id,l,a,q]=x.split("~"),r=RL[id];if(r&&l!==undefined){RLV[bKey(n,id)]=rlFit(r,Math.max(0,Math.min(r.mx,+l||0)),(a||"").split(".").map(Number),[...(q||"")].map(c=>c==="-"?-1:parseInt(c,11)))}return id}
-function bHash(){const n={};return "#build/"+BS.p+"/"+Object.entries(BS.s).filter(([,v])=>v.length).map(([k,v])=>k+"="+v.map(id=>{if(!RL[id])return id;const s=rlState(bKey(n,id));return `${id}~${s.l}~${s.a.join(".")}${s.q.some(v=>v>=0)?"~"+s.q.map(v=>v<0?"-":v.toString(11)).join(""):""}`}).join(",")).join("|")}
+function bLv(x,n){let [id,l,a,q]=x.split("~");if(!id.includes(":"))id=(D[parseInt(id,36)]||{}).id||"";const r=RL[id];if(r&&l!==undefined){RLV[bKey(n,id)]=rlFit(r,Math.max(0,Math.min(r.mx,+l||0)),(a||"").split(".").map(Number),[...(q||"")].map(c=>c==="-"?-1:parseInt(c,11)))}return id}
+function bHash(){const n={};return "#build/"+BS.p+"/"+DFP+"/"+Object.entries(BS.s).filter(([,v])=>v.length).map(([k,v])=>k+"="+v.map(id=>{const t=BYID[id].ix.toString(36);if(!RL[id])return t;const s=rlState(bKey(n,id));return `${t}~${s.l}~${s.a.join(".")}${s.q.some(v=>v>=0)?"~"+s.q.map(v=>v<0?"-":v.toString(11)).join(""):""}`}).join(",")).join("|")}
 function bSave(){history.replaceState(null,"",bHash());buildPage()}
 function bPreset(role){
  BS.s={};const pool=D.filter(d=>bAvail(d)&&!d.inv);
@@ -101,7 +101,7 @@ function buildPage(h){
   const si=slotIcon(k);return `<div class="bslot${have.length?" has":""}"><div class="bsh">${si?`<img class="bsi" alt="" src="${si}">`:""}<b>${esc(k)}</b><span class="${have.length>cap?"bad":""}">${have.length}/${cap}</span>${caps[k]>SLOT_BASE[k]?`<em>+${caps[k]-SLOT_BASE[k]}</em>`:""}</div><div class="bsb">${b}</div></div>`};
  const stats=Object.entries(tot).filter(([,v])=>v).sort((a,b)=>a[0].localeCompare(b[0]));
  const pages=[["stats","Build","Stat totals",`${stats.length?`<table>${stats.map(([k,v])=>`<tr><td>${esc(k.replace(/ %$/," (%)"))}</td><td class="num ${v<0?"neg":""}">${v>0?"+":""}${v}${/ %$/.test(k)?"%":""}</td></tr>`).join("")}</table>`:`<p class="note">Add curios to see totals.</p>`}
-<p class="note">Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks${Object.values(lf).some(v=>v<1)?", and ladder-reduced curios count at their reduced share":""}. Conditional effects and ×multipliers are not summed: see the Effects tab.</p>`]];
+${BSTALE?`<p class="note">This link was made on a different wiki version, so some items may not match.</p>`:""}<p class="note">Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks${Object.values(lf).some(v=>v<1)?", and ladder-reduced curios count at their reduced share":""}. Conditional effects and ×multipliers are not summed: see the Effects tab.</p>`]];
  bKeys().filter(k=>RL[rlId(k)]).forEach(k=>{const id=rlId(k),c=k.split("#")[1]||(bWorn(id)>1?1:0);pages.push(["rl:"+k,"Relic levels",BYID[id].n+(c?" #"+c:""),rlPanel(k,true)+`<p class="note">Slots a relic adds count its lowest roll.</p>`,id])});
  if(eq.length)pages.push(["fx","Build","Effects",`<ul>${uq.map(id=>{const d=BYID[id],n=bWorn(id);const k=Object.keys(BS.s).find(k=>BS.s[k].includes(id)),nx=(evo().to[id]||[]).filter(t=>bFits(BYID[t],k));return `<li><a href="#i${d.ix}" data-t="${d.ix}">${esc(d.n)}</a>${n>1?` ×${n}${SK.i[id]?" "+skTag(id):""}`:""}: ${esc(d.fx)}${lf[id]<1?` <span class="sk sk-${lf[id]?"l":"n"}" title="Outranked by a better ${esc(SK.i[id].l[0])} curio in this build">${esc(SK.i[id].l[0])} ladder: ${lf[id]?pct(lf[id])+" strength":"switched off"}</span>`:""}${nx.map(t=>` <button class="chip" data-evo="${esc(k)}|${esc(id)}|${esc(t)}">Evolve → ${esc(BYID[t].n)}</button>`).join("")}</li>`}).join("")}</ul>`]);
  el("main").innerHTML=`${crumb("Build planner")}${room("armory",uq.map(id=>rCurio(BYID[id])),{head:`<h1>Build planner</h1>
@@ -721,6 +721,8 @@ function seedBg(key,pool){return;bgKey=key;pool=pool.filter(d=>IC[d.id]);if(!poo
 if(typeof CTIER!=="undefined")D.forEach(d=>{const t=CTIER[d.id];if(t&&d.r!==6){d.r=t[0];d.pr0=t[1]}else if(d.r!==6)d.pe=1});
 D.sort((a,b)=>b.r-a.r||b.sc-a.sc||a.n.localeCompare(b.n));
 const BYID={};D.forEach((d,i)=>{d.ix=i;d.c=d.ro[0];BYID[d.id]=d});
+// list fingerprint: share links store item indices, so a link made before the item list changed is flagged
+const DFP=(()=>{let h=0;D.forEach(d=>{for(const c of d.id)h=(h*31+c.charCodeAt(0))%1000003});return h.toString(36)})();
 /* d.rq: the curio's own text says it needs the Ring of the Seven Curses or Virtues */
 const RQRING={Curses:"enigmaticlegacy:cursed_ring",Virtues:"covenant_of_the_seven:virtue_ring"},RQRX=/requires (?:the )?(?:Ring of )?(?:the )?Seven (?:Curses|Virtues)|Seven (?:Curses|Virtues) bearers only|\(Seven (?:Curses|Virtues)(?: path)?\)|Break the Ring of (?:the )?Seven Curses/i;
 D.forEach(d=>{if(d.id===RQRING.Curses||d.id===RQRING.Virtues)return;const m=RQRX.exec([d.fx,...d.st,...d.src].join(" | "));if(m)d.rq=/curses/i.test(m[0])?"Curses":"Virtues"});
