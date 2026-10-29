@@ -647,3 +647,6 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Potion and Golden Apple numbers are vanilla, not from the pack. Strength II was corrected to +6 melee damage. Enchanted Golden Apple was dropped: no source found for its numbers. Still to check in game: Golden Apple, Jump Boost II.
 - Phone width (375px): the consumables grid stacks and does not scroll sideways.
 - Still open: Path title drift and the two floating icons (user has not decided).
+
+## 29 Oct 2026 (later): motion off — main (see commit on main)
+- Title backdrop drift (`.pano`) and the floating icons (`ipfloat` on `.ip-icon` and `.emb`) are off, as the user asked. Relic glint stays on hover only.
