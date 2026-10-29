@@ -32,11 +32,15 @@ if "--third" in sys.argv:
     ranged = sorted(g["id"] for g in GE if g["k"] == "ranged" and not any(GUN.search(c) for c in g.get("cls") or []))
     grows = sorted(k for k, v in M["items"].items() if v.get("st") in ("grows", "pct") or v.get("swx"))
     blocks = sorted(k for k, v in CMx.items() if any(x != "fall" for x in v.get("neg") or []))
-    if "--test" in sys.argv:
-        ranged = [x for x in ("minecraft:bow", "minecraft:crossbow", "minecraft:trident") if x in {g["id"] for g in GE}] or ranged[:3]
-        grows = [x for x in grows if x == "brutality:shadowstep"] or grows[:1]
-        blocks = [x for x in blocks if x in ("morerelics:opal_necklace", "meetyourfight:ace_of_iron")] or blocks[:2]
-    plan = {"hits": 3, "stop": "--stop" in sys.argv, "auto": "--auto" in sys.argv, "ranged": ranged, "grows": grows, "blocks": blocks}
+    probe = "--test" in sys.argv
+    if probe:
+        # the test is a probe of the shots (third run: 113 of 118 did no damage): plain arrows from the script, then a vanilla
+        # bow, crossbow and trident, two bows that hit once (Sun Bow) or left only their effect (Frostbite), and a thrown weapon
+        ids = {g["id"] for g in GE}
+        ranged = [x for x in ("minecraft:bow", "minecraft:crossbow", "minecraft:trident", "l2archery:sun_bow", "too_many_bows:frostbite",
+                              "brutality:cavendish") if x in ids] or ranged[:3]
+        grows, blocks = [], []
+    plan = {"hits": 3, "stop": "--stop" in sys.argv, "auto": "--auto" in sys.argv, "probe": probe, "ranged": ranged, "grows": grows, "blocks": blocks}
     json.dump(plan, open(sys.argv[1], "w"), indent=0)
     print(len(ranged), "shooters,", len(grows), "weapons turned,", len(blocks), "blocking curios ->", sys.argv[1]); sys.exit()
 if "--extra" in sys.argv:

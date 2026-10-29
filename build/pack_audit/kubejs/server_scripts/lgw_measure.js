@@ -35,10 +35,12 @@ LGW.SRG = {
   getAdvancements: ['m_129889_', 'm_8960_'], getAdvancement: ['m_136041_'], award: ['m_135988_'], getOrStartProgress: ['m_135996_'],
   getCriteria: ['m_138325_'], isDone: ['m_8193_'], grantProgress: ['m_8196_'], getAbilities: ['m_150110_'],
   setYBodyRot: ['m_5618_'], setYHeadRot: ['m_5616_'],
-  releaseUsing: ['m_5551_'], getUseDuration: ['m_8105_'], use: ['m_7203_'], getItem: ['m_41720_'], add: ['m_36054_'], isCharged: ['m_40932_']
+  releaseUsing: ['m_5551_'], getUseDuration: ['m_8105_'], use: ['m_7203_'], getItem: ['m_41720_'], add: ['m_36054_'], isCharged: ['m_40932_'],
+  isUsingItem: ['m_6117_'], releaseUsingItem: ['m_21253_'], getTicksUsingItem: ['m_21252_'], arrow: ['m_269418_'], getEncodeId: ['m_20078_'],
+  getDeltaMovement: ['m_20184_'], getBaseDamage: ['m_36789_'], getOwner: ['m_19749_'], setOwner: ['m_5602_'], shoot: ['m_6686_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
-  BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_' }
+  BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_', hurtTime: 'f_20916_' }
 // the member name to use on o: the Mojang one if Rhino shows it, else the first SRG name o has
 LGW.K = (o, n) => {
   try { if (typeof o[n] === 'function') return n } catch (x) {}
@@ -195,12 +197,13 @@ LGW.run = (server, who, name) => {
   }
 
   // 2. melee: swing at a dummy pig
-  var pigType = null
-  var newPig = () => {
-    try { return level.createEntity('minecraft:pig') } catch (e) {}
-    if (!pigType) pigType = ForgeRegistries.ENTITY_TYPES.getValue(rl('minecraft:pig'))
-    return c1(pigType, 'create', level)
+  var types = {}
+  var newEnt = id => {
+    try { return level.createEntity(id) } catch (e) {}
+    if (!types[id]) types[id] = ForgeRegistries.ENTITY_TYPES.getValue(rl(id))
+    return c1(types[id], 'create', level)
   }
+  var newPig = () => newEnt('minecraft:pig')
   // the test target: a pig with no AI and no armor, o.dx blocks in front of the tester (who looks along +x; default 1.2), raised
   // o.dy (a shot leaves the eyes, so a pig for shots floats at eye height). o.max / o.cur set its max and current health (default
   // 100,000 both); o.yaw turns it: 90 faces the tester, -90 turns its back, 0 side-on. moveTo on a pig resolves to another
@@ -333,28 +336,80 @@ LGW.run = (server, who, name) => {
   // 20 ticks before reading the pig. Three shots, a fresh pig each; arrows are given (64) and cleared after
   var MAIN = Java.loadClass('net.minecraft.world.InteractionHand').MAIN_HAND
   var clearShots = () => { try { server.runCommandSilent('kill @e[type=#minecraft:arrows]') } catch (e) {} }
+  var r1 = v => Math.round(v * 10) / 10
+  // the projectiles around the tester: what flies, where (blocks from the tester), how fast, its base damage and owner. Third
+  // run: 113 of 118 shooters did no damage, yet Frostbite and Winter Bow left their effect on the pig, so a shot can land and
+  // still do nothing
+  var near = () => {
+    var all = null, l = []
+    try { all = level.getEntities() } catch (e) { try { all = level.entities } catch (e2) {} }
+    if (!all) return null
+    all.forEach(e => {
+      var id = ''; try { id = '' + c0(e, 'getEncodeId') } catch (x) {}
+      if (!id || id == 'null' || id == 'minecraft:pig') return
+      var x = c0(e, 'getX') - X, y = c0(e, 'getY') - Y, z = c0(e, 'getZ') - Z
+      if (Math.abs(x) > 24 || Math.abs(y) > 12 || Math.abs(z) > 24) return
+      var o = { id: id, at: [r1(x), r1(y), r1(z)] }
+      try { o.v = '' + c0(e, 'getDeltaMovement') } catch (x2) {}
+      try { o.base = c0(e, 'getBaseDamage') } catch (x2) {}
+      try { var w = c0(e, 'getOwner'); o.owner = w ? ('' + w).substring(0, 40) : 'none' } catch (x2) {}
+      o.e = e; l.push(o)
+    })
+    return l
+  }
+  var plain = l => l ? l.map(o => { var c = {}; for (var k in o) if (k != 'e') c[k] = o[k]; return c }) : l
+  // what the pig was last hurt by, and its hurt timer (10 right after a hit that landed)
+  var hitOf = d => { var o = {}; try { o.src = '' + c0(d, 'getLastDamageSource') } catch (e) {} try { o.hurtTime = fld(d, 'hurtTime') } catch (e) {} return o }
+  // 4. shots: a pig 5 blocks in front of the tester at eye height, shot the way a player does: use() (right click), 40 ticks of
+  // drawing, releaseUsingItem() (letting go), and a charged crossbow used again to fire; an item that is not drawn (thrown
+  // weapons) is thrown by use(). Arrows in the off hand, where a bow looks first (third test run: added to the inventory they
+  // went into the held slot and the bow replaced them); the item is held afresh for each shot (a thrown trident leaves the hand).
+  // In a probe run each shot also notes the projectiles 3 ticks after it and the pig's last damage source, and the first
+  // projectile's hit is walked through the damage events' listeners
   var ranged = id => {
-    // arrows in the off hand, where a bow looks first (third test run: added to the inventory they went into the held slot and
-    // the bow replaced them)
-    reset(); wear(EquipmentSlot.MAINHAND, Item.of(id)); wear(EquipmentSlot.OFFHAND, Item.of('minecraft:arrow', 64)); ticks(5)
+    reset(); wear(EquipmentSlot.OFFHAND, Item.of('minecraft:arrow', 64))
     var r = { ad: c1(P, 'getAttributeValue', A_AD), shots: [] }, k = 0
     var shot = () => {
-      var d = dummy({ max: 10000, dx: 5, dy: 0.9 }), h0 = hp(d), st = c0(P, 'getMainHandItem'), how = ''
+      wear(EquipmentSlot.MAINHAND, Item.of(id)); ticks(5)
+      var d = dummy({ max: 10000, dx: 5, dy: 0.9 }), h0 = hp(d), st = c0(P, 'getMainHandItem'), how = '', s = {}
       safe('shoot', () => {
-        var it = c0(st, 'getItem'), dur = c1(it, 'getUseDuration', st)
-        // used at once (snowball-like throws, most of Brutality's): use() is the throw
-        if (!(dur > 0)) { c3(it, 'use', level, P, MAIN); how = 'use'; return }
-        c4(it, 'releaseUsing', st, level, P, Math.max(0, dur - 40)); how = 'release'
+        var it = c0(st, 'getItem')
+        c3(it, 'use', level, P, MAIN)
+        if (!c0(P, 'isUsingItem')) { how = 'use'; return }
+        ticks(40); s.drawn = c0(P, 'getTicksUsingItem'); c0(P, 'releaseUsingItem'); how = 'draw'
         var cb = false; try { cb = !!c1(it, 'isCharged', st) } catch (e) {}
         if (cb) { c3(it, 'use', level, P, MAIN); how = 'crossbow' }
       }, id)
-      return { wait: 20, then: () => {
-        r.shots.push({ dmg: Math.round((h0 - hp(d)) * 100) / 100, how: how, tfx: fx(d), fire: c0(d, 'getRemainingFireTicks') })
-        drop(d); clearShots()
-        if (++k < 3) { ticks(5); return shot() }
-        out.ranged[id] = r; return null } }
+      var fin = () => {
+        s.dmg = Math.round((h0 - hp(d)) * 100) / 100; s.how = how; s.tfx = fx(d); s.fire = c0(d, 'getRemainingFireTicks')
+        if (plan.probe) { var h = hitOf(d); s.src = h.src; s.hurtTime = h.hurtTime }
+        r.shots.push(s); drop(d); clearShots()
+        if (++k < 3) return shot()
+        out.ranged[id] = r; return null
+      }
+      if (!plan.probe) return { wait: 20, then: fin }
+      return { wait: 3, then: () => {
+        var l = near(); s.flying = plain(l)
+        if (k == 0 && l && l.length) safe('trace shot', () => {
+          var t = { of: l[0].id }, dd = dummy(); walkHit(t, dd, c2(c0(level, 'damageSources'), 'arrow', l[0].e, P), id); r.trace = t; drop(dd)
+        }, id)
+        return { wait: 17, then: () => { s.after = plain(near()); return fin() } } } }
     }
     return shot()
+  }
+  // a probe run first shoots plain arrows from the script itself, owned by the tester and owned by no one, at the same pig: if
+  // those land and the bows' do not, the draw is at fault; if the owned one does nothing and the ownerless one hurts, the
+  // tester's ownership is
+  var arrowProbe = owned => {
+    var d = dummy({ max: 10000, dx: 5, dy: 0.9 }), h0 = hp(d), o = { owned: owned }, a = null
+    safe('probe arrow', () => {
+      a = newEnt('minecraft:arrow'); c3(a, 'setPos', X + 0.8, Y + 1.35, Z)
+      if (owned) c1(a, 'setOwner', P)
+      c5(a, 'shoot', 1, 0, 0, 3, 0); c1(level, 'addFreshEntity', a)
+    })
+    return { wait: 20, then: () => { o.dmg = Math.round((h0 - hp(d)) * 100) / 100; var h = hitOf(d); o.src = h.src; o.hurtTime = h.hurtTime
+      o.after = plain(near()); out.probe.push(o); drop(d); clearShots()
+      say('plain arrow ' + (owned ? 'owned by the tester' : 'with no owner') + ': ' + o.dmg + ' damage, pig last hurt by ' + o.src); return null } }
   }
   // 5. a curio that cancelled its one test hit (first extra run): ten 8-damage hits 20 ticks apart (the tester ticked through
   // them too, so cooldowns run either way), to see how often it blocks
@@ -373,6 +428,36 @@ LGW.run = (server, who, name) => {
     return { attrs: extraAttrs(), fx: fx(P), hp: hp(P), abs: c0(P, 'getAbsorptionAmount'), ticked: tickOk, hurt: hurt() }
   }
 
+  // the listeners of an event class on the Forge bus: each mod has its own bus too (400+), so take the bus id with the most
+  var listeners = ev => {
+    var best = null, bus = -1
+    for (var b = 0; b < 4096; b++) {
+      var l; try { l = ev.getListenerList().getListeners(b) } catch (e) { if (b > 64) break; continue }
+      if (l && (!best || l.length > best.length)) { best = l; bus = b }
+    }
+    return [best, bus]
+  }
+  var walk = (r, name, mk, amt) => {
+    var o = {}, ev = mk()
+    MinecraftForge.EVENT_BUS.post(ev); o.posted = ev.isCanceled() ? 'cancelled' : (amt ? ev.getAmount() : 'passed')
+    var lb = listeners(ev), ls = lb[0], steps = []
+    o.bus = lb[1]; o.listeners = ls ? ls.length : 0
+    if (ls) {
+      ev = mk(); var a0 = amt ? ev.getAmount() : 0
+      for (var j = 0; j < ls.length; j++) {
+        try { ls[j].invoke(ev) } catch (e) { steps.push('threw ' + ls[j] + ': ' + e) }
+        if (ev.isCanceled()) { steps.push('CANCELLED by ' + ls[j]); break }
+        if (amt) { var a1 = ev.getAmount(); if (Math.abs(a1 - a0) > 1e-6) { steps.push(a0 + ' -> ' + a1 + ' by ' + ls[j]); a0 = a1 } }
+      }
+    }
+    o.steps = steps; r[name] = o
+  }
+  // the three damage events of a hit from src on d, listener by listener
+  var walkHit = (r, d, src, id) => {
+    safe('trace LivingAttackEvent', () => walk(r, 'LivingAttackEvent', () => new LivingAttackEvent(d, src, 15), true), id)
+    safe('trace LivingHurtEvent', () => walk(r, 'LivingHurtEvent', () => new LivingHurtEvent(d, src, 15), true), id)
+    safe('trace LivingDamageEvent', () => walk(r, 'LivingDamageEvent', () => new LivingDamageEvent(d, src, 15), true), id)
+  }
   // why a weapon hit does no damage (second run: 0 for every weapon, 1 bare-handed): each Forge event of the hit is run through
   // its listeners one at a time, the way EventBus.post does, noting which listener cancels it or changes the amount; then a
   // direct hurt() and a real attack on fresh pigs
@@ -380,34 +465,8 @@ LGW.run = (server, who, name) => {
     reset(); wear(EquipmentSlot.MAINHAND, Item.of(id)); ticks(30)
     var r = { item: id, ad: c1(P, 'getAttributeValue', A_AD), str: c1(P, 'getAttackStrengthScale', 0.5) }, d = dummy()
     var src = c1(c0(P, 'damageSources'), 'playerAttack', P)
-    // the listeners of an event class on the Forge bus: each mod has its own bus too (400+), so take the bus id with the most
-    var listeners = ev => {
-      var best = null, bus = -1
-      for (var b = 0; b < 4096; b++) {
-        var l; try { l = ev.getListenerList().getListeners(b) } catch (e) { if (b > 64) break; continue }
-        if (l && (!best || l.length > best.length)) { best = l; bus = b }
-      }
-      return [best, bus]
-    }
-    var run = (name, mk, amt) => {
-      var o = {}, ev = mk()
-      MinecraftForge.EVENT_BUS.post(ev); o.posted = ev.isCanceled() ? 'cancelled' : (amt ? ev.getAmount() : 'passed')
-      var lb = listeners(ev), ls = lb[0], steps = []
-      o.bus = lb[1]; o.listeners = ls ? ls.length : 0
-      if (ls) {
-        ev = mk(); var a0 = amt ? ev.getAmount() : 0
-        for (var j = 0; j < ls.length; j++) {
-          try { ls[j].invoke(ev) } catch (e) { steps.push('threw ' + ls[j] + ': ' + e) }
-          if (ev.isCanceled()) { steps.push('CANCELLED by ' + ls[j]); break }
-          if (amt) { var a1 = ev.getAmount(); if (Math.abs(a1 - a0) > 1e-6) { steps.push(a0 + ' -> ' + a1 + ' by ' + ls[j]); a0 = a1 } }
-        }
-      }
-      o.steps = steps; r[name] = o
-    }
-    safe('trace AttackEntityEvent', () => run('AttackEntityEvent', () => new AttackEntityEvent(P, d), false), id)
-    safe('trace LivingAttackEvent', () => run('LivingAttackEvent', () => new LivingAttackEvent(d, src, 15), true), id)
-    safe('trace LivingHurtEvent', () => run('LivingHurtEvent', () => new LivingHurtEvent(d, src, 15), true), id)
-    safe('trace LivingDamageEvent', () => run('LivingDamageEvent', () => new LivingDamageEvent(d, src, 15), true), id)
+    safe('trace AttackEntityEvent', () => walk(r, 'AttackEntityEvent', () => new AttackEntityEvent(P, d), false), id)
+    walkHit(r, d, src, id)
     drop(d)
     safe('trace event hit', () => { r.eventHit = evHit() }, id)
     safe('trace attack', () => { var e = dummy(), h = hp(e); c1(P, 'attack', e); r.attack = h - hp(e); r.lastSource = '' + c0(e, 'getLastDamageSource'); drop(e) }, id)
@@ -443,6 +502,7 @@ LGW.run = (server, who, name) => {
   if ((plan.curios || []).length) jobs.push(() => { cur = '(none)'; safe('curio', () => { out.curios['(none)'] = curio(null) }, '(none)') })
   ;(plan.curios || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return } cur = id; safe('curio', () => { out.curios[id] = curio(id) }, id) }))
   // jobs that return { wait, then } go on after that many server ticks (shots in flight)
+  if (plan.probe) { out.probe = []; jobs.push(() => { reset(); return arrowProbe(true) }); jobs.push(() => arrowProbe(false)) }
   ;(plan.ranged || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } var w = null; safe('ranged', () => { w = ranged(id) }, id); return w }))
   ;(plan.blocks || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } cur = id; var w = null; safe('blocks', () => { w = blocks(id) }, id); return w }))
   var i = 0, next = 0

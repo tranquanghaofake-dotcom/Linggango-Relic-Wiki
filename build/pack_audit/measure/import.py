@@ -1,7 +1,8 @@
 """Turn an in-game measurement (kubejs/lgw_measure.json, written by pack_audit/kubejs/server_scripts/lgw_measure.js) into
 build/patches/gear_measure.json, which the gear_measure stage of patches/gear_pipeline.py reads.
-Usage: python3 pack_audit/measure/import.py lgw_measure.json [lgw_items.json] [lgw_extra_measure.json]
-  (the plan prep.py wrote, default next to the measurement; the lgw_measure_extra result, default next to it, used when present)
+Usage: python3 pack_audit/measure/import.py lgw_measure.json [lgw_items.json] [lgw_extra_measure.json] [lgw_third_measure.json]
+  (the plan prep.py wrote, default next to the measurement; the lgw_measure_extra and lgw_measure_third results, default next to
+  it, used when present)
 
 Per weapon: the hit is the median of the measured swings at full attack strength on a 100,000-health pig with no armor (a swing
 1.5x the others is a crit; the median drops it, crits are scored from the crit attributes as before). Effects seen on the target or
@@ -130,30 +131,40 @@ for k, v in M["armor"].items():
         if bon: o["bonus"] = bon
     sets[k] = o
 
-# the second run (lgw_measure_extra): the "grows" weapons swung twice at pigs of 1,000 / 10,000 / 100,000 max health and at
-# 10,000 max with 5,000 left. Damage that rises with max health is fitted as base + share of max health (Nightfall 60 + 5%,
-# Blade of the Ruined King 41 + 1%); when the half-health pig takes no share the share needs a full-health target (Valettein).
-# Otherwise the weapon's hit is the mean of all its swings: a steady multiple of its damage (Nightmare Sword x3) with its random
-# procs (Eye of the Sun now and then x2.2) averaged in.
-try:
-    X = json.load(open(sys.argv[3] if len(sys.argv) > 3 else pathlib.Path(sys.argv[1]).with_name("lgw_extra_measure.json"), encoding="utf-8"))
-except (OSError, ValueError):
-    X = {}
-for k, g in (X.get("grows") or {}).items():
+# the second and third runs (lgw_measure_extra, lgw_measure_third): the "grows" weapons swung twice at pigs of 1,000 / 10,000 /
+# 100,000 max health, at 10,000 max with 5,000 left, and (third run, the pig turned) from in front and behind. Damage that rises
+# with max health is fitted as base + share of max health (Nightfall 60 + 5%, Blade of the Ruined King 41 + 1%), on the newest run;
+# the swings of both runs that missed the share give its rate (Valettein: 3% on most swings, not all, half-health targets too).
+# Otherwise the weapon's hit is the mean of all swings of both runs: a steady multiple of its damage (Nightmare Sword x3) with its
+# random procs (Eye of the Sun now and then x2.2) averaged in, less Apothic's crits (exactly 1.5x the usual swing; the score counts
+# crits from the crit attributes)
+def load(i, name):
+    try: return json.load(open(sys.argv[i] if len(sys.argv) > i else pathlib.Path(sys.argv[1]).with_name(name), encoding="utf-8"))
+    except (OSError, ValueError): return {}
+RUNS = [r.get("grows") or {} for r in (load(3, "lgw_extra_measure.json"), load(4, "lgw_third_measure.json")) if r]
+TMAX = {"max1000": 1000, "max10000": 10000, "max100000": 100000, "cur5000": 10000, "front": 10000, "behind": 10000}
+for k in sorted({k for r in RUNS for k in r}):
     o = items.get(k)
     if not o: continue
+    g = [r[k] for r in RUNS if k in r][-1]
     def f(t):  # a target's hit: the first swing, unless it is a crit of the second (1.3-1.6x; a cooldown drop is far larger)
         sw = g.get(t) or [0]
         return sw[1] if len(sw) > 1 and sw[1] > 0 and 1.3 <= sw[0] / sw[1] <= 1.6 else sw[0]
     s1, s2 = (f("max100000") - f("max10000")) / 90000, (f("max10000") - f("max1000")) / 9000
+    allsw = [(t, x) for r in RUNS if k in r for t in TMAX for x in (r[k].get(t) or [])]
     if s1 > 0.001 and s2 > 0.001:
         base = r2(f("max10000") - s1 * 10000)
+        got = [x > base + 0.5 * s1 * TMAX[t] for t, x in allsw]
+        rate = round(sum(got) / len(got), 2) if got else 1
         o["st"] = "pct"; o["pct"] = {"base": base, "share": round(s1, 4), "full": f("cur5000") < base + 0.5 * s1 * 10000}
-        o["hit"] = r2(base + s1 * 1000)
+        if rate < 0.95: o["pct"]["rate"] = rate
+        o["hit"] = r2(base + s1 * 1000 * rate)
     else:
-        sw = [x for t in ("max1000", "max10000", "max100000", "cur5000", "front", "behind") for x in (g.get(t) or [])]
-        sw = [x for x in sw if x > 1] or sw
-        if sw: o["hit"] = r2(sum(sw) / len(sw)); o.pop("st", None); o["swx"] = len(sw)
+        sw = [x for _, x in allsw if x > 1] or [x for _, x in allsw]
+        if sw:
+            md = statistics.median(sw)
+            sw = [x for x in sw if abs(x / md - 1.5) > 0.02] if md > 0 else sw
+            o["hit"] = r2(sum(sw) / len(sw)); o.pop("st", None); o["swx"] = len(sw)
 
 out = {"_source": "Linggango 6.6.6hf, measured in game by build/pack_audit/kubejs/server_scripts/lgw_measure.js ("
        + M.get("started", "") + "): a FakePlayer given Armageddon's twelve Keeper advancements (their tier locks cancel every "

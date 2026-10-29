@@ -1,14 +1,18 @@
 """The third run (lgw_measure_third, kubejs/lgw_third_measure.json) -> adds to build/patches/gear_measure.json and curio_measure.json.
-Usage: python3 pack_audit/measure/import_third.py lgw_third_measure.json   (after import.py and import_curios.py)
+Usage: python3 pack_audit/measure/import_third.py lgw_third_measure.json   (after import.py and import_curios.py; the run's "grows"
+weapons are pooled by import.py itself, given the file as its fourth argument)
 
   ranged  each bow, crossbow and throwable shot three times at a 10,000-health pig 5 blocks in front of the tester, arrows in the
           off hand, a bow drawn 40 ticks: per item {hit: median shot, shots, how} into gear_measure.json items[id].rng. A shot that
-          missed or never left reads 0: an item with every shot 0 is kept as {miss: 1} (the page says it was not measured)
-  grows   the 12 "grows" weapons again, with the pig turned so "behind" really is behind: a weapon whose swing from behind is over
-          1.3x the swing from the front gets {front, behind} into items[id].back, and its hit is the front swing
+          missed or never left reads 0: an item with every shot 0 is kept as {miss: 1} (the page says it was not measured).
+          A run where most shooters read 0 is a fault of the run, not of the items (third run: 113 of 118, with arrows that landed
+          and did nothing): its shots are left out
   blocks  each curio that cancelled a test hit (Ace of Iron, Opal Necklace...) worn alone and hit with 8 melee damage ten times, a
-          second or two apart: {n, blocked} into curio_measure.json curios[id].blk; the share of hits it stopped is its block rate
-          at that pace"""
+          second or two apart. One that cancelled the melee test hit, or any of the ten (Nullifying Dice: explosions in the extra
+          run, 1 of 10 melee hits here): {n, blocked, tk} into curio_measure.json curios[id].blk, its
+          block rate at that pace and the melee damage it lets through on average (a blocked hit as the 13% the pack's
+          zeroed_hit_floor lets land). One that cancelled another kind is not tested for that kind here, but its ten melee hits
+          replace the one melee hit of the extra run (Halo of the End: 13% of one hit, half of each of ten)"""
 import json, sys, pathlib, statistics
 H = pathlib.Path(__file__).resolve().parents[2] / "patches"
 X = json.load(open(sys.argv[1], encoding="utf-8"))
@@ -18,7 +22,11 @@ CM = json.loads((H / "curio_measure.json").read_text(encoding="utf-8"))
 items, curios = GM["items"], CM["curios"]
 
 nr = nm = 0
-for k, v in (X.get("ranged") or {}).items():
+R = X.get("ranged") or {}
+hit_any = sum(1 for v in R.values() if any(s.get("dmg", 0) > 0 for s in v.get("shots", [])))
+if R and hit_any < 0.5 * len(R):
+    print("ranged left out:", hit_any, "of", len(R), "shooters did any damage"); R = {}
+for k, v in R.items():
     d = [s.get("dmg", 0) for s in v.get("shots", [])]
     if not d: continue
     o = items.setdefault(k, {"ad": r2(v.get("ad", 0))})
@@ -33,22 +41,23 @@ for k, v in (X.get("ranged") or {}).items():
     if tf: o["rng"]["tfx"] = [[e, lv, du] for e, (lv, du) in tf.items()]
     nr += 1
 
-nb = 0
-for k, g in (X.get("grows") or {}).items():
-    o = items.get(k)
-    if not o: continue
-    fr, bh = (g.get("front") or [0])[0], (g.get("behind") or [0])[0]
-    if fr > 0 and bh > 1.3 * fr:
-        o["back"] = {"front": r2(fr), "behind": r2(bh)}; o["hit"] = r2(fr); o.pop("swx", None); nb += 1
-
 nk = 0
+r3 = lambda v: round(v, 3)
 for k, hits in (X.get("blocks") or {}).items():
     hs = [h for h in hits if h is not None]
-    if not hs or k not in curios: continue
-    curios[k]["blk"] = {"n": len(hs), "blocked": sum(1 for h in hs if h <= 0.4)}; nk += 1
+    c = curios.get(k)
+    if not hs or c is None: continue
+    b = sum(1 for h in hs if h <= 0.4)
+    if b or "melee" in (c.get("neg") or []):
+        c["blk"] = {"n": len(hs), "blocked": b, "tk": r3(sum(h if h > 0.4 else 0.13 * 8 for h in hs) / len(hs) / 8)}; nk += 1
+    else:
+        tk = r3(sum(hs) / len(hs) / 8); t = c.setdefault("tk", {})
+        if abs(tk - 1) > 0.01: t["melee"] = tk
+        else: t.pop("melee", None)
+        if not t: del c["tk"]
 
-GM["_third"] = "ranged, behind and blocks: lgw_measure_third (" + X.get("started", "") + "), pack_audit/measure/import_third.py"
+GM["_third"] = "ranged and blocks: lgw_measure_third (" + X.get("started", "") + "), pack_audit/measure/import_third.py"
 CM["_third"] = GM["_third"]
 (H / "gear_measure.json").write_text(json.dumps(GM, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 (H / "curio_measure.json").write_text(json.dumps(CM, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-print(nr, "ranged measured,", nm, "every shot missed |", nb, "hit harder from behind |", nk, "curios with a block rate")
+print(nr, "ranged measured,", nm, "every shot missed |", nk, "curios with a block rate")
