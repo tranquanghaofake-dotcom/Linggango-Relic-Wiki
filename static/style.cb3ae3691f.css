@@ -3338,3 +3338,5 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 #pmap .envfx{display:none}
 /* Path curios: idle motion off, hover only */
 .tier .t:not(:hover)>img,.tier .t:not(:hover) .aimg,.tier .t:not(:hover) .aimg img,.tier .t:not(:hover) .glint::before,.tier .t:not(:hover) .star,.tier .t:not(:hover) .star::before,.tier .t:not(:hover) .star::after{animation-name:none!important}
+/* Path title drift and floating icons off */
+.title-scr .pano,.ip-icon,.emb img,.emb .ph{animation:none}
