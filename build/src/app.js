@@ -873,7 +873,12 @@ function changesPage(){
  document.title="Changes · Linggango Wiki";
  el("main").innerHTML=`${crumb("Changes")}<h1>Changes</h1><p class="lede">What's new on the wiki, newest first.</p>
 <section class="s" id="c-2026-10-29"><h2>October 29, 2026</h2>
+<h3>Added</h3><ul>
+<li><b><a href="#mechanics/effects">Effects</a></b> on the Mechanics page: food buffs, Linggango's effects and the vanilla effects in the pack, each with the items whose text names it. Effect names on item pages link there.</li>
+</ul>
 <h3>Changed</h3><ul>
+<li><b>Build planner share links</b> are shorter: slots use one-character codes and relic data is packed in base 36. Older links still open.</li>
+<li><b>Path curios</b> only animate while the tile is hovered; the idle bobbing, shine and star motion is off.</li>
 <li><b><a href="#mechanics/stats">Stats explained</a></b> rewritten from the mods' code and the pack's config. It now follows one hit step by step and covers armor, crits, dodge, taking damage, healing, roll and parry, damage types, magic and summons. What changed from the first version:<ul>
 <li><b>Melee crits:</b> Brutality's Critical Strike Chance is the roll every melee crit needs. Jumping is not required, and with 0% chance jump crits are gone. TerraCurio's "critical chance" is the Apothic crit (base 5%, every hit), not a separate roll.</li>
 <li><b>Dodge caps</b> in this pack are 50% (Brutality) and 40% (Apothic), not 95% and 100%.</li>
