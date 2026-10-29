@@ -31,7 +31,7 @@ LGW.SRG = {
   mobAttack: ['m_269333_'], inFire: ['m_269387_'], magic: ['m_269425_'], explosion: ['m_269036_'], fall: ['m_268989_'],
   is: ['m_269533_'], getDamageAfterAbsorb: ['m_19272_'], isEmpty: ['m_41619_'], create: ['m_20615_'],
   setRemainingFireTicks: ['m_7311_'], moveTo: ['m_7678_'], hurt: ['m_6469_'], getLastDamageSource: ['m_21225_'], playerAttack: ['m_269075_'],
-  hurtEnemy: ['m_41640_'], getMainHandItem: ['m_21205_'],
+  hurtEnemy: ['m_41640_'], getMainHandItem: ['m_21205_'], getLookAngle: ['m_20154_'],
   getAdvancements: ['m_129889_', 'm_8960_'], getAdvancement: ['m_136041_'], award: ['m_135988_'], getOrStartProgress: ['m_135996_'],
   getCriteria: ['m_138325_'], isDone: ['m_8193_'], grantProgress: ['m_8196_'], getAbilities: ['m_150110_'],
   setYBodyRot: ['m_5618_'], setYHeadRot: ['m_5616_'],
@@ -172,7 +172,9 @@ LGW.run = (server, who, name) => {
     safe('reset effects', () => c0(P, 'removeAllEffects'))
     // clearFire and setYRot are not reachable on the FakePlayer under either name (second run); these do the same
     safe('reset fire', () => { try { c0(P, 'clearFire') } catch (e) { c1(P, 'setRemainingFireTicks', 0) } })
-    safe('reset position', () => { try { c5(P, 'moveTo', X, Y, Z, -90, 0) } catch (e) { c3(P, 'setPos', X, Y, Z) } })
+    // facing +x matters for shots (third test run: moveTo fell back to setPos and the tester faced south). KubeJS's own
+    // setPositionAndRotation runs on the Java side, clear of Rhino's member names
+    safe('reset position', () => { try { P.setPositionAndRotation(X, Y, Z, -90, 0) } catch (e) { try { c5(P, 'moveTo', X, Y, Z, -90, 0) } catch (e2) { c3(P, 'setPos', X, Y, Z) } } })
     safe('reset slots', () => { for (var s in SLOT) wear(SLOT[s], EMPTY) })
     safe('reset curios', () => clearCurios())
     ticks(3)
@@ -207,7 +209,7 @@ LGW.run = (server, who, name) => {
     o = o || {}
     var d = newPig(), mx = o.max || 100000, cu = o.cur || mx
     c3(d, 'setPos', X + (o.dx || 1.2), Y + (o.dy || 0), Z); c1(d, 'setNoAi', true); c1(d, 'setSilent', true); c1(d, 'setNoGravity', true); c1(d, 'setInvulnerable', false)
-    if (typeof o.yaw === 'number') safe('turn pig', () => { c1(d, 'setYRot', o.yaw); c1(d, 'setYBodyRot', o.yaw); c1(d, 'setYHeadRot', o.yaw) })
+    if (typeof o.yaw === 'number') safe('turn pig', () => { d.setRotation(o.yaw, 0); c1(d, 'setYBodyRot', o.yaw); c1(d, 'setYHeadRot', o.yaw) })
     spawned.push(d)
     c1(c1(d, 'getAttribute', A_HP), 'setBaseValue', mx); c1(c1(d, 'getAttribute', A_ARMOR), 'setBaseValue', 0); c1(d, 'setHealth', cu)
     c1(level, 'addFreshEntity', d); return d
@@ -332,7 +334,9 @@ LGW.run = (server, who, name) => {
   var MAIN = Java.loadClass('net.minecraft.world.InteractionHand').MAIN_HAND
   var clearShots = () => { try { server.runCommandSilent('kill @e[type=#minecraft:arrows]') } catch (e) {} }
   var ranged = id => {
-    reset(); safe('arrows', () => c1(c0(P, 'getInventory'), 'add', Item.of('minecraft:arrow', 64))); wear(EquipmentSlot.MAINHAND, Item.of(id)); ticks(5)
+    // arrows in the off hand, where a bow looks first (third test run: added to the inventory they went into the held slot and
+    // the bow replaced them)
+    reset(); wear(EquipmentSlot.MAINHAND, Item.of(id)); wear(EquipmentSlot.OFFHAND, Item.of('minecraft:arrow', 64)); ticks(5)
     var r = { ad: c1(P, 'getAttributeValue', A_AD), shots: [] }, k = 0
     var shot = () => {
       var d = dummy({ max: 10000, dx: 5, dy: 0.9 }), h0 = hp(d), st = c0(P, 'getMainHandItem'), how = ''
@@ -414,7 +418,7 @@ LGW.run = (server, who, name) => {
   var check = () => {
     var r = []
     var t = (name, f) => { var ok = safe('check ' + name, f); out.check[name] = ok; r.push(name + (ok ? ' ok' : ' FAILED')) }
-    t('reset', () => { reset() })
+    t('reset', () => { reset(); out.check.look = '' + c0(P, 'getLookAngle') })
     t('tick', () => c0(P, 'doTick'))
     t('pig', () => { drop(dummy()) })
     t('hold', () => wear(EquipmentSlot.MAINHAND, Item.of('minecraft:iron_sword')))
