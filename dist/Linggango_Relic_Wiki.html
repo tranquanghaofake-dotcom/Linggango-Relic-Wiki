@@ -3336,6 +3336,8 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 .glint::before{animation:none}
 :is(a.t,.ip-icon):hover .glint::before{animation:glintMove 7s linear infinite}
 #pmap .envfx{display:none}
+/* Path curios: idle motion off, hover only */
+.tier .t:not(:hover)>img,.tier .t:not(:hover) .aimg,.tier .t:not(:hover) .aimg img,.tier .t:not(:hover) .glint::before,.tier .t:not(:hover) .star,.tier .t:not(:hover) .star::before,.tier .t:not(:hover) .star::after{animation-name:none!important}
 
 </style>
 <a class="skip" href="#main">Skip to content</a>
@@ -7403,6 +7405,7 @@ function ui(k,big){return `<i class="ui${big?" ui2":""}" style="--ui:var(--${UIK
 /* ---------- build planner, boss guides, pack mechanics, recipe trees ---------- */
 // Player curio slots: merged curios/slots data from the base pack jars (Scroll, Spellstone, Focus are registered in code: assumed 1)
 var SLOT_BASE={Head:1,Necklace:2,Back:1,Body:1,Belt:1,Hands:2,Ring:2,Bracelet:2,Glove:2,Anklet:2,Feet:2,Charm:6,Accessory:6,Heart:1,Spellbook:1,Scroll:1,Spellstone:1,Talent:2,Focus:1,"Hostility Curse":1,Curio:1,Elytra:1,"Binding Key":1,Magnetizer:1,Bundle:1};
+var SLOT_KEYS=Object.keys(SLOT_BASE); // share-link slot code = base-36 position here: append only
 var STAT_ALIAS={"Knockback Res":"Knockback Resistance","Knockback resistance":"Knockback Resistance","Increased reach":"Reach","Increased block reach":"Block Reach","Step Height Addition":"Step Height"};
 var BS={p:12,s:{}},BPICK=null,BINSP=null,BSTALE=false;
 
@@ -7432,10 +7435,14 @@ function bKeys(){const n={};return Object.values(BS.s).flat().map(id=>bKey(n,id)
 function bCaps(){const c={...SLOT_BASE};bKeys().filter(k=>k===rlId(k)||bStk(rlId(k))).forEach(k=>{const id=rlId(k),a=RL[id]?rlSlots(k):slotAdds(BYID[id]);for(const s in a)c[s]+=a[s]});return c}
 function bParse(h){
  const [,p,f,b]=decodeURIComponent(h).split("/"),v=f!==undefined&&!f.includes("="),c=v?b:f;BSTALE=v&&f!==DFP;BS={p:p!==undefined&&p!==""&&ACT[p]&&ORDER.includes(+p)?+p:ORDER[ORDER.length-1],s:{}};
- const n={};(c||"").split("|").filter(Boolean).forEach(part=>{const [k,ids]=part.split("=");if(k in SLOT_BASE)BS.s[k]=(ids||"").split(",").map(x=>bLv(x,n)).filter(i=>BYID[i]&&bFits(BYID[i],k))})}
-// "id~level~a.b.c~stars": level, ability points and per-stat stars ("-" any roll, 0-9, a=10); invalid spends are trimmed to fit
-function bLv(x,n){let [id,l,a,q]=x.split("~");if(!id.includes(":"))id=(D[parseInt(id,36)]||{}).id||"";const r=RL[id];if(r&&l!==undefined){RLV[bKey(n,id)]=rlFit(r,Math.max(0,Math.min(r.mx,+l||0)),(a||"").split(".").map(Number),[...(q||"")].map(c=>c==="-"?-1:parseInt(c,11)))}return id}
-function bHash(){const n={};return "#build/"+BS.p+"/"+DFP+"/"+Object.entries(BS.s).filter(([,v])=>v.length).map(([k,v])=>k+"="+v.map(id=>{const t=BYID[id].ix.toString(36);if(!RL[id])return t;const s=rlState(bKey(n,id));return `${t}~${s.l}~${s.a.join(".")}${s.q.some(v=>v>=0)?"~"+s.q.map(v=>v<0?"-":v.toString(11)).join(""):""}`}).join(",")).join("|")}
+ const n={};(c||"").split("|").filter(Boolean).forEach(part=>{const [k,ids]=part.includes("=")?part.split("="):[SLOT_KEYS[parseInt(part[0],36)],part.slice(1)];if(k in SLOT_BASE)BS.s[k]=(ids||"").split(",").map(x=>bLv(x,n)).filter(i=>BYID[i]&&bFits(BYID[i],k))})}
+// "index_" + level, ability points, then per-stat stars, all base 36 ("-" any roll); older "id~level~a.b.c~stars" still reads
+function bLv(x,n){
+ if(x.includes("_")&&!x.includes(":")){const [t,d]=x.split("_"),id=(D[parseInt(t,36)]||{}).id||"",r=RL[id];
+  if(r){const ch=[...d],na=r.ab.length;RLV[bKey(n,id)]=rlFit(r,Math.max(0,Math.min(r.mx,parseInt(ch[0],36)||0)),ch.slice(1,1+na).map(c=>parseInt(c,36)),ch.slice(1+na).map(c=>c==="-"?-1:parseInt(c,36)))}
+  return id}
+ let [id,l,a,q]=x.split("~");if(!id.includes(":"))id=(D[parseInt(id,36)]||{}).id||"";const r=RL[id];if(r&&l!==undefined){RLV[bKey(n,id)]=rlFit(r,Math.max(0,Math.min(r.mx,+l||0)),(a||"").split(".").map(Number),[...(q||"")].map(c=>c==="-"?-1:parseInt(c,11)))}return id}
+function bHash(){const n={};return "#build/"+BS.p+"/"+DFP+"/"+Object.entries(BS.s).filter(([,v])=>v.length).map(([k,v])=>SLOT_KEYS.indexOf(k).toString(36)+v.map(id=>{const t=BYID[id].ix.toString(36);if(!RL[id])return t;const s=rlState(bKey(n,id));return t+"_"+[s.l,...s.a,...(s.q.some(v=>v>=0)?s.q:[])].map(v=>v<0?"-":v.toString(36)).join("")}).join(",")).join("|")}
 function bSave(){history.replaceState(null,"",bHash());buildPage()}
 function bPreset(role){
  BS.s={};const pool=D.filter(d=>bAvail(d)&&!d.inv);
@@ -7638,6 +7645,31 @@ function bossPage(k){
 
 const nic=n=>{const id=typeof NAMEID!=="undefined"&&NAMEID[n];return id&&IC[id]?`<img class="nic" alt="" src="${icu(id)}">`:""};
 const nchip=(x,re=/^(\d+)× /)=>{const m=x.match(re),n=m?x.slice(m[0].length):x;return `<span class="nch">${nic(n)}${m?`<b>${m[1]}×</b>`:""}${esc(n)}</span>`};
+const EFF_LOOK="(?<!Fire |Knockback |Grave |Attack |Movement |Mining |Armor |Damage |Swim |Sprint |Eldritch |Ender )";
+const effRe=n=>new RegExp(EFF_LOOK+"\\b"+n+"\\b");
+const EFFECTS=[
+ {n:"Well Fed",k:"Food",d:"Attack, spell, summon and arrow damage and movement speed +5%, a little mining speed. A meal scoring 12 or more (cooked chicken is 13). Lasts 10 minutes.",note:"Any meal scoring 12 or more"},
+ {n:"Plenty Satisfied",k:"Food",d:"The same bonuses at +10%. A meal scoring 24 or more. Lasts 15 minutes.",note:"Any meal scoring 24 or more"},
+ {n:"Exquisitely Stuffed",k:"Food",d:"The same bonuses at +15%. A meal scoring 30 or more: every bowl and plate from a cooking pot. Lasts 20 minutes.",note:"Any meal scoring 30 or more"},
+ {n:"Exposed",k:"Linggango",d:""},
+ {n:"Familiar Face",k:"Linggango",d:""},
+ {n:"Winded",k:"Linggango",d:"You hit the ground hard. Give yourself a second to get back up."},
+ {n:"Erosion",k:"Linggango",d:"The End is rubbing you out. Each level takes 8% of your max health until you find cover."},
+ {n:"Bleeding",k:"Linggango",d:"Loses a bit of health every half second, twice as much while moving."},
+ {n:"Scorched",k:"Linggango",d:"Takes 15% more fire damage."},
+ {n:"Frostbite",k:"Linggango",d:"40% slower and takes 15% more damage."},
+ {n:"Stunned",k:"Linggango",d:"Can't move or attack."},
+ {n:"Judged",k:"Linggango",d:"Glows and can't heal."},
+ {n:"Dread",k:"Linggango",d:"Deals 30% less damage. When it ends, a quarter of the damage taken during it hits again."},
+ {n:"Rooted",k:"Linggango",d:"Can't move, can still attack."},
+ {n:"Rot",k:"Linggango",d:"Loses 1% of max health every second."},
+ {n:"Unravelled",k:"Linggango",d:"Takes 20% more elemental and magic damage."},
+ {n:"Chaos Spent",k:"Linggango",d:"Your Chaos Surge is recharging. Until this ends, a killing blow kills you."},
+ {n:"Paradox Charge",k:"Linggango",d:"Damage your armour blocked, waiting to be unleashed by your next melee hit. When this runs out it bursts inside you for half."},
+ ...["Speed","Slowness","Haste","Mining Fatigue","Strength","Jump Boost","Nausea","Regeneration","Resistance","Fire Resistance","Water Breathing","Invisibility","Blindness","Night Vision","Hunger","Weakness","Poison","Wither","Absorption","Saturation","Glowing","Levitation","Slow Falling","Darkness","Health Boost"].map(n=>({n,k:"Vanilla",d:""}))
+].map(e=>({...e,re:effRe(e.n)}));
+// effect names in an item's text link to the Effects list
+function effHint(h){for(const e of EFFECTS){const m=h.match(e.re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/effects" title="${esc(e.n)}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
 function mechPage(){
  document.title="Mechanics · Linggango Wiki";
  const G=GOETY,A=AE2,TY=Object.entries(G.types),cnt=G.counts;
@@ -7649,9 +7681,10 @@ function mechPage(){
  const cells=A.cells.map(c=>`<tr><td><b>${c.t}</b></td><td class="num">${c.bytes.toLocaleString()}</td><td class="num">${c.bpt}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-63*c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_fluid_mb/1000).toLocaleString()} B</td><td class="num">${c.drain}</td></tr>`).join("");
  const gates=Object.entries(A.gates).sort((a,b)=>a[0]-b[0]).map(([a,xs])=>`<tr><td><b>${act(+a)}</b><br><small>after ${esc(GK[a]||"")}</small></td><td class="nchs">${xs.map(x=>nchip(x)).join("")}</td></tr>`).join("");
  const made=[...new Map(G.rituals.filter(r=>r.out_id&&BYID[r.out_id]).map(r=>[r.out_id,BYID[r.out_id]])).values()].slice(0,8);
+ const EFX_ROWS=EFFECTS.map(e=>({...e,items:D.filter(d=>e.re.test(d.fx))})).filter(e=>e.items.length||e.k!=="Vanilla").map(e=>`<tr id="eff-${esc(e.n.toLowerCase().replace(/ /g,"-"))}"><td><b>${esc(e.n)}</b><br><small>${esc(e.k)}</small></td><td>${esc(e.d)||"—"}</td><td class="nchs">${e.note?esc(e.note):e.items.map(d=>ilink(d.id,d.n)).join(" ")||"—"}</td></tr>`).join("");
  el("main").innerHTML=`${crumb("Mechanics")}${room("ritual",made.map(d=>rCurio(d)),{head:`<h1>Mechanics</h1><p class="lede">How the pack's bigger systems work: Goety's dark rituals, AE2 storage and how the combat stats work, with Linggango's own changes.</p>`,cols:4,label:"Curios made by rituals"})}
 
-<nav class="mtabs"><a href="#mechanics" data-go="m-goety">Goety rituals</a><a href="#mechanics" data-go="m-ae2">AE2 storage</a><a href="#mechanics" data-go="m-stats">Stats</a></nav>
+<nav class="mtabs"><a href="#mechanics" data-go="m-goety">Goety rituals</a><a href="#mechanics" data-go="m-ae2">AE2 storage</a><a href="#mechanics" data-go="m-effects">Effects</a><a href="#mechanics" data-go="m-stats">Stats</a></nav>
 <section class="s" id="m-goety"><h2>Goety: Dark Rituals</h2>
 <div class="flow">
 <div class="fst">${islot("goety:totem_of_souls",1)}<b>1. Fill a totem</b><span>Kill mobs with a Totem of Roots / Souls in your hotbar</span></div><i class="far">→</i>
@@ -7689,6 +7722,9 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 <h3>Wireless and curios</h3>
 <p>The wireless range is ${A.wireless_range} blocks around a Wireless Access Point before boosters. These terminals can be worn in the Curio slot, so you can use them without holding them: ${A.curio.map(esc).join(", ")}. The plain Wireless Terminal can't.</p>
 </section>
+<section class="s" id="m-effects"><h2>Effects</h2>
+<p>Status effects in the pack, what each one does, and the items whose own text names it. Food buffs are not an item: eating a meal that scores high enough gives them, as set in <code>linggango_tweaks-common.toml</code>.</p>
+<div class="tw"><table><tr><th>Effect</th><th>What it does</th><th>Given by</th></tr>${EFX_ROWS}</table></div></section>
 <section class="s" id="m-stats"><h2>Stats explained</h2>
 <p>About a dozen mods in the pack add combat stats, often with the same name and a different rule. This section follows one hit from your swing to the target's health bar and says at which step each stat counts. It is read from the code of the V6.6.6hf jars and the pack's own config files (the stat caps in <code>attributefix.json</code>, the Linggango Tweaks combat rules). Two warnings up front: several stats on the wiki do nothing in this pack, and some caps are much lower than the mods' own tooltips say.</p>
 <nav class="mtabs" aria-label="Stats explained"><a href="#mechanics" data-go="m-st-hit">One hit</a><a href="#mechanics" data-go="m-st-armor">Armor</a><a href="#mechanics" data-go="m-st-crit">Crits</a><a href="#mechanics" data-go="m-st-dodge">Dodge</a><a href="#mechanics" data-go="m-st-def">Taking damage</a><a href="#mechanics" data-go="m-st-heal">Healing</a><a href="#mechanics" data-go="m-st-roll">Roll and parry</a><a href="#mechanics" data-go="m-st-type">Damage types</a><a href="#mechanics" data-go="m-st-magic">Magic</a><a href="#mechanics" data-go="m-st-summon">Summons</a></nav>
@@ -8512,7 +8548,7 @@ const STATH=[[/\barmor penetration\b/i,"Percent: the target counts with that muc
  [/\bdodge chance\b/i,"Chance to avoid a hit completely. Capped at 50% (Brutality) or 40% (Apothic) in this pack."],[/\bomnivamp\b/i,"Heals a share of every hit you own: melee, arrows, spells (cap 10% max health a tick)."],[/\blife ?steal\b/i,"Heals a share of the melee damage you deal (cap 10% max health a tick)."],[/\bminion damage\b/i,"Multiplies minion damage (Summonity); halved without a summoning item or whip in hand."],[/\bsummon damage\b/i,"Multiplies summoned creatures' damage (Iron's Spells)."],
  [/\broll count\b/i,"Roll charges; only whole numbers count."],[/\broll recharge\b/i,"Charges come back faster: cooldown × 20 / Roll Recharge."],[/\bdodge window\b/i,"Extra invulnerable ticks on rolls and dashes, rounded, at most +4."],[/\bcooldown reduction\b/i,"Spell cooldown × (2 − value), softened past +50%."]];
 function statHint(h){for(const [re,tip] of STATH){const m=h.match(re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/stats" title="${esc(tip)}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
-function statLine(t){const h=fmt(t).replace(/(^|[\s(])([+\-−]\s?\d[\d.,]*\s?%?|x\s?\d[\d.]*|×\s?\d[\d.]*|\d[\d.,]*\s?%)/g,(m,a,n)=>`${a}<b class="${/^[\-−]/.test(n)?"neg":"pos"}">${n}</b>`);return statHint(h)}
+function statLine(t){const h=fmt(t).replace(/(^|[\s(])([+\-−]\s?\d[\d.,]*\s?%?|x\s?\d[\d.]*|×\s?\d[\d.]*|\d[\d.,]*\s?%)/g,(m,a,n)=>`${a}<b class="${/^[\-−]/.test(n)?"neg":"pos"}">${n}</b>`);return effHint(statHint(h))}
 function joinTip(xs){const out=[];xs.forEach(x=>{x=String(x).trim();if(!x)return;const p=out[out.length-1];
  if(p&&!/[.!?:)]$/.test(p)&&/^[a-z(…]/.test(x))out[out.length-1]=p+" "+x;else out.push(x)});return out}
 function statsHtml(d,other){const k=kindOf(d),nm=d.n.toLowerCase();

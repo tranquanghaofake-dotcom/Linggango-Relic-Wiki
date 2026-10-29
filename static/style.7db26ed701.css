@@ -3330,3 +3330,5 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 .glint::before{animation:none}
 :is(a.t,.ip-icon):hover .glint::before{animation:glintMove 7s linear infinite}
 #pmap .envfx{display:none}
+/* Path curios: idle motion off, hover only */
+.tier .t:not(:hover)>img,.tier .t:not(:hover) .aimg,.tier .t:not(:hover) .aimg img,.tier .t:not(:hover) .glint::before,.tier .t:not(:hover) .star,.tier .t:not(:hover) .star::before,.tier .t:not(:hover) .star::after{animation-name:none!important}
