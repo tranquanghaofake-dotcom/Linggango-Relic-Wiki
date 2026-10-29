@@ -623,3 +623,15 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   - Not traced: Opposing Force / Goety summon stats, Ars Nouveau perks, l2hostility extra_difficulty, Iron's casting_movespeed details.
 - Open: measure in game (lgw_measure) to confirm the Brutality crit gate, the dead Iron's/Goety Revelation pierce on player hits,
   and which NORMAL CriticalHitEvent listener runs last.
+
+## 2026-10-29 · measure round 3 (claude/beautiful-dirac-904jsz, main a2f1a62ea)
+- lgw_measure_third full run: grows weapons re-swung with the pig turned (KubeJS setRotation/setPositionAndRotation work where
+  setYRot/moveTo did not): nothing hits harder from behind; Shadowstep is a steady ×7. Valettein 3% max HP lands on ~79% of
+  swings and on half-health targets (the extra run's "full only" was missed swings). 1.5× swings = Apothic crits, out of means.
+- Blocks, 10 melee hits ~1–2 s apart: Ace of Iron 3/10, Opal Necklace, Ethereal Eclipse Emblem, Nullifying Dice 1/10 → `blk`
+  scored (13% of a blocked hit counted). Halo of the End halves each hit; Earth Promise −1/3. Ace of Iron now Epic.
+- Shots: 113/118 read 0, yet Frostbite / Winter Bow left their effect → the arrow lands, damage cancelled or zeroed? Shots left
+  out (import_third skips a run where most read 0). Script now draws like a player (use → 40 ticks → releaseUsingItem); the
+  third test is a probe (plain arrows owned / unowned, projectiles around, pig's last source, arrow hit through listeners).
+- Next: user runs lgw_measure_third_test; read the probe, fix the shot, rerun the full third run, then score RA from shots
+  (needs an assumed fire rate; label it as such).
