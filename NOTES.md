@@ -593,3 +593,33 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Open, left as is (nothing removed): 11 l2backpack curios + heavy_key are not in 6.6.6hf; ~25 instance curios are missing from the wiki.
 - Changes page (`#changes`, main 37c77879): plain-language update log, newest first, hand-written in `changesPage()` in app.js.
   Linked from the top nav, quick search (ux.js PAGES) and wikiNav Tools. Add a new dated `<section>` at the top for each update.
+
+## 2026-10-29: review of the outside edits; Stats explained rewritten from code (main d497dfc)
+- Asked: two commits on main by collaborator Ou1cK5CoP3 (c0a785a Stats tab, 37c7787 Changes page) — check them. Build reproduced
+  byte for byte, no injected code, check.sh green. Warden 700 / Wither 500 HP right (entitybalance.json). Wrong: the Changes line
+  "Act II boss armor" (Arion is Act III, Eldorath Act IV) and several Stats claims (below). The user was told to confirm the
+  collaborator is wanted (GitHub: write access).
+- Fixed: Keeper armor back in each Act's row; Warden melee 18.5/35/52.5 (vanilla 30 + pack +5); Mechanics lede + quick search
+  mention stats; Changes page: Oct 29 entry, Oct 28 completed (curios measured, gear measured, ranking).
+- Stats explained rewritten (pack zip 9304214 + all 455 jars to scratch, Vineflower 1.10.1). What the code says:
+  - Armor step (LivingEntity.getDamageAfterArmorAbsorb HEAD): Lethality Guard (lethalityfix jar, mixin priority 1) runs first when
+    the attacker has Brutality lethality/armor_pen or Apothic pierce/shred: armor×clamp(2−pen,0,10), shred and pierce ×(1−min(0.02·T,0.6)),
+    max 0, then lethality; excess lethality past 0 armor = +10%/point of the 0-armor hit (config). Else Brutality (priority 1200) cancels
+    for every Player attacker with plain armor. So Iron's Lib armor_pierce (@Redirect getArmorValue) and Goety Revelation
+    armor_penetration (RevelationFix ASM after CombatRules call) never run on player hits. TerraCurio maps crit_chance, ranged
+    velocity/damage, dodge, mining speed, armor_pass onto Apothic attributes when attributeslib is loaded (ApothicHelper.preset).
+  - Apothic overwrites CombatRules: dmg × A/(A+armor), A=10 (<20) else 10+(dmg−20)/2; toughness unused except blunting shred/pierce.
+    Protection 1−min(0.025p,0.85).
+  - Crits: CriticalHitEvent listeners: L2DT HIGHEST, Apothic HIGH (vanilla crit → max(mod, crit_damage)), NORMAL: Brutality
+    (charged >0.9 && roll < chance−1 → ALLOW + mod = critical_strike_damage, else DENY), Iron's Lib (+crit_damage−1), LGT Echelon
+    reforge crit (non-vanilla only), TerraCurio (disabled by the Apothic mapping); LOWEST: LGF wing bonus. Forge NORMAL order across
+    mods is not fixed (parallel mod construction). Apothic crit is a second roll at LivingHurt HIGH on every hit with a living
+    getEntity (mobs 5% base too); chains above 100% with crit_damage×0.85. GTBCS spell crit base chance 0 / damage ×1.0.
+  - attributefix caps (enabled): brutality armor_penetration 1.95, dodge_chance 1.5, critical_strike_damage 3; attributeslib
+    dodge_chance 0.4. Resistance rescaled by linggango_fixes (I 20% … X 60%, +0.04%/level after).
+  - Linggango Tweaks: hit soft cap measures LivingHurt+LivingDamage growth (knee 3, sqrt past it; summons exempt), damage floor
+    min(13% raw, entering) at LivingDamage LOWEST, hit cap 50% max HP, lifesteal cap 10% max HP per tick of dealing damage.
+    Roll: i-frames roll 4 / dash 3 + Sidestep + round(dodge_window) (≤4); charges floor(roll_count); cooldown × 20/roll_recharge.
+  - Not traced: Opposing Force / Goety summon stats, Ars Nouveau perks, l2hostility extra_difficulty, Iron's casting_movespeed details.
+- Open: measure in game (lgw_measure) to confirm the Brutality crit gate, the dead Iron's/Goety Revelation pierce on player hits,
+  and which NORMAL CriticalHitEvent listener runs last.
