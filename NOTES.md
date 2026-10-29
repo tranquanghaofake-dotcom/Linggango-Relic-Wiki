@@ -635,3 +635,8 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   third test is a probe (plain arrows owned / unowned, projectiles around, pig's last source, arrow hit through listeners).
 - Next: user runs lgw_measure_third_test; read the probe, fix the shot, rerun the full third run, then score RA from shots
   (needs an assumed fire rate; label it as such).
+
+## 29 Oct 2026 (session: review, share links, motion)
+- Stats: upstream rewrote the section from the mods' code; the local corrections were dropped. Checked: Warden 700 HP, Wither 500 HP, Goblin Lord armor 12, Eldorath armor 18, Arion armor 15/20 against `entitybalance.json`.
+- Build share links now store item indices (`#build/<p>/<fingerprint>/<slot>=<index>~lvl~abilities~stars`). Old `#build/<p>/<slot>=<id>` links still load. Stale links show a warning. The fingerprint changes whenever the item list changes.
+- Motion: relic icon shine and tile bob, and Path particles, run only on hover or not at all. The title drift and two floating icons still loop; waiting on the user.
