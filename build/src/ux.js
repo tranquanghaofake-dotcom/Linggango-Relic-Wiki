@@ -26,7 +26,7 @@ function dealGear(){const h=location.hash;if(!/^#gear/.test(h)){lastGear="";retu
 /* ---------- quick search ---------- */
 const QS={open:false,inp:null,items:[],sel:0,idx:null};
 const box=document.createElement("div");box.id="qs";box.setAttribute("role","listbox");box.setAttribute("aria-label","Search results");box.hidden=true;document.body.appendChild(box);
-const PAGES=[["Curios","#home","Every curio by the Act you can get it in"],["Equipment","#gear","Weapon and armor tier lists"],["Build planner","#build","Plan curio slots and see stat totals"],["Bosses","#bosses","Keepers in fight order, with summon guides"],["Mechanics","#mechanics","Goety rituals and AE2 storage"],["Changes","#changes","What's new on the wiki"]];
+const PAGES=[["Curios","#home","Every curio by the Act you can get it in"],["Equipment","#gear","Weapon and armor tier lists"],["Build planner","#build","Plan curio slots and see stat totals"],["Bosses","#bosses","Keepers in fight order, with summon guides"],["Mechanics","#mechanics","Goety rituals, AE2 storage, how stats work"],["Changes","#changes","What's new on the wiki"]];
 function index(){if(QS.idx)return QS.idx;const o=[];
  const add=(n,h,ic,meta,kind,w,c,t)=>o.push({n,l:n.toLowerCase(),h,ic,meta,kind,w,c,t});
  PAGES.forEach(([n,h,m])=>add(n,h,()=>'<span class="qpg" aria-hidden="true">'+n[0]+"</span>",m,"Page",3));

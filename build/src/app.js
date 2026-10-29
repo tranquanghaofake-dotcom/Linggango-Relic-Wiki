@@ -260,7 +260,7 @@ function mechPage(){
  const cells=A.cells.map(c=>`<tr><td><b>${c.t}</b></td><td class="num">${c.bytes.toLocaleString()}</td><td class="num">${c.bpt}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-63*c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_fluid_mb/1000).toLocaleString()} B</td><td class="num">${c.drain}</td></tr>`).join("");
  const gates=Object.entries(A.gates).sort((a,b)=>a[0]-b[0]).map(([a,xs])=>`<tr><td><b>${act(+a)}</b><br><small>after ${esc(GK[a]||"")}</small></td><td class="nchs">${xs.map(x=>nchip(x)).join("")}</td></tr>`).join("");
  const made=[...new Map(G.rituals.filter(r=>r.out_id&&BYID[r.out_id]).map(r=>[r.out_id,BYID[r.out_id]])).values()].slice(0,8);
- el("main").innerHTML=`${crumb("Mechanics")}${room("ritual",made.map(d=>rCurio(d)),{head:`<h1>Mechanics</h1><p class="lede">How the pack's bigger systems work: Goety's dark rituals and AE2 storage, with Linggango's own changes.</p>`,cols:4,label:"Curios made by rituals"})}
+ el("main").innerHTML=`${crumb("Mechanics")}${room("ritual",made.map(d=>rCurio(d)),{head:`<h1>Mechanics</h1><p class="lede">How the pack's bigger systems work: Goety's dark rituals, AE2 storage and how the combat stats work, with Linggango's own changes.</p>`,cols:4,label:"Curios made by rituals"})}
 
 <nav class="mtabs"><a href="#mechanics" data-go="m-goety">Goety rituals</a><a href="#mechanics" data-go="m-ae2">AE2 storage</a><a href="#mechanics" data-go="m-stats">Stats</a></nav>
 <section class="s" id="m-goety"><h2>Goety: Dark Rituals</h2>
@@ -301,54 +301,151 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 <p>The wireless range is ${A.wireless_range} blocks around a Wireless Access Point before boosters. These terminals can be worn in the Curio slot, so you can use them without holding them: ${A.curio.map(esc).join(", ")}. The plain Wireless Terminal can't.</p>
 </section>
 <section class="s" id="m-stats"><h2>Stats explained</h2>
-<p>Several mods in the pack add stats with similar names that work differently. This is what each one does, read from the mods' code in V6.6.6hf. Where the code path could not be traced, the row says so.</p>
-<h3>Armor Penetration vs Lethality</h3>
-<p><b>Armor Penetration</b> (Brutality) is a <b>percentage</b>: it removes a share of the target's armor. <b>Lethality</b> (Brutality) is <b>flat</b>: it subtracts a fixed number of armor points after penetration. So penetration is worth more against heavily armored targets (Keepers, armored bosses), lethality against lightly armored ones. Both only count for hits a player makes, and not for damage that already ignores armor.</p>
-<p class="note">Example: a target with 20 armor. +50% Armor Penetration leaves 10; then 5 Lethality leaves 5. Against a 4-armor mob the same 50% only removes 2, while 5 Lethality removes all 4.</p>
+<p>About a dozen mods in the pack add combat stats, often with the same name and a different rule. This section follows one hit from your swing to the target's health bar and says at which step each stat counts. It is read from the code of the V6.6.6hf jars and the pack's own config files (the stat caps in <code>attributefix.json</code>, the Linggango Tweaks combat rules). Two warnings up front: several stats on the wiki do nothing in this pack, and some caps are much lower than the mods' own tooltips say.</p>
+<nav class="mtabs" aria-label="Stats explained"><a href="#mechanics" data-go="m-st-hit">One hit</a><a href="#mechanics" data-go="m-st-armor">Armor</a><a href="#mechanics" data-go="m-st-crit">Crits</a><a href="#mechanics" data-go="m-st-dodge">Dodge</a><a href="#mechanics" data-go="m-st-def">Taking damage</a><a href="#mechanics" data-go="m-st-heal">Healing</a><a href="#mechanics" data-go="m-st-roll">Roll and parry</a><a href="#mechanics" data-go="m-st-type">Damage types</a><a href="#mechanics" data-go="m-st-magic">Magic</a><a href="#mechanics" data-go="m-st-summon">Summons</a></nav>
+
+<h3 id="m-st-hit">One hit, step by step</h3>
+<p>Every hit goes through these steps in order. A stat only changes the steps it belongs to, so the same "+10%" can be worth very different amounts.</p>
+<div class="tw"><table><tr><th>Step</th><th>What happens</th><th>Stats that count here</th></tr>
+<tr><td><b>1. Swing</b></td><td>Weapon damage, scaled by how charged the attack is (vanilla attack cooldown).</td><td>Attack Damage, Brutality's weapon and damage-type stats (Sword Damage, Slash Damage…), Food buffs</td></tr>
+<tr><td><b>2. Melee crit</b></td><td>Decided once per swing. Melee only.</td><td>Brutality Critical Strike Chance / Damage, plus small add-ons (see Crits)</td></tr>
+<tr><td><b>3. Dodge</b></td><td>The target gets its chances to avoid the hit completely.</td><td>Dodge Chance (three different ones), roll and parry</td></tr>
+<tr><td><b>4. Bonus stage</b></td><td>Multipliers on the hit before armor. Order between mods does not matter here: they multiply.</td><td>Apothic Critical Chance / Damage, damage affinity, Exposed, Perfect Hit, roll counters, Damage Taken, Summon Damage</td></tr>
+<tr><td><b>5. Hit soft cap</b></td><td>How much step 4 grew your hit is measured. Up to ×3 it stays; past ×3 only the square root of the extra counts (×10 lands as ×5.5). Your summons' hits are exempt.</td><td>Everything in step 4</td></tr>
+<tr><td><b>6. Armor</b></td><td>The target's armor takes its share (formula below).</td><td>Armor, Armor Penetration, Armor Shred, Armor Pierce, Lethality</td></tr>
+<tr><td><b>7. Resistance, Protection</b></td><td>The Resistance effect, then Protection enchantments.</td><td>Resistance levels, Protection, Protection Pierce / Shred</td></tr>
+<tr><td><b>8. Floor and cap</b></td><td>Players only, and only for hits from something: at least 13% of the hit always lands, and no single hit takes more than half your max health.</td><td>Max Health (moves the cap)</td></tr>
+<tr><td><b>9. Healing from the hit</b></td><td>Lifesteal-type stats heal the attacker. All of it together is capped at 10% of max health per tick.</td><td>Lifesteal, Omnivamp, Life Steal, Overheal, Healing Received</td></tr>
+</table></div>
+<p class="note">Bosses on the Nightmare Altar roster also have an intake ceiling: they lose at most 1/30 of their max health per second (45–50 s for the last Keepers), banked up to 3 s, until you have beaten them once. Past that point more damage buys nothing.</p>
+
+<h3 id="m-st-armor">Armor: how much gets through</h3>
+<p>Apothic Attributes replaces vanilla armor. A hit keeps <b>A / (A + armor)</b> of its damage, where A is 10 for hits under 20 and 10 + (hit − 20) / 2 above. Armor has no cap, and big hits go through it more easily.</p>
+<div class="tw"><table><tr><th>Target armor</th><th>10 damage hit</th><th>50 damage hit</th><th>200 damage hit</th></tr>
+<tr><td>10</td><td>50% lands</td><td>71%</td><td>91%</td></tr>
+<tr><td>20</td><td>33%</td><td>56%</td><td>83%</td></tr>
+<tr><td>50</td><td>17%</td><td>33%</td><td>67%</td></tr>
+<tr><td>100</td><td>9%</td><td>20%</td><td>50%</td></tr>
+<tr><td>200</td><td>5%</td><td>11%</td><td>33%</td></tr>
+<tr><td>400</td><td>2%</td><td>6%</td><td>20%</td></tr>
+</table></div>
+<p><b>Armor Toughness</b> does not reduce damage in this formula. Its only job is to blunt Armor Shred and Armor Pierce used against you: 2% per point, up to 60% at 30 toughness. Mobs rarely have either, so for a player toughness is almost dead weight.</p>
+<h4>Getting through armor</h4>
+<p>On your hits, the stats below are worked out in this order: Armor Penetration, then Shred, then Pierce, then Lethality. A small pack mod (Lethality Guard) takes over the armor step whenever the attacker has any of these four, so they all work together and armor never goes below zero.</p>
 <div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>Kind</th><th>What it does</th></tr>
-<tr><td><b>Armor Penetration</b></td><td>Brutality</td><td>Percent</td><td>Effective armor = armor × (1 − penetration). Player hits only, applied before vanilla armor math.</td></tr>
-<tr><td><b>Lethality</b></td><td>Brutality</td><td>Flat</td><td>Subtracts its value from the target's armor, after Armor Penetration.</td></tr>
-<tr><td><b>Armor pierce</b> (flat)</td><td>Iron's Lib</td><td>Flat</td><td>Armor = max(0, armor − value), rounded down. Same idea as Lethality.</td></tr>
-<tr><td><b>Armor pass</b></td><td>TerraCurio</td><td>Flat</td><td>Armor = max(0, armor − value). The Star Cloak's falling stars subtract 3 more.</td></tr>
-<tr><td><b>Armor / toughness penetration</b></td><td>Celestial Core</td><td>Percent</td><td>Cuts the target's armor (or toughness) by that share for the hit: armor × (1 − value).</td></tr>
-<tr><td><b>Needle armor penetration</b>, <b>enchantment piercing</b></td><td>Goety Revelation</td><td>Recovery</td><td>Gives back part of the damage armor (or Protection enchantments) took away: damage = after + (before − after) × value. Only in Goety Revelation's own attacks.</td></tr>
-<tr><td><b>Armor / toughness shred</b></td><td>Puffish Skills</td><td>Percent</td><td>Lowers the target's armor (or toughness) by a share. Exact scaling not confirmed in code.</td></tr>
-<tr><td><b>Resistance shred</b> (all, magic, melee, ranged)</td><td>Puffish Skills</td><td>Percent</td><td>Lowers the target's matching damage resistance. Exact scaling not confirmed in code.</td></tr>
+<tr><td><b>Armor Penetration</b></td><td>Brutality</td><td>Percent</td><td>Ignores that share of the target's armor: +50% means the target counts with half its armor. Capped at 95% by the pack.</td></tr>
+<tr><td><b>Armor Shred</b></td><td>Apothic</td><td>Percent</td><td>Removes another share of what is left, weakened by the target's toughness.</td></tr>
+<tr><td><b>Armor Pierce</b></td><td>Apothic</td><td>Flat</td><td>Subtracts armor points, also weakened by toughness. TerraCurio's "armor pass" items give this stat.</td></tr>
+<tr><td><b>Lethality</b></td><td>Brutality</td><td>Flat</td><td>Subtracts armor points last. <b>Each point past zero armor becomes +10% damage</b> (Lethality Guard), so it is strongest against lightly armored or unarmored targets.</td></tr>
+<tr><td>Armor pierce</td><td>Iron's Lib</td><td>Flat</td><td><b>Does nothing on your hits</b>: it hooks a part of the armor code that Brutality skips for every player hit. Mobs with it still use it on you.</td></tr>
+<tr><td>Needle armor penetration</td><td>Goety Revelation</td><td>Recovery</td><td>Gives back a share of what armor took. Same problem as Iron's: skipped on player hits.</td></tr>
+<tr><td>Enchantment piercing</td><td>Goety Revelation</td><td>Recovery</td><td>Gives back a share of what Protection enchantments took (damage = after + (before − after) × value). The Protection step is not skipped on player hits, so this one can work.</td></tr>
+<tr><td>Protection Pierce / Shred</td><td>Apothic</td><td>Flat / Percent</td><td>The same as Armor Pierce / Shred, for the target's Protection points.</td></tr>
 </table></div>
-<h3>Critical hits</h3>
-<p>There is more than one crit chance. They come from different mods and do not add up into one number.</p>
+<div class="tw"><table><tr><th>Example</th><th>Nothing</th><th>+50% Armor Penetration</th><th>10 Lethality</th><th>Both</th></tr>
+<tr><td>50 damage into a Keeper with 100 armor</td><td>10.0</td><td>16.7</td><td>10.9</td><td>19.2</td></tr>
+<tr><td>10 damage into a mob with 4 armor</td><td>7.1</td><td>8.3</td><td>16.0</td><td>18.0</td></tr>
+</table></div>
+<p class="note">Penetration is the stat against heavy armor, Lethality against light armor. Against the 4-armor mob, 10 Lethality leaves 6 points past zero, worth +60%.</p>
+
+<h3 id="m-st-crit">Crits</h3>
+<p>There are two crit systems on top of each other, and they multiply: a melee crit decided at the swing, then the Apothic crit, which rolls on every hit you own.</p>
+<h4>The melee crit (Brutality decides)</h4>
+<p>Brutality's <b>Critical Strike Chance</b> is the gate for every melee crit. Your swing crits when it is charged over 90% and this roll succeeds. Jumping does not matter, and a jump without a successful roll is <b>not</b> a crit any more. The base chance is 0%, so with no crit gear, jump crits are gone. A crit deals <b>Critical Strike Damage</b>: base ×1.4, capped at ×3 by the pack. Most armor in the pack carries a little of it (+0.06 to +0.15 a piece).</p>
+<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does to melee crits</th></tr>
+<tr><td><b>Critical Strike Chance</b></td><td>Brutality</td><td>The roll above. Base 0%.</td></tr>
+<tr><td><b>Critical Strike Damage</b></td><td>Brutality</td><td>Sets the crit multiplier. Base ×1.4, cap ×3. Fuzzy Dice: a second roll doubles it.</td></tr>
+<tr><td>Crit damage</td><td>Iron's Lib</td><td>Adds to the multiplier (+0.15 turns ×1.4 into ×1.55). It runs at the same step as Brutality, so if it goes first, Brutality overwrites it. Not reliable.</td></tr>
+<tr><td>Weapon crit rate / damage</td><td>L2 (l2damagetracker)</td><td>Brutality's gate cancels or overwrites it on melee. It still works on fully drawn arrows (×1.5 at base crit damage).</td></tr>
+<tr><td>Chaos / Vex / Allay's Wing</td><td>Armageddon (Linggango Fixes)</td><td>+0.35 / +0.25 / +0.18 added to every melee crit's multiplier, after everything else.</td></tr>
+<tr><td>Perfect Hit</td><td>Linggango</td><td>Not a crit stat: any hit while falling has 5% to deal ×1.5 more (and huge knockback), at most once every 30 s.</td></tr>
+</table></div>
+<h4>The Apothic crit (every hit)</h4>
+<p><b>Critical Chance</b> and <b>Critical Damage</b> from Apothic Attributes roll again at the bonus stage, on every hit where you are the attacker: melee, arrows and spells. Base 5% for ×1.5, and every mob has the same base 5% against you. TerraCurio's "critical chance" items (Destroyer Emblem, Celestial Stone…) give this stat. Above 100% it can crit more than once: each extra crit has the chance that is left over and multiplies by the crit damage ×0.85.</p>
+<p class="note">Example: a 20 damage swing that wins both rolls: ×1.4 (Brutality) = 28, then ×1.5 (Apothic) = 42. Only the Apothic part counts toward the ×3 soft cap.</p>
+<div class="tw"><table><tr><th>Other crits</th><th>Mod</th><th>Where it applies</th></tr>
+<tr><td><b>Spell crit chance / damage</b></td><td>GTBCS</td><td>Iron's Spells damage only. Base 0% chance and ×1.0 damage, so you need both stats for it to do anything.</td></tr>
+<tr><td><b>Bow crit chance</b></td><td>Too Many Bows</td><td>Arrows from that mod's bows only, with each bow's own multiplier.</td></tr>
+<tr><td>Reforge crit</td><td>Linggango (Reforging Table)</td><td>×1.5 on swings that are not jumps, and a chance at double base damage on arrows. On melee it is cancelled when Brutality's roll fails, unless it happens to run later. The order is not fixed.</td></tr>
+</table></div>
+
+<h3 id="m-st-dodge">Dodge</h3>
+<p>Three mods have a Dodge Chance and each rolls separately. A hit has to get past all of them, so they combine as 1 − (1 − a)(1 − b): 50% and 40% avoid 70% of hits.</p>
+<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>Cap in the pack</th><th>What it does</th></tr>
+<tr><td><b>Dodge Chance</b> (anklets…)</td><td>Brutality</td><td><b>50%</b></td><td>Any hit. After a dodge it rests for half a second. Players only.</td></tr>
+<tr><td><b>Dodge Chance</b> (Master Ninja Gear…)</td><td>Apothic</td><td><b>40%</b></td><td>Only melee from within reach, and projectiles. Hits in the same tick share one roll. TerraCurio's dodge items give this stat.</td></tr>
+<tr><td>Dodge chance</td><td>Iron's Lib</td><td>none</td><td>Any hit; a dodge also gives 1 s of invulnerability.</td></tr>
+</table></div>
+<p class="note">The mods' tooltips say up to 95% (Brutality) and 100% (Apothic); the pack's attributefix config lowers them to 50% and 40%. Stacking past the cap does nothing. A dodge cancels the hit outright, so the 13% damage floor does not apply to it.</p>
+
+<h3 id="m-st-def">Taking damage</h3>
+<div class="tw"><table><tr><th>Stat or rule</th><th>Mod</th><th>What it does</th></tr>
+<tr><td><b>Damage Taken</b></td><td>Brutality</td><td>Multiplies the damage you take, at the bonus stage. Many armor pieces have −5%: a full set at −5% each takes ×0.8. Because it works before the floor is measured, it can push a hit below 13%.</td></tr>
+<tr><td><b>Armor</b></td><td>vanilla, Apothic formula</td><td>See the table above. Never below the 13% floor on hits from something.</td></tr>
+<tr><td><b>Resistance</b> (effect)</td><td>Linggango Fixes</td><td>Rescaled: I 20%, II 24%, III 29%, IV 33%, V 38%, VI 42%, VII 47%, VIII 51%, IX 56%, X 60%, then only +0.04% a level. Vanilla Resistance V would make you immune; here it is 38%.</td></tr>
+<tr><td><b>Protection</b> (enchantments)</td><td>Apothic formula</td><td>2.5% per Protection point, up to 85% at 34 points.</td></tr>
+<tr><td><b>Magic resist</b> (all, or one school)</td><td>Iron's Spells</td><td>Spell damage taken × (2 − resist). Past +50% it softens: +100% resist blocks 75%, never 100%.</td></tr>
+<tr><td>Damage floor</td><td>Linggango</td><td>At least 13% of a hit always lands after armor, Resistance, Protection and absorption. Reductions at the bonus stage (Damage Taken, some accessories) count before the floor is set.</td></tr>
+<tr><td>Hit cap</td><td>Linggango</td><td>No single hit from something takes more than half your max health. Falls, lava and drowning are not floored or capped.</td></tr>
+<tr><td><b>Knockback Resistance</b></td><td>vanilla</td><td>Share of knockback ignored, capped at 100%.</td></tr>
+</table></div>
+
+<h3 id="m-st-heal">Healing from damage</h3>
+<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>Which hits</th><th>Heals</th></tr>
+<tr><td><b>Lifesteal</b></td><td>Brutality</td><td>Your melee swings only</td><td>That share of the swing's damage, before armor</td></tr>
+<tr><td><b>Omnivamp</b></td><td>Brutality</td><td>Every hit you own: melee, arrows, spells (not your summons)</td><td>That share of the damage at the bonus stage, before armor</td></tr>
+<tr><td><b>Life Steal</b></td><td>Apothic</td><td>Physical hits you land in person (melee; not arrows or spells)</td><td>That share of the damage before armor, at most the target's remaining health</td></tr>
+<tr><td><b>Overheal</b></td><td>Apothic</td><td>Same as Life Steal</td><td>Absorption hearts instead of health, up to half your max health</td></tr>
+<tr><td><b>Healing Received</b></td><td>Apothic, Iron's Lib</td><td>Every heal</td><td>Multiplies it (two separate stats, both apply)</td></tr>
+</table></div>
+<p class="note">Cap: in a tick where you dealt damage, all healing from hits together is at most 10% of your max health. Regeneration, food and potions are not capped.</p>
+
+<h3 id="m-st-roll">Roll and parry</h3>
+<p>Linggango's dodge roll (one press dashes, a second press rolls) and its parry have their own stats. During a roll's invulnerable ticks every hit is dodged.</p>
+<div class="tw"><table><tr><th>Stat on the wiki</th><th>Base</th><th>What it does</th></tr>
+<tr><td><b>Roll Count</b></td><td>1</td><td>Roll charges. Only whole numbers count: +0.5 does nothing until the total reaches 2.</td></tr>
+<tr><td><b>Roll Recharge</b></td><td>20</td><td>A charge comes back in 3.2 s after a roll and 1.3 s after a dash, × 20 / Roll Recharge. +10% (22) is 9% faster.</td></tr>
+<tr><td><b>Roll Distance</b></td><td>3 blocks</td><td>How far a roll goes; a dash goes 70% of it.</td></tr>
+<tr><td><b>Roll Top Speed</b></td><td>0.8</td><td>Caps the speed you can build by chaining rolls and jumps.</td></tr>
+<tr><td><b>Dodge Window</b></td><td>0</td><td>Extra invulnerable ticks on rolls, dashes and air steps, rounded to the nearest tick (+0.5 is a whole tick), at most +4. A roll starts with 4 ticks, a dash with 3.</td></tr>
+<tr><td><b>Dodge Damage</b></td><td>×1</td><td>Multiplies the damage of the counter after a dodge, Bash and Flash.</td></tr>
+<tr><td><b>Parry Window</b></td><td>3 ticks</td><td>Adds ticks to the parry window.</td></tr>
+<tr><td><b>Parry Recovery</b></td><td>×1</td><td>Divides the lockout after a missed parry.</td></tr>
+<tr><td><b>Stun Duration</b></td><td>×1</td><td>Multiplies how long parries, counters and Bash leave a mob stunned or Exposed. Exposed mobs take +20% damage from you.</td></tr>
+<tr><td>Technique Recharge / Range</td><td>×1</td><td>Bash and Thunderclap: shorter cooldown, longer reach.</td></tr>
+</table></div>
+<p class="note">A counter is the first hit within 1.5 s on the mob you just dodged: ×1.5, ×2 or ×2.5 by Mirror Step rank, times Dodge Damage, and it Exposes the mob.</p>
+
+<h3 id="m-st-type">Damage types and bonus damage</h3>
 <div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does</th></tr>
-<tr><td><b>Critical Strike Chance</b></td><td>Brutality</td><td>Melee crits. The base is 0%. A crit needs the normal falling (jump) hit <b>and</b> this roll; if the roll fails, the jump crit is cancelled too.</td></tr>
-<tr><td><b>Critical Strike Damage</b></td><td>Brutality</td><td>Sets the crit multiplier. Base ×1.4 (vanilla is ×1.5).</td></tr>
-<tr><td><b>Critical chance</b></td><td>TerraCurio</td><td>A separate roll for hits that are not already jump crits; a success deals ×1.5. How it combines with Brutality's roll is not confirmed in code.</td></tr>
-<tr><td><b>Crit damage</b></td><td>Iron's Lib</td><td>Added on top of whatever crit multiplier the hit already has (+25% turns ×1.4 into ×1.65).</td></tr>
-<tr><td><b>Spell crit chance / damage</b></td><td>GTBCS</td><td>Only for Iron's Spells damage. Its own roll and multiplier, apart from melee crits.</td></tr>
-<tr><td><b>Bow crit chance</b></td><td>Too Many Bows</td><td>Crits with that mod's bows. Not traced further.</td></tr>
+<tr><td><b>Sword / Axe / Hammer / Scythe / Spear Damage</b> and <b>Slash / Pierce / Blunt Damage</b></td><td>Brutality</td><td>Added to your melee swing by the weapon you hold. Swords and axes take Slash, Brutality hammers Blunt, scythes Slash, spears and tridents Pierce, pickaxes and hoes Pierce, shovels Blunt. Flat values first, then percents. It goes by the item's class, not by the wiki's Damage chips.</td></tr>
+<tr><td>Damage affinity</td><td>Linggango</td><td>A mob weak to your damage type (the Damage chips on curio pages) takes ×1.25, or ×1.5 when the type is boosted (rain for lightning, unarmored targets for slash, airborne targets for pierce…). A resistance is ×0.75 or ×0.5. Each type also fills a status meter on the target.</td></tr>
+<tr><td><b>Arrow Damage</b></td><td>Apothic, Iron's Lib</td><td>Multiplies arrow damage (Apothic when the arrow is shot, Iron's when it hits). TerraCurio's ranged damage items give the Apothic one.</td></tr>
+<tr><td><b>Fire / Cold Damage</b></td><td>Apothic</td><td>An extra hit of that much on swings charged 55% or more; Fire also sets the target alight, Cold slows it.</td></tr>
+<tr><td><b>Magic Damage</b></td><td>TerraCurio</td><td>Multiplies damage of the magic and indirect magic types.</td></tr>
+<tr><td>Food buffs</td><td>Linggango</td><td>Well Fed, Plenty Satisfied, Exquisitely Stuffed: +5 / 10 / 15% attack, spell, summon and arrow damage and movement speed.</td></tr>
 </table></div>
-<h3>Dodge</h3>
+
+<h3 id="m-st-magic">Magic (Iron's Spells)</h3>
+<div class="tw"><table><tr><th>Stat on the wiki</th><th>What it does</th></tr>
+<tr><td><b>Spell Power</b> and <b>School Power</b> (Fire, Ice, Ender…)</td><td>Spell damage = the spell's base × Spell Power × that school's power. They multiply each other.</td></tr>
+<tr><td><b>Cooldown Reduction</b></td><td>Cooldown × (2 − value), softened past +50%: +25% → ×0.75, +50% → ×0.5, +100% → ×0.25, +200% → ×0.125. Imbued weapons also have half the cooldown (pack config).</td></tr>
+<tr><td><b>Cast Time Reduction</b></td><td>The same formula on cast time.</td></tr>
+<tr><td><b>Max Mana</b>, <b>Mana Regen</b></td><td>Every half second you get back 1% of max mana × Mana Regen: 100 mana refills in 50 s at base.</td></tr>
+<tr><td><b>Casting Movement Speed</b></td><td>How fast you can move while casting.</td></tr>
+</table></div>
+
+<h3 id="m-st-summon">Summons</h3>
 <div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does</th></tr>
-<tr><td><b>Dodge Chance</b></td><td>Brutality</td><td>Chance to avoid a hit completely. Capped at 95%.</td></tr>
-<tr><td><b>Dodge chance</b></td><td>Iron's Lib</td><td>Chance to cancel an incoming hit; a dodge plays the shield sound and gives a second of invulnerability.</td></tr>
-<tr><td>Dodge window / dodge damage</td><td>Linggango Tweaks</td><td>Registered as stats, but no code found that uses them.</td></tr>
+<tr><td><b>Minion Damage</b></td><td>Summonity</td><td>Multiplies your minions' damage. Halved while you hold neither a summoning item nor a whip.</td></tr>
+<tr><td><b>Summon Damage</b></td><td>Iron's Spells</td><td>Multiplies the damage of Iron's summons, and of Summonity minions too.</td></tr>
+<tr><td>Linggango's summon bridge</td><td>Linggango</td><td>Iron's and Goety summons you own also get your Minion Damage (no half-damage penalty), capped at ×2.</td></tr>
+<tr><td><b>Minion Slots</b></td><td>Summonity</td><td>How many minions you can have (base 2). Each slot above 2 also adds one to every Goety summon limit.</td></tr>
+<tr><td><b>Minion Range</b>, <b>Minion Attack Speed</b>, <b>Minion Movement Speed</b></td><td>Summonity</td><td>How far minions roam from you (base 20 blocks), how fast they attack and move.</td></tr>
+<tr><td><b>Whip Damage / Range / Attack Speed</b></td><td>Summonity</td><td>Your whip's own hit, reach and speed.</td></tr>
 </table></div>
-<h3>Healing from damage</h3>
-<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does</th></tr>
-<tr><td><b>Lifesteal</b></td><td>Brutality</td><td>Heals a share of the <b>melee</b> damage you deal.</td></tr>
-<tr><td><b>Omnivamp</b></td><td>Brutality</td><td>Heals a share of <b>all</b> damage you deal (spells, projectiles, summons included).</td></tr>
-<tr><td><b>Life steal</b></td><td>Puffish Skills</td><td>Heals relative to damage dealt. Exact scaling not confirmed in code.</td></tr>
-<tr><td><b>Soul stealing</b></td><td>Goety Revelation</td><td>Formula not traced.</td></tr>
-</table></div>
-<h3>Damage types</h3>
-<p>Brutality adds <b>Slash</b>, <b>Pierce</b> and <b>Blunt</b> damage stats. Linggango sorts weapons into these types with its own item tags (the Damage chips on curio pages). No code was found that applies the bonus, so treat these stats as not confirmed in code.</p>
-<h3>Summons</h3>
-<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does</th></tr>
-<tr><td><b>Minion Damage</b></td><td>Summonity</td><td>Multiplies your minions' damage. Lower when you are not holding a summoning item or whip.</td></tr>
-<tr><td><b>Summon Damage</b></td><td>Iron's Spells</td><td>Multiplies the damage of summoned creatures; it also scales Summonity minion damage.</td></tr>
-<tr><td>Linggango's summon bridge</td><td>Linggango Tweaks</td><td>Iron's and Goety summons you own also get your Minion Damage, capped at ×2.</td></tr>
-<tr><td><b>Servant capacity</b></td><td>Goety Awaken</td><td>More servants at once (added, not multiplied).</td></tr>
-<tr><td>Summon potency, Summon damage (Opposing Force)</td><td>Goety Awaken, Opposing Force</td><td>Not traced.</td></tr>
-</table></div>
-<p class="note">Read from the mod jars in the V6.6.6hf instance. Stat names on curio pages have a dotted underline: hover one for the short version, or click it to come back here.</p>
+<p class="note">Your summons' hits skip the ×3 soft cap, and your crit and lifesteal stats do not apply to them. When a mob hurts you, idle Summonity minions turn on it.</p>
+<p class="note">Read from the V6.6.6hf jars (Brutality 0.8.5, Apothic Attributes 1.3.7, Lethality Guard 1.0.0, Iron's Lib 1.1.0, Iron's Spells 3.15.6, TerraCurio 0.1.13, Summonity 0.1.7, L2 Damage Tracker 0.3.8, Linggango Tweaks 7.47, Linggango Fixes 2.16) and the pack's config. Not yet measured in game. Where two mods act at the same step with no fixed order, the text says so. Stat names on curio pages have a dotted underline: hover one for the short version, or click it to come back here.</p>
 </section>${wikiNav()}`;
  const q=el("rq"),t=el("rt"),kk=el("rk"),rs=[...el("main").querySelectorAll(".rtab tr[data-ty]")];
  const f=()=>{const v=q.value.trim().toLowerCase();let n=0;rs.forEach(r=>{const ok=(!t.value||r.dataset.ty===t.value)&&(!kk.value||r.dataset.k===kk.value)&&(!v||r.dataset.q.includes(v));r.hidden=!ok;n+=ok});el("rn").textContent=`${n} of ${rs.length}`};
@@ -567,7 +664,7 @@ const AIR=[[/armor toughness|\btoughness\b/i,"fx_resistance"],[/🦺|\barmou?r\b
  [/\bdarkness\b|\bblind\w*/i,"fx_darkness"],[/\bglow\w*/i,"fx_glowing"],[/🏹|\barrows?\b|\branged\b|\bprojectiles?\b/i,"i_bow"],[/☠|\blethality\b|\bexecute\w*/i,"fx_instant_damage"]];
 const EMO=/^[☀-➿\uD83C-\uDBFF]/;
 function fmt(t){let h=esc(t).replace(/️/g,"");for(const [re,k] of AIR){let done=false;h=h.split(/(<[^>]+>)/).map(seg=>done||seg[0]==="<"?seg:seg.replace(re,m=>{done=true;return `<i class="ai" style="--ai:var(--v-${k})" aria-hidden="true"></i>${EMO.test(m)?"":m}`})).join("")}return h}
-const VBI={warden:{n:"Warden",hp:700,url:"https://minecraft.wiki/w/Warden",line:"Melee 16 / 30 / 45 (Easy / Normal / Hard); the ranged Sonic Boom ignores armor and shields.",sum:"Calls up from a Sculk Shrieker in the Deep Dark after repeated warnings. Drops a Sculk Catalyst.",pack:"Linggango's Hardmode ×2.1 does not apply to the Warden."},
+const VBI={warden:{n:"Warden",hp:700,url:"https://minecraft.wiki/w/Warden",line:"Melee 18.5 / 35 / 52.5 (Easy / Normal / Hard: vanilla 30 plus the pack's +5); the ranged Sonic Boom ignores armor and shields.",sum:"Calls up from a Sculk Shrieker in the Deep Dark after repeated warnings. Drops a Sculk Catalyst.",pack:"Linggango's Hardmode ×2.1 does not apply to the Warden."},
  wither:{n:"Wither",hp:500,url:"https://minecraft.wiki/w/Wither",line:"Linggango stats: 32 damage, 20 armor. Below half health its armor makes it immune to arrows.",sum:"Build a T of 4 Soul Sand or Soul Soil and put 3 Wither Skeleton Skulls on top. Always drops a Nether Star.",pack:"Its Nether Star feeds Curse of Envy, which opens every L2 trait-item recipe."},
  dragon:{n:"Ender Dragon",hp:200,url:"https://minecraft.wiki/w/Ender_Dragon",line:"Heals from End Crystals on the obsidian pillars; first kill gives 12,000 XP and the Dragon Egg.",sum:"Its death opens the End Gateways to the outer islands: End Cities, Shulkers, Elytra.",pack:"Required before the Elvenite Paladin. Killing it switches on Hardmode: ×2.1 mob health and damage."}};
 const CUBE='<span class="cube"><i class="f"></i><i class="t"></i><i class="l"></i><i class="r"></i><i class="b"></i></span>';
@@ -739,18 +836,31 @@ const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.index
 function changesPage(){
  document.title="Changes · Linggango Wiki";
  el("main").innerHTML=`${crumb("Changes")}<h1>Changes</h1><p class="lede">What's new on the wiki, newest first.</p>
+<section class="s" id="c-2026-10-29"><h2>October 29, 2026</h2>
+<h3>Changed</h3><ul>
+<li><b><a href="#mechanics/stats">Stats explained</a></b> rewritten from the mods' code and the pack's config. It now follows one hit step by step and covers armor, crits, dodge, taking damage, healing, roll and parry, damage types, magic and summons. What changed from the first version:<ul>
+<li><b>Melee crits:</b> Brutality's Critical Strike Chance is the roll every melee crit needs. Jumping is not required, and with 0% chance jump crits are gone. TerraCurio's "critical chance" is the Apothic crit (base 5%, every hit), not a separate roll.</li>
+<li><b>Dodge caps</b> in this pack are 50% (Brutality) and 40% (Apothic), not 95% and 100%.</li>
+<li><b>Lethality</b> past zero armor turns into +10% damage per point.</li>
+<li><b>Slash, Pierce and Blunt Damage</b> do work: Brutality adds them by the weapon you hold.</li>
+<li><b>Does nothing on your hits:</b> Iron's Lib armor pierce and Goety Revelation's armor penetration.</li>
+<li><b>Armor Toughness</b> does not reduce damage here; it only weakens armor shred and pierce used against you.</li>
+<li>The pack's own rules are in: 13% damage floor, a hit never over half your max health, ×3 soft cap on bonus damage, 10% max health a tick from lifesteal, Resistance levels (V is 38%, not immunity).</li></ul></li>
+<li><b>Stat tooltips</b> on curio pages match the new text, and a few more stats have one (Damage Taken, Armor Shred, roll stats, Cooldown Reduction).</li></ul>
+<h3>Fixed</h3><ul>
+<li>Warden melee damage now shows the pack's +5: 18.5 / 35 / 52.5.</li></ul>
+</section>
 <section class="s" id="c-2026-10-28"><h2>October 28, 2026</h2>
 <h3>New</h3><ul>
-<li><b><a href="#mechanics/stats">Stats explained</a></b> (Mechanics › Stats): a plain guide to stats that look alike but work differently.<ul>
-<li><b>Armor Penetration vs Lethality:</b> penetration removes a <i>percentage</i> of the enemy's armor (better against heavily armored enemies); lethality removes a <i>fixed amount</i> (better against lightly armored ones).</li>
-<li><b>Crit chances:</b> there are several, from different mods, and they don't add together. Brutality's crit starts at 0% and a failed roll also cancels a normal jump crit; TerraCurio has its own separate roll; spell crit only applies to spells.</li>
-<li>Also covers dodge, lifesteal (melee only) vs omnivamp (all damage), damage types and summon stats.</li></ul></li>
+<li><b>Equipment › Curios:</b> 1,318 curios measured in game; 357 are tiered on the same scale as weapons and sets.</li>
+<li><b>Gear measured in game:</b> 1,038 weapons and 328 armor sets (hits, on-hit effects, worn effects, set bonuses, damage taken).</li>
+<li><b>Ranking:</b> tiers are set against the fifth best item, and survival scores use the pack's damage floor and hit cap.</li>
+<li><b>Stats explained</b> (Mechanics › Stats), first version. Rewritten on October 29.</li>
 <li><b>Stat tooltips on curio pages:</b> stat names have a dotted underline. Hover one for a short explanation, or click it to open the full guide.</li>
 <li><b>Changes:</b> this page.</li></ul>
 <h3>Fixed</h3><ul>
 <li>Warden health is now 700 and Wither health is now 500.</li>
-<li>Act II boss armor corrected: Goblin Lord 12, Eldorath 18, Arion 15–20.</li></ul>
-<p class="note">A few formulas couldn't be confirmed in the mods' code; the guide marks those "not confirmed in code" instead of guessing.</p>
+<li>Keeper armor in the Path rows: Goblin Lord 12 (Act II), Arion 20 on foot and 15 on its Ravager (Act III), Eldorath 18 (Act IV).</li></ul>
 </section>${wikiNav()}`;
 }
 
@@ -1006,9 +1116,10 @@ const ELX=[["Fire",/\b(ignite|on fire|fire damage|burn|flame)/i],["Ice",/\b(free
 const kindOf=d=>{const txt=d.fx+" "+d.st.join(" "),el=(d.mt||[]).filter(k=>k.startsWith("e:")).map(k=>k.slice(2));ELX.forEach(([e,re])=>{if(!el.includes(e)&&re.test(d.fx))el.push(e)});return {el,dt:DMGT.filter(x=>x[1].test(txt))}};
 const kchip=(k,label,cls)=>`<span class="kchip ${cls}"><i style="--kc:var(--rt-${k})"></i>${esc(label)}</span>`;
 /* stat names on curio pages: short hover text, click goes to Mechanics › Stats */
-const STATH=[[/\barmor penetration\b/i,"Percent: removes that share of the target's armor (Brutality). Best vs heavy armor."],[/\blethality\b/i,"Flat: subtracts armor points after penetration (Brutality). Best vs light armor."],[/\barmor pierce\b/i,"Usually flat armor removal (Iron's Lib), like Lethality."],[/\barmor pass\b/i,"Flat: subtracts armor points (TerraCurio)."],[/\benchantment piercing\b/i,"Gives back part of the damage Protection enchantments removed (Goety Revelation attacks only)."],[/\b(armor|toughness) shred\b/i,"Lowers the target's armor or toughness by a share (Puffish Skills)."],
- [/\bcritical strike chance\b/i,"Brutality melee crit roll; a failed roll also cancels the jump crit."],[/\bcritical strike damage\b/i,"Brutality crit multiplier (base ×1.4)."],[/\bcritical chance\b/i,"One of several crit chances; TerraCurio's is its own ×1.5 roll."],[/\bspell crit\b/i,"Iron's Spells damage only; separate from melee crits."],[/\bcrit damage\b/i,"Added on top of the hit's crit multiplier."],[/\bcrit chance\b/i,"There are several crit chances; see Mechanics › Stats."],
- [/\bdodge chance\b/i,"Chance to avoid a hit completely."],[/\bomnivamp\b/i,"Heals a share of all damage you deal."],[/\blife ?steal\b/i,"Heals a share of melee damage you deal."],[/\bminion damage\b/i,"Multiplies minion damage (Summonity); lower without a summoning item or whip in hand."],[/\bsummon damage\b/i,"Multiplies summoned creatures' damage (Iron's Spells)."]];
+const STATH=[[/\barmor penetration\b/i,"Percent: the target counts with that much less armor (Brutality, cap 95%). Best vs heavy armor."],[/\blethality\b/i,"Flat armor removal, applied last; each point past zero armor is +10% damage. Best vs light armor."],[/\barmor pierce\b/i,"Flat armor removal (Apothic), weakened by the target's toughness."],[/\barmor pass\b/i,"Becomes Apothic Armor Pierce in this pack: flat armor removal."],[/\benchantment piercing\b/i,"Gives back part of the damage Protection enchantments removed (Goety Revelation)."],[/\barmor shred\b/i,"Percent armor removal after penetration (Apothic), weakened by the target's toughness."],[/\bdamage taken\b/i,"Multiplies the damage you take: −5% means 5% less."],
+ [/\bcritical strike chance\b/i,"Brutality: the roll every melee crit needs (base 0%). No jump needed; a failed roll cancels jump crits."],[/\bcritical strike damage\b/i,"Brutality melee crit multiplier: base ×1.4, capped at ×3."],[/\bcritical chance\b/i,"Apothic crit: its own roll on every hit you own (base 5%, ×1.5)."],[/\bspell crit\b/i,"Iron's Spells damage only; needs both spell crit chance and spell crit damage."],[/\bcrit damage\b/i,"Adds to a crit's multiplier; which crit depends on the mod (see Mechanics › Stats)."],[/\bcrit chance\b/i,"There are several crit chances; see Mechanics › Stats."],
+ [/\bdodge chance\b/i,"Chance to avoid a hit completely. Capped at 50% (Brutality) or 40% (Apothic) in this pack."],[/\bomnivamp\b/i,"Heals a share of every hit you own: melee, arrows, spells (cap 10% max health a tick)."],[/\blife ?steal\b/i,"Heals a share of the melee damage you deal (cap 10% max health a tick)."],[/\bminion damage\b/i,"Multiplies minion damage (Summonity); halved without a summoning item or whip in hand."],[/\bsummon damage\b/i,"Multiplies summoned creatures' damage (Iron's Spells)."],
+ [/\broll count\b/i,"Roll charges; only whole numbers count."],[/\broll recharge\b/i,"Charges come back faster: cooldown × 20 / Roll Recharge."],[/\bdodge window\b/i,"Extra invulnerable ticks on rolls and dashes, rounded, at most +4."],[/\bcooldown reduction\b/i,"Spell cooldown × (2 − value), softened past +50%."]];
 function statHint(h){for(const [re,tip] of STATH){const m=h.match(re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/stats" title="${esc(tip)}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
 function statLine(t){const h=fmt(t).replace(/(^|[\s(])([+\-−]\s?\d[\d.,]*\s?%?|x\s?\d[\d.]*|×\s?\d[\d.]*|\d[\d.,]*\s?%)/g,(m,a,n)=>`${a}<b class="${/^[\-−]/.test(n)?"neg":"pos"}">${n}</b>`);return statHint(h)}
 function joinTip(xs){const out=[];xs.forEach(x=>{x=String(x).trim();if(!x)return;const p=out[out.length-1];
@@ -1070,8 +1181,8 @@ const cf=k=>`<span class="badge" title="${CF[k][1]}">${CF[k][0]} ${CF[k][1]}</sp
 const ACTS=[
 ["0","— (Sticks and Stones)","—","—","—","Pale Branch (Heart slot): stand still for 3 s for Resistance V and knockback immunity. Phantom Finger (+2 Ring) is craftable from the start.","code"],
 ["I","The Iron Colossus","Blunt / Lightning","Iron (Act II)","—","—","code"],
-["II","The Goblin Lord","Fire / Slash","Gold (Act III)","—","Goblin Army invasions start appearing. Its treasure bag gives the Gilded Plate for the Unpolished Charm. 6.6.6 made the first four Keepers less tanky (the Goblin Lord's armor is 12 instead of 30; Eldorath has 18, Arion 15 to 20).","code"],
-["III","Arion","Frost / Pierce","Emerald (Act IV)","Unpolished","Unpolished Charm = Gilded Plate + Emerald Totem (Arion's summon item), so it can be made before the fight. With it worn, Gravity-trait mobs (level ≥ 50) drop Dragon's Breath → True Enderian Scarf, Enderian Treads. Thrash Gloves. Beating Arion unlocks the Illager Crusade invasion (finale: the Vizier) and natural Goety mob spawns; Night of Chaos moved to after the Ender Dragon in 6.6.6.","code"],
+["II","The Goblin Lord","Fire / Slash","Gold (Act III)","—","Goblin Army invasions start appearing. Its treasure bag gives the Gilded Plate for the Unpolished Charm. 6.6.6 lowered its armor to 12 (from 30).","code"],
+["III","Arion","Frost / Pierce","Emerald (Act IV)","Unpolished","Unpolished Charm = Gilded Plate + Emerald Totem (Arion's summon item), so it can be made before the fight. With it worn, Gravity-trait mobs (level ≥ 50) drop Dragon's Breath → True Enderian Scarf, Enderian Treads. Thrash Gloves. Beating Arion unlocks the Illager Crusade invasion (finale: the Vizier) and natural Goety mob spawns; Night of Chaos moved to after the Ender Dragon in 6.6.6. Arion has 20 armor on foot and 15 on its Ravager.","code"],
 ["IV","Eldorath","Blunt / Nature","Diamond (Act V)","—","Defeating it opens the Nether. Elvenite and Bloody ore in deepslate only need mining power 3. 6.6.6: armor 18 instead of 40.","code"],
 ["V","Zoranth the Forgotten","Frost / Holy (fought in the Nether)","Netherite (Act VI)","Magical","The Magical Charm needs Celestial Netherite from the Nether. Grave Gloves (Grave Dust from the Reaper). Magical trait drops for the Study Lectern: Hard Ice, Explosion Shard, Life Essence.","code"],
 ["VI","The Elvenite Paladin","Blunt / Dark (resists Holy)","Elvenite (Act VII)","Chaotic","The Ender Dragon comes first: its treasure bag gives the 4 Khyros's Goldened Tears for Titan's Insigna, the Paladin's summon item, and its death switches on Hardmode (×2.1 health and damage). The Chaotic Charm needs a Wanderer's Fallen Shard from the End. Demon Heart needs a Nether Star from the Wither; eat it before Heart of the Beloved (+1 Accessory). 6.6.6: the Paladin gets a second phase at half health, and all of Ad Astra opens after it.","code"],

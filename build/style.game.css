@@ -617,7 +617,7 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .bsum{display:flex;align-items:center;gap:var(--s2);margin-top:var(--s2);color:var(--gui-ink)!important}
 .bsum img{width:20px;height:20px}
 /* mechanics */
-.mtabs{display:flex;gap:var(--s2);margin:0 0 var(--s4)}
+.mtabs{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0 0 var(--s4)}
 .mtabs a{padding:var(--s2) var(--s4);background:var(--btn);color:#fff;text-decoration:none;font:600 14px var(--body);box-shadow:0 0 0 2px #000,inset 2px 2px 0 var(--btn-hi),inset -2px -2px 0 var(--btn-lo)}
 .mtabs a:hover{background:var(--btn-hover)}
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s3);margin:var(--s2) 0 var(--s4)}
@@ -1703,6 +1703,7 @@ table.cfg{border-collapse:collapse;margin-top:var(--s1);font-size:14px}table.cfg
 ul.attr li.fxh{padding-left:0;font:700 11.5px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--gui-mute);margin-top:var(--s1)}
 ul.attr li.fxh::before{display:none}
 a.sth{color:inherit;text-decoration:underline dotted;text-underline-offset:3px;cursor:help}a.sth:hover{color:#fff}
+#main section.s h4{font:700 15px var(--body);margin:var(--s4) 0 var(--s2)}
 
 /* rooms: a picture now (no item frames), set in a sunken edge */
 .room3{border:4px solid transparent;border-image:var(--rt-gp_inset) 2 / 4px stretch;box-shadow:none!important;height:296px;box-sizing:border-box}
