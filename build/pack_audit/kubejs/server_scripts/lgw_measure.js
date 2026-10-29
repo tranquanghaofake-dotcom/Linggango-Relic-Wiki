@@ -34,7 +34,8 @@ LGW.SRG = {
   hurtEnemy: ['m_41640_'], getMainHandItem: ['m_21205_'],
   getAdvancements: ['m_129889_', 'm_8960_'], getAdvancement: ['m_136041_'], award: ['m_135988_'], getOrStartProgress: ['m_135996_'],
   getCriteria: ['m_138325_'], isDone: ['m_8193_'], grantProgress: ['m_8196_'], getAbilities: ['m_150110_'],
-  setYBodyRot: ['m_5618_'], setYHeadRot: ['m_5616_']
+  setYBodyRot: ['m_5618_'], setYHeadRot: ['m_5616_'],
+  releaseUsing: ['m_5551_'], getUseDuration: ['m_8105_'], use: ['m_7203_'], getItem: ['m_41720_'], add: ['m_36054_'], isCharged: ['m_40932_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
   BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_' }
@@ -72,6 +73,7 @@ LGW.run = (server, who, name) => {
   var c1 = (o, n, a) => o[K(o, n)](a)
   var c2 = (o, n, a, b) => o[K(o, n)](a, b)
   var c3 = (o, n, a, b, d) => o[K(o, n)](a, b, d)
+  var c4 = (o, n, a, b, d, e) => o[K(o, n)](a, b, d, e)
   var c5 = (o, n, a, b, d, e, f) => o[K(o, n)](a, b, d, e, f)
   var ForgeRegistries = Java.loadClass('net.minecraftforge.registries.ForgeRegistries')
   var FakePlayerFactory = Java.loadClass('net.minecraftforge.common.util.FakePlayerFactory')
@@ -97,7 +99,7 @@ LGW.run = (server, who, name) => {
   var HITS = plan.hits || 3
   var level = who ? who.level : server.overworld()
   var say = m => { console.info('lgw_measure: ' + m); try { if (who) who.tell(m) } catch (e) {} }
-  var out = { started: '' + new Date(), check: {}, attrs: {}, melee: {}, armor: {}, grows: {}, curios: {}, errors: {} }
+  var out = { started: '' + new Date(), check: {}, attrs: {}, melee: {}, armor: {}, grows: {}, curios: {}, ranged: {}, blocks: {}, errors: {} }
   var told = 0
   var err = (stage, e, id) => {
     var w = typeof e == 'string' ? e : LGW.why(e), k = stage + ': ' + w.split(' @ ')[0].substring(0, 300)
@@ -197,13 +199,15 @@ LGW.run = (server, who, name) => {
     if (!pigType) pigType = ForgeRegistries.ENTITY_TYPES.getValue(rl('minecraft:pig'))
     return c1(pigType, 'create', level)
   }
-  // the test target: a pig with no AI and no armor, 1.2 blocks in front of the tester (who looks along +x). o.max / o.cur set
-  // its max and current health (default 100,000 both); o.yaw turns it: 90 faces the tester, -90 turns its back, 0 side-on
+  // the test target: a pig with no AI and no armor, o.dx blocks in front of the tester (who looks along +x; default 1.2), raised
+  // o.dy (a shot leaves the eyes, so a pig for shots floats at eye height). o.max / o.cur set its max and current health (default
+  // 100,000 both); o.yaw turns it: 90 faces the tester, -90 turns its back, 0 side-on. moveTo on a pig resolves to another
+  // overload (second extra run: 48 "turn pig" errors), so the rotations are set one by one
   var dummy = o => {
     o = o || {}
     var d = newPig(), mx = o.max || 100000, cu = o.cur || mx
-    c3(d, 'setPos', X + 1.2, Y, Z); c1(d, 'setNoAi', true); c1(d, 'setSilent', true); c1(d, 'setNoGravity', true); c1(d, 'setInvulnerable', false)
-    if (typeof o.yaw === 'number') safe('turn pig', () => { c5(d, 'moveTo', X + 1.2, Y, Z, o.yaw, 0); c1(d, 'setYBodyRot', o.yaw); c1(d, 'setYHeadRot', o.yaw) })
+    c3(d, 'setPos', X + (o.dx || 1.2), Y + (o.dy || 0), Z); c1(d, 'setNoAi', true); c1(d, 'setSilent', true); c1(d, 'setNoGravity', true); c1(d, 'setInvulnerable', false)
+    if (typeof o.yaw === 'number') safe('turn pig', () => { c1(d, 'setYRot', o.yaw); c1(d, 'setYBodyRot', o.yaw); c1(d, 'setYHeadRot', o.yaw) })
     spawned.push(d)
     c1(c1(d, 'getAttribute', A_HP), 'setBaseValue', mx); c1(c1(d, 'getAttribute', A_ARMOR), 'setBaseValue', 0); c1(d, 'setHealth', cu)
     c1(level, 'addFreshEntity', d); return d
@@ -322,6 +326,44 @@ LGW.run = (server, who, name) => {
     r.hurt = hurt(8)
     return r
   }
+  // 4. shots: a bow, crossbow or thrown weapon drawn 40 ticks (bows reach full draw at 20) and let go, or for a crossbow loaded and
+  // then fired, at a 10,000-health pig 5 blocks ahead at eye height; the arrow flies on the server's own ticks, so the job waits
+  // 20 ticks before reading the pig. Three shots, a fresh pig each; arrows are given (64) and cleared after
+  var MAIN = Java.loadClass('net.minecraft.world.InteractionHand').MAIN_HAND
+  var clearShots = () => { try { server.runCommandSilent('kill @e[type=#minecraft:arrows]') } catch (e) {} }
+  var ranged = id => {
+    reset(); safe('arrows', () => c1(c0(P, 'getInventory'), 'add', Item.of('minecraft:arrow', 64))); wear(EquipmentSlot.MAINHAND, Item.of(id)); ticks(5)
+    var r = { ad: c1(P, 'getAttributeValue', A_AD), shots: [] }, k = 0
+    var shot = () => {
+      var d = dummy({ max: 10000, dx: 5, dy: 0.9 }), h0 = hp(d), st = c0(P, 'getMainHandItem'), how = ''
+      safe('shoot', () => {
+        var it = c0(st, 'getItem'), dur = c1(it, 'getUseDuration', st)
+        // used at once (snowball-like throws, most of Brutality's): use() is the throw
+        if (!(dur > 0)) { c3(it, 'use', level, P, MAIN); how = 'use'; return }
+        c4(it, 'releaseUsing', st, level, P, Math.max(0, dur - 40)); how = 'release'
+        var cb = false; try { cb = !!c1(it, 'isCharged', st) } catch (e) {}
+        if (cb) { c3(it, 'use', level, P, MAIN); how = 'crossbow' }
+      }, id)
+      return { wait: 20, then: () => {
+        r.shots.push({ dmg: Math.round((h0 - hp(d)) * 100) / 100, how: how, tfx: fx(d), fire: c0(d, 'getRemainingFireTicks') })
+        drop(d); clearShots()
+        if (++k < 3) { ticks(5); return shot() }
+        out.ranged[id] = r; return null } }
+    }
+    return shot()
+  }
+  // 5. a curio that cancelled its one test hit (first extra run): ten 8-damage hits 20 ticks apart (the tester ticked through
+  // them too, so cooldowns run either way), to see how often it blocks
+  var blocks = id => {
+    reset(); equipCurio(id); ticks(40)
+    var res = [], k = 0
+    var one = () => {
+      var h = hurt(8); res.push(h.melee ? h.melee[1] : null)
+      if (++k < 10) { ticks(20); return { wait: 20, then: one } }
+      out.blocks[id] = res; return null
+    }
+    return one()
+  }
   var armor = pieces => {
     reset(); pieces.forEach(pc2 => wear(SLOT[pc2[1]], Item.of(pc2[0]))); ticks(40)
     return { attrs: extraAttrs(), fx: fx(P), hp: hp(P), abs: c0(P, 'getAbsorptionAmount'), ticked: tickOk, hurt: hurt() }
@@ -396,19 +438,30 @@ LGW.run = (server, who, name) => {
   ;(plan.grows || []).forEach(id => jobs.push(() => { safe('grows', () => { out.grows[id] = grows(id) }, id) }))
   if ((plan.curios || []).length) jobs.push(() => { cur = '(none)'; safe('curio', () => { out.curios['(none)'] = curio(null) }, '(none)') })
   ;(plan.curios || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return } cur = id; safe('curio', () => { out.curios[id] = curio(id) }, id) }))
+  // jobs that return { wait, then } go on after that many server ticks (shots in flight)
+  ;(plan.ranged || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } var w = null; safe('ranged', () => { w = ranged(id) }, id); return w }))
+  ;(plan.blocks || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } cur = id; var w = null; safe('blocks', () => { w = blocks(id) }, id); return w }))
   var i = 0, next = 0
   say('starting: ' + jobs.length + ' measurements; the game slows down until it is done')
   grant()
   check()
+  var pend = w => server.scheduleInTicks(w.wait, () => {
+    var n = null; try { n = w.then() } catch (e) { err('job', e) }
+    if (n && n.wait) pend(n); else server.scheduleInTicks(1, step)
+  })
   var step = () => {
     var t0 = Date.now()
-    while (i < jobs.length && Date.now() - t0 < 200) { safe('job', jobs[i]); i++ }
+    while (i < jobs.length && Date.now() - t0 < 200) {
+      var w = null; try { w = jobs[i]() } catch (e) { err('job', e) } i++
+      if (w && w.wait) { pend(w); return }
+    }
     if (i < jobs.length) { var pc = Math.floor(i * 100 / jobs.length); if (pc >= next) { say(pc + '% (' + i + '/' + jobs.length + ')'); next += 10 } server.scheduleInTicks(1, step); return }
     out.finished = '' + new Date()
     JsonIO.write('kubejs/' + base + '_measure.json', out)
     while (spawned.length) drop(spawned[spawned.length - 1])
     say('done: kubejs/' + base + '_measure.json (' + Object.keys(out.melee).length + ' weapons, ' + Object.keys(out.armor).length + ' sets, '
-      + Object.keys(out.grows).length + ' re-measured, ' + Object.keys(out.curios).length + ' curios, ' + Object.keys(out.errors).length + ' kinds of error)')
+      + Object.keys(out.grows).length + ' re-measured, ' + Object.keys(out.curios).length + ' curios, ' + Object.keys(out.ranged).length + ' shooters, '
+      + Object.keys(out.blocks).length + ' blockers, ' + Object.keys(out.errors).length + ' kinds of error)')
     if (plan.stop) server.runCommandSilent('stop')
   }
   step()
@@ -425,6 +478,14 @@ ServerEvents.customCommand('lgw_measure_extra', event => {
 })
 ServerEvents.customCommand('lgw_measure_extra_test', event => {
   try { LGW.run(event.server, event.player, 'lgw_extra_test') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
+})
+// lgw_measure_third reads kubejs/lgw_third_items.json (bows, crossbows and thrown weapons; the target-dependent weapons again
+// with the pig turned; the curios that blocked a hit) and writes kubejs/lgw_third_measure.json; lgw_measure_third_test a handful
+ServerEvents.customCommand('lgw_measure_third', event => {
+  try { LGW.run(event.server, event.player, 'lgw_third') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
+})
+ServerEvents.customCommand('lgw_measure_third_test', event => {
+  try { LGW.run(event.server, event.player, 'lgw_third_test') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
 })
 ServerEvents.customCommand('lgw_measure', event => {
   try { LGW.run(event.server, event.player, 'lgw') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
