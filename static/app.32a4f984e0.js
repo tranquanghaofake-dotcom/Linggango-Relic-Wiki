@@ -462,8 +462,8 @@ function evoSec(d){const c=evoChain(d.id);if(c.length<2)return "";
 var SOFT=false,IDXSIG="",FQT=0,FQS=null,FHINT=false,FKEY="mod",QP={raw:null};
 var QK={mod:"m",slot:"s",stat:"st",stats:"st",effect:"fx",fx:"fx",source:"src",src:"src",drop:"src",path:"p",act:"p",acts:"p",rarity:"r",role:"ro",type:"g",tag:"x",name:"n"};
 var QOR={m:1,s:1,p:1,r:1,ro:1,g:1,x:1};
-var QFIELDS=[["mod","Mod"],["slot","Slot"],["stat","Stat"],["effect","Effect"],["source","Source"],["path","Act"],["rarity","Rarity"],["role","Role"],["type","Craft or loot"],["tag","Element or mechanic"],["name","Name"]];
-var QNAME={m:"Mod",s:"Slot",st:"Stat",fx:"Effect",src:"Source",p:"Act",r:"Rarity",ro:"Role",g:"Type",x:"Tag",n:"Name"};
+var QFIELDS=[["mod","Mod"],["slot","Slot"],["stat","Stat"],["effect","Effect"],["source","Source"],["path","Act"],["rarity","Power"],["role","Role"],["type","Craft or loot"],["tag","Element or mechanic"],["name","Name"]];
+var QNAME={m:"Mod",s:"Slot",st:"Stat",fx:"Effect",src:"Source",p:"Act",r:"Power",ro:"Role",g:"Type",x:"Tag",n:"Name"};
 function qNorm(s){return String(s||"").toLowerCase().replace(/[–—]/g,"-")}
 function parseQ(q){const o={raw:q,t:[],k:{}};
  (q.match(/-?[a-z]+:"[^"]*"?|-?"[^"]*"?|\S+/gi)||[]).forEach(w=>{const raw=w;let neg=false;if(w[0]==="-"&&w.length>1){neg=true;w=w.slice(1)}
@@ -619,6 +619,9 @@ function seedBg(key,pool){return;bgKey=key;pool=pool.filter(d=>IC[d.id]);if(!poo
  bgfx.innerHTML=h}
 
 /* ---------- data prep ---------- */
+/* power tiers measured in game (patches/curio_tiers.json, from gear.js's curio scores): a curio Equipment -> Curios tiers takes
+   that tier at its own Act (S Mythic .. D Uncommon); the others keep the tier read from their text (d.pe: an estimate) */
+if(typeof CTIER!=="undefined")D.forEach(d=>{const t=CTIER[d.id];if(t&&d.r!==6){d.r=t[0];d.pr0=t[1]}else if(d.r!==6)d.pe=1});
 D.sort((a,b)=>b.r-a.r||b.sc-a.sc||a.n.localeCompare(b.n));
 const BYID={};D.forEach((d,i)=>{d.ix=i;d.c=d.ro[0];BYID[d.id]=d});
 /* d.rq: the curio's own text says it needs the Ring of the Seven Curses or Virtues */
@@ -901,13 +904,13 @@ function home(xs,asTable){pathXs=xs;
  <p class="lede">Every curio, grouped by the Act you can get it in. Open an Act below to see its curios; hover one for its tooltip.</p>`,cols:8,label:"Must-Have curios"})}
 
  ${fbar(xs.length,D.length)}
-<div class="legend lgl"><span title="Frame colour: rarity, brighter = rarer"><i class="lgr"></i>Rarity</span><span title="Curio slot it goes in">${sbadge("Ring"," lg")}Slot</span><span title="Variants merged into one tile"><b class="lgn">16</b>Variants</span><span title="Must-Have: get it first"><b class="lgs">★</b>Must-Have</span><span title="Needs the Seven Curses or Virtues ring">${rqb({rq:"Curses"}," lg")}Curses ring</span></div>${xs.length?"":`<p class="note">No curios match these filters. Remove one above or clear them all.</p>`}`;
+<div class="legend lgl"><span title="Frame colour: power tier, brighter = stronger at its Act (measured in game where the game test can see it)"><i class="lgr"></i>Power</span><span title="Curio slot it goes in">${sbadge("Ring"," lg")}Slot</span><span title="Variants merged into one tile"><b class="lgn">16</b>Variants</span><span title="Must-Have: get it first"><b class="lgs">★</b>Must-Have</span><span title="Needs the Seven Curses or Virtues ring">${rqb({rq:"Curses"}," lg")}Curses ring</span></div>${xs.length?"":`<p class="note">No curios match these filters. Remove one above or clear them all.</p>`}`;
  seedBg("path"+st.a,xs.filter(d=>d.r>=4));
  if(!asTable){
   for(const a of ORDER){if(st.a!==""&&a>+st.a)continue;const ys=xs.filter(d=>d.t===a);if((a===-1||fOn())&&!ys.length)continue;const cl=!tierOpen(a);
    h+=`<section class="tier${cl?" closed":""}${VBOSS[a]?" vb":""}" style="--tc:${ACT[a][2]};${tex(a)}" id="p${String(a).replace(".","_")}"><button class="tl" data-tier="${a}" aria-expanded="${!cl}"><span class="tlem">${emblem(a)}</span><span class="ta">${actL(a)}</span><small>${esc(ACT[a][1])}</small>${a==-1?"":`<span class="tn">next: ${esc(ACTN[a]||"")}</span>`}<span class="rs">${RNS.map(i=>{const n=ys.filter(d=>d.r===i).length;return n?`<i class="r${i}" style="flex:${n}" title="${RN[i]}: ${n}"></i>`:""}).join("")}</span><small>${count(ys)} items</small></button><div class="tiles">${cl?"":tierTiles(ys)}</div></section>`}
  }else{
-  const COLS=[["n","Curio"],["r","Rarity"],["c","Role"],["t","Tier"],["a","Usable from"],["g","Source"],["m","Mod"],["fx","Effect"]];
+  const COLS=[["n","Curio"],["r","Power"],["c","Role"],["t","Tier"],["a","Usable from"],["g","Source"],["m","Mod"],["fx","Effect"]];
   const CO=Object.keys(ROLE);
   const ys=[...xs].sort((p,q)=>{const k=st.sort;const r=k==="a"?p.a-q.a:k==="t"?p.t-q.t:k==="r"?(p.r-q.r||p.sc-q.sc):k==="c"?CO.indexOf(p.c)-CO.indexOf(q.c):String(p[k]).localeCompare(String(q[k]));return r*st.dir});
   h+=`<div class="tw"><table><thead><tr><th></th>${COLS.map(([k,t])=>`<th><button class="ghost" data-s="${k}">${t}${st.sort===k?(st.dir>0?" ▲":" ▼"):""}</button></th>`).join("")}</tr></thead><tbody>${ys.map(d=>`<tr><td data-t="${d.ix}">${img(d.id)}</td><td><a href="#i${d.ix}" data-t="${d.ix}">${esc(d.n)}</a></td><td class="r${d.r}"><i class="rdot"></i>${RN[d.r]}</td><td>${d.ro.map(k=>ROLE[k]).join(", ")}</td><td class="num">${ACT[d.t][0]}</td><td class="num">${ACT[d.a][0]}</td><td>${d.g}</td><td>${esc(d.m)}</td><td>${esc(d.fx)}</td></tr>`).join("")}</tbody></table></div>`}
@@ -1055,7 +1058,7 @@ function page(d){
   meta:`<span class="ip-fam">${esc(d.m)}</span><span>${rLabel(d)}</span><span>${esc(slot)}</span><span>${loot?"Loot":"Craft"}</span>${d.nw?"<span>new in 6.6.6</span>":""}`,
   secs,after:sib,art,
   box:{head:`<span class="ip-slot">${ic}</span><div><b>${esc(d.n)}</b><span>${esc(d.m)}</span></div>`,
-   rows:[["Slot",esc(slot)],["Rarity",rLabel(d),"This wiki's rating: how strong it is and how early you get it"],["Act",actL(d.t)],d.a!==d.t&&["With luck",actL(d.a)],d.rq&&["Requires",rqName(d)],["Role",isMust(d)?"Every build":d.ro.map(k=>ROLE[k]).join(", ")],['<span class="ign-dt">Name colour</span>',igName(d),"Colour of the item's name in game; not the wiki rarity"],SK.i[d.id]&&["Duplicates",skTag(d.id)]],
+   rows:[["Slot",esc(slot)],["Power",rLabel(d)+(d.pe?' <span class="kest">estimate</span>':""),d.pe?"Read from its text: the game test cannot see what it does (a condition, an active ability, loot or utility)":"Measured in game: how much it adds to a typical build of its Act, next to the other curios of that Act"],["Act",actL(d.t)],d.a!==d.t&&["With luck",actL(d.a)],d.rq&&["Requires",rqName(d)],["Role",isMust(d)?"Every build":d.ro.map(k=>ROLE[k]).join(", ")],['<span class="ign-dt">Name colour</span>',igName(d),"Colour of the item's name in game; not the wiki rarity"],SK.i[d.id]&&["Duplicates",skTag(d.id)]],
    foot:idBox(d.id)},
   nav:wikiNav({act:d.t},[[`${esc(d.m)} · ${esc(actL(d.t))}`,same.map(x=>["#i"+x.ix,esc(x.n)])]])});
  wireArticle();
