@@ -16,7 +16,16 @@ function ui(k,big){return `<i class="ui${big?" ui2":""}" style="--ui:var(--${UIK
 var SLOT_BASE={Head:1,Necklace:2,Back:1,Body:1,Belt:1,Hands:2,Ring:2,Bracelet:2,Glove:2,Anklet:2,Feet:2,Charm:6,Accessory:6,Heart:1,Spellbook:1,Scroll:1,Spellstone:1,Talent:2,Focus:1,"Hostility Curse":1,Curio:1,Elytra:1,"Binding Key":1,Magnetizer:1,Bundle:1};
 var SLOT_KEYS=Object.keys(SLOT_BASE); // share-link slot code = base-36 position here: append only
 var STAT_ALIAS={"Knockback Res":"Knockback Resistance","Knockback resistance":"Knockback Resistance","Increased reach":"Reach","Increased block reach":"Block Reach","Step Height Addition":"Step Height"};
-var BS={p:12,s:{}},BPICK=null,BINSP=null,BSTALE=false;
+var BS={p:12,s:{},c:[]},BPICK=null,BINSP=null,BSTALE=false;
+// home boons: consumables from linggango_tweaks, kept out of the stat totals; icons are the mod's own PNGs
+const HOME_BOONS=[
+ {id:"linggango_tweaks:hearty_feast",n:"Hearty Feast",st:"+2 max health"},
+ {id:"linggango_tweaks:anglers_pearl",n:"Angler's Pearl",st:"+3% move speed, +10% swim speed"},
+ {id:"linggango_tweaks:amber_core",n:"Amber Core",st:"+6% mining speed, +0.2 block reach"},
+ {id:"linggango_tweaks:hunters_essence",n:"Hunter's Essence",st:"+1% damage for every class"},
+ {id:"linggango_tweaks:arcane_crystal",n:"Arcane Crystal",st:"+10 max mana, +1% spell power"}];
+Object.assign(IC,{"linggango_tweaks:hearty_feast":"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABVUlEQVR4nGNgoBf46u/x/+/0qf9h7A1KimA2EymG/NixGax59+WbDCd//QSLMZJiAMxWkOb2J89I0gsHlTJSYENggJEBDRQ4qqIoQAYT9t/GUM+CrtnfUYlBw0YWzF8+4xRDZIYZXP71559gw5eeeQQ3iAmbZr4NixhetGxmOPDjA8PKw5fA8mwrVzL0dLkxGCsJMDgoCsFdyYTuJJBmNg0OhmVS3AypnmwM4bZ6DHcb1jNcv87G8HnmBhQXoXjhwoO3DBbPhBlee0YyCLL8YrD8dpPh5NWvDDyvHzNoNASCXQACv/CFweYzz8C0L9s5BsuAOAYj1d9g/sFVVxgYGLXB7BPNB1EMYETmgPxmoyHGoCMvAOZbeKozXD10l+Hm408Mj15/h7v0wP13jFhdwMDAwHD/9TeGLz/+gtlXHp4E00duvEJXht0FMFfgVM3AgGL74AAAZuqBC6mZJfoAAAAASUVORK5CYII=","linggango_tweaks:anglers_pearl":"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABzUlEQVR4nGNgoBAwYhO0jKj+j038+IpWDPUs6AJO8W3/rW0NGeQVJBnMtBXBYqu3HmN4/PgNwzOz2P8PTy1GMYQR3WZjUyOGAE9zhtycNrCYpKwMw/PHT8A0CNy9fp0B2RAWdBdMKgxk0HbJAbMVVVUYfvz4wSAgJsjw/edXBk52bgxvsSDbHhXpBdYM0iDILwwWl1OQBdOvXrxmuH/7DoOOuSXD7x8//j+7tBrsCiYGPEBJTZ6Bh4+L4eu3HwzcfLxgMS4OVga8YaCursFw8+YNBiFRaYZSrcdg8an3lMA0NxcHw/7tu1DCgAndVpCNMrIKDD1+TAx26a0MfCJCDNlK9xiePH7AQBTwzp32/8KWGf///fsHxu9eXPt/YHrl/70TS/7Lm8VixA8mdC8Y6SsyMHHyMVzZvwIs9ujMITDNzAbxu6ZT1n+sBlhGVP9vrstkeP/xG8PrK+cY/n3/xHBp2yywnICsPMPfX78ZJk5uZNAxNmSQ0gv9jzUdzJy/ncHURI3hLIMvw6ObbxgCWY6Dxdf/sWRgYBBlONs/Fxw+yAAlFkAmG1haMhibajLYW+miKOybuApMXzh+nAGWBjAMgBmCPXghAFkzVQAAHGSfhgW9wd8AAAAASUVORK5CYII=","linggango_tweaks:amber_core":"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABf0lEQVR4nGNgoBAw4pIIcTT6j8xfs/8cVrUsuDQnZjvB+ecPXWNgYDD6j80QFmyaC+r8GVbN2A3m77/wHEyHu6tjNYQRXXNQkCHDtYtPGbT0pcFiIPb3Hz/AbEkpfoYTpx+jeIcFXbOcjhyYz7dzH5hmfcLEsI+BFcwOkuJnsDCVBTHhLmFC98KjK4/A9I+fjAxq2UoM5gZMDO4MvxksdSTAtoPAzWcfMcPg5rOPDM8ev2G4dectg+2rZwzyPlIM8q7ZDAwMUxl4xJ4w7N31mMHADhQOeALxxOnHDEKCXAyvmVgYBI88Zbgo1skgIMnD8OL8b4ZXjEwMLy+/wDCAEZmjq678X12Kn+HZ+28MOkoiDH6/noLFb2jpgQ030JVgWLnzJsPlm3cxAxEEeDkhgSUlyMXw7v03hk2CkJh4B3UZSDNMDVYDPn//zbDmwjlGkEtAfHXkAHv2EWwzTA4GmFCMgwJkJ1pqS2KIEQ1AtlkZaKDYiA6wugAZgLxFUwAAX6aQiziBywcAAAAASUVORK5CYII=","linggango_tweaks:hunters_essence":"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA1UlEQVR4nGNgGGjAiEuiO8niP4x988UXhjnbrmBVy4TPdHMlMbDmNx++kue80hD9/wFWinCXkOSF2OKJ/3l5ecDs40dOMpzfM4t0L7Tl+jCIiYngdSUTA4WAiYEWwDut4/+ukzf+f3j78v+f0OD/DdM2/jfxL/1PkguceqoZeFetYTh08QXD9+YmnJYx4ZKoPvKA4f++fQxLP34hPwzuP8CvGacBL1++ZXDn5WCY8+QNgwgTC0OrjQLD368fsRqAMyGBAu0E2z0w2+KXEsOZjd041VIEAIeSSz/apQ37AAAAAElFTkSuQmCC","linggango_tweaks:arcane_crystal":"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABOklEQVR4nGNgoCWwVqz5D8Jka16a/vb/opS3/+X4o3AawohLc5ZbIcP1B/cYvv/8DhbbcGEew90PCzDUM6ELOKr0/HdU8wezG6MZGNQV1cFsdREbBmwuYUEXYGVkB2tkYLiHIq4rp8lw5d0OBoIusNN2hLP/RsqgyOlJOGO4ggnd74rikiiaOZhZGIzUtRlYWdkYeNkkGAh6AQRWHFViiIB64f4LNjD97ONbMM3KCOHj9AII3H/5nKF9HScDDNx4gggPbnZBBpwGPP54A0w/f/0c7hKYZil+YQZlcdQwwTAAZjsI3Hhyh4Hx9x8GZhZGFI1CvKIMOA149G4NPKF8/PqJYfnxnQwKwtJweU0FJRTNGAaAwIKjLRiKQEBPV46hZUkjw4E7VSipEWtSVhGNwJr277xegVU9RQAAnn9fmuI9iZ8AAAAASUVORK5CYII="});
+function consRow(){return `<div class="bslot bcons${BS.c.length?" has":""}"><div class="bsh"><b>Consumables</b><span>not in totals</span></div><div class="bsb">${HOME_BOONS.map(h=>{const on=BS.c.includes(h.id);return `<button class="bx${on?" on":""}" data-cons="${esc(h.id)}" aria-pressed="${on}" title="${esc(h.n)}: ${esc(h.st)}" aria-label="${esc(h.n)}">${img(h.id)}</button>`}).join("")}</div></div>`}
 
 function slotAdds(d){
  if(d._sa)return d._sa;const o={};
@@ -43,15 +52,15 @@ const rlId=k=>k.split("#")[0],bKey=(n,id)=>(n[id]=(n[id]||0)+1)>1?id+"#"+n[id]:i
 function bKeys(){const n={};return Object.values(BS.s).flat().map(id=>bKey(n,id))}
 function bCaps(){const c={...SLOT_BASE};bKeys().filter(k=>k===rlId(k)||bStk(rlId(k))).forEach(k=>{const id=rlId(k),a=RL[id]?rlSlots(k):slotAdds(BYID[id]);for(const s in a)c[s]+=a[s]});return c}
 function bParse(h){
- const [,p,f,b]=decodeURIComponent(h).split("/"),v=f!==undefined&&!f.includes("="),c=v?b:f;BSTALE=v&&f!==DFP;BS={p:p!==undefined&&p!==""&&ACT[p]&&ORDER.includes(+p)?+p:ORDER[ORDER.length-1],s:{}};
- const n={};(c||"").split("|").filter(Boolean).forEach(part=>{const [k,ids]=part.includes("=")?part.split("="):[SLOT_KEYS[parseInt(part[0],36)],part.slice(1)];if(k in SLOT_BASE)BS.s[k]=(ids||"").split(",").map(x=>bLv(x,n)).filter(i=>BYID[i]&&bFits(BYID[i],k))})}
+ const [,p,f,b]=decodeURIComponent(h).split("/"),v=f!==undefined&&!f.includes("="),c=v?b:f;BSTALE=v&&f!==DFP;BS={p:p!==undefined&&p!==""&&ACT[p]&&ORDER.includes(+p)?+p:ORDER[ORDER.length-1],s:{},c:[]};
+ const n={};(c||"").split("|").filter(Boolean).forEach(part=>{if(part[0]==="*"){BS.c=part.slice(1).split(",").map(x=>HOME_BOONS[parseInt(x,36)]?.id).filter(Boolean);return}const [k,ids]=part.includes("=")?part.split("="):[SLOT_KEYS[parseInt(part[0],36)],part.slice(1)];if(k in SLOT_BASE)BS.s[k]=(ids||"").split(",").map(x=>bLv(x,n)).filter(i=>BYID[i]&&bFits(BYID[i],k))})}
 // "index_" + level, ability points, then per-stat stars, all base 36 ("-" any roll); older "id~level~a.b.c~stars" still reads
 function bLv(x,n){
  if(x.includes("_")&&!x.includes(":")){const [t,d]=x.split("_"),id=(D[parseInt(t,36)]||{}).id||"",r=RL[id];
   if(r){const ch=[...d],na=r.ab.length;RLV[bKey(n,id)]=rlFit(r,Math.max(0,Math.min(r.mx,parseInt(ch[0],36)||0)),ch.slice(1,1+na).map(c=>parseInt(c,36)),ch.slice(1+na).map(c=>c==="-"?-1:parseInt(c,36)))}
   return id}
  let [id,l,a,q]=x.split("~");if(!id.includes(":"))id=(D[parseInt(id,36)]||{}).id||"";const r=RL[id];if(r&&l!==undefined){RLV[bKey(n,id)]=rlFit(r,Math.max(0,Math.min(r.mx,+l||0)),(a||"").split(".").map(Number),[...(q||"")].map(c=>c==="-"?-1:parseInt(c,11)))}return id}
-function bHash(){const n={};return "#build/"+BS.p+"/"+DFP+"/"+Object.entries(BS.s).filter(([,v])=>v.length).map(([k,v])=>SLOT_KEYS.indexOf(k).toString(36)+v.map(id=>{const t=BYID[id].ix.toString(36);if(!RL[id])return t;const s=rlState(bKey(n,id));return t+"_"+[s.l,...s.a,...(s.q.some(v=>v>=0)?s.q:[])].map(v=>v<0?"-":v.toString(36)).join("")}).join(",")).join("|")}
+function bHash(){const n={};return "#build/"+BS.p+"/"+DFP+"/"+Object.entries(BS.s).filter(([,v])=>v.length).map(([k,v])=>SLOT_KEYS.indexOf(k).toString(36)+v.map(id=>{const t=BYID[id].ix.toString(36);if(!RL[id])return t;const s=rlState(bKey(n,id));return t+"_"+[s.l,...s.a,...(s.q.some(v=>v>=0)?s.q:[])].map(v=>v<0?"-":v.toString(36)).join("")}).join(",")).join("|")+(BS.c.length?"|*"+BS.c.map(id=>HOME_BOONS.findIndex(h=>h.id===id).toString(36)).join(","):"")}
 function bSave(){history.replaceState(null,"",bHash());buildPage()}
 function bPreset(role){
  BS.s={};const pool=D.filter(d=>bAvail(d)&&!d.inv);
@@ -115,16 +124,17 @@ ${BSTALE?`<p class="note">This link was made on a different wiki version, so som
 <span class="bpre">Starter build: ${Object.entries(ROLE).map(([k,v])=>`<button class="chip" data-preset="${k}">${v}</button>`).join("")}</span>
 <span class="bact"><button class="chip" id="bcopy">Copy link</button><button class="chip" id="bclr">Clear</button></span></div>
 ${late?`<p class="bwarn">${late} curio${late>1?"s are":" is"} past your selected Act (marked red).</p>`:""}
-<div class="bgrid"><div class="bslots">${Object.keys(SLOT_BASE).map(row).join("")}</div>
+<div class="bgrid"><div class="bslots">${Object.keys(SLOT_BASE).map(row).join("")}${consRow()}</div>
 <aside class="bside">${bInspHtml()}${BPICK?`<div class="bpick"><div class="bph"><b>Add to ${esc(BPICK)}</b><button class="ghost" id="bpx">Close</button></div><input id="bq" type="search" placeholder="Search name, effect or mod…" name="buildq" spellcheck="false" aria-label="Search curios for this slot" autocomplete="off"><div id="bopts" class="bopts">${bPickHtml()}</div></div>`:""}
 ${bPaneHtml(pages)}</aside></div>`;
  el("bp").onchange=e=>{BS.p=+e.target.value;bSave()};
- el("bclr").onclick=()=>{BS.s={};BPICK=null;bSave()};
+ el("bclr").onclick=()=>{BS.s={};BS.c=[];BPICK=null;bSave()};
  el("bcopy").onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>{el("bcopy").textContent="Link copied"},()=>prompt("Copy this link:",u))};
  if(el("bq")){el("bq").oninput=()=>{el("bopts").innerHTML=bPickHtml();bFade()};el("bopts").onscroll=bFade;bFade();el("bpx").onclick=()=>{BPICK=null;buildPage()};el("bq").focus({preventScroll:true})}
  el("main").querySelector(".bgrid").onclick=e=>{
-  const p=e.target.closest("[data-pick]"),rm=e.target.closest("[data-rm]"),ad=e.target.closest("[data-add]"),ev=e.target.closest("[data-evo]"),ins=e.target.closest("[data-insp]");
-  if(ins){BINSP=ins.dataset.insp||null;hideTip();buildPage();const b=el("main").querySelector(".binsp");if(b&&innerWidth<=760)b.scrollIntoView({block:"start"})}
+  const p=e.target.closest("[data-pick]"),rm=e.target.closest("[data-rm]"),ad=e.target.closest("[data-add]"),ev=e.target.closest("[data-evo]"),ins=e.target.closest("[data-insp]"),cn=e.target.closest("[data-cons]");
+  if(cn){const i=cn.dataset.cons;BS.c=BS.c.includes(i)?BS.c.filter(x=>x!==i):[...BS.c,i];hideTip();bSave()}
+  else if(ins){BINSP=ins.dataset.insp||null;hideTip();buildPage();const b=el("main").querySelector(".binsp");if(b&&innerWidth<=760)b.scrollIntoView({block:"start"})}
   else if(ev){const [k,id,to]=ev.dataset.evo.split("|");BS.s[k][BS.s[k].indexOf(id)]=to;hideTip();bSave()}
   else if(p){BPICK=p.dataset.pick;buildPage()}
   else if(rm){const [k,id]=rm.dataset.rm.split("|");const a=BS.s[k]||[],i=a.lastIndexOf(id);if(i>=0)a.splice(i,1);hideTip();bSave()}
@@ -874,6 +884,7 @@ function changesPage(){
  el("main").innerHTML=`${crumb("Changes")}<h1>Changes</h1><p class="lede">What's new on the wiki, newest first.</p>
 <section class="s" id="c-2026-10-29"><h2>October 29, 2026</h2>
 <h3>Added</h3><ul>
+<li><b>Consumables</b> in the build planner: the five home boons (Hearty Feast, Angler's Pearl, Amber Core, Hunter's Essence, Arcane Crystal). They are toggled on and off, kept out of the stat totals, and saved in the link.</li>
 <li><b><a href="#mechanics/effects">Effects</a></b> on the Mechanics page: food buffs, Linggango's effects and the vanilla effects in the pack, each with the items whose text names it. Effect names on item pages link there.</li>
 </ul>
 <h3>Changed</h3><ul>
