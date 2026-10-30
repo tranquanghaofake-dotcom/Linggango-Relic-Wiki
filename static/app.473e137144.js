@@ -986,21 +986,21 @@ const hereBtns=()=>{const h=pHere(),ok=h!==null&&ACT[h]&&ORDER.includes(h);
 function pSide(a){const pi=typeof PIMG!=="undefined"?PIMG:{side:{},act:{}};
  let sb=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(r=>r[1]===a&&!/Keeper/.test(r[0])&&!/^(Ender Dragon)\b/.test(r[0]));if(a===6&&!sb.some(r=>r[0]==="Warden"))sb=[["Warden",6,"","Ancient City: shriek three Sculk Shriekers to call it",[]],...sb];
  return sb.length?[...sb].sort((x,y)=>(!!pi.side[y[0]]||!!(typeof SIDEB!=="undefined"&&SIDEB[y[0]]&&SIDEB[y[0]].img))-(!!pi.side[x[0]]||!!(typeof SIDEB!=="undefined"&&SIDEB[x[0]]&&SIDEB[x[0]].img))).map(r=>{const sb2=typeof SIDEB!=="undefined"&&SIDEB[r[0]],rim=sb2&&sb2.img,im=pi.side[r[0]]||(rim&&pi.scene&&pi.scene[r[0]]),vk=r[0]==="Warden"?"warden":r[0]==="Wither"?"wither":null,hr=vk?` href="#boss/${vk}"`:sb2?` href="#side/${enc(r[0])}"`:"";return rim||im?`<a class="pbc${rim?" rnd":""}"${hr} title="${esc(pathText(r[3]||""))}">${im||(pi.scene&&pi.scene[r[0]])?`<img class="bg" alt="" loading="lazy" src="${im||pi.scene[r[0]]}">`:""}${rim?`<img class="fg" alt="" src="${rim}">`:""}<b>${esc(r[0])}</b></a>`:(()=>{const bg=(pi.scene&&pi.scene[r[0]])||(pi.biome&&pi.biome[r[0]]),it=[sb2&&sb2.summon].concat(r[4]||[],sb2&&sb2.drops?sb2.drops.map(x=>x.id):[]).find(x=>x&&IC[x]);return `<a class="pbc ibg"${hr} title="${esc(pathText(r[3]||""))}">${bg?`<img class="bg" alt="" loading="lazy" src="${bg}">`:""}${it?`<span class="fgi">${img(it)}</span>`:""}<b>${esc(r[0])}</b></a>`})()}).join(""):""}
-function pPanel(a,i,path){const xs=D.filter(d=>d.t===a),m=xs.filter(isMust).length,nb=NEXTB[a],sides=pSide(a),ti=typeof PIMG!=="undefined"&&PIMG.act[String(a)];
+function pPanel(a,i,eager){return `<div class="ppanel" id="pp-${i}" role="tabpanel" aria-labelledby="pn-${i}" style="--tc:${ACT[a][2]};${tex(a)}"${i?" hidden":""}>${eager?pPanelInner(a):""}</div>`}
+function pPanelInner(a){const xs=D.filter(d=>d.t===a),m=xs.filter(isMust).length,nb=NEXTB[a],sides=pSide(a),ti=typeof PIMG!=="undefined"&&PIMG.act[String(a)];
  const nSide=(sides.match(/class="pbc/g)||[]).length,gt=typeof gTiers==="function"&&gTiers(a,"ME","w"),bw=gt&&gt.length&&gt[0][1][0];
- return `<div class="ppanel" id="pp-${i}" role="tabpanel" aria-labelledby="pn-${i}" style="--tc:${ACT[a][2]};${tex(a)}"${i?" hidden":""}>
- <div class="pph">${ti?`<img class="ptitle" alt="${esc(actL(a))}" src="${ti}">`:`<h3>${esc(actL(a))}</h3>`}<p>${a?`Opens when ${esc(UNL[a])} falls.`:"Where every run starts: no Keeper to beat yet."}</p></div>
+ return `<div class="pph">${ti?`<img class="ptitle" alt="${esc(actL(a))}" src="${ti}">`:`<h3>${esc(actL(a))}</h3>`}<p>${a?`Opens when ${esc(UNL[a])} falls.`:"Where every run starts: no Keeper to beat yet."}</p></div>
  <div class="ppg"><div class="ppl">
   <dl class="pstat"><div><dt>Curios</dt><dd>${xs.length}</dd></div><div><dt>Must-Have</dt><dd>${m}</dd></div><div><dt>Side bosses</dt><dd>${nSide}</dd></div></dl>
   ${nb?`<a class="pnext" href="#boss/${nb}">${emblem(bossPath(nb)??a,"sm")}<span><small>Keeper to beat next</small><b>${esc(bossName(nb))}</b></span></a>`:`<p class="pnext end"><span><small>Keeper to beat next</small><b>None: this is the last Act</b></span></p>`}
   ${bw?`<a class="pnext" href="#g${bw.ix}" data-t="g${bw.ix}"><span class="slot sm">${gImg(bw)}</span><span><small>Best melee weapon here</small><b>${esc(bw.n)}</b></span></a>`:""}
   <div class="pbtn"><a class="mcb" href="#act/${a}">See ${xs.length} curios</a><a class="mcb" href="#gear/${a}/ME/w">See gear</a><button class="mcb phere" type="button" data-here="${a}" aria-pressed="false">I'm here</button></div>
- </div><div class="pside">${envFx(a)}${sides||'<p class="pnone">No side bosses at this Act. Gear up for the Keeper.</p>'}</div></div></div>`}
+ </div><div class="pside">${envFx(a)}${sides||'<p class="pnone">No side bosses at this Act. Gear up for the Keeper.</p>'}</div></div>`}
 function pathMap(path){
  return `<section class="gui pmap" id="pmap"><div class="pmh"><div><h2 class="gt">The Path</h2><p class="gs">Pick an Act to see what it opens and who guards it. Press “I'm here” on the Act you reached and the map follows your run.</p></div><p class="prun" id="prun" aria-live="polite"></p></div>
  <div class="ptrack" role="tablist" aria-label="Acts of The Path" style="--n:${path.length}"><div class="pxp" aria-hidden="true"><i id="pxpf"></i></div>
  ${path.map((a,i)=>`<button type="button" role="tab" class="pn${VBOSS[a]?" ch":""}" id="pn-${i}" data-i="${i}" aria-controls="pp-${i}" aria-selected="${!i}" tabindex="${i?-1:0}" style="--tc:${ACT[a][2]}" title="${esc(actF(a))}"><span class="pfr">${emblem(a,"sm")}</span><b>${esc(ACT[a][0])}</b></button>`).join("")}</div>
- ${path.map((a,i)=>pPanel(a,i,path)).join("")}
+ ${path.map((a,i)=>pPanel(a,i,!i)).join("")}
  ${D.some(d=>d.t===-1)?`<p class="gs side">Side Act: <a href="#act/-1">L2 Artifacts</a>, dropped by L2 Hostility mobs by level, outside the Keeper order.</p>`:""}</section>`}
 function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...map.querySelectorAll(".pn")],pans=[...map.querySelectorAll(".ppanel")];let cur=0;
  const paint=()=>{const h=pHere(),hi=h===null?-1:path.indexOf(h);
@@ -1008,7 +1008,7 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
   el("pxpf").style.transform=`scaleX(${hi<0?0:(hi+.5)/path.length})`;
   map.querySelectorAll(".phere").forEach(b=>{const on=+b.dataset.here===h;b.setAttribute("aria-pressed",on);b.innerHTML=on?ui("check")+" You are here":"I'm here"});
   el("prun").textContent=hi<0?"":`Your run: ${actL(h)}, Act ${hi+1} of ${path.length}`};
- const sel=(i,focus)=>{if(i===cur){if(focus)tabs[i].focus();return}const was=cur,dir=i>was?"next":"prev";cur=i;const swap=()=>{tabs.forEach((t,k)=>{t.setAttribute("aria-selected",k===i);t.tabIndex=k===i?0:-1});pans.forEach((p,k)=>p.hidden=k!==i);decorate(pans[i])};
+ const sel=(i,focus)=>{if(i===cur){if(focus)tabs[i].focus();return}const was=cur,dir=i>was?"next":"prev";cur=i;if(!pans[i].firstElementChild){pans[i].innerHTML=pPanelInner(path[i]);paint()}const swap=()=>{tabs.forEach((t,k)=>{t.setAttribute("aria-selected",k===i);t.tabIndex=k===i?0:-1});pans.forEach((p,k)=>p.hidden=k!==i);decorate(pans[i])};
   if(focus)tabs[i].focus();
   if(RM||!document.startViewTransition){swap();return}
   pans[was].style.viewTransitionName="ppanel";document.documentElement.dataset.pvt=dir;
@@ -1018,7 +1018,7 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
  map.addEventListener("click",e=>{const t=e.target.closest(".pn");if(t){sel(+t.dataset.i);return}
   const b=e.target.closest(".phere");if(b){const a=+b.dataset.here;try{pHere()===a?localStorage.removeItem(PHKEY):localStorage.setItem(PHKEY,a)}catch(e){}paint()}});
  map.querySelector(".ptrack").addEventListener("keydown",e=>{const k={ArrowRight:1,ArrowLeft:-1,Home:-99,End:99}[e.key];if(!k)return;e.preventDefault();sel(Math.max(0,Math.min(path.length-1,k===-99?0:k===99?path.length-1:cur+k)),true)});
- const h=pHere(),hi=h===null?-1:path.indexOf(h);paint();if(hi>0){pans[0].hidden=true;tabs[0].setAttribute("aria-selected","false");tabs[0].tabIndex=-1;pans[hi].hidden=false;tabs[hi].setAttribute("aria-selected","true");tabs[hi].tabIndex=0;cur=hi}}
+ const h=pHere(),hi=h===null?-1:path.indexOf(h);paint();if(hi>0){pans[0].hidden=true;tabs[0].setAttribute("aria-selected","false");tabs[0].tabIndex=-1;if(!pans[hi].firstElementChild){pans[hi].innerHTML=pPanelInner(path[hi]);paint()}pans[hi].hidden=false;tabs[hi].setAttribute("aria-selected","true");tabs[hi].tabIndex=0;cur=hi}}
 /* the four questions players come to the wiki with, each answered by one page (uses the reader's "I'm here" Act when set) */
 function startHere(){const h=pHere(),ok=h!==null&&ACT[h]&&ORDER.includes(h),a=ok?h:ORDER.find(x=>x>=0),nb=NEXTB[a];
  const q=(href,ic,t,s)=>`<a class="sq" href="${href}"><span class="sqi">${ic}</span><span><b>${t}</b><small>${s}</small></span></a>`;

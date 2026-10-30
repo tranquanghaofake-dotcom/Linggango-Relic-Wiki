@@ -3343,3 +3343,4 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 .title-scr .pano,.ip-icon,.emb img,.emb .ph{animation:none}
 .tier.seen .t>img,.tier.seen .t .aimg,.tier.seen .t.r4>img,.tier.seen .t.r5>img,.tier.seen .t.r6>img,.tier .t.vis>img,.tier .t.vis .aimg,.tier .t .aimg.anim img.strip{animation:none!important}
 .tier .t:hover .aimg.anim img.strip{animation:stripY var(--ms) steps(var(--n)) infinite!important}
+.pmap .envfx{display:none}

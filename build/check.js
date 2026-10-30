@@ -10,7 +10,7 @@ const { chromium } = require('playwright'), path = require('path');
   p.on('pageerror', e => errs.push(e.message));
   await p.goto('file://' + path.resolve(process.argv[2] || 'dist/Linggango_Relic_Wiki.html'), { waitUntil: 'load' });
   await p.waitForTimeout(2500);
-  const cards = await p.evaluate(() => [...document.querySelectorAll('.pbc')].map(a => [a.querySelector('b')?.textContent, !!a.querySelector('img.bg') || /url/.test(a.getAttribute('style') || '')]));
+  const cards = await p.evaluate(() => { document.querySelectorAll('#pmap .pn').forEach(t => t.click()); return [...document.querySelectorAll('.pbc')].map(a => [a.querySelector('b')?.textContent, !!a.querySelector('img.bg') || /url/.test(a.getAttribute('style') || '')]); });
   const noBg = cards.filter(c => !c[1]).map(c => c[0]);
   // every detail page uses article() (app.js): one title, an infobox, a navbox, and a heading on every section
   const LAYOUT = `(() => { const m = document.getElementById('main'), a = m.querySelector('.ip.art');
