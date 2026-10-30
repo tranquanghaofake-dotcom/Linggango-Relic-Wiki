@@ -8323,6 +8323,12 @@ const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.index
 function changesPage(){
  document.title="Changes · Linggango Wiki";
  el("main").innerHTML=`${crumb("Changes")}<h1>Changes</h1><p class="lede">What's new on the wiki, newest first.</p>
+<section class="s" id="c-2026-10-30"><h2>October 30, 2026</h2>
+<h3>Changed</h3><ul>
+<li><b>Build planner</b> keeps only the permanent Consumables row. The Food buffs and Potions rows are gone.</li>
+<li><b>Stacks</b> label fix: Summonity curios that can't be worn twice (Minion Metronome, Lead Bell, Ring of Summoning and others, plus the whistles) now show One per player instead of Stacks.</li>
+<li><b>Act pages</b> no longer run idle animations on curio tiles. They animate on hover.</li>
+</ul></section>
 <section class="s" id="c-2026-10-29"><h2>October 29, 2026</h2>
 <h3>Added</h3><ul>
 <li><b>Consumables</b> in the build planner: the five home boons (Hearty Feast, Angler's Pearl, Amber Core, Hunter's Essence, Arcane Crystal). They are toggled on and off, kept out of the stat totals, and saved in the link.</li>
