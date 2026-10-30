@@ -656,3 +656,7 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Planner: Food and Potions sections removed; consumables row fixed on phones.
 - Discord patch notes 6.6.5b1 to 6.6.6 are in `docs/PATCH_NOTES_6.6.5-6.6.6.md` (this branch). Nothing from them is on the site yet; numbers still need checking against the jars.
 - Still open: Path scroll lag not measured in a visible browser pane; class best-set view waiting on the user's go-ahead.
+
+## 30 Oct 2026 (later): Equipment best loadout (main 9c4393d29)
+- Equipment page has a "Best loadout at <Act>" block above the tabs: per playstyle, the top weapon and the top armor set from the existing pools (`gLoadout`, build/src/gear.js). Every mod's gear is in the pool.
+- Not done: a curio row, a mobile check, and a visual check of the armor-set side at other Acts.
