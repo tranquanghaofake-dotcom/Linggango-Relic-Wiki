@@ -1,0 +1,54 @@
+# Build, check and deploy the wiki.
+# GitHub Pages serves only the artifact this workflow uploads (Settings → Pages → Source: "GitHub Actions"),
+# so a commit that fails build/check.sh never goes live: the site stays on the last good build.
+# Pull requests run the same checks without deploying.
+name: site
+on:
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v7
+        with: { node-version: '22' }
+      - name: Playwright (Chromium), pinned so a new release cannot change the checks
+        run: npm install -g playwright@1.63.0 && npx playwright install --with-deps chromium
+      - name: Build and check (build/check.sh)
+        run: bash build/check.sh
+      - name: Committed sources are up to date
+        # apply_all.sh rewrites build/src/data.js and build/patches/curio_tiers.json in place;
+        # a diff here means they were committed without running the build.
+        run: git diff --exit-code -- build
+      - name: fx3d.js bundle is reproducible
+        run: bash build/fx3d_build.sh --check
+      - name: Assemble the site
+        run: |
+          mkdir -p _site
+          cp -r index.html static dist _site/
+          printf '%s %s\n' "$GITHUB_SHA" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > _site/build.txt
+      - uses: actions/upload-pages-artifact@v5
+        with: { path: _site }
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,2 +1,11 @@
 __pycache__/
 
+# Build outputs: build/build.py writes them, .github/workflows/site.yml builds and deploys them.
+/index.html
+/static/
+/dist/
+/_site/
+
+# Generated from build/patches/*.json by apply_all.sh (gear_pipeline.py, wiki_data.py).
+/build/src/gear_data.js
+/build/src/wiki_data.js

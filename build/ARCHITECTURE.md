@@ -36,7 +36,10 @@ src/*.js + v5.css + style.game.css + template.html ──► build.py ──► 
 - **Every bug found becomes an invariant** in `check.js` (an Act of 6.1 once put a battleaxe at Act 0; Ranged armor once ended at Act V).
 
 ## Checks
-`bash build/check.sh`: the patch chain is idempotent and the committed outputs are what it produces; then, in Chromium, no script errors, the invariants above, every gear and set page renders without broken images, every Path boss card has a background, and every detail page (3,878: curios, gear, sets, Keepers, side bosses) is drawn by `article()` with a title, an infobox, a navbox and a heading on every section. `.github/workflows/check.yml` runs it on every push.
+`bash build/check.sh`: the patch chain is idempotent and the build reproducible; then, in Chromium, no script errors, the invariants above, every gear and set page renders without broken images, every Path boss card has a background, every detail page (curios, gear, sets, Keepers, side bosses) is drawn by `article()` with a title, an infobox, a navbox and a heading on every section, the pixel and spacing rules hold, and the deployable site (`index.html` + `static/`) loads with every file found (`site_check.js`).
+
+## Deploy
+Build outputs are not committed. `.github/workflows/site.yml` runs `check.sh` on every push and pull request, checks that the committed in-place derivations (`src/data.js`, `patches/curio_tiers.json`) are current and that `fx3d.js` is reproducible, then uploads `index.html`, `static/` and `dist/` as the Pages artifact. Only a push to `main` whose checks all pass is deployed; a failing commit leaves the last good build online.
 
 ## Not done / known debt
 See "Known weak spots" in `README.md` (two in-place passes on `data.js`, the large `app.js`, dead Act/mod pages).

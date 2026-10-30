@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash build/patches/apply_all.sh)",
+      "Bash(bash build/check.sh)",
+      "Bash(bash build/fx3d_build.sh:*)",
+      "Bash(python3 build/build.py:*)",
+      "Bash(node build/shot.js:*)",
+      "Bash(node build/site_check.js:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)",
+      "Bash(git push origin main)",
+      "Bash(git push -u origin main)"
+    ],
+    "deny": [
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)"
+    ]
+  }
+}
