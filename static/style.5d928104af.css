@@ -2280,6 +2280,7 @@ html[data-vt=prev]::view-transition-new(root){animation:.22s ease-out .1s both v
 @media (prefers-reduced-motion:reduce){.lhero .bossbar>i{animation:none!important}}
 .bslot{grid-template-columns:170px minmax(0,1fr);align-items:center}
 @media(max-width:520px){.bslot{grid-template-columns:1fr}}
+.bslot.bcons{grid-template-columns:1fr}
 .bsh{white-space:nowrap;min-width:0}
 .bsh b{overflow:hidden;text-overflow:ellipsis}
 /* consumable/food/potion toggle buttons */
@@ -3340,3 +3341,5 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 .tier .t:not(:hover)>img,.tier .t:not(:hover) .aimg,.tier .t:not(:hover) .aimg img,.tier .t:not(:hover) .glint::before,.tier .t:not(:hover) .star,.tier .t:not(:hover) .star::before,.tier .t:not(:hover) .star::after{animation-name:none!important}
 /* Path title drift and floating icons off */
 .title-scr .pano,.ip-icon,.emb img,.emb .ph{animation:none}
+.tier.seen .t>img,.tier.seen .t .aimg,.tier.seen .t.r4>img,.tier.seen .t.r5>img,.tier.seen .t.r6>img,.tier .t.vis>img,.tier .t.vis .aimg,.tier .t .aimg.anim img.strip{animation:none!important}
+.tier .t:hover .aimg.anim img.strip{animation:stripY var(--ms) steps(var(--n)) infinite!important}

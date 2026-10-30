@@ -16,7 +16,7 @@ function ui(k,big){return `<i class="ui${big?" ui2":""}" style="--ui:var(--${UIK
 var SLOT_BASE={Head:1,Necklace:2,Back:1,Body:1,Belt:1,Hands:2,Ring:2,Bracelet:2,Glove:2,Anklet:2,Feet:2,Charm:6,Accessory:6,Heart:1,Spellbook:1,Scroll:1,Spellstone:1,Talent:2,Focus:1,"Hostility Curse":1,Curio:1,Elytra:1,"Binding Key":1,Magnetizer:1,Bundle:1};
 var SLOT_KEYS=Object.keys(SLOT_BASE); // share-link slot code = base-36 position here: append only
 var STAT_ALIAS={"Knockback Res":"Knockback Resistance","Knockback resistance":"Knockback Resistance","Increased reach":"Reach","Increased block reach":"Block Reach","Step Height Addition":"Step Height"};
-var BS={p:12,s:{},c:[],f:[],po:[]},BPICK=null,BINSP=null,BSTALE=false;
+var BS={p:12,s:{},c:[]},BPICK=null,BINSP=null,BSTALE=false;
 // home boons: permanent consumables from linggango_tweaks; icons are the mod's own PNGs
 const HOME_BOONS=[
  {id:"linggango_tweaks:hearty_feast",n:"Hearty Feast",st:"+2 max health"},
@@ -24,25 +24,9 @@ const HOME_BOONS=[
  {id:"linggango_tweaks:amber_core",n:"Amber Core",st:"+6% mining speed, +0.2 block reach"},
  {id:"linggango_tweaks:hunters_essence",n:"Hunter's Essence",st:"+1% damage for every class"},
  {id:"linggango_tweaks:arcane_crystal",n:"Arcane Crystal",st:"+10 max mana, +1% spell power"}];
-// food tier buffs from linggango_tweaks (one tier at a time, higher replaces lower) + golden apple
-const FOOD_BUFFS=[
- {id:"wf:0",n:"Well Fed",st:"+5% all dmg, +5% move speed (10 min)",icon:"minecraft:cooked_beef",tier:1},
- {id:"wf:1",n:"Plenty Satisfied",st:"+10% all dmg, +10% move speed (15 min)",icon:"minecraft:pumpkin_pie",tier:1},
- {id:"wf:2",n:"Exquisitely Stuffed",st:"+15% all dmg, +15% move speed (20 min)",icon:"minecraft:suspicious_stew",tier:1},
- {id:"wf:ga",n:"Golden Apple",st:"Absorption I for 2 min, Regen II for 5 s",icon:"minecraft:golden_apple"}];
-// combat potions (vanilla drinkable)
-const POTIONS=[
- {id:"po:str2",n:"Strength II",st:"+6 melee damage",icon:"minecraft:potion"},
- {id:"po:spd2",n:"Speed II",st:"+40% move speed",icon:"minecraft:potion"},
- {id:"po:fr",n:"Fire Resistance",st:"immune to fire and lava",icon:"minecraft:potion"},
- {id:"po:reg",n:"Regeneration I",st:"+1 HP per 2.5 s",icon:"minecraft:potion"},
- {id:"po:sf",n:"Slow Falling",st:"safe fall, fall damage cancelled",icon:"minecraft:potion"},
- {id:"po:jmp2",n:"Jump Boost II",st:"higher jumps",icon:"minecraft:potion"}];
 Object.assign(IC,{"linggango_tweaks:hearty_feast":"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABVUlEQVR4nGNgoBf46u/x/+/0qf9h7A1KimA2EymG/NixGax59+WbDCd//QSLMZJiAMxWkOb2J89I0gsHlTJSYENggJEBDRQ4qqIoQAYT9t/GUM+CrtnfUYlBw0YWzF8+4xRDZIYZXP71559gw5eeeQQ3iAmbZr4NixhetGxmOPDjA8PKw5fA8mwrVzL0dLkxGCsJMDgoCsFdyYTuJJBmNg0OhmVS3AypnmwM4bZ6DHcb1jNcv87G8HnmBhQXoXjhwoO3DBbPhBlee0YyCLL8YrD8dpPh5NWvDDyvHzNoNASCXQACv/CFweYzz8C0L9s5BsuAOAYj1d9g/sFVVxgYGLXB7BPNB1EMYETmgPxmoyHGoCMvAOZbeKozXD10l+Hm408Mj15/h7v0wP13jFhdwMDAwHD/9TeGLz/+gtlXHp4E00duvEJXht0FMFfgVM3AgGL74AAAZuqBC6mZJfoAAAAASUVORK5CYII=","linggango_tweaks:anglers_pearl":"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABzUlEQVR4nGNgoBAwYhO0jKj+j038+IpWDPUs6AJO8W3/rW0NGeQVJBnMtBXBYqu3HmN4/PgNwzOz2P8PTy1GMYQR3WZjUyOGAE9zhtycNrCYpKwMw/PHT8A0CNy9fp0B2RAWdBdMKgxk0HbJAbMVVVUYfvz4wSAgJsjw/edXBk52bgxvsSDbHhXpBdYM0iDILwwWl1OQBdOvXrxmuH/7DoOOuSXD7x8//j+7tBrsCiYGPEBJTZ6Bh4+L4eu3HwzcfLxgMS4OVga8YaCursFw8+YNBiFRaYZSrcdg8an3lMA0NxcHw/7tu1DCgAndVpCNMrIKDD1+TAx26a0MfCJCDNlK9xiePH7AQBTwzp32/8KWGf///fsHxu9eXPt/YHrl/70TS/7Lm8VixA8mdC8Y6SsyMHHyMVzZvwIs9ujMITDNzAbxu6ZT1n+sBlhGVP9vrstkeP/xG8PrK+cY/n3/xHBp2yywnICsPMPfX78ZJk5uZNAxNmSQ0gv9jzUdzJy/ncHURI3hLIMvw6ObbxgCWY6Dxdf/sWRgYBBlONs/Fxw+yAAlFkAmG1haMhibajLYW+miKOybuApMXzh+nAGWBjAMgBmCPXghAFkzVQAAHGSfhgW9wd8AAAAASUVORK5CYII=","linggango_tweaks:amber_core":"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABf0lEQVR4nGNgoBAw4pIIcTT6j8xfs/8cVrUsuDQnZjvB+ecPXWNgYDD6j80QFmyaC+r8GVbN2A3m77/wHEyHu6tjNYQRXXNQkCHDtYtPGbT0pcFiIPb3Hz/AbEkpfoYTpx+jeIcFXbOcjhyYz7dzH5hmfcLEsI+BFcwOkuJnsDCVBTHhLmFC98KjK4/A9I+fjAxq2UoM5gZMDO4MvxksdSTAtoPAzWcfMcPg5rOPDM8ev2G4dectg+2rZwzyPlIM8q7ZDAwMUxl4xJ4w7N31mMHADhQOeALxxOnHDEKCXAyvmVgYBI88Zbgo1skgIMnD8OL8b4ZXjEwMLy+/wDCAEZmjq678X12Kn+HZ+28MOkoiDH6/noLFb2jpgQ030JVgWLnzJsPlm3cxAxEEeDkhgSUlyMXw7v03hk2CkJh4B3UZSDNMDVYDPn//zbDmwjlGkEtAfHXkAHv2EWwzTA4GmFCMgwJkJ1pqS2KIEQ1AtlkZaKDYiA6wugAZgLxFUwAAX6aQiziBywcAAAAASUVORK5CYII=","linggango_tweaks:hunters_essence":"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA1UlEQVR4nGNgGGjAiEuiO8niP4x988UXhjnbrmBVy4TPdHMlMbDmNx++kue80hD9/wFWinCXkOSF2OKJ/3l5ecDs40dOMpzfM4t0L7Tl+jCIiYngdSUTA4WAiYEWwDut4/+ukzf+f3j78v+f0OD/DdM2/jfxL/1PkguceqoZeFetYTh08QXD9+YmnJYx4ZKoPvKA4f++fQxLP34hPwzuP8CvGacBL1++ZXDn5WCY8+QNgwgTC0OrjQLD368fsRqAMyGBAu0E2z0w2+KXEsOZjd041VIEAIeSSz/apQ37AAAAAElFTkSuQmCC","linggango_tweaks:arcane_crystal":"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABOklEQVR4nGNgoCWwVqz5D8Jka16a/vb/opS3/+X4o3AawohLc5ZbIcP1B/cYvv/8DhbbcGEew90PCzDUM6ELOKr0/HdU8wezG6MZGNQV1cFsdREbBmwuYUEXYGVkB2tkYLiHIq4rp8lw5d0OBoIusNN2hLP/RsqgyOlJOGO4ggnd74rikiiaOZhZGIzUtRlYWdkYeNkkGAh6AQRWHFViiIB64f4LNjD97ONbMM3KCOHj9AII3H/5nKF9HScDDNx4gggPbnZBBpwGPP54A0w/f/0c7hKYZil+YQZlcdQwwTAAZjsI3Hhyh4Hx9x8GZhZGFI1CvKIMOA149G4NPKF8/PqJYfnxnQwKwtJweU0FJRTNGAaAwIKjLRiKQEBPV46hZUkjw4E7VSipEWtSVhGNwJr277xegVU9RQAAnn9fmuI9iZ8AAAAASUVORK5CYII="});
 const togBtn=(h,on,dtk)=>`<button class="btog${on?" on":""}" data-${dtk}="${esc(h.id)}" aria-pressed="${on}" title="${esc(h.n)}: ${esc(h.st)}" aria-label="${esc(h.n)}">${img(h.icon||h.id)}</button>`;
 function consRow(){return `<div class="bslot bcons${BS.c.length?" has":""}"><div class="bsh"><b>Consumables</b><span>permanent · not in totals</span></div><div class="bsb">${HOME_BOONS.map(h=>togBtn(h,BS.c.includes(h.id),"cons")).join("")}</div></div>`}
-function foodRow(){return `<div class="bslot bfood${BS.f.length?" has":""}"><div class="bsh"><b>Food buffs</b><span>temporary · one meal tier · not in totals</span></div><div class="bsb">${FOOD_BUFFS.map(h=>togBtn(h,BS.f.includes(h.id),"food")).join("")}</div></div>`}
-function potRow(){return `<div class="bslot bpot${BS.po.length?" has":""}"><div class="bsh"><b>Potions</b><span>temporary · not in totals</span></div><div class="bsb">${POTIONS.map(h=>togBtn(h,BS.po.includes(h.id),"pot")).join("")}</div></div>`}
 
 function slotAdds(d){
  if(d._sa)return d._sa;const o={};
@@ -69,15 +53,15 @@ const rlId=k=>k.split("#")[0],bKey=(n,id)=>(n[id]=(n[id]||0)+1)>1?id+"#"+n[id]:i
 function bKeys(){const n={};return Object.values(BS.s).flat().map(id=>bKey(n,id))}
 function bCaps(){const c={...SLOT_BASE};bKeys().filter(k=>k===rlId(k)||bStk(rlId(k))).forEach(k=>{const id=rlId(k),a=RL[id]?rlSlots(k):slotAdds(BYID[id]);for(const s in a)c[s]+=a[s]});return c}
 function bParse(h){
- const [,p,f,b]=decodeURIComponent(h).split("/"),v=f!==undefined&&!f.includes("="),c=v?b:f;BSTALE=v&&f!==DFP;BS={p:p!==undefined&&p!==""&&ACT[p]&&ORDER.includes(+p)?+p:ORDER[ORDER.length-1],s:{},c:[],f:[],po:[]};
- const n={};(c||"").split("|").filter(Boolean).forEach(part=>{if(part[0]==="*"){BS.c=part.slice(1).split(",").map(x=>HOME_BOONS[parseInt(x,36)]?.id).filter(Boolean);return}if(part[0]==="^"){BS.f=part.slice(1).split(",").map(x=>FOOD_BUFFS[parseInt(x,36)]?.id).filter(Boolean);return}if(part[0]==="~"){BS.po=part.slice(1).split(",").map(x=>POTIONS[parseInt(x,36)]?.id).filter(Boolean);return}const [k,ids]=part.includes("=")?part.split("="):[SLOT_KEYS[parseInt(part[0],36)],part.slice(1)];if(k in SLOT_BASE)BS.s[k]=(ids||"").split(",").map(x=>bLv(x,n)).filter(i=>BYID[i]&&bFits(BYID[i],k))})}
+ const [,p,f,b]=decodeURIComponent(h).split("/"),v=f!==undefined&&!f.includes("="),c=v?b:f;BSTALE=v&&f!==DFP;BS={p:p!==undefined&&p!==""&&ACT[p]&&ORDER.includes(+p)?+p:ORDER[ORDER.length-1],s:{},c:[]};
+ const n={};(c||"").split("|").filter(Boolean).forEach(part=>{if(part[0]==="*"){BS.c=part.slice(1).split(",").map(x=>HOME_BOONS[parseInt(x,36)]?.id).filter(Boolean);return}const [k,ids]=part.includes("=")?part.split("="):[SLOT_KEYS[parseInt(part[0],36)],part.slice(1)];if(k in SLOT_BASE)BS.s[k]=(ids||"").split(",").map(x=>bLv(x,n)).filter(i=>BYID[i]&&bFits(BYID[i],k))})}
 // "index_" + level, ability points, then per-stat stars, all base 36 ("-" any roll); older "id~level~a.b.c~stars" still reads
 function bLv(x,n){
  if(x.includes("_")&&!x.includes(":")){const [t,d]=x.split("_"),id=(D[parseInt(t,36)]||{}).id||"",r=RL[id];
   if(r){const ch=[...d],na=r.ab.length;RLV[bKey(n,id)]=rlFit(r,Math.max(0,Math.min(r.mx,parseInt(ch[0],36)||0)),ch.slice(1,1+na).map(c=>parseInt(c,36)),ch.slice(1+na).map(c=>c==="-"?-1:parseInt(c,36)))}
   return id}
  let [id,l,a,q]=x.split("~");if(!id.includes(":"))id=(D[parseInt(id,36)]||{}).id||"";const r=RL[id];if(r&&l!==undefined){RLV[bKey(n,id)]=rlFit(r,Math.max(0,Math.min(r.mx,+l||0)),(a||"").split(".").map(Number),[...(q||"")].map(c=>c==="-"?-1:parseInt(c,11)))}return id}
-function bHash(){const n={};return "#build/"+BS.p+"/"+DFP+"/"+Object.entries(BS.s).filter(([,v])=>v.length).map(([k,v])=>SLOT_KEYS.indexOf(k).toString(36)+v.map(id=>{const t=BYID[id].ix.toString(36);if(!RL[id])return t;const s=rlState(bKey(n,id));return t+"_"+[s.l,...s.a,...(s.q.some(v=>v>=0)?s.q:[])].map(v=>v<0?"-":v.toString(36)).join("")}).join(",")).join("|")+(BS.c.length?"|*"+BS.c.map(id=>HOME_BOONS.findIndex(h=>h.id===id).toString(36)).join(","):"")+(BS.f.length?"|^"+BS.f.map(id=>FOOD_BUFFS.findIndex(h=>h.id===id).toString(36)).join(","):"")+(BS.po.length?"|~"+BS.po.map(id=>POTIONS.findIndex(h=>h.id===id).toString(36)).join(","):"")}
+function bHash(){const n={};return "#build/"+BS.p+"/"+DFP+"/"+Object.entries(BS.s).filter(([,v])=>v.length).map(([k,v])=>SLOT_KEYS.indexOf(k).toString(36)+v.map(id=>{const t=BYID[id].ix.toString(36);if(!RL[id])return t;const s=rlState(bKey(n,id));return t+"_"+[s.l,...s.a,...(s.q.some(v=>v>=0)?s.q:[])].map(v=>v<0?"-":v.toString(36)).join("")}).join(",")).join("|")+(BS.c.length?"|*"+BS.c.map(id=>HOME_BOONS.findIndex(h=>h.id===id).toString(36)).join(","):"")}
 function bSave(){history.replaceState(null,"",bHash());buildPage()}
 function bPreset(role){
  BS.s={};const pool=D.filter(d=>bAvail(d)&&!d.inv);
@@ -141,18 +125,16 @@ ${BSTALE?`<p class="note">This link was made on a different wiki version, so som
 <span class="bpre">Starter build: ${Object.entries(ROLE).map(([k,v])=>`<button class="chip" data-preset="${k}">${v}</button>`).join("")}</span>
 <span class="bact"><button class="chip" id="bcopy">Copy link</button><button class="chip" id="bclr">Clear</button></span></div>
 ${late?`<p class="bwarn">${late} curio${late>1?"s are":" is"} past your selected Act (marked red).</p>`:""}
-<div class="bgrid"><div class="bslots">${Object.keys(SLOT_BASE).map(row).join("")}${consRow()}${foodRow()}${potRow()}</div>
+<div class="bgrid"><div class="bslots">${Object.keys(SLOT_BASE).map(row).join("")}${consRow()}</div>
 <aside class="bside">${bInspHtml()}${BPICK?`<div class="bpick"><div class="bph"><b>Add to ${esc(BPICK)}</b><button class="ghost" id="bpx">Close</button></div><input id="bq" type="search" placeholder="Search name, effect or mod…" name="buildq" spellcheck="false" aria-label="Search curios for this slot" autocomplete="off"><div id="bopts" class="bopts">${bPickHtml()}</div></div>`:""}
 ${bPaneHtml(pages)}</aside></div>`;
  el("bp").onchange=e=>{BS.p=+e.target.value;bSave()};
- el("bclr").onclick=()=>{BS.s={};BS.c=[];BS.f=[];BS.po=[];BPICK=null;bSave()};
+ el("bclr").onclick=()=>{BS.s={};BS.c=[];BPICK=null;bSave()};
  el("bcopy").onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>{el("bcopy").textContent="Link copied"},()=>prompt("Copy this link:",u))};
  if(el("bq")){el("bq").oninput=()=>{el("bopts").innerHTML=bPickHtml();bFade()};el("bopts").onscroll=bFade;bFade();el("bpx").onclick=()=>{BPICK=null;buildPage()};el("bq").focus({preventScroll:true})}
  el("main").querySelector(".bgrid").onclick=e=>{
-  const p=e.target.closest("[data-pick]"),rm=e.target.closest("[data-rm]"),ad=e.target.closest("[data-add]"),ev=e.target.closest("[data-evo]"),ins=e.target.closest("[data-insp]"),cn=e.target.closest("[data-cons]"),fd=e.target.closest("[data-food]"),pp=e.target.closest("[data-pot]");
+  const p=e.target.closest("[data-pick]"),rm=e.target.closest("[data-rm]"),ad=e.target.closest("[data-add]"),ev=e.target.closest("[data-evo]"),ins=e.target.closest("[data-insp]"),cn=e.target.closest("[data-cons]");
   if(cn){const i=cn.dataset.cons;BS.c=BS.c.includes(i)?BS.c.filter(x=>x!==i):[...BS.c,i];hideTip();bSave()}
-  else if(fd){const i=fd.dataset.food,on=BS.f.includes(i),tier=FOOD_BUFFS.find(h=>h.id===i).tier;BS.f=BS.f.filter(x=>x!==i&&!(tier&&!on&&FOOD_BUFFS.find(h=>h.id===x).tier));if(!on)BS.f.push(i);hideTip();bSave()}
-  else if(pp){const i=pp.dataset.pot;BS.po=BS.po.includes(i)?BS.po.filter(x=>x!==i):[...BS.po,i];hideTip();bSave()}
   else if(ins){BINSP=ins.dataset.insp||null;hideTip();buildPage();const b=el("main").querySelector(".binsp");if(b&&innerWidth<=760)b.scrollIntoView({block:"start"})}
   else if(ev){const [k,id,to]=ev.dataset.evo.split("|");BS.s[k][BS.s[k].indexOf(id)]=to;hideTip();bSave()}
   else if(p){BPICK=p.dataset.pick;buildPage()}
@@ -365,7 +347,7 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 <div class="tw"><table><tr><th>Effect</th><th>What it does</th><th>Given by</th></tr>${EFX_ROWS}</table></div></section>
 <section class="s" id="m-stats"><h2>Stats explained</h2>
 <p>About a dozen mods in the pack add combat stats, often with the same name and a different rule. This section follows one hit from your swing to the target's health bar and says at which step each stat counts. It is read from the code of the V6.6.6hf jars and the pack's own config files (the stat caps in <code>attributefix.json</code>, the Linggango Tweaks combat rules). Two warnings up front: several stats on the wiki do nothing in this pack, and some caps are much lower than the mods' own tooltips say.</p>
-<nav class="mtabs" aria-label="Stats explained"><a href="#mechanics" data-go="m-st-hit">One hit</a><a href="#mechanics" data-go="m-st-armor">Armor</a><a href="#mechanics" data-go="m-st-crit">Crits</a><a href="#mechanics" data-go="m-st-dodge">Dodge</a><a href="#mechanics" data-go="m-st-def">Taking damage</a><a href="#mechanics" data-go="m-st-heal">Healing</a><a href="#mechanics" data-go="m-st-roll">Roll and parry</a><a href="#mechanics" data-go="m-st-type">Damage types</a><a href="#mechanics" data-go="m-st-magic">Magic</a><a href="#mechanics" data-go="m-st-summon">Summons</a></nav>
+<nav class="mtabs" aria-label="Stats explained"><a href="#mechanics" data-go="m-st-hit">One hit</a><a href="#mechanics" data-go="m-st-armor">Armor</a><a href="#mechanics" data-go="m-st-crit">Crits</a><a href="#mechanics" data-go="m-st-dodge">Dodge</a><a href="#mechanics" data-go="m-st-def">Taking damage</a><a href="#mechanics" data-go="m-st-heal">Healing</a><a href="#mechanics" data-go="m-st-roll">Roll and parry</a><a href="#mechanics" data-go="m-st-type">Damage types</a><a href="#mechanics" data-go="m-st-combo">Status and combos</a><a href="#mechanics" data-go="m-st-magic">Magic</a><a href="#mechanics" data-go="m-st-summon">Summons</a></nav>
 
 <h3 id="m-st-hit">One hit, step by step</h3>
 <p>Every hit goes through these steps in order. A stat only changes the steps it belongs to, so the same "+10%" can be worth very different amounts.</p>
@@ -482,12 +464,50 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 <h3 id="m-st-type">Damage types and bonus damage</h3>
 <div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does</th></tr>
 <tr><td><b>Sword / Axe / Hammer / Scythe / Spear Damage</b> and <b>Slash / Pierce / Blunt Damage</b></td><td>Brutality</td><td>Added to your melee swing by the weapon you hold. Swords and axes take Slash, Brutality hammers Blunt, scythes Slash, spears and tridents Pierce, pickaxes and hoes Pierce, shovels Blunt. Flat values first, then percents. It goes by the item's class, not by the wiki's Damage chips.</td></tr>
-<tr><td>Damage affinity</td><td>Linggango</td><td>A mob weak to your damage type (the Damage chips on curio pages) takes ×1.25, or ×1.5 when the type is boosted (rain for lightning, unarmored targets for slash, airborne targets for pierce…). A resistance is ×0.75 or ×0.5. Each type also fills a status meter on the target.</td></tr>
+<tr><td>Damage affinity</td><td>Linggango</td><td>A mob weak to your damage type (the Damage chips on curio pages) takes ×1.25, or ×1.5 when the type is boosted (rain for lightning, unarmored targets for slash, airborne targets for pierce…). A resistance is ×0.75 or ×0.5. Elemental types also fill a status meter on the target, see Status and combos below.</td></tr>
 <tr><td><b>Arrow Damage</b></td><td>Apothic, Iron's Lib</td><td>Multiplies arrow damage (Apothic when the arrow is shot, Iron's when it hits). TerraCurio's ranged damage items give the Apothic one.</td></tr>
 <tr><td><b>Fire / Cold Damage</b></td><td>Apothic</td><td>An extra hit of that much on swings charged 55% or more; Fire also sets the target alight, Cold slows it.</td></tr>
 <tr><td><b>Magic Damage</b></td><td>TerraCurio</td><td>Multiplies damage of the magic and indirect magic types.</td></tr>
 <tr><td>Food buffs</td><td>Linggango</td><td>Well Fed, Plenty Satisfied, Exquisitely Stuffed: +5 / 10 / 15% attack, spell, summon and arrow damage and movement speed.</td></tr>
 </table></div>
+
+<h3 id="m-st-combo">Status and combos</h3>
+<p class="lede">Each hit fills a meter for its damage type on the target. When the meter is full it goes off into a status. Two elements that both reach half a meter on the same mob react as a combo.</p>
+<div class="tw"><table><tr><th>Element</th><th>Boosted in or on</th><th>Status when the meter goes off</th></tr>
+<tr><td><b>Fire</b></td><td>Hot places and the Nether</td><td><b>Scorched</b>: takes 15% more fire damage</td></tr>
+<tr><td><b>Frost</b></td><td>The cold, and frozen targets</td><td><b>Frostbite</b>: 40% slower and takes 15% more damage</td></tr>
+<tr><td><b>Lightning</b></td><td>Rain, and wet targets</td><td><b>Stunned</b>: can't move or attack</td></tr>
+<tr><td><b>Holy</b></td><td>Daylight</td><td><b>Judged</b>: glows and can't heal</td></tr>
+<tr><td><b>Dark</b></td><td>The dark</td><td><b>Dread</b>: deals 30% less damage. When it ends, a quarter of the damage taken during it hits again</td></tr>
+<tr><td><b>Blood</b></td><td>Wounded targets</td><td><b>Bleeding</b>: loses health every half second, twice as much while moving</td></tr>
+<tr><td><b>Nature</b></td><td>Poisoned targets</td><td><b>Rooted</b> (can't move, can still attack) and <b>Rot</b> (loses 1% of max health every second)</td></tr>
+<tr><td><b>Arcane</b></td><td>The End, and under a full moon</td><td><b>Unravelled</b>: takes 20% more elemental and magic damage</td></tr>
+</table></div>
+<p class="note">Slash, pierce and blunt do not have a status of their own. The pack's config comment says they fill a meter too, but no effect name for them is in the pack's text, so none is listed here.</p>
+<ul>
+<li>A normal elemental weapon fills its meter in about five hits.</li>
+<li>Slow weapons fill it faster per hit. A hit on a weakness fills it faster. A resistance never fills it.</li>
+<li>After a meter goes off, the next one takes longer, so one weapon can't keep a mob stunned.</li>
+<li>Bosses fill at half speed, take smaller bursts, and are never stunned or rooted.</li>
+</ul>
+<h4>Combos</h4>
+<div class="tw"><table><tr><th>Pair</th><th>Combo</th><th>What it does</th></tr>
+<tr><td>Fire + Frost</td><td><b>Shatter</b></td><td>An ice burst that hits the mob for a share of its max health. Bosses take half.</td></tr>
+<tr><td>Fire + Lightning</td><td><b>Detonation</b></td><td>An explosion that hurts the mob and the mobs close to it.</td></tr>
+<tr><td>Frost + Lightning</td><td><b>Superconduct</b></td><td>Applies Exposed and stuns the mob.</td></tr>
+<tr><td>Holy + Dark</td><td><b>Eclipse</b></td><td>The mob ignores its resistances for a while.</td></tr>
+<tr><td>Blood + Nature</td><td><b>Fester</b></td><td>Bleeding on the mob, and Rot on the mobs around it.</td></tr>
+<tr><td>Fire + Nature</td><td><b>Wildfire</b></td><td>Scorched on the mobs around it.</td></tr>
+<tr><td>Frost + Blood</td><td><b>Crimson Ice</b></td><td>A stun after a short delay.</td></tr>
+<tr><td>Lightning + Holy</td><td><b>Smite</b></td><td>Judged on the mob.</td></tr>
+<tr><td>Dark + Blood</td><td><b>Bloodletting</b></td><td>A heavy hit with blood particles.</td></tr>
+<tr><td>Frost + Nature</td><td><b>Frostbloom</b></td><td>Rooted and Frostbite on the mobs around it.</td></tr>
+<tr><td>Lightning + Blood</td><td><b>Arterial Surge</b></td><td>Bleeding on the mobs around it.</td></tr>
+<tr><td>Holy + Fire</td><td><b>Sunfire</b></td><td>Hits the mobs around it, harder against undead.</td></tr>
+<tr><td>Arcane</td><td><b>Resonance</b></td><td>A burst. With Iron's Spellbooks installed you also get 25 mana.</td></tr>
+</table></div>
+<h4>When Arcane hits max</h4>
+<p>The Arcane meter goes off into <b>Unravelled</b>: the mob takes 20% more elemental and magic damage. Resonance is the Arcane combo: its burst gives you 25 mana, the mana from Iron's Spellbooks. The pack's own in-game text describes it as "Arcane blows up around it and gives you mana back".</p>
 
 <h3 id="m-st-magic">Magic (Iron's Spells)</h3>
 <div class="tw"><table><tr><th>Stat on the wiki</th><th>What it does</th></tr>
@@ -904,7 +924,7 @@ function changesPage(){
 <section class="s" id="c-2026-10-29"><h2>October 29, 2026</h2>
 <h3>Added</h3><ul>
 <li><b>Consumables</b> in the build planner: the five home boons (Hearty Feast, Angler's Pearl, Amber Core, Hunter's Essence, Arcane Crystal). They are toggled on and off, kept out of the stat totals, and saved in the link.</li>
-<li><b>Food buffs</b> and <b>Potions</b> sections in the build planner: food tier buffs (Well Fed, Plenty Satisfied, Exquisitely Stuffed from linggango_tweaks, one tier at a time), Golden Apple, and six combat potions (Strength II, Speed II, Fire Resistance, Regeneration I, Slow Falling, Jump Boost II). All are temporary, kept out of stat totals, and saved in the share link.</li>
+<li><b>Status and combos</b> in Stats explained: what each element's meter does when it fills, the 13 element combos, and what happens when Arcane hits max.</li>
 <li><b><a href="#mechanics/effects">Effects</a></b> on the Mechanics page: food buffs, Linggango's effects and the vanilla effects in the pack, each with the items whose text names it. Effect names on item pages link there.</li>
 </ul>
 <h3>Changed</h3><ul>
