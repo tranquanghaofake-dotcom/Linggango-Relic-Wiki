@@ -2287,6 +2287,13 @@ html[data-vt=prev]::view-transition-new(root){animation:.22s ease-out .1s both v
 .bslot{grid-template-columns:170px minmax(0,1fr);align-items:center}
 @media(max-width:520px){.bslot{grid-template-columns:1fr}}
 .bslot.bcons{grid-template-columns:1fr}
+.gload{display:grid;gap:var(--s2);padding:var(--s3)}
+.gld{display:grid;grid-template-columns:110px minmax(0,1fr) minmax(0,1fr);align-items:center;gap:var(--s2);font:500 14px var(--body);color:var(--gui-ink)}
+.gld>b{color:var(--rc)}
+.gld .slot{vertical-align:middle}
+.gld a.slot{width:auto;height:auto;padding:var(--s2);display:flex;align-items:center;gap:var(--s2);color:var(--gui-ink);text-decoration:none;font:500 13px/1.2 var(--body);min-width:0}
+.gld a.slot span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gld a.slot img{width:40px!important;height:40px!important;flex:none}
 .bsh{white-space:nowrap;min-width:0}
 .bsh b{overflow:hidden;text-overflow:ellipsis}
 /* consumable/food/potion toggle buttons */
@@ -9146,6 +9153,9 @@ function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const
   out=GTIER.map(([t],i)=>[t,b[i]]);out.top=top}
  GTC.set(key,out);return out}
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
+/* best weapon and armor set per playstyle at an Act: the top of each pool, so every mod's gear is in the running */
+const gLoadout=a=>`<div class="gload">${Object.keys(GROLE).map(r=>{const cell=(k,x)=>x?`<a class="slot" href="${gHref(x[0])}" title="${esc(x[0].n)}">${gImg(x[0])}<span>${esc(x[0].n)}</span></a>`:`<span class="slot"></span><span class="gnone">—</span>`;
+ return `<div class="gld" style="--rc:${ROLE_C[r]||"#8a8f99"}"><b>${GROLE[r]}</b>${cell("w",gPool(a,r,"w")[0])}${cell("a",gPool(a,r,"a")[0])}</div>`}).join("")}</div>`;
 const gHref=g=>g.ps?"#gs"+g.ix:"#g"+g.ix;
 /* a tile is faded when its score in this list is an estimate (a staff's Melee DPS is read, its Mage score is not) */
 const gTile=(g,a,r)=>gIsCurio(g)?`<a class="gtl" href="#i${g.ix}" data-t="${g.ix}"><span class="slot">${img(g.id)}</span>${g.t===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}<span>${esc(g.n)}</span></a>`:`<a class="gtl${g.est&&!(r==="ME"&&g.dmg!=null)?" est":""}${!g.ps&&g.k!=="armor"?" wpn":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}">${gImg(g)}${g.a===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(g.n).replace(/ \((Lv|Tier|Mk) /g," ($1&nbsp;")}</span></a>`;
@@ -9167,6 +9177,7 @@ function gearPage(h){
  ${room("forge",tiers.flatMap(([t,xs])=>xs.map(g=>({h:gHref(g),i:gImg(g),t:(g.ps?"s":"g")+g.ix,n:g.n,l:esc(t)}))).slice(0,10),{head:`<span class="gem">${emblem(a,"lg")}</span><div><h1>Equipment tier list</h1>
  <p class="lede">The best weapons and armor sets for each playstyle at <b>${esc(actL(a))}</b>: everything you can use once ${a==0?"you start":esc(UNL[a]||"")+" is beaten"}, ranked against the best you have at that point.</p></div>`,min:5,cols:5,label:"Best at this Act"})}
  <nav class="gacts" aria-label="Act">${ORDER.filter(x=>x!=-1).map(x=>`<a href="${go(x,r,w)}" style="--tc:${ACT[x][2]}"${x===+a?' aria-current="page"':""} title="${esc(actF(x))}"><span class="gx">${emblem(x,"xs")}</span><b>${esc(ACT[x][0])}</b></a>`).join("")}</nav>
+ <h2 class="glet">Best loadout at ${esc(actL(a))}</h2>${gLoadout(a)}
  <div class="gbar"><div class="gseg" role="tablist" aria-label="Weapons or armor">${[["w",ui("sword")+" Weapons"],["a",ui("chest")+" Armor sets"],["c",ui("star")+" Curios"]].map(([k,t])=>`<a role="tab" href="${go(a,r,k)}"${k===w?' aria-selected="true"':""}>${t}</a>`).join("")}</div>
  <div class="gseg roles" role="tablist" aria-label="Playstyle">${roles.map(k=>`<a role="tab" href="${go(a,k,w)}" style="--rc:${ROLE_C[k]||"#8a8f99"}"${k===r?' aria-selected="true"':""}>${GROLE[k]}</a>`).join("")}</div>
  <input id="gq" type="search" autocomplete="off" name="gearq" placeholder="Find a weapon or set…" value="${esc(GSTATE.q)}" aria-label="Find gear"></div>

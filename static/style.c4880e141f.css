@@ -2281,6 +2281,13 @@ html[data-vt=prev]::view-transition-new(root){animation:.22s ease-out .1s both v
 .bslot{grid-template-columns:170px minmax(0,1fr);align-items:center}
 @media(max-width:520px){.bslot{grid-template-columns:1fr}}
 .bslot.bcons{grid-template-columns:1fr}
+.gload{display:grid;gap:var(--s2);padding:var(--s3)}
+.gld{display:grid;grid-template-columns:110px minmax(0,1fr) minmax(0,1fr);align-items:center;gap:var(--s2);font:500 14px var(--body);color:var(--gui-ink)}
+.gld>b{color:var(--rc)}
+.gld .slot{vertical-align:middle}
+.gld a.slot{width:auto;height:auto;padding:var(--s2);display:flex;align-items:center;gap:var(--s2);color:var(--gui-ink);text-decoration:none;font:500 13px/1.2 var(--body);min-width:0}
+.gld a.slot span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gld a.slot img{width:40px!important;height:40px!important;flex:none}
 .bsh{white-space:nowrap;min-width:0}
 .bsh b{overflow:hidden;text-overflow:ellipsis}
 /* consumable/food/potion toggle buttons */
