@@ -650,3 +650,9 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 
 ## 29 Oct 2026 (later): motion off — main (see commit on main)
 - Title backdrop drift (`.pano`) and the floating icons (`ipfloat` on `.ip-icon` and `.emb`) are off, as the user asked. Relic glint stays on hover only.
+
+## 30 Oct 2026: Path lazy build, Path particles off, patch notes backlog (main e0b022cb9)
+- Path panels build on first open (`pPanelInner`); the first Path tab is still built eagerly. The Path side-panel particle layer (`.pmap .envfx`) is hidden: it had 104 infinite animations.
+- Planner: Food and Potions sections removed; consumables row fixed on phones.
+- Discord patch notes 6.6.5b1 to 6.6.6 are in `docs/PATCH_NOTES_6.6.5-6.6.6.md` (this branch). Nothing from them is on the site yet; numbers still need checking against the jars.
+- Still open: Path scroll lag not measured in a visible browser pane; class best-set view waiting on the user's go-ahead.
