@@ -48,7 +48,8 @@ Keeper summon each Boss Soul goes into). The pack ships its quest files encrypte
 `summons.py` also reads the 6.6.6 summon routes (`kubejs/data/linggango_integration/recipes/38_summon_routes`) and the Boss Soul slot.
 
 ## curio_recipes.py: recipe grids for curios that showed only an ingredient row
-`python3 build/pack_audit/curio_recipes.py <dir of *.jar> <the pack's overrides/kubejs>` finds the recipe of each crafted curio
+`python3 build/pack_audit/curio_recipes.py <SP/sp/mods> <SP/sp/kubejs> <W>` (W holds `mc_client.jar`, `lang.json` and `pack/` for the
+mcassets icons; about 45 s) finds the recipe of each crafted curio
 without a grid: Crafting Table (shaped, shapeless), Blood Magic's Hellfire Forge and Alchemy Array. Order as in game: what the KubeJS
 server scripts add (`kubejs_recipes.js` runs them under node against a stand-in recipe event and prints adds and removes), then
 `kubejs/data` recipes, then the mod jars; anything the scripts remove is skipped. Writes `patches/curio_recipes.json` (grids and

@@ -708,3 +708,64 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Docs: `build/README.md` and `build/ARCHITECTURE.md` brought in line with the code at 7d68e9a00: rooms are the headers of Curios, Equipment, the Build planner, Bosses and Mechanics, with no item frames; the Act pages are live and only the mod and slot pages redirect; `curio_recipes.py` is named as the third in-place writer of `data.js`; the tier rule compares with the fifth best item; GSTEP is 1.24; item counts, file sizes and line counts re-measured.
 - Checked: `check.sh` green at 7d68e9a00 (4 min 12 s): patches idempotent and the build reproducible, 0 broken invariants, 72 Path cards all with a background, 2,198 gear pages and 328 sets, 3,931 detail pages on the shared layout, style rules, site check (0 missing files, 0 script errors). The docs: each figure measured again against the code (line counts, file sizes, `gear_runtime.json` items, the live `GSTEP`, the `room(` call sites and the `.room3` count per route), and `node build/shot.js '#act/5'` draws the Act page at 1440 and 375.
 - Still open (`docs/RENOVATION_PREP.md`, "Still open", has the full list): the wide gear scan could not replace `gear_table.json`, because 52 armour pieces and 56 items of the table come from producers that are not in the repo (`fallback.json`, nested jars), so only its recipe lists were taken, and its ~2,000 items need comparing one by one before the table is replaced; one class layer and one interpreter (`classlib.py` on jawa under mjvm; jmodel, gear_fx and iss_armor still parse `javap` text, and jmodel runs a method straight through, so a loop body runs once); `attrs.py` and `cfg.py`, the producers of `side_bosses/stats.py`'s inputs, are not in the repo, so `side_stats.json` cannot be regenerated from the pack.
+- The fix pass itself (commits 0a24ea45d … eef54f182 on the branch, the audit and its plan in the session): 149 findings from
+  21 finder/verifier agents (144 confirmed by an adversarial verifier, 3 refuted), rated and planned by Fable (max) into 11
+  file-disjoint groups and 31 chunks, fixed by Sonnet (simple) and Opus (complex) agents in one worktree per group, then
+  cherry-picked here in the plan's order. By reader impact:
+  - Scoring: Goety's `spell_potency` (+1 read as +100 %) and `casting_speed` no longer count as Iron's spell power (Goety
+    attributes keep their namespace in `gear_runtime.py`, `gear_data.py` and `gear.js`), so the Mage lists at Acts IV–XII move
+    (Dark V S → A; best Mage armour Frost IV, Geomancer V–Dragon, Etherite XI–XII). Summon Power is flat (+2 on Summoner's
+    Bangle: Mythic → Uncommon, +100 % → +10 %) and Summon Duration is not damage; Resistance follows Linggango Fixes' curve
+    (0.2 + 0.04444 a level). Curio "Measured in game" rows print flat attributes as flat ('+4 Lethality', not '+400 %') and
+    movement speed against its 0.1 base; `gMod` has an explicit percent set; knockback resistance ×10; tier text names the
+    fifth best, as the code does.
+  - Gear facts from the pack: locks come from the pack's gate tags only (`gear_gated.json`; 66 lock changes, every lock names
+    its boss, GATEN = UNL); `boss_order` reads every ingredient (it skipped the first of 1,858 recipes) and folds 6.1/6.2 in
+    order (Dinosaur Bone Club 0 → V, The Great Frost II → III, Sword of the Nightlord V → VII, Buster Gauntlet VI → VII,
+    Withered Ribcage and Void Sword V → VI, three Lethality blades Dragon → VI by their tag); the 24 Mystical Agriculture armour
+    pieces the pack disables are hidden from the tier lists; 20 one-piece "sets" are 3 four-piece families (Living, Robe,
+    Darkness, plus Geomancer, MekaSuit, space suits, hazmat, scuba, diving: 328 → 313 sets); Tide Piercer, Trumpet Axe and
+    Hand of Death say their recipe needs a mod the pack lacks; attack damage and speed read from the game's own measurement
+    (Holy Moonlight Sword 41 → 7); 51 "sets the target on fire" rows that belonged to the arrow are gone; the pack's 64
+    `renameItem` names apply (`renames.json`: Concentrated Bronze, Animal Leather, Stinky Hat).
+  - Curios: 15 recipes as KubeJS and the datapack order make them (`curio_eff_recipes.json`); Unique Accessories drop chances
+    from the config (0.2–15 %, not 100 %); Terra Curio chances from the loot tables (`curio_drops.json`); ~30 Brutality
+    attribute lines from the jar; 14 curios that need a boss-only drop sit at that boss's Act; the ghost War Horn is gone
+    and Sweetheart Necklace, Vanir Mask and Pocket Universe are in (1,319 → 1,321 curios; `#i` indices from 1026 moved);
+    Cradle of Rebirth is Must-Have (owner decision); Drowned Belt 4 points a level; Panic Necklace in the Accessory slot.
+  - Bosses: the Armageddon Keepers, Wither and Ender Dragon are exempt from Hardmode (`armageddon_bosses.json`); the Dragon
+    is 600 HP / 30 armour (`ender_dragon_configuration.json`); 33 side bosses take the pack's `soul_bosses` pins (Ignis
+    3,200 HP); Meet Your Fight melee multipliers, the Monster flag, Apostle toughness 66, Rosalyne's books; attacks listed once
+    per phase under the phase's title; summon ingredients name their treasure bag; the Keepers carry the game's names (The
+    Discord, Fourth Calamity); six side bosses show their in-game name beside the wiki name (Chorusent, Monarch of Chaos, The
+    Decaying King, Fallen Icon / Harbinger of Moonlight, Echo of Tyros, Old Champion's Remains / Frenzied Shade; owner
+    decision, routes unchanged); AE2 gates list the add-ons' parts; ritual types named from JEI; guide text without markup.
+  - Front end: one stat icon per line, exact Act numerals in filters, a pill's × removes one token, counts match Curios, Enter
+    in the header box applies, '/' types inside boxes; I'm-here redraws Continue and opens its Act, saved state checked per
+    key, bad hashes get a page, side-boss lists by their own Act; the planner's picker scrolls into view on phones, keyboard
+    focus kept across redraws, no sidebar on #build, share links report dropped items, conditional lines out of Stat totals,
+    estimates marked (chip, faded loadout picks); Mechanics draws 60 ritual rows at a time with named filters; one cell per
+    missing loadout pick (NOTES 674's item, closed), Equipment search over every match, switches redraw in place; touch
+    wording on phones; the October 31 Changes entry.
+  - Layout: detail pages one column below 1181 px; Curios Acts, footer, Equipment bars and loadout, hub slot list, room heads
+    (positive width at every room width, a plain lit wall under the title on phones) fixed at 375–1024 px; section headings
+    30 px, sub-heading rhythm, planner select, cell labels, boot frame (no layout shift: fonts off the critical path, body
+    classes set at boot), focus ring on the Path, reduced motion honoured, touch targets ≥ 24 px, dead `.lhero` CSS gone;
+    owner-approved contrast: tier letters and the ingredient panel in dark ink, one Mythic red (#ec6b5f), text Act titles
+    below 480 px.
+  - Checks: `check.js` awaits every picture's decode on 1,405 curio, Keeper and side-boss pages, `apply_all.sh` fails when
+    the tier run crashes, `shot.js` names the hub shot; `style_check.js` has a phone pass (375–1180 px); the audit's data and
+    scoring bugs are invariants in `check.js` (Goety keys, Summon Power, Resistance, measured rows, gates, set families,
+    disabled gear, loadout cells, Hardmode, soul pins, Keeper names). The chunks' full invariant texts are in the session's
+    workflow reports (`scratchpad/audit`), not all ported: see still open.
+- Checked: Act dump before/after the pass (`compare_acts.py`): exactly the moves above, nothing else; the planner's joint
+  checks (Dark MA 1.296, Frost/Geomancer/Etherite loadouts, bangle rank 1, Halo 2.195, 0 items below their gate, 0 unnamed
+  gates, 1 Geomancer set, Tide Piercer untiered, no duplicate set names, Dragon 600, no "Keeper of the Calamities"); shots
+  of the main routes, Equipment, Bosses, Mechanics, a curio, gear and set page at 1440 and 375 against the pre-pass baseline
+  (changes only where intended); `check.sh` green on the final tree (the time is in the commit that merges this).
+- Still open: the collected per-chunk invariants beyond the ones above (a11y_check.js: CLS, long tasks, contrast, focus,
+  accessible names; the full content scans) — the plan's checks chunk 2, skipped to finish the session; Crucible Sword's
+  damage (dump 41, game 30, hit 9: needs a fresh measurement); the #gear lede at 320 px (below the 375 px target); the
+  Mechanics AE2 gates table is ~7,000 px tall at 375 px (one chip per line); `stats.py`, `summons.py` and `goety.py` were
+  fixed but not re-run (their inputs are not in the repo: the JSON was hand-edited to what they would write); `gear_fix.json`
+  carries 37 stale ids the pipeline never applies; the icon pass (own-3/own-4, `docs/RENOVATION_PREP.md` item 5).
