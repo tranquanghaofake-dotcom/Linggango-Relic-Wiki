@@ -129,9 +129,24 @@ from PIL import Image
 import io
 for t in out["types"].values():
     if t["img"]:
-        im = Image.open(io.BytesIO(base64.b64decode(t["img"]))).convert("RGB"); b = io.BytesIO(); im.save(b, "WEBP", quality=78); t["img"] = base64.b64encode(b.getvalue()).decode()
-out["types"]["te_magic"] = {"name": "Te Magic (Goety Revelation)", "req": ["Set in Goety Revelation's code; no block list ships in the pack files"], "lore": "", "img": None}
-out["types"]["the_end"] = {"name": "The-End Ritual (Goety Revelation)", "req": ["Set in Goety Revelation's code; needs the Forbidden research and a player sacrifice"], "lore": "", "img": None}
+        im = Image.open(io.BytesIO(base64.b64decode(t["img"])))
+        if "A" in im.getbands(): im = im.crop(im.getchannel("A").getbbox())  # Patchouli draws only the opaque part; transparency would turn black
+        im = im.convert("RGB"); w, h = im.size
+        assert any(im.getpixel((w - 1, y)) != (0, 0, 0) for y in range(h)) and any(im.getpixel((x, h - 1)) != (0, 0, 0) for x in range(w)), "all-black edge in a ritual type picture"
+        b = io.BytesIO(); im.save(b, "WEBP", quality=78); t["img"] = base64.b64encode(b.getvalue()).decode()
+# type names as JEI's ritual category shows them (jei.goety.craftType.<type>), not the book entry titles
+JL = {}
+for j in JARS:
+    z = zipfile.ZipFile(M + j)
+    for n in z.namelist():
+        if re.match(r"assets/[^/]+/lang/en_us\.json$", n): JL.update({k: v for k, v in json.loads(z.read(n).decode("utf-8", "ignore")).items() if k.startswith("jei.goety.craftType.")})
+def tname(t):
+    k = "jei.goety.craftType." + t
+    assert k in JL, "missing lang key " + k
+    return JL[k] + " Ritual"
+for t in out["types"]: out["types"][t]["name"] = tname(t)
+out["types"]["te_magic"] = {"name": tname("te_magic") + " (Goety Revelation)", "req": ["Set in Goety Revelation's code; no block list ships in the pack files"], "lore": "", "img": None}
+out["types"]["the_end"] = {"name": tname("the_end") + " (Goety Revelation)", "req": ["Set in Goety Revelation's code; needs the Forbidden research and a player sacrifice"], "lore": "", "img": None}
 out["research"] = {k: clean(lang.get(f"goety:{k}_scroll", k)) for k in ["ravaging", "warred", "buried", "haunting", "front", "mistral", "floral", "bygone", "terminus", "forbidden"]}
 out["research"]["lord"] = "the Lord research (Goety Revelation: \u201cforging secrets of divine artifacts\u201d)"
 out["research"]["viziers_cookbook"] = "Viziers Cookbook (Goety Delight)"

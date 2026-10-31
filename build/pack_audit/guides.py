@@ -6,9 +6,15 @@ ids={}
 for f in ('data.js','gear_data.js'):
   for e in ld(f):
     if isinstance(e,dict) and e.get('id'): ids[e['id']]=e.get('n','')
+KEYS={'use':'Use','sneak':'Sneak','attack':'Attack','jump':'Jump','inventory':'Inventory','drop':'Drop'}
+MACROS={}  # book.json "macros" (Patchouli expands them before formatting), filled below
+def keyname(k): return 'the '+KEYS.get(k,L(k) if 'L' in globals() else k)+' key'
 def strip(t):
-  t=re.sub(r'\$\((br2?|p)\)',' ',t)
-  t=re.sub(r'\$\(l:[^)]*\)|\$\([^)]*\)','',t); t=re.sub(r'\s+',' ',t).strip(); return t
+  for a,b in MACROS.items(): t=t.replace(a,b)
+  t=re.sub(r'\[?\$\(k:([^)]*)\)\]?',lambda m: keyname(m.group(1)),t)  # keybind: [$(k:use)] -> the Use key
+  t=re.sub(r'\$\((br2?|p)\)|<br2?\s*/?>',' ',t)  # line breaks, also the HTML-style ones some books write
+  t=re.sub(r'\$\(l:[^)]*\)|\$\([^)]*\)','',t); t=t.replace('%%','%')  # %% is a format escape, the book shows %
+  t=re.sub(r'\s+',' ',t).strip(); return t
 def short(t):
   ss=re.split(r'(?<=[.!?])\s+',t); o=''
   for s in ss[:3]:
@@ -37,7 +43,7 @@ for jar,z,ns in srcs:
     bk=m.group(2)+':'+m.group(3); rest=m.group(4)
     try: d=json.loads(z.read(n).decode('utf-8','ignore'))
     except: continue
-    if rest=='book.json': titles[bk]=d.get('name',m.group(3))
+    if rest=='book.json': titles[bk]=d.get('name',m.group(3)); MACROS.update(d.get('macros') or {})
     elif rest.startswith('en_us/entries/') and isinstance(d,dict): entries.append((jar,bk,n,d))
 # lang files for translation keys
 for jar,z,ns in srcs[:-1]:
@@ -94,8 +100,8 @@ for jar,bk,path,d in entries:
     bosses[key]={'text':short(text),'img':img,'jar':jar,'book':bkname(bk),'entity':(ent[0].split('{')[0] if ent else '')}
 # keep only boss-ish
 bosses={k:v for k,v in bosses.items() if (re.search(r'\bboss',v['text']+k,re.I) or (v['entity'] and BOSS.search(k+' '+v['text']))) and not re.search(r'servant|charm|upgrade|familiar|support|multiplayer|sigil|cloth|vines|leaves|sniffer|bartering',k,re.I)}
-json.dump(out,open(W+'/guides.json','w'),indent=1,ensure_ascii=False)
-json.dump(bosses,open(W+'/guides_bosses.json','w'),indent=1,ensure_ascii=False)
+json.dump(out,open(os.environ.get('GUIDES_OUT',W)+'/guides.json','w'),indent=1,ensure_ascii=False)
+json.dump(bosses,open(os.environ.get('GUIDES_OUT',W)+'/guides_bosses.json','w'),indent=1,ensure_ascii=False)
 from collections import Counter
 print(len(ids),len(out),len(bosses),len(entries)); print(Counter(v['book'] for v in out.values()))
 print(sorted(bosses)[:80])
