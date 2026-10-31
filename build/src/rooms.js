@@ -63,7 +63,9 @@ const ROOMK={
 };
 function rPaint(el){const k=el.dataset.room,spec=ROOMK[k];if(!spec||typeof ROOMT==="undefined")return;
  const W=el.clientWidth;if(!W)return;const C=Math.ceil(W/RB)+1,ox=-Math.floor((C*RB-W)/2);
- const head=el.classList.contains("rhd"),T=head?Math.min(Math.max(8,Math.ceil(Math.min(500,W*.36)/RB)),C-12):0;
+ // the title takes at least 8 columns; a scene needs 7 more right of it. A room too narrow for both (under about 600 px)
+ // is a bare wall: the title spans it and the scene's props are left out, as the older rooms leave theirs out on phones.
+ const head=el.classList.contains("rhd");let T=head?Math.max(8,Math.ceil(Math.min(500,W*.36)/RB)):0;const bare=head&&C-T<7;if(bare)T=C;
  const cx=Math.max(T+6,Math.floor((T+C)/2));     // the scene: in the middle of the wall right of the title
  let sd=[...k].reduce((a,c)=>a*31+c.charCodeAt(0),7)>>>0;const R=m=>{sd=(sd*1103515245+12345)>>>0;return (sd>>>8)%m};
  const wall=[],deco=[],over=[],lights=[],anims=[],pts=[],icons=[];
@@ -75,6 +77,7 @@ function rPaint(el){const k=el.dataset.room,spec=ROOMK[k];if(!spec||typeof ROOMT
   hang:(x,t,len)=>{for(let y=1;y<=len;y++)deco.push([x,y,y<len?"ri_chain":t,{}])},
   stand:(x,m)=>deco.push([x,3,"as_"+m,{tall:1}]),     // an armor stand wearing the set: 1 block wide, 2 tall (armor_stand.py)
   beamUp:(x,y)=>anims.push([x,0,"beam",1,0,{h:y}])};
+ if(bare)for(const f of ["put","over","icon","anim","lamp","pt","hang","stand","beamUp"])g[f]=()=>{};   // wall, beam and floor only
  spec(g);
  const keys=new Set([...wall,...deco,...over].map(e=>e[2]));
  Promise.all([...keys].map(t=>rImg(t).ready).concat(icons.map(e=>(rIcon(e[2])||{ready:Promise.resolve()}).ready))).then(()=>{
@@ -114,7 +117,7 @@ function rPaint(el){const k=el.dataset.room,spec=ROOMK[k];if(!spec||typeof ROOMT
    if(t==="glyph"){const dx=(o.to[0]-x)*RB,dy=(o.to[1]-y)*RB;h+=`<i class="rglyph${o.pur?" pur":""}" style="${P(x,y)};--dx:${dx}px;--dy:${dy}px;--sp:var(--v-p_sga_${"aekrxz"[k%6]});animation-delay:${-(k*.8).toFixed(1)}s"></i>`;return}
    for(let i=0;i<2;i++)h+=`<i class="rpt ${t}" style="left:${x*RB+ox+(o.dx!=null?o.dx*RB:16+i*8)}px;top:${y*RB+(o.dy||0)*RB}px;--sp:var(--v-${PT[t]||"p_flame"});animation-delay:${-((k*1.3+i*1.4)%3).toFixed(1)}s"></i>`});
   fx.innerHTML=h;
-  const hd=el.querySelector(".rhead");if(hd){hd.style.left=Math.max(16,RB+ox)+"px";hd.style.width=((T-1)*RB+ox-Math.max(16,RB+ox))+"px"}
+  const hd=el.querySelector(".rhead");if(hd){const l=Math.max(16,RB+ox);hd.style.left=l+"px";hd.style.width=(bare?W-2*l:(T-1)*RB+ox-l)+"px"}
   el.dataset.p=W})}
 // painted from a ResizeObserver, which reports the room's width after the page's own layout: asking for it earlier would
 // force that layout (~0.15 s on the Curios page) before the first paint. The first report paints at once, later ones after 120 ms.
