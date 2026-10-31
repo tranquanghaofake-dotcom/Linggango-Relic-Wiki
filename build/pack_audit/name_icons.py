@@ -13,6 +13,7 @@ entity id and spawn egg) and gear_icons.json (IC). Run apply_all.sh afterwards.
 Usage: python3 build/pack_audit/name_icons.py <pack dir with files/<project>/*.jar>"""
 import sys, json, glob, zipfile, io, base64, re, pathlib
 from PIL import Image
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))   # mcassets, block_render (also under python3 -I)
 PK = pathlib.Path(sys.argv[1]); P = pathlib.Path(__file__).resolve().parents[1] / "patches"; SRC = P.parent / "src"
 J = lambda f: json.loads((P / f).read_text(encoding="utf-8")) if (P / f).exists() else {}
 zips = []
@@ -50,38 +51,19 @@ def tagvals(t, d=0):
             v = v["id"] if isinstance(v, dict) else v
             out += tagvals(v, d + 1) if v.startswith("#") else [v]
     return out
-# 3. icons
-def model(x, d=0):
-    ns, p = x.split(":", 1) if ":" in x else ("minecraft", x)
-    b = rd(f"assets/{ns}/models/{p}.json")
-    if not b or d > 8: return {}
-    try: m = json.loads(b)
-    except Exception: return {}
-    tex = {}
-    if isinstance(m.get("parent"), str) and not m["parent"].startswith("builtin"): tex.update(model(m["parent"], d + 1).get("textures", {}))
-    tex.update(m.get("textures", {})); m["textures"] = tex; return m
-def frame(b):
-    im = Image.open(io.BytesIO(b)).convert("RGBA"); w, h = im.size
-    return im.crop((0, 0, w, w)) if h > w and h % w == 0 else im
+# 3. icons: the inventory picture (mcassets.py): flat layers, block models in the GUI view at 32 px, else the
+# particle face, else the item or block texture of the same name
+import mcassets
+A = mcassets.Assets(rd=rd)
 def icon(i):
-    ns, n = i.split(":", 1); t = model(f"{ns}:item/{n}").get("textures", {})
-    layers = [t[k] for k in sorted(t) if re.match(r"layer\d+$", k)]
-    if not layers: layers = [t.get("particle") or t.get("side") or t.get("front") or t.get("all") or t.get("texture")] if t else []
-    if not layers or not layers[0]: layers = [f"{ns}:item/{n}", f"{ns}:block/{n}"]
-    im = None
-    for L in layers:
-        while isinstance(L, str) and L.startswith("#"): L = t.get(L[1:])
-        if not isinstance(L, str): continue
-        lns, lp = L.split(":", 1) if ":" in L else ("minecraft", L)
-        b = rd(f"assets/{lns}/textures/{lp}.png")
-        if not b: continue
-        try: f = frame(b)
-        except Exception: continue
-        if im is None: im = f
-        else: im.alpha_composite(f if f.size == im.size else f.resize(im.size, Image.NEAREST))
-        if not t.get("layer1"): break
+    ns, n = mcassets.rl(i)
+    im = A.icon(i, 32)
+    if im is None:
+        m = A.model(f"{ns}:item/{n}")
+        im = A.texture(A.resolve(m, m["textures"].get("particle"))) if m else None
+    if im is None: im = A.texture(f"{ns}:item/{n}") or A.texture(f"{ns}:block/{n}")
     if im is None or im.size[0] > 64: return None
-    bo = io.BytesIO(); im.save(bo, "PNG", optimize=True); return base64.b64encode(bo.getvalue()).decode()
+    return mcassets.png_b64(im)
 # what the pages name
 text = (SRC / "data.js").read_text(encoding="utf-8"); gtext = (SRC / "gear_data.js").read_text(encoding="utf-8")
 want = set()
@@ -119,9 +101,8 @@ import block_render
 for i, how in (("bloodmagic:altar", ("obj", "assets/bloodmagic/models/bloodaltar.obj", "assets/bloodmagic/textures/models/altar.png")),
                ("somakespells:upgrade_forge", ("model", "somakespells:item/upgrade_forge"))):
     if i in IC: continue
-    im = block_render.render_obj(how[1], how[2], rd) if how[0] == "obj" else block_render.render(how[1], rd)
-    if im is not None:
-        bo = io.BytesIO(); im.save(bo, "PNG", optimize=True); IC[i] = base64.b64encode(bo.getvalue()).decode()
+    im = block_render.render_obj(how[1], how[2], rd, size=32) if how[0] == "obj" else block_render.render(how[1], rd, size=32)
+    if im is not None: IC[i] = mcassets.png_b64(im)
 MO = {k: v for k, v in MO.items() if v[1] in IC or v[1] in have}
 for f, d in (("name_ids.json", NI), ("tag_ids.json", TG), ("mob_ids.json", MO), ("gear_icons.json", IC)):
     (P / f).write_text(json.dumps(d, ensure_ascii=False, separators=(",", ":"), sort_keys=True), encoding="utf-8")

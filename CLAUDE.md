@@ -7,7 +7,7 @@ The wiki text stays in English; the user reads Vietnamese, so talk to them in Vi
 ## How a change goes live
 1. Edit sources only (next section).
 2. `bash build/patches/apply_all.sh` (about 10 s) — the whole build: data patches, `build.py`, curio tiers. Never `build.py` alone: it skips the curio tiers, which move when scoring in `gear.js` changes.
-3. Look at every page you changed: `node build/shot.js '#home' '#g12' …` (add `--width 375` for phones), then open the PNGs. A change nobody has looked at is not done.
+3. Look at every page you changed: `node build/shot.js '#home' '#g12' …` (add `--width 375` for phones), then open the PNGs. A change nobody has looked at is not done. A change that should leave pages as they were: shoot the previous build too and add `--diff <its shot dir>`.
 4. `bash build/check.sh` (about 5 min) — exactly what CI runs before deploying.
 5. One commit: the sources plus this session's entry in `docs/NOTES.md`. Push to `main`.
 6. The `site` workflow (`.github/workflows/site.yml`) builds, checks and deploys. A red run deploys nothing and the site stays on the last good build; `/build.txt` on the site names the deployed commit. Check the run went green before saying the change is live.

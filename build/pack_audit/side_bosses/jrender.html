@@ -1,10 +1,10 @@
 <!doctype html><html><body style="margin:0;background:transparent">
 <!-- Renders a Java entity model read by jmodel.py the way vanilla ModelPart draws it (cube vertices and box UVs from
      ModelPart.Cube, part pose = translate then rotate Z, Y, X), seen from the front-left like a mob portrait.
-     Serve next to node_modules/three (three@0.169.0) and build/geo2three.js (GeckoLib models); driven by jrender.js. -->
-<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js"}}</script>
+     Opened in place by jrender.js through ../render_page.js (build/node_modules/three, build/geo2three.js). -->
+<script type="importmap">{"imports":{"three":"../../node_modules/three/build/three.module.js"}}</script>
 <script type="module">
-import * as THREE from 'three';import {buildGeo} from './geo2three.js';
+import * as THREE from 'three';import {buildGeo} from '../../geo2three.js';
 const SZ=512,R=new THREE.WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true});R.setSize(SZ,SZ);R.setClearColor(0,0);document.body.appendChild(R.domElement);
 function cube(c,tw,th,mat){
  let [x,y,z,w,h,d,g,u,v,mir]=c;const x0=x-g,y0=y-g,z0=z-g;let x1=x+w+g,y1=y+h+g,z1=z+d+g,xa=x0;

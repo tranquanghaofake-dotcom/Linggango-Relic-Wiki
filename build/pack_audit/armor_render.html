@@ -1,7 +1,7 @@
 <!doctype html><html><body style="margin:0;background:transparent">
-<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js"}}</script>
+<script type="importmap">{"imports":{"three":"../node_modules/three/build/three.module.js"}}</script>
 <script type="module">
-import * as THREE from 'three';import {buildGeo} from './geo2three.js';
+import * as THREE from 'three';import {buildGeo} from '../geo2three.js';
 const R=new THREE.WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true});R.setSize(320,400);R.setClearColor(0,0);document.body.appendChild(R.domElement);
 const L=new THREE.TextureLoader();
 const tx=async b=>{const t=await L.loadAsync('data:image/png;base64,'+b);t.magFilter=t.minFilter=THREE.NearestFilter;t.colorSpace=THREE.SRGBColorSpace;return t};

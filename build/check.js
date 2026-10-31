@@ -52,6 +52,16 @@ const { chromium } = require('playwright'), path = require('path');
       const n = gTiers(a, r, w).reduce((s, t) => s + t[1].length, 0), min = r === 'SU' && a >= 2 ? 2 : need[w][r];
       if (n < min) bad.push(`list ${w}/${r}/Act ${a}: ${n}`);
     }
+    // an effect level over 10 or a duration under half a second read from code is a misread argument (Frostmourne's
+    // Strength XXI for 3 ticks) unless the item's tooltip says it: gear_pipeline.fx_doubt drops such numbers
+    const rom = n => [[50, 'L'], [40, 'XL'], [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']].reduce((o, [v, s]) => { while (n >= v) { o += s; n -= v } return o }, '');
+    const tipOf = id => (GE.find(x => x.id === id)?.tip || []).join(' ');
+    for (const g of [...GE, ...GS]) for (const r of g.fx || []) {
+      if (r.doubt || r.ms) continue;
+      const t = tipOf(r.src || g.id);
+      if (r.level > 10 && ![r.level, r.level - 1].some(l => new RegExp(`\\b${rom(l)}\\b`).test(t))) bad.push(`effect level ${g.id || g.k} ${r.effect} ${r.level}`);
+      if (r.ticks > 0 && r.ticks < 10 && !new RegExp(`\\b${r.ticks} ticks?\\b`).test(t)) bad.push(`effect duration ${g.id || g.k} ${r.effect} ${r.ticks} ticks`);
+    }
     // an item is never listed before its own Act
     for (const w of ['w', 'a']) for (const r of ['ME', 'RA', 'MA', 'SU']) for (const a of acts)
       for (const [, xs] of gTiers(a, r, w)) for (const g of xs) if (oiA(g.a) > oiA(a)) bad.push(`early ${g.id || g.k} at ${a}`);

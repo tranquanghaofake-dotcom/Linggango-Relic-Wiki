@@ -50,7 +50,7 @@ const GCC=/^(crit_chance|crit_rate|critical_strike_chance)$/,GCD=/^(crit_damage|
    On the wearer or holder: Strength +3 attack damage a level, Resistance -20% damage taken a level, Health Boost and Absorption
    +4 health a level. Effects a mod adds (bleeding, soul burn...) are listed on the page but not scored: their numbers live in code. */
 const GDOT={"minecraft:poison":L=>20/(25>>Math.min(4,L-1)),"minecraft:wither":L=>20/(40>>Math.min(5,L-1))};
-const gFxOn=(g,when,who)=>(g.fx||[]).filter(r=>!r.maybe&&!r.unseen&&(when.includes(r.when))&&r.who===who);
+const gFxOn=(g,when,who)=>(g.fx||[]).filter(r=>!r.maybe&&!r.unseen&&!r.doubt&&(when.includes(r.when))&&r.who===who);
 function gFxDot(g,spd){let dps=0,burst=0;
  for(const r of gFxOn(g,["hit"],"target")){const c=r.chance||1,up=Math.min(1,c*spd*Math.max(.05,(r.ticks||r.fire*20||20)/20));
   if(r.fire)dps+=1*Math.min(1,c*spd*r.fire);else if(GDOT[r.effect])dps+=GDOT[r.effect](r.level||1)*up;else if(r.effect==="minecraft:instant_damage")burst+=6*Math.pow(2,(r.level||1)-1)*c}
@@ -378,14 +378,14 @@ ${m.evr?`<p class="note">It let through ${Math.round(m.evr*100)}% of what its ar
 const GWHEN={hit:"On hit",worn:"While worn",carried:"While held or carried",use:"On use",release:"When you release the shot"};
 const gRom=n=>["","I","II","III","IV","V","VI","VII","VIII","IX","X"][n]||String(n);
 function gFxLine(r){const who=r.who==="target"?"the target":"you",ch=(r.chance&&r.chance<1?` (${r.ms?`on ${Math.round(r.chance*3)} of 3 swings`:`${Math.round(r.chance*100)}% chance`})`:"")
-  +(r.unseen?' <span class="kest">not seen in the test</span>':"");
+  +(r.unseen?' <span class="kest">not seen in the test</span>':"")+(r.doubt?' <span class="kest">number not read reliably</span>':"");
  if(r.fire)return `Sets ${who} on fire for ${r.fire} s${ch}`;if(r.heal)return `Heals you ${gRound(r.heal)} health${ch}`;
- const t=r.ticks>0?` for ${gRound(r.ticks/20)} s`:"";return `${esc(r.name||r.effect)} ${gRom(r.level||1)} on ${who}${t}${ch}${r.maybe?" (one of these, by the armor's material)":""}`}
+ const t=r.ticks>0?` for ${gRound(r.ticks/20)} s`:"";return `${esc(r.name||r.effect)}${r.level===null?"":" "+gRom(r.level||1)} on ${who}${t}${ch}${r.maybe?" (one of these, by the armor's material)":""}`}
 function gFxHtml(g){const fx=g.fx||[],tip=g.tip||[];if(!fx.length&&!tip.length)return "";
  const by={};fx.forEach(r=>(by[r.when]=by[r.when]||[]).push(r));
  const scored=gFxOn(g,["hit"],"target").some(r=>r.fire||GDOT[r.effect]||r.effect==="minecraft:instant_damage")||Object.keys(gFxAt(g)).length;
  return `${Object.keys(by).length?`<table class="gst gfx">${Object.entries(by).map(([w,rs])=>`<tr><td>${GWHEN[w]||esc(w)}</td><td>${rs.map(gFxLine).join("<br>")}</td></tr>`).join("")}</table>
-<p class="note">${fx.some(r=>r.ms)?`Measured in game: ${fx.some(r=>r.ms&&r.when==="hit")?"three swings at full strength on a test target":"the full set worn for two seconds"}${fx.some(r=>!r.ms)?"; the other lines are read from the item's code":""}. `:`Read from the item's code${fx.some(r=>r.src)?" (each piece's own effect while worn)":""}. `}${fx.some(r=>r.unseen)?"An effect “not seen in the test” needs a condition the test did not meet and is not scored. ":""}${scored?"Poison, wither, fire, instant damage, Strength, Resistance and Health Boost are counted in its score. ":""}Effects a mod adds are listed, not scored.</p>`:""}${tip.length?`<h3>From its tooltip</h3><ul class="gbon">${tip.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}`}
+<p class="note">${fx.some(r=>r.ms)?`Measured in game: ${fx.some(r=>r.ms&&r.when==="hit")?"three swings at full strength on a test target":"the full set worn for two seconds"}${fx.some(r=>!r.ms)?"; the other lines are read from the item's code":""}. `:`Read from the item's code${fx.some(r=>r.src)?" (each piece's own effect while worn)":""}. `}${fx.some(r=>r.unseen)?"An effect “not seen in the test” needs a condition the test did not meet and is not scored. ":""}${fx.some(r=>r.doubt)?"A line marked “number not read reliably” lost a level or duration the code reading could not pin down; it is not scored. ":""}${scored?"Poison, wither, fire, instant damage, Strength, Resistance and Health Boost are counted in its score. ":""}Effects a mod adds are listed, not scored.</p>`:""}${tip.length?`<h3>From its tooltip</h3><ul class="gbon">${tip.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}`}
 function gearSetPage(s){document.title=s.n+" set · Linggango Wiki";seedBg("gs"+s.ix,[]);const r=gMain(s),mod=MODN(s.k.split(":")[0]);
  el("main").innerHTML=article({cls:"r0 gearart",style:`--tc:${ACT[s.a][2]};${tex(s.a)}`,crumb:crumb('<a href="#gear/'+GSTATE.a+'/'+r+'/a">Equipment</a>',esc(s.n)),title:esc(s.n)+" set",
   lead:`${s.ps.length}-piece armor set from ${esc(mod)}, usable from ${esc(actL(s.a))}.`,head:gVerdict(s),

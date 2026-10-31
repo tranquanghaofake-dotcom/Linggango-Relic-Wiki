@@ -7,6 +7,25 @@ MCPConfig 1.20.1-20230612.114412 joined.tsrg (SRG member names).
 2. `audit.py W REPO [n]` names / recipes / loot vs the wiki; `recheck.py W` recipes the pack's KubeJS removes or adds;
    `drops.py W` mob drop chances from the jars' loot tables; `tips.py W` lang tooltips for effects still without numbers.
 
+## Shared pieces (use these instead of a new copy)
+- `mcassets.py`: one reader for resource files the way the game stacks them (`Assets([kubejs dir, resource zips, mod jars,
+  client jar])`, first source wins), models merged over their parents as vanilla does (textures, elements, display per
+  context, gui_light, Forge render_type and loader; `forge:separate_transforms` shows its `gui` perspective), textures with
+  the first frame an `.mcmeta` names, `icon(id, size, tint)` = the inventory picture, `png_b64(im)` = the smallest lossless
+  PNG (indexed with an alpha table when it has 256 colours or fewer, checked pixel for pixel). `python3 -I mcassets.py
+  --repack FILE... [--skip ns]` re-encodes the base64 PNGs already in a source the same way (2026-10-31: gear_icons.json
+  4.74 → 3.39 MB, data.js 4.49 → 3.66 MB, every icon decoded to the same pixels; `--skip ae2` keeps AE2's CC BY-NC-SA
+  icons byte for byte).
+- `block_render.py`: block-element models drawn exactly as the 1.20.1 GUI draws an item (display.gui transform, the GUI's
+  two diffuse lights, BlockElement uv defaults, face and element rotation with rescale, z-buffer, cutout at 0.1). The
+  constants were read from client-1.20.1.jar (GlStateManager.setupGui3DDiffuseLighting, Lighting, PoseStack,
+  light.glsl). A full block shows top 100 %, east face left 65 %, north face right 40 %. Used by `mcassets.icon`,
+  `name_icons.py` and `gear/icons.py` at 32 px (the slot at GUI scale 2, 1:1 next to x2 flat icons).
+- `render_page.js`: opens a three.js page (`geo_icon_render.html`, `armor_render.html`, `side_bosses/jrender.html`) in
+  headless Chromium in place; the pages import `../geo2three.js` and `build/node_modules/three` (installed by
+  `bash build/fx3d_build.sh --check`), so nothing is copied as `r.html` / `armor.html` any more. `PW_CHROMIUM` picks
+  another Chromium binary.
+
 ## kubejs/: measuring gear in game
 Scripts to copy into the pack's `kubejs/` folder (single player with cheats, or a server as op). Untested outside the game: check `logs/latest.log` (or `kubejs/logs/`) for `dump_gear_all` / `dmg_logger` warnings the first time.
 - `server_scripts/dump_gear_all.js`: `/kubejs custom_command dump_gear_all` writes `kubejs/gear_dump_all.json`, the attribute modifiers of every item (the pack's own `dump_gear.js` only covers tiered tools and armor, so staves, bows, guns and summon weapons were missing). Same format: convert it into `build/patches/gear_runtime.json` like the v27 dump.

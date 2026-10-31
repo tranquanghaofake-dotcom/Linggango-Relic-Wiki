@@ -18,17 +18,36 @@ generated file back. Stages run in the order below, each is a function on {GE, G
                         and crowns are Curios items (common/items/curios), not armor, so they left 0-armor rows and empty sets
   then every Act is snapped onto the wiki's Acts
 Scoring is not here: src/gear.js ranks from the facts these stages leave."""
-import json, pathlib
+import json, pathlib, re
 import gear_rebuild, gear_extra, gear_gate, gear_fix, gear_stats, gear_added, gear_runtime, boss_order
 H = pathlib.Path(__file__).resolve().parent
 st = gear_rebuild.load()
+def roman(n):
+    out = ""
+    for v, s in ((1000, "M"), (900, "CM"), (500, "D"), (400, "CD"), (100, "C"), (90, "XC"), (50, "L"), (40, "XL"), (10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I")):
+        while n >= v: out += s; n -= v
+    return out
+def fx_doubt(fx, tip):
+    """gear_fx.py took an effect's duration and level from whichever constants stood before the call, so a duration read
+    from a field or config came out as 1-8 ticks and a level as 21 (Frostmourne's Strength XXI for 3 ticks). A level over
+    10 or a duration under half a second stands only when the item's own tooltip says it (Brutality writes "Pulverized XXV
+    for 3 ticks"; the code's level is that or one more); otherwise the number is dropped and the line marked `doubt`
+    (shown without it, not scored) until gear_fx.py is re-run with its argument fix. check.js holds the rule."""
+    t = " ".join(tip or [])
+    for r in fx:
+        lv, tk = r.get("level"), r.get("ticks")
+        if isinstance(lv, int) and lv > 10 and not any(re.search(r"\b%s\b" % roman(x), t) for x in (lv, lv - 1)):
+            r["level"] = None; r["doubt"] = True
+        if isinstance(tk, int) and 0 < tk < 10 and not re.search(r"\b%d ticks?\b" % tk, t):
+            r["ticks"] = None; r["doubt"] = True
+    return fx
 def gear_fx(st):
     F = json.loads((H / "gear_fx.json").read_text(encoding="utf-8"))
     by = {}
     for g in st["GE"]:
         f = F.get(g["id"])
         if not f: continue
-        if f.get("fx"): g["fx"] = f["fx"]
+        if f.get("fx"): g["fx"] = fx_doubt([dict(r) for r in f["fx"]], f.get("tip"))
         if f.get("tip"): g["tip"] = f["tip"]
         by[g["id"]] = g
     for x in st["GS"]:
