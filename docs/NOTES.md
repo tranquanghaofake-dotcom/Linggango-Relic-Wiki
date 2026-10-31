@@ -762,7 +762,7 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   checks (Dark MA 1.296, Frost/Geomancer/Etherite loadouts, bangle rank 1, Halo 2.195, 0 items below their gate, 0 unnamed
   gates, 1 Geomancer set, Tide Piercer untiered, no duplicate set names, Dragon 600, no "Keeper of the Calamities"); shots
   of the main routes, Equipment, Bosses, Mechanics, a curio, gear and set page at 1440 and 375 against the pre-pass baseline
-  (changes only where intended); `check.sh` green on the final tree (the time is in the commit that merges this).
+  (changes only where intended); `check.sh` green on the final tree (6 min 16 s: 0 broken invariants, 313 sets, 1,407 pages with pictures all decoding, 3,918 detail pages on the layout, style and site checks pass).
 - Still open: the collected per-chunk invariants beyond the ones above (a11y_check.js: CLS, long tasks, contrast, focus,
   accessible names; the full content scans) — the plan's checks chunk 2, skipped to finish the session; Crucible Sword's
   damage (dump 41, game 30, hit 9: needs a fresh measurement); the #gear lede at 320 px (below the 375 px target); the
