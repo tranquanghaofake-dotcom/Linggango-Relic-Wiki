@@ -1,4 +1,4 @@
-import json,re,glob,sys
+import json,re,glob,sys,os
 W=sys.argv[1]
 K=W+'/pack/src/overrides/kubejs/server_scripts'
 rm=set()
@@ -6,7 +6,7 @@ for f in glob.glob(K+'/**/*.js',recursive=True):
     rm|=set(re.findall(r"\.remove\(\{\s*id:\s*['\"]([^'\"]+)['\"]",open(f).read()))
 rm|=set(re.findall(r"'(mysticalagriculture:[a-z_]+)'",''))
 rec=json.load(open(W+'/rec.json'))
-s=open('/home/user/Linggango-Relic-Wiki/build/src/data.js',encoding='utf-8').read();D,_=json.JSONDecoder().raw_decode(s,8)
+s=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','src','data.js'),encoding='utf-8').read();D,_=json.JSONDecoder().raw_decode(s,re.search(r'\bD\s*=\s*\[',s).end()-1)
 live=lambda i:[r for r in rec['recipes'].get(i,[]) if r['id'] not in rm]
 json.dump(sorted(rm),open(W+'/removed_ids.json','w'))
 print('removed ids',len(rm))

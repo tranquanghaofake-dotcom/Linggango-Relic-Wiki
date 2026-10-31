@@ -13,7 +13,7 @@ MCPConfig's joined.tsrg) or by the mod's own registry field (BLEEDING, SOUL_BURN
 taken from the mods' en_us.json (keys that start with the item's translation key and are not the name itself).
 What this cannot see: effects written in event handlers of other classes (many set bonuses), values read from configs at
 run time, and spells. Those need the in-game measurement (kubejs/server_scripts/lgw_measure.js)."""
-import json, re, sys, zipfile, glob, subprocess, tempfile, os, pathlib, collections
+import json, re, sys, zipfile, glob, subprocess, tempfile, os, pathlib, collections, math
 JD, MAPF = sys.argv[1], sys.argv[2]
 H = pathlib.Path(__file__).resolve().parents[1]
 SRG = json.load(open(MAPF))
@@ -97,45 +97,121 @@ def effname(fieldref, ns):
     if n: return (n if ":" in n else ns + ":" + n)
     return ns + ":" + re.sub(r"^effect_?", "", f.lower())
 
-def scan(body, roles, own, depth, seen, out, when):
-    st = []; chance = None; last_load = None
+ARGS = re.compile(r"\[*(?:[ZBCSIFJD]|L[^;]+;)")
+RND = re.compile(r"\.(nextFloat|nextDouble|m_188501_|m_188500_):\(\)[FD]|java/lang/Math\.random:")  # RandomSource.nextFloat/nextDouble (srg), Random, Math.random
+FLIP = {"lt": "gt", "gt": "lt", "le": "ge", "ge": "le", "eq": "eq", "ne": "ne"}
+POP2 = re.compile(r"[ilfd](add|sub|mul|div|rem|and|or|xor|shl|shr|ushr)$|[lfd]cmp[lg]?$|[ilfdabcs]aload$")
+POP1 = re.compile(r"[ilfda]store(_\d)?$|pop$|monitor\w+$|putstatic$|athrow$|[ilfda]?return$|if(eq|ne|lt|ge|gt|le|null|nonnull)$|(table|lookup)switch$")
+class T:  # a value on the scanned stack: N number, F effect field, L local, RND random draw, CMP a comparison with one, E an effect instance, ? unknown
+    def __init__(s, k, v=None, w=False): s.k, s.v, s.w = k, v, w
+
+def scan(body, roles, own, depth, seen, out, when, base=1.0):
+    """Stack-tracking pass over one javap method body, top to bottom (branches are not followed: a value that differs where two
+    paths join reads unknown). Effect arguments are taken by the constructor's descriptor; a random draw compared with a number
+    gives a chance to the code its `if` guards (and 1 - chance to an else part), nothing else."""
+    ins = []
     for line in body:
-        m = re.match(r"\s*\d+: (\w+)\s*(.*)", line)
-        if not m: continue
-        op, rest = m.groups(); com = rest.split("// ", 1)[1] if "// " in rest else ""
-        if re.match(r"aload(_\d)?$", op): last_load = int(op[-1]) if "_" in op else int(rest.split()[0]); st.append(("L", last_load)); continue
-        if op == "getstatic":
+        m = re.match(r"\s*(\d+): ([a-z]\w*)\s*(.*)", line)  # not the "key: target" lines of a switch
+        if m: ins.append((int(m.group(1)), m.group(2), m.group(3)))
+    at = {p: q for q, (p, _, _) in enumerate(ins)}
+    st, loc, scopes, snap = [], {}, [], {}
+    def pop(n=1): return [st.pop() if st else T("?") for _ in range(n)][::-1]
+    def chance(p): return base * math.prod(c for a, e, c in scopes if a < p < e)
+    dead = False
+    for q, (p, op, rest) in enumerate(ins):
+        if p in snap:  # a jump lands here: keep its stack, or where it meets the stack that ran in, what agrees
+            j = snap.pop(p)
+            st = j if dead or len(j) != len(st) else [x if x is y else T("?") for x, y in zip(j, st)]
+        dead = False
+        com = rest.split("// ", 1)[1] if "// " in rest else ""
+        tgt = int(rest.split()[0]) if (op.startswith("if") or op.startswith("goto")) and rest.split() and rest.split()[0].isdigit() else None
+        if re.match(r"[ilfda]load(_\d)?$", op):
+            ix = int(op[-1]) if "_" in op else int(rest.split()[0]); v = loc.get(ix)
+            st.append(v if v is not None and v.k in ("N", "E", "F") else T("L", ix, op[0] in "ld"))
+        elif re.match(r"[ilfda]store(_\d)?$", op): loc[int(op[-1]) if "_" in op else int(rest.split()[0])] = pop()[0]
+        elif re.match(r"[ilfd]const_(m1|\d)$", op): st.append(T("N", -1.0 if op.endswith("m1") else float(op[-1]), op[0] in "ld"))
+        elif op in ("bipush", "sipush"): st.append(T("N", float(rest.split()[0])))
+        elif op.startswith("ldc"):
+            k = re.match(r"(float|int|double|long) ([-\d.E]+|NaN|-?Infinity)", com)
+            st.append(T("N", float(k.group(2)), k.group(1) in ("double", "long")) if k else T("?"))
+        elif op == "aconst_null": st.append(T("?"))
+        elif op == "getstatic":
             ref, typ = com.split()[1].split(":", 1)
-            if re.search(r"MobEffect;|RegistryObject;|Supplier;|Holder;|DeferredHolder;", typ): st.append(("F", ref))
-            continue
-        k = re.match(r"(?:float|int|double|long) ([-\d.E]+)", com) if op.startswith("ldc") else None
-        if k: st.append(("N", float(k.group(1)))); continue
-        if re.match(r"[ifld]const_m?\d", op): st.append(("N", float(op[-1]) * (-1 if "m1" in op else 1))); continue
-        if op in ("bipush", "sipush"): st.append(("N", float(rest.split()[0]))); continue
-        if op == "new" and "MobEffectInstance" in com: st.append(("NEW", last_load)); continue
-        if op.startswith("invoke"):
-            if "nextFloat" in com or "nextDouble" in com: st.append(("RND", None)); continue
-            if "MobEffectInstance.\"<init>\"" in com:
-                i = max((x for x in range(len(st)) if st[x][0] == "NEW"), default=None)
-                if i is not None:
-                    seg = st[i:]; fld = next((v for t, v in seg if t == "F"), None); nums = [v for t, v in seg if t == "N"]
-                    who = roles.get(st[i][1], "target" if when == "hit" else "self")
-                    if fld:
-                        out.append({"when": when, "who": who, "effect": effname(fld, NS[0]), "ticks": int(nums[0]) if nums else None, "level": int(nums[1]) + 1 if len(nums) > 1 else 1, **({"chance": chance} if chance else {})})
-                    del st[i:]
+            st.append(T("F", ref) if re.search(r"MobEffect;|RegistryObject;|Supplier;|Holder;|DeferredHolder;", typ) else T("?", None, typ[0] in "JD"))
+        elif op == "getfield": pop(); st.append(T("?", None, com.split(":")[-1][:1] in "JD"))
+        elif op == "putfield": pop(2)
+        elif op == "new": st.append(T("NEW", "MobEffectInstance" in com))
+        elif op == "dup": st.append(st[-1] if st else T("?"))
+        elif op == "dup_x1": a, b = pop(2); st += [b, a, b]
+        elif op == "dup2": st += st[-1:] if st and st[-1].w else st[-2:]
+        elif op == "swap": a, b = pop(2); st += [b, a]
+        elif op == "pop2": pop(1 if st and st[-1].w else 2)
+        elif op in ("fcmpl", "fcmpg", "dcmpl", "dcmpg"):
+            a, b = pop(2)
+            st.append(T("CMP", ("RND", b.v) if a.k == "RND" and b.k == "N" else ("NUM", a.v) if b.k == "RND" and a.k == "N" else None))
+        elif op.startswith("if"):
+            c = pop(2 if op.startswith(("if_icmp", "if_acmp")) else 1)[0]
+            if c.k == "CMP" and c.v and tgt and tgt > p and op[2:] in FLIP:
+                rel = op[2:] if c.v[0] == "RND" else FLIP[op[2:]]  # the jump is taken when RND <rel> the number
+                x = min(1.0, max(0.0, c.v[1]))
+                run = {"lt": 1 - x, "le": 1 - x, "gt": x, "ge": x}.get(rel)  # the guarded code runs when the jump is not taken
+                if run is not None:
+                    scopes.append((p, tgt, run))
+                    pj = ins[at[tgt] - 1] if tgt in at and at[tgt] > 0 else None
+                    if pj and pj[1].startswith("goto") and int(pj[2].split()[0]) > tgt: scopes.append((tgt - 0.5, int(pj[2].split()[0]), 1 - run))
+            if tgt and tgt > p: snap.setdefault(tgt, list(st))
+        elif op.startswith("goto"):
+            if tgt and tgt > p: snap[tgt] = list(st)
+            dead = True
+        elif op in ("areturn", "ireturn", "freturn", "dreturn", "lreturn", "return", "athrow"): pop(0 if op == "return" else 1); dead = True
+        elif op.startswith("invoke"):
+            k = re.match(r"(?:Interface)?Method (?:(\S+?)\.)?(\"?[\w$<>]+\"?):(\S+)", com) or re.match(r"InvokeDynamic #\d+:(\w+):(\S+)", com)
+            if not k: continue
+            owner, name, desc = (k.group(1), k.group(2).strip('"'), k.group(3)) if k.re.groups == 3 else (None, k.group(1), k.group(2))
+            args = pop(len(ARGS.findall(desc[1:desc.index(")")])))
+            recv = pop()[0] if op not in ("invokestatic", "invokedynamic") else None
+            ret = desc[desc.index(")") + 1:]
+            res = T("?", None, ret in ("J", "D"))
+            if RND.search(com): res = T("RND")
+            elif name == "<init>" and recv.k == "NEW" and recv.v:  # new MobEffectInstance(effect, duration, amplifier, ...)
+                kinds = ARGS.findall(desc[1:desc.index(")")])
+                eff = args[0] if args and kinds[0].endswith("MobEffect;") else None
+                if eff and eff.k == "F":
+                    d = args[1] if len(args) > 1 else None; a = args[2] if len(args) > 2 else None
+                    r = {"when": when, "who": None, "effect": effname(eff.v, NS[0]), "ticks": int(d.v) if d and d.k == "N" else None,
+                         "level": 1 if len(args) < 3 else int(a.v) + 1 if a.k == "N" else None}
+                    c = chance(p)
+                    if c < 0.9995: r["chance"] = round(c, 3)
+                    out.append(r); recv.k, recv.v = "E", r  # the dup'd reference below is the same instance
+                else: recv.k = "?"
                 continue
-            if re.search(r"\.m_20254_:\(I\)V", com):  # setSecondsOnFire
-                n = [v for t, v in st if t == "N"]; out.append({"when": when, "who": roles.get(last_load, "target"), "fire": int(n[-1]) if n else None}); st = []; continue
-            if re.search(r"\.m_5634_:\(F\)V", com):  # heal
-                n = [v for t, v in st if t == "N"]; out.append({"when": when, "who": roles.get(last_load, "self"), "heal": n[-1] if n else None}); st = []; continue
-            mm = re.match(r"(?:Interface)?Method (?:(\S+?)\.)?([\w$]+):(\S+)", com)
-            if mm and depth < 2 and (mm.group(1) in (None, own)) and mm.group(2) not in seen:  # the class's own helper: follow it once
-                seen.add(mm.group(2)); out.append(("CALL", mm.group(2), when)); continue
-            continue
-        if op in ("fcmpg", "fcmpl", "dcmpg", "dcmpl") and any(t == "RND" for t, _ in st[-3:]):
-            n = [v for t, v in st[-3:] if t == "N"]
-            if n: chance = round(n[-1], 3)
-            continue
+            elif re.search(r"\.m_20254_:\(I\)V", com):  # setSecondsOnFire
+                r = {"when": when, "who": roles.get(recv.v, "target") if recv.k == "L" else "target", "fire": int(args[0].v) if args[0].k == "N" else None}
+                c = chance(p)
+                if c < 0.9995: r["chance"] = round(c, 3)
+                out.append(r)
+            elif re.search(r"\.m_5634_:\(F\)V", com):  # heal
+                out.append({"when": when, "who": roles.get(recv.v, "self") if recv.k == "L" else "self", "heal": args[0].v if args[0].k == "N" else None})
+            elif recv is not None and recv.k == "F" and name in ("get", "value", "m_203334_"): res = recv  # RegistryObject.get / Holder.value: still that effect
+            elif depth < 2 and owner in (None, own) and name not in seen:  # the class's own helper: follow it once
+                seen.add(name); out.append(("CALL", name, when, chance(p)))
+            for e in args:  # target.addEffect(instance): whose effect it is, from the receiver
+                if e.k == "E" and e.v.get("who") is None and recv is not None and recv.k == "L" and recv.v in roles: e.v["who"] = roles[recv.v]
+            if ret != "V": st.append(res)
+        elif op == "multianewarray": pop(int(rest.split()[-1])); st.append(T("?"))
+        elif op in ("instanceof", "arraylength", "newarray", "anewarray"): pop(); st.append(T("?"))
+        elif re.match(r"[ilfd]2[ilfdbcs]$", op):
+            a = pop()[0]; st.append(T("N", float(int(a.v)) if op[2] in "ilbcs" else a.v, op[2] in "ld") if a.k == "N" else T("?", None, op[2] in "ld"))
+        elif re.match(r"[ilfd]neg$", op): a = pop()[0]; st.append(T("N", -a.v, a.w) if a.k == "N" else T("?", None, op[0] in "ld"))
+        elif POP2.match(op):  # constant arithmetic folds (20 * seconds when seconds is a constant local)
+            a, b = pop(2)
+            if a.k == "N" and b.k == "N" and op[1:] in ("add", "sub", "mul"):
+                st.append(T("N", a.v + b.v if op[1:] == "add" else a.v - b.v if op[1:] == "sub" else a.v * b.v, op[0] in "ld"))
+            else: st.append(T("?", None, op in ("laload", "daload") or (op[0] in "ld" and "cmp" not in op and not op.endswith("aload"))))
+        elif re.match(r"[ilfdabcs]astore$", op): pop(3)
+        elif POP1.match(op): pop()
+    for r in out:  # effects never handed to an entity in sight: the target on a hit, else the wearer or holder
+        if isinstance(r, dict) and r.get("who") is None: r["who"] = "target" if when == "hit" else "self"
 
 NS = [""]
 def item_fx(cls_names, ns):
@@ -158,9 +234,9 @@ def item_fx(cls_names, ns):
                         for r in res:
                             if isinstance(r, tuple): calls.append(r)
                             else: out.append(r)
-            for _, helper, when in calls:  # one level into the class's own helpers
+            for _, helper, when, ch in calls:  # one level into the class's own helpers, under the chance of the call
                 for d, body in by.get(helper, []):
-                    res = []; scan(body, {}, path, 1, {helper}, res, when)
+                    res = []; scan(body, {}, path, 1, {helper}, res, when, ch)
                     out += [r for r in res if not isinstance(r, tuple)]
     uniq, seen = [], set()
     for r in out:

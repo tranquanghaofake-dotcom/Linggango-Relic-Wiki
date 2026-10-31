@@ -45,7 +45,7 @@ for ns, names in sorted(targets.items()):
     jars = [S + '/pack/mods/' + j for j in ns2jar.get(ns, [])]
     if only and ns not in only: continue
     if not jars: continue
-    t0 = time.time(); mjvm.CFG_NS[0] = ns.split('_')[0][:6]
+    t0 = time.time(); mjvm.cfg_ns(ns)
     vm = VM(jars + [SRG] + [j for j in alljars if j not in jars])
     mjvm.srg_tables(vm, SRG)
     want = set(names)
@@ -85,5 +85,5 @@ for ns, names in sorted(targets.items()):
         if m: rec['mods'] = m
         rec['cls'] = [c.split('/')[-1] for c in vm.supers(o.cls)][:6]
         out[ns + ':' + nm] = rec; found += 1
-    print(ns, 'want', len(want), 'regs', len(vm.regs), 'found', found, 'stats', sum(1 for nm in seen if any(k in out[ns + ':' + nm] for k in ('dmg', 'arm', 'mods'))), '%.0fs' % (time.time() - t0), flush=True)
+    print(ns, 'want', len(want), 'regs', len(vm.regs), 'found', found, 'stats', sum(1 for nm in seen if any(k in out[ns + ':' + nm] for k in ('dmg', 'arm', 'mods'))), 'errors', len(vm.errors), '%.0fs' % (time.time() - t0), flush=True)
     json.dump(out, open(S + '/gear_base.json', 'w'))

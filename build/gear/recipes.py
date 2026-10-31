@@ -1,12 +1,17 @@
 """Index recipes and loot tables from mod jars + pack datapacks (kubejs/data), minus recipes the pack's
-KubeJS scripts remove. Writes rec.json: {recipes: out_id -> [{t,ing:[ids/#tags],src}], loot: id -> [table], removed:[...]}"""
+KubeJS scripts remove. Writes rec.json: {recipes: out_id -> [{t,ing:[ids/#tags],src}], loot: id -> [table], removed:[...]}
+As the game loads datapacks: a later source (jars in name order, then kubejs/data) replaces a recipe or loot table of the same id,
+and tag files of one id add up unless one says "replace": true."""
 import sys, json, glob, zipfile, re, os, collections
 S = sys.argv[1]
 recipes = collections.defaultdict(list); loot = collections.defaultdict(set); tags = collections.defaultdict(set)
+RBY, LBY = {}, {}  # recipe id -> (outputs, record), loot table id -> items: the source that loaded last
+# not ingredients: what the recipe makes, its kind and settings (type strings, ritual kinds, entities, research, places)
+NOTING = re.compile(r'(?i)^(results?|outputs?|conditions|type|group|category|nbt|.*_?type|ritual.*|entity.*|.*_entity|research|enchantment|structure.*|dimension|biome|weather|time|sound|particle)$')
 def ings(o, acc):
     if isinstance(o, dict):
         for k, v in o.items():
-            if k in ('result', 'output', 'results', 'outputs', 'conditions'): continue
+            if NOTING.match(k): continue
             if k == 'item' and isinstance(v, str): acc.append(v)
             elif k == 'tag' and isinstance(v, str): acc.append('#' + v)
             else: ings(v, acc)
@@ -37,12 +42,15 @@ def feed(path, raw, src):
     ns, kind, p = m.groups()
     if kind == 'recipes':
         if not isinstance(o, dict): return
-        a = []; ings(o, a)
-        for out in outs(o): recipes[out].append({'id': ns + ':' + p, 't': str(o.get('type', '')), 'ing': a[:16], 'src': src})
+        a = []; ings(o, a); rid = ns + ':' + p
+        if rid in RBY:  # the same id from a later source replaces it
+            for out in RBY[rid][0]: recipes[out] = [r for r in recipes[out] if r is not RBY[rid][1]]
+        r = {'id': rid, 't': str(o.get('type', '')), 'ing': a[:16], 'src': src}; RBY[rid] = (outs(o), r)
+        for out in RBY[rid][0]: recipes[out].append(r)
     elif kind == 'loot_tables':
-        a = set(); lootitems(o, a)
-        for i in a: loot[i].add(ns + ':' + p)
+        a = set(); lootitems(o, a); LBY[ns + ':' + p] = a
     else:
+        if isinstance(o, dict) and o.get('replace'): tags[ns + ':' + p] = set()
         for v in (o.get('values', []) if isinstance(o, dict) else []):
             v = v.get('id') if isinstance(v, dict) else v
             if isinstance(v, str): tags[ns + ':' + p].add(v)
@@ -53,11 +61,15 @@ for j in sorted(glob.glob(S + '/pack/mods/*.jar')):
         if n.startswith('data/') and n.endswith('.json') and ('/recipes/' in n or '/loot_tables/' in n or '/tags/items/' in n):
             feed(n, z.read(n), os.path.basename(j))
 root = S + '/pack/src/overrides/kubejs'
-for dp, _, fs in os.walk(root + '/data'):
-    for f in fs:
+for dp, ds, fs in os.walk(root + '/data'):
+    ds.sort()
+    for f in sorted(fs):
         fp = os.path.join(dp, f); rel = os.path.relpath(fp, root)
         # kubejs datapack overrides replace same-path files
         feed(rel, open(fp, 'rb').read(), 'pack')
+for t, a in LBY.items():
+    for i in a: loot[i].add(t)
+for k in [k for k, v in recipes.items() if not v]: del recipes[k]
 # KubeJS recipe removals / additions (regex over the scripts)
 removed = set(); added = collections.defaultdict(list); removed_ids = set()
 IDS = r"['\"]([a-z0-9_.-]+:[a-z0-9_/.-]+)['\"]"

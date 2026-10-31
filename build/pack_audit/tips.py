@@ -1,6 +1,6 @@
-import json,re,sys,zipfile,glob
+import json,re,sys,zipfile,glob,os
 W=sys.argv[1]
-s=open('/home/user/Linggango-Relic-Wiki/build/src/data.js',encoding='utf-8').read();D,_=json.JSONDecoder().raw_decode(s,8)
+s=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','src','data.js'),encoding='utf-8').read();D,_=json.JSONDecoder().raw_decode(s,re.search(r'\bD\s*=\s*\[',s).end()-1)
 ns2jar=json.load(open(W+'/ns2jar.json'))
 V=[d for d in D if re.search(r'\+[A-Z][a-z]|\+[a-z]+ (?!slot)|\((moderate|high|very high)\)|[Ss]light|\bSmall\b',d['fx']) and not re.search(r'\d',d['fx'])]
 cache={}

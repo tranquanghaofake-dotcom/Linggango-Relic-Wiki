@@ -2,7 +2,7 @@
 weapon damage / attack speed and armor values the way the mods construct them.
 Vanilla base classes (SwordItem, DiggerItem, ArmorItem, Tiers, ArmorMaterials)
 are modelled, not interpreted. Unknown calls return Opaque values."""
-import zipfile, io, re, struct, sys, glob, json
+import zipfile, io, re, struct, sys, glob, json, math
 from jawa.cf import ClassFile
 import jawa.constants as C
 
@@ -11,6 +11,7 @@ class Opaque:
     def __init__(s, d=''): s.d = d
     def __repr__(s): return 'Op(%s)' % s.d
 OP = Opaque()
+TOP = Opaque('top')  # the second stack slot of a long or double
 
 class Obj:
     def __init__(s, cls):
@@ -18,11 +19,14 @@ class Obj:
     def __repr__(s): return 'Obj(%s)' % s.cls
 
 _EC = {}
+def _ordinal(cls, name, dflt):  # the vanilla enums mjvm tables keep their declaration order, whoever makes the constant first
+    t = EQS if cls == 'net/minecraft/world/entity/EquipmentSlot' else TYPES if cls == 'net/minecraft/world/item/ArmorItem$Type' else None
+    return t.index(name) if t and name in t else dflt
 class EnumC:
     def __new__(c, cls, name, ordinal):
         k = (cls, name)
         if k in _EC: return _EC[k]
-        o = object.__new__(c); o.cls, o.name, o.ord = cls, name, ordinal; _EC[k] = o
+        o = object.__new__(c); o.cls, o.name, o.ord = cls, name, _ordinal(cls, name, ordinal); _EC[k] = o
         return o
     def __init__(s, cls, name, ordinal): pass
     def __repr__(s): return 'E(%s.%s)' % (s.cls.split('/')[-1], s.name)
@@ -56,52 +60,79 @@ class CfgVal:
 
 CFG = {}  # key -> [(file, value)]
 CFGP = {}  # full dotted toml path -> [(file, value)]
-CFG_NS = ['']
+CFG_NS = ['']  # the namespace being read (the full one matches best): a config file is the mod's own when a folder or file name starts with it, or has it after _ - .
 CFG_AMBIG = set()  # (ns prefix, key, values): leaf key found with different values in several config files
+CFG_ERR = []  # (file, error): config files that could not be parsed; their keys read the mod's default
+CFG_PARTS = {}  # file -> folder names and file stem below the config root, lower case
 def load_cfg(root):
     import os, tomllib
     def walk(path, d, f):
         if isinstance(d, dict):
             for k, v in d.items(): walk(path + [k], v, f)
-        elif isinstance(d, (int, float)) and not isinstance(d, bool) and path:
+        elif isinstance(d, (int, float)) and path:  # bools too: cfg_get hands them only to a 0/1 default
             CFG.setdefault(path[-1], []).append((f, d)); CFGP.setdefault('.'.join(path), []).append((f, d))
-    for dp, _, fs in os.walk(root):
-        for fn in fs:
+    n0 = len(CFG_ERR)
+    for dp, ds, fs in os.walk(root):
+        ds.sort()  # file order decides which of two equal keys wins: keep it the same on every machine
+        for fn in sorted(fs):
             fp = os.path.join(dp, fn); t = None
+            rel = os.path.relpath(fp, root).lower().split(os.sep)
+            CFG_PARTS[fp] = rel[:-1] + [re.sub(r'\.(toml|json5?|omniconf)$', '', rel[-1])]
             try:
                 raw = open(fp, encoding='utf8', errors='ignore').read()
-                if fn.endswith('.omniconf'):  # Omniconfig (Enigmatic mods): '    D:TheTwistAttackDamage=8.0'
-                    for mm in re.finditer(r'(?m)^\s*[DIFL]:(\w+)=(-?[0-9.]+(?:[eE][-+]?[0-9]+)?)\s*$', raw):
-                        v = float(mm.group(2)); CFG.setdefault(mm.group(1), []).append((fp, int(v) if v.is_integer() and '.' not in mm.group(2) else v))
+                if fn.endswith('.omniconf'):  # Omniconfig (Enigmatic mods): '    D:TheTwistAttackDamage=8.0', '    B:Enabled=true'
+                    for mm in re.finditer(r'(?m)^\s*([DIFLB]):(\w+)=(true|false|-?[0-9.]+(?:[eE][-+]?[0-9]+)?)\s*$', raw):
+                        g = mm.group(3)
+                        if (g in ('true', 'false')) != (mm.group(1) == 'B'): continue
+                        v = g == 'true' if mm.group(1) == 'B' else float(g)
+                        CFG.setdefault(mm.group(2), []).append((fp, v if isinstance(v, bool) else int(v) if v.is_integer() and '.' not in g else v))
                     continue
                 if fn.endswith('.toml'): t = tomllib.loads(raw)
                 elif fn.endswith(('.json', '.json5')):
                     r = re.sub(r'(?m)^\s*//.*$', '', raw); r = re.sub(r'/\*.*?\*/', '', r, flags=re.S); r = re.sub(r',(\s*[}\]])', r'\1', r)
                     t = json.loads(r)
-            except Exception: t = None
+            except Exception as ex: CFG_ERR.append((fp, repr(ex)[:160])); t = None
             if t is not None: walk([], t, fp)
+    if len(CFG_ERR) > n0:
+        print('mjvm.load_cfg: %d file(s) under %s not parsed, their keys read the mod defaults: %s' % (len(CFG_ERR) - n0, root,
+              ', '.join(os.path.relpath(f, root) for f, _ in CFG_ERR[n0:n0 + 8])), file=sys.stderr)
+
+def _mine(f):
+    ns = CFG_NS[0].lower()
+    return bool(ns) and any(re.match(r'(.*[_.-])?' + re.escape(ns), p) for p in CFG_PARTS.get(f, f.lower().split('/')))
+def cfg_ns(ns):
+    """the name config files are matched by for namespace ns: the whole namespace when some pack config is named after it,
+    else its first part (born_in_chaos_v1 -> born); the old rule cut every namespace to 6 letters, so simplyswords and
+    simplymore read each other's files"""
+    for cand in (ns, ns.split('_')[0]):
+        CFG_NS[0] = cand
+        if any(_mine(f) for f in CFG_PARTS): return cand
+    CFG_NS[0] = ns; return ns
+def _fit(c, dflt):  # a pack bool stands only for a 0/1 default (a boolean option); numbers for any default
+    b = isinstance(dflt, int) and dflt in (0, 1)
+    return [(f, v) for f, v in c if b or not isinstance(v, bool)]
+def _as(v, dflt):
+    if isinstance(v, bool): return int(v)
+    if isinstance(dflt, int) and not isinstance(dflt, bool) and isinstance(v, float) and v.is_integer(): return int(v)
+    return v
 
 def cfg_get(key, dflt, path=None):
     if isinstance(key, list): key = key[-1] if key else None
     if not isinstance(key, str): return dflt
     if path:  # ForgeConfigSpec path known (builder push/pop): exact toml path, the mod's own file first
-        c = CFGP.get(path)
+        c = _fit(CFGP.get(path, []), dflt)
         if c:
-            pref = [v for f, v in c if CFG_NS[0] and CFG_NS[0] in f.lower()]
-            v = (pref or [c[0][1]])[0]
-            if isinstance(dflt, int) and not isinstance(dflt, bool) and isinstance(v, float) and v.is_integer(): v = int(v)
-            return v
-        c = [(f, v) for f, v in CFG.get(key, []) if CFG_NS[0] and CFG_NS[0] in f.lower()]
+            pref = [v for f, v in c if _mine(f)]
+            return _as((pref or [c[0][1]])[0], dflt)
+        c = [(f, v) for f, v in _fit(CFG.get(key, []), dflt) if _mine(f)]
         if not c: return dflt  # not in the pack's configs: the mod's default applies
     else:
-        c = CFG.get(key) or CFG.get(key.split('.')[-1])
+        c = _fit(CFG.get(key) or CFG.get(key.split('.')[-1]) or [], dflt)
     if not c: return dflt
-    pref = [v for f, v in c if CFG_NS[0] and CFG_NS[0] in f.lower()]
+    pref = [v for f, v in c if _mine(f)]
     cand = pref or [x[1] for x in c]
     if len(set(cand)) > 1: CFG_AMBIG.add((CFG_NS[0], key, tuple(sorted(set(map(str, cand)))[:6])))
-    v = (pref or [c[0][1]])[0]
-    if isinstance(dflt, int) and not isinstance(dflt, bool) and isinstance(v, float) and v.is_integer(): v = int(v)
-    return v
+    return _as((pref or [c[0][1]])[0], dflt)
 
 class Attr:
     def __init__(s, n): s.n = n
@@ -145,6 +176,70 @@ def argc(desc):
 
 def rettype(desc): return desc[desc.index(')') + 1:]
 
+_DT = {}
+def dtypes(desc):
+    """argument kinds of a method descriptor, one letter each (objects and arrays 'A'); J and D take two slots"""
+    r = _DT.get(desc)
+    if r is None:
+        a = desc[1:desc.index(')')]; r = []; i = 0
+        while i < len(a):
+            arr = a[i] == '['
+            while a[i] == '[': i += 1
+            if a[i] == 'L': i = a.index(';', i)
+            r.append('A' if arr or a[i] == ';' else a[i]); i += 1
+        r = _DT[desc] = ''.join(r)
+    return r
+
+# Java number semantics: ints wrap at 32/64 bits, float results are rounded to 32 bits, f2i/d2i saturate
+_F32 = struct.Struct('>f')
+def f32(v):
+    try: return _F32.unpack(_F32.pack(v))[0]
+    except OverflowError: return math.copysign(math.inf, v)
+def i32(v): return (v + 0x80000000) % 0x100000000 - 0x80000000
+def i64(v): return (v + 0x8000000000000000) % 0x10000000000000000 - 0x8000000000000000
+def f2int(v, bits):
+    hi = (1 << bits - 1) - 1
+    return 0 if v != v else hi if v >= hi else -hi - 1 if v <= -hi - 1 else int(v)
+def jarith(o, t, a, b):
+    """add/sub/mul/div/rem of kind t on known numbers; / and % truncate toward zero (the remainder takes the dividend's sign);
+    division by zero is unknown"""
+    if not (num(a) and num(b)): return OP
+    if t in 'IJ' and isinstance(a, int) and isinstance(b, int):
+        if o in ('div', 'rem'):
+            if b == 0: return OP
+            q = abs(a) // abs(b); q = q if (a < 0) == (b < 0) else -q
+            v = q if o == 'div' else a - b * q
+        else: v = a + b if o == 'add' else a - b if o == 'sub' else a * b
+        return i32(v) if t == 'I' else i64(v)
+    if o in ('div', 'rem') and b == 0: return OP
+    v = a + b if o == 'add' else a - b if o == 'sub' else a * b if o == 'mul' else a / b if o == 'div' else math.fmod(a, b)
+    if t in 'IJ' and o == 'div': return int(v)  # a float met in int arithmetic (a config value read as float)
+    return f32(v) if t == 'F' else v
+def jconv(mn, a):
+    if mn in ('i2b', 'i2s', 'i2c', 'l2i'):
+        a = int(a); return ((a & 0xFF) ^ 0x80) - 0x80 if mn == 'i2b' else ((a & 0xFFFF) ^ 0x8000) - 0x8000 if mn == 'i2s' else a & 0xFFFF if mn == 'i2c' else i32(a)
+    if mn == 'i2l': return int(a)
+    if mn[2] == 'f': return f32(float(a))
+    if mn[2] == 'd': return float(a)
+    return f2int(float(a), 32 if mn[2] == 'i' else 64)
+def jstr(v):
+    """a number as Java's string concatenation prints it (a value that is exactly a float32 prints its shortest float digits)"""
+    if not isinstance(v, float): return str(v)
+    if v != v or v in (math.inf, -math.inf): return 'NaN' if v != v else '-Infinity' if v < 0 else 'Infinity'
+    if v == 0: return '-0.0' if math.copysign(1, v) < 0 else '0.0'
+    t = repr(v)
+    if f32(v) == v: t = next(q for q in ('%.*e' % (p, v) for p in range(9)) if f32(float(q)) == v)
+    import decimal
+    sg, dg, ex = decimal.Decimal(t).normalize().as_tuple(); dg = ''.join(map(str, dg)); e = len(dg) - 1 + ex
+    if -3 <= e < 7: r = (dg + '0' * e)[:e + 1] + '.' + (dg[e + 1:] or '0') if e >= 0 else '0.' + '0' * (-e - 1) + dg
+    else: r = dg[0] + '.' + (dg[1:] or '0') + 'E' + str(e)
+    return ('-' if sg else '') + r
+KCONST = {'iconst_m1': -1, **{'iconst_%d' % q: q for q in range(6)}, 'lconst_0': 0, 'lconst_1': 1, 'fconst_0': 0.0, 'fconst_1': 1.0, 'fconst_2': 2.0, 'dconst_0': 0.0, 'dconst_1': 1.0}
+TY = {'i': 'I', 'l': 'J', 'f': 'F', 'd': 'D', 'a': 'A', 'b': 'I', 'c': 'I', 's': 'I', 'z': 'I'}
+CONV = {'i2l': 'IJ', 'i2f': 'IF', 'i2d': 'ID', 'l2i': 'JI', 'l2f': 'JF', 'l2d': 'JD', 'f2i': 'FI', 'f2l': 'FJ', 'f2d': 'FD',
+        'd2i': 'DI', 'd2l': 'DJ', 'd2f': 'DF', 'i2b': 'II', 'i2c': 'II', 'i2s': 'II'}
+CFGAPI = re.compile(r'(?i)conf|cfg|setting|option|propert')  # static (String key, ..., default) getters of config helpers
+
 class VM:
     def __init__(s, jars):
         s.idx = {}
@@ -156,6 +251,7 @@ class VM:
                     s.idx.setdefault(n[:-6], (z, n))
         s.cache = {}; s.statics = {}; s.inited = set(); s.regs = []; s.steps = 0; s.attrname = {}
         s.depth = 0; s.budget = 10**12; s.fsteps = 100000; s.clinit_budget = 600000; s.hard = 10**12
+        s.errors = []  # (class, method, pc, exception): code that raised in the interpreter; clinit and the callers carry on without it
 
     def cf(s, cls):
         if cls in s.cache: return s.cache[cls]
@@ -211,8 +307,7 @@ class VM:
             ob = s.budget; st0 = s.steps; s.budget = s.steps + s.clinit_budget
             od = s.depth; s.depth = min(s.depth, 8)  # a nested <clinit> starts a fresh frame stack in the real JVM
             try: s.run(cls, k, m, [])
-            except RecursionError: pass
-            except Exception as ex: pass
+            except Exception as ex: s.err(cls, '<clinit>', None, ex)
             finally: s.budget = ob + (s.steps - st0); s.depth = od
 
     def getstatic(s, cls, name, desc):
@@ -239,7 +334,7 @@ class VM:
                     w = Obj('com/aizistral/omniconfig/wrappers/OmniconfigWrapper'); w.f['$pfx'] = []
                     ob = s.budget; st0 = s.steps; s.budget = s.steps + 200000; od = s.depth; s.depth = min(s.depth, 8)
                     try: s.run(cls, k, m, [w])
-                    except Exception: pass
+                    except Exception as ex: s.err(cls, m.name.value, None, ex)
                     finally: s.budget = ob + (s.steps - st0); s.depth = od
             if (cls, name) in s.statics: return s.statics[(cls, name)]
         if 'Attribute' in desc: return Attr(cls.split('/')[-1] + '.' + name)
@@ -469,7 +564,7 @@ class VM:
         if isinstance(recv, Obj) and '$sb' in recv.f:
             if name == 'append' and args:
                 a = args[0]; sb = recv.f['$sb']
-                recv.f['$sb'] = (sb + (a if isinstance(a, str) else str(int(a)) if isinstance(a, int) else str(a))) if isinstance(sb, str) and isinstance(a, (str, int, float)) and not isinstance(a, bool) else None
+                recv.f['$sb'] = (sb + (a if isinstance(a, str) else str(int(a)) if isinstance(a, int) else jstr(a))) if isinstance(sb, str) and isinstance(a, (str, int, float)) and not isinstance(a, bool) else None
                 return recv
             if name == 'toString': return recv.f['$sb'] if isinstance(recv.f['$sb'], str) else OP
         if isinstance(recv, str) and kind != 'invokestatic':
@@ -484,7 +579,7 @@ class VM:
                 return h - (1 << 32) if h >= (1 << 31) else h
             if name in ('startsWith', 'endsWith', 'contains') and args and isinstance(args[0], str):
                 return 1 if getattr(recv, {'startsWith': 'startswith', 'endsWith': 'endswith', 'contains': '__contains__'}[name])(args[0]) else 0
-        if cls == 'java/lang/String' and name == 'valueOf' and args and isinstance(args[0], (str, int)) and not isinstance(args[0], bool): return str(args[0])
+        if cls == 'java/lang/String' and name == 'valueOf' and args and isinstance(args[0], (str, int, float)) and not isinstance(args[0], bool): return jstr(args[0])
         if name == 'clone' and isinstance(recv, Arr):
             a = Arr(0); a.v = list(recv.v); return a
         if name == 'ordinal' and isinstance(recv, EnumC): return recv.ord
@@ -493,6 +588,8 @@ class VM:
             return EnumC('net/minecraft/world/entity/EquipmentSlot', {'HELMET': 'HEAD', 'CHESTPLATE': 'CHEST', 'LEGGINGS': 'LEGS', 'BOOTS': 'FEET'}.get(recv.name, recv.name), -1)
         if cls == 'net/minecraft/world/item/ArmorItem$Type' and name == 'values':
             a = Arr(4); a.v = [EnumC(cls, t, i) for i, t in enumerate(TYPES)]; return a
+        if cls == 'net/minecraft/world/entity/EquipmentSlot' and name == 'values':  # the $SwitchMap of a switch over the slot
+            a = Arr(6); a.v = [EnumC(cls, t, i) for i, t in enumerate(EQS)]; return a
         if name == 'equals' and recv is not None and args: return 1 if s.same(recv, args[0]) else 0
         if isinstance(recv, Obj) and recv.cls == 'net/minecraft/world/entity/ai/attributes/AttributeModifier' and kind != 'invokestatic':
             if name == 'm_22218_': return recv.f.get('amt', OP)  # getAmount
@@ -550,8 +647,8 @@ class VM:
             if rt.startswith('Lnet/minecraftforge/common/ForgeConfigSpec$Builder') and recv is not None: return recv
             return Opaque('cfg') if rt != 'V' else None
         if name in ('get', 'getAsDouble', 'getAsInt') and isinstance(recv, CfgVal): return cfg_get(recv.key, recv.dflt, recv.path)
-        if rt in ('F', 'I', 'D', 'J') and kind == 'invokestatic' and len(args) >= 2 and isinstance(args[0], str) and num(args[-1]):
-            return cfg_get(args[0], args[-1])
+        if rt in ('F', 'I', 'D', 'J') and kind == 'invokestatic' and len(args) >= 2 and isinstance(args[0], str) and num(args[-1]) and CFGAPI.search(cls.split('/')[-1] + '.' + name):
+            return cfg_get(args[0], args[-1])  # a config helper's getter(key, ..., default); other static (String, ..., number) methods run
         if cls == 'net/minecraftforge/common/TierSortingRegistry' and name == 'registerTier' and args: return args[0]
         if kind != 'invokestatic' and isinstance(recv, Obj) and recv.gear and name in VGET:
             g = recv.gear; f = VGET[name]
@@ -693,27 +790,22 @@ class VM:
             k._code[key] = (ins, pos)
         return k._code[key]
 
+    def err(s, cls, meth, at, ex):
+        if getattr(ex, 'mjvm_at', None) is None:  # recorded once, where it was raised
+            try: ex.mjvm_at = (cls, meth, at)
+            except Exception: pass
+            if len(s.errors) < 500: s.errors.append((cls, meth, at, repr(ex)[:160]))
+
     def _run(s, cls, k, m, args):
         ins, pos = s.code(k, m)
-        static = 'static' in str(m.access_flags.to_dict()) and m.access_flags.get('acc_static')
-        loc = {}
-        i = 0
-        for a in args:
-            loc[i] = a; i += 1
-            if isinstance(a, float) and False: i += 1
-        # long/double take 2 slots: recompute from descriptor
-        loc = {}; slot = 0; ai = 0
+        loc = {}; slot = 0; ai = 0  # arguments into local slots: long/double take 2
         if not m.access_flags.get('acc_static'):
             loc[0] = args[0] if args else OP; slot = 1; ai = 1
-        d = m.descriptor.value[1:m.descriptor.value.index(')')]
-        j = 0
-        while j < len(d):
-            c = d[j]; arr = False
-            while d[j] == '[': j += 1; arr = True
-            if d[j] == 'L': j = d.index(';', j)
+        for t in dtypes(m.descriptor.value):
             loc[slot] = args[ai] if ai < len(args) else OP
-            slot += 2 if (c in 'JD' and not arr) else 1; ai += 1; j += 1
-        st = []; pc = 0; cp = k.constants; steps = 0; opq = set()
+            slot += 2 if t in 'JD' else 1; ai += 1
+        # the stack holds JVM slots, a long or double as its value then TOP, so pop2/dup2/dup_x2... work on slots as the JVM's do
+        st = []; pc = 0; cp = k.constants; steps = 0; opq = {}
         def cst(ix):
             c = cp.get(ix)
             if isinstance(c, (C.Integer, C.Float, C.Long, C.Double)): return c.value
@@ -724,111 +816,129 @@ class VM:
             r = []
             for _ in range(n): r.append(st.pop() if st else OP)
             return r[::-1]
+        def popt(ts):  # one value per kind in ts
+            r = []
+            for t in reversed(ts):
+                if t in 'JD' and st: st.pop()
+                r.append(st.pop() if st else OP)
+            return r[::-1]
+        def push(v, t='I'):
+            st.append(v)
+            if t in 'JD': st.append(TOP)
+        # unknown condition or switch value: choice 0 (fall through / default) the first time, then the next ones (a loop runs once).
+        # Following both sides and merging the frames where they join (ASM's Analyzer does this) would replace it: that belongs in a shared class layer
+        def unk(at, n):
+            c = opq.get(at, 0); opq[at] = c + 1
+            return min(c, n - 1)
         while pc < len(ins) and steps < s.fsteps and s.steps < s.budget:
             steps += 1; s.steps += 1
             x = ins[pc]; mn = x.mnemonic; ops = x.operands; pc += 1
             try:
-                if mn in ('iconst_m1',): st.append(-1)
-                elif mn.startswith('iconst_'): st.append(int(mn[-1]))
-                elif mn.startswith('lconst_'): st.append(int(mn[-1]))
-                elif mn.startswith('fconst_') or mn.startswith('dconst_'): st.append(float(mn[-1]))
-                elif mn in ('bipush', 'sipush'): st.append(ops[0].value)
-                elif mn in ('ldc', 'ldc_w', 'ldc2_w'): st.append(cst(ops[0].value))
-                elif mn == 'aconst_null': st.append(None)
-                elif mn[1:5] == 'load' and len(mn) <= 7:
-                    ix = int(mn[-1]) if '_' in mn else ops[0].value; st.append(loc.get(ix, OP))
+                if mn[1:5] == 'load' and len(mn) <= 7:
+                    st.append(loc.get(int(mn[-1]) if '_' in mn else ops[0].value, OP))
+                    if mn[0] in 'ld': st.append(TOP)
                 elif mn[1:6] == 'store':
-                    ix = int(mn[-1]) if '_' in mn else ops[0].value; loc[ix] = st.pop() if st else OP
-                elif mn == 'iinc': ix = ops[0].value; v = loc.get(ix); loc[ix] = v + ops[1].value if num(v) else OP
+                    if mn[0] in 'ld' and st: st.pop()
+                    loc[int(mn[-1]) if '_' in mn else ops[0].value] = st.pop() if st else OP
+                elif mn in KCONST:
+                    st.append(KCONST[mn])
+                    if mn[0] in 'ld': st.append(TOP)
+                elif mn in ('bipush', 'sipush'): st.append(ops[0].value)
+                elif mn in ('ldc', 'ldc_w'): st.append(cst(ops[0].value))
+                elif mn == 'ldc2_w': push(cst(ops[0].value), 'J')
+                elif mn == 'aconst_null': st.append(None)
+                elif mn == 'iinc':  # jawa reads the constant unsigned (a byte, or 2 bytes after wide); the JVM's is signed
+                    ix = ops[0].value; c = ops[1].value; w = x.opcode == 0xC4
+                    c = c - 65536 if w and c > 32767 else c - 256 if not w and c > 127 else c
+                    v = loc.get(ix); loc[ix] = i32(v + c) if isinstance(v, int) and not isinstance(v, bool) else v + c if num(v) else OP
                 elif mn in ('iaload', 'faload', 'aaload', 'daload', 'laload', 'baload', 'saload', 'caload'):
-                    a, ix = pop(2); st.append(a.v[ix] if isinstance(a, Arr) and isinstance(ix, int) and 0 <= ix < len(a.v) else OP)
+                    a, ix = pop(2); push(a.v[ix] if isinstance(a, Arr) and isinstance(ix, int) and 0 <= ix < len(a.v) else OP, TY[mn[0]])
                 elif mn in ('iastore', 'fastore', 'aastore', 'dastore', 'lastore', 'bastore', 'sastore', 'castore'):
-                    a, ix, v = pop(3)
+                    v = popt(TY[mn[0]])[0]; a, ix = pop(2)
                     if isinstance(a, Arr) and isinstance(ix, int) and 0 <= ix < len(a.v): a.v[ix] = v
                 elif mn in ('newarray', 'anewarray'): n = pop()[0]; st.append(Arr(n if isinstance(n, int) else 0))
                 elif mn == 'multianewarray': pop(ops[1].value); st.append(Arr(0))
                 elif mn == 'arraylength': a = pop()[0]; st.append(len(a.v) if isinstance(a, Arr) else OP)
                 elif mn == 'pop': pop()
-                elif mn == 'pop2': pop(1)
-                elif mn == 'dup': v = st[-1] if st else OP; st.append(v)
+                elif mn == 'pop2': pop(2)
+                elif mn == 'dup': st.append(st[-1] if st else OP)
                 elif mn == 'dup_x1': a, b = pop(2); st += [b, a, b]
                 elif mn == 'dup_x2': a, b, c = pop(3); st += [c, a, b, c]
-                elif mn == 'dup2': v = st[-1] if st else OP; st.append(v)
+                elif mn == 'dup2': a, b = pop(2); st += [a, b, a, b]
+                elif mn == 'dup2_x1': a, b, c = pop(3); st += [b, c, a, b, c]
+                elif mn == 'dup2_x2': a, b, c, d = pop(4); st += [c, d, a, b, c, d]
                 elif mn == 'swap': a, b = pop(2); st += [b, a]
-                elif mn[1:] in ('add', 'sub', 'mul', 'div', 'rem') and mn[0] in 'ifdl':
-                    a, b = pop(2)
-                    if num(a) and num(b):
-                        o = mn[1:]
-                        try: v = a + b if o == 'add' else a - b if o == 'sub' else a * b if o == 'mul' else (a / b if mn[0] in 'fd' else int(a / b)) if o == 'div' else a % b
-                        except ZeroDivisionError: v = OP
-                        st.append(v)
-                    else: st.append(OP)
-                elif mn[1:] == 'neg': a = pop()[0]; st.append(-a if num(a) else OP)
-                elif mn in ('i2f', 'i2d', 'l2f', 'l2d', 'f2d', 'd2f'): a = pop()[0]; st.append(float(a) if num(a) else OP)
-                elif mn in ('f2i', 'd2i', 'f2l', 'd2l', 'i2l', 'l2i', 'i2b', 'i2s', 'i2c'): a = pop()[0]; st.append(int(a) if num(a) else OP)
-                elif mn[1:] in ('and', 'or', 'xor', 'shl', 'shr', 'ushr'):
-                    a, b = pop(2); st.append(OP if not (isinstance(a, int) and isinstance(b, int)) else {'and': a & b, 'or': a | b, 'xor': a ^ b, 'shl': a << (b & 31), 'shr': a >> (b & 31), 'ushr': (a % (1 << 32)) >> (b & 31)}[mn[1:]])
+                elif mn[0] in 'ilfd' and mn[1:] in ('add', 'sub', 'mul', 'div', 'rem'):
+                    if mn[0] == 'i' and len(st) > 1 and type(st[-1]) is int and type(st[-2]) is int and mn != 'idiv' and mn != 'irem':
+                        b = st.pop(); a = st.pop(); st.append(i32(a + b if mn == 'iadd' else a - b if mn == 'isub' else a * b))
+                    else: t = TY[mn[0]]; a, b = popt(t + t); push(jarith(mn[1:], t, a, b), t)
+                elif mn[0] in 'ilfd' and mn[1:] == 'neg':
+                    t = TY[mn[0]]; a = popt(t)[0]
+                    push(OP if not num(a) else i32(-a) if t == 'I' and isinstance(a, int) else i64(-a) if t == 'J' and isinstance(a, int) else f32(-a) if t == 'F' else -a, t)
+                elif mn[0] in 'il' and mn[1:] in ('and', 'or', 'xor', 'shl', 'shr', 'ushr'):
+                    t = TY[mn[0]]; o = mn[1:]; a, b = popt(t + ('I' if o.endswith(('shl', 'shr')) else t))
+                    if isinstance(a, int) and isinstance(b, int):
+                        bits = 32 if t == 'I' else 64; a, b = int(a), int(b); n = b & (bits - 1)
+                        v = a & b if o == 'and' else a | b if o == 'or' else a ^ b if o == 'xor' else a << n if o == 'shl' else a >> n if o == 'shr' else (a % (1 << bits)) >> n
+                        push(i32(v) if t == 'I' else i64(v), t)
+                    else: push(OP, t)
+                elif mn in CONV:
+                    f, t = CONV[mn]; a = popt(f)[0]; push(jconv(mn, a) if num(a) else OP, t)
                 elif mn in ('lcmp', 'fcmpl', 'fcmpg', 'dcmpl', 'dcmpg'):
-                    a, b = pop(2); st.append((a > b) - (a < b) if num(a) and num(b) else OP)
+                    t = TY[mn[0]]; a, b = popt(t + t)
+                    st.append(OP if not (num(a) and num(b)) else (1 if mn.endswith('g') else -1) if a != a or b != b else (a > b) - (a < b))
                 elif mn.startswith('if'):
-                    tgt = x.pos + ops[0].value; unk = False
+                    tgt = x.pos + ops[0].value; u = False
                     if mn.startswith('if_icmp') or mn.startswith('if_acmp'):
                         a, b = pop(2); c = mn[7:]
                         if mn.startswith('if_acmp'): r = (a is b) if c == 'eq' else (a is not b)
                         elif num(a) and num(b): r = {'eq': a == b, 'ne': a != b, 'lt': a < b, 'ge': a >= b, 'gt': a > b, 'le': a <= b}[c]
-                        else: r = False; unk = True
+                        else: r = False; u = True
                     elif mn in ('ifnull', 'ifnonnull'):
                         a = pop()[0]; r = (a is None) == (mn == 'ifnull')
-                        if isinstance(a, Opaque): r = False; unk = True
+                        if isinstance(a, Opaque): r = False; u = True
                     else:
                         a = pop()[0]; c = mn[2:]
                         if a is True: a = 1
                         if a is False: a = 0
                         if num(a): r = {'eq': a == 0, 'ne': a != 0, 'lt': a < 0, 'ge': a >= 0, 'gt': a > 0, 'le': a <= 0}[c]
-                        else: r = False; unk = True
-                    if unk:  # unknown condition: fall through the first time, take the branch on any later visit (a loop runs once)
-                        if x.pos in opq: r = True
-                        else: opq.add(x.pos)
+                        else: r = False; u = True
+                    if u: r = unk(x.pos, 2) == 1
                     if r: pc = pos[tgt]
                 elif mn in ('goto', 'goto_w'):
                     tgt = x.pos + ops[0].value
                     if tgt < x.pos and steps > s.fsteps * 2 // 3: continue
                     pc = pos[tgt]
                 elif mn in ('tableswitch', 'lookupswitch'):
-                    v = pop()[0]; sw = ops[0] if isinstance(ops[0], dict) else None
-                    tgt = None
-                    try:
-                        if mn == 'lookupswitch':  # jawa: [ {match: offset}, default ]
-                            table = next(o for o in ops if isinstance(o, dict)); dflt = next(o for o in ops if not isinstance(o, dict))
-                            if not isinstance(v, int) or isinstance(v, bool): return OP
-                            tgt = x.pos + table.get(v, dflt.value)
-                        else:
-                            dflt, low, high = ops[0].value, ops[1].value, ops[2].value; offs = [o.value for o in ops[3:]]
-                            tgt = x.pos + (offs[v - low] if isinstance(v, int) and low <= v <= high else dflt)
-                    except Exception: tgt = None
-                    if tgt is None or tgt not in pos: return OP
-                    pc = pos[tgt]
-                elif mn in ('ireturn', 'freturn', 'areturn', 'dreturn', 'lreturn'): return st.pop() if st else OP
+                    v = pop()[0]
+                    if mn == 'lookupswitch':  # jawa: [ {match: offset}, default ]
+                        cases = list(next(o for o in ops if isinstance(o, dict)).items()); dflt = next(o for o in ops if not isinstance(o, dict)).value
+                    else: dflt, low = ops[0].value, ops[1].value; cases = [(low + q, o.value) for q, o in enumerate(ops[3:])]
+                    if isinstance(v, int): off = dict(cases).get(int(v), dflt)
+                    else: ch = [dflt] + [o for _, o in cases]; off = ch[unk(x.pos, len(ch))]
+                    if x.pos + off not in pos: return OP
+                    pc = pos[x.pos + off]
+                elif mn in ('ireturn', 'freturn', 'areturn'): return st.pop() if st else OP
+                elif mn in ('lreturn', 'dreturn'): return popt('J')[0]
                 elif mn == 'return': return None
                 elif mn == 'athrow': return OP
                 elif mn == 'getstatic':
-                    f = cp.get(ops[0].value); c = f.class_.name.value; n = f.name_and_type.name.value
-                    if c == cls and (c, n) in s.statics and s.statics[(c, n)] is not None: st.append(s.statics[(c, n)])
-                    else: st.append(s.getstatic(c, n, f.name_and_type.descriptor.value))
+                    f = cp.get(ops[0].value); c = f.class_.name.value; n = f.name_and_type.name.value; d = f.name_and_type.descriptor.value
+                    if c == cls and (c, n) in s.statics and s.statics[(c, n)] is not None: push(s.statics[(c, n)], d[0])
+                    else: push(s.getstatic(c, n, d), d[0])
                 elif mn == 'putstatic':
-                    f = cp.get(ops[0].value); v = pop()[0]; s.statics[(f.class_.name.value, f.name_and_type.name.value)] = v
-                    if isinstance(v, EnumC) or (isinstance(v, Obj) and '$name' in v.f): pass
+                    f = cp.get(ops[0].value); v = popt(f.name_and_type.descriptor.value[0])[0]; s.statics[(f.class_.name.value, f.name_and_type.name.value)] = v
                 elif mn == 'getfield':
                     f = cp.get(ops[0].value); o = pop()[0]; n = f.name_and_type.name.value
-                    st.append(o.f.get(n, OP) if isinstance(o, Obj) else (o.f.get(n, OP) if hasattr(o, 'f') else OP))
+                    push(o.f.get(n, OP) if isinstance(o, Obj) else (o.f.get(n, OP) if hasattr(o, 'f') else OP), f.name_and_type.descriptor.value[0])
                 elif mn == 'putfield':
-                    f = cp.get(ops[0].value); o, v = pop(2)
+                    f = cp.get(ops[0].value); v = popt(f.name_and_type.descriptor.value[0])[0]; o = pop()[0]
                     if isinstance(o, Obj): o.f[f.name_and_type.name.value] = v
                 elif mn == 'new':
                     st.append(('NEW', cp.get(ops[0].value).name.value))
                 elif mn in ('invokevirtual', 'invokespecial', 'invokestatic', 'invokeinterface'):
                     mr = cp.get(ops[0].value); c = mr.class_.name.value; n = mr.name_and_type.name.value; dsc = mr.name_and_type.descriptor.value
-                    a = pop(argc(dsc))
+                    a = popt(dtypes(dsc))
                     if mn == 'invokestatic':
                         v = s.invoke(mn, c, n, dsc, a)
                     elif n == '<init>':
@@ -845,26 +955,27 @@ class VM:
                         v = None
                     else:
                         r = pop()[0]; v = s.invoke(mn, c, n, dsc, a, r)
-                    if rettype(dsc) != 'V' and n != '<init>': st.append(v)
+                    rt = rettype(dsc)
+                    if rt != 'V' and n != '<init>': push(v, rt[0])
                 elif mn == 'invokedynamic':
                     idy = cp.get(ops[0].value); nt = idy.name_and_type; dsc = nt.descriptor.value
-                    cap = pop(argc(dsc))
+                    cap = popt(dtypes(dsc))
                     bsm = k.bootstrap_methods[idy.method_attr_index] if hasattr(k, 'bootstrap_methods') else None
                     if bsm is None:
                         for at in k.attributes:
                             if hasattr(at, 'table'): bsm = at.table[idy.method_attr_index]; break
                     v = OP
                     try:
-                        if nt.name.value == 'makeConcatWithConstants':
-                            recipe = cp.get(bsm.bootstrap_args[0]).string.value
+                        if nt.name.value == 'makeConcatWithConstants':  # recipe: \x01 an argument, \x02 the next bootstrap constant
+                            recipe = cp.get(bsm.bootstrap_args[0]).string.value; kst = iter([cst(q) for q in bsm.bootstrap_args[1:]])
                             if all(isinstance(z, (str, int, float)) for z in cap):
-                                it = iter(cap); v = ''.join(str(next(it)) if ch == '\x01' else ch for ch in recipe)
+                                it = iter(cap); v = ''.join(jstr(next(it)) if ch == '\x01' else jstr(next(kst)) if ch == '\x02' else ch for ch in recipe)
                         else:
                             mh = cp.get(bsm.bootstrap_args[1])
                             ref = mh.reference
                             v = Lam(mh.reference_kind, ref.class_.name.value, ref.name_and_type.name.value, ref.name_and_type.descriptor.value, cap)
                     except Exception: v = OP
-                    st.append(v)
+                    push(v, rettype(dsc)[0])
                 elif mn in ('checkcast', 'nop', 'monitorenter', 'monitorexit') or mn.startswith('wide'):
                     if mn.startswith('monitor'): pop()
                 elif mn == 'instanceof': pop(); st.append(OP)
@@ -872,43 +983,7 @@ class VM:
                     pass
             except IndexError:
                 st.append(OP)
+            except Exception as ex:
+                s.err(cls, m.name.value, x.pos, ex); raise
         return OP
 
-
-def srg_tables(vm, srgjar):
-    """Attributes srg field -> 'generic.attack_damage', ArmorItem$Type fields"""
-    z = zipfile.ZipFile(srgjar)
-    k = ClassFile(io.BytesIO(z.read('net/minecraft/world/entity/ai/attributes/Attributes.class')))
-    m = k.methods.find_one(name='<clinit>'); last = None
-    for x in m.code.disassemble():
-        if x.mnemonic in ('ldc', 'ldc_w'):
-            c = k.constants.get(x.operands[0].value)
-            if isinstance(c, C.String) and c.string.value.startswith(('generic.', 'horse.', 'zombie.')): last = c.string.value
-        if x.mnemonic == 'putstatic' and last:
-            vm.attrname[k.constants.get(x.operands[0].value).name_and_type.name.value] = last; last = None
-    for cn, tab, names in (('net/minecraft/world/item/Tiers', VTIER, ['WOOD','STONE','IRON','DIAMOND','GOLD','NETHERITE']),
-                           ('net/minecraft/world/item/ArmorMaterials', VARM, ['LEATHER','CHAINMAIL','CHAIN','IRON','GOLD','DIAMOND','TURTLE','NETHERITE'])):
-        k = ClassFile(io.BytesIO(z.read(cn + '.class'))); m = k.methods.find_one(name='<clinit>'); last = None
-        old = dict(VTIER0 if tab is VTIER else VARM0); tab.clear()
-        for x in m.code.disassemble():
-            if x.mnemonic in ('ldc', 'ldc_w'):
-                c = k.constants.get(x.operands[0].value)
-                if isinstance(c, C.String) and c.string.value in names: last = c.string.value
-            if x.mnemonic == 'putstatic' and last:
-                fn = k.constants.get(x.operands[0].value).name_and_type.name.value
-                tab[fn] = old[last]; SRGNAME[(cn, fn)] = last; last = None
-    k = ClassFile(io.BytesIO(z.read('net/minecraft/world/entity/EquipmentSlot.class'))); m = k.methods.find_one(name='<clinit>'); last = None
-    for x in m.code.disassemble():
-        if x.mnemonic in ('ldc', 'ldc_w'):
-            c = k.constants.get(x.operands[0].value)
-            if isinstance(c, C.String) and c.string.value in EQS: last = c.string.value
-        if x.mnemonic == 'putstatic' and last:
-            EQF[k.constants.get(x.operands[0].value).name_and_type.name.value] = last; last = None
-    k = ClassFile(io.BytesIO(z.read('net/minecraft/world/item/ArmorItem$Type.class')))
-    m = k.methods.find_one(name='<clinit>'); last = None
-    for x in m.code.disassemble():
-        if x.mnemonic in ('ldc', 'ldc_w'):
-            c = k.constants.get(x.operands[0].value)
-            if isinstance(c, C.String) and c.string.value in TYPES: last = c.string.value  # not the lowercase name arg
-        if x.mnemonic == 'putstatic' and last in TYPES:
-            TYPEF[k.constants.get(x.operands[0].value).name_and_type.name.value] = last; last = None

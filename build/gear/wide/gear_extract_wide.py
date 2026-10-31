@@ -211,7 +211,7 @@ def run_ns(ns):
         if z is None: continue
         for n in z.namelist():
             if n.endswith('.class') and not n.startswith('META-INF'): vm.idx[n[:-6]] = (z, n)
-    mjvm.CFG_NS[0] = ns.split('_')[0][:6]
+    mjvm.cfg_ns(ns)
     explicit = set(P['explicit']); want = set(P['want_all']) | explicit
     cls = candidates(vm, ns, P, want, explicit)
     vm.regs = []; ran = 0
@@ -315,7 +315,7 @@ def run_ns(ns):
         fail[ns + ':' + nm] = why.get(nm) or ('name never seen in captured registrations' if nm not in regnames else 'registered under this name but value unresolved')
     amb = sorted([k, list(v)] for n0, k, v in mjvm.CFG_AMBIG if n0 == mjvm.CFG_NS[0]); mjvm.CFG_AMBIG.clear()
     info = {'ns': ns, 'cfg_ambiguous': amb, 'cands': len(cls), 'ran': ran, 'regs': len(vm.regs), 'kept': len(recs), 'explicit': len(explicit),
-            'secs': round(time.time() - t0, 1), 'steps': vm.steps}
+            'secs': round(time.time() - t0, 1), 'steps': vm.steps, 'errors': vm.errors[:50]}   # code that raised in the interpreter
     hint_miss = sorted(set(P.get('hints', [])) - set(kept))
     json.dump({'records': recs, 'fail': fail, 'nongear': nongear, 'hint_miss': hint_miss, 'info': info}, open(OUTD + '/' + ns + '.json', 'w'))
     return info

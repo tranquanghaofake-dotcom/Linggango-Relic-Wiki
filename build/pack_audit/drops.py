@@ -1,11 +1,13 @@
 import json,re,sys,zipfile,glob,os
+sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
+import lootlib  # vanilla 1.20.1 loot rules; the chance of at least one per kill, luck 0
 W=sys.argv[1]
 rec=json.load(open(W+'/rec.json'))
-s=open('/home/user/Linggango-Relic-Wiki/build/src/data.js',encoding='utf-8').read();D,_=json.JSONDecoder().raw_decode(s,8)
+s=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','src','data.js'),encoding='utf-8').read();D,_=json.JSONDecoder().raw_decode(s,re.search(r'\bD\s*=\s*\[',s).end()-1)
 want={d['id'] for d in D}
 # index loot table files: table id -> loader
 idx={}
-for j in glob.glob(W+'/pack/mods/*.jar'):
+for j in sorted(glob.glob(W+'/pack/mods/*.jar')):
     try: z=zipfile.ZipFile(j)
     except: continue
     for n in z.namelist():
@@ -17,26 +19,13 @@ def load(t):
     j,n=idx[t]
     return json.loads((zipfile.ZipFile(j).read(n) if j else open(n,'rb').read()).decode('utf-8','ignore'))
 def chances(o,item):
-    res=[]
-    for p in o.get('pools',[]):
-        pc=1.0
-        for c in p.get('conditions',[]):
-            if 'random_chance' in c.get('condition',''): pc*=c.get('chance',1)
-        ents=p.get('entries',[]); tw=sum(e.get('weight',1) for e in ents if e.get('type','').endswith('item') or e.get('type','').endswith('empty'))
-        rolls=p.get('rolls',1); rolls=rolls if isinstance(rolls,(int,float)) else rolls.get('max',1) if isinstance(rolls,dict) else 1
-        for e in ents:
-            if e.get('name')==item:
-                ec=1.0
-                for c in e.get('conditions',[]):
-                    if 'random_chance' in c.get('condition',''): ec*=c.get('chance',1)
-                w=e.get('weight',1)/tw if tw and len(ents)>1 else 1
-                res.append(round(pc*ec*(1-(1-w)**rolls)*100,2))
-    return res
+    r=lootlib.chances(o,lambda t:load(t) if t in idx else None,rec.get('tags'))
+    return [round(r[item]['p']*100,2)]+r[item]['cond'] if item in r else []
 for d in D:
     for t in rec['loot'].get(d['id'],[]):
         if '/entities/' in t or t.split(':')[1].startswith('entities/'):
             try: ch=chances(load(t),d['id'])
-            except Exception as e: continue
+            except Exception as e: print('table not read:',t,repr(e)[:120]); continue
             mob=t.split('/')[-1]
             w=' / '.join(d['src'])
             print(d['id'],'|',t,ch,'|| wiki:',re.findall(r'Dropped by [^.;]*',w)[:3])
