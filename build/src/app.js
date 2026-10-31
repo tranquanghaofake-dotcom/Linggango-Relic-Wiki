@@ -16,7 +16,7 @@ function ui(k,big){return `<i class="ui${big?" ui2":""}" style="--ui:var(--${UIK
 var SLOT_BASE={Head:1,Necklace:2,Back:1,Body:1,Belt:1,Hands:2,Ring:2,Bracelet:2,Glove:2,Anklet:2,Feet:2,Charm:6,Accessory:6,Heart:1,Spellbook:1,Scroll:1,Spellstone:1,Talent:2,Focus:1,"Hostility Curse":1,Curio:1,Elytra:1,"Binding Key":1,Magnetizer:1,Bundle:1};
 var SLOT_KEYS=Object.keys(SLOT_BASE); // share-link slot code = base-36 position here: append only
 var STAT_ALIAS={"Knockback Res":"Knockback Resistance","Knockback resistance":"Knockback Resistance","Increased reach":"Reach","Increased block reach":"Block Reach","Step Height Addition":"Step Height"};
-var BS={p:12,s:{},c:[]},BPICK=null,BINSP=null,BSTALE=false;
+var BS={p:12,s:{},c:[]},BPICK=null,BINSP=null,BSTALE=false,BLOST=0;
 // home boons: permanent consumables from linggango_tweaks; icons are the mod's own PNGs
 const HOME_BOONS=[
  {id:"linggango_tweaks:hearty_feast",n:"Hearty Feast",st:"+2 max health"},
@@ -38,7 +38,8 @@ function slotAdds(d){
 function statsOf(d){
  if(d._stp)return d._stp;const out=[];
  for(const x of d.st){const m=x.trim().match(/^([+-])\s*(\d+(?:\.\d+)?)\s*(%?)\s+(?:to\s+)?([A-Z][A-Za-z' ]{2,40}?)\s*(?:\(.*\))?\.?$/);
-  if(!m||/slots?$/i.test(m[4]))continue;let k=STAT_ALIAS[m[4]]||m[4],v=(m[1]==="-"?-1:1)*+m[2];
+  // conditional lines ("Damage dealt to enemies on fire", "Attack Damage per stored soul") are effects, not totals
+  if(!m||/slots?$/i.test(m[4])||/\b(to|against|for each|per|when|while)\b/i.test(m[4]))continue;let k=STAT_ALIAS[m[4]]||m[4],v=(m[1]==="-"?-1:1)*+m[2];
   if(/^Hearts?$/.test(k)){k="Max Health";v*=2}
   out.push({k:k+(m[3]?" %":""),v})}
  return d._stp=out}
@@ -53,8 +54,10 @@ const rlId=k=>k.split("#")[0],bKey=(n,id)=>(n[id]=(n[id]||0)+1)>1?id+"#"+n[id]:i
 function bKeys(){const n={};return Object.values(BS.s).flat().map(id=>bKey(n,id))}
 function bCaps(){const c={...SLOT_BASE};bKeys().filter(k=>k===rlId(k)||bStk(rlId(k))).forEach(k=>{const id=rlId(k),a=RL[id]?rlSlots(k):slotAdds(BYID[id]);for(const s in a)c[s]+=a[s]});return c}
 function bParse(h){
- const [,p,f,b]=decodeURIComponent(h).split("/"),v=f!==undefined&&!f.includes("="),c=v?b:f;BSTALE=v&&f!==DFP;BS={p:p!==undefined&&p!==""&&ACT[p]&&ORDER.includes(+p)?+p:ORDER[ORDER.length-1],s:{},c:[]};
- const n={};(c||"").split("|").filter(Boolean).forEach(part=>{if(part[0]==="*"){BS.c=part.slice(1).split(",").map(x=>HOME_BOONS[parseInt(x,36)]?.id).filter(Boolean);return}const [k,ids]=part.includes("=")?part.split("="):[SLOT_KEYS[parseInt(part[0],36)],part.slice(1)];if(k in SLOT_BASE)BS.s[k]=(ids||"").split(",").map(x=>bLv(x,n)).filter(i=>BYID[i]&&bFits(BYID[i],k))})}
+ const [,p,f,b]=decodeURIComponent(h).split("/"),v=f!==undefined&&!f.includes("="),c=v?b:f;BSTALE=v&&f!==DFP;BLOST=0;BS={p:p!==undefined&&p!==""&&ACT[p]&&ORDER.includes(+p)?+p:ORDER[ORDER.length-1],s:{},c:[]};
+ const n={};(c||"").split("|").filter(Boolean).forEach(part=>{if(part[0]==="*"){const xs=part.slice(1).split(",").filter(Boolean);BS.c=xs.map(x=>HOME_BOONS[parseInt(x,36)]?.id).filter(Boolean);BLOST+=xs.length-BS.c.length;return}const [k,ids]=part.includes("=")?part.split("="):[SLOT_KEYS[parseInt(part[0],36)],part.slice(1)],xs=(ids||"").split(",").filter(Boolean);
+  // an unknown slot code, an index past the list or a curio that does not fit its slot is dropped, and counted for the note
+  if(!(k in SLOT_BASE)){BLOST+=xs.length||1;return}BS.s[k]=xs.map(x=>bLv(x,n)).filter(i=>BYID[i]&&bFits(BYID[i],k));BLOST+=xs.length-BS.s[k].length})}
 // "index_" + level, ability points, then per-stat stars, all base 36 ("-" any roll); older "id~level~a.b.c~stars" still reads
 function bLv(x,n){
  if(x.includes("_")&&!x.includes(":")){const [t,d]=x.split("_"),id=(D[parseInt(t,36)]||{}).id||"",r=RL[id];
@@ -62,7 +65,14 @@ function bLv(x,n){
   return id}
  let [id,l,a,q]=x.split("~");if(!id.includes(":"))id=(D[parseInt(id,36)]||{}).id||"";const r=RL[id];if(r&&l!==undefined){RLV[bKey(n,id)]=rlFit(r,Math.max(0,Math.min(r.mx,+l||0)),(a||"").split(".").map(Number),[...(q||"")].map(c=>c==="-"?-1:parseInt(c,11)))}return id}
 function bHash(){const n={};return "#build/"+BS.p+"/"+DFP+"/"+Object.entries(BS.s).filter(([,v])=>v.length).map(([k,v])=>SLOT_KEYS.indexOf(k).toString(36)+v.map(id=>{const t=BYID[id].ix.toString(36);if(!RL[id])return t;const s=rlState(bKey(n,id));return t+"_"+[s.l,...s.a,...(s.q.some(v=>v>=0)?s.q:[])].map(v=>v<0?"-":v.toString(36)).join("")}).join(",")).join("|")+(BS.c.length?"|*"+BS.c.map(id=>HOME_BOONS.findIndex(h=>h.id===id).toString(36)).join(","):"")}
-function bSave(){history.replaceState(null,"",bHash());buildPage()}
+// a redraw of #main keeps the keyboard position: the same control (by id, data-* key or link) gets focus back, or pref() picks one
+function focusKey(){const a=document.activeElement,m=el("main");if(!a||a===document.body||!m||!m.contains(a)||!a.matches(":focus-visible"))return null;
+ const sc=a.closest(".bslots,.bpick,.binsp,.bpane,.bbar"),pre=sc?"."+sc.classList[0]+" ":"";
+ if(a.id)return ["#"+CSS.escape(a.id)];
+ for(const k of ["data-pick","data-rm","data-add","data-preset","data-insp","data-cons","data-evo","data-pgi","data-tab"])if(a.hasAttribute(k)){const q=`[${k}="${CSS.escape(a.getAttribute(k))}"]`;return [pre+q,q]}
+ return a.matches("a[href]")?[`a[href="${CSS.escape(a.getAttribute("href"))}"]`]:null}
+function keepFocus(fn,pref){const k=focusKey();fn();if(!k)return;const m=el("main"),t=(pref&&pref(m))||k.map(q=>m.querySelector(q)).find(Boolean);if(t&&document.activeElement!==t)t.focus({preventScroll:true})}
+function bSave(pref){history.replaceState(null,"",bHash());keepFocus(buildPage,pref)}
 function bPreset(role){
  BS.s={};const pool=D.filter(d=>bAvail(d)&&!d.inv);
  const score=d=>(isMust(d)?1e6:0)+(d.ro.includes(role)?1e3:0)+d.r*10+(+d.sc||0);
@@ -95,15 +105,17 @@ var BPANE="stats";
 function bPaneHtml(pages){let c=pages.findIndex(p=>p[0]===BPANE);if(c<0)c=0;BPANE=pages[c][0];const n=pages.length;
  return `<div class="bpane" tabindex="-1"><div class="bpnav"><button class="chip bpar" data-pgs="-1" aria-label="Previous panel"${n>1?"":" disabled"}>‹</button><div class="bpt" aria-live="polite"><small></small><b></b></div><button class="chip bpar" data-pgs="1" aria-label="Next panel"${n>1?"":" disabled"}>›</button></div>
 ${n>1?`<div class="bptabs">${pages.map((p,i)=>`<button class="chip" data-pgi="${i}" title="${esc(p[2])}" aria-label="${esc(p[2])}">${p[4]?img(p[4]):esc(p[2])}</button>`).join("")}</div>`:""}
-${pages.map((p,i)=>`<section class="bpgx" data-k="${esc(p[0])}" data-h="${esc(p[1])}" data-t="${esc(p[2])}"${i===c?"":" hidden"}>${p[3]}</section>`).join("")}</div>`}
+${pages.map((p,i)=>`<section class="bpgx" data-k="${esc(p[0])}" data-h="${esc(p[1])}" data-title="${esc(p[2])}"${i===c?"":" hidden"}>${p[3]}</section>`).join("")}</div>`}
 function bPaneGo(i){const box=el("main").querySelector(".bpane"),g=[...box.querySelectorAll(".bpgx")],n=g.length;i=(i+n)%n;
  g.forEach((x,j)=>x.hidden=j!==i);box.querySelectorAll("[data-pgi]").forEach((b,j)=>b.setAttribute("aria-pressed",j===i));
- BPANE=g[i].dataset.k;box.querySelector(".bpt small").textContent=`${g[i].dataset.h} · ${i+1} / ${n}`;box.querySelector(".bpt b").textContent=g[i].dataset.t;
+ BPANE=g[i].dataset.k;box.querySelector(".bpt small").textContent=`${g[i].dataset.h} · ${i+1} / ${n}`;box.querySelector(".bpt b").textContent=g[i].dataset.title;
  const sd=box.closest(".bside");if(sd&&sd.scrollTop>box.offsetTop)sd.scrollTop=box.offsetTop}
 function bPaneWire(){const box=el("main").querySelector(".bpane"),cur=()=>[...box.querySelectorAll(".bpgx")].findIndex(x=>!x.hidden);
  box.addEventListener("click",e=>{const s=e.target.closest("[data-pgs]"),t=e.target.closest("[data-pgi]");if(s)bPaneGo(cur()+ +s.dataset.pgs);else if(t)bPaneGo(+t.dataset.pgi)});
  box.addEventListener("keydown",e=>{if((e.key==="ArrowLeft"||e.key==="ArrowRight")&&!e.target.closest("input,select,textarea")){e.preventDefault();bPaneGo(cur()+(e.key==="ArrowLeft"?-1:1))}});
  bPaneGo(cur())}
+// the planner stacks into one column at 860px (v5.css): the picker and the inspector open below the slots there
+const NARROW=()=>matchMedia("(max-width:860px)").matches;
 function buildPage(h){
  if(h!==undefined){bParse(h);BPICK=null;BINSP=null}
  document.title="Build planner · Linggango Wiki";
@@ -115,8 +127,8 @@ function buildPage(h){
    else b+=`<button class="bx${xt}${BPICK===k?" sel":""}" data-pick="${esc(k)}" aria-label="Add ${esc(k)} curio"${xt?' title="Bonus slot from an equipped curio"':""}>+</button>`}
   const si=slotIcon(k);return `<div class="bslot${have.length?" has":""}"><div class="bsh">${si?`<img class="bsi" alt="" src="${si}">`:""}<b>${esc(k)}</b><span class="${have.length>cap?"bad":""}">${have.length}/${cap}</span>${caps[k]>SLOT_BASE[k]?`<em>+${caps[k]-SLOT_BASE[k]}</em>`:""}</div><div class="bsb">${b}</div></div>`};
  const stats=Object.entries(tot).filter(([,v])=>v).sort((a,b)=>a[0].localeCompare(b[0]));
- const pages=[["stats","Build","Stat totals",`${stats.length?`<table>${stats.map(([k,v])=>`<tr><td>${esc(k.replace(/ %$/," (%)"))}</td><td class="num ${v<0?"neg":""}">${v>0?"+":""}${v}${/ %$/.test(k)?"%":""}</td></tr>`).join("")}</table>`:`<p class="note">Add curios to see totals.</p>`}
-${BSTALE?`<p class="note">This link was made on a different wiki version, so some items may not match.</p>`:""}<p class="note">Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks${Object.values(lf).some(v=>v<1)?", and ladder-reduced curios count at their reduced share":""}. Conditional effects and ×multipliers are not summed: see the Effects tab.</p>`]];
+ const pages=[["stats","Build","Stat totals",`${stats.length?`<table>${stats.map(([k,v])=>`<tr><td>${esc(k.replace(/ %$/," (%)"))}</td><td class="num ${v<0?"neg":""}">${v>0?"+":""}${v}${/ %$/.test(k)?"%":""}</td></tr>`).join("")}</table>`:`<p class="note">${eq.length?"No flat or percentage bonuses to sum.":"Add curios to see totals."}</p>`}
+${BSTALE?`<p class="note">This link was made on a different wiki version, so some items may not match.</p>`:""}${BLOST?`<p class="note">${BLOST} item${BLOST>1?"s":""} in this link could not be placed.</p>`:""}<p class="note">Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks${Object.values(lf).some(v=>v<1)?", and ladder-reduced curios count at their reduced share":""}. Conditional effects and ×multipliers are not summed: see the Effects tab.</p>`]];
  bKeys().filter(k=>RL[rlId(k)]).forEach(k=>{const id=rlId(k),c=k.split("#")[1]||(bWorn(id)>1?1:0);pages.push(["rl:"+k,"Relic levels",BYID[id].n+(c?" #"+c:""),rlPanel(k,true)+`<p class="note">Slots a relic adds count its lowest roll.</p>`,id])});
  if(eq.length)pages.push(["fx","Build","Effects",`<ul>${uq.map(id=>{const d=BYID[id],n=bWorn(id);const k=Object.keys(BS.s).find(k=>BS.s[k].includes(id)),nx=(evo().to[id]||[]).filter(t=>bFits(BYID[t],k));return `<li><a href="#i${d.ix}" data-t="${d.ix}">${esc(d.n)}</a>${n>1?` ×${n}${SK.i[id]?" "+skTag(id):""}`:""}: ${esc(d.fx)}${lf[id]<1?` <span class="sk sk-${lf[id]?"l":"n"}" title="Outranked by a better ${esc(SK.i[id].l[0])} curio in this build">${esc(SK.i[id].l[0])} ladder: ${lf[id]?pct(lf[id])+" strength":"switched off"}</span>`:""}${nx.map(t=>` <button class="chip" data-evo="${esc(k)}|${esc(id)}|${esc(t)}">Evolve → ${esc(BYID[t].n)}</button>`).join("")}</li>`}).join("")}</ul>`]);
  el("main").innerHTML=`${crumb("Build planner")}${room("armory",uq.map(id=>rCurio(BYID[id])),{head:`<h1>Build planner</h1>
@@ -131,15 +143,16 @@ ${bPaneHtml(pages)}</aside></div>`;
  el("bp").onchange=e=>{BS.p=+e.target.value;bSave()};
  el("bclr").onclick=()=>{BS.s={};BS.c=[];BPICK=null;bSave()};
  el("bcopy").onclick=()=>{const u=location.href;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>{el("bcopy").textContent="Link copied"},()=>prompt("Copy this link:",u))};
- if(el("bq")){el("bq").oninput=()=>{el("bopts").innerHTML=bPickHtml();bFade()};el("bopts").onscroll=bFade;bFade();el("bpx").onclick=()=>{BPICK=null;buildPage()};el("bq").focus({preventScroll:true})}
+ if(el("bq")){el("bq").oninput=()=>{el("bopts").innerHTML=bPickHtml();bFade()};el("bopts").onscroll=bFade;bFade();el("bpx").onclick=()=>{const k=BPICK;keepFocus(()=>{BPICK=null;buildPage()},m=>m.querySelector(`[data-pick="${CSS.escape(k)}"]`))};el("bq").focus({preventScroll:true})}
  el("main").querySelector(".bgrid").onclick=e=>{
   const p=e.target.closest("[data-pick]"),rm=e.target.closest("[data-rm]"),ad=e.target.closest("[data-add]"),ev=e.target.closest("[data-evo]"),ins=e.target.closest("[data-insp]"),cn=e.target.closest("[data-cons]");
   if(cn){const i=cn.dataset.cons;BS.c=BS.c.includes(i)?BS.c.filter(x=>x!==i):[...BS.c,i];hideTip();bSave()}
-  else if(ins){BINSP=ins.dataset.insp||null;hideTip();buildPage();const b=el("main").querySelector(".binsp");if(b&&innerWidth<=760)b.scrollIntoView({block:"start"})}
-  else if(ev){const [k,id,to]=ev.dataset.evo.split("|");BS.s[k][BS.s[k].indexOf(id)]=to;hideTip();bSave()}
-  else if(p){BPICK=p.dataset.pick;buildPage()}
-  else if(rm){const [k,id]=rm.dataset.rm.split("|");const a=BS.s[k]||[],i=a.lastIndexOf(id);if(i>=0)a.splice(i,1);hideTip();bSave()}
-  else if(ad){const [k,id]=ad.dataset.add.split("|");(BS.s[k]=BS.s[k]||[]).push(id);if((BS.s[k].length>=bCaps()[k]))BPICK=null;hideTip();bSave()}};
+  else if(ins){const was=BINSP;BINSP=ins.dataset.insp||null;hideTip();keepFocus(buildPage,BINSP?null:m=>was&&m.querySelector(`[data-insp="${CSS.escape(was)}"]`));const b=el("main").querySelector(".binsp");if(b&&NARROW())b.scrollIntoView({block:"start"})}
+  else if(ev){const [k,id,to]=ev.dataset.evo.split("|");BS.s[k][BS.s[k].indexOf(id)]=to;hideTip();bSave(m=>m.querySelector(`.bslots [data-insp="${CSS.escape(to)}"]`))}
+  else if(p){BPICK=p.dataset.pick;buildPage();const b=el("main").querySelector(".bpick");if(b&&NARROW())b.scrollIntoView({block:"start"})}
+  else if(rm){const [k,id]=rm.dataset.rm.split("|");const a=BS.s[k]||[],i=a.lastIndexOf(id);if(i>=0)a.splice(i,1);hideTip();bSave(m=>m.querySelector(`.bslots [data-pick="${CSS.escape(k)}"]`))}
+  else if(ad){const [k,id]=ad.dataset.add.split("|");(BS.s[k]=BS.s[k]||[]).push(id);const shut=BS.s[k].length>=bCaps()[k];if(shut)BPICK=null;hideTip();
+   bSave(shut?m=>[...m.querySelectorAll(`.bslots [data-rm="${CSS.escape(k+"|"+id)}"]`)].pop()||m.querySelector(`.bslots [data-pick="${CSS.escape(k)}"]`):null)}};
  bPaneWire();
  el("main").querySelector(".bpre").onclick=e=>{const b=e.target.closest("[data-preset]");if(b){BPICK=null;bPreset(b.dataset.preset)}};
 }
@@ -1066,7 +1079,7 @@ ${typeof GE!=="undefined"?`<section class="gui"><h2 class="gt">Equipment</h2><p 
  <section class="gui"><h2 class="gt">Curio slots</h2><p class="gs">The pack's Curios menu, slot by slot.</p>
  <div class="slotlist">${BIGSLOTS.map(([s,xs])=>`<a href="#slot/${enc(s)}"><span class="slot sm">${(()=>{const u=slotIcon(s);return u?`<img alt="" src="${u}">`:byRank(xs).filter(d=>IC[d.id]).slice(0,1).map(d=>img(d.id)).join("")})()}</span><b>${esc(s)}</b><em>${xs.length}</em>${rbar(xs)}</a>`).join("")}</div></section>
  <section class="gui"><h2 class="gt">Mythic</h2><p class="gs">The rarest curios in the pack.</p>
- <div class="feat">${pick.map(d=>`<a class="fc r${d.r}" href="#i${d.ix}" data-t="${d.ix}"><span class="slot">${img(d.id)}</span><span><b>${esc(d.n)}</b><span class="mo">${esc(d.m)} · ${actL(d.t)}</span><p>${esc(d.fx)}</p></span></a>`).join("")}</div></section>
+ <div class="feat">${pick.map(d=>`<a class="fc r${d.r}" href="#i${d.ix}" data-t="${d.ix}"><span class="slot">${img(d.id)}</span><span><b>${esc(d.n)}</b><span class="mo">${esc(d.m)} · ${actL(d.t)}${d.pe?' <i class="kest" title="Mythic tier read from its text">estimate</i>':""}</span><p>${esc(d.fx)}</p></span></a>`).join("")}</div></section>
  <div class="hcols">
  ${news.length?`<section class="gui"><h2 class="gt">New in 6.6.6</h2><p class="gs">${D.filter(d=>d.nw).length} curios the pack added in 6.6.6, from ${(m=>Object.keys(m).sort((x,y)=>m[y]-m[x]).map(esc).join(", "))(D.filter(d=>d.nw).reduce((m,d)=>(m[d.m]=(m[d.m]||0)+1,m),{}))}. <a href="#home" id="seenew">See them all →</a></p><ul class="latest">${news.map(d=>`<li><a href="#i${d.ix}" data-t="${d.ix}"><span class="slot sm">${img(d.id)}</span><span>${esc(d.n)}</span><span class="meta">${esc(d.m)}</span></a></li>`).join("")}</ul></section>`:""}
 </div>`;
@@ -1419,7 +1432,7 @@ function renderBase(){
  // the quest-book background (Linggango FTB Quests Theme) behind every progression page
  document.body.classList.toggle("qbg",h==="#home"||/^#(act|boss|side)\//.test(h)||h==="#bosses");
  document.body.classList.toggle("qbook",h==="#bosses"||h.startsWith("#boss/")||h.startsWith("#side/"));
- document.body.classList.toggle("noside",/^#i\d/.test(h)||h.startsWith("#side/")||h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics"||h.startsWith("#mechanics/")||h==="#changes");
+ document.body.classList.toggle("noside",/^#i\d/.test(h)||h.startsWith("#side/")||h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics"||h.startsWith("#mechanics/")||h==="#changes"||h.startsWith("#build"));
  if(innerWidth<=760&&(h.startsWith("#i")||h==="#guide")){el("side").classList.add("closed");el("fold").setAttribute("aria-expanded","false")}
  const soft=SOFT;SOFT=false;const mn=el("main");if(!soft){mn.classList.remove("enter");void mn.offsetWidth;mn.classList.add("enter")}
  const m=h.match(/^#(slot|act|mod)\/(.+)$/);
@@ -1487,7 +1500,7 @@ const RCV=/^(Craft|Combine|Infuse|Perform|Upgrade|Imbue|Forge)\b/;
 const rcName=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||c[0]):"Any "+(c[1].split(":")[1]||c[1]).replace(/_/g," ");
 const tipRecipe=d=>{const g=d.gr,shaped=g.l===0&&!/shapeless/i.test(g.st),cs=shaped?g.c:g.c.filter(Boolean);
  return `<div class="trcp"><div class="trg" style="grid-template-columns:repeat(${shaped?g.w:Math.min(cs.length,5)},18px)">${cs.map(c=>`<i class="trc"${c?` title="${esc(rcName(c))}"`:""}>${c?(c[0]?img(c[0]):"<b>#</b>"):""}</i>`).join("")}</div><i class="tra" aria-hidden="true">→</i><i class="trc out">${img(d.id)}${g.n>1?`<b>${g.n}</b>`:""}</i><span class="trs">${esc(g.st.replace(/\s*\(shapeless\)/i,""))}</span></div>`};
-function showTipBase(n){const d=D[+n.dataset.t];if(!d)return;tipFor=n;const F=mf(d.m),P=pal(d),nc=d.ig&&d.ig[1]!=="rainbow"?d.ig[1]:"#FFFFFF";
+function showTipBase(n){const d=/^\d+$/.test(n.dataset.t)&&D[+n.dataset.t];if(!d){hideTip();return}tipFor=n;const F=mf(d.m),P=pal(d),nc=d.ig&&d.ig[1]!=="rainbow"?d.ig[1]:"#FFFFFF";
  tip.className="to r"+d.r+(tip.classList.contains("on")?" on":"");tip.dataset.mf=F[0];
  tip.style.setProperty("--c1",P[0]);tip.style.setProperty("--c2",P[1]);tip.style.setProperty("--c3",P[2]);
  const stats=d.st.map((x,j)=>[d.tg[j],x]).filter(([t,x])=>t!=="relic"&&x.length<110&&!/^(When worn|Passive Effect|Hold Shift)/i.test(x)).slice(0,5);
@@ -1495,7 +1508,7 @@ function showTipBase(n){const d=D[+n.dataset.t];if(!d)return;tipFor=n;const F=mf
  <div class="thd"><span class="tslot">${slotImg(d)}</span><div class="tht"><div class="tnm" style="color:${nc}"${d.ig&&d.ig[1]==="rainbow"?' data-rb="1"':""}>${isMust(d)?ui("star"):""}${esc(d.n)}</div><div class="tsub">${esc(d.sl.join(", "))} · ${d.g==="Loot"?"Loot":"Craft"}</div></div></div>
  <div class="tbd"><p class="tfx">${fmt(d.fx)}</p>${RL[d.id]?rlTip(d):""}${evo().from[d.id]?`<p class="tevo">⟲ Evolves from ${esc(BYID[evo().from[d.id]].n)}</p>`:""}${(evo().to[d.id]||[]).map(t=>`<p class="tevo">⟳ Evolves into ${esc(BYID[t].n)}</p>`).join("")}${SK.i[d.id]?`<p class="tsk">${skTag(d.id)}</p>`:""}${stats.length?`<ul class="tst">${stats.map(([t,x])=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${d.gk?`<p class="tlock">${ui("lock")} Locked until ${GK[d.gk]} falls</p>`:""}${d.rq?`<p class="tlock trq">${ui("lock")} ${img(RQRING[d.rq])} Requires the ${rqName(d)}</p>`:""}${isMust(d)?`<p class="tmust">${ui("star")} Must-Have: get it as soon as ${esc(actL(d.t))} opens.</p>`:""}
  ${d.gr?tipRecipe(d):""}${(x=>x.length?`<p class="tsrc">${fmt(x.join(" "))}</p>`:"")((d.gr?d.src.filter(x=>!RCV.test(x)):d.src).slice(0,2))}<p class="twhere">${esc(actL(d.t))}${d.a!==d.t?` · with luck from ${esc(actL(d.a))}`:""}</p></div>
- <div class="tft"><span class="tmod">${esc(d.m)}</span><span class="trt">${RN[d.r]}</span></div></div>`;c=w.firstElementChild;TIPC.set(d.ix,c)}tip.replaceChildren(c);
+ <div class="tft"><span class="tmod">${esc(d.m)}</span><span class="trt">${RN[d.r]}${d.pe?' <i class="kest" title="Power tier read from its text">estimate</i>':""}</span></div></div>`;c=w.firstElementChild;TIPC.set(d.ix,c)}tip.replaceChildren(c);
  if(lastAct)lastAct.classList.remove("act");lastAct=n.classList.contains("t")?n:null;if(lastAct)lastAct.classList.add("act");
  const first=!tip.classList.contains("on");place(n);tip.classList.add("on");if(first)tip.classList.add("in");decorate(tip)}
 function place(n){const r=n.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight,vw=innerWidth,vh=innerHeight;
