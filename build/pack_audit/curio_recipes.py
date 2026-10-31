@@ -20,7 +20,8 @@ Writes
                                          name}, "nopic": {ingredient id: why it has no flat picture}}
   build/patches/curio_eff_recipes.json  {"sets": {curio id: [[ingredient ids, tags as #tag], one per recipe the pack
                                          has for it]}, "allow": {curio id: why its grid differs}}; check.js holds every grid
-                                         to it
+                                         to it, and every id of the unobtainable list (U) that has a set to a why that names
+                                         its recipe
 and adds icons for ingredients without one to gear_icons.json, drawn as the inventory draws them (mcassets.py, from the
 game's resource stack minus the All Rights Reserved packs). patches/curio_recipes.py puts the grids and names in data.js.
 
@@ -35,6 +36,8 @@ NM, _ = json.JSONDecoder().raw_decode(src, src.find(",NM=") + 4)
 NAMEID = json.loads((B / "patches" / "name_ids.json").read_text(encoding="utf-8")); ID2N = {v: k for k, v in NAMEID.items()}
 for d in D: ID2N.setdefault(d["id"], d["n"])
 DIDS = {d["id"] for d in D}
+UL, _ = json.JSONDecoder().raw_decode(src, src.find(",U=") + 3)
+OUTS = DIDS | {u["id"] for u in UL}   # the unobtainable list too: a recipe the pack has for one of those must be the reason it gives
 BYID = {d["id"]: d for d in D}
 want = {d["id"]: d for d in D if d.get("g") == "Craft" and (not d.get("gr") or d.get("grx"))}   # grx: a grid it wrote last time
 DRAWN = {"Crafting Table", "Crafting Table (shapeless)", "Hellfire Forge (Blood Magic)", "Alchemy Array (Blood Magic)"}
@@ -128,7 +131,7 @@ def kcell(x, rid):
 eff = {}   # output -> [(how, recipe id, grid)], in the order a grid is chosen: script, kubejs/data, jars
 for n_, a in enumerate(ks["added"]):
     o = a.get("output")
-    if not isinstance(o, str) or o not in DIDS or not (a.get("pattern") or a.get("ingredients")): continue
+    if not isinstance(o, str) or o not in OUTS or not (a.get("pattern") or a.get("ingredients")): continue
     rid = "KubeJS script #%d" % n_
     g = grid(a["type"] == "shaped", a.get("pattern"), {k: kcell(v, o) for k, v in (a.get("key") or {}).items()},
              [kcell(x, o) for x in a.get("ingredients") or []], a.get("count", 1))
@@ -171,7 +174,7 @@ for rid, (src_, z, n) in DP.items():
         o = next((r.get("recipe") for r in o.get("recipes", []) if isinstance(r, dict) and cond_ok(r.get("conditions"))), None) or {}
     if not isinstance(o, dict) or not cond_ok(o.get("conditions")): continue
     r = o.get("result") or o.get("output"); out = r if isinstance(r, str) else (r or {}).get("item") if isinstance(r, dict) else None
-    if out not in DIDS or out in gone_out: continue
+    if out not in OUTS or out in gone_out: continue
     t, cnt = o.get("type", ""), (r.get("count", 1) if isinstance(r, dict) else 1)
     if t.endswith("crafting_shaped") and o.get("pattern"):
         g = grid(True, o["pattern"], {k: ing(v) for k, v in o.get("key", {}).items()}, None, cnt)
@@ -214,7 +217,8 @@ for i, d in BYID.items():
     print("  the pack's recipe differs from the wiki's grid:", i, f"({rs[0][0]} {rs[0][1]})", "wiki only", sorted(set(cset(gr)) - set(cset(rs[0][2]))),
           "pack only", sorted(set(cset(rs[0][2])) - set(cset(gr))))
 # the source line should name the ingredients
-def names_of(cs): return {(ID2N.get(c[0]) or lang.get(c[0]) or "").lower() for c in cs if c and c[0]}
+def names_of(cs):   # the name the pages show first: name_ids.json also maps plurals (Wither Skeleton Skulls) to an id
+    return {(NM.get(c[0]) or ID2N.get(c[0]) or lang.get(c[0]) or "").lower() for c in cs if c and c[0]}
 rej = []
 for i, g in keep.items():
     line = " ".join(BYID[i]["src"]).lower(); ns = names_of(g["c"]) - {""}
