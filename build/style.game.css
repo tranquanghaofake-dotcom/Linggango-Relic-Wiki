@@ -28,6 +28,7 @@
 
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-padding-top:84px}
+@media (max-width:900px) and (min-width:761px){html{scroll-padding-top:176px}}
 body{margin:0;min-height:100vh;font:15px/1.6 var(--body);color:var(--ink);
  background:linear-gradient(rgba(16,14,20,.86),rgba(16,14,20,.92)),var(--v-b_deepslate,#222) 0 0/64px 64px;background-attachment:fixed;image-rendering:auto}
 img{image-rendering:pixelated}
@@ -227,11 +228,6 @@ h1.h-em{display:flex;align-items:center;gap:var(--s4)}
 .empty p{margin:0 0 var(--s4);font-family:var(--body)}
 
 /* path page: scene + boss bar */
-.lhero{position:relative;margin:var(--s1) 0 var(--s4);border-radius:4px;overflow:hidden;box-shadow:0 0 0 2px #000,0 6px 0 2px rgba(0,0,0,.35);
- background:radial-gradient(ellipse at 30% 60%,color-mix(in srgb,var(--tc) 30%,transparent),transparent 60%),linear-gradient(rgba(10,8,14,.55),rgba(10,8,14,.85)),var(--tex) 0 0/64px 64px}
-.lhero.big{display:grid;grid-template-columns:minmax(300px,44%) 1fr;align-items:center;min-height:380px}
-.lhero .stage{height:380px;cursor:grab;touch-action:none}
-.lhero .stage:active{cursor:grabbing}
 .bcard{display:grid;gap:var(--s3);padding:var(--s5) var(--s6) var(--s5) var(--s2);color:#fff;align-content:center}
 .bcard>b{font:700 26px var(--disp);text-align:center;text-shadow:2px 2px 0 #3f3f3f}
 .bossbar{display:block;height:12px;background:#4a1240;box-shadow:0 0 0 2px #000;position:relative}
@@ -424,7 +420,6 @@ ol.how li::before{content:counter(howc);position:absolute;left:10px;top:8px;disp
  #side{position:static;max-height:none}
  .advtree{grid-template-columns:repeat(3,1fr)}
  .adv::after,.adv::before{display:none}
- .lhero.big{grid-template-columns:1fr}
  .ip-side{grid-template-columns:1fr}
  .mstat,.mhero{grid-template-columns:1fr}
  .splash{display:none}
@@ -463,8 +458,6 @@ ol.how li::before{content:counter(howc);position:absolute;left:10px;top:8px;disp
 .bossbar{display:block;height:12px;background:#4a1240;box-shadow:0 0 0 2px #000;position:relative}
 .bossbar>i{position:absolute;inset:0;background:linear-gradient(#ff7fe9,var(--boss) 45%,#a3208f)}
 .bossbar::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 2px),rgba(0,0,0,.45) calc(10% - 2px) 10%)}
-.lhero .bcard{background:transparent;border:0;box-shadow:none;outline:0}
-.lhero .bcard>small:first-of-type a{color:var(--yellow)}
 .bnote span{color:#fff;font-weight:700}
 .blist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--s4)}
 .bcardl{display:grid;gap:var(--s1);padding:var(--s4);color:var(--gui-ink);text-decoration:none;background:var(--gui);border:0;border-radius:4px;box-shadow:0 0 0 2px #000,var(--bevel)}
@@ -670,6 +663,10 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
  .gbar{position:static!important}
  .tier{grid-template-columns:1fr}.tier .tl{border-right:0}
  .gseg{flex-wrap:wrap;overflow:visible}
+ .ip-sec .note,.ip-sec code{overflow-wrap:anywhere}
+ #fq,#fq::placeholder{text-overflow:ellipsis}
+ .chip.bpar{min-width:32px}
+ summary{min-height:var(--s5)}
 }
 .pmain{display:grid;gap:var(--s2);min-width:0}
 .ptitle{height:22px;width:auto;max-width:100%;object-fit:contain;object-position:left;image-rendering:auto!important}
@@ -734,6 +731,7 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .fst{flex:1 1 170px;display:grid;justify-items:center;align-content:start;gap:var(--s2);padding:var(--s4) var(--s3);border-radius:10px;background:#1d1b25;border:1px solid #ffffff14;text-align:center}
 .fst>.slot{display:inline-grid}.fst b{font:700 15px var(--body);color:#fff}.fst span{font-size:13px;line-height:1.4;color:#bdb9cc}
 .far{align-self:center;font-style:normal;font-size:26px;color:#ffd84a}
+@media (max-width:760px){.flow{flex-direction:column}.far{transform:rotate(90deg);align-self:center}.flow>.fst{flex:0 0 auto}}
 .kchips{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0 0 var(--s4)}.kchips span{padding:var(--s2) var(--s3);border-radius:999px;background:#ffffff0d;border:1px solid #ffffff1a;font-size:13.5px}
 .gbk{display:flex;gap:var(--s4);align-items:flex-start;padding:var(--s3) var(--s4);border-radius:10px;background:linear-gradient(135deg,#2a2216,#1b1923);border:1px solid #c9a35a55}
 .gbk img{flex:none;max-width:220px;max-height:150px;border-radius:6px;image-rendering:pixelated;background:#0005}
@@ -748,7 +746,7 @@ a.pbc,a.pb{text-decoration:none;color:inherit;cursor:pointer}
 .sbarena{margin-left:auto;width:430px;max-width:40%;border-radius:10px;border:1px solid #ffffff22}
 .sbfind{font-size:16px;line-height:1.55}
 .sbsoul{display:flex;align-items:center;gap:var(--s3);margin:var(--s3) 0 0;padding:var(--s2) var(--s3);border-radius:8px;background:#ffffff0b;border:1px solid #ffffff14;font-size:14px}.sbsoul img{width:32px;height:32px;image-rendering:pixelated}
-.sbh,.lhero.sbh{display:none}
+.sbh{display:none}
 .sbhero{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:var(--s6);padding:var(--s5) var(--s6);border-radius:12px;background:radial-gradient(circle at 18% 50%,color-mix(in srgb,var(--tc) 28%,#1b1923),#121118 70%);border:1px solid color-mix(in srgb,var(--tc) 45%,transparent);margin-bottom:var(--s4)}
 .sbhero .sbimg{height:260px;width:auto;max-width:360px;object-fit:contain;filter:drop-shadow(0 10px 18px #000c)}
 .sbtx{display:grid;gap:var(--s2)}.sbtx .sbmod{font:700 12px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--tc)}.sbtx b{font:700 22px var(--body)}.sbtx span{color:#cfcbe0}
@@ -895,7 +893,6 @@ html[data-vt=prev]::view-transition-new(root){animation:.22s ease-out .1s both v
 @keyframes vtFromR{from{transform:translateX(48px)}}@keyframes vtFromL{from{transform:translateX(-48px)}}
 @media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 /* boss pages: the boss bar fills as the page opens, the way it does when a boss spawns in game */
-.lhero .bossbar>i{transform-origin:left;animation:bossFill 1.2s .25s cubic-bezier(.25,.8,.25,1) both}
 @keyframes bossFill{from{transform:scaleX(0)}}
 /* build planner: each row carries the game's own curio slot icon; empty rows step back so filled ones read first */
 .bsh{display:flex;align-items:center;gap:var(--s2)}
@@ -905,7 +902,6 @@ html[data-vt=prev]::view-transition-new(root){animation:.22s ease-out .1s both v
 .bsb button.bx:not(.on){color:#7d7891;transition:color .1s,background-color .1s}
 .bsb button.bx:not(.on):hover{color:#ffffa0}
 .bslot.has{background:linear-gradient(90deg,rgba(128,255,32,.05),transparent 40%)}
-@media (prefers-reduced-motion:reduce){.lhero .bossbar>i{animation:none!important}}
 .bslot{grid-template-columns:170px minmax(0,1fr);align-items:center}
 @media(max-width:520px){.bslot{grid-template-columns:1fr}}
 .bslot.bcons{grid-template-columns:1fr}
@@ -1975,6 +1971,7 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 *:not(#_):not(#__):not(#___) .sbc small{white-space:normal!important;display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 /* gear Effects table: when (on hit, while worn...) on the left, what happens on the right */
 *:not(#_) .gst.gfx td:first-child{white-space:nowrap;font-weight:600;padding-right:var(--s4);vertical-align:top}
+@media (max-width:760px){*:not(#_) .gst.gfx td:first-child{white-space:normal;width:40%}}
 /* no idle motion: relic tiles and their shine move only on hover; the Path map has no drifting particles */
 .tier .t>img,.tier .t .aimg,.tier .t .aimg img,.tier.seen .t.r4>img,.tier.seen .t.r5>img,.tier.seen .t.r6>img{animation:none!important}
 .glint::before{animation:none}

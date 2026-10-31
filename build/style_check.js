@@ -8,6 +8,7 @@
 //   - at 1440 px: draws a section heading (#main h2) smaller than 30 px, not in Jersey 15, smaller than a sub-heading under it, or
 //     as h2.glet; sets a Mechanics/Changes sub-heading or a Bosses group heading under 16 px from the block above; cuts the
 //     selected text of a select box; wraps an AE2 cell label (.sslot small) onto two lines.
+//   - at 375 px: no article section scrolls sideways, filter hint ellipsis, flow arrows, 24x24 controls, hub list gap; at 768 a Mechanics tab jump clears the header
 //   - at 375/414/768/1024/1180 px on one page of each kind and the main routes: scrolls sideways, keeps a detail page in two
 //     columns or draws its infobox over the article, or breaks a phone layout (Curios Act, footer, Equipment, hub slot list).
 // Prints, without failing, edges drawn within 40 px inside another edge (frame inside a frame), to look at by eye.
@@ -119,6 +120,35 @@ function spacingOffScale() {
       for (const x of res) fails.push(`${W}px ${r} narrow: ${x}`);
     }
   }
+  // Phone details at 375 (phone-11/12/14/15): article sections never scroll sideways, the filter hint ends in an ellipsis,
+  // the Mechanics flow arrows point down at the step under them, controls are at least 24x24 (WCAG 2.5.8), and the hub's
+  // latest-curio names keep clear of their icon. At 768 (phone-21) a Mechanics tab jump lands below the sticky header.
+  await p.setViewportSize({ width: 375, height: 900 });
+  for (const r of ['#side/Moonknight', '#g2078', '#g2000', sample[0], sample[2], sample[4], '#home', '#build', '#mechanics', '#']) {
+    await p.evaluate(h => { location.hash = h }, r); await p.waitForTimeout(r === '#' || r === '#home' ? 1500 : 800);
+    const res = await p.evaluate(r => {
+      const o = [], vis = e => { const b = e.getBoundingClientRect(); return b.width > 0 && b.height > 0 && getComputedStyle(e).visibility !== 'hidden' };
+      for (const s of document.querySelectorAll('.ip-sec')) if (vis(s) && s.scrollWidth > s.clientWidth + 1) o.push(`.ip-sec #${s.id} scrolls sideways (${s.scrollWidth} > ${s.clientWidth})`);
+      const fq = document.getElementById('fq');
+      if (fq && vis(fq)) { const c = document.createElement('canvas').getContext('2d'); c.font = getComputedStyle(fq).font;
+        if (c.measureText(fq.placeholder).width > fq.clientWidth && getComputedStyle(fq).textOverflow !== 'ellipsis') o.push('#fq placeholder is cut with no ellipsis') }
+      if (r === '#mechanics') for (const a of document.querySelectorAll('.far')) { const n = a.nextElementSibling; if (!vis(a) || !n || !n.matches('.fst')) continue;
+        const ar = a.getBoundingClientRect(), nr = n.getBoundingClientRect(), cx = (ar.left + ar.right) / 2;
+        if (nr.top >= ar.bottom - 1 && (cx < nr.left || cx > nr.right)) o.push('flow arrow ' + a.textContent.trim() + ' points beside its step') }
+      const small = [...document.querySelectorAll('button,summary,select')].filter(e => vis(e) && (e.getBoundingClientRect().width < 24 || e.getBoundingClientRect().height < 24));
+      if (small.length) o.push(small.length + ' controls under 24x24, e.g. ' + small[0].tagName.toLowerCase() + '.' + small[0].className + ' ' + Math.round(small[0].getBoundingClientRect().width) + 'x' + Math.round(small[0].getBoundingClientRect().height));
+      if (r === '#') for (const a of document.querySelectorAll('.latest li a')) { const [ic, lb] = a.children; if (!ic || !lb) continue;
+        const g = lb.getBoundingClientRect().left - ic.getBoundingClientRect().right; if (g < 8) { o.push('.latest label ' + Math.round(g) + ' px from its icon: ' + lb.textContent.trim().slice(0, 20)); break } }
+      return o;
+    }, r);
+    for (const x of res) fails.push(`375px ${r} phone: ${x}`);
+  }
+  await p.setViewportSize({ width: 768, height: 900 });
+  await p.evaluate(() => { location.hash = '#mechanics' }); await p.waitForTimeout(1000);
+  const tab = await p.$('.mtabs [data-go=m-ae2]');
+  if (!tab) fails.push('768px #mechanics: no AE2 tab'); else { await tab.click(); await p.waitForTimeout(1200);
+    const g = await p.evaluate(() => { const h = document.getElementById('m-ae2'), t = document.querySelector('.top'); return h && t ? h.getBoundingClientRect().top - t.getBoundingClientRect().bottom : null });
+    if (g === null || g < 0) fails.push('768px #mechanics: the AE2 heading lands under the header (' + g + ' px)') }
   console.log('style: ' + (fails.length ? fails.length + ' problems' : 'square corners, whole-number pixel scales, sprite icons, spacing on the scale, narrow widths hold') + (warn.length ? '; frames inside frames to look at: ' + warn.length : ''));
   fails.slice(0, 40).forEach(x => console.log('  FAIL ' + x)); warn.slice(0, 15).forEach(x => console.log('  look ' + x));
   if (errs.length) console.log('  script errors: ' + errs.slice(0, 3).join(' | '));
