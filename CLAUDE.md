@@ -31,6 +31,15 @@ How the pieces fit: `build/README.md`; why they are shaped that way: `build/ARCH
 ## Notes
 `docs/NOTES.md` is the project log. Append one entry per session at the end: `## YYYY-MM-DD: <what changed>`, then what was done, what was checked and how, and what is still open (with the reason). Keep "still open" items until they are done or the user drops them.
 
+## Process (what happens around steps 1–6)
+- **Classify first** (superpowers `brainstorming`): a spike (an answer, nothing kept), a bounded change (one page or one tool of the site or build, a doc, a process rule: say the approach in a sentence, then steps 1–6), or architectural (a new area, several tools, a change to how things fit). Only architectural work gets a written plan, `docs/plans/YYYY-MM-DD-<topic>.md`, spec and plan in one file when the plan is short; then `executing-plans` or `subagent-driven-development`. A session the user is not watching lays the approaches out in its reply and goes on with the one it recommends; a change to the look still waits for approval.
+- **Facts before code** (Facts section). Pages read through the Firecrawl or Parallel connectors are reference, never numbers.
+- **Smallest complete change:** `.claude/skills/ponytail`, callers and checks included; `ultra` when folding tools together.
+- **Bugs:** superpowers `systematic-debugging`; the fix ends as an invariant in `build/check.js`. Linters are hand tools here, not gates (`docs/AGENT_TOOLS.md`).
+- **Done means evidence:** steps 3–4 ran in this session (superpowers `verification-before-completion`); "live" means the `site` run went green, read with the GitHub connector (`actions_list` on this repo) or on the Actions page.
+- **Review before merge** for architectural work: `requesting-code-review` or `/code-review` on the branch, before `main`.
+- Which skills, connectors and open-source tools this repo uses, where each lives and what was left out: `docs/AGENT_TOOLS.md`. These rules win over any skill. Account plugins reach cloud sessions and the owner's machine; `~/.claude/agents` on a machine reaches that machine only.
+
 ## Facts
 - Numbers come from the game export first, then the pack's files, then the jar reading. External wikis are reference only. Estimates are labelled as estimates.
 - Every bug found in the data becomes an invariant in `build/check.js`.
