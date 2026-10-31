@@ -3,13 +3,15 @@
 figure and stored as the smallest lossless PNG (mcassets.png_b64; the earlier pictures were lossy WebP).
 Only sets that already have a picture are replaced, unless --add: a set the prep matched to the wrong texture comes out
 as a bare mannequin, and the list on the site was checked by eye.
-Usage: python3 -I build/pack_audit/armor_pack.py W/armor_out.json [--add]"""
+Usage: python3 -I build/pack_audit/armor_pack.py W/armor_out.json [--add] [--out FILE]
+(--out: write the merged result to FILE instead of build/patches/armor_renders.json, which stays the base it starts from)"""
 import base64, io, json, pathlib, sys
 from PIL import Image
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import mcassets
 F = pathlib.Path(__file__).resolve().parents[1] / "patches" / "armor_renders.json"
 out = json.loads(F.read_text(encoding="utf-8")); add = "--add" in sys.argv
+if "--out" in sys.argv: F = pathlib.Path(sys.argv[sys.argv.index("--out") + 1])
 n = 0
 for k, v in json.load(open(sys.argv[1])).items():
     if k not in out and not add: continue

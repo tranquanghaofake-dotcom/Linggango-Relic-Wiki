@@ -1,5 +1,6 @@
 """Side-boss base stats (health, armor, toughness, attack damage, knockback resistance) read from the mod jars.
-Usage: stats.py W  (W holds attrs.json, reg.json, cfg.json, cfg2.json from attrs.py, reg.py and cfg.py in this folder)
+Usage: stats.py W  (W holds attrs.json, reg.json, cfg.json, cfg2.json from attrs.py, reg.py and cfg.py in this folder;
+reg.py also writes the ent_class.json renders.py reads; attrs.py and cfg.py are still to be rewritten)
 Writes build/patches/side_stats.json: {boss name: [{entity, hp, armor, tough, dmg, kbr, hits, src}, ...]}.
 Optional third argument: the pack's overrides folder (the modpack zip's `overrides/`, CurseForge 1343057 file 9304214 is
 `Linggango-V6.6.6hf.zip`). Order of the facts, each one over the one before: the value in the entity's attribute builder
@@ -113,7 +114,6 @@ def one(e):
     else:
         c = MAN.get(e) and SIMPLE.get(MAN[e]) or REG.get(e) or REG.get(e.split(":")[1])
         if not c or c not in CLS: return None
-        ENT[e] = c
         meth = next(iter(CLS[c].values())); used = False
         for k, v in meth:
             if k not in KEYS: continue
@@ -146,7 +146,7 @@ def one(e):
     o["src"] = "; ".join(src)
     return o
 
-out = {}; miss = []; ENT = {}
+out = {}; miss = []
 rows = [(n, v["entity"]) for n, v in SB.items()] + [(r[0], r[6]) for r in BX if r[0] not in SB]
 for n, e in rows:
     es = e if isinstance(e, list) else [e]
@@ -156,5 +156,4 @@ for n, e in rows:
     if st: out[n] = st
     else: miss.append(n)
 (H / "side_stats.json").write_text(json.dumps(out, ensure_ascii=False, indent=0), encoding="utf-8")
-json.dump(ENT, open(W + "/ent_class.json", "w"), indent=0)  # entity id -> class, for renders.py
 print(len(out), "bosses with stats; none for:", miss)

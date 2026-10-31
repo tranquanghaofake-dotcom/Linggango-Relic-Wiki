@@ -119,11 +119,11 @@ renovation starts. The look itself is not decided here: any change to the overal
    slots) under mjvm, with jmodel, gear_fx and iss_armor as intrinsics tables instead of their own `javap` parsers;
    control flow by merging frames at branch targets (the design of ASM's Analyzer, BSD-3: learn the algorithm, do not
    port it). jmodel still runs a method straight through, so a loop body runs once.
-3. **Missing producers**: `attrs.py`, `reg.py`, `cfg.py` (inputs of `side_bosses/stats.py`, which also writes the
-   `ent_class.json` that `renders.py` needs), `fallback.py` (`merge.py`), `tools2/map.json`, and the step that packed
-   the GeckoLib side-boss renders (`boss_geo_out*.json`). Until they are rewritten the 37 side-boss portraits cannot be
-   redrawn with the game's light, so they still look like the old Keeper snapshots. Some of them are pictures taken
-   from fandom and wiki.gg pages (`wimg.py`): check each one's licence before the renovation keeps them.
+3. **Missing producers**: `attrs.py` and `cfg.py` (inputs of `side_bosses/stats.py`), `fallback.py` (`merge.py`) and
+   `tools2/map.json`. Done on 2026-10-31: `reg.py` (EntityType registrations from the jars, 82 of 84 side-boss ids; it
+   writes the `ent_class.json` that `renders.py` needs) and the GeckoLib packing step (`bgeo.py` → `boss_portraits.js
+   --in/--out` → `pack.py`); all 77 side-boss portraits are redrawn with the game's light, and no wiki picture is left
+   (`wimg.py`/`wdl.py` removed; the licence check of the 12 they had fetched is in the session notes).
 4. **Model icons** (181, drawn at 128 px and shown at 32 or 16 px): route `weapon_icons` element models to
    `block_render.render_model` at 32 px, GeckoLib items through `geo_icon_render.html` (now with the GUI light) with
    their item JSON's `display.gui`, and look at every icon before replacing; then one icon run through `mcassets` and

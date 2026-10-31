@@ -1,11 +1,13 @@
 <!doctype html><html><body style="margin:0;background:transparent">
 <!-- Renders a Java entity model read by jmodel.py the way vanilla ModelPart draws it (cube vertices and box UVs from
-     ModelPart.Cube, part pose = translate then rotate Z, Y, X), seen from the front-left like a mob portrait.
+     ModelPart.Cube, part pose = translate then rotate Z, Y, X, the model under scale(-1,-1,1)), framed like the Keepers'
+     portraits (../boss_portraits.html): the game's inventory light (vanillaMaterial), orthographic, nearest texels, no
+     antialiasing, turned 30° and tilted 10°, the model's bounds fitted in view space with 2% air, 256 px.
      Opened in place by jrender.js through ../render_page.js (build/node_modules/three, build/geo2three.js). -->
 <script type="importmap">{"imports":{"three":"../../node_modules/three/build/three.module.js"}}</script>
 <script type="module">
-import * as THREE from 'three';import {buildGeo,vanillaMaterial} from '../../geo2three.js';
-const SZ=512,R=new THREE.WebGLRenderer({alpha:true,antialias:false,preserveDrawingBuffer:true});R.setSize(SZ,SZ);R.setClearColor(0,0);document.body.appendChild(R.domElement);
+import * as THREE from 'three';import {measure,vanillaMaterial} from '../../geo2three.js';
+const R=new THREE.WebGLRenderer({alpha:true,antialias:false,preserveDrawingBuffer:true});R.setPixelRatio(1);R.setClearColor(0,0);document.body.appendChild(R.domElement);
 function cube(c,tw,th,mat){
  let [x,y,z,w,h,d,g,u,v,mir]=c;const x0=x-g,y0=y-g,z0=z-g;let x1=x+w+g,y1=y+h+g,z1=z+d+g,xa=x0;
  if(mir){[xa,x1]=[x1,xa]}
@@ -18,15 +20,19 @@ function cube(c,tw,th,mat){
  const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));geo.setIndex(idx);geo.computeVertexNormals();
  return new THREE.Mesh(geo,mat)}
 function part(p,tw,th,mat){const o=new THREE.Group();const [x,y,z,rx,ry,rz]=p.pose;o.position.set(x,y,z);o.rotation.order='ZYX';o.rotation.set(rx,ry,rz);
+ if(p.scale)o.scale.set(...p.scale);   // ModelPart xScale.. (a pose at rest or a keyframe), applied after the rotation as translateAndRotate does
  for(const c of p.cubes)o.add(cube(c,tw,th,mat));for(const k of p.children)o.add(part(k,tw,th,mat));return o}
 window.ready=true;
-window.renderJava=async(m,tex,yaw=-0.55,pitch=0.12)=>{const t=await new THREE.TextureLoader().loadAsync('data:image/png;base64,'+tex);t.magFilter=t.minFilter=THREE.NearestFilter;t.colorSpace=THREE.SRGBColorSpace;
- const mat=vanillaMaterial(t);   // the inventory's light for an entity (geo2three.js VANILLA_LIGHT)
- const S=new THREE.Scene();S.add(new THREE.AmbientLight(0xffffff,2.0));const d=new THREE.DirectionalLight(0xffffff,1.7);d.position.set(-2,3,4);S.add(d);
- const flip=new THREE.Group();
- if(m.geo){flip.add(buildGeo(m.geo,t,{faceCamera:false,material:mat}))}   // GeckoLib model, faceCamera:false: front at -z like a ModelPart model (an extra half turn showed Tongbi's back)
- else{flip.scale.set(-1,-1,1);flip.add(part(m.root,m.tw,m.th,mat))}   // vanilla renders models with scale(-1,-1,1)
- const turn=new THREE.Group();turn.add(flip);turn.rotation.y=Math.PI+yaw;turn.rotation.x=pitch;S.add(turn);  // model front is -z: face the camera, then three-quarter
- const b=new THREE.Box3().setFromObject(turn),sz=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3()),k=Math.max(sz.x,sz.y)/2*1.04;
- const cam=new THREE.OrthographicCamera(c.x-k,c.x+k,c.y+k,c.y-k,-1000,1000);cam.position.z=500;R.render(S,cam);return R.domElement.toDataURL('image/png')}
+window.renderJava=async(m,tex,alpha,size=256,yaw=30,pitch=10)=>{const t=await new THREE.TextureLoader().loadAsync('data:image/png;base64,'+tex);
+ const flip=new THREE.Group();flip.scale.set(-1,-1,1);flip.add(part(m.root,m.tw,m.th,vanillaMaterial(t,{transparent:alpha==='blend'})));  // vanilla renders models with scale(-1,-1,1)
+ const g=new THREE.Group();g.add(flip);g.rotation.y=Math.PI;g.scale.setScalar(1/16);   // front (-z) to +z, as buildGeo turns a GeckoLib model
+ // from here as boss_portraits.html: the camera turned and tilted around the model, its bounds' eight corners fitted in view space
+ const S=new THREE.Scene();S.add(g);const box=measure(g),c=box.getCenter(new THREE.Vector3());
+ const a=yaw*Math.PI/180,p=pitch*Math.PI/180,cam=new THREE.OrthographicCamera(-1,1,1,-1,-1000,1000);
+ cam.position.set(c.x+Math.sin(a)*Math.cos(p)*50,c.y+Math.sin(p)*50,c.z+Math.cos(a)*Math.cos(p)*50);cam.lookAt(c);cam.updateMatrixWorld();
+ const inv=cam.matrixWorldInverse,lo=new THREE.Vector2(1e9,1e9),hi=new THREE.Vector2(-1e9,-1e9);
+ for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z]){const v=new THREE.Vector3(x,y,z).applyMatrix4(inv);lo.min(v);hi.max(v)}
+ const h=Math.max(hi.x-lo.x,hi.y-lo.y)/2*1.02,mx=(lo.x+hi.x)/2,my=(lo.y+hi.y)/2;
+ Object.assign(cam,{left:mx-h,right:mx+h,top:my+h,bottom:my-h});cam.updateProjectionMatrix();
+ R.setSize(size,size,false);R.render(S,cam);return R.domElement.toDataURL('image/png')}
 </script></body></html>

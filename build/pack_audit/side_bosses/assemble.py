@@ -1,7 +1,9 @@
 import json,sys,re
 W=sys.argv[1]
 I=json.load(open(W+'/tools2/info.json'));L=json.load(open(W+'/sb_loot.json'));M=json.load(open(W+'/tools2/map.json'))
-IM=json.load(open(W+'/sb_imgs.json'));S=json.load(open(W+'/sb_list.json'))
+S=json.load(open(W+'/sb_list.json'))
+# pictures: pack.py writes them into build/patches/side_bosses.json (renders only, 2026-10-31); kept from there
+IM=json.load(open(__import__('pathlib').Path(__file__).resolve().parents[2]/'patches'/'side_bosses.json',encoding='utf-8'))
 MOD={'meetyourfight':"Meet Your Fight",'soulsweapons':"Marium's Soulslike Weaponry",'legendary_monsters':'Legendary Monsters','block_factorys_bosses':"Bosses'Rise",'mowziesmobs':"Mowzie's Mobs",'irons_spellbooks':"Iron's Spells 'n Spellbooks",'cataclysm':"L_Ender's Cataclysm",'alexscaves':"Alex's Caves",'goety':'Goety','fdbosses':'Qliphoth Awakening','eeeabsmobs':"EEEAB's Mobs",'bosses_of_mass_destruction':'Bosses of Mass Destruction','terramity':'Terramity','undergarden':'The Undergarden','traveloptics':"T.O Magic 'n Extras",'born_in_chaos_v1':'Born in Chaos'}
 FIX={'Malkuth':'Malkuth','Chesed':'Chesed','Geburah':'Geburah'}
 FILL={'minecraft:air','minecraft:dirt','minecraft:vine','minecraft:cobblestone','minecraft:paper','minecraft:feather','minecraft:allium','minecraft:pink_tulip','minecraft:lilac','minecraft:rose_bush','minecraft:peony','minecraft:purpur_block','minecraft:obsidian','minecraft:bone','minecraft:book'}
@@ -21,7 +23,7 @@ for b in S:
   src=list(inf['src'])
   if ns=='fdbosses':src=['https://www.curseforge.com/minecraft/mc-mods/qliphoth-awakening','jar: fdbosses in-game boss skill descriptions (assets/fdbosses/lang/en_us.json)']
   e={'entity':ents[0] if len(ents)==1 else ents,'mod':MOD.get(ns,ns),'find':inf['find'],'drops':sel,'attacks':[{'name':a,'desc':d} for a,d in inf['attacks']],
-     'img':IM['img'].get(name),'img_src':IM['src'].get(name),'sources':src}
+     'img':IM.get(name,{}).get('img'),'img_src':IM.get(name,{}).get('img_src'),'sources':src}
   if lo.get('src') and any(s and 'override' in str(s) for s in lo['src']):e['drops_note']='pack override loot table (kubejs/data)'
   if not e['img']:e.pop('img');e['img_src']=None
   out[name]=e

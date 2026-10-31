@@ -164,7 +164,10 @@ function prepTexture(t) {
 // ---------------------------------------------------------------------------------------------
 // The game's own light (assets/minecraft/shaders/include/light.glsl): texel × min(1, 0.4 + 0.6·(max(0, L0·n) +
 // max(0, L1·n))) on the stored sRGB values (the game converts nothing to linear, so the texture is NoColorSpace and
-// the shader does no output conversion), never brighter than the texel; cutout at alpha 0.1 like the entity shaders.
+// the shader does no output conversion), never brighter than the texel. Texels under alpha 0.1 are discarded whether the
+// material blends or not, as every vanilla entity shader does (rendertype_entity_cutout(_no_cull), entity_translucent,
+// item_entity_translucent_cull, armor_cutout_no_cull in client-1.20.1.jar: `if (color.a < 0.1) discard;`); translucent
+// (transparent: true) blends what is left by its alpha, cutout draws it opaque.
 // Light vectors in three.js view space (x right, y up, z toward the viewer), from client-1.20.1.jar's bytecode:
 //   entity  Lighting.setupForEntityInInventory: (0.2, -1, -1) and (-0.2, -1, 0) in the inventory pose's space (y down,
 //           -z toward the viewer): a face toward the viewer gets 0.82, the top 1.0, the sides about 0.5
@@ -182,7 +185,7 @@ export function vanillaMaterial(map, { light = 'entity', transparent = false } =
     vertexShader: 'varying vec2 vUv; varying vec3 vN;\n' +
       'void main() { vUv = uv; vN = normalMatrix * normal; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
     fragmentShader: 'uniform sampler2D map; uniform vec3 l0, l1; varying vec2 vUv; varying vec3 vN;\n' +
-      'void main() { vec4 c = texture2D(map, vUv); if (c.a < ' + (transparent ? '0.004' : '0.1') + ') discard;\n' +
+      'void main() { vec4 c = texture2D(map, vUv); if (c.a < 0.1) discard;\n' +
       '  vec3 n = normalize(vN); if (!gl_FrontFacing) n = -n;\n' +
       '  float k = min(1.0, 0.6 * (max(0.0, dot(l0, n)) + max(0.0, dot(l1, n))) + 0.4);\n' +
       '  gl_FragColor = vec4(c.rgb * k, ' + (transparent ? 'c.a' : '1.0') + '); }',
@@ -198,7 +201,8 @@ export function vanillaMaterial(map, { light = 'entity', transparent = false } =
  *     texW, texH      override texture size (else geo description, else image size)
  *     scale           extra uniform scale (GeckoLib renderer scaleWidth/scaleHeight), default 1
  *     material        a THREE.Material to use instead of the default MeshLambertMaterial (vanillaMaterial: the game's light)
- *     transparent     true -> alpha blending (texture has semi-transparent pixels); default cutout (alphaTest 0.1)
+ *     transparent     true -> alpha blending (texture has semi-transparent pixels); default cutout. Both discard texels
+ *                     under alpha 0.1 (alphaTest), as the game's entity shaders do
  *     glow            THREE.Texture rendered as an additive 'eyes' layer on all bones (GeckoLib/vanilla RenderType.eyes)
  *     layers          [{ texture, mode: 'eyes'|'emissive', opacity, bones: [names] | undefined }]
  *     faceCamera      default true: rotate 180° so the model front faces +Z
@@ -216,7 +220,7 @@ export function buildGeo(geoIn, texture, opts = {}) {
 
   const material = opts.material || new THREE.MeshLambertMaterial({
     map: texture, side: THREE.DoubleSide,
-    alphaTest: opts.transparent ? 0.004 : 0.1,
+    alphaTest: 0.1,
     transparent: !!opts.transparent, depthWrite: true,
   });
   const layerSpecs = [];
@@ -227,6 +231,8 @@ export function buildGeo(geoIn, texture, opts = {}) {
     const mat = new THREE.MeshBasicMaterial({
       map: l.texture, side: THREE.DoubleSide, transparent: true, depthWrite: false,
       blending: l.mode === 'eyes' ? THREE.AdditiveBlending : THREE.NormalBlending,
+      // rendertype_entity_translucent_emissive discards under alpha 0.1; rendertype_eyes has no cut
+      alphaTest: l.mode === 'eyes' ? 0 : 0.1,
       opacity: l.opacity ?? 1, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1,
     });
     mat.userData = { name: l.name || l.mode, alpha: l.alpha, bones: l.bones ? new Set(l.bones.map(s => s.toLowerCase())) : null };
