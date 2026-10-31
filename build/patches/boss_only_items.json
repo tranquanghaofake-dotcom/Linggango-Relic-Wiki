@@ -350,11 +350,6 @@
 "terramity:perish_staff": [
 "terramity:entities/trial_guardian"
 ],
-"terramity:spiteful_soul": [
-"minecraft:entities/villager",
-"terramity:entities/hellrok",
-"terramity:entities/trial_guardian"
-],
 "terramity:super_sniffers_pelt": [
 "terramity:entities/super_sniffer"
 ],
