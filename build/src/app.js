@@ -645,20 +645,23 @@ var QOR={m:1,s:1,p:1,r:1,ro:1,g:1,x:1};
 var QFIELDS=[["mod","Mod"],["slot","Slot"],["stat","Stat"],["effect","Effect"],["source","Source"],["path","Act"],["rarity","Power"],["role","Role"],["type","Craft or loot"],["tag","Element or mechanic"],["name","Name"]];
 var QNAME={m:"Mod",s:"Slot",st:"Stat",fx:"Effect",src:"Source",p:"Act",r:"Power",ro:"Role",g:"Type",x:"Tag",n:"Name"};
 function qNorm(s){return String(s||"").toLowerCase().replace(/[–—]/g,"-")}
+const QTOK=/-?[a-z]+:"[^"]*"?|-?"[^"]*"?|\S+/gi;
 function parseQ(q){const o={raw:q,t:[],k:{}};
- (q.match(/-?[a-z]+:"[^"]*"?|-?"[^"]*"?|\S+/gi)||[]).forEach(w=>{const raw=w;let neg=false;if(w[0]==="-"&&w.length>1){neg=true;w=w.slice(1)}
+ (q.match(QTOK)||[]).forEach(w=>{const raw=w;let neg=false;if(w[0]==="-"&&w.length>1){neg=true;w=w.slice(1)}
   const m=w.match(/^([a-z]+):(.*)$/i),k=m&&QK[m[1].toLowerCase()],v=qNorm((k?m[2]:w).replace(/"/g,"")).trim();if(!v)return;
   const e={v,neg,raw,k:k||""};k?(o.k[k]=o.k[k]||[]).push(e):o.t.push(e)});return o}
 function qParsed(){if(QP.raw!==st.q)QP=parseQ(st.q);return QP}
 function qTokens(){const P=qParsed();return [...P.t,...Object.values(P.k).flat()]}
 function qLabel(e){return (e.neg?"not ":"")+(e.k?QNAME[e.k]+": ":"“")+e.v+(e.k?"":"”")}
-function qDrop(raw){return st.q.split(raw).join(" ").replace(/\s+/g," ").trim()}
+// remove exactly the clicked token: split the query the way parseQ does, so "ring" is not cut out of "slot:ring" or "swordsman"
+const slotQ=v=>`slot:${/\s/.test(v)?`"${v}"`:v}`;
+function qDrop(raw){const ws=st.q.match(QTOK)||[],i=ws.indexOf(raw);if(i>=0)ws.splice(i,1);return ws.join(" ")}
 function qf(d){if(d._q)return d._q;const F=mf(d.m);
  return d._q={n:qNorm(d.n),m:qNorm(d.m+"|"+(F?F[2]:"")),s:qNorm(d.sl.join("|")),st:qNorm(d.st.join(" | ")),fx:qNorm(d.fx),src:qNorm(srcText(d)),
   p:qNorm(ACT[d.t][0]),pl:qNorm(actL(d.t)),r:qNorm(RN[d.r]+(isMust(d)?"|"+RN[d.br]:"")),ro:qNorm(d.ro.map(k=>ROLE[k]).join("|")),g:qNorm(d.g),
   x:qNorm(d.mt.map(t=>t.slice(2)).join("|")),all:qNorm(d.n+" "+d.fx+" "+srcText(d)+" "+d.m+" "+d.id+" "+d.st.join(" "))}}
 function qHit(d,f,k,v){
- if(k==="p")return v===f.p||v===String(d.t)||v===f.pl||"act "+v===f.pl||"path "+v===f.pl||(f.p==="0-i"&&(v==="0"||v==="i"))||(v.length>2&&f.pl.includes(v));
+ if(k==="p")return v===f.p||v===String(d.t)||v===f.pl||"act "+v===f.pl||"path "+v===f.pl||(f.p==="0-i"&&(v==="0"||v==="i"))||(v.length>2&&!/^[ivx]+$/.test(v)&&f.pl.includes(v));
  if(k==="r"||k==="ro"||k==="g")return f[k].split("|").some(x=>x.startsWith(v));
  return qHas(f[k],v)}
 function qHas(s,v){if(!/^[a-z0-9]/.test(v))return s.includes(v);for(let i=s.indexOf(v);i>=0;i=s.indexOf(v,i+1))if(!i||!/[a-z0-9]/.test(s[i-1]))return true;return false}
@@ -746,7 +749,14 @@ const AIR=[[/armor toughness|\btoughness\b/i,"fx_resistance"],[/🦺|\barmou?r\b
  [/\bswim\w*|\bunderwater\b|\bwater\b/i,"fx_dolphins_grace"],[/\bfall damage\b|\bslow falling\b|\blevitat\w*/i,"fx_slow_falling"],[/\bhunger\b|\bfood\b|\bsaturation\b/i,"gui_food"],
  [/\bdarkness\b|\bblind\w*/i,"fx_darkness"],[/\bglow\w*/i,"fx_glowing"],[/🏹|\barrows?\b|\branged\b|\bprojectiles?\b/i,"i_bow"],[/☠|\blethality\b|\bexecute\w*/i,"fx_instant_damage"]];
 const EMO=/^[☀-➿\uD83C-\uDBFF]/;
-function fmt(t){let h=esc(t).replace(/️/g,"");for(const [re,k] of AIR){let done=false;h=h.split(/(<[^>]+>)/).map(seg=>done||seg[0]==="<"?seg:seg.replace(re,m=>{done=true;return `<i class="ai" style="--ai:var(--v-${k})" aria-hidden="true"></i>${EMO.test(m)?"":m}`})).join("")}return h}
+// one pass: each AIR pattern, in order, claims its first match that no earlier pattern has claimed, so a phrase gets one icon
+// ("Attack Speed" is haste, not haste plus a speed icon before "Speed"); the icons go in after, in text order
+const AIRG=AIR.map(([re,k])=>[new RegExp(re.source,re.flags+"g"),k]);
+function fmt(t){const h=esc(t).replace(/️/g,""),hit=[];
+ for(const [re,k] of AIRG){re.lastIndex=0;let m;
+  while((m=re.exec(h))){if(!m[0]){re.lastIndex++;continue}const a=m.index,b=a+m[0].length;if(!hit.some(([x,y])=>a<y&&b>x)){hit.push([a,b,k,m[0]]);break}}}
+ hit.sort((x,y)=>x[0]-y[0]);let o="",q=0;
+ for(const [a,b,k,m] of hit){o+=h.slice(q,a)+`<i class="ai" style="--ai:var(--v-${k})" aria-hidden="true"></i>${EMO.test(m)?"":m}`;q=b}return o+h.slice(q)}
 const VBI={warden:{n:"Warden",hp:700,url:"https://minecraft.wiki/w/Warden",line:"Melee 18.5 / 35 / 52.5 (Easy / Normal / Hard: vanilla 30 plus the pack's +5); the ranged Sonic Boom ignores armor and shields.",sum:"Calls up from a Sculk Shrieker in the Deep Dark after repeated warnings. Drops a Sculk Catalyst.",pack:"Linggango's Hardmode ×2.1 does not apply to the Warden."},
  wither:{n:"Wither",hp:500,url:"https://minecraft.wiki/w/Wither",line:"Linggango stats: 32 damage, 20 armor. Below half health its armor makes it immune to arrows.",sum:"Build a T of 4 Soul Sand or Soul Soil and put 3 Wither Skeleton Skulls on top. Always drops a Nether Star.",pack:"Its Nether Star feeds Curse of Envy, which opens every L2 trait-item recipe."},
  dragon:{n:"Ender Dragon",hp:200,url:"https://minecraft.wiki/w/Ender_Dragon",line:"Heals from End Crystals on the obsidian pillars; first kill gives 12,000 XP and the Dragon Egg.",sum:"Its death opens the End Gateways to the outer islands: End Cities, Shulkers, Elytra.",pack:"Required before the Elvenite Paladin. Killing it switches on Hardmode: ×2.1 mob health and damage."}};
@@ -851,7 +861,8 @@ opts("fa",ORDER.filter(a=>a>=0).map(a=>[a,"Up to "+actL(a)]));
 for(const k of ["m","s","a"]){const s=el("f"+k);s.value=st[k];s.onchange=()=>{st[k]=s.value;refresh()}}
 el("q").value=st.q;
 el("q").oninput=e=>{clearTimeout(FQT);FQT=setTimeout(()=>{st.q=e.target.value.trim();const f=el("fq");if(f)f.value=st.q;location.hash.startsWith("#i")?refreshSide():refresh()},220)};
-el("q").onkeydown=e=>{if(e.key==="Enter"){location.hash="#home";refresh()}};
+// Enter applies what the box says (the typed text may not have reached st.q yet, or was typed off Curios) and opens Curios
+el("q").onkeydown=e=>{if(e.key==="Enter"){clearTimeout(FQT);st.q=e.target.value.trim();const f=el("fq");if(f)f.value=st.q;location.hash==="#home"?refresh():location.hash="#home"}};
 function resetFilters(){Object.assign(st,{c:[],g:[],r:[],x:[],m:"",s:"",a:"",q:"",nw:false});["fm","fs","fa","q"].forEach(i=>el(i).value="");refresh()}
 el("reset").onclick=resetFilters;
 el("fold").onclick=()=>{const s=el("side");s.classList.toggle("closed");el("fold").setAttribute("aria-expanded",!s.classList.contains("closed"))};
@@ -1259,8 +1270,11 @@ function page(d){
  // slot neighbours
  const s0=d.sl[0],sx=s0?byRank(D.filter(x=>x.sl.includes(s0))):[],si=sx.indexOf(d),pv=sx[si-1],nx=sx[si+1];
  const near=sx.filter(x=>x!==d).slice(Math.max(0,si-4),Math.max(0,si-4)+8);
+ // the link lands on Curios filtered to slot:<s0> with the sidebar filters kept: count what it will show
+ let seeAll="";if(s0){const q0=st.q;st.q=slotQ(s0);let n=0,all=0;D.forEach(x=>{if(qMatch(x)){all++;if(pass(x))n++}});st.q=q0;
+  seeAll=n===all?`see all ${all} →`:`see ${n} (your filters; ${all} in all) →`}
  const art=`<div class="ip-art"><span class="ip-badge">${RN[d.r]}</span><div class="ip-stage" style="${tex(d.t)}">${envFx(d.t)}<span class="orb" aria-hidden="true">${[0,1,2,3,4,5].map(i=>`<i style="--k:${i};--sp:var(--v-${MFSP[F[0]]||"p_glint"})"></i>`).join("")}</span><div class="ip-icon framed">${ic}${glint(d)}</div></div><span class="ip-mini">${ic}</span><span class="ip-path" title="${esc(actL(d.t))}">${emblem(d.t,"xs")}</span></div>`;
- const sib=s0?`<section class="sib"><h2>More ${esc(s0)} curios <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">see all ${sx.length} →</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>← Previous in ${esc(s0)}</small>${esc(pv.n)}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>Next in ${esc(s0)} →</small>${esc(nx.n)}</a>`:""}</nav></section>`:"";
+ const sib=s0?`<section class="sib"><h2>More ${esc(s0)} curios <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">${seeAll}</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>← Previous in ${esc(s0)}</small>${esc(pv.n)}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>Next in ${esc(s0)} →</small>${esc(nx.n)}</a>`:""}</nav></section>`:"";
  el("main").innerHTML=article({cls:"r"+d.r,data:` data-mf="${F[0]}"`,style:`${tex(d.t)};--tc:${ACT[d.t][2]}`,
   crumb:`<div class="crumb ip-crumb"><a href="#">Home</a> / <a href="#home">Curios</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>`,
   pre:isMust(d)?'<span class="mstar">★</span>':"",title:esc(d.n),lead:fmt(d.fx),
@@ -1387,7 +1401,7 @@ function renderBase(){
  if(["#bang","#ngoai","#table","#unobtainable","#guide"].includes(h)){location.replace("#home");return}
  // the Curios and Mods pages are gone: their links open The Path filtered to that mod or slot
  {const mm=h.match(/^#(mod|slot)\/(.+)$/);if(h==="#mods"||h==="#slot/*"){location.replace("#home");return}
-  if(mm){const v=mm[2],f=mm[1]==="mod"?"mod":"slot";st.q=`${f}:${/\s/.test(v)?`"${v}"`:v}`;el("q").value=st.q;location.replace("#home");return}}
+  if(mm){const v=mm[2];st.q=mm[1]==="mod"?`mod:${/\s/.test(v)?`"${v}"`:v}`:slotQ(v);el("q").value=st.q;location.replace("#home");return}}
  document.body.classList.toggle("hub",h===""||h==="#");
  // curio filters and index only make sense next to curio lists
  // progression pages wear the quest-book look (FTB Quests theme of the pack); item pages keep the inventory look
@@ -1495,7 +1509,7 @@ document.addEventListener("click",e=>{
   const s=tl.parentNode,t=s.querySelector(".tiles");if(open&&!t.childElementCount){t.innerHTML=tierTiles(pathXs.filter(d=>d.t===a));decorate(s)}
   s.classList.toggle("closed",!open);tl.setAttribute("aria-expanded",open)}
 });
-document.addEventListener("keydown",e=>{if(location.hash.startsWith("#i")&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&(e.key==="ArrowLeft"||e.key==="ArrowRight")){const a=[...document.querySelectorAll(".pnx a")].find(x=>x.textContent.includes(e.key==="ArrowLeft"?"Previous":"Next"));if(a){location.hash=a.getAttribute("href")}}if(e.key==="Escape")hideTip();if(e.key==="/"&&document.activeElement!==el("q")){e.preventDefault();el("q").focus()}});
+document.addEventListener("keydown",e=>{if(location.hash.startsWith("#i")&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&(e.key==="ArrowLeft"||e.key==="ArrowRight")){const a=[...document.querySelectorAll(".pnx a")].find(x=>x.textContent.includes(e.key==="ArrowLeft"?"Previous":"Next"));if(a){location.hash=a.getAttribute("href")}}if(e.key==="Escape")hideTip();if(e.key==="/"&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.isComposing&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&!document.activeElement.isContentEditable){e.preventDefault();el("q").focus()}});
 {const b=document.createElement("button");b.id="totop";b.setAttribute("aria-label","Back to top");b.textContent="↑";b.onclick=()=>scrollTo({top:0,behavior:RM?"auto":"smooth"});document.body.appendChild(b);
  addEventListener("scroll",()=>b.classList.toggle("on",scrollY>600),{passive:true})}
 {const s=document.createElement("style");s.textContent=Object.entries(ROLE_C).map(([k,v])=>`.t.c${k}{--cat:${v}}`).join("");document.head.appendChild(s)}

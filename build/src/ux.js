@@ -58,9 +58,12 @@ const row=(e,i,q)=>`<a class="qr" role="option" id="qr${i}" href="${e.h}"${e.t?`
 function draw(q){const gs=search(q);QS.items=[];let html="";
  gs.forEach(([k,xs,all])=>{html+=`<div class="qg" role="presentation"><span>${k==="Boss"?"Bosses":k==="Curio"?"Curios":k+"s"}</span>${all>xs.length?`<em>${xs.length} of ${all}</em>`:""}</div>`;
   xs.forEach(e=>{const i=QS.items.length;QS.items.push(e);html+=row(e,i,q)})});
- const nc=D.filter(d=>{const s=st.q;st.q=q.trim();const r=qMatch(d);st.q=s;return r}).length;
+ // two counts under the query as Curios will apply it: every curio it matches, and those that also pass the sidebar filters
+ // (Power, Role … are saved between visits), so the number on the row is the number Curios shows
+ const s0=st.q;st.q=q.trim();let nc=0,np=0;D.forEach(d=>{if(qMatch(d)){nc++;if(pass(d))np++}});st.q=s0;
+ const cu=n=>n===1?"curio":"curios",qt=`“${esc(q.trim())}”`;
  const i=QS.items.length;QS.items.push({h:"#home",path:true});
- html+=`<a class="qr qall" role="option" id="qr${i}" href="#home" data-i="${i}"><span class="qic"><span class="qpg" aria-hidden="true">⌕</span></span><span class="qtx"><b>${nc?`Show the ${nc} curios that mention “${esc(q.trim())}” in Curios`:`Filter Curios by “${esc(q.trim())}”`}</b><small>Keeps the search as a filter you can refine</small></span></a>`;
+ html+=`<a class="qr qall" role="option" id="qr${i}" href="#home" data-i="${i}"><span class="qic"><span class="qpg" aria-hidden="true">⌕</span></span><span class="qtx"><b>${!nc?`Filter Curios by ${qt}`:np===nc?`Show the ${nc} ${cu(nc)} that ${nc===1?"mentions":"mention"} ${qt} in Curios`:`Show the ${np} of ${nc} ${cu(nc)} that ${nc===1?"mentions":"mention"} ${qt} that match your filters`}</b><small>Keeps the search as a filter you can refine</small></span></a>`;
  if(gs.length===0)html=`<p class="qnone">Nothing is called “${esc(q.trim())}”. Try part of a name, a mod, or a stat.</p>`+html;
  html+=KEYS;
  box.innerHTML=html;QS.sel=0;mark()}
@@ -101,8 +104,8 @@ document.addEventListener("click",e=>{if(e.target.closest(".skip")){e.preventDef
 
 /* ---------- wiring ---------- */
 addEventListener("hashchange",()=>{close();markNav();dealGear();remember();
- // the header box shows the curio filter, not a lookup typed on another page
- if(document.activeElement!==hq&&!onPath())hq.value=st.q});
+ // the header box shows the curio filter actually applied, on every page, unless the reader is typing in it
+ if(document.activeElement!==hq)hq.value=st.q});
 document.addEventListener("DOMContentLoaded",()=>{markNav();remember();lastGear=/^#gear/.test(location.hash)?location.hash:""});
 })();
 /* pixel art at a whole-number scale: an icon whose source does not divide its box (renders of 23, 24, 48 or 128 px) is drawn at
