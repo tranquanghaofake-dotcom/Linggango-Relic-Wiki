@@ -264,47 +264,55 @@ function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
 /* best weapon and armor set per playstyle at an Act: the top of each pool, so every mod's gear is in the running */
 const gEst=(g,r)=>!!g.est&&!(r==="ME"&&g.dmg!=null);
-const gLoadout=a=>{let est=false;const h=`<div class="gload">${Object.keys(GROLE).map(r=>{const cell=(k,x)=>x?`<a class="slot${gEst(x[0],r)?(est=true," est"):""}" href="${gHref(x[0])}" title="${esc(x[0].n)}${gEst(x[0],r)?" (estimate)":""}">${gImg(x[0])}<span>${esc(x[0].n)}</span></a>`:`<span class="slot"></span><span class="gnone">—</span>`;
+const gLoadout=a=>{let est=false;const h=`<div class="gload">${Object.keys(GROLE).map(r=>{const cell=(k,x)=>x?`<a class="slot${gEst(x[0],r)?(est=true," est"):""}" href="${gHref(x[0])}" title="${esc(x[0].n)}${gEst(x[0],r)?" (estimate)":""}">${gImg(x[0])}<span>${esc(x[0].n)}</span></a>`:`<span class="slot gnone" title="No ${GROLE[r]} ${k==="w"?"weapon":"armor set"} at this Act yet">—</span>`;
  return `<div class="gld" style="--rc:${ROLE_C[r]||"#8a8f99"}"><b>${GROLE[r]}</b>${cell("w",gPool(a,r,"w")[0])}${cell("a",gPool(a,r,"a")[0])}</div>`}).join("")}</div>`;
  return h+(est?`<p class="note">≈ Faded picks are estimates: the wiki could not read their damage or armor, so they are ranked by when you get them.</p>`:"")};
 const gHref=g=>g.ps?"#gs"+g.ix:"#g"+g.ix;
 /* a tile is faded when its score in this list is an estimate (a staff's Melee DPS is read, its Mage score is not) */
-const gTile=(g,a,r)=>gIsCurio(g)?`<a class="gtl" href="#i${g.ix}" data-t="${g.ix}"><span class="slot">${img(g.id)}</span>${g.t===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}<span>${esc(g.n)}</span></a>`:`<a class="gtl${gEst(g,r)?" est":""}${!g.ps&&g.k!=="armor"?" wpn":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}">${gImg(g)}${g.a===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(g.n).replace(/ \((Lv|Tier|Mk) /g," ($1&nbsp;")}</span></a>`;
+/* later: the tile is a search hit that unlocks after Act a, marked with its Act in the NEW badge's place */
+const gTile=(g,a,r,later)=>gIsCurio(g)?`<a class="gtl" href="#i${g.ix}" data-t="${g.ix}">${img(g.id)}${g.t===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}<span>${esc(g.n)}</span></a>`:`<a class="gtl${gEst(g,r)?" est":""}${!g.ps&&g.k!=="armor"?" wpn":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}"${later?` title="Unlocks at ${esc(actL(g.a))}"`:""}>${gImg(g)}${later?`<i class="gnew glater">${esc(ACT[g.a][3]?ACT[g.a][0]:"Act "+ACT[g.a][0])}</i>`:g.a===+a&&+a!==ORDER[0]?'<i class="gnew">NEW</i>':""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(g.n).replace(/ \((Lv|Tier|Mk) /g," ($1&nbsp;")}</span></a>`;
 const GSTATE={a:0,r:"ME",w:"w",q:""};let GALL=false;
 document.addEventListener("click",e=>{if(e.target.closest("[data-gall]")){GALL=true;const y=scrollY;gearPage(location.hash);scrollTo(0,y)}});
 let GLASTH="";
 try{Object.assign(GSTATE,JSON.parse(localStorage.getItem("lgw-gear")||"{}"))}catch(e){}
 GSTATE.q="";
-function gearPage(h){
+/* miss: the hash asked for a page that does not exist (an old #g/#gs id, an Act number the wiki has not got); the list says so */
+function gearPage(h,miss){
  const m=h.match(/^#gear(?:\/([\d.]+))?(?:\/(\w\w))?(?:\/([wac]))?/);if(m){if(m[1]!=null)GSTATE.a=+m[1];if(m[2])GSTATE.r=m[2];if(m[3])GSTATE.w=m[3]}
- if(!ORDER.includes(+GSTATE.a))GSTATE.a=0;if(!GROLE[GSTATE.r])GSTATE.r="ME";   // old links and saved state can still say TA (Tank, retired)
+ if(GSTATE.a===6.1||GSTATE.a===6.2)GSTATE.a=6;   // the Warden and Wither Acts are Act VI in the data (app.js remap)
+ if(!ORDER.includes(+GSTATE.a)){if(m&&m[1]!=null&&!miss)miss=h;GSTATE.a=0}if(!GROLE[GSTATE.r])GSTATE.r="ME";   // old links and saved state can still say TA (Tank, retired)
  try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){}
  const {a,r,w}=GSTATE;document.title=`Equipment tier list · ${actL(a)} · Linggango Wiki`;
  const roles=Object.keys(GROLE);
  const tiers=gTiers(a,r,w),pool=tiers.reduce((n,x)=>n+x[1].length,0);
  const go=(A,R,W)=>`#gear/${A}/${R}/${W}`;
  const q=GSTATE.q.trim().toLowerCase();
- el("main").innerHTML=`${crumb("Equipment")}<div class="gear">
+ const hits=q?gMatch(q,a):null;
+ el("main").innerHTML=`${crumb("Equipment")}${miss?`<p class="note gmiss">No page called “${esc(miss)}”: here is the Equipment list.</p>`:""}<div class="gear">
  ${room("forge",tiers.flatMap(([t,xs])=>xs.map(g=>({h:gHref(g),i:gImg(g),t:(g.ps?"s":"g")+g.ix,n:g.n,l:esc(t)}))).slice(0,10),{head:`<span class="gem">${emblem(a,"lg")}</span><div><h1>Equipment tier list</h1>
  <p class="lede">The best weapons and armor sets for each playstyle at <b>${esc(actL(a))}</b>: everything you can use once ${a==0?"you start":esc(UNL[a]||"")+" is beaten"}, ranked against the best you have at that point.</p></div>`,min:5,cols:5,label:"Best at this Act"})}
  <nav class="gacts" aria-label="Act">${ORDER.filter(x=>x!=-1).map(x=>`<a href="${go(x,r,w)}" style="--tc:${ACT[x][2]}"${x===+a?' aria-current="page"':""} title="${esc(actF(x))}"><span class="gx">${emblem(x,"xs")}</span><b>${esc(ACT[x][0])}</b></a>`).join("")}</nav>
- <h2 class="glet">Best loadout at ${esc(actL(a))}</h2>${gLoadout(a)}
+ <h2 class="gt">Best loadout at ${esc(actL(a))}</h2>${gLoadout(a)}
  <div class="gbar"><div class="gseg" role="tablist" aria-label="Weapons or armor">${[["w",ui("sword")+" Weapons"],["a",ui("chest")+" Armor sets"],["c",ui("star")+" Curios"]].map(([k,t])=>`<a role="tab" href="${go(a,r,k)}"${k===w?' aria-selected="true"':""}>${t}</a>`).join("")}</div>
  <div class="gseg roles" role="tablist" aria-label="Playstyle">${roles.map(k=>`<a role="tab" href="${go(a,k,w)}" style="--rc:${ROLE_C[k]||"#8a8f99"}"${k===r?' aria-selected="true"':""}>${GROLE[k]}</a>`).join("")}</div>
  <input id="gq" type="search" autocomplete="off" name="gearq" placeholder="Find a weapon or set…" value="${esc(GSTATE.q)}" aria-label="Find gear"></div>
- ${q?gSearch(q,a):`<div class="gtl-list">${tiers.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>Show ${xs.length-48} more</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join(""):`<p class="note">No ${w==="a"?"armor":w==="c"?"curios measured to help":"weapons"} for ${GROLE[r]} unlocked by ${esc(actL(a))} yet.</p>`}</div>`}
- <div class="gfoot"><p><b>${pool}</b> ${w==="a"?"sets":w==="c"?`curios usable at ${esc(actL(a))} measured to help ${GROLE[r]}`:"weapons"}${w==="c"?"":` usable at ${esc(actL(a))}`}.${w==="c"?" Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page.":""}${+a!==ORDER[0]?' <i class="gnew">NEW</i> unlocks at this Act.':""} Faded tiles are <b>estimated</b>: their damage is computed in code the wiki could not read, so they are ranked by when and how you get them (see below).</p>
+ ${q?gSearch(hits,a,r):`<div class="gtl-list">${tiers.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>Show ${xs.length-48} more</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join(""):`<p class="note">No ${w==="a"?"armor":w==="c"?"curios measured to help":"weapons"} for ${GROLE[r]} unlocked by ${esc(actL(a))} yet.</p>`}</div>`}
+ <div class="gfoot"><p>${hits?`<b>${hits.length}</b> match${hits.length===1?"":"es"} for “${esc(GSTATE.q.trim())}”, ${hits.n} usable at ${esc(actL(a))}; later ones carry the Act they unlock at.`:`<b>${pool}</b> ${w==="a"?"sets":w==="c"?`curios usable at ${esc(actL(a))} measured to help ${GROLE[r]}`:"weapons"}${w==="c"?"":` usable at ${esc(actL(a))}`}.`}${w==="c"?" Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page.":""}${+a!==ORDER[0]?' <i class="gnew">NEW</i> unlocks at this Act.':""} Faded tiles are <b>estimated</b>: their damage is computed in code the wiki could not read, so they are ranked by when and how you get them (see below).</p>
  <details class="ghow"><summary>How the tiers are worked out</summary><ul>
  <li><b>Act</b>: the Keeper gate from Linggango's own progression tags (<code>forge:iron_tools</code> … <code>forge:helionite_armor</code>): gear tagged Diamond is locked until Eldorath falls, and so on. Gear with no tag sits at the Act of its hardest ingredient or drop (Nether materials need Act V, a Nether Star the Wither, End loot the Ender Dragon).</li>
  <li><b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does. Better Combat clears the target's hurt cooldown on every hit, so fast weapons are not capped at two hits a second. Staves, spears and gunblades whose melee damage is readable are ranked here too.</li>
  <li><b>Ranged, Mage, Summon weapons</b>: bow, gun and spell damage is set in each mod's code at shot time, so it cannot be read. They sit on the pack's power curve at the Act they unlock: the ten best melee weapons get about ${Math.round((GSTEP-1)*100)}% stronger per Act (fitted over all Acts), so an item one Act behind the frontier is at ${Math.round(100/GSTEP)}%, three behind at ${Math.round(100/GSTEP**3)}%. Then up to +10% for how hard it is to get (a boss drop or a many-part recipe over a one-ingredient craft), times its readable bonuses for the role (below).</li>
  <li><b>Armor sets</b>: score = output bonus × effective health<sup>k</sup>, the damage you deal times how long you last. Effective health uses Apothic Attributes' armor rule (damage × a/(a + armor), a = 10 for hits under 20, 10 + (hit − 20)/2 above) against the attack damage of the Keeper that ends the Act (10 at Act 0, 30 at Act VI, 50 at Act XII), on top of 20 + 4 HP per Act from your other gear, × damage-taken reduction and dodge. Toughness only blunts armor shred in this pack, so it counts little. k = 1 for Melee, 0.7 Ranged, 0.6 Mage and Summon (fighting at range, you take fewer hits). Output bonus: Melee attack damage (flat bonus against the Act's typical weapon hit), attack speed, crit, lifesteal; Ranged arrow damage, draw speed, crit; Mage: the better of Iron's (spell power + the best single school, × cast rate from cooldown reduction, × mana: +300 mana = +25%) and Ars Nouveau (flat spell damage against the Act's typical hit, × mana); Summon summon damage and +25% per extra minion slot. A plain set is the fallback in every list; a set built for the role beats it. Sets whose armor is computed in code get the median of their Act.</li>
  <li>Tiers compare each item with the fifth best usable at that Act (not the very best, so one item far ahead does not push all the others down): S is at 85% of it or more, A 70%, B 55%, C 40%, the rest D; under 25% it is left off the list (search still finds it). When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.</li></ul></details></div></div>`;
- const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};
+ const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;GALL=false;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};
  seedBg("gear"+a,[]);decorate();
 }
-function gSearch(q,a){const xs=[...GE.filter(g=>g.k!=="armor"),...GS].filter(g=>g.n.toLowerCase().includes(q)||(g.id||g.k||"").includes(q)||(g.lv||[]).some(x=>x.includes(q))).slice(0,80);
- return `<div class="gtiles gsr">${xs.length?xs.map(g=>gTile(g,a)).join(""):'<p class="note">Nothing matches.</p>'}</div>`}
+/* search: every weapon and set whose name, id or other level matches, the ones usable at Act a first (in list order),
+   then the later ones, each marked with the Act it unlocks at; xs.n = how many are usable now */
+function gMatch(q,a){const ia=oiA(+a),xs=[...GE.filter(g=>g.k!=="armor"),...GS].filter(g=>g.n.toLowerCase().includes(q)||(g.id||g.k||"").includes(q)||(g.lv||[]).some(x=>x.includes(q)));
+ const now=xs.filter(g=>oiA(g.a)<=ia),out=now.concat(xs.filter(g=>oiA(g.a)>ia));out.n=now.length;return out}
+function gSearch(xs,a,r){const ia=oiA(+a),cut=GALL?xs:xs.slice(0,80);
+ return `<p class="note gsn"><b>${xs.length}</b> match${xs.length===1?"":"es"}${xs.length&&xs.n<xs.length?`, ${xs.n} usable at ${esc(actL(a))} first`:""}.</p><div class="gtiles gsr">${xs.length?cut.map(g=>gTile(g,a,r,oiA(g.a)>ia)).join("")+(cut.length<xs.length?`<button class="gmore" data-gall>Show ${xs.length-cut.length} more</button>`:""):'<p class="note">Nothing matches.</p>'}</div>`}
 /* main role of an item: the one it scores in, preferring the role named by its kind */
 /* main role of an item: a weapon's kind; a set's is, among the roles it has a bonus for (all roles if none), the one where it ranks highest at its own Act */
 const gMain=g=>{const k=Object.keys(g.sc);if(!g.ps)return k[0]||"ME";const own=gRoles(g);let b="ME",bq=-1;
@@ -448,9 +456,15 @@ function gearTip(n){const k=n.dataset.t,isSet=k[0]==="s",g=isSet?GS[+k.slice(1)]
  <div class="tft"><span class="tmod">${esc(MODN((g.id||g.k).split(":")[0]))}</span><span class="trt">${gRoles(g).map(r=>GROLE[r]).join(" · ")}</span></div></div>`;
  if(lastAct)lastAct.classList.remove("act");lastAct=null;const first=!tip.classList.contains("on");place(n);tip.classList.add("on");if(first)tip.classList.add("in")}
 /* ---------- hooks into the wiki's router, tooltip and pages (app.js EXT) ---------- */
-EXT.route.push(h=>{if(h!==GLASTH){GALL=false;GLASTH=h}
+/* the control group a switch inside #gear came from: the Act strip, the Weapons/Armor/Curios tabs or the playstyle tabs */
+function gFocus(p,h){const s=GSTATE,q=p.a!==s.a?".gacts a[aria-current]":p.r!==s.r?".gseg.roles [aria-selected=true]":p.w!==s.w?".gseg:not(.roles) [aria-selected=true]":"";
+ const n=q&&document.querySelector("#main "+q);if(n&&n.getAttribute("href")===h)n.focus({preventScroll:true})}
+EXT.route.push(h=>{const was=GLASTH;if(h!==GLASTH){GALL=false;GLASTH=h}
   const mine=h.startsWith("#gear")||/^#gs?\d+$/.test(h);document.body.classList.toggle("gearv",mine);
   if(!mine)return false;
   save();refreshSide();document.body.classList.remove("hub");const mn=el("main");mn.classList.remove("enter");void mn.offsetWidth;mn.classList.add("enter");
-  if(h.startsWith("#gear"))gearPage(h);else if(h.startsWith("#gs")&&GS[+h.slice(3)])gearSetPage(GS[+h.slice(3)]);else if(GE[+h.slice(2)])gearItemPage(GE[+h.slice(2)]);else gearPage("#gear");scrollTo(0,0);return true});
+  // a switch inside the list (Act, tab, playstyle) redraws in place: same scroll, focus back on the pressed link
+  const inList=h.startsWith("#gear")&&was.startsWith("#gear"),p={...GSTATE};
+  if(h.startsWith("#gear"))gearPage(h);else if(h.startsWith("#gs")&&GS[+h.slice(3)])gearSetPage(GS[+h.slice(3)]);else if(GE[+h.slice(2)])gearItemPage(GE[+h.slice(2)]);else gearPage("#gear",h);
+  if(inList)gFocus(p,h);else scrollTo(0,0);return true});
 EXT.tip.push(n=>{const k=n.dataset.t;if(k&&/^[gs]\d/.test(k)){gearTip(n);return true}return false});
