@@ -44,7 +44,8 @@ style = "".join('@font-face{font-family:Monocraft;font-weight:%d;font-display:sw
     + '@font-face{font-family:"Jersey 15";font-weight:400;font-display:swap;src:url(data:font/woff2;base64,%s) format("woff2")}\n' % base64.b64encode((B / "fonts" / "Jersey15.woff2").read_bytes()).decode() + style
 import hashlib
 tpl = read(S / "template.html")
-NAMES = ["data.js", "gear_data.js", "wiki_data.js", "scenes.js", "uiicons.js", "rooms.js", "app.js", "gear.js", "ux.js"]
+NAMES = ["data.js", "gear_data.js", "wiki_data.js", "wiki_pics.js", "scenes.js", "uiicons.js", "rooms.js", "app.js", "gear.js", "ux.js"]
+LATE = {"wiki_pics.js"}   # site only: pictures of detail pages, fetched after the first page is drawn (app.js loadPics)
 
 # dist: one self-contained file for offline use
 html = tpl.replace("{{STYLE}}", "<style>\n" + style + "\n</style>")
@@ -68,6 +69,9 @@ def put(name, text):
     return "static/" + fn
 site = tpl.replace("{{STYLE}}", '<link rel="stylesheet" href="%s">' % put("style.css", style))
 for name in NAMES:
+    if name in LATE:
+        site = site.replace("<script>\n{{%s}}\n</script>\n" % name, "").replace("<html", '<html data-pics="%s"' % put(name, read(S / name)), 1)
+        continue
     site = site.replace("<script>\n{{%s}}\n</script>" % name, '<script defer src="%s"></script>' % put(name, read(S / name)))
 assert "{{" not in site, "template slot left unfilled"
 (ROOT / "index.html").write_text(site, encoding="utf-8")

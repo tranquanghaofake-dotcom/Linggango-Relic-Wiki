@@ -141,6 +141,12 @@ for x in st["GE"] + st["GS"]:
         if x.get(f) is not None: x[f] = snap(x[f])
     if x.get("mg"): x["mg"][0] = snap(x["mg"][0])
 d = lambda x: json.dumps(x, separators=(",", ":"), ensure_ascii=False)
-out = "const GE=" + d(st["GE"]) + ",GS=" + d(st["GS"]) + ",GNS=" + d(st["GNS"]) + ",GMN=" + d(MS["none_taken"]) + ";\nObject.assign(IC," + d(st["IC"]) + ");"
+# an icon shared by several ids (variants, levels, recolours that kept the texture) is written once; the others point to it
+first, uniq, alias = {}, {}, []
+for k, v in st["IC"].items():
+    if v in first: alias.append([k, first[v]])
+    else: first[v] = k; uniq[k] = v
+out = "const GE=" + d(st["GE"]) + ",GS=" + d(st["GS"]) + ",GNS=" + d(st["GNS"]) + ",GMN=" + d(MS["none_taken"]) + ";\nObject.assign(IC," + d(uniq) + ");"
+if alias: out += "for(const [a,b] of " + d(alias) + ")IC[a]=IC[b];"
 (H.parent / "src" / "gear_data.js").write_text(out, encoding="utf-8")
 print("gear_pipeline: %d gear, %d sets, %d icons" % (len(st["GE"]), len(st["GS"]), len(st["IC"])))

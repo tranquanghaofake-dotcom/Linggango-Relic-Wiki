@@ -11,7 +11,8 @@ build/patches/*.json  ── the committed facts: extraction table, acts, gates,
    │  patches/*.py
    ├─► src/data.js        curios: hand-maintained source; boss_stats / boss_order derive into it (how it got here: build/migrations/ on the workspace branch)
    ├─► src/gear_data.js   gear_pipeline.py: table → stages → one write
-   └─► src/wiki_data.js   bosses, rituals, guides, images (wiki_data.py)
+   ├─► src/wiki_data.js   bosses, rituals, guides, images (wiki_data.py)
+   └─► src/wiki_pics.js   pictures only detail pages show (wiki_data.py); the site fetches it after the first paint
 src/*.js + v5.css + style.game.css + template.html ──► build.py ──► index.html + static/ + dist/
 ```
 

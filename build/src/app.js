@@ -292,7 +292,7 @@ const EFFECTS=[
 function effHint(h){for(const e of EFFECTS){const m=h.match(e.re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/effects" title="${esc(e.n)}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
 function mechPage(){
  document.title="Mechanics · Linggango Wiki";
- const G=GOETY,A=AE2,TY=Object.entries(G.types),cnt=G.counts;
+ needPics();const G=GOETY,A=AE2,TY=Object.entries(G.types),cnt=G.counts;
  const tName=t=>(G.types[t]||{name:t}).name.replace(/ Rituals?$/,"");
  const act=a=>a?esc(actL(a)):"—";
  const kindL={craft:"Craft",enchant:"Enchant",summon:"Summon",summon_tamed:"Summon",summon_tamed_no_variant:"Summon",convert:"Convert",convert_tamed:"Convert",convert_complete_tamed:"Convert",locate:"Locate",teleport:"Teleport"};
@@ -1233,7 +1233,7 @@ function statsHtml(d,other){const k=kindOf(d),nm=d.n.toLowerCase();
  return `${head}<ul class="attr">${lines.map(x=>HD.test(x)?`<li class="fxh">${fmt(x)}</li>`:`<li>${statLine(x)}</li>`).join("")}</ul>
  ${tip.length?`<details class="tipx"><summary>In-game tooltip</summary><ul>${tip.map(x=>HD.test(x)?`<li class="fxh">${fmt(x)}</li>`:`<li>${statLine(x)}</li>`).join("")}</ul></details>`:""}
  ${cfg.length?`<details class="tipx"><summary>Config values (${cfg.length})</summary><table class="cfg">${cfg.map(([a,...b])=>`<tr><td>${esc(a)}</td><td class="num">${esc(b.join(": "))}</td></tr>`).join("")}</table></details>`:""}`}
-const guideHtml=g=>`<div class="gbk">${g.i?`<img alt="" src="${g.i}">`:""}<div><small>📖 ${esc(g.b)} · ${esc(g.e)}</small><p>${esc(g.t)}</p></div></div>`;
+const guideHtml=g=>(needPics(),"")+`<div class="gbk">${g.i?`<img alt="" src="${g.i}">`:""}<div><small>📖 ${esc(g.b)} · ${esc(g.e)}</small><p>${esc(g.t)}</p></div></div>`;
 function page(d){
  document.title=d.n+" · Linggango Wiki";seedBg("item"+d.m,D.filter(x=>x.m===d.m));
  const F=mf(d.m),slot=d.sl.join(", ")||"—",loot=d.g==="Loot",secs=[];
@@ -1417,7 +1417,12 @@ function renderBase(){
 const EXT={route:[],tip:[]};
 function render(){if(!EXT.route.some(f=>f(decodeURIComponent(location.hash))))renderBase()}
 function showTip(n){if(!EXT.tip.some(f=>f(n)))showTipBase(n)}
-document.addEventListener("DOMContentLoaded",()=>{render();decorate()});
+/* the site fetches the detail pages' pictures (wiki_pics.js: armour stands, guide pages, ritual layouts) once the first page
+   is drawn; a page drawn before they came is drawn again when they arrive. The offline file has them inline (PICS=1). */
+function loadPics(){const u=document.documentElement.dataset.pics;if(!u||window.PICS)return;const s=document.createElement("script");s.src=u;document.head.appendChild(s)}
+function picsLoaded(){if(!window.PICS_MISS)return;window.PICS_MISS=0;const y=scrollY;render();decorate();scrollTo(0,y)}
+const needPics=()=>{if(!window.PICS)window.PICS_MISS=1};
+document.addEventListener("DOMContentLoaded",()=>{render();decorate();loadPics()});
 function refresh(){const h=decodeURIComponent(location.hash);if(h==="#home"||/^#(slot|act|mod)\//.test(h)){SOFT=true;render()}else location.hash="#home"}
 /* page change: a cross-fade between sections (View Transitions, where the browser has them); switches inside one page
    (an Equipment Act, a Path filter) redraw in place so the controls you just pressed do not blink */

@@ -9,6 +9,7 @@ __pycache__/
 # Generated from build/patches/*.json by apply_all.sh (gear_pipeline.py, wiki_data.py).
 /build/src/gear_data.js
 /build/src/wiki_data.js
+/build/src/wiki_pics.js
 
-# npm install in build/ (fx3d_build.sh, the render pages in pack_audit/)
+# npm install in build/ (three.js for the render tools in pack_audit/)
 node_modules/
