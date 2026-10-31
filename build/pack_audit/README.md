@@ -1,6 +1,7 @@
 # Pack audit (reads the modpack directly, no game run)
 Work dir W holds `pack/src` (the unzipped CurseForge zip: 6.6.6hf is file 9304214) and `pack/mods` (the jars: `python3 build/gear/dl.py W`, or the
-server pack's `mods/`, which has every content mod). For the wide gear scan, `srv/libraries/net/minecraft/server/1.20.1-20230612.114412/` needs Forge's
+author's server pack `serverpack-slim-6.6.6hf.zip` (`mods/`, `config/`, `kubejs/`, and Forge's srg jar under `libraries/`): the reference for code,
+data and configs; see build/README.md "Regenerating from the pack" for what was compared). For the wide gear scan, `srv/libraries/net/minecraft/server/1.20.1-20230612.114412/` needs Forge's
 server-1.20.1-*-srg.jar: the Forge installer makes it, or remap Mojang's 1.20.1 server jar with Mojang's server.txt (class names) and
 MCPConfig 1.20.1-20230612.114412 joined.tsrg (SRG member names).
 1. `python3 build/gear/prep.py W` and `python3 build/gear/recipes.py W` → lang.json, ns2jar.json, gates.json, rec.json
