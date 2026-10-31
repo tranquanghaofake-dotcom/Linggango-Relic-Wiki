@@ -63,7 +63,7 @@
 },
 {
 "id": "minecraft:redstone",
-"n": "Redstone",
+"n": "Redstone Dust",
 "chance": "37%",
 "count": "1–4"
 },
@@ -122,7 +122,7 @@
 },
 {
 "id": "minecraft:redstone",
-"n": "Redstone",
+"n": "Redstone Dust",
 "chance": "37%",
 "count": "1–4"
 },
@@ -359,7 +359,7 @@
 },
 {
 "id": "minecraft:redstone",
-"n": "Redstone",
+"n": "Redstone Dust",
 "chance": "100%",
 "count": "6–10"
 },

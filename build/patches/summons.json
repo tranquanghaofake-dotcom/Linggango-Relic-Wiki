@@ -49,7 +49,7 @@
     },
     {
      "id": "minecraft:gold_block",
-     "n": "Gold Block"
+     "n": "Block of Gold"
     },
     {
      "id": "minecraft:nether_star",
@@ -62,13 +62,13 @@
   "ings": [
    {
     "id": "#minecraft:small_flowers",
-    "n": "any #minecraft:small flowers",
+    "n": "any small flowers",
     "from": ""
    },
    {
     "id": "minecraft:iron_ingot",
     "n": "Iron Ingot",
-    "from": "treasure bag: iron colossus treasure bag"
+    "from": "smelt mined Raw Iron"
    }
   ]
  },
@@ -122,7 +122,7 @@
     },
     {
      "id": "minecraft:emerald_block",
-     "n": "Emerald Block"
+     "n": "Block of Emerald"
     },
     {
      "id": "minecraft:nether_star",
@@ -179,7 +179,7 @@
      },
      {
       "id": "bloodmagic:blankrune",
-      "n": "Blankrune",
+      "n": "Blank Rune",
       "c": 1
      }
     ]
@@ -226,7 +226,7 @@
    {
     "id": "armageddon_mod:colossal_iron_ingot",
     "n": "Colossal Iron Ingot",
-    "from": "treasure bag: iron colossus treasure bag"
+    "from": "Iron Colossus Treasure Bag"
    },
    {
     "id": "linggango_tweaks:boss_soul",
@@ -236,7 +236,7 @@
    {
     "id": "minecraft:gold_ingot",
     "n": "Gold Ingot",
-    "from": "treasure bag: treasure bag"
+    "from": "smelt mined Raw Gold"
    }
   ]
  },
@@ -290,7 +290,7 @@
     },
     {
      "id": "minecraft:diamond_block",
-     "n": "Diamond Block"
+     "n": "Block of Diamond"
     },
     {
      "id": "minecraft:nether_star",
@@ -433,12 +433,12 @@
    {
     "id": "minecraft:emerald",
     "n": "Emerald",
-    "from": "treasure bag: treasure bag"
+    "from": "mined, or villager trades"
    },
    {
     "id": "minecraft:raw_gold",
     "n": "Raw Gold",
-    "from": "crafted"
+    "from": "mined (Gold Ore)"
    }
   ]
  },
@@ -547,7 +547,7 @@
      },
      {
       "id": "minecraft:redstone",
-      "n": "Redstone",
+      "n": "Redstone Dust",
       "c": 1
      },
      {
@@ -588,7 +588,7 @@
      },
      {
       "id": "minecraft:redstone",
-      "n": "Redstone",
+      "n": "Redstone Dust",
       "c": 1
      },
      {
@@ -619,7 +619,7 @@
      },
      {
       "id": "minecraft:redstone",
-      "n": "Redstone",
+      "n": "Redstone Dust",
       "c": 1
      },
      {
@@ -665,7 +665,7 @@
      },
      {
       "id": "minecraft:redstone",
-      "n": "Redstone",
+      "n": "Redstone Dust",
       "c": 1
      },
      {
@@ -690,32 +690,32 @@
    {
     "id": "minecraft:emerald",
     "n": "Emerald",
-    "from": "treasure bag: treasure bag"
+    "from": "mined, or villager trades; also the Arion, Tyrant of the Emerald Wrath Treasure Bag"
    },
    {
     "id": "minecraft:gold_ingot",
     "n": "Gold Ingot",
-    "from": "treasure bag: treasure bag"
+    "from": "smelt mined Raw Gold; also the Goblin Lord Treasure Bag"
    },
    {
     "id": "minecraft:iron_ingot",
     "n": "Iron Ingot",
-    "from": "treasure bag: iron colossus treasure bag"
+    "from": "smelt mined Raw Iron; also the Iron Colossus Treasure Bag"
    },
    {
     "id": "minecraft:lapis_lazuli",
     "n": "Lapis Lazuli",
-    "from": "crafted"
+    "from": "mined"
    },
    {
     "id": "minecraft:redstone",
-    "n": "Redstone",
-    "from": "crafted"
+    "n": "Redstone Dust",
+    "from": "mined"
    },
    {
     "id": "minecraft:stone",
     "n": "Stone",
-    "from": "crafted"
+    "from": "smelt Cobblestone"
    }
   ]
  },
@@ -871,7 +871,7 @@
     "ings": [
      {
       "id": "#minecraft:lava",
-      "n": "any #minecraft:lava",
+      "n": "any lava",
       "c": 1
      },
      {
@@ -927,27 +927,27 @@
    {
     "id": "minecraft:diamond",
     "n": "Diamond",
-    "from": "treasure bag: treasure bag"
+    "from": "mined; also the Eldorath the Ancient Builder Treasure Bag"
    },
    {
     "id": "minecraft:lava_bucket",
     "n": "Lava Bucket",
-    "from": "crafted"
+    "from": "a Bucket filled from lava"
    },
    {
     "id": "minecraft:nether_wart",
     "n": "Nether Wart",
-    "from": "crafted"
+    "from": "Nether Fortresses, then farmed"
    },
    {
     "id": "minecraft:netherrack",
     "n": "Netherrack",
-    "from": "crafted"
+    "from": "mined in the Nether"
    },
    {
     "id": "undergarden:utherium_crystal",
     "n": "Utherium Crystal",
-    "from": "crafted"
+    "from": "mined in the Undergarden"
    }
   ]
  },
@@ -1119,17 +1119,17 @@
    {
     "id": "armageddon_mod:ancient_blueprint",
     "n": "Ancient Blueprint",
-    "from": "loot: armageddon end city"
+    "from": "Armageddon End City chests"
    },
    {
     "id": "armageddon_mod:gilded_plate",
     "n": "Gilded Plate",
-    "from": "crafted"
+    "from": "Goblin Lord Treasure Bag, or crafted"
    },
    {
     "id": "armageddon_mod:khyros_tear",
     "n": "Khyros's Goldened Tear",
-    "from": ""
+    "from": "Ender Dragon Treasure Bag"
    },
    {
     "id": "linggango_tweaks:boss_soul",
@@ -1341,7 +1341,7 @@
    {
     "id": "armageddon_mod:elvenite_ingot",
     "n": "Elvenite Ingot",
-    "from": "crafted"
+    "from": "Elvenite Paladin Treasure Bag, or crafted"
    },
    {
     "id": "linggango_tweaks:boss_soul",
@@ -1351,12 +1351,12 @@
    {
     "id": "minecraft:end_stone",
     "n": "End Stone",
-    "from": "crafted"
+    "from": "mined in the End"
    },
    {
     "id": "minecraft:ender_pearl",
     "n": "Ender Pearl",
-    "from": "crafted"
+    "from": "Enderman drop"
    }
   ]
  },
@@ -1424,7 +1424,7 @@
    {
     "id": "armageddon_mod:voiderite",
     "n": "Voiderite Ingot",
-    "from": "crafted"
+    "from": "Vaedric, the Fallen Wanderer Treasure Bag, or crafted"
    },
    {
     "id": "minecraft:iron_nugget",
@@ -1433,7 +1433,7 @@
    },
    {
     "id": "minecraft:redstone_block",
-    "n": "Redstone Block",
+    "n": "Block of Redstone",
     "from": "crafted"
    }
   ]
@@ -1744,7 +1744,7 @@
    {
     "id": "armageddon_mod:calamitous_core",
     "n": "Calamitous Core",
-    "from": "crafted"
+    "from": "The Calamities Treasure Bag, or crafted"
    },
    {
     "id": "linggango_tweaks:boss_soul",
@@ -1754,12 +1754,12 @@
    {
     "id": "minecraft:egg",
     "n": "Egg",
-    "from": "crafted"
+    "from": "laid by Chickens"
    },
    {
     "id": "minecraft:nether_wart",
     "n": "Nether Wart",
-    "from": "crafted"
+    "from": "Nether Fortresses, then farmed"
    }
   ]
  },
@@ -1927,7 +1927,7 @@
    {
     "id": "armageddon_mod:bloody_ingot",
     "n": "Bloody Ingot",
-    "from": "crafted"
+    "from": "Sanghor Lord of Blood Treasure Bag, or crafted"
    },
    {
     "id": "linggango_tweaks:boss_soul",
@@ -1937,7 +1937,7 @@
    {
     "id": "minecraft:sunflower",
     "n": "Sunflower",
-    "from": "crafted"
+    "from": "Sunflower Plains"
    }
   ]
  },
@@ -2005,17 +2005,17 @@
    {
     "id": "armageddon_mod:helionite_ingot",
     "n": "Helionite Ingot",
-    "from": "crafted"
+    "from": "Zoranth, Newborn of the Zenith Treasure Bag, or crafted"
    },
    {
     "id": "armageddon_mod:khyros_tear",
     "n": "Khyros's Goldened Tear",
-    "from": ""
+    "from": "Ender Dragon Treasure Bag"
    },
    {
     "id": "minecraft:coal",
     "n": "Coal",
-    "from": "crafted"
+    "from": "mined"
    }
   ]
  }
