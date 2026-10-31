@@ -1,7 +1,7 @@
 # Agent skills and tools (evaluated 2026-10-31)
 
-Which third-party Claude Code skills, plugins and agents this repo uses, where each one lives, and which were looked
-at and left out. The working rules stay in `CLAUDE.md`; no skill overrides them.
+Which third-party Claude Code skills, plugins, connectors, open-source tools and agents this repo uses, where each one
+lives, and which were looked at and left out. The working rules stay in `CLAUDE.md`; no skill overrides them.
 
 ## Where a skill can live, and who sees it
 | Place | Who loads it | Set by |
@@ -47,6 +47,25 @@ adding; grep every caller before a fix; finish the callers and checks the change
   request before building). Its reply trailer ("what I skipped or did not check") feeds the "still open" line of the
   session's `docs/NOTES.md` entry.
 - Not installed as the plugin (the band and `/ponytail-*` commands are machine-local and not in the catalog).
+
+## Connectors (claude.ai account) that serve this repo
+| Connector | Use here | Not for |
+|---|---|---|
+| GitHub | reading the `site` workflow's result (`actions_list` / `actions_get` on this repo) before a change is called live; the repo itself | pull requests (none unless asked) |
+| Firecrawl, Parallel | reading external wikis, Modrinth and CurseForge pages as reference, mod licences and versions | numbers on the site: those come from the game export, the pack's files, then the jars (CLAUDE.md, Facts) |
+| Figma | nothing today: `generate_image` spends the owner's credits (v41) | |
+| Gmail, Calendar, Drive, Notion, Canva, Hugging Face, legal connectors | nothing for this repo | |
+
+## Open-source tools
+In use: Playwright 1.63 (`shot.js`, `perf.js`, `check.js`, `style_check.js`, `site_check.js`), three.js 0.169 (the
+render tools only), InventivetalentDev/minecraft-assets@1.20.1 (textures, cloned into the scratchpad when needed),
+Mojang 1.20.1 mappings + MCPConfig (field names for `gear_fx.py`; not committed), jawa (`gear/mjvm.py`).
+
+Tried on 2026-10-31 and kept as hand tools, not gates: `ruff check build` (default rules: 715 findings in 102 files;
+the 28 in real-bug classes were all intentional: `v != v` NaN tests in `mjvm.py`, the deliberate `exec` prelude in
+`gear/extra.py`, loop closures called in the same iteration in `lootlib.py`, `gear_runtime.py`, `measure/import.py`,
+a `memo={}` cache in `eqa/audit.py`); `node --check` over the 27 JS files (clean). Run either by hand before a
+consolidation pass (`uvx --from ruff ruff check build --select F821,B023,PLR0124`); `check.sh` stays a behaviour gate.
 
 ## Looked at and left out
 | Skill | What it is | Why not here |
