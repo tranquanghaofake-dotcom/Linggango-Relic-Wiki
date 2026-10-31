@@ -4,12 +4,12 @@ A static wiki: `index.html` + hashed `static/*.js|css` (and one offline `dist/*.
 
 ## Data flow
 ```
-the CurseForge pack (476 jars + configs)
+the pack (6.6.6hf: 383 server jars, 429 mods with the client-only ones, + configs)
    │  gear/*, pack_audit/*  (run by hand when the pack changes; need the jars)
    ▼
 build/patches/*.json  ── the committed facts: extraction table, acts, gates, notes, icons, names
    │  patches/*.py
-   ├─► src/data.js        curios: hand-maintained source; boss_stats / boss_order derive into it (how it got here: build/migrations/ on the workspace branch)
+   ├─► src/data.js        curios: hand-maintained source; curio_recipes (recipe grids) / boss_stats / boss_order derive into it in place (how it got here: build/migrations/ on the workspace branch)
    ├─► src/gear_data.js   gear_pipeline.py: table → stages → one write
    ├─► src/wiki_data.js   bosses, rituals, guides, images (wiki_data.py)
    └─► src/wiki_pics.js   pictures only detail pages show (wiki_data.py); the site fetches it after the first paint
@@ -26,7 +26,7 @@ src/*.js + v5.css + style.game.css + template.html ──► build.py ──► 
 | Icons | `patches/gear_icons.json` (a source file; `null` = no icon) |
 | Order of gear stages | the tuple in `gear_pipeline.py` |
 | How the front end plugs together | `EXT` in `app.js` (route / tooltip hooks); `build.py` `NAMES` for file order |
-| How a section header looks (rooms) | `room()` in `app.js` for the items; `.room[data-room=…]` in `style.game.css` for blocks and light; `ROOMT` textures from `pack_audit/scenes.py` |
+| How a section header looks (rooms) | `room()` and the scenes (`ROOMK`) in `src/rooms.js`: blocks and light are painted on the canvas of a `.room3`, the moving parts are `<i>` elements over it; `.room3` rules in `style.game.css`; `ROOMT` textures from `pack_audit/scenes.py` |
 | How a detail page is laid out | `article()` in `app.js` (title and lead, sections, infobox, contents, navbox, pack version); `wikiNav()` for the wiki-wide navbox; `PACKV` for the pack version |
 
 ## Why it is shaped like this
@@ -37,10 +37,10 @@ src/*.js + v5.css + style.game.css + template.html ──► build.py ──► 
 - **Every bug found becomes an invariant** in `check.js` (an Act of 6.1 once put a battleaxe at Act 0; Ranged armor once ended at Act V).
 
 ## Checks
-`bash build/check.sh`: the patch chain is idempotent and the build reproducible; then, in Chromium, no script errors, the invariants above, every gear and set page renders without broken images, every Path boss card has a background, every detail page (curios, gear, sets, Keepers, side bosses) is drawn by `article()` with a title, an infobox, a navbox and a heading on every section, the pixel and spacing rules hold, and the deployable site (`index.html` + `static/`) loads with every file found (`site_check.js`).
+`bash build/check.sh`: the patch chain is idempotent and the build reproducible; then, in Chromium, no script errors, the invariants above, every gear and set page is non-empty, every Path boss card has a background, every detail page (curios, gear, sets, Keepers, side bosses) renders without broken images (each `<img>` must decode) and is drawn by `article()` with a title, an infobox, a navbox and a heading on every section, the pixel and spacing rules hold, and the deployable site (`index.html` + `static/`) loads with every file found (`site_check.js`).
 
 ## Deploy
 Build outputs are not committed. `.github/workflows/site.yml` runs `check.sh` on every push and pull request, checks that the committed in-place derivations (`src/data.js`, `patches/curio_tiers.json`) are current, then uploads `index.html`, `static/` and `dist/` as the Pages artifact. Only a push to `main` whose checks all pass is deployed; a failing commit leaves the last good build online.
 
 ## Not done / known debt
-See "Known weak spots" in `README.md` (two in-place passes on `data.js`, the large `app.js`, dead Act/mod pages).
+See "Known weak spots" in `README.md` (three in-place passes on `data.js`, the large `app.js`, dead CSS of the retired mod and slot pages).
