@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Write build/src/wiki_data.js from the pack-read JSON in build/patches: boss summons (summons.json),
 Goety rituals (goety.json, from build/pack_audit/goety.py), AE2 storage facts (ae2.json) and side-boss stats
-(side_stats.json, from build/pack_audit/side_bosses/stats.py) and portraits (side_imgs.json, from renders.py + jrender.js + pack.py)."""
+(side_stats.json, from build/pack_audit/side_bosses/stats.py) and portraits (side_imgs.json, from renders.py + jrender.js + pack.py),
+Keeper portraits (boss_portraits.json, from build/pack_audit/boss_portraits.js)."""
 import json, pathlib
 H = pathlib.Path(__file__).resolve().parent
 J = lambda f: json.loads((H / f).read_text(encoding="utf-8"))
@@ -22,6 +23,7 @@ out += "const BGRAPH=" + json.dumps(J("boss_graph.json"), ensure_ascii=False, se
 out += "const SSTAT=" + json.dumps(J("side_stats.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const SDROP=" + json.dumps(J("side_drops.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const SIMG=" + json.dumps(J("side_imgs.json"), separators=(",", ":")) + ";\n"
+out += "const BPORT=" + json.dumps(J("boss_portraits.json"), separators=(",", ":")) + ";\n"
 _cm = J("curio_measure.json")
 out += "const CM=" + json.dumps(_cm["curios"], ensure_ascii=False, separators=(",", ":")) + ",CMREF=" + json.dumps(_cm["ref_hit"]) + ";\n"
 out += "const CTIER=" + json.dumps(J("curio_tiers.json"), separators=(",", ":")) + ";\n"

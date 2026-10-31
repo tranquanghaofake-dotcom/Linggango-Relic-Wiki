@@ -44,7 +44,7 @@ style = "".join('@font-face{font-family:Monocraft;font-weight:%d;font-display:sw
     + '@font-face{font-family:"Jersey 15";font-weight:400;font-display:swap;src:url(data:font/woff2;base64,%s) format("woff2")}\n' % base64.b64encode((B / "fonts" / "Jersey15.woff2").read_bytes()).decode() + style
 import hashlib
 tpl = read(S / "template.html")
-NAMES = ["data.js", "gear_data.js", "wiki_data.js", "scenes.js", "uiicons.js", "rooms.js", "fx3d.js", "app.js", "gear.js", "ux.js"]
+NAMES = ["data.js", "gear_data.js", "wiki_data.js", "scenes.js", "uiicons.js", "rooms.js", "app.js", "gear.js", "ux.js"]
 
 # dist: one self-contained file for offline use
 html = tpl.replace("{{STYLE}}", "<style>\n" + style + "\n</style>")

@@ -1,5 +1,5 @@
 import json,zipfile,glob,re,base64
-s=open('/home/user/Linggango-Relic-Wiki/build/src/gear_data.js').read()
+import os;s=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','src','gear_data.js')).read()   # run from the work dir (pack/mods, mc_client.jar)
 i=s.index('GS=[');GS,_=json.JSONDecoder().raw_decode(s,i+3)
 Z={}
 for j in glob.glob('pack/mods/*.jar'):

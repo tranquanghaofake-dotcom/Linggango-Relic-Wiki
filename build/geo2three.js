@@ -161,6 +161,35 @@ function prepTexture(t) {
   return t;
 }
 
+// ---------------------------------------------------------------------------------------------
+// The game's own light (assets/minecraft/shaders/include/light.glsl): texel × min(1, 0.4 + 0.6·(max(0, L0·n) +
+// max(0, L1·n))) on the stored sRGB values (the game converts nothing to linear, so the texture is NoColorSpace and
+// the shader does no output conversion), never brighter than the texel; cutout at alpha 0.1 like the entity shaders.
+// Light vectors in three.js view space (x right, y up, z toward the viewer), from client-1.20.1.jar's bytecode:
+//   entity  Lighting.setupForEntityInInventory: (0.2, -1, -1) and (-0.2, -1, 0) in the inventory pose's space (y down,
+//           -z toward the viewer): a face toward the viewer gets 0.82, the top 1.0, the sides about 0.5
+//   item    GlStateManager.setupGui3DDiffuseLighting, the same vectors as pack_audit/block_render.py LIGHTS['side']
+// ---------------------------------------------------------------------------------------------
+export const VANILLA_LIGHT = {
+  entity: [[0.14, 0.7001, 0.7001], [-0.1961, 0.9806, 0]],
+  item: [[-0.9334, 0.2627, -0.2443], [-0.1036, 0.9766, 0.1884]],
+};
+export function vanillaMaterial(map, { light = 'entity', transparent = false } = {}) {
+  map.colorSpace = THREE.NoColorSpace; map.magFilter = map.minFilter = THREE.NearestFilter; map.generateMipmaps = false; map.needsUpdate = true;
+  const [a, b] = VANILLA_LIGHT[light];
+  return new THREE.ShaderMaterial({
+    uniforms: { map: { value: map }, l0: { value: new THREE.Vector3(...a) }, l1: { value: new THREE.Vector3(...b) } },
+    vertexShader: 'varying vec2 vUv; varying vec3 vN;\n' +
+      'void main() { vUv = uv; vN = normalMatrix * normal; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+    fragmentShader: 'uniform sampler2D map; uniform vec3 l0, l1; varying vec2 vUv; varying vec3 vN;\n' +
+      'void main() { vec4 c = texture2D(map, vUv); if (c.a < ' + (transparent ? '0.004' : '0.1') + ') discard;\n' +
+      '  vec3 n = normalize(vN); if (!gl_FrontFacing) n = -n;\n' +
+      '  float k = min(1.0, 0.6 * (max(0.0, dot(l0, n)) + max(0.0, dot(l1, n))) + 0.4);\n' +
+      '  gl_FragColor = vec4(c.rgb * k, ' + (transparent ? 'c.a' : '1.0') + '); }',
+    side: THREE.DoubleSide, transparent, depthWrite: true,
+  });
+}
+
 /**
  * buildGeo(geo, texture, opts) -> THREE.Group
  *   geo:     geometry object (or a whole .geo.json; first geometry used unless opts.identifier)
@@ -168,7 +197,7 @@ function prepTexture(t) {
  *   opts: {
  *     texW, texH      override texture size (else geo description, else image size)
  *     scale           extra uniform scale (GeckoLib renderer scaleWidth/scaleHeight), default 1
- *     material        a THREE.Material to use instead of the default MeshLambertMaterial
+ *     material        a THREE.Material to use instead of the default MeshLambertMaterial (vanillaMaterial: the game's light)
  *     transparent     true -> alpha blending (texture has semi-transparent pixels); default cutout (alphaTest 0.1)
  *     glow            THREE.Texture rendered as an additive 'eyes' layer on all bones (GeckoLib/vanilla RenderType.eyes)
  *     layers          [{ texture, mode: 'eyes'|'emissive', opacity, bones: [names] | undefined }]
@@ -183,7 +212,7 @@ export function buildGeo(geoIn, texture, opts = {}) {
   const img = texture && texture.image;
   const texW = opts.texW || desc.texture_width || (img && img.width) || 64;
   const texH = opts.texH || desc.texture_height || (img && img.height) || 64;
-  prepTexture(texture);
+  if (!opts.material) prepTexture(texture);   // a material of the caller's (vanillaMaterial) sets up its own texture
 
   const material = opts.material || new THREE.MeshLambertMaterial({
     map: texture, side: THREE.DoubleSide,

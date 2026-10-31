@@ -38,6 +38,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -98,6 +107,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -172,6 +190,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -232,6 +259,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -306,6 +342,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -366,6 +411,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -440,6 +494,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -500,6 +563,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -574,6 +646,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -634,6 +715,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -708,6 +798,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -768,6 +867,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -842,6 +950,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -902,6 +1019,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -976,6 +1102,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -1036,6 +1171,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -1110,6 +1254,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -1170,6 +1323,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -1244,6 +1406,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -1304,6 +1475,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -1378,6 +1558,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -1438,6 +1627,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -1512,6 +1710,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -1572,6 +1779,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -1646,6 +1862,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -1706,6 +1931,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -1780,6 +2014,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -1840,6 +2083,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -1914,6 +2166,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -1974,6 +2235,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -2048,6 +2318,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -2108,6 +2387,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -2182,6 +2470,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -2242,6 +2539,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -2316,6 +2622,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -2376,6 +2691,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -2450,6 +2774,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -2510,6 +2843,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -2584,6 +2926,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -2644,6 +2995,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -2718,6 +3078,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -2778,6 +3147,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -2852,6 +3230,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -2912,6 +3299,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -2986,6 +3382,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -3046,6 +3451,15 @@
 {
 "effect": "adamsarsplus:lightning_steps",
 "level": 1,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
 "maybe": true,
 "name": "Lightning Steps",
 "ticks": 180,
@@ -3120,6 +3534,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -3187,6 +3610,15 @@
 "who": "self"
 },
 {
+"effect": "adamsarsplus:lightning_steps",
+"level": null,
+"maybe": true,
+"name": "Lightning Steps",
+"ticks": 180,
+"when": "worn",
+"who": "self"
+},
+{
 "effect": "minecraft:speed",
 "level": 3,
 "maybe": true,
@@ -3221,7 +3653,7 @@
 "effect": "alexscaves:darkness_incarnate",
 "level": 1,
 "name": "Darkness Incarnate",
-"ticks": 0,
+"ticks": null,
 "when": "carried",
 "who": "self"
 }
@@ -3246,7 +3678,7 @@
 "effect": "alexscaves:darkness_incarnate",
 "level": 1,
 "name": "Darkness Incarnate",
-"ticks": 0,
+"ticks": null,
 "when": "carried",
 "who": "self"
 }
@@ -3329,7 +3761,7 @@
 "fx": [
 {
 "effect": "minecraft:wither",
-"level": 1,
+"level": null,
 "name": "Wither",
 "ticks": null,
 "when": "hit",
@@ -3337,9 +3769,9 @@
 },
 {
 "effect": "minecraft:absorption",
-"level": 1,
+"level": 128,
 "name": "Absorption",
-"ticks": 127,
+"ticks": null,
 "when": "hit",
 "who": "target"
 }
@@ -4359,7 +4791,7 @@
 "fx": [
 {
 "effect": "minecraft:wither",
-"level": 1,
+"level": null,
 "name": "Wither",
 "ticks": null,
 "when": "hit",
@@ -4367,9 +4799,9 @@
 },
 {
 "effect": "minecraft:absorption",
-"level": 1,
+"level": 128,
 "name": "Absorption",
-"ticks": 127,
+"ticks": null,
 "when": "hit",
 "who": "target"
 }
@@ -4379,7 +4811,7 @@
 "fx": [
 {
 "effect": "minecraft:wither",
-"level": 1,
+"level": null,
 "name": "Wither",
 "ticks": null,
 "when": "hit",
@@ -4387,9 +4819,9 @@
 },
 {
 "effect": "minecraft:absorption",
-"level": 1,
+"level": 128,
 "name": "Absorption",
-"ticks": 127,
+"ticks": null,
 "when": "hit",
 "who": "target"
 }
@@ -4607,7 +5039,7 @@
 "brutality:darkin_blade": {
 "fx": [
 {
-"heal": 0.0,
+"heal": null,
 "when": "hit",
 "who": "self"
 }
@@ -4678,7 +5110,7 @@
 "fx": [
 {
 "effect": "brutality:scored",
-"level": 2,
+"level": null,
 "name": "§mScored",
 "ticks": 60,
 "when": "hit",
@@ -4734,17 +5166,17 @@
 "fx": [
 {
 "effect": "minecraft:strength",
-"level": 21,
+"level": null,
 "name": "Strength",
-"ticks": 3,
+"ticks": null,
 "when": "use",
 "who": "self"
 },
 {
 "effect": "minecraft:resistance",
-"level": 21,
+"level": null,
 "name": "Resistance",
-"ticks": 3,
+"ticks": null,
 "when": "use",
 "who": "self"
 }
@@ -4776,7 +5208,7 @@
 "fx": [
 {
 "effect": "brutality:scored",
-"level": 2,
+"level": null,
 "name": "§mScored",
 "ticks": 60,
 "when": "hit",
@@ -5182,7 +5614,7 @@
 "fx": [
 {
 "effect": "brutality:scored",
-"level": 2,
+"level": null,
 "name": "§mScored",
 "ticks": 60,
 "when": "hit",
@@ -5227,6 +5659,16 @@
 ]
 },
 "brutality:whisperwaltz": {
+"fx": [
+{
+"effect": "brutality:pulverized",
+"level": 2,
+"name": "Pulverized",
+"ticks": 2,
+"when": "hit",
+"who": "target"
+}
+],
 "tip": [
 "-Applies Pulverized I for 1 tick"
 ]
@@ -5348,7 +5790,7 @@
 "fx": [
 {
 "effect": "cataclysm:blazing_brand",
-"level": 2,
+"level": null,
 "name": "Blazing Brand",
 "ticks": 160,
 "when": "carried",
@@ -5363,7 +5805,7 @@
 "fx": [
 {
 "effect": "cataclysm:blazing_brand",
-"level": 2,
+"level": null,
 "name": "Blazing Brand",
 "ticks": 160,
 "when": "carried",
@@ -5378,7 +5820,7 @@
 "fx": [
 {
 "effect": "cataclysm:blazing_brand",
-"level": 2,
+"level": null,
 "name": "Blazing Brand",
 "ticks": 160,
 "when": "carried",
@@ -5394,7 +5836,7 @@
 "fx": [
 {
 "effect": "cataclysm:blazing_brand",
-"level": 2,
+"level": null,
 "name": "Blazing Brand",
 "ticks": 160,
 "when": "carried",
@@ -5558,7 +6000,7 @@
 "cnb:cinder_sword_4": {
 "fx": [
 {
-"fire": 2,
+"fire": null,
 "when": "hit",
 "who": "target"
 }
@@ -5567,7 +6009,7 @@
 "composite_material:allay_steel_boots": {
 "fx": [
 {
-"heal": 20.0,
+"heal": null,
 "when": "carried",
 "who": "self"
 }
@@ -5576,7 +6018,7 @@
 "composite_material:allay_steel_chestplate": {
 "fx": [
 {
-"heal": 20.0,
+"heal": null,
 "when": "carried",
 "who": "self"
 }
@@ -5585,7 +6027,7 @@
 "composite_material:allay_steel_helmet": {
 "fx": [
 {
-"heal": 20.0,
+"heal": null,
 "when": "carried",
 "who": "self"
 }
@@ -5594,7 +6036,7 @@
 "composite_material:allay_steel_leggings": {
 "fx": [
 {
-"heal": 20.0,
+"heal": null,
 "when": "carried",
 "who": "self"
 }
@@ -5613,7 +6055,7 @@
 "fx": [
 {
 "effect": "composite_material:primitive_health_boost",
-"level": 2,
+"level": null,
 "name": "Primitive Health Boost",
 "ticks": 210,
 "when": "carried",
@@ -5625,7 +6067,7 @@
 "fx": [
 {
 "effect": "composite_material:primitive_health_boost",
-"level": 2,
+"level": null,
 "name": "Primitive Health Boost",
 "ticks": 210,
 "when": "carried",
@@ -5637,7 +6079,7 @@
 "fx": [
 {
 "effect": "composite_material:primitive_health_boost",
-"level": 2,
+"level": null,
 "name": "Primitive Health Boost",
 "ticks": 210,
 "when": "carried",
@@ -5649,7 +6091,7 @@
 "fx": [
 {
 "effect": "composite_material:primitive_health_boost",
-"level": 2,
+"level": null,
 "name": "Primitive Health Boost",
 "ticks": 210,
 "when": "carried",
@@ -5886,7 +6328,7 @@
 "fromtheshadows:devil_splitter": {
 "fx": [
 {
-"heal": 6.0,
+"heal": null,
 "when": "hit",
 "who": "self"
 }
@@ -5895,7 +6337,7 @@
 "goety:bonehead_hammer": {
 "fx": [
 {
-"fire": 4,
+"fire": null,
 "when": "hit",
 "who": "target"
 }
@@ -5904,7 +6346,7 @@
 "goety:dark_metal_scythe": {
 "fx": [
 {
-"fire": 4,
+"fire": null,
 "when": "hit",
 "who": "target"
 }
@@ -5913,7 +6355,7 @@
 "goety:dark_scythe": {
 "fx": [
 {
-"fire": 4,
+"fire": null,
 "when": "hit",
 "who": "target"
 }
@@ -5922,7 +6364,7 @@
 "goety:death_scythe": {
 "fx": [
 {
-"fire": 4,
+"fire": null,
 "when": "hit",
 "who": "target"
 }
@@ -5931,7 +6373,7 @@
 "goety:great_hammer": {
 "fx": [
 {
-"fire": 4,
+"fire": null,
 "when": "hit",
 "who": "target"
 }
@@ -5940,7 +6382,7 @@
 "goety:stormlander": {
 "fx": [
 {
-"fire": 4,
+"fire": null,
 "when": "hit",
 "who": "target"
 }
@@ -6044,7 +6486,7 @@
 "goetyawaken:frost_scythe": {
 "fx": [
 {
-"fire": 4,
+"fire": null,
 "when": "hit",
 "who": "target"
 }
@@ -6249,7 +6691,7 @@
 "effect": "legendary_monsters:unbreakable",
 "level": 1,
 "name": "Unbreakable",
-"ticks": 4,
+"ticks": null,
 "when": "worn",
 "who": "self"
 },
@@ -6266,7 +6708,7 @@
 "effect": "legendary_monsters:unbreakable",
 "level": 1,
 "name": "Unbreakable",
-"ticks": 4,
+"ticks": null,
 "when": "worn",
 "who": "self"
 },
@@ -6283,7 +6725,7 @@
 "effect": "legendary_monsters:unbreakable",
 "level": 1,
 "name": "Unbreakable",
-"ticks": 4,
+"ticks": null,
 "when": "worn",
 "who": "self"
 },
@@ -6300,7 +6742,7 @@
 "effect": "legendary_monsters:unbreakable",
 "level": 1,
 "name": "Unbreakable",
-"ticks": 4,
+"ticks": null,
 "when": "worn",
 "who": "self"
 },
@@ -6345,7 +6787,7 @@
 "fx": [
 {
 "effect": "lethality:acid_venom",
-"level": 1,
+"level": null,
 "name": "Acid Venom",
 "ticks": 80,
 "when": "hit",
@@ -6353,7 +6795,7 @@
 },
 {
 "effect": "lethality:hellfire",
-"level": 1,
+"level": null,
 "name": "Hellfire",
 "ticks": 80,
 "when": "hit",
@@ -6390,7 +6832,7 @@
 "fx": [
 {
 "effect": "lethality:acid_venom",
-"level": 1,
+"level": null,
 "name": "Acid Venom",
 "ticks": 40,
 "when": "hit",
@@ -6402,7 +6844,7 @@
 "fx": [
 {
 "effect": "lethality:acid_venom",
-"level": 1,
+"level": null,
 "name": "Acid Venom",
 "ticks": 200,
 "when": "hit",
@@ -6410,7 +6852,7 @@
 },
 {
 "effect": "lethality:hellfire",
-"level": 1,
+"level": null,
 "name": "Hellfire",
 "ticks": 200,
 "when": "hit",
@@ -6422,7 +6864,7 @@
 "fx": [
 {
 "effect": "lethality:nyxium_fire",
-"level": 1,
+"level": null,
 "name": "Nyxium Fire",
 "ticks": 200,
 "when": "hit",
@@ -6439,7 +6881,7 @@
 "fx": [
 {
 "effect": "lethality:nyxium_fire",
-"level": 1,
+"level": null,
 "name": "Nyxium Fire",
 "ticks": 100,
 "when": "hit",
@@ -6473,7 +6915,7 @@
 "fx": [
 {
 "effect": "lethality:hex_flames",
-"level": 1,
+"level": null,
 "name": "Flames Hex",
 "ticks": 100,
 "when": "hit",
@@ -6481,7 +6923,7 @@
 },
 {
 "effect": "lethality:stained_calamity",
-"level": 1,
+"level": null,
 "name": "Stained Calamity",
 "ticks": 60,
 "when": "hit",
@@ -6493,7 +6935,7 @@
 "fx": [
 {
 "effect": "lethality:hex_flames",
-"level": 1,
+"level": null,
 "name": "Flames Hex",
 "ticks": 100,
 "when": "hit",
@@ -6501,7 +6943,7 @@
 },
 {
 "effect": "lethality:stained_calamity",
-"level": 1,
+"level": null,
 "name": "Stained Calamity",
 "ticks": 60,
 "when": "hit",
@@ -6620,7 +7062,7 @@
 "lethality:nightfall": {
 "fx": [
 {
-"heal": 0.6,
+"heal": null,
 "when": "use",
 "who": "self"
 },
@@ -6662,7 +7104,7 @@
 "fx": [
 {
 "effect": "lethality:hex_flames",
-"level": 1,
+"level": null,
 "name": "Flames Hex",
 "ticks": 100,
 "when": "hit",
@@ -6670,7 +7112,7 @@
 },
 {
 "effect": "lethality:stained_calamity",
-"level": 1,
+"level": null,
 "name": "Stained Calamity",
 "ticks": 60,
 "when": "hit",
@@ -6694,7 +7136,7 @@
 "fx": [
 {
 "effect": "lethality:hex_flames",
-"level": 1,
+"level": null,
 "name": "Flames Hex",
 "ticks": 100,
 "when": "hit",
@@ -6702,7 +7144,7 @@
 },
 {
 "effect": "lethality:stained_calamity",
-"level": 1,
+"level": null,
 "name": "Stained Calamity",
 "ticks": 60,
 "when": "hit",
@@ -6714,7 +7156,7 @@
 "fx": [
 {
 "effect": "lethality:hex_flames",
-"level": 1,
+"level": null,
 "name": "Flames Hex",
 "ticks": 100,
 "when": "hit",
@@ -6722,7 +7164,7 @@
 },
 {
 "effect": "lethality:stained_calamity",
-"level": 1,
+"level": null,
 "name": "Stained Calamity",
 "ticks": 60,
 "when": "hit",
@@ -6738,7 +7180,7 @@
 "meetyourfight:depth_star": {
 "fx": [
 {
-"fire": 4,
+"fire": null,
 "when": "release",
 "who": "target"
 }
@@ -6760,7 +7202,7 @@
 "mekaweapons:meka_gun": {
 "fx": [
 {
-"fire": 0,
+"fire": null,
 "when": "use",
 "who": "target"
 }
@@ -6812,9 +7254,9 @@
 "fx": [
 {
 "effect": "minecraft:poison",
-"level": 1,
+"level": 4,
 "name": "Poison",
-"ticks": 3,
+"ticks": null,
 "when": "hit",
 "who": "target"
 }
@@ -6889,6 +7331,42 @@
 "mowziesmobs:wrought_helmet": {
 "tip": [
 "Never breaks"
+]
+},
+"mutantmonsters:mutant_skeleton_boots": {
+"fx": [
+{
+"effect": "minecraft:speed",
+"level": 2,
+"name": "Speed",
+"ticks": 100,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"mutantmonsters:mutant_skeleton_chestplate": {
+"fx": [
+{
+"effect": "minecraft:speed",
+"level": 2,
+"name": "Speed",
+"ticks": 100,
+"when": "carried",
+"who": "self"
+}
+]
+},
+"mutantmonsters:mutant_skeleton_leggings": {
+"fx": [
+{
+"effect": "minecraft:speed",
+"level": 2,
+"name": "Speed",
+"ticks": 100,
+"when": "carried",
+"who": "self"
+}
 ]
 },
 "naturesaura:depth_sword": {
@@ -7011,7 +7489,7 @@
 "fx": [
 {
 "effect": "opposing_force:slug_infestation",
-"level": 1,
+"level": null,
 "name": "Slug Infestation",
 "ticks": 400,
 "when": "hit",
@@ -7086,6 +7564,14 @@
 },
 {
 "effect": "simplymore:grotesque_ward",
+"level": null,
+"name": "Warded Evil",
+"ticks": 50,
+"when": "carried",
+"who": "self"
+},
+{
+"effect": "simplymore:grotesque_ward",
 "level": 1,
 "name": "Warded Evil",
 "ticks": 50,
@@ -7116,17 +7602,17 @@
 },
 {
 "effect": "minecraft:poison",
-"level": 1,
+"level": 2,
 "name": "Poison",
-"ticks": 1,
+"ticks": null,
 "when": "use",
 "who": "self"
 },
 {
 "effect": "minecraft:speed",
-"level": 1,
+"level": 2,
 "name": "Speed",
-"ticks": 1,
+"ticks": null,
 "when": "use",
 "who": "self"
 }
@@ -7156,7 +7642,7 @@
 "effect": "minecraft:nausea",
 "level": 1,
 "name": "Nausea",
-"ticks": 150,
+"ticks": null,
 "when": "release",
 "who": "self"
 }
@@ -7183,14 +7669,14 @@
 },
 {
 "effect": "simplymore:soul_health",
-"level": 2,
+"level": null,
 "name": "Soul Health",
-"ticks": 100,
+"ticks": null,
 "when": "use",
 "who": "self"
 },
 {
-"heal": 2.0,
+"heal": null,
 "when": "use",
 "who": "self"
 },
@@ -7198,13 +7684,13 @@
 "effect": "simplymore:hex",
 "level": 1,
 "name": "Hex",
-"ticks": 0,
+"ticks": null,
 "when": "use",
 "who": "self"
 },
 {
 "effect": "simplymore:hex",
-"level": 1,
+"level": null,
 "name": "Hex",
 "ticks": null,
 "when": "hit",
@@ -7238,7 +7724,7 @@
 "fx": [
 {
 "effect": "simplymore:bleed",
-"level": 1,
+"level": null,
 "name": "Bleeding",
 "ticks": null,
 "when": "hit",
@@ -7278,6 +7764,14 @@
 },
 "simplymore:earthshatter": {
 "fx": [
+{
+"effect": "simplymore:armor_crunch",
+"level": null,
+"name": "Armour Crunch",
+"ticks": 200,
+"when": "hit",
+"who": "target"
+},
 {
 "effect": "simplymore:armor_crunch",
 "level": 1,
@@ -7324,7 +7818,7 @@
 "fx": [
 {
 "effect": "simplymore:starlight",
-"level": 1,
+"level": null,
 "name": "Starlight",
 "ticks": null,
 "when": "hit",
@@ -7334,7 +7828,7 @@
 "effect": "simplymore:starlight",
 "level": 1,
 "name": "Starlight",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "self"
 },
@@ -7384,7 +7878,7 @@
 "effect": "simplymore:chill",
 "level": 1,
 "name": "Chill",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "target"
 },
@@ -7392,15 +7886,15 @@
 "effect": "simplymore:chill",
 "level": 1,
 "name": "Chill",
-"ticks": 0,
+"ticks": null,
 "when": "use",
 "who": "self"
 },
 {
 "effect": "minecraft:slowness",
-"level": 1,
+"level": 4,
 "name": "Slowness",
-"ticks": 3,
+"ticks": null,
 "when": "use",
 "who": "self"
 }
@@ -7419,7 +7913,7 @@
 "effect": "simplymore:venom",
 "level": 1,
 "name": "Toxic",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "target"
 },
@@ -7427,7 +7921,7 @@
 "effect": "minecraft:poison",
 "level": 1,
 "name": "Poison",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "target"
 }
@@ -7514,7 +8008,7 @@
 "fx": [
 {
 "effect": "simplymore:radiant_mark",
-"level": 1,
+"level": null,
 "name": "Radiant Mark",
 "ticks": null,
 "when": "hit",
@@ -7583,7 +8077,7 @@
 },
 {
 "effect": "minecraft:speed",
-"level": 1,
+"level": null,
 "name": "Speed",
 "ticks": 25,
 "when": "carried",
@@ -7638,7 +8132,7 @@
 "fx": [
 {
 "effect": "simplymore:bloom",
-"level": 1,
+"level": null,
 "name": "Bloom",
 "ticks": null,
 "when": "hit",
@@ -7646,9 +8140,9 @@
 },
 {
 "effect": "simplymore:bloom",
-"level": 1,
+"level": null,
 "name": "Bloom",
-"ticks": 8,
+"ticks": null,
 "when": "use",
 "who": "self"
 }
@@ -7668,13 +8162,13 @@
 "effect": "simplymore:bleed",
 "level": 1,
 "name": "Bleeding",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "target"
 },
 {
 "effect": "simplymore:ravenous",
-"level": 1,
+"level": 2,
 "name": "Ravenous",
 "ticks": null,
 "when": "release",
@@ -7684,7 +8178,7 @@
 "effect": "simplymore:bleed",
 "level": 1,
 "name": "Bleeding",
-"ticks": 0,
+"ticks": null,
 "when": "release",
 "who": "self"
 }
@@ -7740,15 +8234,15 @@
 "effect": "minecraft:wither",
 "level": 1,
 "name": "Wither",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "target"
 },
 {
 "effect": "simplymore:withering_fate",
-"level": 1,
+"level": null,
 "name": "Withering Fate",
-"ticks": 1,
+"ticks": null,
 "when": "hit",
 "who": "target"
 },
@@ -7778,7 +8272,7 @@
 "effect": "simplymore:soul_lock",
 "level": 1,
 "name": "Soul Lock",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "target"
 },
@@ -7792,9 +8286,9 @@
 },
 {
 "effect": "minecraft:slowness",
-"level": 1,
+"level": 4,
 "name": "Slowness",
-"ticks": 3,
+"ticks": null,
 "when": "use",
 "who": "self"
 },
@@ -7802,15 +8296,15 @@
 "effect": "minecraft:blindness",
 "level": 1,
 "name": "Blindness",
-"ticks": 0,
+"ticks": null,
 "when": "use",
 "who": "self"
 },
 {
 "effect": "minecraft:wither",
-"level": 1,
+"level": 2,
 "name": "Wither",
-"ticks": 1,
+"ticks": null,
 "when": "use",
 "who": "self"
 }
@@ -7855,7 +8349,7 @@
 "effect": "simplymore:bleed",
 "level": 1,
 "name": "Bleeding",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "target"
 },
@@ -7863,7 +8357,7 @@
 "effect": "simplymore:harvest",
 "level": 1,
 "name": "Sanguine Harvest",
-"ticks": 0,
+"ticks": null,
 "when": "use",
 "who": "self"
 }
@@ -7894,7 +8388,7 @@
 "effect": "simplymore:bleed",
 "level": 1,
 "name": "Bleeding",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "target"
 },
@@ -7902,7 +8396,7 @@
 "effect": "simplymore:rage",
 "level": 1,
 "name": "Adrenaline Rage",
-"ticks": 0,
+"ticks": null,
 "when": "use",
 "who": "self"
 },
@@ -7931,7 +8425,7 @@
 "effect": "simplymore:tidebreaker_rain",
 "level": 1,
 "name": "Madness Rain",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "self"
 }
@@ -7963,9 +8457,9 @@
 },
 {
 "effect": "minecraft:slowness",
-"level": 1,
+"level": 4,
 "name": "Slowness",
-"ticks": 3,
+"ticks": null,
 "when": "use",
 "who": "self"
 }
@@ -8008,7 +8502,7 @@
 "fx": [
 {
 "effect": "minecraft:regeneration",
-"level": 9,
+"level": null,
 "name": "Regeneration",
 "ticks": 40,
 "when": "hit",
@@ -8028,7 +8522,7 @@
 "fx": [
 {
 "effect": "minecraft:regeneration",
-"level": 9,
+"level": null,
 "name": "Regeneration",
 "ticks": 40,
 "when": "hit",
@@ -8050,15 +8544,15 @@
 "effect": "minecraft:strength",
 "level": 1,
 "name": "Strength",
-"ticks": 0,
+"ticks": null,
 "when": "release",
 "who": "self"
 },
 {
 "effect": "minecraft:speed",
-"level": 1,
+"level": 2,
 "name": "Speed",
-"ticks": 1,
+"ticks": null,
 "when": "release",
 "who": "self"
 },
@@ -8066,7 +8560,7 @@
 "effect": "minecraft:haste",
 "level": 1,
 "name": "Haste",
-"ticks": 0,
+"ticks": null,
 "when": "release",
 "who": "self"
 }
@@ -8075,7 +8569,7 @@
 "simplyswords:emberlash": {
 "fx": [
 {
-"heal": 100.0,
+"heal": null,
 "when": "use",
 "who": "self"
 }
@@ -8097,7 +8591,7 @@
 "fx": [
 {
 "effect": "minecraft:slowness",
-"level": 4,
+"level": null,
 "name": "Slowness",
 "ticks": 120,
 "when": "carried",
@@ -8123,9 +8617,9 @@
 "fx": [
 {
 "effect": "simplyswords:magistorm",
-"level": 1,
+"level": 2,
 "name": "Magistorm",
-"ticks": 1,
+"ticks": null,
 "when": "use",
 "who": "self"
 }
@@ -8149,7 +8643,7 @@
 },
 {
 "effect": "simplyswords:resilience",
-"level": 1,
+"level": null,
 "name": "Resilience",
 "ticks": 15,
 "when": "use",
@@ -8173,7 +8667,7 @@
 "fx": [
 {
 "effect": "minecraft:weakness",
-"level": 1,
+"level": null,
 "name": "Weakness",
 "ticks": null,
 "when": "hit",
@@ -8183,13 +8677,13 @@
 "effect": "minecraft:weakness",
 "level": 1,
 "name": "Weakness",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "target"
 },
 {
 "effect": "minecraft:slowness",
-"level": 1,
+"level": null,
 "name": "Slowness",
 "ticks": null,
 "when": "hit",
@@ -8199,7 +8693,7 @@
 "effect": "minecraft:slowness",
 "level": 1,
 "name": "Slowness",
-"ticks": 0,
+"ticks": null,
 "when": "hit",
 "who": "target"
 },
@@ -8213,7 +8707,7 @@
 "simplyswords:stars_edge": {
 "fx": [
 {
-"heal": 0.0,
+"heal": null,
 "when": "hit",
 "who": "self"
 }
@@ -9045,7 +9539,7 @@
 "fx": [
 {
 "effect": "traveloptics:phantom_rage",
-"level": 1,
+"level": null,
 "name": "Phantom Rage",
 "ticks": 300,
 "when": "carried",
@@ -9057,7 +9551,7 @@
 "fx": [
 {
 "effect": "traveloptics:phantom_rage",
-"level": 1,
+"level": null,
 "name": "Phantom Rage",
 "ticks": 300,
 "when": "carried",
@@ -9069,7 +9563,7 @@
 "fx": [
 {
 "effect": "traveloptics:phantom_rage",
-"level": 1,
+"level": null,
 "name": "Phantom Rage",
 "ticks": 300,
 "when": "carried",
@@ -9081,7 +9575,7 @@
 "fx": [
 {
 "effect": "traveloptics:phantom_rage",
-"level": 1,
+"level": null,
 "name": "Phantom Rage",
 "ticks": 300,
 "when": "carried",
@@ -9137,6 +9631,28 @@
 }
 ]
 },
+"traveloptics:flames_of_eldritch_level_three": {
+"fx": [
+{
+"chance": 0.6,
+"effect": "traveloptics:blazing_brand",
+"level": null,
+"name": "Blazing Brand",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+},
+{
+"chance": 0.6,
+"effect": "traveloptics:blazing_brand",
+"level": 1,
+"name": "Blazing Brand",
+"ticks": 100,
+"when": "hit",
+"who": "target"
+}
+]
+},
 "traveloptics:forlorn_harbinger_boots": {
 "fx": [
 {
@@ -9149,7 +9665,7 @@
 },
 {
 "effect": "traveloptics:crimson_descend",
-"level": 1,
+"level": null,
 "name": "Crimson Descend",
 "ticks": 12000,
 "when": "carried",
@@ -9169,7 +9685,7 @@
 },
 {
 "effect": "traveloptics:crimson_descend",
-"level": 1,
+"level": null,
 "name": "Crimson Descend",
 "ticks": 12000,
 "when": "carried",
@@ -9189,7 +9705,7 @@
 },
 {
 "effect": "traveloptics:crimson_descend",
-"level": 1,
+"level": null,
 "name": "Crimson Descend",
 "ticks": 12000,
 "when": "carried",
@@ -9209,11 +9725,24 @@
 },
 {
 "effect": "traveloptics:crimson_descend",
-"level": 1,
+"level": null,
 "name": "Crimson Descend",
 "ticks": 12000,
 "when": "carried",
 "who": "self"
+}
+]
+},
+"traveloptics:harbingers_wrath_level_three": {
+"fx": [
+{
+"chance": 0.2,
+"effect": "traveloptics:stun",
+"level": 1,
+"name": "Stun",
+"ticks": 60,
+"when": "hit",
+"who": "target"
 }
 ]
 },
@@ -9269,6 +9798,19 @@
 "ticks": 200,
 "when": "carried",
 "who": "self"
+}
+]
+},
+"traveloptics:the_obliterator_level_three": {
+"fx": [
+{
+"chance": 0.45,
+"effect": "traveloptics:abyssal_curse",
+"level": 2,
+"name": "Abyssal Curse",
+"ticks": 100,
+"when": "hit",
+"who": "target"
 }
 ]
 },

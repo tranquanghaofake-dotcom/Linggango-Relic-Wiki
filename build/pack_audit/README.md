@@ -25,8 +25,8 @@ MCPConfig 1.20.1-20230612.114412 joined.tsrg (SRG member names).
   composite entries, `alternatives` = first that passes, pools as a union, `set_count` ranges); `loot_chance.py`,
   `side_bosses/loot.py`, `drops.py` and `chests.py` use it. Luck, quality and bonus rolls are taken at luck 0.
 - `render_page.js`: opens a three.js page (`geo_icon_render.html`, `armor_render.html`, `side_bosses/jrender.html`) in
-  headless Chromium in place; the pages import `../geo2three.js` and `build/node_modules/three` (installed by
-  `bash build/fx3d_build.sh --check`), so nothing is copied as `r.html` / `armor.html` any more. `PW_CHROMIUM` picks
+  headless Chromium in place; the pages import `../geo2three.js` and `build/node_modules/three` (`npm install
+  --no-package-lock --prefix build`), so nothing is copied as `r.html` / `armor.html` any more. `PW_CHROMIUM` picks
   another Chromium binary.
 
 ## kubejs/: measuring gear in game

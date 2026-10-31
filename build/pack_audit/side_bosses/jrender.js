@@ -1,5 +1,5 @@
 // Drives jrender.html: renders every model in IN (jmodel.py output joined with its texture: {name: {model, tex, yaw?}})
-// and writes OUT {name: base64 png}. Usage: node jrender.js IN OUT   (bash build/fx3d_build.sh --check first; see ../render_page.js)
+// and writes OUT {name: base64 png}. Usage: node jrender.js IN OUT   (npm install --no-package-lock --prefix build first; see ../render_page.js)
 const fs = require('fs'), open = require('../render_page');
 (async () => {
   const [inp, outp] = process.argv.slice(2).slice(-2);   // an older call passed a DIR first: ignored, the page is opened in place

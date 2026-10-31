@@ -1,6 +1,6 @@
 // Drives geo_icon_render.html: GeckoLib item models (IN_GEO {id: {geo, tex}}) and JSON element models
 // (IN_JAVA {id: {el, tex, gui}}) drawn as inventory icons -> OUT {id: base64 png}. Run from the work dir:
-//   node build/pack_audit/geo_icon_render.js [geo_icons.json] [java_icons.json] [geo_out.json]   (bash build/fx3d_build.sh --check first: it installs three)
+//   node build/pack_audit/geo_icon_render.js [geo_icons.json] [java_icons.json] [geo_out.json]   (npm install --no-package-lock --prefix build first: it installs three)
 const fs = require('fs'), open = require('./render_page');
 (async () => {
   const [gi = 'geo_icons.json', ji = 'java_icons.json', outp = 'geo_out.json'] = process.argv.slice(2);

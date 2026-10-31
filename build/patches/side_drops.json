@@ -6,13 +6,19 @@
 "id": "minecraft:emerald",
 "n": "Emerald",
 "chance": "100%",
-"count": "4–16"
+"count": "4–16",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "goety:treasure_pouch",
 "n": "Treasure Pouch",
 "chance": "100%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 }
 ]
 },
@@ -23,55 +29,61 @@
 "id": "minecraft:book",
 "n": "Book",
 "chance": "100%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "goety:treasure_pouch",
 "n": "Treasure Pouch",
 "chance": "100%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "minecraft:stick",
 "n": "Stick",
-"chance": "82%",
-"count": "0–4"
+"chance": "62%",
+"count": "1–4"
 },
 {
 "id": "minecraft:glowstone_dust",
 "n": "Glowstone Dust",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 },
 {
 "id": "minecraft:sugar",
 "n": "Sugar",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 },
 {
 "id": "minecraft:redstone",
 "n": "Redstone",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 },
 {
 "id": "minecraft:spider_eye",
 "n": "Spider Eye",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 },
 {
 "id": "minecraft:glass_bottle",
 "n": "Glass Bottle",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 },
 {
 "id": "minecraft:gunpowder",
 "n": "Gunpowder",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 }
 ]
 },
@@ -82,49 +94,55 @@
 "id": "minecraft:book",
 "n": "Book",
 "chance": "100%",
-"count": "0–4"
+"count": "1–4",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "goety:treasure_pouch",
 "n": "Treasure Pouch",
 "chance": "100%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "minecraft:glowstone_dust",
 "n": "Glowstone Dust",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 },
 {
 "id": "minecraft:golden_carrot",
 "n": "Golden Carrot",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 },
 {
 "id": "minecraft:redstone",
 "n": "Redstone",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 },
 {
 "id": "minecraft:magma_cream",
 "n": "Magma Cream",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 },
 {
 "id": "minecraft:gold_ingot",
 "n": "Gold Ingot",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 },
 {
 "id": "minecraft:gunpowder",
 "n": "Gunpowder",
-"chance": "55%",
-"count": "0–4"
+"chance": "37%",
+"count": "1–4"
 }
 ]
 },
@@ -135,13 +153,19 @@
 "id": "goety:treasure_pouch",
 "n": "Treasure Pouch",
 "chance": "100%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "minecraft:skeleton_skull",
 "n": "Skeleton Skull",
 "chance": "25%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 }
 ]
 },
@@ -149,40 +173,13 @@
 "src": "mod loot table: goety:entities/wither_necromancer",
 "drops": [
 {
-"id": "minecraft:blaze_rod",
-"n": "Blaze Rod",
-"chance": "100%",
-"count": "0–2"
-},
-{
-"id": "minecraft:netherite_scrap",
-"n": "Netherite Scrap",
-"chance": "100%",
-"count": "0–2"
-},
-{
-"id": "goety:ectoplasm",
-"n": "Ectoplasm",
-"chance": "100%",
-"count": "0–1"
-},
-{
-"id": "goety:grave_dust",
-"n": "Grave Dust",
-"chance": "100%",
-"count": "0–1"
-},
-{
-"id": "minecraft:bone",
-"n": "Bone",
-"chance": "100%",
-"count": "0–2"
-},
-{
 "id": "goety:treasure_pouch",
 "n": "Treasure Pouch",
 "chance": "100%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "goety:withered_manuscript",
@@ -191,28 +188,58 @@
 "count": "1"
 },
 {
+"id": "minecraft:blaze_rod",
+"n": "Blaze Rod",
+"chance": "67%",
+"count": "1–2"
+},
+{
+"id": "minecraft:netherite_scrap",
+"n": "Netherite Scrap",
+"chance": "67%",
+"count": "1–2"
+},
+{
+"id": "minecraft:bone",
+"n": "Bone",
+"chance": "67%",
+"count": "1–2"
+},
+{
+"id": "goety:ectoplasm",
+"n": "Ectoplasm",
+"chance": "50%",
+"count": "1"
+},
+{
+"id": "goety:grave_dust",
+"n": "Grave Dust",
+"chance": "33%",
+"count": "1"
+},
+{
 "id": "goety:forbidden_piece",
 "n": "Forbidden Piece",
-"chance": "2%",
-"count": "1"
+"chance": "3%",
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "minecraft:wither_skeleton_skull",
 "n": "Wither Skeleton Skull",
-"chance": "2%",
-"count": "1"
+"chance": "3%",
+"count": "1",
+"cond": [
+"killed by a player"
+]
 }
 ]
 },
 "Brood Mother": {
 "src": "mod loot table: goety:entities/brood_mother",
 "drops": [
-{
-"id": "minecraft:cobweb",
-"n": "Cobweb",
-"chance": "100%",
-"count": "0–4"
-},
 {
 "id": "goety:spider_egg",
 "n": "Spider Egg",
@@ -229,19 +256,34 @@
 "id": "minecraft:spider_eye",
 "n": "Spider Eye",
 "chance": "100%",
-"count": "1–2"
+"count": "1–2",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "goety:treasure_pouch",
 "n": "Treasure Pouch",
 "chance": "100%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
+},
+{
+"id": "minecraft:cobweb",
+"n": "Cobweb",
+"chance": "80%",
+"count": "1–4"
 },
 {
 "id": "goety:spider_nest",
 "n": "Spider Nest",
 "chance": "11%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 }
 ]
 },
@@ -269,8 +311,11 @@
 {
 "id": "goety:music_disc_enderman",
 "n": "Music Disc",
-"chance": "2%",
-"count": "1"
+"chance": "3%",
+"count": "1",
+"cond": [
+"killed by a player"
+]
 }
 ]
 },
@@ -287,13 +332,19 @@
 "id": "goety:treasure_pouch",
 "n": "Treasure Pouch",
 "chance": "100%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "goety:music_disc_keeper",
 "n": "Music Disc",
 "chance": "10%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 }
 ]
 },
@@ -322,7 +373,10 @@
 "id": "goety:treasure_pouch",
 "n": "Treasure Pouch",
 "chance": "100%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 }
 ]
 },
@@ -333,31 +387,46 @@
 "id": "mowziesmobs:sculptor_staff",
 "n": "Geomancer Staff",
 "chance": "20%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "mowziesmobs:geomancer_beads",
 "n": "Geomancer Beads",
 "chance": "20%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "mowziesmobs:geomancer_robe",
 "n": "Geomancer Robe",
 "chance": "20%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "mowziesmobs:geomancer_belt",
 "n": "Geomancer Belt",
 "chance": "20%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "mowziesmobs:geomancer_sandals",
 "n": "Geomancer Sandals",
 "chance": "20%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 }
 ]
 },
@@ -450,13 +519,19 @@
 "id": "goety:treasure_pouch",
 "n": "Treasure Pouch",
 "chance": "100%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 },
 {
 "id": "goety:music_disc_vizier",
 "n": "Music Disc",
 "chance": "25%",
-"count": "1"
+"count": "1",
+"cond": [
+"killed by a player"
+]
 }
 ]
 }

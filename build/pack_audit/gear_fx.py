@@ -193,6 +193,7 @@ def scan(body, roles, own, depth, seen, out, when, base=1.0):
             elif re.search(r"\.m_5634_:\(F\)V", com):  # heal
                 out.append({"when": when, "who": roles.get(recv.v, "self") if recv.k == "L" else "self", "heal": args[0].v if args[0].k == "N" else None})
             elif recv is not None and recv.k == "F" and name in ("get", "value", "m_203334_"): res = recv  # RegistryObject.get / Holder.value: still that effect
+            elif op == "invokestatic" and len(args) == 1 and args[0].k == "F" and ret.startswith("L"): res = args[0]  # a static unwrap such as Simply Swords' EffectRegistry.getReference(RegistrySupplier)
             elif depth < 2 and owner in (None, own) and name not in seen:  # the class's own helper: follow it once
                 seen.add(name); out.append(("CALL", name, when, chance(p)))
             for e in args:  # target.addEffect(instance): whose effect it is, from the receiver

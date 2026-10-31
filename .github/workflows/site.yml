@@ -30,8 +30,6 @@ jobs:
         # apply_all.sh rewrites build/src/data.js and build/patches/curio_tiers.json in place;
         # a diff here means they were committed without running the build.
         run: git diff --exit-code -- build
-      - name: fx3d.js bundle is reproducible
-        run: bash build/fx3d_build.sh --check
       - name: Assemble the site
         run: |
           mkdir -p _site

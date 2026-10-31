@@ -3,8 +3,8 @@ Usage: loot_chance.py JARS_DIR  -> build/patches/side_drops.json {boss: {"src", 
 Reads each boss's entity loot table from the mod jars and works the chance of at least one out with ../lootlib.py (vanilla
 1.20.1 rules: rolls as a distribution, conditions, composite entries, nested tables, pools combined; luck 0). count is the stack
 size when it drops; cond names conditions taken as met (killed by a player...). A boss with several entities keeps the best
-table per item. The pack's own kubejs/data loot overrides are not read here (no pack zip): the page says the chance is
-the mod's."""
+table per item. The pack's own kubejs/data has no loot table for these entities (checked on 6.6.6hf, 2026-10-31), so the
+mod's table is the pack's."""
 import json, zipfile, glob, sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 import lootlib

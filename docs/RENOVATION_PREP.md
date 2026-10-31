@@ -85,44 +85,54 @@ renovation starts. The look itself is not decided here: any change to the overal
   unless the item's tooltip states it (Royal Guardian Sword's "Pulverized XXV for 3 ticks" stays, and the game's own
   measurement agrees); 18 lines are shown as "number not read reliably" and not scored.
 
+## Second pass, same day: deployed ("triển khai tất cả")
+- **The pack was downloaded** (6.6.6hf zip, file 9304214, SHA-1 5485b9e4…; its 453 mods and resource packs by plain
+  `curl` from edge.forgecdn.net, names from `assets/sources.csv`), with Mojang's 1.20.1 server mappings and MCPConfig
+  1.20.1-20230612.114412 for the SRG → Mojang names `gear_fx.py` needs. The jars, the mappings and the map built from
+  them stay outside the repo: Mojang's mappings may not be redistributed complete and unmodified.
+- **Keeper portraits are pictures now.** The site drew the 20 Keepers in the reader's browser with three.js (`fx3d.js`,
+  496 KB, plus the models as `B3` in data.js). `pack_audit/boss_portraits.js` draws them once with the game's inventory
+  light (`vanillaMaterial`, `setupForEntityInInventory`), orthographic, no antialiasing, 256 px, shown 1:1 (128 px on
+  phones) → `patches/boss_portraits.json`; the models moved to `patches/boss_models.json` (tool input, not shipped).
+  `fx3d.js`, `fx3d.src.js`, `fx3d_build.sh` and the CI step are gone; `build/package.json` keeps three.js for the tools.
+- **The three.js tools use the game's light** (`geo2three.js` `VANILLA_LIGHT` + `vanillaMaterial`: entity and GUI-item
+  vectors from the bytecode) with antialiasing off: `armor_render.html`, `geo_icon_render.html`, `side_bosses/jrender.html`.
+- **Armor stands re-rendered** (122 sets already on the site; `armor_pack.py`, lossless PNG, 1.5 MB → 0.66 MB) after
+  fixing the mannequin: hat layer, legs at 0.9/0.4 as `HumanoidArmorModel`, GeckoLib armour bones posed with the limbs.
+  The prep matched 57 more sets, but most came out as a bare mannequin (wrong texture), so they were left out.
+- **Effects re-read from the jars** with the fixed `gear_fx.py` (see the numbers in NOTES). Checked against bytecode where
+  the reading changed: Goety's scythes set fire for `fireAspect × 4` (a variable, so unknown, not "4 s"); Blood Magic's
+  sentient weapons give Absorption at amplifier 127 for a time read from an array (so 128, not "level 1, 127 ticks");
+  Mowzie's Naga Fang now reads Poison IV, as the game measured. One regression found and fixed on the way: Simply Swords
+  passes its effects through a static `getReference(...)`, which the stack pass lost.
+- **Side-boss drop chances re-read** with `lootlib.py` (18 bosses): Crone's glowstone 55 % → 37 % (3–6 rolls, 1 in 8,
+  a count of 0 drops nothing: worked out by hand), Wither Necromancer's ectoplasm 100 % → 50 % and so on.
+- `pixelfix.py` and its `palettes.py` moved from `workspace` to `build/pack_audit/`, fixed: an 8×8 sprite blown up ×12
+  comes back exactly.
+
 ## Still open, in the order to do them
-1. **Re-run the readers on the pack** with the fixes: `gear_fx.py` (effects; then `fx_doubt` should find nothing to
-   drop), the loot tools (side-boss drop chances in `side_drops.json`), `gear/recipes.py` (Acts can move where a pack
-   recipe replaced a mod's), the wide gear scan (mjvm's number and config fixes). Needs the pack downloaded
-   (`gear/dl.py`, a few GB); compare the JSON before and after, item by item, before committing. Smaller items found on
-   the way: `import_curios.py` guesses an attribute's default where `lgw_measure.js` could report it
-   (`getDefaultValue()`); Ferrous Wroughtnaut's damage may count Mowzie's multiplier twice (check in game);
-   `recheck.py`, `summons.py` and `goety.py` read KubeJS removals with a regex while `kubejs_recipes.js` already runs the
-   scripts; `gear_fx.py` does not read `nextInt` chances yet.
+1. **The gear table from the pack**: `recipes.py`'s fix (a pack recipe replaces the mod's) and mjvm's number fixes reach
+   the site only through a new wide gear scan (`gear/wide/README.md`: Forge 47.4.20's srg server jar, then every jar,
+   then `gear_data.py`), and its 2,000 items need comparing one by one before `gear_table.json` is replaced. Base stats
+   of 2,050 items come from the game's own dump and would not move; Acts could.
 2. **One class layer and one interpreter**: `classlib.py` on jawa (sorted class index, typed constants, descriptor
    slots) under mjvm, with jmodel, gear_fx and iss_armor as intrinsics tables instead of their own `javap` parsers;
    control flow by merging frames at branch targets (the design of ASM's Analyzer, BSD-3: learn the algorithm, do not
    port it). jmodel still runs a method straight through, so a loop body runs once.
-3. **Missing producers**: `attrs.py`, `reg.py`, `cfg.py` (inputs of `side_bosses/stats.py`), `fallback.py` (`merge.py`)
-   and `tools2/map.json` are on neither branch, so `side_stats.json` cannot be rebuilt. Recover or rewrite them.
-4. **One icon run through `mcassets`**: then retire `icon2.py`, `icon3.py`, `mkicons.py` and `gui_icons.py` (each walks
-   models its own way and takes the top-left square as the first frame) once its output matches or beats theirs.
-5. **Light and pixels in the three.js tools** (`jrender`, `armor_render`, `geo_icon_render`, and the site's `fx3d`):
-   three.js Lambert light in linear space gives 0.80–1.09 × the texel colour where the game gives 0.40–1.00 (never
-   brighter); `antialias: true`; portraits shrunk with LANCZOS and saved as lossy WebP (`pack.py`, `imgs.py`: two
-   colours became thousands). Use the game's `minecraft_mix_light` (the vectors are in `block_render.LIGHTS`; portraits
-   use `setupForEntityInInventory`'s), no antialiasing, a whole scale, PNG. The site's portraits change with it, so this
-   needs the owner's go-ahead. Better still, draw the 20 portraits at build time with the numpy rasterizer and drop
-   `fx3d.js` (496 KB) and the boss models in `data.js` (~410 KB) from the page: `snapshot()` is the site's only use of it.
-6. **Model icons**: 181 icons are 128 px renders fitted to the canvas and shown at 32 or 16 px by dropping pixels (spear
-   and staff shafts break into dots). `geo_icon_render.html`'s element path also ignores rescale, the default face uv,
-   `translation`/`scale`, and invents a [30, 225, 0] view when the model has none (vanilla uses none). Route `kind: 'el'`
-   to `block_render.render_model` at 32 px and give GeckoLib items their item JSON's `display.gui`.
-7. **Armor stand** (`armor_render.html`): the GeckoLib armour bones are not posed with the mannequin, the helmet overlay
-   (hat layer) is missing, and the leg inflate is 1.0/0.5 where `HumanoidArmorModel` uses 0.9/0.4.
-8. **Tint colours**: `mcassets` can tint, but the colours are not read yet (spawn eggs, potions, leather; the Allay egg in
-   a smithing recipe is grey).
-9. **`pixelfix.py` on `workspace`** keys colours by `r>>3<<3` and writes the truncated colour ((255, 241, 103) became
-   (248, 240, 96)). Output the most common exact colour of each bucket. (Not changed here: `workspace` is an archive.)
-10. **Payload, next step**: 0.39 MB of `gear_data.js` is the same icon stored under several ids, and `wiki_data.js` carries
-   5.3 MB of WebP renders inline. An icon table referenced by index, and pictures loaded when their page opens, would
-   halve the first visit. This changes data formats read by `gear.js`/`app.js`, so it belongs to the renovation itself.
-11. **Before any visual change**: shoot the current build (`node build/shot.js <routes> --out <dir>`, at 1440 and 375),
+3. **Missing producers**: `attrs.py`, `reg.py`, `cfg.py` (inputs of `side_bosses/stats.py`, which also writes the
+   `ent_class.json` that `renders.py` needs), `fallback.py` (`merge.py`), `tools2/map.json`, and the step that packed
+   the GeckoLib side-boss renders (`boss_geo_out*.json`). Until they are rewritten the 37 side-boss portraits cannot be
+   redrawn with the game's light, so they still look like the old Keeper snapshots. Some of them are pictures taken
+   from fandom and wiki.gg pages (`wimg.py`): check each one's licence before the renovation keeps them.
+4. **Model icons** (181, drawn at 128 px and shown at 32 or 16 px): route `weapon_icons` element models to
+   `block_render.render_model` at 32 px, GeckoLib items through `geo_icon_render.html` (now with the GUI light) with
+   their item JSON's `display.gui`, and look at every icon before replacing; then one icon run through `mcassets` and
+   retire `icon2.py`, `icon3.py`, `mkicons.py`, `gui_icons.py`.
+5. **Tint colours**: `mcassets` can tint, but the colours are not read yet (spawn eggs: the two ints of
+   `SpawnEggItem`/`ForgeSpawnEggItem`; potions, leather; the Allay egg in a smithing recipe is grey).
+6. **Payload, next step**: 0.39 MB of `gear_data.js` is the same icon stored under several ids, and `wiki_data.js` carries
+   5 MB of WebP pictures inline. An icon table referenced by index, and pictures loaded when their page opens.
+7. **Before any visual change**: shoot the current build (`node build/shot.js <routes> --out <dir>`, at 1440 and 375),
    keep the folder, and compare every pass with `--diff`.
 
 ## Open-source code looked at (reference only; nothing copied)

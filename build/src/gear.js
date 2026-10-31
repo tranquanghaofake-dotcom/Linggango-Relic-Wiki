@@ -379,7 +379,9 @@ const GWHEN={hit:"On hit",worn:"While worn",carried:"While held or carried",use:
 const gRom=n=>["","I","II","III","IV","V","VI","VII","VIII","IX","X"][n]||String(n);
 function gFxLine(r){const who=r.who==="target"?"the target":"you",ch=(r.chance&&r.chance<1?` (${r.ms?`on ${Math.round(r.chance*3)} of 3 swings`:`${Math.round(r.chance*100)}% chance`})`:"")
   +(r.unseen?' <span class="kest">not seen in the test</span>':"")+(r.doubt?' <span class="kest">number not read reliably</span>':"");
- if(r.fire)return `Sets ${who} on fire for ${r.fire} s${ch}`;if(r.heal)return `Heals you ${gRound(r.heal)} health${ch}`;
+ // fire / heal read as null: the code works the amount out (Goety's scythes burn for Fire Aspect x 4 s)
+ if(r.fire!==undefined)return `Sets ${who} on fire${r.fire?` for ${r.fire} s`:", for a time the item's code works out"}${ch}`;
+ if(r.heal!==undefined)return `Heals you${r.heal?` ${gRound(r.heal)} health`:", by an amount the item's code works out"}${ch}`;
  const t=r.ticks>0?` for ${gRound(r.ticks/20)} s`:"";return `${esc(r.name||r.effect)}${r.level===null?"":" "+gRom(r.level||1)} on ${who}${t}${ch}${r.maybe?" (one of these, by the armor's material)":""}`}
 function gFxHtml(g){const fx=g.fx||[],tip=g.tip||[];if(!fx.length&&!tip.length)return "";
  const by={};fx.forEach(r=>(by[r.when]=by[r.when]||[]).push(r));

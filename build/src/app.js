@@ -247,7 +247,7 @@ function bossPage(k){
 <ul class="how"><li><b>${xs.length}</b> curios are first available in ${esc(actL(a))}${must.length?`, ${must.length} of them Must-Have: ${must.slice(0,6).map(d=>ilink(d.id)).join(", ")}`:""}.</li>${gated?`<li><b>${gated}</b> curios can only be worn once it is dead (Keeper-gated).</li>`:""}</ul>
 <p class="pbtn"><a class="mcb" href="#act/${a}">See ${xs.length} curios</a><a class="mcb" href="#gear/${a}/ME/w">Gear at ${esc(actL(a))}</a></p>`]:null;
  document.title=`${nm} · Linggango Wiki`;
- const stage=B3[k]?`<div class="stage" data-boss="${k}"></div>`:`<div class="ip-icon">${emblem(a,"lg")}</div>`;
+ const stage=BPORT[k]?`<div class="stage"><img alt="" src="data:image/png;base64,${BPORT[k]}"></div>`:`<div class="ip-icon">${emblem(a,"lg")}</div>`;
  el("main").innerHTML=article({cls:"r0 bossart",data:` data-boss-kind="${esc(k)}"`,style:`--tc:${ACT[a][2]};--rc:${ACT[a][2]}`,crumb:crumb(`<a href="#bosses">Bosses</a>`,esc(nm)),title:esc(nm),
   lead:side?`Optional side fight in <a href="#act/${a}">${esc(actL(a))}</a>: it drops its own curios.`:`${keeper?`The Keeper at the end of ${esc(ORDER[i-1]!=null?actL(ORDER[i-1]):"the start")}.`:"A fight the pack requires."} Defeat it to open <a href="#act/${a}">${esc(actL(a))}</a>.`,
   secs:[...secsOf(summonHtml(k),"sum"),(h=>h&&["stats","Stats",h])(keeperStats(k)),...secsOf(bossInfoHtml(k),"inf"),opens,
@@ -1366,7 +1366,6 @@ function outside(){
  el("main").innerHTML=`${crumb("Unobtainable")}<h1>Off the act</h1><p class="lede">${U.length} curios that exist in the pack or the added mods but can't be obtained through normal play.</p><div class="tw"><table><thead><tr><th></th><th>Curio</th><th>Mod</th><th>Reason</th></tr></thead><tbody>${U.map(u=>`<tr><td>${img(u.id)}</td><td>${esc(u.n)}<br><span class="meta">${esc(u.id)}</span></td><td>${esc(u.m)}</td><td>${esc(u.why)}</td></tr>`).join("")}</tbody></table></div>`}
 
 /* ---------- router ---------- */
-let snapQ=Promise.resolve();
 const tierIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("seen");tierIO.unobserve(e.target)}}),{rootMargin:"200px"});
 // tile icons only animate while on screen: hundreds of off-screen bobbing icons cost a frame each
 const tileIO=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle("vis",e.isIntersecting)),{rootMargin:"120px"});
@@ -1381,9 +1380,6 @@ function decorate(r=document){
  r.querySelectorAll(".tier:not(.seen):not([data-io])").forEach(t=>{t.dataset.io=1;tierIO.observe(t)});
  const hero=r.querySelector(".hero:not([data-done])");
  if(hero){hero.dataset.done=1;if(UI.bg){hero.classList.add("real");hero.style.setProperty("--hbg",`url(data:image/jpeg;base64,${UI.bg})`)}const w=hero.querySelector("img.wm");if(w&&UI.logo)w.src="data:image/png;base64,"+UI.logo}
- r.querySelectorAll(".bpt[data-snap]:not([data-done])").forEach(el=>{el.dataset.done=1;const k=el.dataset.snap,big=el.classList.contains("lg")||el.classList.contains("xl");
-  snapQ=snapQ.then(()=>window.Boss3D&&Boss3D.snapshot(k,big?240:120,big?240:120)).then(u=>{if(u)el.innerHTML=`<img alt="" src="${u}">`}).catch(()=>{})});
- r.querySelectorAll("[data-boss]:not([data-live])").forEach(el=>{el.dataset.live=1;const r=el.getBoundingClientRect();window.Boss3D&&Boss3D.snapshot(el.dataset.boss,Math.round(r.width)||300,Math.round(r.height)||300).then(u=>{if(u&&el.isConnected)el.innerHTML=`<img alt="" src="${u}" style="width:100%;height:100%;object-fit:contain">`}).catch(()=>{})});
  r.querySelectorAll("[data-an]:not([data-done])").forEach(el=>{el.dataset.done=1;const a=AN[el.dataset.an];if(!a)return;el.style.setProperty("--n",a[1]);el.style.setProperty("--ms",(a[1]*a[2])+"ms");el.insertAdjacentHTML("beforeend",`<img class="strip" alt="" src="data:image/png;base64,${a[0]}">`);el.classList.add("anim")});
 }
 function renderBase(){
@@ -1432,7 +1428,7 @@ const ART="#main .ip-icon .aimg img,#main .gbig img",DETAIL=/^#(i|gs|g)\d+$/;
 let navA=null;document.addEventListener("click",e=>{navA=e.target.closest("a[href^='#']")},true);
 const onScreen=n=>{if(!n)return null;const r=n.getBoundingClientRect();return r.width&&r.bottom>0&&r.top<innerHeight?n:null};
 addEventListener("hashchange",()=>{const from=lastHash,to=location.hash,a=pageOf(from),b=pageOf(to);lastHash=to;
- const go=()=>{hideTip();window.Boss3D&&Boss3D.unmountAll();render();decorate()};
+ const go=()=>{hideTip();render();decorate()};
  if(RM||!document.startViewTransition||(a===b&&!/^(i|g|gs|boss|side)$/.test(a))){go();return}
  const pn=[...document.querySelectorAll(".pnx a")].find(x=>x.getAttribute("href")===to),R=document.documentElement;
  let src=null,dst=null;
