@@ -4,11 +4,13 @@ Writes build/src/uiicons.js: Object.assign(ROOMT,{...}), so each texture is a CS
 Replaces the emoji and text glyphs the pages used as icons (lock, star, check, attack types, armor slots, sources), and gives
 four Acts' air a particle from the pack's own mods instead of a vanilla stand-in.
 
-Usage: python3 build/pack_audit/uiicons.py <vanilla textures> <asset library>
+Usage: python3 build/pack_audit/uiicons.py <vanilla textures> <asset library> [client-1.20.1.jar]
   vanilla  assets/minecraft/textures of InventivetalentDev/minecraft-assets@1.20.1 (af628ec0e7)   Minecraft Usage Guidelines
   library  assets/lib of the workspace branch (see assets/catalog.csv for each file's source, version and licence)
     goety/…/particle/*            Goety - The Dark Arts (Polarice3), jar in Linggango 6.6.6hf      MIT
     hexerei/…/particle/*          Hexerei (JoeFoxe), jar in Linggango 6.6.6hf                       MIT (mods.toml) / LGPL-3.0 (Modrinth); credited
+  client   Mojang's client jar, for the room items the game tints (TINTED): their model and the colour ItemColors gives
+           them, read by tints.py (needs javap). Without it they stay their untinted texture.
 Every library file is 16 px (or an 8 px particle) and goes in byte for byte. rf_0 … rf_6: rarity frames from rarity_frames.py.
 """
 import base64, io, pathlib, sys
@@ -19,6 +21,7 @@ import mob_faces       # mob faces cut from vanilla entity textures (mf_*)
 import gui_panels      # own work: raised panel, card and sunken well nine-slices (gp_*)
 import armor_stand     # armor stands wearing vanilla sets, from the game's armor textures (as_*)
 V, L = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
+CLIENT = sys.argv[3] if len(sys.argv) > 3 else None
 OUT = pathlib.Path(__file__).resolve().parents[1] / "src" / "uiicons.js"
 VANILLA = {  # key: item texture
     "ui_sword": "item/iron_sword", "ui_bow": "item/bow", "ui_arrow": "item/arrow", "ui_fire_charge": "item/fire_charge",
@@ -63,8 +66,22 @@ LIBRARY = {  # key: file in the library
     "rg_haunted_bookshelf": "goety/assets/goety/textures/block/haunted_bookshelf.png", "rg_brazier_soul": "goety/assets/goety/textures/block/brazier_soul_fire.png",
     "rg_brazier": "goety/assets/goety/textures/block/brazier_fire.png", "rg_soul_candlestick": "goety/assets/goety/textures/block/soul_candlestick.png",
 }
+# room items the game draws tinted: the item model's layers with the ItemColors colour multiplied in (mcassets.icon), the
+# textures from V, the model and the colour from the client jar. A potion item without NBT is the magenta "Uncraftable
+# Potion"; the room shows a Potion of Healing (the potion most players carry, red at a glance).
+TINTED = {"ri_potion": ("minecraft:potion", "minecraft:healing")}
 b64 = lambda p: base64.b64encode(p.read_bytes()).decode()
 items = {k: b64(V / f"{v}.png") for k, v in VANILLA.items()}
+if CLIENT:
+    import mcassets, tints
+    _A = mcassets.Assets([str(V.parents[2]), CLIENT])
+    _T = tints.Tints(CLIENT, colormap=lambda n: _A.texture("minecraft:colormap/" + n))
+    for k, (item, potion) in TINTED.items():
+        tint, src = _T.tint(item, max(_A.tint_indices(item)) + 1, potion=potion)
+        items[k] = mcassets.png_b64(_A.icon(item, 16, tint=tint))
+        print(k, item, {i: "#%06X" % c for i, c in tint.items()}, src)
+else:
+    print("no client jar: " + ", ".join(TINTED) + " keep their untinted texture")
 items.update({k: b64(L / v) for k, v in LIBRARY.items()})
 def png(im):
     buf = io.BytesIO(); im.save(buf, "PNG", optimize=True); return base64.b64encode(buf.getvalue()).decode()

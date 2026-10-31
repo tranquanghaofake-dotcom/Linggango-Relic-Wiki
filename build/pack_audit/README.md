@@ -17,6 +17,12 @@ MCPConfig 1.20.1-20230612.114412 joined.tsrg (SRG member names).
   --repack FILE... [--skip ns]` re-encodes the base64 PNGs already in a source the same way (2026-10-31: gear_icons.json
   4.74 → 3.39 MB, data.js 4.49 → 3.66 MB, every icon decoded to the same pixels; `--skip ae2` keeps AE2's CC BY-NC-SA
   icons byte for byte).
+- `mcassets.NO_ART` / `pack_sources(W)` / `art_allowed(path)`: the one list of resource packs no picture may come from
+  (build/README.md, licence rules) and the game's stack without them; `Assets` drops them whoever passes them.
+- `tints.py`: the colours ItemColors multiplies into tinted layers, read from the jars (vanilla ItemColors/BlockColors
+  run on a small interpreter; spawn eggs from `SpawnEggItem`/`ForgeSpawnEggItem` constructors, also through helpers;
+  mod colour handlers run with a stand-in event); `Assets.tint_indices(id)` says which layers ask for one. Used by
+  `gear/icons.py`, `name_icons.py <pack dir> [client jar]` and `uiicons.py ... [client jar]`.
 - `block_render.py`: block-element models drawn exactly as the 1.20.1 GUI draws an item (display.gui transform, the GUI's
   two diffuse lights, BlockElement uv defaults, face and element rotation with rescale, z-buffer, cutout at 0.1). The
   constants were read from client-1.20.1.jar (GlStateManager.setupGui3DDiffuseLighting, Lighting, PoseStack,

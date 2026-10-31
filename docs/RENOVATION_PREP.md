@@ -128,8 +128,11 @@ renovation starts. The look itself is not decided here: any change to the overal
    `block_render.render_model` at 32 px, GeckoLib items through `geo_icon_render.html` (now with the GUI light) with
    their item JSON's `display.gui`, and look at every icon before replacing; then one icon run through `mcassets` and
    retire `icon2.py`, `icon3.py`, `mkicons.py`, `gui_icons.py`.
-5. **Tint colours**: `mcassets` can tint, but the colours are not read yet (spawn eggs: the two ints of
-   `SpawnEggItem`/`ForgeSpawnEggItem`; potions, leather; the Allay egg in a smithing recipe is grey).
+5. **Tint colours**: done on 2026-10-31 (`tints.py`): 102 icons tinted as the game draws them, 89 spawn eggs for
+   `mob_ids.json`. Left untinted on purpose: items whose default colour is white (Mekanism, Ad Astra suits), the
+   cocktail cutlass (animated rainbow); not settled by the reader: Nightlord's sword, IF infinity hammer, MA soul jar.
+   Seven items the game draws by code (chests, banner, shield, plushies) still show a texture square, and Pyrium Staff
+   and Wand of Final Light have no icon until their models are rendered (their only flat picture was an ARR pack's).
 6. **Payload, next step**: 0.39 MB of `gear_data.js` is the same icon stored under several ids, and `wiki_data.js` carries
    5 MB of WebP pictures inline. An icon table referenced by index, and pictures loaded when their page opens.
 7. **Before any visual change**: shoot the current build (`node build/shot.js <routes> --out <dir>`, at 1440 and 375),

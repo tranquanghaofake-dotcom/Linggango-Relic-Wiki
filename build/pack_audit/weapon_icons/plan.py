@@ -19,20 +19,10 @@ SIZE = 32
 
 
 def sources(W, packs=True):
-    """the game's resource stack, top first: kubejs/assets, the resource packs options.txt enables (it lists them
-    bottom first; packs=False leaves them out: the mods' own models), the mod jars, the vanilla client jar"""
-    zips = []
-    try:
-        opt = open(os.path.join(W, 'pack/src/overrides/options.txt'), encoding='utf-8').read()
-        rp = json.loads(re.search(r'^resourcePacks:(\[.*\])$', opt, re.M).group(1))
-    except (OSError, AttributeError, ValueError): rp = []
-    for n in reversed(rp if packs else []):
-        if not n.startswith('file/'): continue
-        for d in ('pack/mods', 'pack/src/overrides/resourcepacks'):
-            f = os.path.join(W, d, n[5:])
-            if os.path.exists(f): zips.append(f); break
-    return ([os.path.join(W, 'pack/src/overrides/kubejs')] + zips + sorted(glob.glob(os.path.join(W, 'pack/mods/*.jar')))
-            + [os.path.join(W, 'mc_client.jar')])
+    """the game's resource stack (mcassets.pack_sources): kubejs/assets, the resource packs options.txt enables minus the
+    All Rights Reserved / NoDerivatives ones in mcassets.NO_ART (packs=False leaves every pack out: the mods' own
+    models), the mod jars, the vanilla client jar"""
+    return mcassets.pack_sources(W, packs, client=os.path.join(W, 'mc_client.jar'))
 
 
 W = os.environ.get('W', 'W')
