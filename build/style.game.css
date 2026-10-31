@@ -47,7 +47,8 @@ code{font:13px ui-monospace,Menlo,monospace}
 .gui{padding:var(--s5) var(--s5) var(--s5);margin:0 0 var(--s5)}
 .gt,.gui>h2,.ip-sec>h2,.mbox h3{font:700 18px/1.2 var(--disp);color:var(--gui-ink);margin:0 0 var(--s1)}
 .gs{margin:0 0 var(--s4);color:var(--gui-mute);font-size:14px}
-.gs a,.ip-sec p a:not(.mcb),.ip-sec li a,.ip-info a,.mnote a,.whyb a,.mcli a{color:var(--gui-link)}
+.gs a,.ip-sec p a:not(.mcb),.ip-sec li a,.ip-info a,.mnote a,.whyb a{color:var(--gui-link)}
+.mcli a{color:#14306b;text-decoration:underline}
 
 .slot{position:relative;display:inline-grid;place-items:center;width:54px;height:54px;flex:none;background:var(--slot);
  box-shadow:inset 3px 3px 0 var(--slot-lo),inset -3px -3px 0 var(--slot-hi)}
@@ -486,7 +487,7 @@ ol.how li::before{content:counter(howc);position:absolute;left:10px;top:8px;disp
 #gq{background:#000;border:2px solid var(--gui-line);border-radius:0;color:#e0e0e0;font:500 15px var(--body)}
 #gq:focus{border-color:#fff}
 .grow{border:0;border-radius:4px;background:var(--gui);box-shadow:0 0 0 2px #000,var(--bevel);overflow:visible}
-.gear .grow>.glet{font:700 36px var(--disp);color:#fff!important;text-shadow:3px 3px 0 rgba(0,0,0,.45);box-shadow:inset 3px 3px 0 rgba(255,255,255,.45),inset -3px -3px 0 rgba(0,0,0,.3);border-radius:4px 0 0 4px}
+.gear .grow>.glet{font:700 36px var(--disp);color:#1b1320!important;text-shadow:0 1px 0 rgba(255,255,255,.35);box-shadow:inset 3px 3px 0 rgba(255,255,255,.45),inset -3px -3px 0 rgba(0,0,0,.3);border-radius:4px 0 0 4px}
 .gtiles{gap:0;padding:var(--s3)}
 .gtl{width:84px;padding:var(--s2) 2px var(--s2);border:0;border-radius:0;background:none;color:var(--gui-ink);transition:none}
 .gtl:hover,.gtl:focus-visible{transform:none;box-shadow:none;background:rgba(255,255,255,.4)}
@@ -666,7 +667,7 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
  .ip-sec .note,.ip-sec code{overflow-wrap:anywhere}
  #fq,#fq::placeholder{text-overflow:ellipsis}
  .chip.bpar{min-width:32px}
- summary{min-height:var(--s5)}
+ summary,.gmore{min-height:var(--s5)}
 }
 .pmain{display:grid;gap:var(--s2);min-width:0}
 .ptitle{height:22px;width:auto;max-width:100%;object-fit:contain;object-position:left;image-rendering:auto!important}

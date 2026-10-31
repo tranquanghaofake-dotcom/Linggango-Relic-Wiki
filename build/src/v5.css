@@ -921,7 +921,7 @@ body:not(.hub) #main{background:var(--bg)}
 /* the vanilla crafting arrow, drawn in pixels */
 .mca{width:28px;height:20px;background:#8b8b8b;-webkit-mask:linear-gradient(#000 0 0) 0 7px/16px 6px no-repeat,conic-gradient(from 225deg at 100% 50%,#000 0 90deg,transparent 0) 16px 0/12px 20px no-repeat;
  mask:linear-gradient(#000 0 0) 0 7px/16px 6px no-repeat,conic-gradient(from 225deg at 100% 50%,#000 0 90deg,transparent 0) 16px 0/12px 20px no-repeat}
-.mcli{background:#8b8b8b;box-shadow:inset 2px 2px 0 #373737,inset -2px -2px 0 #fff;padding:var(--s2) var(--s3);align-self:stretch;color:#fff}
+.mcli{background:#8b8b8b;box-shadow:inset 2px 2px 0 #373737,inset -2px -2px 0 #fff;padding:var(--s2) var(--s3);align-self:stretch;color:#1b1b1b}
 .mch{font:12px var(--disp);color:#fff;margin-bottom:var(--s1);text-shadow:1px 1px 0 #3f3f3f}
 .mcl{list-style:none;margin:0;padding:0;display:grid;gap:var(--s1)}
 .mcl li{display:flex;align-items:center;gap:var(--s2);font-size:14px;padding:2px var(--s1);border-radius:2px;text-shadow:1px 1px 0 #3f3f3f}
