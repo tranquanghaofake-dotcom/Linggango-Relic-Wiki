@@ -124,17 +124,18 @@ renovation starts. The look itself is not decided here: any change to the overal
    writes the `ent_class.json` that `renders.py` needs) and the GeckoLib packing step (`bgeo.py` → `boss_portraits.js
    --in/--out` → `pack.py`); all 77 side-boss portraits are redrawn with the game's light, and no wiki picture is left
    (`wimg.py`/`wdl.py` removed; the licence check of the 12 they had fetched is in the session notes).
-4. **Model icons** (181, drawn at 128 px and shown at 32 or 16 px): route `weapon_icons` element models to
-   `block_render.render_model` at 32 px, GeckoLib items through `geo_icon_render.html` (now with the GUI light) with
-   their item JSON's `display.gui`, and look at every icon before replacing; then one icon run through `mcassets` and
-   retire `icon2.py`, `icon3.py`, `mkicons.py`, `gui_icons.py`.
+4. **Model icons**: done on 2026-10-31 (Wave 1C): the 181 model icons are drawn at 32 px by the GUI's rules (`weapon_icons`
+   element models through `block_render.render_model`, GeckoLib items through `geo_icon_render.html` with the GUI light and
+   the item JSON's `display.gui`), every icon looked at before replacing; `icon2.py`, `icon3.py`, `mkicons.py`, `gui_icons.py`
+   retired.
 5. **Tint colours**: done on 2026-10-31 (`tints.py`): 102 icons tinted as the game draws them, 89 spawn eggs for
    `mob_ids.json`. Left untinted on purpose: items whose default colour is white (Mekanism, Ad Astra suits), the
    cocktail cutlass (animated rainbow); not settled by the reader: Nightlord's sword, IF infinity hammer, MA soul jar.
-   Seven items the game draws by code (chests, banner, shield, plushies) still show a texture square, and Pyrium Staff
-   and Wand of Final Light have no icon until their models are rendered (their only flat picture was an ARR pack's).
-6. **Payload, next step**: 0.39 MB of `gear_data.js` is the same icon stored under several ids, and `wiki_data.js` carries
-   5 MB of WebP pictures inline. An icon table referenced by index, and pictures loaded when their page opens.
+   Still open (audit own-3/own-4, deferred to the icon pass): seven items the game draws by code (chests, banner, shield,
+   plushies) show a texture square, and Pyrium Staff has no icon until `PyriumStaffRenderer`'s models are rendered (its
+   only flat picture was an ARR pack's; Wand of Final Light is already a model render).
+6. **Payload**: done on 2026-10-31 (Wave 1E): one icon table referenced by index (`gear_data.js` 4.5 MB, no icon stored
+   twice) and the pictures of `wiki_pics.js` (1.2 MB) fetched after the first paint.
 7. **Before any visual change**: shoot the current build (`node build/shot.js <routes> --out <dir>`, at 1440 and 375),
    keep the folder, and compare every pass with `--diff`.
 
