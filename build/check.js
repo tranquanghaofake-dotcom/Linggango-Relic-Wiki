@@ -1,8 +1,9 @@
 // Page check for the built wiki (Chromium, no network).
 // Usage: NODE_PATH=$(npm root -g) node build/check.js [dist/Linggango_Relic_Wiki.html]
-// Fails (exit 1) on: a script error, an empty gear item or set page, a broken <img> on those pages,
-// a boss card on The Path (home page) with no landscape background, or a detail page (curio, gear, set, boss,
-// side boss) that is not drawn with the shared article layout (title, infobox, navbox, a heading on every section).
+// Fails (exit 1) on: a script error, an empty gear item or set page, a broken <img> on any detail page (curio, gear,
+// set, boss, side boss: each picture is awaited with decode(), since a fresh <img> is not complete in the task that
+// inserts it), a boss card on The Path (home page) with no landscape background, or a detail page that is not drawn
+// with the shared article layout (title, infobox, navbox, a heading on every section).
 const { chromium } = require('playwright'), path = require('path');
 (async () => {
   const b = await chromium.launch(), p = await b.newPage({ viewport: { width: 1400, height: 900 } });
@@ -18,18 +19,25 @@ const { chromium } = require('playwright'), path = require('path');
     if (!a.querySelector('.ip-info')) return 'no infobox'; if (!a.querySelector('.navbox')) return 'no navbox';
     if ([...a.querySelectorAll('.ip-sec')].some(x => !x.querySelector(':scope>h2')?.textContent.trim())) return 'untitled section';
     return ''; })()`;
+  // render a route, then [text length, pictures that fail to decode]; a picture still loading after 2 s counts as fine
+  const VIEW = async h => {
+    location.hash = h; render(); const m = document.getElementById('main'), im = [...m.querySelectorAll('img')];
+    im.forEach(i => { if (i.loading === 'lazy') i.loading = 'eager'; });
+    const f = await Promise.all(im.map(i => Promise.race([i.decode().then(() => 0, () => 1), new Promise(r => setTimeout(() => r(0), 2000))])));
+    return [m.innerText.length, f.reduce((s, x) => s + x, 0)];
+  };
   const [ne, ns] = await p.evaluate(() => [GE.length, GS.length]);
-  const lay = [];
+  const lay = [], brokenImg = [];
   for (const [pre, n] of [['#g', ne], ['#gs', ns]])
     for (let i = 0; i < n; i++) {
-      const r = await p.evaluate(h => { location.hash = h; render(); const m = document.getElementById('main'); return [m.innerText.length, [...m.querySelectorAll('img')].filter(x => x.complete && x.naturalWidth === 0).length]; }, pre + i);
+      const r = await p.evaluate(VIEW, pre + i);
       if (r[0] < 40 || r[1]) bad.push(pre + i);
       const l = await p.evaluate(LAYOUT); if (l) lay.push(pre + i + ' ' + l);
     }
   const others = await p.evaluate(() => [...D.map(d => '#i' + d.ix), ...KEEPERS().concat('ender_dragon').map(k => '#boss/' + k), ...Object.keys(SIDEB).map(n => '#side/' + encodeURIComponent(n))]);
   for (const h of others) {
-    const l = await p.evaluate(([h, L]) => { location.hash = h; render(); return eval(L); }, [h, LAYOUT]);
-    if (l) lay.push(h + ' ' + l);
+    const r = await p.evaluate(VIEW, h); if (r[1]) brokenImg.push(h + ' ' + r[1]);
+    const l = await p.evaluate(LAYOUT); if (l) lay.push(h + ' ' + l);
   }
   // data and ranking invariants (each one is a bug that has happened)
   const inv = await p.evaluate(() => {
@@ -70,8 +78,9 @@ const { chromium } = require('playwright'), path = require('path');
   console.log(`invariants: ${inv.length} broken ${inv.slice(0, 8).join(' | ')}`);
   console.log(`path cards ${cards.length}, without background: ${noBg.length} ${noBg.join(', ')}`);
   console.log(`gear pages ${ne}, sets ${ns}, empty or broken: ${bad.length} ${bad.slice(0, 10).join(' ')}`);
+  console.log(`curio, Keeper and side boss pages ${others.length}, with a broken picture: ${brokenImg.length} ${brokenImg.slice(0, 8).join(' | ')}`);
   console.log(`detail pages ${ne + ns + others.length}, off the shared layout: ${lay.length} ${lay.slice(0, 6).join(' | ')}`);
   console.log(`script errors: ${errs.length} ${errs.slice(0, 3).join(' | ')}`);
   await b.close();
-  process.exit(errs.length || inv.length || bad.length || lay.length || noBg.length || !cards.length ? 1 : 0);
+  process.exit(errs.length || inv.length || bad.length || brokenImg.length || lay.length || noBg.length || !cards.length ? 1 : 0);
 })();

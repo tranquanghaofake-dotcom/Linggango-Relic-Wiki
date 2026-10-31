@@ -42,7 +42,7 @@ async function diff(page, a, b, f) {   // in the browser: no image library neede
   for (const h of args.length ? args : ['#home']) {
     await p.evaluate(h => { location.hash = h; if (typeof render === 'function') render(); }, h);
     await p.waitForTimeout(800);
-    const f = path.join(out, (h.replace(/[^\w-]+/g, '_').replace(/^_+/, '') || 'home') + `_${width}.png`);
+    const f = path.join(out, (h.replace(/[^\w-]+/g, '_').replace(/^_+/, '') || 'hub') + `_${width}.png`);
     await p.screenshot({ path: f });
     console.log(f);
     if (!base) continue;
