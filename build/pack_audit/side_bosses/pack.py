@@ -1,5 +1,7 @@
 """Pack jrender.js output into build/patches/side_imgs.json {boss: webp data URL}, cropped to the model and centred
-on a 256 px square like imgs.py does for the GeckoLib renders. Usage: pack.py W/jm_out.json"""
+on a 256 px square like imgs.py does for the GeckoLib renders. Usage: pack.py W/jm_out.json
+The portraits it is given replace those of the same name; the others in side_imgs.json stay (a run for one boss used to
+write a file with that boss alone)."""
 import json, sys, base64, io, pathlib
 from PIL import Image
 H = pathlib.Path(__file__).resolve().parents[2] / "patches"
@@ -11,10 +13,11 @@ def fit(im):
     if bb: im = im.crop(bb)
     s = max(im.size); c = Image.new("RGBA", (s, s), (0, 0, 0, 0)); c.paste(im, ((s - im.width) // 2, (s - im.height) // 2))
     return c.resize((256, 256), Image.LANCZOS)
-out = {}
+F = H / "side_imgs.json"
+out = json.loads(F.read_text(encoding="utf-8")) if F.exists() else {}
 for k, v in json.load(open(sys.argv[1])).items():
     if k in DROP: continue
     o = io.BytesIO(); fit(Image.open(io.BytesIO(base64.b64decode(v)))).save(o, "WEBP", quality=88, method=6)
     out[k] = "data:image/webp;base64," + base64.b64encode(o.getvalue()).decode()
-(H / "side_imgs.json").write_text(json.dumps(out, ensure_ascii=False, indent=0, sort_keys=True), encoding="utf-8")
+F.write_text(json.dumps(out, ensure_ascii=False, indent=0, sort_keys=True), encoding="utf-8")
 print(len(out), "portraits,", sum(len(v) for v in out.values()) // 1024, "kB")

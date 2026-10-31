@@ -21,7 +21,10 @@ for i in ids:
         im = A.texture(A.resolve(m, m['textures'].get('particle'))) if m else None; k = 'particle'
     if im is None: im = A.texture(f'{ns}:item/{n}'); k = 'texture'
     if im is None: continue
-    if im.size[0] > 64: im = im.resize((64, 64 * im.size[1] // im.size[0]), Image.NEAREST)
+    if im.size[0] > 64:   # 1/n of the source (pixel rules): the smallest n that brings it to 64 px or less, exact if one divides
+        w, h = im.size; ns = [n for n in range(2, w + 1) if w / n <= 64]
+        n = next((n for n in ns[:4] if w % n == 0 and h % n == 0), ns[0])
+        im = im.resize((w // n, max(1, h // n)), Image.NEAREST)
     out[i] = mcassets.png_b64(im); how[k] += 1
 json.dump(out, open(outp, 'w'))
 print(len(ids), 'icons', len(out), how)

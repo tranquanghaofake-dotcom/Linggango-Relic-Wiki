@@ -274,7 +274,6 @@ export function measure(group) {
 // Molang (subset sufficient for GeckoLib / vanilla client animations)
 // ---------------------------------------------------------------------------------------------
 const MOLANG_CACHE = new Map();
-const ALLOWED = /^[0-9a-z_.+\-*/%()<>=!&|?:,\s]*$/;
 const MATH = {
   sin: d => Math.sin(d * DEG), cos: d => Math.cos(d * DEG), asin: x => Math.asin(x) / DEG, acos: x => Math.acos(x) / DEG,
   atan: x => Math.atan(x) / DEG, atan2: (y, x) => Math.atan2(y, x) / DEG, abs: Math.abs, sqrt: Math.sqrt,
@@ -284,33 +283,112 @@ const MATH = {
   hermite_blend: t => 3 * t * t - 2 * t * t * t, sign: Math.sign, pi: Math.PI,
   random: (a, b) => a + Math.random() * (b - a), die_roll: (n, a, b) => { let s = 0; for (let i = 0; i < n; i++) s += a + Math.random() * (b - a); return s; },
   min_angle: a => { a = ((a % 360) + 360) % 360; return a >= 180 ? a - 360 : a; },
+  random_integer: (a, b) => Math.round(a + Math.random() * (b - a)),
+  die_roll_integer: (n, a, b) => { let s = 0; for (let i = 0; i < n; i++) s += Math.round(a + Math.random() * (b - a)); return s; },
 };
+
+// Molang is parsed into closures, never into JS source: model and animation files come from mod jars, and a string
+// that reaches eval / new Function can run code for every reader (a whitelist of characters is not enough:
+// math.constructor.constructor builds Function out of letters alone). Semantics follow GeckoLib 4's MolangParser:
+// statements split on ';' (an optional 'return '), the value is the last statement's; 'v.x = …' / 't.x = …' assign;
+// an unknown variable or query reads 0 (GeckoLib creates it at 0) instead of spoiling the whole expression;
+// comparisons and && || ! give 1 or 0; 'a ? b' without ':' gives 0 when a is false; bare 'sin(…)' means math.sin.
+const MOLANG_TOKEN = /\s*(?:(\d+\.?\d*(?:e[+-]?\d+)?f?|\.\d+(?:e[+-]?\d+)?f?)|([a-z_][a-z0-9_]*(?:\.[a-z_][a-z0-9_]*)*)|(&&|\|\||==|!=|<=|>=|\?\?|[-+*/%<>!?:(),=]))/y;
+function molangTokens(src) {
+  const out = []; MOLANG_TOKEN.lastIndex = 0;
+  while (MOLANG_TOKEN.lastIndex < src.length) {
+    const at = MOLANG_TOKEN.lastIndex, m = MOLANG_TOKEN.exec(src);
+    if (!m) { if (/^\s*$/.test(src.slice(at))) break; throw new Error('unexpected ' + JSON.stringify(src.slice(at, at + 12))); }
+    out.push(m[1] ? { k: 'n', v: parseFloat(m[1]) } : m[2] ? { k: 'id', v: m[2] } : { k: 'op', v: m[3] });
+  }
+  return out;
+}
+function molangRef(name) {   // a name -> [read(ctx, self), store key or null]
+  const p = name.split('.'), head = p[0], rest = p.slice(1).join('.');
+  if (name === 'this') return [(c, self) => self, null];
+  if (name === 'true') return [() => 1, null];
+  if (name === 'false') return [() => 0, null];
+  if (name === 'math.pi' || name === 'pi') return [() => Math.PI, null];
+  const own = (o, k) => (Object.hasOwn(o, k) && typeof o[k] === 'number' ? o[k] : 0);   // never a prototype member
+  if ((head === 'query' || head === 'q') && rest) return [c => own(c.q, rest), null];
+  if ((head === 'variable' || head === 'v') && rest) return [c => own(c.v, rest), rest === '__proto__' ? null : rest];
+  if ((head === 'temp' || head === 't') && rest) return [c => own(c.v, 't.' + rest), 't.' + rest];
+  return [() => 0, null];   // context.*, or a stray word such as "linear": 0, as GeckoLib reads unknown names
+}
+function molangParse(toks) {
+  let i = 0;
+  const peek = () => toks[i], next = () => toks[i++];
+  const isOp = v => toks[i] && toks[i].k === 'op' && toks[i].v === v;
+  const want = v => { if (!isOp(v)) throw new Error('expected ' + v); i++; };
+  const bin = (lower, ops) => () => {
+    let l = lower();
+    while (toks[i] && toks[i].k === 'op' && ops.includes(toks[i].v)) {
+      const op = next().v, r = lower(), a = l;
+      l = { '+': (c, s) => a(c, s) + r(c, s), '-': (c, s) => a(c, s) - r(c, s), '*': (c, s) => a(c, s) * r(c, s),
+        '/': (c, s) => a(c, s) / r(c, s), '%': (c, s) => a(c, s) % r(c, s), '<': (c, s) => +(a(c, s) < r(c, s)),
+        '<=': (c, s) => +(a(c, s) <= r(c, s)), '>': (c, s) => +(a(c, s) > r(c, s)), '>=': (c, s) => +(a(c, s) >= r(c, s)),
+        '==': (c, s) => +(a(c, s) === r(c, s)), '!=': (c, s) => +(a(c, s) !== r(c, s)),
+        '&&': (c, s) => +(!!a(c, s) && !!r(c, s)), '||': (c, s) => +(!!a(c, s) || !!r(c, s)),
+        '??': (c, s) => { const x = a(c, s); return Number.isFinite(x) ? x : r(c, s); } }[op];
+    }
+    return l;
+  };
+  function primary() {
+    const t = next();
+    if (!t) throw new Error('unexpected end');
+    if (t.k === 'n') { const v = t.v; return () => v; }
+    if (t.k === 'op' && t.v === '(') { const e = ternary(); want(')'); return e; }
+    if (t.k === 'op' && (t.v === '-' || t.v === '+' || t.v === '!')) {   // unary binds tighter than * /
+      const e = primary();
+      return t.v === '-' ? (c, s) => -e(c, s) : t.v === '!' ? (c, s) => +!e(c, s) : e;
+    }
+    if (t.k === 'id') {
+      if (isOp('(')) {   // a call: math.f(...) or a bare f(...)
+        i++; const args = [];
+        if (!isOp(')')) { do args.push(ternary()); while (isOp(',') && ++i); }
+        want(')');
+        const fn = t.v.replace(/^math\./, ''), f = Object.hasOwn(MATH, fn) ? MATH[fn] : null;
+        if (typeof f !== 'function') { console.warn('molang: unknown function', t.v); return () => 0; }
+        return (c, s) => f(...args.map(g => g(c, s)));
+      }
+      return molangRef(t.v)[0];
+    }
+    throw new Error('unexpected ' + t.v);
+  }
+  const mul = bin(primary, ['*', '/', '%']), add = bin(mul, ['+', '-']), cmp = bin(add, ['<', '<=', '>', '>=']),
+    eq = bin(cmp, ['==', '!=']), and = bin(eq, ['&&']), or = bin(and, ['||']), coal = bin(or, ['??']);
+  function ternary() {
+    const c0 = coal();
+    if (!isOp('?')) return c0;
+    i++; const a = ternary();
+    if (!isOp(':')) return (c, s) => (c0(c, s) ? a(c, s) : 0);
+    i++; const b = ternary();
+    return (c, s) => (c0(c, s) ? a(c, s) : b(c, s));
+  }
+  function statement() {
+    if (peek() && peek().k === 'id' && toks[i + 1] && toks[i + 1].k === 'op' && toks[i + 1].v === '=') {
+      const key = molangRef(peek().v)[1];
+      i += 2; const e = ternary();
+      if (key == null) return e;
+      return (c, s) => (c.v[key] = e(c, s));
+    }
+    return ternary();
+  }
+  const st = statement();
+  if (i < toks.length) throw new Error('unexpected ' + toks[i].v);
+  return st;
+}
 
 export function compileMolang(src) {
   if (typeof src === 'number') return () => src;
   const key = String(src);
   if (MOLANG_CACHE.has(key)) return MOLANG_CACHE.get(key);
-  let s = key.trim().toLowerCase();
-  if (s === '') { MOLANG_CACHE.set(key, () => 0); return () => 0; }
-  const num = Number(s);
-  if (!Number.isNaN(num)) { const f = () => num; MOLANG_CACHE.set(key, f); return f; }
-  if (!ALLOWED.test(s)) { console.warn('molang: rejected', key); const f = () => 0; MOLANG_CACHE.set(key, f); return f; }
-  s = s.replace(/;\s*$/, '')
-    .replace(/\bmath\.pi\b/g, 'M.pi')
-    .replace(/\bmath\.([a-z_]+)/g, 'M.$1')
-    .replace(/\b(query|q)\.([a-z_]+)/g, 'Q.$2')
-    .replace(/\b(variable|v)\.([a-z_0-9.]+)/g, (m, _, n) => 'V[' + JSON.stringify(n) + ']')
-    .replace(/\b(temp|t)\.([a-z_0-9]+)/g, (m, _, n) => 'V[' + JSON.stringify('t.' + n) + ']')
-    .replace(/\bthis\b/g, 'THIS')
-    .replace(/\btrue\b/g, '1').replace(/\bfalse\b/g, '0')
-    // any other bare identifier is an unknown molang variable -> 0 (GeckoLib's parser does the same;
-    // some GeckoLib exports contain "vector": ["linear","linear","linear"])
-    .replace(/(?<![.\w"])([a-z_][a-z0-9_]*)(?![\w."(\[])/g, '0');
   let fn;
   try {
-    // eslint-disable-next-line no-new-func
-    const inner = new Function('M', 'Q', 'V', 'THIS', '"use strict"; return (' + s + ');');
-    fn = (ctx, self = 0) => { const r = +inner(MATH, ctx.q, ctx.v, self); return Number.isFinite(r) ? r : 0; };
+    const parts = key.toLowerCase().split(';').map(x => x.trim().replace(/^return\s+/, '')).filter(Boolean)
+      .map(x => molangParse(molangTokens(x)));
+    const run = !parts.length ? () => 0 : parts.length === 1 ? parts[0] : (c, s) => { let v = 0; for (const p of parts) v = p(c, s); return v; };
+    fn = (ctx, self = 0) => { const r = +run(ctx, self); return Number.isFinite(r) ? r : 0; };
   } catch (e) {
     console.warn('molang: cannot compile', key, e.message);
     fn = () => 0;
@@ -329,7 +407,7 @@ const pow = n => t => Math.pow(t, n);
 const sine = t => 1 - Math.cos(t * Math.PI / 2);
 const circle = t => 1 - Math.sqrt(1 - t * t);
 const expo = t => Math.pow(2, 10 * (t - 1));
-const back = k => { k = k ?? 1.70158; return t => t * t * ((k + 1) * t - k); };
+const back = k => { k = k == null ? 1.70158 : k * 1.70158; return t => t * t * ((k + 1) * t - k); };   // the argument scales 1.70158
 const elastic = k => { const b = (k ?? 1) * Math.PI; return t => 1 - Math.pow(Math.cos(t * Math.PI / 2), 3) * Math.cos(t * b); };
 const bounce = k => {
   k = k ?? 0.5;
@@ -347,7 +425,7 @@ function easingFn(name, args) {
     case 'easeinquad': return easeIn(pow(2)); case 'easeoutquad': return easeOut(pow(2)); case 'easeinoutquad': return easeInOut(pow(2));
     case 'easeincubic': return easeIn(pow(3)); case 'easeoutcubic': return easeOut(pow(3)); case 'easeinoutcubic': return easeInOut(pow(3));
     case 'easeinquart': return easeIn(pow(4)); case 'easeoutquart': return easeOut(pow(4)); case 'easeinoutquart': return easeInOut(pow(4));
-    case 'easeinquint': return easeIn(pow(5)); case 'easeoutquint': return easeOut(pow(5)); case 'easeinoutquint': return easeInOut(pow(5));
+    case 'easeinquint': return easeIn(pow(4));   // sic: GeckoLib 4.8.4 EasingType.EASE_IN_QUINT is pow(4) case 'easeoutquint': return easeOut(pow(5)); case 'easeinoutquint': return easeInOut(pow(5));
     case 'easeinexpo': return easeIn(expo); case 'easeoutexpo': return easeOut(expo); case 'easeinoutexpo': return easeInOut(expo);
     case 'easeincirc': return easeIn(circle); case 'easeoutcirc': return easeOut(circle); case 'easeinoutcirc': return easeInOut(circle);
     case 'easeinback': return easeIn(back(a)); case 'easeoutback': return easeOut(back(a)); case 'easeinoutback': return easeInOut(back(a));
@@ -391,7 +469,7 @@ function sampleChannel(c, t, ctx, base) {
   const A = F[i], B = F[i + 1];
   const p = (t - A.t) / Math.max(1e-6, B.t - A.t);
   const out = [0, 0, 0];
-  if (B.easing === 'catmullrom' || A.easing === 'catmullrom') {
+  if (B.easing === 'catmullrom') {   // the keyframe's easing shapes the segment that ends at it, catmull-rom too
     const P0 = F[Math.max(0, i - 1)], P3 = F[Math.min(F.length - 1, i + 2)];
     for (let k = 0; k < 3; k++) {
       const p0 = ev(P0.post, k), p1 = ev(A.post, k), p2 = ev(B.pre, k), p3 = ev(P3.pre, k);

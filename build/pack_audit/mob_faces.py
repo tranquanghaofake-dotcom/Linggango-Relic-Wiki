@@ -20,7 +20,8 @@ F = {
  "Vindicator": [("entity/illager/vindicator", 8, 9, 8, 8)],
  "Pillager": [("entity/illager/pillager", 8, 9, 8, 8)],
  "Witch": [("entity/witch", 8, 9, 8, 8)],
- "Enderman": [("entity/enderman/enderman", 8, 8, 8, 8), ("entity/enderman/enderman_eyes", 8, 8, 8, 8)],
+ # EndermanModel: the head's front leaves its two bottom rows clear; the jaw is the "hat" box (texOffs 0,16, front at 8,24) behind it
+ "Enderman": [("entity/enderman/enderman", 8, 24, 8, 8), ("entity/enderman/enderman", 8, 8, 8, 8), ("entity/enderman/enderman_eyes", 8, 8, 8, 8)],
  "Creeper": [("entity/creeper/creeper", 8, 8, 8, 8)],
  "Spider": [("entity/spider/spider", 40, 12, 8, 8), ("entity/spider_eyes", 40, 12, 8, 8)],
  "Cave Spider": [("entity/spider/cave_spider", 40, 12, 8, 8), ("entity/spider_eyes", 40, 12, 8, 8)],
@@ -32,7 +33,7 @@ F = {
  "Shulker": [("entity/shulker/shulker", 6, 58, 6, 6)],
  "Ravager": [("entity/illager/ravager", 16, 18, 16, 16)],
  "Elder Guardian": [("entity/guardian_elder", 16, 16, 12, 12)],
- "Bee": [("entity/bee/bee", 13, 13, 7, 7)],
+ "Bee": [("entity/bee/bee", 10, 10, 7, 7)],   # BeeModel body: texOffs(0, 0) box 7x7x10, front face at (10, 10)
  "Mooshroom": [("entity/cow/red_mooshroom", 6, 6, 8, 8)],
  "Warden": [("entity/warden/warden", 10, 42, 16, 16)],
  "Wither": [("entity/wither/wither", 8, 8, 8, 8)],

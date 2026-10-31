@@ -24,7 +24,7 @@ window.renderJava=async(m,tex,yaw=-0.55,pitch=0.12)=>{const t=await new THREE.Te
  const mat=new THREE.MeshLambertMaterial({map:t,alphaTest:.1,side:THREE.DoubleSide});
  const S=new THREE.Scene();S.add(new THREE.AmbientLight(0xffffff,2.0));const d=new THREE.DirectionalLight(0xffffff,1.7);d.position.set(-2,3,4);S.add(d);
  const flip=new THREE.Group();
- if(m.geo){flip.add(buildGeo(m.geo,t,{faceCamera:false}));flip.rotation.y=Math.PI}   // GeckoLib model: geo2three already faces +z
+ if(m.geo){flip.add(buildGeo(m.geo,t,{faceCamera:false}))}   // GeckoLib model, faceCamera:false: front at -z like a ModelPart model (an extra half turn showed Tongbi's back)
  else{flip.scale.set(-1,-1,1);flip.add(part(m.root,m.tw,m.th,mat))}   // vanilla renders models with scale(-1,-1,1)
  const turn=new THREE.Group();turn.add(flip);turn.rotation.y=Math.PI+yaw;turn.rotation.x=pitch;S.add(turn);  // model front is -z: face the camera, then three-quarter
  const b=new THREE.Box3().setFromObject(turn),sz=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3()),k=Math.max(sz.x,sz.y)/2*1.04;
