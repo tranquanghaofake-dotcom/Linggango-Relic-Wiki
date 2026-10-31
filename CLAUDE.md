@@ -31,6 +31,13 @@ How the pieces fit: `build/README.md`; why they are shaped that way: `build/ARCH
 ## Notes
 `docs/NOTES.md` is the project log. Append one entry per session at the end: `## YYYY-MM-DD: <what changed>`, then what was done, what was checked and how, and what is still open (with the reason). Keep "still open" items until they are done or the user drops them.
 
+## Skills and agents
+- Which third-party skills this repo uses, where each lives and what was left out: `docs/AGENT_TOOLS.md`. These rules win over any skill.
+- Anything beyond one page or one tool starts with a plan: superpowers `brainstorming` → short design doc → `writing-plans`, saved as `docs/plans/YYYY-MM-DD-<topic>.md`; then `executing-plans` or `subagent-driven-development`. A session the user is not watching lays the approaches out in its reply and goes on with the one it recommends; a change to the look still waits for approval.
+- Code changes follow `.claude/skills/ponytail`: the smallest change that fully solves the task, callers and checks included; `ultra` when folding tools together.
+- "Done" means steps 3–4 above ran in this session (superpowers `verification-before-completion`).
+- Account plugins (claude.ai → Customize → Plugins) reach cloud sessions and the owner's machine; `~/.claude/agents` on a machine reaches that machine only. Skills that would change the look (UI UX Pro Max, Impeccable) or the reply style (Caveman) are not used.
+
 ## Facts
 - Numbers come from the game export first, then the pack's files, then the jar reading. External wikis are reference only. Estimates are labelled as estimates.
 - Every bug found in the data becomes an invariant in `build/check.js`.
