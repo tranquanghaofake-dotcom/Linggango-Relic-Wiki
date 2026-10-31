@@ -1,0 +1,172 @@
+{
+"legendary_monsters:ancient_guardian": {
+"health": 750,
+"armor": 18,
+"damage": 0.38
+},
+"cataclysm:ancient_remnant": {
+"health": 2400,
+"armor": 40,
+"damage": 1.086
+},
+"meetyourfight:bellringer": {
+"health": 550,
+"armor": 15,
+"damage": 1.071
+},
+"soulsweapons:chaos_monarch": {
+"health": 2400,
+"armor": 40,
+"damage": 2.0
+},
+"legendary_monsters:cloud_golem": {
+"health": 750,
+"armor": 18,
+"damage": 1.267
+},
+"meetyourfight:dame_fortuna": {
+"health": 1000,
+"armor": 22,
+"damage": 1.444
+},
+"irons_spellbooks:dead_king": {
+"health": 1000,
+"armor": 22,
+"damage": 1.0
+},
+"soulsweapons:accursed_lord_boss": {
+"health": 3200,
+"armor": 45,
+"damage": 2.0
+},
+"legendary_monsters:dune_sentinel": {
+"health": 550,
+"armor": 15,
+"damage": 0.938
+},
+"cataclysm:ender_guardian": {
+"health": 1700,
+"armor": 34,
+"damage": 1.016
+},
+"soulsweapons:moonknight": {
+"health": 1700,
+"armor": 34,
+"damage": 2.0
+},
+"mowziesmobs:ferrous_wroughtnaut": {
+"health": 302,
+"armor": 12,
+"damage": 0.222
+},
+"legendary_monsters:frostbitten_golem": {
+"health": 550,
+"armor": 15,
+"damage": 0.469
+},
+"mowziesmobs:frostmaw": {
+"health": 1000,
+"armor": 22,
+"damage": 1.733
+},
+"cataclysm:the_harbinger": {
+"health": 1700,
+"armor": 34,
+"damage": 1.032
+},
+"cataclysm:ignis": {
+"health": 3200,
+"armor": 45,
+"damage": 1.143
+},
+"cataclysm:the_leviathan": {
+"health": 1700,
+"armor": 34,
+"damage": 0.867
+},
+"cataclysm:maledictus": {
+"health": 3200,
+"armor": 45,
+"damage": 1.154
+},
+"bosses_of_mass_destruction:gauntlet": {
+"health": 2400,
+"armor": 40,
+"damage": 1.583
+},
+"cataclysm:netherite_monstrosity": {
+"health": 1300,
+"armor": 28,
+"damage": 0.533
+},
+"bosses_of_mass_destruction:lich": {
+"health": 1300,
+"armor": 28,
+"damage": 1.143
+},
+"bosses_of_mass_destruction:obsidilith": {
+"health": 2400,
+"armor": 40,
+"damage": 0.95
+},
+"soulsweapons:draugr_boss": {
+"health": 600,
+"armor": 22,
+"damage": 2.0
+},
+"soulsweapons:night_shade": {
+"health": 400,
+"armor": 22,
+"damage": 2.0
+},
+"legendary_monsters:overgrown_colossus": {
+"health": 450,
+"armor": 12,
+"damage": 0.357
+},
+"soulsweapons:returning_knight": {
+"health": 1300,
+"armor": 28,
+"damage": 1.333
+},
+"meetyourfight:rosalyne": {
+"health": 750,
+"armor": 18,
+"damage": 0.226
+},
+"block_factorys_bosses:sandworm": {
+"health": 550,
+"armor": 15,
+"damage": 0.333
+},
+"cataclysm:scylla": {
+"health": 3200,
+"armor": 45,
+"damage": 1.111
+},
+"legendary_monsters:skeletosaurus": {
+"health": 450,
+"armor": 12,
+"damage": 0.769
+},
+"meetyourfight:swampjaw": {
+"health": 450,
+"armor": 12,
+"damage": 0.278
+},
+"irons_spellbooks:fire_boss": {
+"health": 1300,
+"armor": 28,
+"damage": 1.0
+},
+"mowziesmobs:umvuthi": {
+"health": 750,
+"armor": 18,
+"damage": 1.0
+},
+"bosses_of_mass_destruction:void_blossom": {
+"health": 3200,
+"armor": 45,
+"damage": 1.714
+}
+}

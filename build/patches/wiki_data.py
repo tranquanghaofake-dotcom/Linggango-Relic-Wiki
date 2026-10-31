@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Write build/src/wiki_data.js from the pack-read JSON in build/patches: boss summons (summons.json),
 Goety rituals (goety.json, from build/pack_audit/goety.py), AE2 storage facts (ae2.json) and side-boss stats
-(side_stats.json, from build/pack_audit/side_bosses/stats.py) and portraits (side_imgs.json, from renders.py + jrender.js + pack.py),
+(side_stats.json, from build/pack_audit/side_bosses/stats.py, with the pack's soul_bosses.json pins laid over it) and portraits (side_imgs.json, from renders.py + jrender.js + pack.py),
 Keeper portraits (boss_portraits.json, from build/pack_audit/boss_portraits.js).
 Pictures that only detail pages show (armour stands, guide-book pages, Goety ritual layouts) go to build/src/wiki_pics.js
 instead: the offline file inlines it, the site loads it after the first page is drawn (build.py, app.js picsLoaded)."""
@@ -24,7 +24,20 @@ out += "const NAMEID=" + json.dumps(J("name_ids.json"), ensure_ascii=False, sepa
 out += "const TAGID=" + json.dumps(J("tag_ids.json"), ensure_ascii=False, separators=(",", ":")) + ",MOBID=" + json.dumps(J("mob_ids.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const BACT=" + json.dumps(J("boss_acts.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const BGRAPH=" + json.dumps(J("boss_graph.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
-out += "const SSTAT=" + json.dumps(J("side_stats.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
+# linggango_tweaks BossSouls retunes every entity in kubejs/data/linggango_tweaks/soul_bosses/*.json (merged into
+# soul_bosses.json) on spawn and again 20 ticks later: max health = health and armor = armor exactly (so Hardmode's
+# x2.1 on spawn is undone), and the damage it deals to players is multiplied by damage.
+_ss = J("side_stats.json"); _SB = J("soul_bosses.json")
+for _rows in _ss.values():
+    for _r in _rows:
+        _t = _SB.get(_r["entity"])
+        if not _t: continue
+        _r["hp"] = float(_t["health"])
+        if _t.get("armor", -1) >= 0: _r["armor"] = float(_t["armor"])
+        if "damage" in _t: _r["dmg_mult"] = _t["damage"]
+        _r["pinned"] = 1
+        _r["src"] = "pack soul_bosses (linggango_tweaks BossSouls pins health and armor); " + _r["src"]
+out += "const SSTAT=" + json.dumps(_ss, ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const SDROP=" + json.dumps(J("side_drops.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const SIMG=" + json.dumps(J("side_imgs.json"), separators=(",", ":")) + ";\n"
 out += "const BPORT=" + json.dumps(J("boss_portraits.json"), separators=(",", ":")) + ";\n"

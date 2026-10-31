@@ -619,7 +619,8 @@
    {
     "id": "minecraft:book",
     "n": "Enchanted Book",
-    "chance": "84%"
+    "chance": "100%",
+    "count": "1-2"
    }
   ],
   "attacks": [
@@ -640,7 +641,7 @@
   "sources": [
    "https://ftb.fandom.com/wiki/Rosalyne,_Blade_of_Dusk"
   ],
-  "drops_note": "pack override loot table (kubejs/data)"
+  "drops_note": "pack override loot table (kubejs/data); also 4-6 flowers (Allium, Pink Tulip, Lilac, Rose Bush, Peony)"
  },
  "Luxtructosaurus": {
   "entity": "alexscaves:luxtructosaurus",

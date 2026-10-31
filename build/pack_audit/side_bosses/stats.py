@@ -1,7 +1,11 @@
 """Side-boss base stats (health, armor, toughness, attack damage, knockback resistance) read from the mod jars.
 Usage: stats.py W  (W holds attrs.json, reg.json, cfg.json, cfg2.json from attrs.py, reg.py and cfg.py in this folder;
 reg.py also writes the ent_class.json renders.py reads; attrs.py and cfg.py are still to be rewritten)
-Writes build/patches/side_stats.json: {boss name: [{entity, hp, armor, tough, dmg, kbr, hits, src}, ...]}.
+Writes build/patches/side_stats.json: {boss name: [{entity, hp, armor, tough, dmg, kbr, hits, monster, src}, ...]}.
+monster: whether the entity class extends net.minecraft...Monster (Armageddon's Hardmode raises attack only for those).
+It comes from the superclass chain read from the jars (W/supers.json, {entity: true|false}, if present), else it is kept
+from the side_stats.json already there; a row with neither stops the script. The pack's soul_bosses pins (health, armor,
+damage factor) are laid over these rows by build/patches/wiki_data.py from soul_bosses.json, not written here.
 Optional third argument: the pack's overrides folder (the modpack zip's `overrides/`, CurseForge 1343057 file 9304214 is
 `Linggango-V6.6.6hf.zip`). Order of the facts, each one over the one before: the value in the entity's attribute builder
 (or the mod's config default), the pack's entitybalance.json, then the pack's own config files (PACK below: a value
@@ -12,6 +16,9 @@ A = json.load(open(W + "/attrs.json")); R = json.load(open(W + "/reg.json"))
 CF = {**json.load(open(W + "/cfg.json")), **json.load(open(W + "/cfg2.json"))}
 EB = json.loads((H / "entitybalance.json").read_text())
 SB = json.loads((H / "side_bosses.json").read_text()); BX = json.loads((H / "boss_extra.json").read_text())
+OLD = {r["entity"]: r for rows in json.loads((H / "side_stats.json").read_text(encoding="utf-8")).values() for r in rows} if (H / "side_stats.json").exists() else {}
+SUP = json.load(open(W + "/supers.json")) if pathlib.Path(W + "/supers.json").exists() else {}
+UNRES = []  # PACK keys missing from the pack's config files: a renamed key would otherwise drop a multiplier silently
 CLS = {c: m for v in A.values() for c, m in v.items()}
 SIMPLE = {c.split(".")[-1]: c for c in CLS}
 REG = {}
@@ -65,18 +72,18 @@ def cfg_get(path):
     return float(d) if isinstance(d, (int, float)) else None
 CA, MY, BR, TE, GO, SW, LM, MZ, BM = "cataclysm.toml", "meetyourfight-common.toml", "bosses_rise_config.toml", "TerramityCommonConfig.toml", "goety/goety-attributes.toml", "soulsweapons/soulsweapons_boss_config.json", "legendary_monsters-common.toml", "mowziesmobs-common.toml", "bosses_of_mass_destruction.json5"
 def cata(n, cap): return [("hp", "mul", (CA, n + "HealthMultiplier")), ("dmg", "mul", (CA, n + "DamageMultiplier")), ("cap", "set", (CA, cap))]
-def goety(n): return [("hp", "set", (GO, n + "Health")), ("dmg", "set", (GO, n + "Damage")), ("armor", "set", (GO, n + "Armor")), ("cap", "set", (GO, n + "DamageCap"))]
+def goety(n): return [("hp", "set", (GO, n + "Health")), ("dmg", "set", (GO, n + "Damage")), ("armor", "set", (GO, n + "Armor")), ("tough", "set", (GO, n + "Toughness")), ("cap", "set", (GO, n + "DamageCap"))]
 def souls(n): return [("hp", "set", (SW, n + "_health")), ("armor", "set", (SW, n + "_armor"))]
 def leg(n): return [("hp", "mul", (LM, n + " Health Multiplier")), ("dmg", "mul", (LM, n + " Damage Multiplier"))]
 def mow(n): return [("hp", "mul", (MZ, n, "combat_config", "health_multiplier")), ("dmg", "mul", (MZ, n, "combat_config", "attack_multiplier"))]
-def myf(n): return [("hp", "mul", (MY, n, "health")), ("dmg", "mul", (MY, n, "damage"))]
+def myf(n, dk="damage"): return [("hp", "mul", (MY, n, "health")), ("dmg", "mul", (MY, n, dk))]  # swampjaw/rosalyne: "melee"
 def br(n): return [("hp", "set", (BR, n + " Health")), ("armor", "set", (BR, n + " Armor")), ("dmg", "set", (BR, n + " Damage"))]
 def bomd(n): return [("hp", "set", (BM, n, "health")), ("armor", "set", (BM, n, "armor")), ("dmg", "set", (BM, n, "attack"))]
 PACK = {"cataclysm:ignis": cata("Ignis", "IgnisDamageCap"), "cataclysm:ender_guardian": cata("EnderGuardian", "EnderGuardianDamageCap"),
         "cataclysm:netherite_monstrosity": cata("Monstrosity", "MonstrosityDamageCap"), "cataclysm:the_harbinger": cata("Harbinger", "The Harbinger DamageCap"),
         "cataclysm:the_leviathan": cata("Leviathan", "LeviathanDamageCap"), "cataclysm:ancient_remnant": cata("AncientRemnant", "AncientRemnantCap"),
         "cataclysm:maledictus": cata("Maledictus", "MaledictusDamageCap"), "cataclysm:scylla": cata("Scylla", "Scylla DamageCap"),
-        "meetyourfight:swampjaw": myf("swampjaw"), "meetyourfight:bellringer": myf("bellringer"), "meetyourfight:dame_fortuna": myf("fortuna"), "meetyourfight:rosalyne": myf("rosalyne"),
+        "meetyourfight:swampjaw": myf("swampjaw", "melee"), "meetyourfight:bellringer": myf("bellringer"), "meetyourfight:dame_fortuna": myf("fortuna"), "meetyourfight:rosalyne": myf("rosalyne", "melee"),
         "block_factorys_bosses:yeti": br("Yeti"), "block_factorys_bosses:infernal_dragon": br("Dragon"), "block_factorys_bosses:underworld_knight": br("Knight"),
         "terramity:gob": [("hp", "set", (TE, "Gob, King of Gnomes Health"))], "terramity:super_sniffer": [("hp", "set", (TE, "Super Sniffer Health"))],
         "terramity:ultra_sniffer": [("hp", "set", (TE, "Ultra Sniffer Health"))], "terramity:trial_guardian": [("hp", "set", (TE, "Trial Guardian Health"))],
@@ -134,7 +141,11 @@ def one(e):
         got = []
         for k, how, path in PACK[e]:
             v = cfg_get(path)
-            if v is None: continue
+            if v is None:
+                # goety() and bomd() are templates over many bosses whose configs name only some stats (no
+                # vizierArmor, no lichConfig.attack in the pack): a gap there is fine. Anywhere else it is a wrong key.
+                if path[0] not in (GO, BM): UNRES.append((e, k, path))
+                continue
             if how == "set": o[k] = v
             elif how == "mul": o[k] = o[k] * v if o.get(k) is not None else None
             elif how == "add": o[k] = (o.get(k) or 0) + v
@@ -143,7 +154,10 @@ def one(e):
         if got: src.insert(0, "pack config " + path[0] + " (" + ", ".join(got) + ")")
     for k in KEYS + ("cap",):
         if k in o: o[k] = round(float(o[k]), 2)
+    o["monster"] = SUP[e] if e in SUP else OLD.get(e, {}).get("monster")
+    if o["monster"] is None: UNRES.append((e, "monster", "no superclass chain"))
     o["src"] = "; ".join(src)
+    o["monster"] = o.pop("monster")  # after src, as the committed file has it
     return o
 
 out = {}; miss = []
@@ -155,5 +169,6 @@ for n, e in rows:
         if not any({k: v for k, v in x.items() if k != "entity"} == {k: v for k, v in s.items() if k != "entity"} for x in st): st.append(s)
     if st: out[n] = st
     else: miss.append(n)
+if UNRES: sys.exit("unresolved, side_stats.json not written:\n" + "\n".join(map(str, UNRES)))
 (H / "side_stats.json").write_text(json.dumps(out, ensure_ascii=False, indent=0), encoding="utf-8")
 print(len(out), "bosses with stats; none for:", miss)
