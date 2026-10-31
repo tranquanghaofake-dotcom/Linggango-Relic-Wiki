@@ -35,7 +35,11 @@
 "legendary_monsters:the_tesseract": 6.3,
 "legendary_monsters:enderitium_sword": 6.3,
 "legendary_monsters:enderitium_axe": 6.3,
-"brutality:old_gpu": 7
+"brutality:old_gpu": 7,
+"mysticalagriculture:awakened_supremium_boots": 8,
+"mysticalagriculture:awakened_supremium_chestplate": 8,
+"mysticalagriculture:awakened_supremium_helmet": 8,
+"mysticalagriculture:awakened_supremium_leggings": 8
 },
 "note": {
 "alexscaves:gingerbread_boots": "?No recipe or loot table found: likely a code-only drop. Verify in game.",
@@ -249,6 +253,222 @@
 "opposing_force:emerald_boots": "?Opposing Force has no recipe or loot table for it in 1.20.1 (2.0.3): likely not obtainable. Verify in game.",
 "opposing_force:emerald_chestplate": "?Opposing Force has no recipe or loot table for it in 1.20.1 (2.0.3): likely not obtainable. Verify in game.",
 "opposing_force:emerald_leggings": "?Opposing Force has no recipe or loot table for it in 1.20.1 (2.0.3): likely not obtainable. Verify in game.",
-"opposing_force:emerald_mask": "?Opposing Force has no recipe or loot table for it in 1.20.1 (2.0.3): likely not obtainable. Verify in game."
+"opposing_force:emerald_mask": "?Opposing Force has no recipe or loot table for it in 1.20.1 (2.0.3): likely not obtainable. Verify in game.",
+"animus:hand_of_death": "!Its recipe needs Malum (malum), which is not in the pack: not obtainable in survival.",
+"mysticalagriculture:awakened_supremium_boots": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:awakened_supremium_chestplate": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:awakened_supremium_helmet": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:awakened_supremium_leggings": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:imperium_boots": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:imperium_chestplate": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:imperium_helmet": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:imperium_leggings": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:inferium_boots": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:inferium_chestplate": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:inferium_helmet": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:inferium_leggings": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:prudentium_boots": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:prudentium_chestplate": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:prudentium_helmet": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:prudentium_leggings": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:supremium_boots": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:supremium_chestplate": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:supremium_helmet": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:supremium_leggings": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:tertium_boots": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:tertium_chestplate": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:tertium_helmet": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"mysticalagriculture:tertium_leggings": "!Disabled by the pack: KubeJS removes every recipe (kubejs/server_scripts/mods/mysticalagriculture/recipes.js) and JEI hides it.",
+"somakespells:tide_piercer": "!Its recipe needs Iron's Spells: Magic from the East (iss_magicfromtheeast), which is not in the pack: not obtainable in survival.",
+"somakespells:trumpet_axe": "!Its recipe needs Familiars Lib (familiarslib), which is not in the pack: not obtainable in survival."
+},
+"drop_rc": {
+"minecraft:wooden_sword": "all",
+"minecraft:wooden_axe": "all",
+"somakespells:tide_piercer": "all",
+"somakespells:trumpet_axe": "all",
+"animus:hand_of_death": "all",
+"composite_material:flint_axe": [
+[
+"minecraft:flint"
+]
+],
+"goety_revelation:spectre_darkmage_boots": [
+[
+"goety_revelation:spectre_boots",
+"minecraft:sculk_shrieker",
+"goety:hunger_core",
+"goety:spirit_fabric",
+"goety:spirit_fabric",
+"goety:dark_ingot",
+"goety:dark_ingot"
+]
+],
+"goety_revelation:spectre_darkmage_chestplate": [
+[
+"goety_revelation:spectre_chestplate",
+"minecraft:sculk_shrieker",
+"goety:hunger_core",
+"goety:spirit_fabric",
+"goety:spirit_fabric",
+"goety:dark_ingot",
+"goety:dark_ingot",
+"goety:dark_ingot",
+"goety:dark_ingot"
+]
+],
+"goety_revelation:spectre_darkmage_helmet": [
+[
+"goety_revelation:spectre_helmet",
+"minecraft:sculk_shrieker",
+"goety:hunger_core",
+"goety:spirit_fabric",
+"goety:spirit_fabric",
+"goety:dark_ingot",
+"goety:dark_ingot"
+]
+],
+"goety_revelation:spectre_darkmage_leggings": [
+[
+"goety_revelation:spectre_leggings",
+"minecraft:sculk_shrieker",
+"goety:hunger_core",
+"goety:spirit_fabric",
+"goety:spirit_fabric",
+"goety:dark_ingot",
+"goety:dark_ingot"
+]
+],
+"goety_revelation:spider_darkmage_boots": [
+[
+"goety_revelation:spider_boots",
+"goety:spider_nest",
+"goety:mystic_core",
+"goety:occult_fabric",
+"goety:occult_fabric",
+"goety:dark_ingot",
+"goety:dark_ingot"
+]
+],
+"goety_revelation:spider_darkmage_chestplate": [
+[
+"goety_revelation:spider_chestplate",
+"goety:spider_nest",
+"goety:mystic_core",
+"goety:occult_fabric",
+"goety:occult_fabric",
+"goety:dark_ingot",
+"goety:dark_ingot",
+"goety:dark_ingot",
+"goety:dark_ingot"
+]
+],
+"goety_revelation:spider_darkmage_helmet": [
+[
+"goety_revelation:spider_helmet",
+"goety:spider_nest",
+"goety:mystic_core",
+"goety:occult_fabric",
+"goety:occult_fabric",
+"goety:dark_ingot",
+"goety:dark_ingot"
+]
+],
+"goety_revelation:spider_darkmage_leggings": [
+[
+"goety_revelation:spider_leggings",
+"goety:spider_nest",
+"goety:mystic_core",
+"goety:occult_fabric",
+"goety:occult_fabric",
+"goety:dark_ingot",
+"goety:dark_ingot"
+]
+]
+},
+"merge": {
+"mowziesmobs:geomancer": {
+"n": "Geomancer",
+"from": [
+"mowziesmobs:geomancer",
+"mowziesmobs:geomancer_beads",
+"mowziesmobs:geomancer_belt",
+"mowziesmobs:geomancer_sandals"
+]
+},
+"mekanism:mekasuit": {
+"n": "MekaSuit",
+"from": [
+"mekanism:mekasuit",
+"mekanism:mekasuit_bodyarmor"
+]
+},
+"ad_astra:space_suit": {
+"n": "Space Suit",
+"from": [
+"ad_astra:space",
+"ad_astra:space_suit"
+]
+},
+"ad_astra:netherite_space_suit": {
+"n": "Netherite Space Suit",
+"from": [
+"ad_astra:netherite_space",
+"ad_astra:netherite_space_suit"
+]
+},
+"mekanism:hazmat": {
+"n": "Hazmat",
+"from": [
+"mekanism:hazmat",
+"mekanism:hazmat_gown"
+]
+},
+"mekanism:scuba": {
+"n": "Scuba",
+"from": [
+"mekanism:scuba",
+"mekanism:scuba_tank"
+]
+},
+"alexscaves:darkness": {
+"n": "Darkness",
+"from": [
+"alexscaves:of_darkness",
+"alexscaves:cloak_of_darkness"
+]
+},
+"create:copper_diving": {
+"n": "Copper Diving",
+"from": [
+"create:copper_diving",
+"create:copper_backtank"
+]
+},
+"create:netherite_diving": {
+"n": "Netherite Diving",
+"from": [
+"create:netherite_diving",
+"create:netherite_backtank"
+]
+},
+"immersive_armors:robe": {
+"n": "Robe",
+"from": [
+"immersive_armors:robe_helmet",
+"immersive_armors:robe_chestplate",
+"immersive_armors:robe_leggings",
+"immersive_armors:robe_boots"
+]
+},
+"bloodmagic:living": {
+"n": "Living",
+"from": [
+"bloodmagic:livinghelmet",
+"bloodmagic:livingplate",
+"bloodmagic:livingleggings",
+"bloodmagic:livingboots"
+]
+}
 }
 }

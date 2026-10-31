@@ -1,7 +1,9 @@
 """Index recipes and loot tables from mod jars + pack datapacks (kubejs/data), minus recipes the pack's
 KubeJS scripts remove. Writes rec.json: {recipes: out_id -> [{t,ing:[ids/#tags],src}], loot: id -> [table], removed:[...]}
 As the game loads datapacks: a later source (jars in name order, then kubejs/data) replaces a recipe or loot table of the same id,
-and tag files of one id add up unless one says "replace": true."""
+and tag files of one id add up unless one says "replace": true. A recipe whose conditions fail is not loaded (forge:false stubs,
+forge:mod_loaded of a mod the pack lacks, forge:not/and/or, forge:item_exists), and one with an item ingredient from a namespace
+no jar provides fails to parse in game: neither is indexed."""
 import sys, json, glob, zipfile, re, os, collections
 S = sys.argv[1]
 recipes = collections.defaultdict(list); loot = collections.defaultdict(set); tags = collections.defaultdict(set)
@@ -34,6 +36,31 @@ def lootitems(o, acc):
         for v in o.values(): lootitems(v, acc)
     elif isinstance(o, list):
         for x in o: lootitems(x, acc)
+# the pack's mod ids (mods.toml) and every namespace a jar carries assets for: whose items the game has. Not data/: mods ship
+# compat data for absent mods (animus, ars_nouveau and goety carry data/malum)
+MODS, NS = {'minecraft', 'forge'}, {'minecraft', 'forge', 'c', 'kubejs'}
+JARS = sorted(glob.glob(S + '/pack/mods/*.jar'))
+for j in JARS:
+    try: z = zipfile.ZipFile(j)
+    except Exception: continue
+    for n in z.namelist():
+        if n.endswith('mods.toml') and n.startswith('META-INF/'):
+            MODS.update(re.findall(r'(?m)^\s*modId\s*=\s*"([^"]+)"', z.read(n).decode('utf8', 'ignore')))
+        m = re.match(r'assets/([a-z0-9_.-]+)/', n)
+        if m: NS.add(m.group(1))
+NS |= MODS
+def cond_ok(c):
+    if isinstance(c, list): return all(cond_ok(x) for x in c)
+    if not isinstance(c, dict): return True
+    t = str(c.get('type', '')).replace('forge:', '')
+    if t == 'false': return False
+    if t == 'true': return True
+    if t == 'mod_loaded': return c.get('modid') in MODS
+    if t == 'item_exists': return str(c.get('item', '')).split(':')[0] in NS
+    if t == 'not': return not cond_ok(c.get('value'))
+    if t == 'and': return all(cond_ok(x) for x in c.get('values', []))
+    if t == 'or': return any(cond_ok(x) for x in c.get('values', []))
+    return True  # a mod's own condition type: assumed met
 def feed(path, raw, src):
     m = re.match(r'data/([^/]+)/(recipes|loot_tables|tags/items)/(.+)\.json$', path)
     if not m: return
@@ -43,8 +70,11 @@ def feed(path, raw, src):
     if kind == 'recipes':
         if not isinstance(o, dict): return
         a = []; ings(o, a); rid = ns + ':' + p
-        if rid in RBY:  # the same id from a later source replaces it
+        if rid in RBY:  # the same id from a later source replaces it (a forge:false stub of the same id disables it)
             for out in RBY[rid][0]: recipes[out] = [r for r in recipes[out] if r is not RBY[rid][1]]
+            del RBY[rid]
+        if not cond_ok(o.get('conditions', [])): return
+        if any(x.lstrip('#').split(':')[0] not in NS for x in a if not x.startswith('#')): return
         r = {'id': rid, 't': str(o.get('type', '')), 'ing': a[:16], 'src': src}; RBY[rid] = (outs(o), r)
         for out in RBY[rid][0]: recipes[out].append(r)
     elif kind == 'loot_tables':
@@ -54,7 +84,7 @@ def feed(path, raw, src):
         for v in (o.get('values', []) if isinstance(o, dict) else []):
             v = v.get('id') if isinstance(v, dict) else v
             if isinstance(v, str): tags[ns + ':' + p].add(v)
-for j in sorted(glob.glob(S + '/pack/mods/*.jar')):
+for j in JARS:
     try: z = zipfile.ZipFile(j)
     except Exception: continue
     for n in z.namelist():

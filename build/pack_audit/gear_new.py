@@ -127,7 +127,7 @@ for i in new:
         for x in r["i"][1:]:
             xa = ACT.get(x.lstrip("#"))
             if xa is not None and (a is None or oi(xa) > oi(a)): a, why = xa, "recipe"
-    g = {"id": i, "n": nm, "ns": i.split(":")[0], "k": k, "a": a if a is not None else 0, "ga": a if a is not None else 0, "at": {}, "src": [],
+    g = {"id": i, "n": nm, "ns": i.split(":")[0], "k": k, "a": a if a is not None else 0, "at": {}, "src": [],
          "rc": RC.get(i, [])[:3], "lt": LT.get(i, [])[:4], "cls": [], "off": {}, "dump": 1}
     if sl: g["sl"] = sl
     if a is None: g["ob"] = "?Added from the 6.6.6hf in-game dump; its Act could not be read from a tier tag or a recipe, so it sits at the start."
@@ -142,15 +142,19 @@ for _ in range(6):
             for x in r["i"][1:]:
                 xa = ACT.get(x.lstrip("#"))
                 if xa is not None and oi(xa) > oi(g["a"]):
-                    g["a"] = g["ga"] = xa; ACT[g["id"]] = xa; moved = True
+                    g["a"] = xa; ACT[g["id"]] = xa; moved = True
                     g["ob"] = "?Added from the 6.6.6hf in-game dump; its Act is read from the piece it is upgraded from." if "ob" in g else g.get("ob")
                     if g["ob"] is None: g.pop("ob")
     if not moved: break
 # sets: pieces grouped like gear_data.py does (the id without its slot word)
 SLOTW = r"(helmet|chestplate|leggings|boots|helm|cap|hood|robe|robes|pants|tunic|greaves|crown|mask|hat|chest|legs|feet|head|armor|armour)"
 def setkey(i):
-    n = i.split(":")[1]; t = [x for x in n.split("_") if not re.fullmatch(SLOTW, x)]
-    return i.split(":")[0] + ":" + ("_".join(t) or n)
+    n = i.split(":")[1]; parts = n.split("_"); t = [x for x in parts if not re.fullmatch(SLOTW, x)]
+    if not t: t = parts[:1]                      # robe_helmet -> robe
+    elif len(parts) == 1:                        # livinghelmet -> living
+        m = re.fullmatch(r"([a-z0-9]+?)" + SLOTW, n)
+        if m: t = [m.group(1)]
+    return i.split(":")[0] + ":" + "_".join(t)
 sets = collections.defaultdict(list)
 for g in ge:
     if g["k"] == "armor": sets[setkey(g["id"])].append(g)

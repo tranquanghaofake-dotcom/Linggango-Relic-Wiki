@@ -331,9 +331,16 @@ print('variants merged', len(drop))
 # ---------- armor sets ----------
 SLOTW = r'(helmet|chestplate|leggings|boots|hood|robe|cap|tunic|pants|crown|mask|greaves|sabatons|hat|chest|legs|feet|head|armor|armour|helm|plate|leggins|shoes|robes)'
 def setkey(i):
-    n = i.split(':')[1]
-    toks = [t for t in n.split('_') if not re.fullmatch(SLOTW, t)]
-    return i.split(':')[0] + ':' + ('_'.join(toks) or n)
+    """the id without its slot words: robe_helmet -> robe (every token a slot word keeps the first), livinghelmet -> living
+    (a slot word joined to a one-token id). Families named per piece (geomancer_beads/belt/sandals, mekasuit_bodyarmor,
+    copper_backtank) still split: patches/gear_fix.json "merge" joins them"""
+    n = i.split(':')[1]; parts = n.split('_')
+    toks = [t for t in parts if not re.fullmatch(SLOTW, t)]
+    if not toks: toks = parts[:1]
+    elif len(parts) == 1:
+        m = re.fullmatch(r'([a-z0-9]+?)' + SLOTW, n)
+        if m: toks = [m.group(1)]
+    return i.split(':')[0] + ':' + '_'.join(toks)
 sets = collections.defaultdict(list)
 for g in GE:
     if g['k'] == 'armor': sets[setkey(g['id'])].append(g)

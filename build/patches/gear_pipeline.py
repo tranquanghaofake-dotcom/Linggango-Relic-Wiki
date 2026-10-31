@@ -4,9 +4,10 @@ generated file back. Stages run in the order below, each is a function on {GE, G
   1 gear_rebuild.load   gear_table.json (extraction), gear_names.json (mod names), gear_icons.json (icons)
   2 gear_extra          weapons the extraction skips (gear_extra.json)
   3 gear_gate           Acts raised by modded ingredients the pack unlocks late (gear_gate.json)
-  4 gear_fix            audit fixes: gated Acts, source notes, attack speeds (gear_fix.json)
   5 gear_stats          attributes the extraction could not read: Summonity / Hazen / Iron's armor, Mowzie tools, trick pairs
   5b gear_added       weapons and armor only the 6.6.6hf in-game dump has (gear_new.json, pack_audit/gear_new.py)
+  5c gear_fix           audit fixes (gear_fix.json): ingredient Acts, source notes, dead recipes, attack speeds, and armor
+                        families the scan split merged into one set; after gear_added so it reaches the dump's pieces too
   6 gear_runtime        attribute modifiers read in game (the pack's own kubejs dump_gear) replace the jar reading where present
   7 boss_order.gear     boss drops sit at their boss's Act
   8 gear_fx             what an item does on hit, while worn or held, on use (gear_fx.json, pack_audit/gear_fx.py: the mod's bytecode
@@ -103,7 +104,8 @@ def gear_measure(st):
         if rec or old: g["fx"] = rec + old
     for x in st["GS"]:
         m = S.get(x["k"])
-        if not m: continue
+        # a merged family's key was measured on the one piece that set then held: not the family worn
+        if not m or x["k"] in gear_fix.MERGED: continue
         x["ms"] = {"taken": m["taken"]}
         if m.get("evr"): x["ms"]["evr"] = m["evr"]
         # armor, toughness and health worn in game stand for the set where the stats could not be read (they were the Act's
@@ -132,7 +134,7 @@ def drop_curios(st):
     st["GE"] = [g for g in st["GE"] if g["id"] not in gone]
     for x in st["GS"]: x["p"] = [i for i in x["p"] if i not in gone]
     st["GS"] = [x for x in st["GS"] if x["p"]]
-for stage in (gear_extra.apply, gear_gate.apply, gear_fix.apply, gear_stats.apply, gear_added.apply, gear_runtime.apply, boss_order.gear, gear_fx, gear_measure, drop_curios):
+for stage in (gear_extra.apply, gear_gate.apply, gear_stats.apply, gear_added.apply, gear_fix.apply, gear_runtime.apply, boss_order.gear, gear_fx, gear_measure, drop_curios):
     stage(st)
 # the lock is the pack's gate and only that: no stage after gear_runtime may move it
 bad = [(g["id"], g.get("ga"), gear_runtime.gate(g["id"])) for g in st["GE"] if g.get("ga") != gear_runtime.gate(g["id"])]
