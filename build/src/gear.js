@@ -2,9 +2,9 @@
 /* GE: weapons and armor pieces, GS: armor sets (built by build/gear/gear_data.py from the pack files) */
 const GROLE={ME:"Melee",RA:"Ranged",MA:"Mage",SU:"Summon"};
 const GKIND={melee:"Melee weapon",ranged:"Ranged weapon",magic:"Staff / magic weapon",summon:"Summon weapon",armor:"Armor"};
-/* tier = score as a share of the best score at that Act: S ≥85%, A ≥70%, B ≥55%, C ≥40%, else D */
+/* tier = score as a share of the fifth best score at that Act (gTiers): S ≥85%, A ≥70%, B ≥55%, C ≥40%, else D */
 const GTIER_R=[.85,.7,.55,.4,0];
-/* gear under a quarter of the best at an Act is left off its list (still found by search and on its own page) */
+/* gear under a quarter of that fifth best at an Act is left off its list (still found by search and on its own page) */
 const GFLOOR=.25;
 const GTIER=[["S",.06,"#d0564c"],["A",.2,"#d98a3d"],["B",.4,"#cdb45a"],["C",.65,"#6fa86a"],["D",1.01,"#6f8fc4"]];
 const GSLOT={HELMET:"Head",CHESTPLATE:"Chest",LEGGINGS:"Legs",BOOTS:"Feet"};
@@ -14,13 +14,21 @@ const GATTR={attack_damage:"Attack Damage",attack_speed:"Attack Speed",armor:"Ar
  spell_power:"Spell Power",max_mana:"Max Mana",cooldown_reduction:"Cooldown Reduction",cast_time_reduction:"Cast Time Reduction",summon_damage:"Summon Damage",
  arrow_damage:"Arrow Damage",draw_speed:"Draw Speed",healing_received:"Healing Received",dodge_chance:"Dodge Chance",mining_speed:"Mining Speed",
  experience_gained:"XP Gained",armor_shred:"Armor Shred",mana_regen:"Mana Regen",spell_resist:"Spell Resist",natural_regeneration_increase:"Natural Regen",
+ "ars_nouveau.perk.warding":"Warding","ars_nouveau.perk.mana_regen":"Mana Regen (Ars)","ars_nouveau.perk.spell_damage":"Spell Damage (Ars)","ars_nouveau.perk.max_mana":"Max Mana (Ars)",
  "goety.spell_potency":"Spell Potency (Goety)","goety_revelation.spell_power":"Goety Spell Power","goety.casting_speed":"Casting Speed (Goety)"};
-const gAttr=k=>GATTR[k]||k.replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+const gAttr=k=>GATTR[k]||k.replace(/^[a-z_]+\.perk\./,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
 const gRound=v=>Math.round(v*100)/100;
-/* "+12% Spell Power" / "+2 Attack Damage", the way the game words AttributeModifier operations */
-/* Brutality's critical_strike_* attributes show their raw value in game ("+0.01 Critical Chance"), so they are not turned into percents */
-const gMod=(k,add,mul)=>{const p=[];const pct=/chance|damage_taken|lifesteal|life_steal|crit_damage|healing|dodge|reduction|shred/.test(k)&&!/^critical_strike/.test(k)&&Math.abs(add)<=2;
- if(add)p.push((add>0?"+":"")+(pct?gRound(add*100)+"%":/^critical_strike/.test(k)?+add.toFixed(2):gRound(add))+" "+gAttr(k));
+/* "+12% Spell Power" / "+2 Attack Damage", the way the game words AttributeModifier operations. An addition is a percent only for the
+   attributes the game prints as one: Apothic Attributes' PercentBased ones, the base-1 multipliers (damage taken, Brutality's lifesteal,
+   omnivamp, armor penetration and dodge chance) and Iron's fractions; every other addition is flat (Dodge Window +0.5 is half a second).
+   Brutality's critical_strike_* attributes show their raw value in game ("+0.01 Critical Chance"), so they are not turned into percents;
+   knockback resistance is printed x10, as the vanilla tooltip does (0.1 reads "+1 Knockback Resistance") */
+const GPCT=new Set(["armor_shred","arrow_damage","arrow_velocity","crit_chance","crit_damage","current_hp_damage","dodge_chance","draw_speed",
+ "experience_gained","healing_received","life_steal","mining_speed","overheal","prot_shred","damage_taken","lifesteal","cooldown_reduction",
+ "cast_time_reduction","spell_resist","armor_penetration","omnivamp","bow_crit_chance","sigil_cost_reduction"]);
+const gPctK=k=>GPCT.has(k)||/_magic_resist$/.test(k);
+const gMod=(k,add,mul)=>{const p=[];
+ if(add)p.push((add>0?"+":"")+(gPctK(k)?gRound(add*100)+"%":/^critical_strike/.test(k)?+add.toFixed(2):gRound(k==="knockback_resistance"?add*10:add))+" "+gAttr(k));
  if(mul)p.push((mul>0?"+":"")+gRound(mul*100)+"% "+gAttr(k));return p};
 const GBY={};GE.forEach((g,i)=>{g.ix=i;GBY[g.id]=g});GS.forEach((s,i)=>{s.ix=i;s.ps=s.p.map(id=>GBY[id]).filter(Boolean)});
 const gIcon=g=>g.ps?(g.ps.find(p=>p.sl==="CHESTPLATE")||g.ps[0]):g;
@@ -35,8 +43,8 @@ const oiA=a=>{const i=ORDER.indexOf(a);return i>=0?i:ORDER.reduce((n,x,k)=>x<=a?
 /* progression ladder: one step per Act; Warden / Wither / Dragon are three thirds of a step */
 const GLAD={0:0,2:1,3:2,4:3,5:4,6:5,6.1:5.33,6.2:5.67,6.3:6,7:7,8:8,9:9,10:10,11:11,12:12};
 const gLad=a=>GLAD[a]!=null?GLAD[a]:oiA(a);
-/* the hit armor is judged against at each Act: the attack damage (entitybalance.json) of the Keeper that ends it.
-   Arion's own value is not in the file (12 sits between Goblin Lord and Eldorath); Act VIII is the Discord's four forms (20-68, about 50) */
+/* the hit armor is judged against at each Act: the attack damage (entitybalance.json) of the Keeper that ends it;
+   Act VIII is the Discord's four forms (20-68, about 50) */
 const GHIT={0:10,2:11,3:12,4:14,5:20,6:30,6.3:30,7:38,8:50,9:42,10:46,11:50,12:50};
 /* health from everything else you wear (curios, relics, levels) grows with the Act: armor +HP is judged on top of 20 + 4 per step */
 const gBaseHP=a=>20+4*gLad(a);
@@ -89,7 +97,7 @@ const GFR={};
 function gFront(a){const k=oiA(a);if(GFR[k])return GFR[k];
  const xs=GME.filter(g=>oiA(g.a)<=k).map(g=>[gMelee(g),gHit(g)]).sort((p,q)=>q[0]-p[0]).slice(0,10);
  return GFR[k]={dps:xs.reduce((s,x)=>s+x[0],0)/xs.length,hit:xs.reduce((s,x)=>s+x[1],0)/xs.length}}
-/* how much stronger the pack's weapons get per Act, fitted on the melee frontier (log-linear least squares over every Act): about +20% */
+/* how much stronger the pack's weapons get per Act, fitted on the melee frontier (log-linear least squares over every Act): fitted at load (1.24 on 6.6.6hf) */
 const GSTEP=(()=>{const p=ORDER.filter(x=>x>=0).map(a=>[gLad(a),Math.log(gFront(a).dps)]),n=p.length,
  sx=p.reduce((s,q)=>s+q[0],0),sy=p.reduce((s,q)=>s+q[1],0),sxx=p.reduce((s,q)=>s+q[0]*q[0],0),sxy=p.reduce((s,q)=>s+q[0]*q[1],0);
  return Math.min(1.3,Math.max(1.05,Math.exp((n*sxy-sx*sy)/(n*sxx-sx*sx))))})();
@@ -206,10 +214,17 @@ const gIsCurio=x=>!!(x&&x.ro&&x.st);
 const GCTX=/unarmed|bare[- ]?hand|empty armou?r slot|empty armor slots|without armou?r|lose all (your )?armou?r|armou?r stops working|armou?r debuff|standing still|stand still|below y ?0|underground|at full health|full health|health you (have )?lose|health you (have )?lost|missing health|low(er)? health|below \d+ ?% (of )?(your )?(max )?(health|hp)|during the day|in daylight|daytime|at night|during the night|nighttime/i;
 const gCtx=c=>{const m=GCTX.exec([c.fx||"",...(c.st||[])].join(" | "));return m?m[0]:""};
 /* the curio page's "Measured in game" section */
+/* the unit a measured change (CM d: the value worn minus the base) is printed in: flat points; a percent (base-1 multipliers, Apothic
+   PercentBased, Brutality's and Iron's fractions); a percent of the vanilla base (movement speed 0.1, gravity 0.08); knockback
+   resistance x10 as the game's tooltip. Kept apart from GCADD, which feeds the scores */
+const GUFLAT=/^(attack_damage|attack_speed|max_mana|minion_slots|entity_reach|max_health|armor|armor_toughness|gun_damage|goety\.casting_speed|ars_nouveau\.perk\.(max_mana|mana_regen|spell_damage|warding)|ars_elemental\.perk\.summon_power|luck|block_reach|step_height_addition|minion_range|max_rage|extra_difficulty|aggro|pickup_range|attack_knockback|lethality|armor_pierce|sword_damage|slash_damage|piercing_damage|fall_flying|jump_height)$/;
+const GUBASE={movement_speed:.1,entity_gravity:.08};
+const gUnit=p=>p==="knockback_resistance"?"x10":GUBASE[p]?"base":GUFLAT.test(p)?"flat":"pct";
+const gUval=(p,v)=>{const u=gUnit(p),a=Math.abs(v);return u==="pct"?gRound(a*100)+"%":u==="base"?gRound(a/GUBASE[p]*100)+"%":gRound(u==="x10"?a*10:a)};
 const gCName=p=>p.includes(".")&&GATTR[p]?GATTR[p]:p.replace(/^[a-z_]+\.perk\./,"").replace(/^([a-z_]+)\./,(x,ns)=>GCNS.test(ns)?"":x).replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
 function gCurioMs(c){const m=typeof CM!=="undefined"&&CM[c.id];if(!m)return "";const d=m.d||{},rows=[];
- for(const k in d){const p=GCK(k),v=d[k],pc=!GCADD.test(p)&&p!=="attack_speed";
-  rows.push(`<li>${v>0?"+":"−"}${pc?gRound(Math.abs(v)*100)+"%":gRound(Math.abs(v))} ${esc(gCName(p))} <span class="meta">${esc(k.split(":")[0])}</span></li>`)}
+ for(const k in d){const p=GCK(k),v=d[k];
+  rows.push(`<li>${v>0?"+":"−"}${gUval(p,v)} ${esc(gCName(p))} <span class="meta">${esc(k.split(":")[0])}</span></li>`)}
  const tk=m.tk||{},K={melee:"Melee",fire:"Fire",explosion:"Explosion",magic:"Magic",fall:"Fall"};
  const fxl=(m.fx||[]).map(([e,l,t])=>`${esc(gCName(e.split(":")[1]))} ${gRom(l)}${t>0&&t<2e4?` (${gRound(t/20)} s, renewed)`:""}`);
  const tfx=(m.tfx||[]).map(([e,l,t])=>`${esc(gCName(e.split(":")[1]))} ${gRom(l)} for ${gRound(t/20)} s`);
@@ -282,7 +297,7 @@ function gearPage(h){
  <li><b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does. Better Combat clears the target's hurt cooldown on every hit, so fast weapons are not capped at two hits a second. Staves, spears and gunblades whose melee damage is readable are ranked here too.</li>
  <li><b>Ranged, Mage, Summon weapons</b>: bow, gun and spell damage is set in each mod's code at shot time, so it cannot be read. They sit on the pack's power curve at the Act they unlock: the ten best melee weapons get about ${Math.round((GSTEP-1)*100)}% stronger per Act (fitted over all Acts), so an item one Act behind the frontier is at ${Math.round(100/GSTEP)}%, three behind at ${Math.round(100/GSTEP**3)}%. Then up to +10% for how hard it is to get (a boss drop or a many-part recipe over a one-ingredient craft), times its readable bonuses for the role (below).</li>
  <li><b>Armor sets</b>: score = output bonus × effective health<sup>k</sup>, the damage you deal times how long you last. Effective health uses Apothic Attributes' armor rule (damage × a/(a + armor), a = 10 for hits under 20, 10 + (hit − 20)/2 above) against the attack damage of the Keeper that ends the Act (10 at Act 0, 30 at Act VI, 50 at Act XII), on top of 20 + 4 HP per Act from your other gear, × damage-taken reduction and dodge. Toughness only blunts armor shred in this pack, so it counts little. k = 1 for Melee, 0.7 Ranged, 0.6 Mage and Summon (fighting at range, you take fewer hits). Output bonus: Melee attack damage (flat bonus against the Act's typical weapon hit), attack speed, crit, lifesteal; Ranged arrow damage, draw speed, crit; Mage: the better of Iron's (spell power + the best single school, × cast rate from cooldown reduction, × mana: +300 mana = +25%) and Ars Nouveau (flat spell damage against the Act's typical hit, × mana); Summon summon damage and +25% per extra minion slot. A plain set is the fallback in every list; a set built for the role beats it. Sets whose armor is computed in code get the median of their Act.</li>
- <li>Tiers compare each item with the best one usable at that Act: S is within 85% of it, A within 70%, B within 55%, C within 40%, the rest D; under 25% it is left off the list (search still finds it). When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.</li></ul></details></div></div>`;
+ <li>Tiers compare each item with the fifth best usable at that Act (not the very best, so one item far ahead does not push all the others down): S is at 85% of it or more, A 70%, B 55%, C 40%, the rest D; under 25% it is left off the list (search still finds it). When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.</li></ul></details></div></div>`;
  const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};
  seedBg("gear"+a,[]);decorate();
 }
@@ -298,8 +313,11 @@ const gRoles=g=>g.ps?Object.keys(GROLE).filter(r=>gOff(g,r,g.a)>1.02):Object.key
    so they are folded in here and left out of the bonus list: Topaz Leggings read 5 armor, 1 toughness, as in game */
 const GFOLD={armor:["arm","armor"],weapon:["dmg","spd"]};
 const gAdd=(g,k)=>(g.at[k]||[0,0])[0];
+/* knockback resistance as the tooltip prints it (x10): a piece's own plus its flat modifiers; a set's is the sum of its pieces' */
+const gKbr=g=>((g.kbr||0)+gAdd(g,"knockback_resistance"))*10;
+const gSetKbr=s=>s.ps.reduce((n,p)=>n+gKbr(p),0);
 function gStats(g){const rows=[];
- if(g.k==="armor"){if(g.arm!=null)rows.push(["gui_armor","Armor",gRound(g.arm+gAdd(g,"armor")),"code"]);const t=(g.tough||0)+gAdd(g,"armor_toughness");if(t)rows.push(["fx_resistance","Armor Toughness",gRound(t),"code"]);const kb=(g.kbr||0)+gAdd(g,"knockback_resistance");if(kb)rows.push(["","Knockback Resistance",gRound(kb*10),"code"])}
+ if(g.k==="armor"){if(g.arm!=null)rows.push(["gui_armor","Armor",gRound(g.arm+gAdd(g,"armor")),"code"]);const t=(g.tough||0)+gAdd(g,"armor_toughness");if(t)rows.push(["fx_resistance","Armor Toughness",gRound(t),"code"]);const kb=gKbr(g);if(kb)rows.push(["","Knockback Resistance",gRound(kb),"code"])}
  else{if(g.dmg!=null)rows.push(["fx_strength","Attack Damage",gRound(g.dmg+gAdd(g,"attack_damage")),"code"]);if(g.spd!=null)rows.push(["fx_haste","Attack Speed",gRound(g.spd+gAdd(g,"attack_speed")),"code"])}
  return rows}
 function gBonus(g){const fold=g.k==="armor"?(g.arm!=null?["armor","armor_toughness","knockback_resistance"]:[]):[g.dmg!=null?"attack_damage":"",g.spd!=null?"attack_speed":""];
@@ -375,7 +393,7 @@ function gMsHtml(g){const m=g.ms;if(!m)return "";
   if(m.st==="cond")return `<p class="note">Swung in game by the test player it dealt no damage, though its damage goes through once a hit lands. ${esc(m.why||"It needs a condition the test player did not meet.")} The score assumes you meet it and uses its attack damage.</p>`;
   const crit=!m.st&&!m.swx&&m.sw.some(v=>v>m.hit*1.3),why={dull:`It dealt ${gRound(m.hit)} a swing: a fresh one needs charge or a condition to hit hard (energy tools), so the score uses its attack damage.`,
    once:"The first swing landed and the next ones dealt 1: it is spent after a hit and recharges. The hit is the average of the three swings.",
-   pct:m.pct?`It deals ${gRound(m.pct.base)} plus ${gRound(m.pct.share*100)}% of the target's max health${m.pct.full?", only while the target is at full health":""}${m.pct.rate?` on ${gRound(m.pct.rate*100)}% of swings (the rest deal the ${gRound(m.pct.base)} alone; the score takes that average)`:""}: ${gRound(m.pct.base+m.pct.share*1e3)} against 1,000 health, ${gRound(m.pct.base+m.pct.share*1e4)} against 10,000, ${gRound(m.pct.base+m.pct.share*1e5)} against 100,000 (swung in game on targets of each). The score takes a 1,000-health target; a boss you have not beaten yet can lose at most about a tenth of its health in one burst (the pack's boss_intake), so on bosses the share stops at that.`:"",
+   pct:m.pct?`It deals ${gRound(m.pct.base)} plus ${gRound(m.pct.share*100)}% of the target's max health${m.pct.full?", only while the target is at full health":""}${m.pct.rate?` on ${gRound(m.pct.rate*100)}% of swings (the rest deal the ${gRound(m.pct.base)} alone; the score takes that average)`:""}: ${gRound(m.pct.base+m.pct.share*1e3)} against 1,000 health, ${gRound(m.pct.base+m.pct.share*1e4)} against 10,000, ${gRound(m.pct.base+m.pct.share*1e5)} against 100,000 (swung in game on targets of each). The score takes a 1,000-health target; a boss you have not beaten yet can lose at most about a tenth of its health in one burst (less for the last three Keepers) (the pack's boss_intake), so on bosses the share stops at that.`:"",
    grows:`That is ${gRound(m.hit/Math.max(1,m.ad))}× its attack damage (${gRound(m.ad)}): it adds damage that grows with the target's health (the test target has 100,000) or under a condition (from behind, charged), so the score uses its attack damage.`}[m.st];
   return `<table class="gst"><tr><td>Hit at full charge</td><td class="num">${gRound(m.hit)}</td></tr><tr><td>Three swings</td><td class="num">${m.sw.map(gRound).join(" · ")}</td></tr>${m.swx?`<tr><td>Re-measured</td><td class="num">${m.swx} swings, mean ${gRound(m.hit)}</td></tr>`:""}${m.heal?`<tr><td>Health back per hit</td><td class="num">${gRound(m.heal[0])}${m.heal[1]<1?` (${Math.round(m.heal[1]*3)} of 3)`:""}</td></tr>`:""}</table>
 <p class="note">Swung in game at full attack strength on an unarmored test target, by a test player past every Armageddon Keeper. ${m.swx?`Its hit rose above its attack damage, so it was swung again at five more targets; the hit is the mean of those ${m.swx} swings, random procs included. `:""}${why||`The hit is the middle swing${crit?"; the higher one is a random crit":""}, and is what the score uses.`}</p>`}
@@ -400,7 +418,7 @@ function gFxHtml(g){const fx=g.fx||[],tip=g.tip||[];if(!fx.length&&!tip.length)r
 function gearSetPage(s){document.title=s.n+" set · Linggango Wiki";seedBg("gs"+s.ix,[]);const r=gMain(s),mod=MODN(s.k.split(":")[0]);
  el("main").innerHTML=article({cls:"r0 gearart",style:`--tc:${ACT[s.a][2]};${tex(s.a)}`,crumb:crumb('<a href="#gear/'+GSTATE.a+'/'+r+'/a">Equipment</a>',esc(s.n)),title:esc(s.n)+" set",
   lead:`${s.ps.length}-piece armor set from ${esc(mod)}, usable from ${esc(actL(s.a))}.`,head:gVerdict(s),
-  secs:[["set","Full set",`<table class="gst">${s.kn?`<tr><td><i class="ai" style="--ai:var(--v-gui_armor)"></i>Armor</td><td class="num">${gRound(s.arm)}</td></tr><tr><td><i class="ai" style="--ai:var(--v-fx_resistance)"></i>Toughness</td><td class="num">${gRound(s.tough)}</td></tr>`:`<tr><td colspan="2" class="note">Base armor is computed in code the wiki could not read.</td></tr>`}${s.hp?`<tr><td><i class="ai" style="--ai:var(--v-gui_heart)"></i>Max Health</td><td class="num">${s.hp>0?"+":""}${gRound(s.hp)}</td></tr>`:""}${s.kbr?`<tr><td>Knockback Resistance</td><td class="num">${gRound(s.kbr)}</td></tr>`:""}${s.dtk?`<tr><td>Damage taken</td><td class="num">${s.dtk>0?"−":"+"}${gRound(Math.abs(s.dtk)*100)}%</td></tr>`:""}</table>`],
+  secs:[["set","Full set",`<table class="gst">${s.kn?`<tr><td><i class="ai" style="--ai:var(--v-gui_armor)"></i>Armor</td><td class="num">${gRound(s.arm)}</td></tr><tr><td><i class="ai" style="--ai:var(--v-fx_resistance)"></i>Toughness</td><td class="num">${gRound(s.tough)}</td></tr>`:`<tr><td colspan="2" class="note">Base armor is computed in code the wiki could not read.</td></tr>`}${s.hp?`<tr><td><i class="ai" style="--ai:var(--v-gui_heart)"></i>Max Health</td><td class="num">${s.hp>0?"+":""}${gRound(s.hp)}</td></tr>`:""}${gSetKbr(s)?`<tr><td>Knockback Resistance</td><td class="num">${gRound(gSetKbr(s))}</td></tr>`:""}${s.dtk?`<tr><td>Damage taken</td><td class="num">${s.dtk>0?"−":"+"}${gRound(Math.abs(s.dtk)*100)}%</td></tr>`:""}</table>`],
    (h=>h&&["fx","Effects",h])(gFxHtml({fx:s.fx,tip:[]})),
    (h=>h&&["ms","Measured in game",h])(gMsHtml(s)),
    ["pieces","Pieces",`<div class="gpcs">${s.ps.map(p=>`<a href="#g${p.ix}" data-t="g${p.ix}">${img(p.id)}<span>${esc(p.n)}</span><small>${p.arm!=null?gRound(p.arm)+" armor":""}${gBonus(p).length?" · "+gBonus(p).slice(0,2).join(", "):""}</small></a>`).join("")}</div>`],
@@ -411,12 +429,12 @@ function gearSetPage(s){document.title=s.n+" set · Linggango Wiki";seedBg("gs"+
   nav:wikiNav({act:s.a},[["Pieces",s.ps.map(p=>["#g"+p.ix,esc(p.n)])],[`Best ${esc(GROLE[r])} sets at ${esc(actL(s.a))}`,gTop(s.a,r,"a",s)]])});
  wireArticle();decorate()}
 const GATEN={2:"Iron Colossus",3:"the Goblin Lord",4:"Arion",5:"Eldorath",6:"Zoranth the Forgotten",7:"the Elvenite Paladin",8:"Vaedric",10:"Sanghor",11:"Zoranth Newborn"};
-const MODN=ns=>(MODS.find(([m,xs])=>xs.some(d=>d.id.startsWith(ns+":")))||[GNS[ns]||ns.replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase())])[0];
+const MODN=ns=>(MODS.find(([m,xs])=>xs.some(d=>d.id.startsWith(ns+":")))||[(GNS[ns]||ns.replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase())).trim()])[0];
 /* tooltip for gear tiles: same frame as the relic tooltip */
 function gearTip(n){const k=n.dataset.t,isSet=k[0]==="s",g=isSet?GS[+k.slice(1)]:GE[+k.slice(1)];if(!g)return;tipFor=n;
  const P=GTIER.map(x=>x[2]),c=ACT[g.a][2];tip.className="to gtip"+(tip.classList.contains("on")?" on":"");delete tip.dataset.mf;
  tip.style.setProperty("--c1",c);tip.style.setProperty("--c2",c+"aa");tip.style.setProperty("--c3","#1a1420");
- const rows=isSet?(g.kn?[`${gRound(g.arm)} Armor`,`${gRound(g.tough)} Armor Toughness`]:[]).concat(g.hp?[`+${gRound(g.hp)} Max Health`]:[]):gStats(g).map(([,n,v])=>`${v} ${n}`);
+ const rows=isSet?(g.kn?[`${gRound(g.arm)} Armor`,`${gRound(g.tough)} Armor Toughness`]:[]).concat(g.hp?[`+${gRound(g.hp)} Max Health`]:[]).concat(gSetKbr(g)?[`${gRound(gSetKbr(g))} Knockback Resistance`]:[]):gStats(g).map(([,n,v])=>`${v} ${n}`);
  const bon=isSet?Object.keys(GROLE).map(r=>[r,gOff(g,r,g.a)-1]).filter(x=>x[1]>.005).map(([r,v])=>`+${Math.round(v*100)}% ${GROLE[r]} output`):gBonus(g).slice(0,6);
  tip.innerHTML=`<div class="tbox"><div class="tfr"></div><div class="thd"><span class="tslot"><span class="aimg">${gImg(g)}</span></span><div class="tht"><div class="tnm">${esc(g.n)}${isSet?" set":""}</div><div class="tsub">${isSet?g.ps.length+(g.ps.length>1?" pieces":" piece"):esc(GKIND[g.k])+(g.sl?" · "+GSLOT[g.sl]:"")}</div></div></div>
  <div class="tbd">${rows.length?`<ul class="tst">${rows.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${bon.length?`<ul class="tst">${bon.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${g.est?'<p class="tsrc">≈ ranked by when you get it (base stats not readable)</p>':""}${g.ga?`<p class="tlock">${ui("lock")} Locked until ${esc(GATEN[g.ga])} falls</p>`:""}<p class="twhere">${esc(actL(g.a))}</p></div>
