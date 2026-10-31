@@ -1,0 +1,7 @@
+{
+  "_source": "Linggango 6.6.6hf server pack, config/ender_dragon_configuration_common.toml [\"Ender Dragon Settings\"], read by mods/ender_dragon_configuration-0.2.jar (com.misanthropy.linggango.stronger_ender_dragon.DragonEvents): on join MAX_HEALTH base = 200 x hpMultiplier and ARMOR base = armorValue; onLivingHurt multiplies damage a Player takes from the EnderDragon, an EnderDragonPart or a DragonFireball by dmgMultiplier. These are the world defaults (DragonSavedData 'stronger_dragon_data'); /enderdragonconfig can change them per world.",
+  "vanillaHp": 200.0,
+  "defaultHpMultiplier": 3.0,
+  "defaultDmgMultiplier": 2.0,
+  "defaultArmorValue": 30.0
+}

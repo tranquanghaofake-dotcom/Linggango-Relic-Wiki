@@ -1,0 +1,31 @@
+{
+  "_source": "Linggango 6.6.6hf server pack, mods/Armageddon for Forge 1.20.1 (v3.2.0b) - Polished.jar: data/forge/tags/entity_types/armageddon_bosses.json, copied as is (no other jar or kubejs/data replaces it). IncreaseLifeOfMobsAndDamgetestProcedureProcedure (EntityJoinLevelEvent) returns before the Hardmode health and damage multipliers for any entity in this tag; bare ids are minecraft:.",
+  "replace": false,
+  "values": [
+    "armageddon_mod:the_iron_colossus",
+    "armageddon_mod:sanghor_lord_of_bloodp_2",
+    "armageddon_mod:zoranththe_forgotten_one",
+    "armageddon_mod:little_mage_goblin",
+    "armageddon_mod:eldoraththe_ancient_builder",
+    "armageddon_mod:nyxaris_the_veil_of_oblivion",
+    "armageddon_mod:arion_tyrant_of_the_emerald_wrath_soldat",
+    "armageddon_mod:the_discord",
+    "armageddon_mod:the_elvenite_paladin",
+    "armageddon_mod:the_famine",
+    "armageddon_mod:sunbeam_1",
+    "wither",
+    "armageddon_mod:zoranth_newborn_of_the_zenith",
+    "ender_dragon",
+    "armageddon_mod:little_sword_goblin",
+    "armageddon_mod:vaedricthe_fallen_wanderer",
+    "armageddon_mod:arion_tyrantofthe_emerald_wrath_ravager",
+    "armageddon_mod:sanghor_lord_of_blood",
+    "armageddon_mod:ancient_allay",
+    "armageddon_mod:the_discord_illusion",
+    "armageddon_mod:passive_sunbeam",
+    "armageddon_mod:the_gobelin_lord",
+    "armageddon_mod:bringer_of_doom_p_2",
+    "armageddon_mod:bringer_of_doom",
+    "armageddon_mod:the_chaos"
+  ]
+}
