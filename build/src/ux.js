@@ -48,7 +48,7 @@ function search(q){q=q.toLowerCase().trim();if(!q)return[];const ws=q.split(/\s+
  return GROUPS.filter(([k])=>by[k]).sort((a,b)=>by[b[0]].s-by[a[0]].s).map(([k,n])=>[k,by[k].xs.slice(0,n),by[k].xs.length])}
 const hl=(n,q)=>{const i=n.toLowerCase().indexOf(q.toLowerCase().trim());return i<0||!q.trim()?esc(n):esc(n.slice(0,i))+"<mark>"+esc(n.slice(i,i+q.trim().length))+"</mark>"+esc(n.slice(i+q.trim().length))};
 /* recently opened pages: shown when the search box is focused empty (this browser only) */
-const RKEY="lgw-recent";let recent=[];try{recent=JSON.parse(localStorage.getItem(RKEY)||"[]")}catch(e){}
+const RKEY="lgw-recent";let recent=[];try{recent=JSON.parse(localStorage.getItem(RKEY)||"[]")}catch(e){}if(!Array.isArray(recent))recent=[];recent=recent.filter(x=>typeof x==="string");
 function remember(){const h=decodeURIComponent(location.hash);if(!/^#(i\d|gs?\d|boss\/|side\/)/.test(h))return;
  recent=[h,...recent.filter(x=>x!==h)].slice(0,8);try{localStorage.setItem(RKEY,JSON.stringify(recent))}catch(e){}}
 function drawRecent(){const by=new Map(index().map(e=>[decodeURIComponent(e.h),e]));const xs=recent.map(h=>by.get(h)).filter(Boolean);if(!xs.length)return false;

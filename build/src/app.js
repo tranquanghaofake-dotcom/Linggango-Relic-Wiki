@@ -216,11 +216,11 @@ function sideStats(n,a){const ss=typeof SSTAT!=="undefined"&&SSTAT[n];if(!ss)ret
 const BE=k=>typeof BST!=="undefined"&&BST[k]&&BST[k].effective||null;
 const keeperHp=k=>{const b=typeof BST!=="undefined"&&BST[k];return b&&b.effective&&b.effective.hp?fnum(b.effective.hp)+(b.phases.length>1?" per phase":""):""};
 const sideHp=(n,a)=>{const s=typeof SSTAT!=="undefined"&&SSTAT[n];return s&&s.length===1&&s[0].hp!=null?fnum(s[0].hp*(hmAfter(a)?HMX:1)):""};
-function sidePage(n){const b=typeof SIDEB!=="undefined"&&SIDEB[n],r=(typeof BOSSR!=="undefined"?BOSSR:[]).find(x=>x[0]===n);if(!b){location.replace("#home");return}
+function sidePage(n){const b=typeof SIDEB!=="undefined"&&SIDEB[n],r=(typeof BOSSR!=="undefined"?BOSSR:[]).find(x=>x[0]===n);if(!b){location.replace("#bosses");return}
  document.title=n+" · Linggango Wiki";const a=r?r[1]:0,pi=typeof PIMG!=="undefined"?PIMG.side[n]:null,sl=typeof BGRAPH!=="undefined"&&BGRAPH.soul&&BGRAPH.soul[n];
  const di=id=>IC[id]?img(id):(typeof BIMG!=="undefined"&&BIMG[id]?`<img alt="" src="${BIMG[id]}">`:"");
  const same=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(x=>x[1]===a&&SIDEB[x[0]]).map(x=>["#side/"+enc(x[0]),esc(x[0]),x[0]===n]);
- const src=`${b.src_note?`<p class="note">Source: ${esc(b.src_note)}</p>`:""}${b.sources&&b.sources.length?`<p class="note">Sources: ${b.sources.map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/,"").split("/")[0])}</a>`).join(" · ")}</p>`:""}`;
+ const src=`${b.src_note?`<p class="note">Source: ${esc(b.src_note)}</p>`:""}${b.sources&&b.sources.length?`<p class="note">Sources: ${b.sources.map(u=>/^https?:/.test(u)?`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/,"").split("/")[0])}</a>`:`<span>${esc(u)}</span>`).join(" · ")}</p>`:""}`;
  el("main").innerHTML=article({cls:"r0 bossart",style:`--tc:${ACT[a][2]};--rc:${ACT[a][2]}`,crumb:crumb('<a href="#bosses">Bosses</a>',esc(n)),title:esc(n),
   lead:`An optional side boss${b.mod?` from ${esc(b.mod)}`:""}. Fight it with <a href="#act/${a}">${esc(actL(a))}</a> gear.`,
   secs:[["find","Where to find it",`<p class="sbfind">${esc(b.find||"")}</p>${sl?`<p class="sbsoul">${img("linggango_tweaks:boss_soul")}<span><b>Boss Soul</b> · drops its soul, which can go into the ${esc(sl[0])}, the summon for ${esc(sl[1])}.</span></p>`:""}${pi?`<figure class="sbfig"><img class="sbarena" alt="Where it is fought" src="${pi}"></figure>`:""}`],
@@ -237,8 +237,9 @@ function sidePage(n){const b=typeof SIDEB!=="undefined"&&SIDEB[n],r=(typeof BOSS
 function bossPage(k){
  const a=bossPath(k);if(a===undefined){bossList();return}
  const nm=bossName(k),i=ORDER.indexOf(a),row=ACTS[BOSS_ACT[k]],side=SIDEV[k]!=null,vb=VBI[k==="ender_dragon"?"dragon":k],keeper=!side&&BOSS_ACT[k]!=null,kind=side?"Optional side boss":keeper?"Keeper":"Required boss";
- const prev=ORDER.slice(0,i).reverse().find(x=>PB[x]),next=ORDER.slice(i+1).find(x=>PB[x]);
- const sides=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(r=>r[1]===ORDER[i-1]&&!/Keeper/.test(r[0])&&!/^(Ender Dragon)\b/.test(r[0]));
+ // previous / next follow the Bosses list (KEEPERS(): Zoranth the Forgotten, Warden, Wither, Ender Dragon, ...); a side boss's own Act is a, a Keeper's fights are the Act before the one it opens
+ const KS=KEEPERS(),ki=KS.indexOf(k),prevK=ki>0?KS[ki-1]:ki<0?PB[ORDER.slice(0,i).reverse().find(x=>PB[x])]:undefined,nextK=ki>=0?KS[ki+1]:PB[ORDER.slice(i+1).find(x=>PB[x])];
+ const at=side?a:ORDER[i-1],sides=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(r=>r[1]===at&&r[0]!==nm&&!/Keeper/.test(r[0])&&!/^(Ender Dragon)\b/.test(r[0]));
  // the pack's own note for this Keeper ("Act V Keeper; 20 dmg / 50 armor"), matched by Keeper order, read only when it has that shape
  const kn=BOSS_ACT[k]!=null&&typeof BOSSR!=="undefined"?(BOSSR.filter(r=>/\(Keeper\)/.test(r[0]))[BOSS_ACT[k]-1]||[])[3]||"":"",ks=String(kn).match(/Keeper;\s*(\d+)\s*(?:dmg|damage)(?:\s*\/\s*(\d+)\s*armor)?/);
  const v=VSUM[k],u=typeof SUM!=="undefined"&&SUM[k],sit=v?v.item:u&&u.item,sitn=v?v.name:u&&u.name;
@@ -253,7 +254,7 @@ function bossPage(k){
   secs:[...secsOf(summonHtml(k),"sum"),(h=>h&&["stats","Stats",h])(keeperStats(k)),...secsOf(bossInfoHtml(k),"inf"),opens,
    row&&row[5]&&row[5]!=="—"&&["know","Good to know",`<p>${esc(pathText(row[5]))}</p>`],
    sides.length&&["side","Side bosses at this point",`<div class="tw"><table><tr><th>Boss</th><th>Where / notes</th><th>Useful drops</th></tr>${sides.map(r=>`<tr><td><b>${typeof SIDEB!=="undefined"&&SIDEB[r[0]]?`<a href="#side/${enc(r[0])}">${esc(r[0])}</a>`:esc(r[0])}</b></td><td>${esc(pathText(r[3]).replace(/[^;]*\d+\s*(dmg|damage|armor)[^;]*;?\s*/gi,"").trim()||"—")}</td><td>${r[4].slice(0,5).map(id=>ilink(id)).join(", ")||"—"}</td></tr>`).join("")}</table></div>`]],
-  after:`<nav class="pnx">${prev!==undefined?`<a href="#boss/${PB[prev]}"><small>← Previous boss</small>${esc(bossName(PB[prev]))}</a>`:"<span></span>"}${next!==undefined?`<a href="#boss/${PB[next]}"><small>Next boss →</small>${esc(bossName(PB[next]))}</a>`:""}</nav>`,
+  after:`<nav class="pnx">${prevK?`<a href="#boss/${prevK}"><small>← Previous boss</small>${esc(bossName(prevK))}</a>`:"<span></span>"}${nextK?`<a href="#boss/${nextK}"><small>Next boss →</small>${esc(bossName(nextK))}</a>`:""}</nav>`,
   art:`<div class="ip-art"><div class="ip-stage" style="${btex(a,k)}">${stage}${envFx(a,k)}</div></div>`,
   box:{head:`<span class="ip-slot">${emblem(a,"xs")}</span><div><b>${esc(nm)}</b><span>${kind}</span></div><i class="bossbar" aria-hidden="true"><i></i></i>`,
    rows:[["Type",kind],side?["Fight in",`<a href="#act/${a}">${esc(actL(a))}</a>`]:["Opens",`<a href="#act/${a}">${esc(actL(a))}</a>`],
@@ -829,8 +830,10 @@ const MODS=(()=>{const c={};D.forEach(d=>(c[d.m]=c[d.m]||[]).push(d));return Obj
 
 /* ---------- filter state ---------- */
 const st={c:[],g:[],r:[],x:[],m:"",s:"",a:"",q:"",nw:false,sort:"a",dir:1,cl:[],op:null,rl:0,rq:-1};
-try{const o=JSON.parse(localStorage.getItem("lgw2")||"{}");for(const k in st)if(k in o)st[k]=o[k]}catch(e){}st.cl=[];
-st.c=st.c.filter(k=>k in ROLE);
+// a saved key is kept only when its shape matches the default (an edited or foreign value falls back per key)
+try{const o=JSON.parse(localStorage.getItem("lgw2")||"{}");if(o&&typeof o==="object")for(const k in st){if(!(k in o))continue;const v=o[k],d=st[k];
+ if(k==="op"?v===null||Array.isArray(v)&&v.every(x=>typeof x==="number"):Array.isArray(d)?Array.isArray(v)&&v.every(x=>typeof x==="string"):typeof v===typeof d)st[k]=v}
+ st.c=st.c.filter(k=>k in ROLE);st.r=st.r.filter(x=>/^[0-6]$/.test(x));if(st.a!==""&&!ORDER.includes(+st.a))st.a=""}catch(e){}st.cl=[];
 const save=()=>{try{localStorage.setItem("lgw2",JSON.stringify(st))}catch(e){}};
 function pass(d,skip){
  return (skip==="x"||st.x.every(k=>d.mt.includes(k)))&&(skip==="r"||!st.r.length||st.r.includes(String(d.r)))
@@ -990,8 +993,10 @@ function activeBar(){const P=[];
    "I'm here" marks your run in this browser; the bar fills to it and the Acts after it fade. */
 const PHKEY="lgw-here";
 const pHere=()=>{try{const v=localStorage.getItem(PHKEY);return v===null?null:+v}catch(e){return null}};
+/* the saved Act when it is on The Path, else null (a stale or edited value must not close every Act) */
+const hereOn=()=>{const h=pHere();return h!==null&&ACT[h]&&ORDER.includes(h)?h:null};
 /* Title screen: one button carries the reader's run ("I'm here"), the rest of the wiki is in the top bar */
-const hereBtns=()=>{const h=pHere(),ok=h!==null&&ACT[h]&&ORDER.includes(h);
+const hereBtns=()=>{const h=hereOn(),ok=h!==null;
  return ok?`<a class="mcb wide" href="#home">Continue: ${esc(actL(h))}</a><a class="mcb" href="#gear/${h}/ME/w">Gear at ${esc(actL(h))}</a><a class="mcb" href="#build">Build planner</a>`
   :`<a class="mcb wide" href="#home">Browse curios</a><a class="mcb" href="#gear">Equipment</a><a class="mcb" href="#build">Build planner</a>`};
 function pSide(a){const pi=typeof PIMG!=="undefined"?PIMG:{side:{},act:{}};
@@ -1027,11 +1032,13 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
   // a transition cut short by the next click rejects ready/finished ("Transition was skipped"): not an error
   t.ready.catch(()=>{});t.finished.catch(()=>{}).finally(()=>{pans[i].style.viewTransitionName="";delete document.documentElement.dataset.pvt})};
  map.addEventListener("click",e=>{const t=e.target.closest(".pn");if(t){sel(+t.dataset.i);return}
-  const b=e.target.closest(".phere");if(b){const a=+b.dataset.here;try{pHere()===a?localStorage.removeItem(PHKEY):localStorage.setItem(PHKEY,a)}catch(e){}paint()}});
+  const b=e.target.closest(".phere");if(b){const a=+b.dataset.here;try{pHere()===a?localStorage.removeItem(PHKEY):localStorage.setItem(PHKEY,a)}catch(e){}
+   // a new run position drops the Acts opened by hand, so Continue lands on that Act; the title buttons and Start-here cards follow at once
+   st.op=null;save();paint();const tb=document.querySelector(".tbtns"),sq=document.querySelector(".sqs");if(tb)tb.innerHTML=hereBtns();if(sq){sq.outerHTML=startHere();const n=document.querySelector(".sqs");if(n)decorate(n)}}});
  map.querySelector(".ptrack").addEventListener("keydown",e=>{const k={ArrowRight:1,ArrowLeft:-1,Home:-99,End:99}[e.key];if(!k)return;e.preventDefault();sel(Math.max(0,Math.min(path.length-1,k===-99?0:k===99?path.length-1:cur+k)),true)});
  const h=pHere(),hi=h===null?-1:path.indexOf(h);paint();if(hi>0){pans[0].hidden=true;tabs[0].setAttribute("aria-selected","false");tabs[0].tabIndex=-1;if(!pans[hi].firstElementChild){pans[hi].innerHTML=pPanelInner(path[hi]);paint()}pans[hi].hidden=false;tabs[hi].setAttribute("aria-selected","true");tabs[hi].tabIndex=0;cur=hi}}
 /* the four questions players come to the wiki with, each answered by one page (uses the reader's "I'm here" Act when set) */
-function startHere(){const h=pHere(),ok=h!==null&&ACT[h]&&ORDER.includes(h),a=ok?h:ORDER.find(x=>x>=0),nb=NEXTB[a];
+function startHere(){const h=hereOn(),ok=h!==null,a=ok?h:ORDER.find(x=>x>=0),nb=NEXTB[a];
  const q=(href,ic,t,s)=>`<a class="sq" href="${href}"><span class="sqi">${ic}</span><span><b>${t}</b><small>${s}</small></span></a>`;
  return `<section class="sqs" aria-label="Start here">
  ${q(`#act/${a}`,emblem(a,"sm"),"What can I get now?",`Every curio you can reach at ${esc(actL(a))}.${ok?"":" Set your Act on The Path."}`)}
@@ -1075,7 +1082,11 @@ function hubList(kind,key){
  if(kind==="slot"){const rf=key.includes("?r=")?+key.split("?r=")[1]:null;key=key.split("?")[0];xs=key==="*"?D:D.filter(d=>d.sl.includes(key));if(rf!=null)xs=xs.filter(d=>d.r===rf);
   title=key==="*"?(rf!=null?`All ${RN[rf]} curios`:"All curios"):`${key} slot`;cr="Slot";if(key!=="*")lede=`Every curio worn in the ${key} slot, rarest first.${!SLOT_BASE[key]?` Players start with no ${key} slot: a curio or its own mod has to add one.`:""}`;
   bar=`<div class="brw-bar">${BIGSLOTS.map(([s])=>`<a href="#slot/${enc(s)}"${s===key?' aria-current="page"':""}>${esc(s)}</a>`).join("")}</div>`}
- else if(kind==="act"){const a=+key;xs=D.filter(d=>d.t===a);title=actL(a);cr="Curios";lede=`${ACT[a][1].charAt(0).toUpperCase()+ACT[a][1].slice(1)}.${a!=-1?` Next boss: ${ACTN[a]}.`:""} Must-Have items first, then rarest first.`;const bk=PB[a],nb=NEXTB[a],ti=typeof PIMG!=="undefined"&&PIMG.act[String(a)];
+ else if(kind==="act"){const a=+key;
+  // the Warden and Wither Acts were folded into Act VI (ORDER); an old link to them opens Act VI
+  if(a===6.1||a===6.2){location.replace("#act/6");return}
+  if(!/^-?\d+(\.\d+)?$/.test(key)||!ACT[a]||!(ORDER.includes(a)||a===-1)){document.title="Not found · Linggango Wiki";el("main").innerHTML=`${crumb("Curios")}<h1>No Act called “${esc(key)}”</h1><p class="lede">That Act is not on The Path. See every Act on <a href="#">The Path</a> or every curio on <a href="#home">Curios</a>.</p>`;return}
+  xs=D.filter(d=>d.t===a);title=actL(a);cr="Curios";lede=`${ACT[a][1].charAt(0).toUpperCase()+ACT[a][1].slice(1)}.${a!=-1&&ACTN[a]?` Next boss: ${ACTN[a]}.`:""} Must-Have items first, then rarest first.`;const bk=PB[a],nb=NEXTB[a],ti=typeof PIMG!=="undefined"&&PIMG.act[String(a)];
   const bl=(k,l)=>k?`<a class="actb" href="#boss/${k}">${emblem(bossPath(k),"sm")}<span><small>${l}</small><b>${esc(bossName(k))}</b></span><i>Guide →</i></a>`:"";
   hero=`<div class="actban" style="--tc:${ACT[a][2]}">${ti?`<img class="ptitle big" alt="" src="${ti}">`:""}<div class="actbs">${bl(bk,"Opened by beating")}${bl(nb,"Next boss")}</div></div>`;
   bar=`<div class="brw-bar">${ORDER.filter(a=>D.some(d=>d.t===a)).map(b=>`<a href="#act/${b}"${b===a?' aria-current="page"':""}>${actL(b)}</a>`).join("")}</div>`}
@@ -1113,7 +1124,7 @@ function modPage(m){
 /* The Path opens one Act by default (the reader's "I'm here" Act, else Act 0–I); a closed Act's tiles are only built when it opens.
    With filters on, every Act with matches is open unless closed by hand (st.cl). */
 let pathXs=[];
-const tierOpen=a=>fOn()?!st.cl.includes(a):(st.op||[pHere()??ORDER[0]]).includes(a);
+const tierOpen=a=>fOn()?!st.cl.includes(a):(st.op||[hereOn()??ORDER[0]]).includes(a);
 /* an Act shows its first 72 curios (best first) and a button for the rest: Act 0-I alone has over 600 */
 const TMORE=72;
 const tierTiles=(ys,all)=>ys.length?(all||ys.length<=TMORE+12?ys:ys.slice(0,TMORE)).map((d,i)=>tile(d,i)).join("")+(!all&&ys.length>TMORE+12?`<button type="button" class="mcb tmore" data-more="${ys[0].t}">Show all ${ys.length} curios</button>`:""):'<span class="empty">No items match the filters.</span>';
@@ -1274,7 +1285,7 @@ function page(d){
  let seeAll="";if(s0){const q0=st.q;st.q=slotQ(s0);let n=0,all=0;D.forEach(x=>{if(qMatch(x)){all++;if(pass(x))n++}});st.q=q0;
   seeAll=n===all?`see all ${all} →`:`see ${n} (your filters; ${all} in all) →`}
  const art=`<div class="ip-art"><span class="ip-badge">${RN[d.r]}</span><div class="ip-stage" style="${tex(d.t)}">${envFx(d.t)}<span class="orb" aria-hidden="true">${[0,1,2,3,4,5].map(i=>`<i style="--k:${i};--sp:var(--v-${MFSP[F[0]]||"p_glint"})"></i>`).join("")}</span><div class="ip-icon framed">${ic}${glint(d)}</div></div><span class="ip-mini">${ic}</span><span class="ip-path" title="${esc(actL(d.t))}">${emblem(d.t,"xs")}</span></div>`;
- const sib=s0?`<section class="sib"><h2>More ${esc(s0)} curios <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">${seeAll}</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>← Previous in ${esc(s0)}</small>${esc(pv.n)}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>Next in ${esc(s0)} →</small>${esc(nx.n)}</a>`:""}</nav></section>`:"";
+ const sib=s0&&near.length?`<section class="sib"><h2>More ${esc(s0)} curios <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">${seeAll}</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>← Previous in ${esc(s0)}</small>${esc(pv.n)}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>Next in ${esc(s0)} →</small>${esc(nx.n)}</a>`:""}</nav></section>`:"";
  el("main").innerHTML=article({cls:"r"+d.r,data:` data-mf="${F[0]}"`,style:`${tex(d.t)};--tc:${ACT[d.t][2]}`,
   crumb:`<div class="crumb ip-crumb"><a href="#">Home</a> / <a href="#home">Curios</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>`,
   pre:isMust(d)?'<span class="mstar">★</span>':"",title:esc(d.n),lead:fmt(d.fx),
@@ -1421,8 +1432,10 @@ function renderBase(){
  else if(h.startsWith("#side/"))sidePage(h.slice(6));
  else if(m)hubList(m[1],m[2]);
  else if(h==="#mods")hubList("mods");
- else if(h.startsWith("#i")&&D[+h.slice(2)]){page(D[+h.slice(2)]);recipeTree(D[+h.slice(2)])}
- else{document.title="Tier list · Linggango Wiki";home(xs,false)}
+ else if(/^#i\d+$/.test(h)&&D[+h.slice(2)]){page(D[+h.slice(2)]);recipeTree(D[+h.slice(2)])}
+ else{document.title="Curios · Linggango Wiki";home(xs,false);
+  // any other hash (an old bookmark, a curio id that no longer exists) draws Curios under a one-line notice
+  if(!/^#(home)?$/.test(h)){const mn2=el("main"),p=document.createElement("p");p.className="note nf";p.textContent=`No page called “${h.slice(1)}”. Here is the Curios list.`;const c=mn2.querySelector(".crumb");c?c.after(p):mn2.prepend(p)}}
  if(!soft&&!h.startsWith("#home")&&!h.startsWith("#build")&&h!=="#table")scrollTo(0,0);
 }
 /* extension points: a feature file (gear.js) registers handlers here instead of reassigning these functions, so script load order stops mattering.
@@ -1505,7 +1518,7 @@ document.addEventListener("click",e=>{
  const go=e.target.closest("[data-go]");if(go){e.preventDefault();el(go.dataset.go).scrollIntoView({behavior:RM?"auto":"smooth",block:"start"});return}
  if(e.target.closest("[data-top]")){e.preventDefault();scrollTo({top:0,behavior:RM?"auto":"smooth"});return}
  const tl=e.target.closest(".tl[data-tier]");if(tl){const a=+tl.dataset.tier,open=!tierOpen(a);
-  if(fOn()){const i=st.cl.indexOf(a);open?st.cl.splice(i,1):st.cl.push(a)}else{const o=st.op||[pHere()??ORDER[0]];st.op=open?[...o,a]:o.filter(x=>x!==a)}save();
+  if(fOn()){const i=st.cl.indexOf(a);open?st.cl.splice(i,1):st.cl.push(a)}else{const o=st.op||[hereOn()??ORDER[0]];st.op=open?[...o,a]:o.filter(x=>x!==a)}save();
   const s=tl.parentNode,t=s.querySelector(".tiles");if(open&&!t.childElementCount){t.innerHTML=tierTiles(pathXs.filter(d=>d.t===a));decorate(s)}
   s.classList.toggle("closed",!open);tl.setAttribute("aria-expanded",open)}
 });
