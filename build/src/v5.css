@@ -1133,7 +1133,7 @@ body:not(.hub) #main{background:var(--bg)}
 /* ===== build planner ===== */
 .bbar{display:flex;flex-wrap:wrap;gap:var(--s3) var(--s4);align-items:center;margin:var(--s4) 0;padding:var(--s3) var(--s3);border:1px solid var(--line);border-radius:8px;background:var(--panel)}
 .bbar label{display:flex;gap:var(--s2);align-items:center;font:600 12px var(--body);color:var(--mute)}
-.bbar select{max-width:280px}
+.bbar select{max-width:min(100%,460px)}
 .bpre,.bact{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;font:600 12px var(--body);color:var(--mute)}
 .bact{margin-left:auto}
 .bwarn{color:#e0565b;font-weight:600;margin:var(--s2) 0}

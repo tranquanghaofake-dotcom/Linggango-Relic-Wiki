@@ -5,6 +5,9 @@
 //   - uses an emoji as an icon (any emoji-presentation character, or a pictograph inside a button, chip, badge, heading or label).
 //   - (static, in the sources) sets a margin, padding or gap to a px length off the spacing scale: steps are var(--s1..s8)
 //     (4 8 12 16 24 32 48 64), literal 0 / 1 / 2 px for hairline nudges, negatives for border overlaps, over 64 px for layout sizes.
+//   - at 1440 px: draws a section heading (#main h2) smaller than 30 px, not in Jersey 15, smaller than a sub-heading under it, or
+//     as h2.glet; sets a Mechanics/Changes sub-heading or a Bosses group heading under 16 px from the block above; cuts the
+//     selected text of a select box; wraps an AE2 cell label (.sslot small) onto two lines.
 //   - at 375/414/768/1024/1180 px on one page of each kind and the main routes: scrolls sideways, keeps a detail page in two
 //     columns or draws its infobox over the article, or breaks a phone layout (Curios Act, footer, Equipment, hub slot list).
 // Prints, without failing, edges drawn within 40 px inside another edge (frame inside a frame), to look at by eye.
@@ -26,7 +29,7 @@ function spacingOffScale() {
   await p.goto('file://' + path.resolve(process.argv[2] || 'dist/Linggango_Relic_Wiki.html'), { waitUntil: 'load' });
   await p.waitForTimeout(2500);
   const sample = await p.evaluate(() => ['#i' + D[0].ix, '#i' + D[Math.floor(D.length / 2)].ix, '#g0', '#gs0', '#boss/' + KEEPERS()[3], '#side/' + encodeURIComponent(Object.keys(SIDEB)[0])]);
-  const routes = ['#', '#home', '#gear', '#bosses', '#build', '#mechanics', ...sample];
+  const routes = ['#', '#home', '#gear', '#bosses', '#build', '#mechanics', '#changes', ...sample];
   const fails = spacingOffScale().map(x => 'spacing ' + x), warn = [];
   for (const r of routes) {
     await p.evaluate(h => { location.hash = h }, r); await p.waitForTimeout(1800);
@@ -64,11 +67,25 @@ function spacingOffScale() {
       return out;
     });
     for (const k of ['round', 'scale', 'emoji']) for (const [s, n] of Object.entries(res[k])) fails.push(`${r} ${k}: ${s} (${n})`);
+    // headings and rhythm at 1440: section h2 30 px Jersey 15 and larger than its h3/h4, h3 and .bsec spaced, selects and cell labels whole
+    for (const x of await p.evaluate(() => {
+      const o = [], vis = e => { const q = e.getBoundingClientRect(); return q.width > 0 && q.height > 0 }, gap = e => e.getBoundingClientRect().top - e.previousElementSibling.getBoundingClientRect().bottom;
+      for (const h of document.querySelectorAll('#main h2')) { if (!vis(h) || h.closest('.grow')) continue; const c = getComputedStyle(h), fs = parseFloat(c.fontSize), t = '"' + h.textContent.trim().slice(0, 30) + '"';
+        const sub = Math.max(0, ...[...(h.closest('section') || h.parentElement).querySelectorAll('h3,h4')].filter(vis).map(e => parseFloat(getComputedStyle(e).fontSize)));
+        if (h.classList.contains('glet')) o.push('h2.glet ' + t); else if (!/Jersey 15/.test(c.fontFamily) || fs < 30 || fs < sub) o.push(`h2 ${t} ${fs}px ${c.fontFamily.split(',')[0]} (sub-heading ${sub}px)`) }
+      if (/^#(mechanics|changes)$/.test(location.hash)) for (const h of document.querySelectorAll('#main section.s>h3')) if (vis(h) && h.previousElementSibling && gap(h) < 16) o.push(`h3 "${h.textContent.trim().slice(0, 30)}" ${Math.round(gap(h))}px under the block above`);
+      for (const h of document.querySelectorAll('#main h2.bsec')) if (vis(h) && h.previousElementSibling && gap(h) < 16) o.push(`h2.bsec "${h.textContent.trim()}" ${Math.round(gap(h))}px under the block above`);
+      const cv = document.createElement('canvas').getContext('2d');
+      for (const e of document.querySelectorAll('#main select')) { if (!vis(e)) continue; const c = getComputedStyle(e), t = (e.options[e.selectedIndex] || {}).text || ''; cv.font = c.font;
+        const w = cv.measureText(t).width, room = e.clientWidth - parseFloat(c.paddingLeft) - parseFloat(c.paddingRight); if (w > room) o.push(`select #${e.id} cuts "${t}" (${Math.ceil(w)} > ${room}px)`) }
+      for (const e of document.querySelectorAll('.sslot small')) if (vis(e) && e.getBoundingClientRect().height > 14) o.push(`.sslot small "${e.textContent}" wraps`);
+      return o;
+    })) fails.push(`${r} heading/rhythm: ${x}`);
     for (const [s, n] of Object.entries(res.nest)) warn.push(`${r} ${s} (${n})`);
   }
   // Narrow widths (phone 375/414, tablet 768, laptop 1024/1180): nothing scrolls sideways, detail pages are one column with
   // the infobox above the article, and the phone layouts of the Curios Acts, the footer, Equipment and the hub slot list hold.
-  const narrow = [sample[0], sample[2], sample[3], sample[4], sample[5], '#home', '#gear', '#', '#changes'];
+  const narrow = [sample[0], sample[2], sample[3], sample[4], sample[5], '#home', '#gear', '#', '#changes', '#build'];
   for (const W of [375, 414, 768, 1024, 1180]) {
     await p.setViewportSize({ width: W, height: 900 });
     for (const r of narrow) {
@@ -79,6 +96,7 @@ function spacingOffScale() {
         const textPast = (box, right) => { const rg = document.createRange(), tw = document.createTreeWalker(box, NodeFilter.SHOW_TEXT); let n = 0;
           for (let t; (t = tw.nextNode());) { rg.selectNodeContents(t); for (const rc of rg.getClientRects()) if (rc.width && rc.right > right + 0.5) { n++; break } } return n };
         if (de.scrollWidth > vw) o.push(`page scrolls sideways (${de.scrollWidth} > ${vw})`);
+        if (W === 375) for (const e of document.querySelectorAll('#main select')) if (e.getBoundingClientRect().width && getComputedStyle(e).textOverflow !== 'ellipsis') o.push('select #' + e.id + ' has no text-overflow:ellipsis');
         const ib = document.querySelector('.ip-body'), main = document.querySelector('.ip-main');
         if (ib && W <= 1180 && tracks(ib) > 1) o.push('.ip-body has ' + tracks(ib) + ' columns: ' + getComputedStyle(ib).gridTemplateColumns);
         if (ib && main) { const m = main.getBoundingClientRect(); if ([...document.querySelectorAll('.ip-side .ip-art,.ip-side .ip-info')].some(k => hit(k.getBoundingClientRect(), m))) o.push('infobox drawn over the article') }
