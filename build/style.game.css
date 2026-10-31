@@ -1663,7 +1663,7 @@ table.cfg{border-collapse:collapse;margin-top:var(--s1);font-size:14px}table.cfg
    One GUI vocabulary for every box, as in the game: a raised panel (ink edge with its corner texel cut, light top-left,
    dark bottom-right) for containers and cards, a sunken well for slots and lists, the vanilla text field for inputs.
    All three are 6x6 nine-slices (gui_panels.py) shown at x2, so every edge is 2 texels = 4 px. */
-:root{--r0:#9c9ca4;--r1:#d6bf55;--r2:#4fb8a9;--r3:#a77fdc;--r4:#e3893c;--r5:#d84b40;--r6:#f2c544}
+:root{--r0:#9c9ca4;--r1:#d6bf55;--r2:#4fb8a9;--r3:#a77fdc;--r4:#e3893c;--r5:#ec6b5f;--r6:#f2c544}
 *:not(#_):is(.gui,.ip-sec,.ip-info,.ip-toc,#side,.tier,.mbox,.mnote,.mhero,.whyb,.grow,.gbg>div,.bbar,.mcard,.bcardl,.ip-art,.navbox,.fbar,.ppanel,.pmap){
  border:4px solid transparent!important;border-image:var(--rt-gp_panel) 2 fill / 4px stretch!important;box-shadow:none!important;background-color:transparent!important;image-rendering:pixelated}
 *:not(#_):is(#main section.s:not(.ip-sec),.bpg>section,.mech section,.ghow,.gbox){border:4px solid transparent!important;border-image:var(--rt-gp_panel) 2 fill / 4px stretch!important;box-shadow:none!important;background-color:transparent!important}
@@ -1985,3 +1985,8 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 .tier.seen .t>img,.tier.seen .t .aimg,.tier.seen .t.r4>img,.tier.seen .t.r5>img,.tier.seen .t.r6>img,.tier .t.vis>img,.tier .t.vis .aimg,.tier .t .aimg.anim img.strip{animation:none!important}
 .tier .t:hover .aimg.anim img.strip{animation:stripY var(--ms) steps(var(--n)) infinite!important}
 .pmap .envfx{display:none}
+/* Act titles: the pack's pixel-font strip only where it fits at half scale; narrower boxes get the text heading (owner decision, audit phone-13) */
+.ptxt{display:none}
+@media (max-width:479px){.ptitle,.ptitle.big{display:none}.pph h3.ptxt,.actban h3.ptxt{display:block;margin:0}}
+/* side-boss cards: the game's own name under the wiki name (audit copy-docs-08) */
+.sbc .sbg{display:block;font-style:normal;font-size:12px;line-height:1.2;color:var(--mute)}

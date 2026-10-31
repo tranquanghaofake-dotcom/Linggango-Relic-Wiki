@@ -32,7 +32,7 @@ function index(){if(QS.idx)return QS.idx;const o=[];
  PAGES.forEach(([n,h,m])=>add(n,h,()=>'<span class="qpg" aria-hidden="true">'+n[0]+"</span>",m,"Page",3));
  const ks=ORDER.map(a=>PB[a]).filter(Boolean);ks.splice(ks.indexOf("zoranth_forgotten")+1,0,"warden","wither");
  ks.forEach(k=>{const a=bossPath(k);add(bossName(k),"#boss/"+k,()=>emblem(a,"xs"),SIDEV[k]!=null?"Side boss at "+actL(a):(VBOSS[a]?"Required boss, opens ":"Keeper, opens ")+actL(a),"Boss",2.5)});
- if(typeof SIDEB!=="undefined")Object.keys(SIDEB).forEach(n=>{const b=SIDEB[n];add(n,"#side/"+enc(n),()=>b.img?`<img alt="" src="${b.img}">`:`<span class="qpg" aria-hidden="true">${esc(n[0])}</span>`,(b.mod?b.mod+" side boss":"Side boss"),"Boss",2)});
+ if(typeof SIDEB!=="undefined")Object.keys(SIDEB).forEach(n=>{const b=SIDEB[n];add(n,"#side/"+enc(n),()=>b.img?`<img alt="" src="${b.img}">`:`<span class="qpg" aria-hidden="true">${esc(n[0])}</span>`,(b.mod?b.mod+" side boss":"Side boss"),"Boss",2);if(b.gname)add(b.gname,"#side/"+enc(n),()=>b.img?`<img alt="" src="${b.img}">`:`<span class="qpg" aria-hidden="true">${esc(n[0])}</span>`,"In-game name of "+n,"Boss",2)});
  D.forEach(d=>add(d.n,"#i"+d.ix,()=>img(d.id),d.m+", "+actL(d.t),"Curio",1+d.r/6,RC[d.r],String(d.ix)));
  if(typeof GE!=="undefined"){
   GE.forEach(g=>{if(/creative only/i.test(g.n))return;const ar=g.k==="armor";add(g.n,"#g"+g.ix,()=>gImg(g),(ar?"Armor":"Weapon")+", "+actL(g.a),ar?"Armor":"Weapon",1.2,null,"g"+g.ix)});

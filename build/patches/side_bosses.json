@@ -82,7 +82,8 @@
   "img_src": "render",
   "sources": [
    "https://github.com/mariumbacchus/Soulslike-Weaponry/wiki/Bosses"
-  ]
+  ],
+  "gname": "Old Champion's Remains / Frenzied Shade"
  },
  "Bellringer": {
   "entity": "meetyourfight:bellringer",
@@ -1401,7 +1402,8 @@
   "img_src": "render",
   "sources": [
    "https://github.com/mariumbacchus/Soulslike-Weaponry/wiki/Bosses"
-  ]
+  ],
+  "gname": "Fallen Icon / Harbinger of Moonlight"
  },
  "Accursed Lord": {
   "entity": "soulsweapons:accursed_lord_boss",
@@ -1450,7 +1452,8 @@
   "img_src": "render",
   "sources": [
    "https://github.com/mariumbacchus/Soulslike-Weaponry/wiki/Bosses"
-  ]
+  ],
+  "gname": "The Decaying King"
  },
  "Tyros (fire boss)": {
   "entity": "irons_spellbooks:fire_boss",
@@ -1502,7 +1505,8 @@
   "sources": [
    "https://www.minecraft-guides.com/mod/irons-spells-and-spellbooks/wiki/cinderous-soulcaller",
    "https://iron.wiki/changelog/"
-  ]
+  ],
+  "gname": "Echo of Tyros, First Flamebearer"
  },
  "Infernal Dragon": {
   "entity": "block_factorys_bosses:infernal_dragon",
@@ -2397,7 +2401,8 @@
   "img_src": "render",
   "sources": [
    "https://github.com/mariumbacchus/Soulslike-Weaponry/wiki/Bosses"
-  ]
+  ],
+  "gname": "Monarch of Chaos"
  },
  "The Nightwarden": {
   "entity": "traveloptics:the_nightwarden",
