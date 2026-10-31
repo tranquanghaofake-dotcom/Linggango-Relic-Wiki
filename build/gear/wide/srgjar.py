@@ -18,7 +18,7 @@ def load_mojang(path):
     for line in open(path, encoding="utf-8"):
         if line.startswith("#") or line.startswith(" "): continue
         m = re.match(r"(\S+) -> (\S+):", line)
-        if m: cls[m.group(2)] = m.group(1).replace(".", "/")
+        if m: cls[m.group(2).replace(".", "/")] = m.group(1).replace(".", "/")   # a few obfuscated names keep their package
     return cls
 
 def load_tsrg(path):
