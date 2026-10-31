@@ -35,6 +35,12 @@ for j in sorted(glob.glob(W + '/pack/mods/*.jar')):
 for f in glob.glob(W + '/pack/src/overrides/kubejs/assets/*/lang/en_us.json'):
     try: langs(json.load(open(f)))
     except Exception: pass
+# the pack's own renames (client_scripts/lang.js renameItem, the names every player sees) over the mods' lang, as
+# pack_audit/audit.py reads them; committed as patches/renames.json, which the gear build applies to the table it has
+RN = {k: re.sub(r'§.', '', v) for k, v in re.findall(r"renameItem\(\s*'([^']+)'\s*,\s*'([^']+)'\s*\)",
+      open(W + '/pack/src/overrides/kubejs/client_scripts/lang.js', encoding='utf8').read())}
+lang.update({k: v for k, v in RN.items() if k in lang})  # items only: a renamed block is no gear target
+open(ROOT + '/build/patches/renames.json', 'w', encoding='utf8').write(json.dumps(RN, ensure_ascii=False, indent=0, sort_keys=True) + '\n')
 json.dump({k: sorted(v) for k, v in ns2jar.items()}, open(W + '/ns2jar.json', 'w'))
 json.dump(lang, open(W + '/lang.json', 'w')); json.dump(gns, open(W + '/gns.json', 'w'))
 g = json.load(open(W + '/gates.json')); ids = {x for v in g.values() for x in v}

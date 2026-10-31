@@ -13,10 +13,12 @@ generated file back. Stages run in the order below, each is a function on {GE, G
   8 gear_fx             what an item does on hit, while worn or held, on use (gear_fx.json, pack_audit/gear_fx.py: the mod's bytecode
                         and tooltip lines); a set carries the effects its pieces give while worn. Scoring reads them in src/gear.js
  8b gear_measure        measured in game (gear_measure.json, pack_audit/measure/import.py from kubejs/lgw_measure.js): a weapon's hit and
-                        what its hits put on the target or the attacker replace the code reading of the same effects; a set's
+                        what its hits put on the target or the attacker replace the code reading of the same effects, and the attack damage
+                        and speed it reads when held stand for the Stats where the dump's modifiers do not all apply; a set's
                         worn effects replace its pieces' guesses, its set bonus is added, and the damage it lets through is kept
   9 drop_curios         items the curio list (data.js) already has and the gear reading found no stats for: Goety's robes
                         and crowns are Curios items (common/items/curios), not armor, so they left 0-armor rows and empty sets
+ 10 names               the pack's renameItem overrides (renames.json) on gear and set names
   then every Act is snapped onto the wiki's Acts
 Scoring is not here: src/gear.js ranks from the facts these stages leave."""
 import json, pathlib, re
@@ -42,14 +44,33 @@ def fx_doubt(fx, tip):
         if isinstance(tk, int) and 0 < tk < 10 and not re.search(r"\b%d ticks?\b" % tk, t):
             r["ticks"] = None; r["doubt"] = True
     return fx
+FMT = re.compile(r"%(?:\d+\$)?(?:\.\d+)?[sdf]")
+def tip_text(lines):
+    """A mod's tooltip line is a lang template the game fills in from code ("Charge: %s/%s", "%1$d%% chance for attacks...");
+    the numbers are not in the lang file, so the reader gets the words: a key prompt names the ability key, any other value
+    reads "…", "%%" is "%", and a line that is little more than its values (a counter such as "%1$s Spectres") is left out,
+    with the heading it ended under."""
+    out = []
+    for t in lines:
+        if not FMT.search(t) and "%%" not in t: out.append(t); continue
+        t = t.replace("%%", "\0")
+        if len(re.findall(r"[A-Za-z]{2,}", FMT.sub(" ", t))) < 3: continue
+        t = re.sub(r"\b(Press|press) (?:the )?" + FMT.pattern, r"\1 the ability key", t)
+        out.append(FMT.sub("…", t).replace("\0", "%"))
+    while out and out[-1].endswith(":") and len(out) < len(lines): out.pop()  # a heading whose list was all values ("Can Release:")
+    return out
 def gear_fx(st):
     F = json.loads((H / "gear_fx.json").read_text(encoding="utf-8"))
     by = {}
     for g in st["GE"]:
         f = F.get(g["id"])
         if not f: continue
-        if f.get("fx"): g["fx"] = fx_doubt([dict(r) for r in f["fx"]], f.get("tip"))
-        if f.get("tip"): g["tip"] = f["tip"]
+        # fire on release is an enchantment's, not the item's: a bow or gun lights its own arrow with Flame (gear_fx.py skips
+        # those calls on projectiles), and Meet Your Fight's Depth Star burns what it hits only with Fire Aspect (level x 4 s)
+        fx = [dict(r) for r in f.get("fx", []) if not (r.get("when") == "release" and "fire" in r)]
+        if fx: g["fx"] = fx_doubt(fx, f.get("tip"))
+        tip = tip_text(f.get("tip") or [])
+        if tip: g["tip"] = tip
         by[g["id"]] = g
     for x in st["GS"]:
         fx = [dict(r, src=i) for i in x["p"] for r in (by[i].get("fx", []) if i in by else []) if r.get("when") == "worn"]
@@ -61,6 +82,27 @@ COND = [("enigmaticlegacy:", "Only a bearer of the Ring of the Seven Curses can 
         ("animus:spear_bound", "It has to be activated first (right-click, paid in Blood Magic Life Points).")]
 def ename(e):
     return e.split(":")[1].replace("_", " ").title()
+def held(g, m):
+    """The attack damage and speed the held weapon reads in game (ms.ad, ms.as: getAttributeValue in the main hand) stand for the
+    Stats where the dump's modifiers do not all apply. Soulslike Weaponry and Simply Swords list several attack damage modifiers
+    under one UUID, of which the game keeps one (Holy Moonlight Sword: 22 + 6 + 12 listed, 7 held, hits of 7.04), and the pack's
+    speed bonus on such a weapon is dropped the same way. dmg (or spd) is set so the wiki's sum (dmg + added) x (1 + multiplier),
+    the one gear_runtime and src/gear.js use, gives the measured value; the dump's sum is kept in ms.dumpad / ms.dumpas.
+    Not for a reading that failed: attack damage at or under the player's 1 means the stack's modifiers never applied (Blood
+    Magic's sentient weapons, set by their will; weapon:swordcaneb at 0), and attack damage is only taken when the measured hits
+    agree with it (Crucible Sword reads 30 but hits 9)."""
+    ad, sp = m.get("ad"), m.get("as")
+    if ad is None or ad <= 1: return
+    at = g.get("at") or {}
+    A, S = at.get("attack_damage") or [0, 0], at.get("attack_speed") or [0, 0]
+    if g.get("dmg") is not None:
+        shown = (g["dmg"] + A[0]) * (1 + A[1])
+        if abs(shown - ad) > 0.05 * ad and abs(m["hit"] - ad) <= 0.15 * ad:
+            g["ms"]["dumpad"] = round(shown, 2); g["dmg"] = round(ad / (1 + A[1]) - A[0], 3)
+    if g.get("spd") is not None and sp:
+        shown = (g["spd"] + S[0]) * (1 + S[1])
+        if abs(shown - sp) > 0.05 * sp:
+            g["ms"]["dumpas"] = round(shown, 3); g["spd"] = round(sp / (1 + S[1]) - S[0], 3)
 def gear_measure(st):
     I, S = MS["items"], MS["sets"]
     for g in st["GE"]:
@@ -82,6 +124,8 @@ def gear_measure(st):
         # energy tools read attack damage 1 until charged), so the measured hit is not its use
         if not how and m["hit"] <= 1 and (g.get("dmg") or 0) > 2: how = "dull"
         if how: g["ms"]["st"] = how
+        if m.get("as") is not None: g["ms"]["as"] = m["as"]
+        if not how: held(g, m)
         if m.get("heal"): g["ms"]["heal"] = [m["heal"][0], round(m["heal"][1] / n, 2)]
         rec = []
         for who, key in (("target", "tfx"), ("self", "sfx")):
@@ -134,7 +178,27 @@ def drop_curios(st):
     st["GE"] = [g for g in st["GE"] if g["id"] not in gone]
     for x in st["GS"]: x["p"] = [i for i in x["p"] if i not in gone]
     st["GS"] = [x for x in st["GS"] if x["p"]]
-for stage in (gear_extra.apply, gear_gate.apply, gear_stats.apply, gear_added.apply, gear_fix.apply, gear_runtime.apply, boss_order.gear, gear_fx, gear_measure, drop_curios):
+RENAMES = json.loads((H / "renames.json").read_text(encoding="utf-8"))
+def names(st):
+    """The pack renames some items for every player (kubejs/client_scripts/lang.js renameItem, read into renames.json by
+    gear/prep.py): the wiki uses the name the game shows ("Stinky Hat", not quark's "Forgotten Hat"). A level suffix the table
+    adds (" (Lv 3)") stays. A set whose pieces were renamed takes the words its pieces' new names share ("Concentrated Bronze",
+    "Animal Leather"), as the scan named it from the old ones."""
+    by = {}
+    for g in st["GE"]:
+        if g["id"] in RENAMES:
+            m = re.match(r"^(.*?)( \(Lv \d+\))?$", g["n"])
+            g["n"] = RENAMES[g["id"]] + (m.group(2) or "")
+        by[g["id"]] = g
+    for x in st["GS"]:
+        if not any(i in RENAMES for i in x["p"]): continue
+        ws = [by[i]["n"].split() for i in x["p"] if i in by]
+        common = []
+        for col in zip(*ws):
+            if len(set(col)) > 1: break
+            common.append(col[0])
+        if common: x["n"] = " ".join(common)
+for stage in (gear_extra.apply, gear_gate.apply, gear_stats.apply, gear_added.apply, gear_fix.apply, gear_runtime.apply, boss_order.gear, gear_fx, gear_measure, drop_curios, names):
     stage(st)
 # the lock is the pack's gate and only that: no stage after gear_runtime may move it
 bad = [(g["id"], g.get("ga"), gear_runtime.gate(g["id"])) for g in st["GE"] if g.get("ga") != gear_runtime.gate(g["id"])]

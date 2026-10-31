@@ -5,7 +5,7 @@ methods the game calls on hit (hurtEnemy), while worn or held (onArmorTick, inve
 (use, releaseUsing, finishUsingItem), and in the class's own helpers those call, it finds:
   effect   new MobEffectInstance(effect, ticks, level) given to the target or the wearer, with a random chance when the
            call sits behind `random.nextFloat() < c`
-  fire     setSecondsOnFire(n) on the target
+  fire     setSecondsOnFire(n) on the target (not on the item's own arrow or projectile, which Flame lights)
   heal     heal(x) on the wearer (life steal and the like)
   hurt     an extra hurt(...) on the target
 Effects are named by vanilla's MobEffects field (mapped from srg with SRG2MOJ.json, made from Mojang's server.txt and
@@ -186,6 +186,12 @@ def scan(body, roles, own, depth, seen, out, when, base=1.0):
                 else: recv.k = "?"
                 continue
             elif re.search(r"\.m_20254_:\(I\)V", com):  # setSecondsOnFire
+                # a bow or gun lights its own projectile when it has Flame (vanilla's pattern: Enchantments.f_44990_ checked,
+                # then arrow.setSecondsOnFire(100)); the arrow then burns its target for 5 s like any burning arrow. Not a
+                # target fire: skipped when the call is on a projectile type (AbstractArrow, a mod's arrow class). A use
+                # that sets the mobs around on fire calls it on LivingEntity and stays.
+                if re.search(r"projectile/|Arrow|Projectile|Bullet", owner or ""):
+                    continue
                 r = {"when": when, "who": roles.get(recv.v, "target") if recv.k == "L" else "target", "fire": int(args[0].v) if args[0].k == "N" else None}
                 c = chance(p)
                 if c < 0.9995: r["chance"] = round(c, 3)

@@ -3739,24 +3739,6 @@
 "Most Undead creatures become neutral"
 ]
 },
-"animus:hellforged_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"animus:sentient_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
 "animus:spear_sentient": {
 "fx": [
 {
@@ -4772,15 +4754,6 @@
 "When right clicked:"
 ]
 },
-"ars_nouveau:spell_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
 "block_factorys_bosses:knight_sword": {
 "tip": [
 "On Right-Click:",
@@ -5363,13 +5336,6 @@
 ]
 },
 "brutality:providence": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "The heavens have spoken",
 "-Shoots out light arrows instead of normal arrows",
@@ -5694,13 +5660,6 @@
 ]
 },
 "cataclysm:cursed_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "You can shoot 3 Phantom Arrows"
 ]
@@ -6042,15 +6001,6 @@
 }
 ]
 },
-"composite_material:lacerator": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
 "composite_material:primitive_boots": {
 "fx": [
 {
@@ -6096,15 +6046,6 @@
 "ticks": 210,
 "when": "carried",
 "who": "self"
-}
-]
-},
-"composite_material:scapegoat": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
 }
 ]
 },
@@ -6229,13 +6170,6 @@
 ]
 },
 "dungeonnowloading:vertex_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "Arrow Conversion",
 "Can convert Arrow to Vertex Arrow upon fully charging"
@@ -6314,15 +6248,6 @@
 ],
 "tip": [
 "Gives the attacker the erosion status"
-]
-},
-"experienceobelisk:cognitive_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
 ]
 },
 "fromtheshadows:devil_splitter": {
@@ -6475,11 +6400,6 @@
 "ticks": 120,
 "when": "release",
 "who": "self"
-},
-{
-"fire": 100,
-"when": "release",
-"who": "target"
 }
 ]
 },
@@ -6623,15 +6543,6 @@
 "Bare the weapon of a great infernal mage. This weapon resonates well with the scroll-forge..."
 ]
 },
-"industrialforegoing:infinity_launcher": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
 "irons_spellbooks:autoloader_crossbow": {
 "tip": [
 "> Automatically loads next available projectile while in inventory. Crouch-Click to cancel"
@@ -6647,42 +6558,6 @@
 "tip": [
 "Wizard Hood",
 "Wizard Hat"
-]
-},
-"justdirethings:bow_blazegold": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"justdirethings:bow_celestigem": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"justdirethings:bow_eclipsealloy": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"justdirethings:bow_ferricore": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
 ]
 },
 "legendary_monsters:annihilator_boots": {
@@ -7190,15 +7065,6 @@
 "Damage increases with attack damage"
 ]
 },
-"mekanism:electric_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
 "mekaweapons:meka_gun": {
 "fx": [
 {
@@ -7209,13 +7075,6 @@
 ]
 },
 "mowziesmobs:blowgun": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "Charges quickly",
 "Short range",
@@ -7461,15 +7320,6 @@
 "ticks": 100,
 "when": "release",
 "who": "self"
-}
-]
-},
-"opposing_force:strato_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
 }
 ]
 },
@@ -9186,72 +9036,13 @@
 }
 ]
 },
-"too_many_bows:aethers_call": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:ancient_sage_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
 "too_many_bows:arc_heavens": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "Unleash the power of the storm.",
 "Strikes foes with lightning on a direct hit."
 ]
 },
-"too_many_bows:arcane_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:astral_bound": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:auroras_grace": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
 "too_many_bows:burnt_relic": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "Ancient relic bow",
 "Once used by Ancient Gods, still holds a flicker of power...",
@@ -9261,110 +9052,25 @@
 "too_many_bows:crimson_nexus": {
 "fx": [
 {
-"fire": 200,
-"when": "release",
-"who": "target"
-},
-{
 "heal": 1.0,
 "when": "carried",
 "who": "self"
-},
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:dark_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:demons_grasp": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:dragons_breath": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:dusk_reaper": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
 }
 ]
 },
 "too_many_bows:emerald_sage_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "Grants bonus XP upon hitting enemies"
 ]
 },
-"too_many_bows:ethereal_hunter": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
 "too_many_bows:flame_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "Harness the Power of Fire",
 "Shoots flaming arrows that cause fiery explosions.",
 "A legendary bow forged in the heart of a volcano."
 ]
 },
-"too_many_bows:frostbite": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
 "too_many_bows:hunter_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "Effective against passive mobs.",
 "[Hold Shift] for more info",
@@ -9377,54 +9083,13 @@
 ]
 },
 "too_many_bows:ironclad_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "Forged with iron, tempered in battle",
 "Magnetic Pulse: Pulls enemies towards the point of impact",
 "Arrows have magnetic force.."
 ]
 },
-"too_many_bows:necro_flame_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:radiance": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:scatter_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
 "too_many_bows:sentinels_wrath": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "Effective against raiders.",
 "[Hold Shift] for more info",
@@ -9436,53 +9101,10 @@
 "Illusioners"
 ]
 },
-"too_many_bows:shulker_blast": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:solar_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
 "too_many_bows:spectral_whisper": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "Arrows pierce through the first obstacle.",
 "This bow fires spectral arrows that pass through blocks, damaging entities."
-]
-},
-"too_many_bows:torchbearer": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:twin_shadows": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
 ]
 },
 "too_many_bows:verdant_vigor": {
@@ -9494,40 +9116,10 @@
 "ticks": 100,
 "when": "carried",
 "who": "self"
-},
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:verdant_viper": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-]
-},
-"too_many_bows:webstring": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
 }
 ]
 },
 "too_many_bows:wind_bow": {
-"fx": [
-{
-"fire": 100,
-"when": "release",
-"who": "target"
-}
-],
 "tip": [
 "A bow that harnesses the breath of the skies.",
 "Ability: Gale Burst\n • On impact, release a gust of wind\n • Knocks nearby foes outward\n • Direct hits deal light magic damage",
