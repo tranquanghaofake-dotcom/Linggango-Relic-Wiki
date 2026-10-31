@@ -4,15 +4,18 @@ Used by patches/gear_stats.py and build/gear/gear_data.py (build.sh copies this 
 import re
 SUMMON = re.compile(r"summon|minion|servant|sentry")
 RANGED = re.compile(r"arrow|projectile|draw_speed|bow_|ranged")
+# Goety's attributes keep their namespace ("goety.spell_potency", gear_runtime.key): a Goety spell level or Goety spell power is not
+# Iron's spell power, so no role term here reads them
+OWN_NS = re.compile(r"^(goety|goety_revelation|goetyawaken|goety_cataclysm|bosgoety)\.")
 
 def A(g, k, part=0):
     v = g["at"].get(k); return v[part] if v else 0.0
 
 def off_of(at):
     """offence bonus per role from summed attributes {attr: [add, mul]} (fractions of extra output)"""
-    sk = lambda rx, part=0: sum(v[part] for k, v in at.items() if re.search(rx, k))
+    sk = lambda rx, part=0: sum(v[part] for k, v in at.items() if re.search(rx, k) and not OWN_NS.match(k))
     a = lambda k, part=0: at[k][part] if k in at else 0.0
-    o = {"MA": sk(r"spell_power|spell_potency", 1) + sk(r"spell_power|spell_potency") + 0.5 * sk(r"cooldown_reduction|cast_time", 1) + sk(r"max_mana") / 200 + 0.5 * sk(r"mana_regen", 1),
+    o = {"MA": sk(r"spell_power", 1) + sk(r"spell_power") + 0.5 * sk(r"cooldown_reduction|cast_time", 1) + sk(r"max_mana") / 200 + 0.5 * sk(r"mana_regen", 1),
          "SU": sk(SUMMON.pattern, 1) + sk(SUMMON.pattern) * 0.05, "RA": sk(RANGED.pattern, 1) + sk(RANGED.pattern)}
     # melee: expected damage multiplier. Two crit systems exist (attributeslib crit_* and brutality critical_strike_*);
     # their chances add up but a hit can only crit once, so chance is capped at 100%; a crit adds +50% plus crit damage.

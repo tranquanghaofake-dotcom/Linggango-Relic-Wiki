@@ -129,7 +129,11 @@ def kind(i, b):
     return None
 
 # attributes -> (role, weight) for armor/weapon role reading
-def attr_key(a): return a.split(':')[-1].replace('generic.', '')
+# Goety's attributes keep their namespace as 'ns.path' (patches/gear_runtime.py key: the same rule for the in-game dump)
+KEEP_NS = {'goety', 'goety_revelation', 'goetyawaken', 'goety_cataclysm', 'bosgoety'}
+def attr_key(a):
+    ns, _, p = a.rpartition(':'); p = p.replace('generic.', '')
+    return ns + '.' + p if ns in KEEP_NS else p
 MELEE = re.compile(r'attack_damage|attack_speed|crit|life_steal|lifesteal|armor_shred|armor_pierce|entity_reach|sweep')
 
 def collect(i, b):

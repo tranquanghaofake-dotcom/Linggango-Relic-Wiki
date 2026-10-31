@@ -134,6 +134,9 @@ def drop_curios(st):
     st["GS"] = [x for x in st["GS"] if x["p"]]
 for stage in (gear_extra.apply, gear_gate.apply, gear_fix.apply, gear_stats.apply, gear_added.apply, gear_runtime.apply, boss_order.gear, gear_fx, gear_measure, drop_curios):
     stage(st)
+# the lock is the pack's gate and only that: no stage after gear_runtime may move it
+bad = [(g["id"], g.get("ga"), gear_runtime.gate(g["id"])) for g in st["GE"] if g.get("ga") != gear_runtime.gate(g["id"])]
+assert not bad, ("g.ga differs from the pack's gate tags", bad[:10])
 # the wiki's Acts (app.js ORDER) have no Warden / Wither step: 6.1 and 6.2 sit in Act VI (a stray 6.1 once put a battleaxe at Act 0)
 snap = lambda a: max(x for x in boss_order.ORDER if x <= a)
 for x in st["GE"] + st["GS"]:

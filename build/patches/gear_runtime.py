@@ -10,9 +10,9 @@ every item in it the static extraction, the jar overlays (gear_stats) and the mo
 superseded. Items not in the dump (mostly bows, guns, staves without a tier tag) keep the static values, and so do an all-zero dump
 (stats in NBT) and a weapon whose dump has no attack damage or speed line.
 Conventions kept: melee hit = dmg (1 player base + every ADDITION) x (1 + mul); speed = spd (4 player base + ADDITION) x (1 + mul);
-armor pieces carry their armor / toughness / knockback in arm, tough, kbr; every other attribute goes to at[path] = [add, mul],
-with MULTIPLY_BASE and MULTIPLY_TOTAL folded into one factor. Marks g["rt"] = 1. Set totals and offence facts are recomputed."""
-import json, pathlib
+armor pieces carry their armor / toughness / knockback in arm, tough, kbr; every other attribute goes to at[path] = [add, mul] (Goety's as at["ns.path"]),
+with MULTIPLY_BASE and MULTIPLY_TOTAL folded into one factor. Marks g["rt"] = 1. Sets the lock g["ga"] from the pack's gate tags. Set totals and offence facts are recomputed."""
+import json, pathlib, re
 from gearlib import off_of, set_facts
 H = pathlib.Path(__file__).resolve().parent
 RT = json.loads((H / "gear_runtime.json").read_text(encoding="utf-8"))
@@ -22,8 +22,30 @@ STALE = set(RT.get("stale_666", []))
 SLOT = {"HELMET": "head", "CHESTPLATE": "chest", "LEGGINGS": "legs", "BOOTS": "feet"}
 ARMOR_KEYS = {"armor": "arm", "armor_toughness": "tough", "knockback_resistance": "kbr"}
 
+# Goety's attributes (spell potency is a Goety spell level, goety_revelation:spell_power its own spell power) are not Iron's Spells or
+# Attributeslib stats: they keep their namespace as "ns.path", the way ars_nouveau.perk.* keys carry theirs, so nothing scores them
+# as Iron's spell power, cast time or cooldown. Every other namespace is dropped; the paths that two namespaces then share are the
+# same stat (KEEP_SHARED, asserted in apply).
+KEEP_NS = {"goety", "goety_revelation", "goetyawaken", "goety_cataclysm", "bosgoety"}
+KEEP_SHARED = {"healing_received", "crit_damage", "summon_damage"}
+
 def key(attr):
-    return attr.split(":", 1)[1].replace("generic.", "").replace("player.", "") if ":" in attr else None
+    if ":" not in attr: return None
+    ns, p = attr.split(":", 1)
+    p = p.replace("generic.", "").replace("player.", "")
+    return ns + "." + p if ns in KEEP_NS else p
+
+# The pack's own gates (linggango_tweaks-common.toml progression_gates): a #forge:<tier>_tools/_armor tag on the item (the dump's
+# "tags") or the item in linggango_tweaks:gated/<tier> (gear_gated.json) locks it until that tier's keeper falls. g["ga"] is that
+# lock and nothing else: an Act raised by an ingredient or a boss drop moves g["a"] (and g["mg"] says why), never g["ga"].
+GATED = json.loads((H / "gear_gated.json").read_text(encoding="utf-8"))
+TAG_ACT = {"iron": 2, "golden": 3, "emerald": 4, "diamond": 5, "netherite": 6, "elvenite": 7, "voiderite": 8, "bloody": 10, "helionite": 11}
+assert set(TAG_ACT.values()) | {GATED["tiers"]["cataclysm"]} == set(GATED["tiers"].values()), "gear tag tiers and gated tiers disagree"
+
+def gate(i):
+    acts = [TAG_ACT[m.group(1)] for t in RT["tags"].get(i, []) for m in [re.match(r"^#forge:([a-z]+)_(?:tools|armor)$", t)] if m and m.group(1) in TAG_ACT]
+    if i in GATED["items"]: acts.append(GATED["items"][i])
+    return max(acts) if acts else None
 
 def totals(mods):
     """{path: [add, multiply_base, multiply_total]} summed per operation, the way the game sums them"""
@@ -43,6 +65,17 @@ def eff(g):
 
 def apply(st):
     GE, GS = st["GE"], st["GS"]
+    shared = {}
+    for r in R.values():
+        for mods in r.values():
+            for attr, _, _ in mods:
+                if ":" in attr: shared.setdefault(key(attr), set()).add(attr.split(":", 1)[0])
+    shared = {k for k, v in shared.items() if len(v) > 1}
+    assert shared == KEEP_SHARED, ("attribute paths two mods share changed: check they are one stat before merging them", sorted(shared ^ KEEP_SHARED))
+    for g in GE:
+        ga = gate(g["id"])
+        if ga is None: g.pop("ga", None)
+        else: g["ga"] = ga; g["a"] = max(g["a"], ga)
     n = changed = 0
     for g in GE:
         r = R.get(g["id"])

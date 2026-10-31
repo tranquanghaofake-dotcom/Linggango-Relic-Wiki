@@ -99,7 +99,7 @@ def gear(st):
     for g in GE:
         fl = [ENT[m.group(1) + ":" + m.group(2)] for l in g.get("lt") or [] for m in [re.match(r"^([a-z0-9_]+):entities/(.+)$", l)] if m and m.group(1) + ":" + m.group(2) in ENT]
         if fl and ok(max(fl, key=ok)) > ok(g["a"]):
-            g["a"] = max(fl, key=ok); g["ga"] = max(g.get("ga") or 0, g["a"], key=ok)
+            g["a"] = max(fl, key=ok)   # a boss drop is no lock: g["ga"] stays the pack's gate (gear_runtime)
     # boss-only items carry that boss's Act into gear recipes that use them
     DROP = drop_map()
     GA = {g["id"]: g["a"] for g in GE}
@@ -109,7 +109,7 @@ def gear(st):
             fl = [DROP[y] for y in ins if y in DROP] + [GA[y] for y in ins if y in GA and y != g["id"]]
             if fl and g.get("rc") and len(g["rc"]) == 1 and not g.get("lt"):
                 m = max(fl, key=ok)
-                if ok(m) > ok(g["a"]): g["a"] = GA[g["id"]] = m; g["ga"] = max(g.get("ga") or 0, m, key=ok)
+                if ok(m) > ok(g["a"]): g["a"] = GA[g["id"]] = m
     late = [(g["id"], y) for g in GE if g.get("rc") and len(g["rc"]) == 1 and not g.get("lt")
             for y in recipe_ins(g) if y in DROP and ok(DROP[y]) > ok(g["a"])]
     assert not late, ("gear listed before the boss that drops its ingredient", late[:10])
