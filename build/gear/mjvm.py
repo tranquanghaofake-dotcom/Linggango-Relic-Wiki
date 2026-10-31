@@ -987,3 +987,42 @@ class VM:
                 s.err(cls, m.name.value, x.pos, ex); raise
         return OP
 
+
+
+def srg_tables(vm, srgjar):
+    """Attributes srg field -> 'generic.attack_damage', ArmorItem$Type fields"""
+    z = zipfile.ZipFile(srgjar)
+    k = ClassFile(io.BytesIO(z.read('net/minecraft/world/entity/ai/attributes/Attributes.class')))
+    m = k.methods.find_one(name='<clinit>'); last = None
+    for x in m.code.disassemble():
+        if x.mnemonic in ('ldc', 'ldc_w'):
+            c = k.constants.get(x.operands[0].value)
+            if isinstance(c, C.String) and c.string.value.startswith(('generic.', 'horse.', 'zombie.')): last = c.string.value
+        if x.mnemonic == 'putstatic' and last:
+            vm.attrname[k.constants.get(x.operands[0].value).name_and_type.name.value] = last; last = None
+    for cn, tab, names in (('net/minecraft/world/item/Tiers', VTIER, ['WOOD','STONE','IRON','DIAMOND','GOLD','NETHERITE']),
+                           ('net/minecraft/world/item/ArmorMaterials', VARM, ['LEATHER','CHAINMAIL','CHAIN','IRON','GOLD','DIAMOND','TURTLE','NETHERITE'])):
+        k = ClassFile(io.BytesIO(z.read(cn + '.class'))); m = k.methods.find_one(name='<clinit>'); last = None
+        old = dict(VTIER0 if tab is VTIER else VARM0); tab.clear()
+        for x in m.code.disassemble():
+            if x.mnemonic in ('ldc', 'ldc_w'):
+                c = k.constants.get(x.operands[0].value)
+                if isinstance(c, C.String) and c.string.value in names: last = c.string.value
+            if x.mnemonic == 'putstatic' and last:
+                fn = k.constants.get(x.operands[0].value).name_and_type.name.value
+                tab[fn] = old[last]; SRGNAME[(cn, fn)] = last; last = None
+    k = ClassFile(io.BytesIO(z.read('net/minecraft/world/entity/EquipmentSlot.class'))); m = k.methods.find_one(name='<clinit>'); last = None
+    for x in m.code.disassemble():
+        if x.mnemonic in ('ldc', 'ldc_w'):
+            c = k.constants.get(x.operands[0].value)
+            if isinstance(c, C.String) and c.string.value in EQS: last = c.string.value
+        if x.mnemonic == 'putstatic' and last:
+            EQF[k.constants.get(x.operands[0].value).name_and_type.name.value] = last; last = None
+    k = ClassFile(io.BytesIO(z.read('net/minecraft/world/item/ArmorItem$Type.class')))
+    m = k.methods.find_one(name='<clinit>'); last = None
+    for x in m.code.disassemble():
+        if x.mnemonic in ('ldc', 'ldc_w'):
+            c = k.constants.get(x.operands[0].value)
+            if isinstance(c, C.String) and c.string.value in TYPES: last = c.string.value  # not the lowercase name arg
+        if x.mnemonic == 'putstatic' and last in TYPES:
+            TYPEF[k.constants.get(x.operands[0].value).name_and_type.name.value] = last; last = None
