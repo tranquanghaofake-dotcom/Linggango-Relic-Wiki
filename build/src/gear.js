@@ -13,7 +13,8 @@ const GATTR={attack_damage:"Attack Damage",attack_speed:"Attack Speed",armor:"Ar
  crit_chance:"Crit Chance",crit_damage:"Crit Damage",lifesteal:"Lifesteal",life_steal:"Life Steal",entity_reach:"Reach",damage_taken:"Damage Taken",
  spell_power:"Spell Power",max_mana:"Max Mana",cooldown_reduction:"Cooldown Reduction",cast_time_reduction:"Cast Time Reduction",summon_damage:"Summon Damage",
  arrow_damage:"Arrow Damage",draw_speed:"Draw Speed",healing_received:"Healing Received",dodge_chance:"Dodge Chance",mining_speed:"Mining Speed",
- experience_gained:"XP Gained",armor_shred:"Armor Shred",mana_regen:"Mana Regen",spell_resist:"Spell Resist",natural_regeneration_increase:"Natural Regen"};
+ experience_gained:"XP Gained",armor_shred:"Armor Shred",mana_regen:"Mana Regen",spell_resist:"Spell Resist",natural_regeneration_increase:"Natural Regen",
+ "goety.spell_potency":"Spell Potency (Goety)","goety_revelation.spell_power":"Goety Spell Power","goety.casting_speed":"Casting Speed (Goety)"};
 const gAttr=k=>GATTR[k]||k.replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
 const gRound=v=>Math.round(v*100)/100;
 /* "+12% Spell Power" / "+2 Attack Damage", the way the game words AttributeModifier operations */
@@ -47,8 +48,10 @@ const GCC=/^(crit_chance|crit_rate|critical_strike_chance)$/,GCD=/^(crit_damage|
 /* effects read from the item's code (gear_fx.json): only those with a number the game itself uses are scored.
    On hit, on the target: poison does 1 damage every 25>>(level-1) ticks, wither every 40>>(level-1), fire 1 a second, instant
    damage 6x2^(level-1) at once; kept up as long as chance x attacks a second x duration reaches 1.
-   On the wearer or holder: Strength +3 attack damage a level, Resistance -20% damage taken a level, Health Boost and Absorption
-   +4 health a level. Effects a mod adds (bleeding, soul burn...) are listed on the page but not scored: their numbers live in code. */
+   On the wearer or holder: Strength +3 attack damage a level, Resistance on the pack's curve (Linggango Fixes: -20% damage taken at
+   I, +4.444% a level to -60% at X, then +0.04% a level: II 24%, III 29%, V 38%), Health Boost and Absorption +4 health a level.
+   Effects a mod adds (bleeding, soul burn...) are listed on the page but not scored: their numbers live in code. */
+const gRes=L=>L<=10?.2+(L-1)*.04444:.6+(L-10)*.0004;
 const GDOT={"minecraft:poison":L=>20/(25>>Math.min(4,L-1)),"minecraft:wither":L=>20/(40>>Math.min(5,L-1))};
 const gFxOn=(g,when,who)=>(g.fx||[]).filter(r=>!r.maybe&&!r.unseen&&!r.doubt&&(when.includes(r.when))&&r.who===who);
 function gFxDot(g,spd){let dps=0,burst=0;
@@ -58,7 +61,7 @@ function gFxDot(g,spd){let dps=0,burst=0;
 /* the same effects as attributes {attr:[add, mul]}, so the playstyle and survival formulas below take them like any bonus */
 function gFxAt(g){const o={},add=(k,i,v)=>{(o[k]=o[k]||[0,0])[i]+=v};
  for(const r of gFxOn(g,["worn","carried"],"self")){const L=r.level||1;
-  if(r.effect==="minecraft:strength")add("attack_damage",0,3*L);if(r.effect==="minecraft:resistance")add("resistance",1,.2*L);
+  if(r.effect==="minecraft:strength")add("attack_damage",0,3*L);if(r.effect==="minecraft:resistance")add("resistance",1,gRes(L));
   if(r.effect==="minecraft:health_boost"||r.effect==="minecraft:absorption")add("max_health",0,4*L)}
  return o}
 const gAt=g=>{const f=gFxAt(g);if(!Object.keys(f).length)return g.at||{};const o={...(g.at||{})};for(const k in f)o[k]=[(o[k]||[0,0])[0]+f[k][0],(o[k]||[0,0])[1]+f[k][1]];return o};
@@ -100,15 +103,18 @@ const GOFF={
   *(1+Math.min(1,gS2(at,/^(crit_chance|crit_rate|bow_crit_chance)$/))*(.5+gS2(at,/^crit_damage$/))),
  /* two spell systems, and a mage casts with one: the better of
     Iron's: spell power + the best single school (a mage builds around one), x cast rate from cooldowns, x mana (saturating: +300 = +25%), x regen;
+    Goety's own spell attributes (goety.spell_potency, goety.casting_speed, goety_revelation.spell_power: Goety spell levels and
+    power) are shown but not in either: they do nothing for Iron's or Ars spells;
     Ars Nouveau: flat spell damage against the Act's typical hit (like melee flat damage), x Ars mana */
  MA:(at,a)=>{let sch=0;for(const k in at)if(/_spell_power$/.test(k)&&k!=="spell_power")sch=Math.max(sch,at[k][1]);
   const mana=m=>1+.5*m/(m+300),m=gS(at,/^max_mana$/,0);
-  const iron=(1+gS2(at,/^(spell_power|spell_potency)$/)+sch)/(1-Math.min(.6,gS(at,/^cooldown_reduction$/,1)))
-   *(1+.5*gS(at,/^cast_time_reduction$/,1)+gS(at,/^casting_speed$/,0))*mana(m)*(1+.3*Math.min(1,gS(at,/^mana_regen$/,1)));
+  const iron=(1+gS2(at,/^spell_power$/)+sch)/(1-Math.min(.6,gS(at,/^cooldown_reduction$/,1)))
+   *(1+.5*gS(at,/^cast_time_reduction$/,1))*mana(m)*(1+.3*Math.min(1,gS(at,/^mana_regen$/,1)));
   const ars=(1+gS(at,/spell_damage$/,0)/gFront(a).hit)*mana(gS(at,/^ars_nouveau\.perk\.max_mana$/,0));
   return Math.max(iron,ars)},
- /* summon damage (percent), each extra minion slot +25% */
- SU:at=>(1+gS(at,/summon|minion_damage|servant|sentry/,1)+.05*gS(at,/summon_damage|servant|sentry/,0))*(1+.25*gS(at,/^minion_slots$/,0))};
+ /* summon damage (percent: Iron's summon_damage, Summonity minion_damage), flat summon damage (Ars Elemental's Summon Power adds
+    its value to each hit of an Ars summon) at .05 a point, each extra minion slot +25%; how long summons last is not damage */
+ SU:at=>(1+gS(at,/^(summon_damage|minion_damage)$/,1)+.05*gS(at,/^(summon_damage|ars_elemental\.perk\.summon_power)$/,0))*(1+.25*gS(at,/^minion_slots$/,0))};
 const gOff=(g,r,a)=>GOFF[r](gAt(g),a);
 /* effective health against the Act's hit D, in health: D x the hits it takes to die.
    What one hit lands is D x a/(a + armor) (Apothic's formula, the pack's attributeslib.cfg; toughness only blunts armor shred,
@@ -169,12 +175,15 @@ GS.forEach(s=>{s.sc={};for(const r of ["ME","RA","MA","SU"])s.sc[r]=gSetScore(s,
    with it ÷ without it)^k, on the median set of the Act (gEHP: armor, health, dodge, Resistance and Health Boost it gives, and
    damage it was measured to cut beyond its armor). 1 = nothing the test could see. Conditions, active abilities, kill and
    low-health effects are not in it; the pack's x3 soft cap on stacked accessory hit bonuses binds only builds, not one curio. */
-const GCK=k=>k.slice(k.indexOf(":")+1).replace(/^generic\./,"");
-const GCADD=/^(attack_damage|max_mana|minion_slots|entity_reach|max_health|armor|armor_toughness|knockback_resistance|gun_damage|casting_speed|life_?steal|dodge_chance|ars_nouveau\.perk\.max_mana|.*spell_damage)$/;
+/* the attribute's path; Goety's mods keep their namespace ("goety_revelation.armor_penetration"), as the armor data does, so
+   their spell and soul attributes are not read as Iron's or Apothic's of the same name */
+const GCNS=/^(goety|goety_revelation|goetyawaken|goety_cataclysm|bosgoety)$/;
+const GCK=k=>{const i=k.indexOf(":"),ns=k.slice(0,i),p=k.slice(i+1).replace(/^generic\./,"");return GCNS.test(ns)?ns+"."+p:p};
+const GCADD=/^(attack_damage|max_mana|minion_slots|entity_reach|max_health|armor|armor_toughness|knockback_resistance|gun_damage|goety\.casting_speed|life_?steal|dodge_chance|ars_nouveau\.perk\.max_mana|ars_elemental\.perk\.summon_power|.*spell_damage)$/;
 function gCurioAt(m){const at={},add=(k,i,v)=>{(at[k]=at[k]||[0,0])[i]+=v},d=m.d||{};
  for(const k in d){const p=GCK(k),v=d[k];if(p==="attack_speed")add(p,1,v/4);else add(p,GCADD.test(p)?0:1,v)}
  if(m.hit){const x=m.hit-1-(d["minecraft:generic.attack_damage"]||0)/CMREF;if(Math.abs(x)>.005)add("attack_damage",1,x)}
- for(const [e,l] of m.fx||[]){if(e==="minecraft:resistance")add("resistance",1,.2*l);if(e==="minecraft:health_boost"||e==="minecraft:absorption")add("max_health",0,4*l)}
+ for(const [e,l] of m.fx||[]){if(e==="minecraft:resistance")add("resistance",1,gRes(l));if(e==="minecraft:health_boost"||e==="minecraft:absorption")add("max_health",0,4*l)}
  return at}
 const GCS=new Map();
 function gCurioScore(c,r,a){const key=c.id+r+a;let v=GCS.get(key);if(v!=null)return v;const m=CM[c.id];if(!m)return 1;
@@ -197,7 +206,7 @@ const gIsCurio=x=>!!(x&&x.ro&&x.st);
 const GCTX=/unarmed|bare[- ]?hand|empty armou?r slot|empty armor slots|without armou?r|lose all (your )?armou?r|armou?r stops working|armou?r debuff|standing still|stand still|below y ?0|underground|at full health|full health|health you (have )?lose|health you (have )?lost|missing health|low(er)? health|below \d+ ?% (of )?(your )?(max )?(health|hp)|during the day|in daylight|daytime|at night|during the night|nighttime/i;
 const gCtx=c=>{const m=GCTX.exec([c.fx||"",...(c.st||[])].join(" | "));return m?m[0]:""};
 /* the curio page's "Measured in game" section */
-const gCName=p=>p.replace(/^ars_nouveau\.perk\./,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+const gCName=p=>p.includes(".")&&GATTR[p]?GATTR[p]:p.replace(/^[a-z_]+\.perk\./,"").replace(/^([a-z_]+)\./,(x,ns)=>GCNS.test(ns)?"":x).replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
 function gCurioMs(c){const m=typeof CM!=="undefined"&&CM[c.id];if(!m)return "";const d=m.d||{},rows=[];
  for(const k in d){const p=GCK(k),v=d[k],pc=!GCADD.test(p)&&p!=="attack_speed";
   rows.push(`<li>${v>0?"+":"−"}${pc?gRound(Math.abs(v)*100)+"%":gRound(Math.abs(v))} ${esc(gCName(p))} <span class="meta">${esc(k.split(":")[0])}</span></li>`)}

@@ -26,7 +26,8 @@ DEF = {"irons_spellbooks:max_mana": 100, "attributeslib:crit_chance": 0.05, "att
        "attributeslib:armor_pierce": 0, "attributeslib:armor_shred": 0, "brutality:critical_strike_damage": 1.5, "summonity:minion_slots": 1,
        "forge:block_reach": 4.5, "forge:entity_reach": 3, "forge:entity_gravity": 0.08, "l2hostility:extra_difficulty": 0,
        "brutality:lethality": 0, "minecraft:generic.attack_knockback": 0, "too_many_bows:bow_crit_chance": 0, "brutality:max_rage": 100,
-       "summonity:minion_range": 16, "caelus:fall_flying": 0, "confluence:aggro": 0, "confluence:pickup_range": 0}
+       "summonity:minion_range": 16, "caelus:fall_flying": 0, "confluence:aggro": 0, "confluence:pickup_range": 0,
+       "ars_nouveau:ars_elemental.perk.summon_power": 0}
 r3 = lambda v: round(v, 3)
 
 # attack speed: the usual value for the curio's mod, else its slot type
