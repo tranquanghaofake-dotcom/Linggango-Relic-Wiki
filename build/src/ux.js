@@ -31,7 +31,7 @@ function index(){if(QS.idx)return QS.idx;const o=[];
  const add=(n,h,ic,meta,kind,w,c,t)=>o.push({n,l:n.toLowerCase(),h,ic,meta,kind,w,c,t});
  PAGES.forEach(([n,h,m])=>add(n,h,()=>'<span class="qpg" aria-hidden="true">'+n[0]+"</span>",m,"Page",3));
  const ks=ORDER.map(a=>PB[a]).filter(Boolean);ks.splice(ks.indexOf("zoranth_forgotten")+1,0,"warden","wither");
- ks.forEach(k=>{const a=bossPath(k);add(bossName(k),"#boss/"+k,()=>emblem(a,"xs"),SIDEV[k]!=null?"Side boss at "+actL(a):"Keeper, opens "+actL(a),"Boss",2.5)});
+ ks.forEach(k=>{const a=bossPath(k);add(bossName(k),"#boss/"+k,()=>emblem(a,"xs"),SIDEV[k]!=null?"Side boss at "+actL(a):(VBOSS[a]?"Required boss, opens ":"Keeper, opens ")+actL(a),"Boss",2.5)});
  if(typeof SIDEB!=="undefined")Object.keys(SIDEB).forEach(n=>{const b=SIDEB[n];add(n,"#side/"+enc(n),()=>b.img?`<img alt="" src="${b.img}">`:`<span class="qpg" aria-hidden="true">${esc(n[0])}</span>`,(b.mod?b.mod+" side boss":"Side boss"),"Boss",2)});
  D.forEach(d=>add(d.n,"#i"+d.ix,()=>img(d.id),d.m+", "+actL(d.t),"Curio",1+d.r/6,RC[d.r],String(d.ix)));
  if(typeof GE!=="undefined"){
@@ -56,7 +56,7 @@ function drawRecent(){const by=new Map(index().map(e=>[decodeURIComponent(e.h),e
 const KEYS=`<p class="qkeys" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close</span></p>`;
 const row=(e,i,q)=>`<a class="qr" role="option" id="qr${i}" href="${e.h}"${e.t?` data-t="${e.t}"`:""} data-i="${i}"><span class="qic">${e.ic()}</span><span class="qtx"><b${e.c?` style="color:${e.c}"`:""}>${hl(e.n,q)}</b><small>${esc(e.meta)}</small></span></a>`;
 function draw(q){const gs=search(q);QS.items=[];let html="";
- gs.forEach(([k,xs,all])=>{html+=`<div class="qg" role="presentation"><span>${k==="Boss"?"Bosses":k==="Curio"?"Curios":k+"s"}</span>${all>xs.length?`<em>${xs.length} of ${all}</em>`:""}</div>`;
+ gs.forEach(([k,xs,all])=>{html+=`<div class="qg" role="presentation"><span>${k==="Boss"?"Bosses":k==="Curio"?"Curios":k==="Armor"?"Armor pieces":k+"s"}</span>${all>xs.length?`<em>${xs.length} of ${all}</em>`:""}</div>`;
   xs.forEach(e=>{const i=QS.items.length;QS.items.push(e);html+=row(e,i,q)})});
  // two counts under the query as Curios will apply it: every curio it matches, and those that also pass the sidebar filters
  // (Power, Role … are saved between visits), so the number on the row is the number Curios shows
