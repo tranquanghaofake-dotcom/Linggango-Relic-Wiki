@@ -1,0 +1,1449 @@
+{
+ "_": "Drop and chest chances the pack rolls, per curio: Terra Curio GLM with-tables through build/pack_audit/lootlib.py chances() at luck 0 (TerraCurio-0.1.13), Unique Accessories config_random_chance from the server pack config/uniqueaccessories-common.toml. Read by build/check.js against D src.",
+ "confluence:aglet": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Shipwreck supply",
+   "table": "minecraft:chests/shipwreck_supply",
+   "p": 30.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Shipwreck treasure",
+   "table": "minecraft:chests/shipwreck_treasure",
+   "p": 30.0
+  }
+ ],
+ "confluence:ancient_chisel": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Desert Pyramid",
+   "table": "minecraft:chests/desert_pyramid",
+   "p": 15.0
+  }
+ ],
+ "confluence:angler_earring": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "village Fisher",
+   "table": "minecraft:chests/village/village_fisher",
+   "p": 3.17
+  }
+ ],
+ "confluence:band_of_regeneration": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Witch",
+   "table": "minecraft:entities/witch",
+   "p": 5.0
+  }
+ ],
+ "confluence:bezoar": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Cave Spider",
+   "table": "minecraft:entities/cave_spider",
+   "p": 5.0
+  }
+ ],
+ "confluence:blindfold": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Ancient City",
+   "table": "minecraft:chests/ancient_city",
+   "p": 40.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Ancient City ice box",
+   "table": "minecraft:chests/ancient_city_ice_box",
+   "p": 100.0
+  }
+ ],
+ "confluence:blizzard_in_a_bottle": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Igloo",
+   "table": "minecraft:chests/igloo_chest",
+   "p": 30.0
+  }
+ ],
+ "confluence:brain_of_confusion": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Zombie Villager",
+   "table": "minecraft:entities/zombie_villager",
+   "p": 15.0
+  }
+ ],
+ "confluence:brick_layer": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "village Toolsmith",
+   "table": "minecraft:chests/village/village_toolsmith",
+   "p": 13.89
+  }
+ ],
+ "confluence:climbing_claws": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Spider",
+   "table": "minecraft:entities/spider",
+   "p": 0.8
+  }
+ ],
+ "confluence:cloud_in_a_bottle": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Mineshaft",
+   "table": "minecraft:chests/abandoned_mineshaft",
+   "p": 25.0
+  }
+ ],
+ "confluence:cobalt_shield": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Ravager",
+   "table": "minecraft:entities/ravager",
+   "p": 20.0
+  }
+ ],
+ "confluence:compass": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Bat",
+   "table": "minecraft:entities/bat",
+   "p": 13.67
+  }
+ ],
+ "confluence:cross_necklace": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Evoker",
+   "table": "minecraft:entities/evoker",
+   "p": 10.0
+  }
+ ],
+ "confluence:demon_heart": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Wither",
+   "table": "minecraft:entities/wither",
+   "p": 100.0
+  }
+ ],
+ "confluence:depth_meter": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Bat",
+   "table": "minecraft:entities/bat",
+   "p": 13.67
+  }
+ ],
+ "confluence:dps_meter": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Creeper",
+   "table": "minecraft:entities/creeper",
+   "p": 6.75
+  }
+ ],
+ "confluence:dunerider_boots": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Husk",
+   "table": "minecraft:entities/husk",
+   "p": 6.0
+  }
+ ],
+ "confluence:energy_bar": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Zombified Piglin",
+   "table": "minecraft:entities/zombified_piglin",
+   "p": 3.0
+  }
+ ],
+ "confluence:extendo_grip": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Desert Pyramid",
+   "table": "minecraft:chests/desert_pyramid",
+   "p": 50.0
+  }
+ ],
+ "confluence:eye_of_the_golem": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Jungle Temple",
+   "table": "minecraft:chests/jungle_temple",
+   "p": 100.0
+  }
+ ],
+ "confluence:fart_in_a_jar": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Ghast",
+   "table": "minecraft:entities/ghast",
+   "p": 8.0
+  }
+ ],
+ "confluence:fast_clock": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Stray",
+   "table": "minecraft:entities/stray",
+   "p": 8.0
+  }
+ ],
+ "confluence:feral_claws": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Jungle Temple",
+   "table": "minecraft:chests/jungle_temple",
+   "p": 100.0
+  }
+ ],
+ "confluence:fishermans_pocket_guide": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "village Fisher",
+   "table": "minecraft:chests/village/village_fisher",
+   "p": 21.42
+  }
+ ],
+ "confluence:flashlight": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Stronghold corridor",
+   "table": "minecraft:chests/stronghold_corridor",
+   "p": 25.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Stronghold crossing",
+   "table": "minecraft:chests/stronghold_crossing",
+   "p": 25.0
+  }
+ ],
+ "confluence:flesh_knuckles": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Piglin Brute",
+   "table": "minecraft:entities/piglin_brute",
+   "p": 10.0
+  }
+ ],
+ "confluence:flipper": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Shipwreck supply",
+   "table": "minecraft:chests/shipwreck_supply",
+   "p": 30.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Shipwreck treasure",
+   "table": "minecraft:chests/shipwreck_treasure",
+   "p": 30.0
+  }
+ ],
+ "confluence:flurry_boots": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Igloo",
+   "table": "minecraft:chests/igloo_chest",
+   "p": 100.0
+  }
+ ],
+ "confluence:frog_leg": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Frog",
+   "table": "minecraft:entities/frog",
+   "p": 100.0
+  }
+ ],
+ "confluence:frozen_turtle_shell": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Turtle",
+   "table": "minecraft:entities/turtle",
+   "p": 100.0
+  }
+ ],
+ "confluence:gravity_globe": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Shulker",
+   "table": "minecraft:entities/shulker",
+   "p": 10.0
+  }
+ ],
+ "confluence:hand_drill": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Elder Guardian",
+   "table": "minecraft:entities/elder_guardian",
+   "p": 100.0
+  }
+ ],
+ "confluence:hermes_boots": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "village Armorer",
+   "table": "minecraft:chests/village/village_armorer",
+   "p": 100.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Plains village house",
+   "table": "minecraft:chests/village/village_plains_house",
+   "p": 36.0
+  }
+ ],
+ "confluence:hive_pack": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Bee",
+   "table": "minecraft:entities/bee",
+   "p": 0.97
+  }
+ ],
+ "confluence:holy_water": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Wither Skeleton",
+   "table": "minecraft:entities/wither_skeleton",
+   "p": 6.0
+  }
+ ],
+ "confluence:honey_comb": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Bee",
+   "table": "minecraft:entities/bee",
+   "p": 6.96
+  }
+ ],
+ "confluence:lava_charm": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Blaze",
+   "table": "minecraft:entities/blaze",
+   "p": 5.0
+  }
+ ],
+ "confluence:life_form_analyzer": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Glow Squid",
+   "table": "minecraft:entities/glow_squid",
+   "p": 8.0
+  }
+ ],
+ "confluence:lucky_horseshoe": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Ancient City",
+   "table": "minecraft:chests/ancient_city",
+   "p": 50.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Desert Pyramid",
+   "table": "minecraft:chests/desert_pyramid",
+   "p": 2.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "End City",
+   "table": "minecraft:chests/end_city_treasure",
+   "p": 2.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Jungle Temple",
+   "table": "minecraft:chests/jungle_temple",
+   "p": 2.0
+  }
+ ],
+ "confluence:magic_quiver": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Skeleton",
+   "table": "minecraft:entities/skeleton",
+   "p": 2.5
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Pillager Outpost",
+   "table": "minecraft:chests/pillager_outpost",
+   "p": 10.0
+  }
+ ],
+ "confluence:magiluminescence": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "End City",
+   "table": "minecraft:chests/end_city_treasure",
+   "p": 50.0
+  }
+ ],
+ "confluence:magma_stone": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Magma Cube",
+   "table": "minecraft:entities/magma_cube",
+   "p": 2.0
+  }
+ ],
+ "confluence:metal_detector": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Warden",
+   "table": "minecraft:entities/warden",
+   "p": 100.0
+  }
+ ],
+ "confluence:obsidian_rose": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Bastion treasure",
+   "table": "minecraft:chests/bastion_treasure",
+   "p": 100.0
+  }
+ ],
+ "confluence:paladins_shield": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Ender Dragon",
+   "table": "minecraft:entities/ender_dragon",
+   "p": 100.0
+  }
+ ],
+ "confluence:portable_cement_mixer": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "village Toolsmith",
+   "table": "minecraft:chests/village/village_toolsmith",
+   "p": 13.89
+  }
+ ],
+ "confluence:radar": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Bat",
+   "table": "minecraft:entities/bat",
+   "p": 40.67
+  }
+ ],
+ "confluence:ranger_emblem": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Skeleton",
+   "table": "minecraft:entities/skeleton",
+   "p": 0.8
+  }
+ ],
+ "confluence:rifle_scope": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Enderman",
+   "table": "minecraft:entities/enderman",
+   "p": 4.0
+  }
+ ],
+ "confluence:royal_gel": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Slime",
+   "table": "minecraft:entities/slime",
+   "p": 1.0
+  }
+ ],
+ "confluence:sailfish_boots": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Shipwreck supply",
+   "table": "minecraft:chests/shipwreck_supply",
+   "p": 30.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Shipwreck treasure",
+   "table": "minecraft:chests/shipwreck_treasure",
+   "p": 30.0
+  }
+ ],
+ "confluence:sandstorm_in_a_bottle": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Desert Pyramid",
+   "table": "minecraft:chests/desert_pyramid",
+   "p": 30.0
+  }
+ ],
+ "confluence:sextant": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "village Fisher",
+   "table": "minecraft:chests/village/village_fisher",
+   "p": 21.42
+  }
+ ],
+ "confluence:shackle": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Zombie",
+   "table": "minecraft:entities/zombie",
+   "p": 0.7
+  }
+ ],
+ "confluence:shark_tooth_necklace": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Drowned",
+   "table": "minecraft:entities/drowned",
+   "p": 8.0
+  }
+ ],
+ "confluence:shield_of_cthulhu": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Ravager",
+   "table": "minecraft:entities/ravager",
+   "p": 10.0
+  }
+ ],
+ "confluence:shiny_red_balloon": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Plains village house",
+   "table": "minecraft:chests/village/village_plains_house",
+   "p": 16.0
+  }
+ ],
+ "confluence:shoe_spikes": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Cave Spider",
+   "table": "minecraft:entities/cave_spider",
+   "p": 0.8
+  }
+ ],
+ "confluence:shot_put": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Stronghold corridor",
+   "table": "minecraft:chests/stronghold_corridor",
+   "p": 25.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Stronghold crossing",
+   "table": "minecraft:chests/stronghold_crossing",
+   "p": 25.0
+  }
+ ],
+ "confluence:sorcerer_emblem": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Evoker",
+   "table": "minecraft:entities/evoker",
+   "p": 10.0
+  }
+ ],
+ "confluence:star_cloak": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Woodland Mansion",
+   "table": "minecraft:chests/woodland_mansion",
+   "p": 28.0
+  }
+ ],
+ "confluence:tabi": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Nether Fortress",
+   "table": "minecraft:chests/nether_bridge",
+   "p": 10.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Pillager",
+   "table": "minecraft:entities/pillager",
+   "p": 0.2
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Vindicator",
+   "table": "minecraft:entities/vindicator",
+   "p": 0.2
+  }
+ ],
+ "confluence:tally_counter": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Creeper",
+   "table": "minecraft:entities/creeper",
+   "p": 6.75
+  }
+ ],
+ "confluence:titan_glove": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Mineshaft",
+   "table": "minecraft:chests/abandoned_mineshaft",
+   "p": 25.0
+  }
+ ],
+ "confluence:toolbox": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "village Toolsmith",
+   "table": "minecraft:chests/village/village_toolsmith",
+   "p": 32.19
+  }
+ ],
+ "confluence:treasure_magnet": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Ancient City",
+   "table": "minecraft:chests/ancient_city",
+   "p": 50.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Desert Pyramid",
+   "table": "minecraft:chests/desert_pyramid",
+   "p": 2.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "End City",
+   "table": "minecraft:chests/end_city_treasure",
+   "p": 2.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Jungle Temple",
+   "table": "minecraft:chests/jungle_temple",
+   "p": 2.0
+  }
+ ],
+ "confluence:trifold_map": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Stronghold library",
+   "table": "minecraft:chests/stronghold_library",
+   "p": 100.0
+  }
+ ],
+ "confluence:tsunami_in_a_bottle": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Shipwreck supply",
+   "table": "minecraft:chests/shipwreck_supply",
+   "p": 30.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "Shipwreck treasure",
+   "table": "minecraft:chests/shipwreck_treasure",
+   "p": 30.0
+  }
+ ],
+ "confluence:vitamins": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Witch",
+   "table": "minecraft:entities/witch",
+   "p": 8.0
+  }
+ ],
+ "confluence:warrior_emblem": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Vindicator",
+   "table": "minecraft:entities/vindicator",
+   "p": 8.0
+  }
+ ],
+ "confluence:water_walking_boots": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "big Ocean Ruin",
+   "table": "minecraft:chests/underwater_ruin_big",
+   "p": 25.0
+  },
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "small Ocean Ruin",
+   "table": "minecraft:chests/underwater_ruin_small",
+   "p": 25.0
+  }
+ ],
+ "confluence:weather_radio": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "village Fisher",
+   "table": "minecraft:chests/village/village_fisher",
+   "p": 21.42
+  }
+ ],
+ "uniqueaccessories:all_purpose_seasoning": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Desert House",
+   "table": "minecraft:chests/village/village_desert_house",
+   "p": 8.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Plains village house",
+   "table": "minecraft:chests/village/village_plains_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Savanna House",
+   "table": "minecraft:chests/village/village_savanna_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Snowy House",
+   "table": "minecraft:chests/village/village_snowy_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Taiga House",
+   "table": "minecraft:chests/village/village_taiga_house",
+   "p": 1.0
+  }
+ ],
+ "uniqueaccessories:amplifier_stone": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Mineshaft",
+   "table": "minecraft:chests/abandoned_mineshaft",
+   "p": 7.0
+  }
+ ],
+ "uniqueaccessories:anklet_of_fortune": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Desert House",
+   "table": "minecraft:chests/village/village_desert_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Plains village house",
+   "table": "minecraft:chests/village/village_plains_house",
+   "p": 8.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Savanna House",
+   "table": "minecraft:chests/village/village_savanna_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Snowy House",
+   "table": "minecraft:chests/village/village_snowy_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Taiga House",
+   "table": "minecraft:chests/village/village_taiga_house",
+   "p": 1.0
+  }
+ ],
+ "uniqueaccessories:black_belt": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Wither Skeleton",
+   "table": "minecraft:entities/wither_skeleton",
+   "p": 8.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Pillager",
+   "table": "minecraft:entities/pillager",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Vindicator",
+   "table": "minecraft:entities/vindicator",
+   "p": 1.0
+  }
+ ],
+ "uniqueaccessories:blade_shoes": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Desert House",
+   "table": "minecraft:chests/village/village_desert_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Plains village house",
+   "table": "minecraft:chests/village/village_plains_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Savanna House",
+   "table": "minecraft:chests/village/village_savanna_house",
+   "p": 8.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Snowy House",
+   "table": "minecraft:chests/village/village_snowy_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Taiga House",
+   "table": "minecraft:chests/village/village_taiga_house",
+   "p": 1.0
+  }
+ ],
+ "uniqueaccessories:bloody_knife": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Husk",
+   "table": "minecraft:entities/husk",
+   "p": 0.2
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Witch",
+   "table": "minecraft:entities/witch",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Zombie",
+   "table": "minecraft:entities/zombie",
+   "p": 0.2
+  }
+ ],
+ "uniqueaccessories:burning_soul": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Warden",
+   "table": "minecraft:entities/warden",
+   "p": 15.0
+  }
+ ],
+ "uniqueaccessories:cursed_doll_head": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Witch",
+   "table": "minecraft:entities/witch",
+   "p": 10.0
+  }
+ ],
+ "uniqueaccessories:devils_eyeball": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Bastion treasure",
+   "table": "minecraft:chests/bastion_treasure",
+   "p": 10.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Nether Fortress",
+   "table": "minecraft:chests/nether_bridge",
+   "p": 1.0
+  }
+ ],
+ "uniqueaccessories:durable_spring": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "village Armorer",
+   "table": "minecraft:chests/village/village_armorer",
+   "p": 12.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Desert House",
+   "table": "minecraft:chests/village/village_desert_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Plains village house",
+   "table": "minecraft:chests/village/village_plains_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Savanna House",
+   "table": "minecraft:chests/village/village_savanna_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Snowy House",
+   "table": "minecraft:chests/village/village_snowy_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Taiga House",
+   "table": "minecraft:chests/village/village_taiga_house",
+   "p": 3.0
+  }
+ ],
+ "uniqueaccessories:fossil_shark_tooth": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "brush",
+   "name": "Ocean Ruin Cold",
+   "table": "minecraft:archaeology/ocean_ruin_cold",
+   "p": 7.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "brush",
+   "name": "Ocean Ruin Warm",
+   "table": "minecraft:archaeology/ocean_ruin_warm",
+   "p": 7.0
+  }
+ ],
+ "uniqueaccessories:hero_emblem": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Ender Dragon",
+   "table": "minecraft:entities/ender_dragon",
+   "p": 100.0
+  }
+ ],
+ "uniqueaccessories:large_paddle": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Desert House",
+   "table": "minecraft:chests/village/village_desert_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "village Fisher",
+   "table": "minecraft:chests/village/village_fisher",
+   "p": 12.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Plains village house",
+   "table": "minecraft:chests/village/village_plains_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Savanna House",
+   "table": "minecraft:chests/village/village_savanna_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Snowy House",
+   "table": "minecraft:chests/village/village_snowy_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Taiga House",
+   "table": "minecraft:chests/village/village_taiga_house",
+   "p": 3.0
+  }
+ ],
+ "uniqueaccessories:life_jacket_belt": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Shipwreck treasure",
+   "table": "minecraft:chests/shipwreck_treasure",
+   "p": 15.0
+  }
+ ],
+ "uniqueaccessories:moon_stone": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Phantom",
+   "table": "minecraft:entities/phantom",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "End City",
+   "table": "minecraft:chests/end_city_treasure",
+   "p": 3.0
+  }
+ ],
+ "uniqueaccessories:power_crystal": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Mineshaft",
+   "table": "minecraft:chests/abandoned_mineshaft",
+   "p": 2.0
+  }
+ ],
+ "uniqueaccessories:rose_of_temptation": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Simple Dungeon",
+   "table": "minecraft:chests/simple_dungeon",
+   "p": 30.0
+  }
+ ],
+ "uniqueaccessories:rusty_guillotine_blade": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Ruined Portal",
+   "table": "minecraft:chests/ruined_portal",
+   "p": 20.0
+  }
+ ],
+ "uniqueaccessories:sharp_fishing_hook": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Shipwreck supply",
+   "table": "minecraft:chests/shipwreck_supply",
+   "p": 10.0
+  }
+ ],
+ "uniqueaccessories:shiny_stone": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Jungle Temple",
+   "table": "minecraft:chests/jungle_temple",
+   "p": 20.0
+  }
+ ],
+ "uniqueaccessories:silver_cat_tail": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Woodland Mansion",
+   "table": "minecraft:chests/woodland_mansion",
+   "p": 7.0
+  }
+ ],
+ "uniqueaccessories:small_propulsion_device": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Desert House",
+   "table": "minecraft:chests/village/village_desert_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Plains village house",
+   "table": "minecraft:chests/village/village_plains_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Savanna House",
+   "table": "minecraft:chests/village/village_savanna_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Snowy House",
+   "table": "minecraft:chests/village/village_snowy_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Taiga House",
+   "table": "minecraft:chests/village/village_taiga_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Weaponsmith",
+   "table": "minecraft:chests/village/village_weaponsmith",
+   "p": 12.0
+  }
+ ],
+ "uniqueaccessories:snow_golem_doll": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Igloo",
+   "table": "minecraft:chests/igloo_chest",
+   "p": 40.0
+  }
+ ],
+ "uniqueaccessories:soul_gem": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Stronghold corridor",
+   "table": "minecraft:chests/stronghold_corridor",
+   "p": 7.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Stronghold crossing",
+   "table": "minecraft:chests/stronghold_crossing",
+   "p": 7.0
+  }
+ ],
+ "uniqueaccessories:starved_wolf_skull": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "brush",
+   "name": "Desert Pyramid",
+   "table": "minecraft:archaeology/desert_pyramid",
+   "p": 4.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "brush",
+   "name": "Desert Well",
+   "table": "minecraft:archaeology/desert_well",
+   "p": 4.0
+  }
+ ],
+ "uniqueaccessories:still_beating_heart": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Piglin Brute",
+   "table": "minecraft:entities/piglin_brute",
+   "p": 2.0
+  }
+ ],
+ "uniqueaccessories:strong_sticky_slime_ball": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Slime",
+   "table": "minecraft:entities/slime",
+   "p": 0.2
+  }
+ ],
+ "uniqueaccessories:sun_stone": [
+  {
+   "mod": "confluence",
+   "kind": "mob",
+   "name": "Blaze",
+   "table": "minecraft:entities/blaze",
+   "p": 7.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Ancient City",
+   "table": "minecraft:chests/ancient_city",
+   "p": 3.0
+  }
+ ],
+ "uniqueaccessories:supreme_meat": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Hoglin",
+   "table": "minecraft:entities/hoglin",
+   "p": 1.0
+  }
+ ],
+ "uniqueaccessories:survival_belt": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Desert House",
+   "table": "minecraft:chests/village/village_desert_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Plains village house",
+   "table": "minecraft:chests/village/village_plains_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Savanna House",
+   "table": "minecraft:chests/village/village_savanna_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Snowy House",
+   "table": "minecraft:chests/village/village_snowy_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Taiga House",
+   "table": "minecraft:chests/village/village_taiga_house",
+   "p": 8.0
+  }
+ ],
+ "uniqueaccessories:suspicious_mushroom": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "mob",
+   "name": "Mooshroom",
+   "table": "minecraft:entities/mooshroom",
+   "p": 2.0
+  }
+ ],
+ "uniqueaccessories:tool_belt": [
+  {
+   "mod": "confluence",
+   "kind": "chest",
+   "name": "village Toolsmith",
+   "table": "minecraft:chests/village/village_toolsmith",
+   "p": 32.19
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Desert House",
+   "table": "minecraft:chests/village/village_desert_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Plains village house",
+   "table": "minecraft:chests/village/village_plains_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Savanna House",
+   "table": "minecraft:chests/village/village_savanna_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Snowy House",
+   "table": "minecraft:chests/village/village_snowy_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Taiga House",
+   "table": "minecraft:chests/village/village_taiga_house",
+   "p": 3.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "village Toolsmith",
+   "table": "minecraft:chests/village/village_toolsmith",
+   "p": 12.0
+  }
+ ],
+ "uniqueaccessories:waist_warmer": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Desert House",
+   "table": "minecraft:chests/village/village_desert_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Plains village house",
+   "table": "minecraft:chests/village/village_plains_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Savanna House",
+   "table": "minecraft:chests/village/village_savanna_house",
+   "p": 1.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Snowy House",
+   "table": "minecraft:chests/village/village_snowy_house",
+   "p": 8.0
+  },
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Village Taiga House",
+   "table": "minecraft:chests/village/village_taiga_house",
+   "p": 1.0
+  }
+ ],
+ "uniqueaccessories:withered_heart": [
+  {
+   "mod": "uniqueaccessories",
+   "kind": "chest",
+   "name": "Nether Fortress",
+   "table": "minecraft:chests/nether_bridge",
+   "p": 15.0
+  }
+ ]
+}
