@@ -854,4 +854,9 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   when a reader-visible fix needs it; plan it then, not ahead.
 - Still open: the wide gear scan (RENOVATION_PREP item 1, with P2); Crucible Sword's damage (needs a game server); four gear
   items without an icon.
+- Process (CLAUDE.md, "Process"), from this session's mistakes: value first (say what a reader sees before work over an
+  hour; refactors proved only by identical output wait for a visible need), who does it (under 30 minutes without an agent,
+  resume stopped agents, clean up worktrees the same day), `check.js` during work and `check.sh` once per wave, and docs say
+  only what was checked (two wrong claims of 2026-10-31 were corrected above). The Facts bullet now points at
+  `build/checks/`.
 

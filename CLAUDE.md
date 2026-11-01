@@ -38,6 +38,10 @@ How the pieces fit: `build/README.md`; why they are shaped that way: `build/ARCH
 - **Bugs:** superpowers `systematic-debugging`; the fix ends as an invariant in `build/checks/<topic>.js` (loaded by `check.js`). Linters are hand tools here, not gates (`docs/AGENT_TOOLS.md`).
 - **Done means evidence:** steps 3–4 ran in this session (superpowers `verification-before-completion`); "live" means the `site` run went green, read with the GitHub connector (`actions_list` on this repo) or on the Actions page.
 - **Review before merge** for architectural work: `requesting-code-review` or `/code-review` on the branch, before `main`.
+- **Value first:** before work that takes more than about an hour, say in one line what a reader of the wiki will see change. Tool refactors whose only proof is "the output stays byte-identical" wait until a reader-visible fix needs them (the classlib chunks 1B/1C cost hours for nothing on the pages and were dropped). When the visible gain is small, ask the owner before starting.
+- **Who does it:** a task under about 30 minutes is done directly, without an agent. An agent's brief asks for the proof the change needs, not more; a stopped agent (usage limit) is resumed, not restarted. Integrate agent work the same day, then delete its worktree and branch.
+- **Checks during work:** `node build/check.js` (about 5 min) while working; `bash build/check.sh` once per wave, before pushing to `main`.
+- **Docs say only what was checked:** before writing "done", "retired", "stale" or a count into a doc or NOTES, verify it (grep, run, count). A claim found wrong later is corrected in NOTES in the open.
 - **Big passes (audits, many fixes):** high-severity first, then ship (steps 2–6) before medium and low; low ones may wait for another session. One finding belongs to one group of files, never split in halves; each group adds its own invariant file and gets one review at the end, not one per chunk.
 - **Budget:** the account has a five-hour usage limit. Fable (max) only for planning and rating; Sonnet for simple fixes and for verifying low/medium findings; Opus for complex ones. At most two heavy agents at once and at most two parallel builds (the machine has 4 CPUs; more makes `check.js` 10x slower). Estimate the tokens of a workflow before launching it; a workflow script runs once with a dry-run flag (no agents) before it runs for real.
 - **Generated files:** commit what `apply_all.sh` rewrites (`data.js`, `curio_tiers.json`) in the same commit as the change that caused it; a conflict in them is solved by taking either side and running `apply_all.sh`.
@@ -45,7 +49,7 @@ How the pieces fit: `build/README.md`; why they are shaped that way: `build/ARCH
 
 ## Facts
 - Numbers come from the game export first, then the pack's files, then the jar reading. External wikis are reference only. Estimates are labelled as estimates.
-- Every bug found in the data becomes an invariant in `build/check.js`.
+- Every bug found in the data becomes an invariant in `build/checks/<topic>.js`.
 - Textures follow the licence rules in `build/README.md` (Rooms): nothing All Rights Reserved or NoDerivatives.
 
 ## Design
