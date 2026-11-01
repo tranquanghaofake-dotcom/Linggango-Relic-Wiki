@@ -6,19 +6,16 @@ field holds define*(key, default ...) and reads as that default; plain static fi
 assigned; a class with a no-argument constructor (BoMD's and fdbosses' config objects) is also constructed and its instance
 fields read. No pack config is loaded (mjvm.load_cfg is not called): these are the mods' defaults, stats.py lays the pack's
 values over them. attrs.py tags reads of these classes in attribute builders as "<SimpleName>.<field>"."""
-import json, sys, os, glob, zipfile, tomllib
+import json, sys, os, glob, zipfile
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "gear"))
 import mjvm
+from classlib import mod_ids
 
 # simple name -> mod id of the jar that holds it
 CLASSES = {"AttributesConfig": "goety", "BossConfig": "soulsweapons", "GauntletConfig": "bosses_of_mass_destruction",
            "LichConfig": "bosses_of_mass_destruction", "ObsidilithConfig": "bosses_of_mass_destruction",
            "VoidBlossomConfig": "bosses_of_mass_destruction", "MalkuthConfig": "fdbosses", "ChesedConfig": "fdbosses",
            "ModConfig": "goety_revelation"}
-
-def mod_ids(z):
-    try: return {m.get("modId") for m in tomllib.loads(z.read("META-INF/mods.toml").decode("utf8", "ignore")).get("mods", [])}
-    except Exception: return set()
 
 def jars_by_mod(jd):
     """mod id -> [jar paths], jars in name order"""

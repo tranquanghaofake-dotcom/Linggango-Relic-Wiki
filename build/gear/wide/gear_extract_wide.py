@@ -6,10 +6,13 @@ a gear class (or is an explicit target) is recorded.
 Output: ext_raw/<ns>.json  {records: id -> rec, fail: id -> reason, info}
 rec: k (constructor model: sword/axe/tool/tiered/armor/trident/bow/crossbow/shield), kind (class graph), dmg/spd (modifier
 amounts, as SwordItem stores them), arm/tough/kbr, slot, mods {slot: [[attr, amount, op]]}, cls (class chain), src."""
-import sys, json, glob, zipfile, re, time, os, collections, traceback
+import sys, json, glob, zipfile, re, time, os, collections, traceback, shutil
 sys.setrecursionlimit(20000)
 G = sys.argv[1]; sys.path.insert(0, G)
+for _f in ('mjvm.py', 'classlib.py'):  # G is a copy of build/gear: bring the interpreter and its class layer up to date
+    shutil.copy(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', _f), G)
 import mjvm
+from classlib import ClassPath
 from mjvm import VM, Obj, MMap, Attr, EnumC, Lam, RegObj, num
 
 SRG = glob.glob(G + '/srv/libraries/net/minecraft/server/1.20.1-*/server-1.20.1-*-srg.jar')[0]
@@ -88,17 +91,12 @@ def mods_of(vm, o):
 
 _W = {}
 def winit():
-    idx = {}; zs = {}
-    for j in JARS + [SRG]:
-        try: z = zipfile.ZipFile(j)
-        except Exception: continue
-        zs[os.path.basename(j)] = z
-        for n in z.namelist():
-            if n.endswith('.class') and not n.startswith('META-INF'): idx.setdefault(n[:-6], (z, n))
-    vm = VM([]); vm.idx = idx; mjvm.srg_tables(vm, SRG)
+    cp = ClassPath(JARS + [SRG], sort=False)  # the mods, the nested jars, the game last; first wins
+    zs = {os.path.basename(j): z for j, z in cp.zips}
+    vm = VM(cp); mjvm.srg_tables(vm, SRG)
     mjvm.load_cfg(G + '/pack/src/overrides/config'); mjvm.load_cfg(G + '/pack/src/overrides/defaultconfigs')
     cg = json.load(open(G + '/clsgraph.json'))
-    _W.update(idx=idx, zs=zs, attrname=dict(vm.attrname), cg=cg, gearset=set(cg['gear']), attrset=set(cg['attr']),
+    _W.update(cp=cp, zs=zs, attrname=dict(vm.attrname), cg=cg, gearset=set(cg['gear']), attrset=set(cg['attr']),
               plan=json.load(open(G + '/ns_plan.json')), meta=json.load(open(G + '/targets_meta.json')),
               lang=json.load(open(G + '/lang_wide.json')), curio=set(json.load(open(G + '/curio_ids.json'))))
 
@@ -205,12 +203,8 @@ def mod_classes(jars):
 def run_ns(ns):
     t0 = time.time()
     P = _W['plan'][ns]; lang = _W['lang']; meta = _W['meta']
-    vm = VM([]); vm.idx = dict(_W['idx']); vm.attrname = _W['attrname']; vm.hard = int(os.environ.get('HARD_STEPS', 60_000_000))
-    for j in P['jars']:
-        z = _W['zs'].get(j)
-        if z is None: continue
-        for n in z.namelist():
-            if n.endswith('.class') and not n.startswith('META-INF'): vm.idx[n[:-6]] = (z, n)
+    vm = VM(_W['cp'].over([_W['zs'][j] for j in P['jars'] if j in _W['zs']]))  # the namespace's own jars win
+    vm.attrname = _W['attrname']; vm.hard = int(os.environ.get('HARD_STEPS', 60_000_000))
     mjvm.cfg_ns(ns)
     explicit = set(P['explicit']); want = set(P['want_all']) | explicit
     cls = candidates(vm, ns, P, want, explicit)
@@ -272,9 +266,8 @@ def run_ns(ns):
                 if len(b) >= 4: mb.add(b'\x01' + b.encode())
         r0 = len(vm.regs)
         for c in cls[:160]:
-            e = vm.idx.get(c)
-            if not e: continue
-            b = e[0].read(e[1])
+            b = vm.cp.bytes(c)
+            if b is None: continue
             if not any(w in b for w in mb): continue
             k = vm.cf(c)
             if not k: continue
@@ -295,7 +288,7 @@ def run_ns(ns):
         for name, val in vm.regs[r0:]: take(name, val)
     miss = explicit - set(kept)
     if miss and time.time() - t0 < 500:
-        vm2 = VM([]); vm2.idx = vm.idx; vm2.attrname = vm.attrname; vm2.hard = vm.hard; vm2.cache = vm.cache
+        vm2 = VM(vm.cp); vm2.attrname = vm.attrname; vm2.hard = vm.hard
         vm2.regs = []; vm0 = vm; vm = vm2
         for c in list(reversed(cls[:160])):
             try: vm.clinit(c)

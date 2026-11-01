@@ -100,7 +100,7 @@ have no readable damage, so `gEstScore` puts them on the power curve `GSTEP^rung
 so set scores depend on the Act (`gScore`). Sets with unreadable armor get the median armor/toughness/HP of their Act. Tiers are the ratio to
 the fifth best usable item at that Act (so one runaway item does not push the rest to D; S ≥85%, A ≥70%, B ≥55%, C ≥40%); under 25% is not listed; creative-only items are hidden.
 `patches/gear_extra.json` (made by `gear/extra.py` from `gear/extra_ids.json`) adds plain-Item weapons the extraction skips; Iron's armor material
-attributes come from `pack_audit/iss_armor.py` (javap on `ExtendedArmorMaterials`) via `gear_stats.json`; icons that need a 3D render come from `pack_audit/weapon_icons/`.
+attributes come from `pack_audit/iss_armor.py ISS_JAR --gear-stats SRG_JAR` (`ExtendedArmorMaterials.<clinit>` read through `gear/classlib.py`), which rewrites `iss_materials` of `gear_stats.json`; icons that need a 3D render come from `pack_audit/weapon_icons/`.
 
 ## Regenerating from the pack
 `gear/` (see `gear/wide/README.md`) and `pack_audit/` (see its README) read the pack's jars (6.6.6hf: the 383 server jars plus the client zip's overrides) and write the JSON in `patches/`. They need the pack downloaded (`gear/dl.py`) and are not part of the daily loop.

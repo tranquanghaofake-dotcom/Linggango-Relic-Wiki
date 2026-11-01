@@ -59,13 +59,20 @@ adding; grep every caller before a fix; finish the callers and checks the change
 ## Open-source tools
 In use: Playwright 1.63 (`shot.js`, `perf.js`, `check.js`, `style_check.js`, `site_check.js`), three.js 0.169 (the
 render tools only), InventivetalentDev/minecraft-assets@1.20.1 (textures, cloned into the scratchpad when needed),
-Mojang 1.20.1 mappings + MCPConfig (field names for `gear_fx.py`; not committed), jawa (`gear/mjvm.py`).
+Mojang 1.20.1 mappings + MCPConfig (field names for `gear_fx.py`; not committed), jawa (`gear/classlib.py`, the class layer
+`gear/mjvm.py` and `pack_audit/iss_armor.py` read classes through).
 
 Tried on 2026-10-31 and kept as hand tools, not gates: `ruff check build` (default rules: 715 findings in 102 files;
 the 28 in real-bug classes were all intentional: `v != v` NaN tests in `mjvm.py`, the deliberate `exec` prelude in
 `gear/extra.py`, loop closures called in the same iteration in `lootlib.py`, `gear_runtime.py`, `measure/import.py`,
 a `memo={}` cache in `eqa/audit.py`); `node --check` over the 27 JS files (clean). Run either by hand before a
 consolidation pass (`uvx --from ruff ruff check build --select F821,B023,PLR0124`); `check.sh` stays a behaviour gate.
+
+Bytecode tests, a hand tool, not a gate: `python3 build/tests/bytecode/run.py [--bench] [SET ...]` (about 15 s; needs `javac`
+17+ and jawa). Each folder of `build/tests/bytecode/` is a set of small Java sources with stand-ins for the game classes
+they touch; the script compiles them and checks `gear/classlib.py`, `gear/mjvm.py` (number semantics, switches, string
+concatenation, lambdas, registration, config lookup), `side_bosses/jmodel.py` and `gear_fx.py` against known values.
+Run it after any change to those files, next to the byte diffs of the plan that changes them.
 
 ## Looked at and left out
 | Skill | What it is | Why not here |

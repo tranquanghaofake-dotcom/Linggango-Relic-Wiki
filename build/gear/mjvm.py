@@ -1,10 +1,11 @@
 """Tiny symbolic JVM: runs mod item-registration code far enough to read
 weapon damage / attack speed and armor values the way the mods construct them.
 Vanilla base classes (SwordItem, DiggerItem, ArmorItem, Tiers, ArmorMaterials)
-are modelled, not interpreted. Unknown calls return Opaque values."""
-import zipfile, io, re, struct, sys, glob, json, math
-from jawa.cf import ClassFile
-import jawa.constants as C
+are modelled, not interpreted. Unknown calls return Opaque values.
+Classes, descriptors and constants are read through classlib.py (next to this file)."""
+import re, struct, sys, glob, json, math
+import classlib
+from classlib import ClassPath, argc, dtypes, rettype
 
 class Opaque:
     __slots__ = ('d',)
@@ -166,30 +167,6 @@ EQF = {}
 EQS = ['MAINHAND', 'OFFHAND', 'FEET', 'LEGS', 'CHEST', 'HEAD']
 EQIDX = {'MAINHAND': 0, 'OFFHAND': 1, 'FEET': 0, 'LEGS': 1, 'CHEST': 2, 'HEAD': 3}
 
-def argc(desc):
-    a = desc[1:desc.index(')')]; n = 0; i = 0
-    while i < len(a):
-        while a[i] == '[': i += 1
-        if a[i] == 'L': i = a.index(';', i)
-        i += 1; n += 1
-    return n
-
-def rettype(desc): return desc[desc.index(')') + 1:]
-
-_DT = {}
-def dtypes(desc):
-    """argument kinds of a method descriptor, one letter each (objects and arrays 'A'); J and D take two slots"""
-    r = _DT.get(desc)
-    if r is None:
-        a = desc[1:desc.index(')')]; r = []; i = 0
-        while i < len(a):
-            arr = a[i] == '['
-            while a[i] == '[': i += 1
-            if a[i] == 'L': i = a.index(';', i)
-            r.append('A' if arr or a[i] == ';' else a[i]); i += 1
-        r = _DT[desc] = ''.join(r)
-    return r
-
 # Java number semantics: ints wrap at 32/64 bits, float results are rounded to 32 bits, f2i/d2i saturate
 _F32 = struct.Struct('>f')
 def f32(v):
@@ -234,6 +211,11 @@ def jstr(v):
     if -3 <= e < 7: r = (dg + '0' * e)[:e + 1] + '.' + (dg[e + 1:] or '0') if e >= 0 else '0.' + '0' * (-e - 1) + dg
     else: r = dg[0] + '.' + (dg[1:] or '0') + 'E' + str(e)
     return ('-' if sg else '') + r
+def cval(t, v):
+    """a classlib.const() constant as the interpreter holds it: numbers and strings as they are, a class literal Opaque('class:..')"""
+    if t in ('I', 'J', 'F', 'D', 'S'): return v
+    if t == 'C': return Opaque('class:' + v.name)
+    return OP
 KCONST = {'iconst_m1': -1, **{'iconst_%d' % q: q for q in range(6)}, 'lconst_0': 0, 'lconst_1': 1, 'fconst_0': 0.0, 'fconst_1': 1.0, 'fconst_2': 2.0, 'dconst_0': 0.0, 'dconst_1': 1.0}
 TY = {'i': 'I', 'l': 'J', 'f': 'F', 'd': 'D', 'a': 'A', 'b': 'I', 'c': 'I', 's': 'I', 'z': 'I'}
 CONV = {'i2l': 'IJ', 'i2f': 'IF', 'i2d': 'ID', 'l2i': 'JI', 'l2f': 'JF', 'l2d': 'JD', 'f2i': 'FI', 'f2l': 'FJ', 'f2d': 'FD',
@@ -242,58 +224,18 @@ CFGAPI = re.compile(r'(?i)conf|cfg|setting|option|propert')  # static (String ke
 
 class VM:
     def __init__(s, jars):
-        s.idx = {}
-        for j in jars:
-            try: z = zipfile.ZipFile(j)
-            except Exception: continue
-            for n in z.namelist():
-                if n.endswith('.class') and not n.startswith('META-INF'):
-                    s.idx.setdefault(n[:-6], (z, n))
-        s.cache = {}; s.statics = {}; s.inited = set(); s.regs = []; s.steps = 0; s.attrname = {}
+        """jars: a classlib.ClassPath, or jar paths in the order they win (first wins), as the callers have always passed them"""
+        s.cp = jars if isinstance(jars, ClassPath) else ClassPath(jars, sort=False)
+        s.statics = {}; s.inited = set(); s.regs = []; s.steps = 0; s.attrname = {}
         s.depth = 0; s.budget = 10**12; s.fsteps = 100000; s.clinit_budget = 600000; s.hard = 10**12
         s.errors = []  # (class, method, pc, exception): code that raised in the interpreter; clinit and the callers carry on without it
 
-    def cf(s, cls):
-        if cls in s.cache: return s.cache[cls]
-        e = s.idx.get(cls); r = None
-        if e:
-            try:
-                r = ClassFile(io.BytesIO(e[0].read(e[1])))
-                r._code = {}
-            except Exception: r = None
-        s.cache[cls] = r; return r
+    @property
+    def idx(s): return s.cp.idx  # internal class name -> (ZipFile, entry)
 
-    def supers(s, cls):
-        out = []
-        while cls and len(out) < 20:
-            out.append(cls); c = s.cf(cls)
-            if not c or not c.super_: break
-            cls = c.super_.name.value
-        return out
-
-    def find(s, cls, name, desc=None):
-        chain = s.supers(cls)
-        for c in chain:
-            k = s.cf(c)
-            if not k: continue
-            for m in k.methods:
-                if m.name.value == name and (desc is None or m.descriptor.value == desc):
-                    return c, k, m
-        # default methods of implemented interfaces (breadth first)
-        todo = []; seen = set()
-        for c in chain:
-            k = s.cf(c)
-            if k: todo += [i.name.value for i in k.interfaces]
-        while todo and len(seen) < 64:
-            c = todo.pop(0)
-            if c in seen: continue
-            seen.add(c); k = s.cf(c)
-            if not k: continue
-            for m in k.methods:
-                if m.name.value == name and (desc is None or m.descriptor.value == desc) and m.code:
-                    return c, k, m
-            todo += [i.name.value for i in k.interfaces]
-        return None
+    def cf(s, cls): return s.cp.cf(cls)
+    def supers(s, cls): return s.cp.supers(cls)
+    def find(s, cls, name, desc=None): return s.cp.find_method(cls, name, desc)
 
     def clinit(s, cls):
         if cls in s.inited: return
@@ -302,7 +244,7 @@ class VM:
         if not k: return
         sup = k.super_.name.value if k.super_ else None
         if sup: s.clinit(sup)
-        m = k.methods.find_one(name='<clinit>')
+        m = classlib.method(k, '<clinit>')
         if m and m.code:
             ob = s.budget; st0 = s.steps; s.budget = s.steps + s.clinit_budget
             od = s.depth; s.depth = min(s.depth, 8)  # a nested <clinit> starts a fresh frame stack in the real JVM
@@ -696,20 +638,8 @@ class VM:
         return Opaque(name)
 
     def service_impl(s, iface):
-        if not hasattr(s, '_svc'): s._svc = {}
-        if iface in s._svc: return s._svc[iface]
-        r = None; seen = set()
-        for z, _ in list(s.idx.values()):
-            if id(z) in seen: continue
-            seen.add(id(z))
-            try: t = z.read('META-INF/services/' + iface.replace('/', '.')).decode('utf8', 'ignore')
-            except KeyError: continue
-            except Exception: continue
-            for line in t.splitlines():
-                line = line.split('#')[0].strip()
-                if line: r = line.replace('.', '/'); break
-            if r: break
-        s._svc[iface] = r; return r
+        r = s.cp.services(iface)
+        return r[0] if r else None
 
     def vanilla_mods(s, o, slot):
         m = MMap(); g = o.gear; sl = slot.name if isinstance(slot, EnumC) else None
@@ -783,12 +713,7 @@ class VM:
         try: return s._run(cls, k, m, args)
         finally: s.depth -= 1
 
-    def code(s, k, m):
-        key = id(m)
-        if key not in k._code:
-            ins = list(m.code.disassemble()); pos = {x.pos: i for i, x in enumerate(ins)}
-            k._code[key] = (ins, pos)
-        return k._code[key]
+    def code(s, k, m): return classlib.code(k, m)
 
     def err(s, cls, meth, at, ex):
         if getattr(ex, 'mjvm_at', None) is None:  # recorded once, where it was raised
@@ -805,13 +730,8 @@ class VM:
             loc[slot] = args[ai] if ai < len(args) else OP
             slot += 2 if t in 'JD' else 1; ai += 1
         # the stack holds JVM slots, a long or double as its value then TOP, so pop2/dup2/dup_x2... work on slots as the JVM's do
-        st = []; pc = 0; cp = k.constants; steps = 0; opq = {}
-        def cst(ix):
-            c = cp.get(ix)
-            if isinstance(c, (C.Integer, C.Float, C.Long, C.Double)): return c.value
-            if isinstance(c, C.String): return c.string.value
-            if isinstance(c, C.ConstantClass): return Opaque('class:' + c.name.value)
-            return OP
+        st = []; pc = 0; steps = 0; opq = {}; ref = classlib.ref
+        def cst(ix): return cval(*classlib.const(k, ix))
         def pop(n=1):
             r = []
             for _ in range(n): r.append(st.pop() if st else OP)
@@ -923,21 +843,21 @@ class VM:
                 elif mn == 'return': return None
                 elif mn == 'athrow': return OP
                 elif mn == 'getstatic':
-                    f = cp.get(ops[0].value); c = f.class_.name.value; n = f.name_and_type.name.value; d = f.name_and_type.descriptor.value
+                    c, n, d = ref(k, ops[0].value)
                     if c == cls and (c, n) in s.statics and s.statics[(c, n)] is not None: push(s.statics[(c, n)], d[0])
                     else: push(s.getstatic(c, n, d), d[0])
                 elif mn == 'putstatic':
-                    f = cp.get(ops[0].value); v = popt(f.name_and_type.descriptor.value[0])[0]; s.statics[(f.class_.name.value, f.name_and_type.name.value)] = v
+                    c, n, d = ref(k, ops[0].value); v = popt(d[0])[0]; s.statics[(c, n)] = v
                 elif mn == 'getfield':
-                    f = cp.get(ops[0].value); o = pop()[0]; n = f.name_and_type.name.value
-                    push(o.f.get(n, OP) if isinstance(o, Obj) else (o.f.get(n, OP) if hasattr(o, 'f') else OP), f.name_and_type.descriptor.value[0])
+                    _, n, d = ref(k, ops[0].value); o = pop()[0]
+                    push(o.f.get(n, OP) if isinstance(o, Obj) else (o.f.get(n, OP) if hasattr(o, 'f') else OP), d[0])
                 elif mn == 'putfield':
-                    f = cp.get(ops[0].value); v = popt(f.name_and_type.descriptor.value[0])[0]; o = pop()[0]
-                    if isinstance(o, Obj): o.f[f.name_and_type.name.value] = v
+                    _, n, d = ref(k, ops[0].value); v = popt(d[0])[0]; o = pop()[0]
+                    if isinstance(o, Obj): o.f[n] = v
                 elif mn == 'new':
-                    st.append(('NEW', cp.get(ops[0].value).name.value))
+                    st.append(('NEW', classlib.class_name(k, ops[0].value)))
                 elif mn in ('invokevirtual', 'invokespecial', 'invokestatic', 'invokeinterface'):
-                    mr = cp.get(ops[0].value); c = mr.class_.name.value; n = mr.name_and_type.name.value; dsc = mr.name_and_type.descriptor.value
+                    c, n, dsc = ref(k, ops[0].value)
                     a = popt(dtypes(dsc))
                     if mn == 'invokestatic':
                         v = s.invoke(mn, c, n, dsc, a)
@@ -958,22 +878,19 @@ class VM:
                     rt = rettype(dsc)
                     if rt != 'V' and n != '<init>': push(v, rt[0])
                 elif mn == 'invokedynamic':
-                    idy = cp.get(ops[0].value); nt = idy.name_and_type; dsc = nt.descriptor.value
+                    bn, dsc, _, bargs = classlib.bootstrap(k, ops[0].value)
                     cap = popt(dtypes(dsc))
-                    bsm = k.bootstrap_methods[idy.method_attr_index] if hasattr(k, 'bootstrap_methods') else None
-                    if bsm is None:
-                        for at in k.attributes:
-                            if hasattr(at, 'table'): bsm = at.table[idy.method_attr_index]; break
                     v = OP
                     try:
-                        if nt.name.value == 'makeConcatWithConstants':  # recipe: \x01 an argument, \x02 the next bootstrap constant
-                            recipe = cp.get(bsm.bootstrap_args[0]).string.value; kst = iter([cst(q) for q in bsm.bootstrap_args[1:]])
+                        if bn == 'makeConcatWithConstants':  # recipe: \x01 an argument, \x02 the next bootstrap constant
+                            t, recipe = bargs[0]; kst = iter([cval(*q) for q in bargs[1:]])
+                            if t != 'S': raise TypeError('recipe')
                             if all(isinstance(z, (str, int, float)) for z in cap):
                                 it = iter(cap); v = ''.join(jstr(next(it)) if ch == '\x01' else jstr(next(kst)) if ch == '\x02' else ch for ch in recipe)
-                        else:
-                            mh = cp.get(bsm.bootstrap_args[1])
-                            ref = mh.reference
-                            v = Lam(mh.reference_kind, ref.class_.name.value, ref.name_and_type.name.value, ref.name_and_type.descriptor.value, cap)
+                        else:  # LambdaMetafactory (samType, implementation handle, instantiatedType)
+                            t, mh = bargs[1]
+                            if t != 'H': raise TypeError('handle')
+                            v = Lam(mh.kind, mh.owner, mh.name, mh.desc, cap)
                     except Exception: v = OP
                     push(v, rettype(dsc)[0])
                 elif mn in ('checkcast', 'nop', 'monitorenter', 'monitorexit') or mn.startswith('wide'):
@@ -989,40 +906,25 @@ class VM:
 
 
 
+def _clinit_puts(k, keep):
+    """(string constant, field) pairs of a <clinit>: each putstatic after a String constant keep() accepts takes that string"""
+    ins, _ = classlib.code(k, classlib.method(k, '<clinit>')); last = None
+    for x in ins:
+        if x.mnemonic in ('ldc', 'ldc_w'):
+            t, v = classlib.const(k, x.operands[0].value)
+            if t == 'S' and keep(v): last = v
+        if x.mnemonic == 'putstatic' and last:
+            yield last, classlib.ref(k, x.operands[0].value)[1]; last = None
+
 def srg_tables(vm, srgjar):
     """Attributes srg field -> 'generic.attack_damage', ArmorItem$Type fields"""
-    z = zipfile.ZipFile(srgjar)
-    k = ClassFile(io.BytesIO(z.read('net/minecraft/world/entity/ai/attributes/Attributes.class')))
-    m = k.methods.find_one(name='<clinit>'); last = None
-    for x in m.code.disassemble():
-        if x.mnemonic in ('ldc', 'ldc_w'):
-            c = k.constants.get(x.operands[0].value)
-            if isinstance(c, C.String) and c.string.value.startswith(('generic.', 'horse.', 'zombie.')): last = c.string.value
-        if x.mnemonic == 'putstatic' and last:
-            vm.attrname[k.constants.get(x.operands[0].value).name_and_type.name.value] = last; last = None
+    cp = ClassPath([srgjar])
+    for v, f in _clinit_puts(cp.cf('net/minecraft/world/entity/ai/attributes/Attributes'), lambda v: v.startswith(('generic.', 'horse.', 'zombie.'))):
+        vm.attrname[f] = v
     for cn, tab, names in (('net/minecraft/world/item/Tiers', VTIER, ['WOOD','STONE','IRON','DIAMOND','GOLD','NETHERITE']),
                            ('net/minecraft/world/item/ArmorMaterials', VARM, ['LEATHER','CHAINMAIL','CHAIN','IRON','GOLD','DIAMOND','TURTLE','NETHERITE'])):
-        k = ClassFile(io.BytesIO(z.read(cn + '.class'))); m = k.methods.find_one(name='<clinit>'); last = None
         old = dict(VTIER0 if tab is VTIER else VARM0); tab.clear()
-        for x in m.code.disassemble():
-            if x.mnemonic in ('ldc', 'ldc_w'):
-                c = k.constants.get(x.operands[0].value)
-                if isinstance(c, C.String) and c.string.value in names: last = c.string.value
-            if x.mnemonic == 'putstatic' and last:
-                fn = k.constants.get(x.operands[0].value).name_and_type.name.value
-                tab[fn] = old[last]; SRGNAME[(cn, fn)] = last; last = None
-    k = ClassFile(io.BytesIO(z.read('net/minecraft/world/entity/EquipmentSlot.class'))); m = k.methods.find_one(name='<clinit>'); last = None
-    for x in m.code.disassemble():
-        if x.mnemonic in ('ldc', 'ldc_w'):
-            c = k.constants.get(x.operands[0].value)
-            if isinstance(c, C.String) and c.string.value in EQS: last = c.string.value
-        if x.mnemonic == 'putstatic' and last:
-            EQF[k.constants.get(x.operands[0].value).name_and_type.name.value] = last; last = None
-    k = ClassFile(io.BytesIO(z.read('net/minecraft/world/item/ArmorItem$Type.class')))
-    m = k.methods.find_one(name='<clinit>'); last = None
-    for x in m.code.disassemble():
-        if x.mnemonic in ('ldc', 'ldc_w'):
-            c = k.constants.get(x.operands[0].value)
-            if isinstance(c, C.String) and c.string.value in TYPES: last = c.string.value  # not the lowercase name arg
-        if x.mnemonic == 'putstatic' and last in TYPES:
-            TYPEF[k.constants.get(x.operands[0].value).name_and_type.name.value] = last; last = None
+        for v, f in _clinit_puts(cp.cf(cn), lambda v: v in names):
+            tab[f] = old[v]; SRGNAME[(cn, f)] = v
+    for v, f in _clinit_puts(cp.cf('net/minecraft/world/entity/EquipmentSlot'), lambda v: v in EQS): EQF[f] = v
+    for v, f in _clinit_puts(cp.cf('net/minecraft/world/item/ArmorItem$Type'), lambda v: v in TYPES): TYPEF[f] = v  # not the lowercase name arg

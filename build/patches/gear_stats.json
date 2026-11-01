@@ -1,5 +1,5 @@
 {
- "_doc": "Gear stats the first extraction missed. Sources: Hazen 'N Stuff 1.1.2 HnSArmorMaterial.<clinit> (additional attributes, applied to every piece by HnSArmorItem); summonity-common.toml [armor.*] (SnifferArmorItem etc. replace the material values with these); mowziesmobs-common.toml tools_and_abilities.*.tool_config (MowzieToolItem reads each item's own config); soulslike-weaponry data/soulsweapons/trickweapons/item_mappings.json. Iron's Spellbooks 3.15.6 ExtendedArmorMaterials.<clinit> (getAdditionalAttributes: every piece gets them, ExtendedArmorItem.platformHandleDefaultModifiers), parsed with javap by build/pack_audit/iss_armor.py.",
+ "_doc": "Gear stats the first extraction missed. Sources: Hazen 'N Stuff 1.1.2 HnSArmorMaterial.<clinit> (additional attributes, applied to every piece by HnSArmorItem); summonity-common.toml [armor.*] (SnifferArmorItem etc. replace the material values with these); mowziesmobs-common.toml tools_and_abilities.*.tool_config (MowzieToolItem reads each item's own config); soulslike-weaponry data/soulsweapons/trickweapons/item_mappings.json. Iron's Spellbooks 3.15.6 ExtendedArmorMaterials.<clinit> (getAdditionalAttributes: every piece gets them, ExtendedArmorItem.platformHandleDefaultModifiers), written by build/pack_audit/iss_armor.py --gear-stats.",
  "hns_materials": {
   "PYROMANCER": {
    "max_mana": [
