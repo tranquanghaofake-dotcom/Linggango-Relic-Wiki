@@ -68,42 +68,46 @@ function rPaint(el){const k=el.dataset.room,spec=ROOMK[k];if(!spec||typeof ROOMT
  const head=el.classList.contains("rhd");let T=head?Math.max(8,Math.ceil(Math.min(500,W*.36)/RB)):0;const bare=head&&C-T<7;if(bare)T=C;
  const cx=Math.max(T+6,Math.floor((T+C)/2));     // the scene: in the middle of the wall right of the title
  let sd=[...k].reduce((a,c)=>a*31+c.charCodeAt(0),7)>>>0;const R=m=>{sd=(sd*1103515245+12345)>>>0;return (sd>>>8)%m};
+ // place the title first; the room grows by whole blocks until the title and lede sit above the floor, and the scene's
+ // props move down with the floor (D extra rows)
+ const hd=el.querySelector(".rhead");if(hd){const l=Math.max(16,RB+ox);hd.style.left=l+"px";hd.style.width=(bare?W-2*l:(T-1)*RB+ox-l)+"px"}
+ const N=hd?Math.max(RR,Math.ceil((hd.offsetTop+hd.offsetHeight+8)/RB)+1):RR,D=N-RR;el.style.height=N>RR?N*RB+"px":"";
  const wall=[],deco=[],over=[],lights=[],anims=[],pts=[],icons=[];
  const g={C,T,cx,R,amb:9,items:(el.dataset.ids||"").split(" ").filter(Boolean),
-  wall:f=>{for(let y=1;y<RR-1;y++)for(let x=0;x<C;x++)wall.push([x,y,f(x,y)])},
-  beam:t=>{for(let x=0;x<C;x++)wall.push([x,0,t,{rot:1}])},floor:t=>{for(let x=0;x<C;x++)wall.push([x,RR-1,t])},
-  put:(x,y,t,o={})=>deco.push([x,y,t,o]),over:(x,y,t,o={})=>over.push([x,y,t,o]),icon:(x,y,id,o={})=>icons.push([x,y,id,o]),
-  anim:(x,y,t,fr,ms,o={})=>anims.push([x,y,t,fr,ms,o]),lamp:(x,y,l,c)=>lights.push([x,y,l,c]),pt:(x,y,t,o={})=>pts.push([x,y,t,o]),
-  hang:(x,t,len)=>{for(let y=1;y<=len;y++)deco.push([x,y,y<len?"ri_chain":t,{}])},
-  stand:(x,m)=>deco.push([x,3,"as_"+m,{tall:1}]),     // an armor stand wearing the set: 1 block wide, 2 tall (armor_stand.py)
-  beamUp:(x,y)=>anims.push([x,0,"beam",1,0,{h:y}])};
+  wall:f=>{for(let y=1;y<N-1;y++)for(let x=0;x<C;x++)wall.push([x,y,f(x,y)])},
+  beam:t=>{for(let x=0;x<C;x++)wall.push([x,0,t,{rot:1}])},floor:t=>{for(let x=0;x<C;x++)wall.push([x,N-1,t])},
+  put:(x,y,t,o={})=>deco.push([x,y+D,t,o]),over:(x,y,t,o={})=>over.push([x,y+D,t,o]),icon:(x,y,id,o={})=>icons.push([x,y+D,id,o]),
+  anim:(x,y,t,fr,ms,o={})=>anims.push([x,y+D,t,fr,ms,o]),lamp:(x,y,l,c)=>lights.push([x,y+D,l,c]),pt:(x,y,t,o={})=>pts.push([x,y+D,t,o]),
+  hang:(x,t,len)=>{for(let y=1;y<=len+D;y++)deco.push([x,y,y<len+D?"ri_chain":t,{}])},
+  stand:(x,m)=>deco.push([x,3+D,"as_"+m,{tall:1}]),     // an armor stand wearing the set: 1 block wide, 2 tall (armor_stand.py)
+  beamUp:(x,y)=>anims.push([x,0,"beam",1,0,{h:y+D}])};
  if(bare)for(const f of ["put","over","icon","anim","lamp","pt","hang","stand","beamUp"])g[f]=()=>{};   // wall, beam and floor only
  spec(g);
  const keys=new Set([...wall,...deco,...over].map(e=>e[2]));
  Promise.all([...keys].map(t=>rImg(t).ready).concat(icons.map(e=>(rIcon(e[2])||{ready:Promise.resolve()}).ready))).then(()=>{
-  if(!el.isConnected)return;const cv=el.querySelector(".rcv");cv.width=C*16;cv.height=RR*16;cv.style.width=C*RB+"px";cv.style.height=RR*RB+"px";cv.style.left=ox+"px";
+  if(!el.isConnected)return;const cv=el.querySelector(".rcv");cv.width=C*16;cv.height=N*16;cv.style.width=C*RB+"px";cv.style.height=N*RB+"px";cv.style.left=ox+"px";
   const x2=cv.getContext("2d");x2.imageSmoothingEnabled=false;x2.fillStyle="#141416";x2.fillRect(0,0,cv.width,cv.height);
   const draw=([x,y,t,o={}])=>{
    const im=RIMG[t];if(!im||!im.width)return;if(o.tall){x2.drawImage(im,0,0,16,32,x*16,y*16,16,32);return}const s=o.s||1,w=16*s,h=16*s;
    if(o.rot){x2.save();x2.translate(x*16+8,y*16+8);x2.rotate(Math.PI/2);x2.drawImage(im,0,0,16,16,-8,-8,16,16);x2.restore()}
    else x2.drawImage(im,0,0,16,16,Math.round(x*16+(16-w)/2),Math.round(y*16+(o.dy||0)+(16-h)/2),w,h)};
   wall.forEach(draw);
-  for(let x=0;x<C;x++){x2.fillStyle="rgba(0,0,0,.3)";x2.fillRect(x*16,16,16,2);x2.fillRect(x*16,(RR-1)*16-2,16,2)}   // shade under the beam and above the floor
+  for(let x=0;x<C;x++){x2.fillStyle="rgba(0,0,0,.3)";x2.fillRect(x*16,16,16,2);x2.fillRect(x*16,(N-1)*16-2,16,2)}   // shade under the beam and above the floor
   deco.forEach(draw);over.forEach(draw);
   /* light: the room's level, raised near lamps by (lamp level − blocks away), per texel blended between block centres */
-  const L=[];for(let y=0;y<RR;y++){L[y]=[];for(let x=0;x<C;x++){let l=g.amb;for(const[lx,ly,lv]of lights)l=Math.max(l,lv-Math.abs(lx-x)-Math.abs(ly-y));L[y][x]=l}}
-  const at=(x,y)=>L[Math.max(0,Math.min(RR-1,y))][Math.max(0,Math.min(C-1,x))];
+  const L=[];for(let y=0;y<N;y++){L[y]=[];for(let x=0;x<C;x++){let l=g.amb;for(const[lx,ly,lv]of lights)l=Math.max(l,lv-Math.abs(lx-x)-Math.abs(ly-y));L[y][x]=l}}
+  const at=(x,y)=>L[Math.max(0,Math.min(N-1,y))][Math.max(0,Math.min(C-1,x))];
   // one shade value per 2x2 texels, written into an image half the canvas size and drawn at x2 without smoothing (one draw call)
-  const sw=C*8,sh=RR*8,sh_=document.createElement("canvas");sh_.width=sw;sh_.height=sh;const sx=sh_.getContext("2d"),id=sx.createImageData(sw,sh),A=[];
+  const sw=C*8,sh=N*8,sh_=document.createElement("canvas");sh_.width=sw;sh_.height=sh;const sx=sh_.getContext("2d"),id=sx.createImageData(sw,sh),A=[];
   for(let l=0;l<=15;l++)A[l]=Math.round(255*.8*Math.pow(1-l/15,1.6));
   for(let ty=0;ty<sh;ty++)for(let tx=0;tx<sw;tx++){const fx=tx/8-.5,fy=ty/8-.5,x0=Math.floor(fx),y0=Math.floor(fy),ax=fx-x0,ay=fy-y0;
    const l=Math.round(at(x0,y0)*(1-ax)*(1-ay)+at(x0+1,y0)*ax*(1-ay)+at(x0,y0+1)*(1-ax)*ay+at(x0+1,y0+1)*ax*ay),o=(ty*sw+tx)*4;
    id.data[o]=8;id.data[o+1]=7;id.data[o+2]=12;id.data[o+3]=A[Math.max(0,Math.min(15,l))]}
-  sx.putImageData(id,0,0);x2.drawImage(sh_,0,0,sw,sh,0,0,C*16,RR*16);
+  sx.putImageData(id,0,0);x2.drawImage(sh_,0,0,sw,sh,0,0,C*16,N*16);
   x2.globalCompositeOperation="lighter";
   for(const[lx,ly,lv,c]of lights){const gx=lx*16+8,gy=ly*16+8,r=lv*7,gr=x2.createRadialGradient(gx,gy,0,gx,gy,r);gr.addColorStop(0,`rgba(${c},.14)`);gr.addColorStop(1,`rgba(${c},0)`);x2.fillStyle=gr;x2.fillRect(gx-r,gy-r,2*r,2*r)}
   x2.globalCompositeOperation="source-over";
-  if(T){const gr=x2.createLinearGradient(0,0,T*16,0);gr.addColorStop(0,"rgba(8,7,12,.55)");gr.addColorStop(1,"rgba(8,7,12,0)");x2.fillStyle=gr;x2.fillRect(0,16,T*16,(RR-2)*16)}   // the title's corner a little darker
+  if(T){const gr=x2.createLinearGradient(0,0,T*16,0);gr.addColorStop(0,"rgba(8,7,12,.55)");gr.addColorStop(1,"rgba(8,7,12,0)");x2.fillStyle=gr;x2.fillRect(0,16,T*16,(N-2)*16)}   // the title's corner a little darker
   /* moving parts, in page pixels */
   const fx=el.querySelector(".rfx"),P=(x,y)=>`left:${x*RB+ox}px;top:${y*RB}px`;let h="";
   anims.forEach(([x,y,t,fr,ms,o])=>{if(t==="beam"){h+=`<i class="rbeam" style="left:${x*RB+ox+18}px;top:0;height:${o.h*RB+RB/2}px"></i>`;return}
@@ -117,11 +121,12 @@ function rPaint(el){const k=el.dataset.room,spec=ROOMK[k];if(!spec||typeof ROOMT
    if(t==="glyph"){const dx=(o.to[0]-x)*RB,dy=(o.to[1]-y)*RB;h+=`<i class="rglyph${o.pur?" pur":""}" style="${P(x,y)};--dx:${dx}px;--dy:${dy}px;--sp:var(--v-p_sga_${"aekrxz"[k%6]});animation-delay:${-(k*.8).toFixed(1)}s"></i>`;return}
    for(let i=0;i<2;i++)h+=`<i class="rpt ${t}" style="left:${x*RB+ox+(o.dx!=null?o.dx*RB:16+i*8)}px;top:${y*RB+(o.dy||0)*RB}px;--sp:var(--v-${PT[t]||"p_flame"});animation-delay:${-((k*1.3+i*1.4)%3).toFixed(1)}s"></i>`});
   fx.innerHTML=h;
-  const hd=el.querySelector(".rhead");if(hd){const l=Math.max(16,RB+ox);hd.style.left=l+"px";hd.style.width=(bare?W-2*l:(T-1)*RB+ox-l)+"px"}
+  
   el.dataset.p=W})}
 // painted from a ResizeObserver, which reports the room's width after the page's own layout: asking for it earlier would
 // force that layout (~0.15 s on the Curios page) before the first paint. The first report paints at once, later ones after 120 ms.
 {const ro=typeof ResizeObserver!=="undefined"&&new ResizeObserver(es=>es.forEach(e=>{const el=e.target,w=Math.round(e.contentRect.width);if(+el.dataset.p===w)return;
   if(!el.dataset.p)rPaint(el);else{clearTimeout(el._rt);el._rt=setTimeout(()=>rPaint(el),120)}}));
  const scan=()=>document.querySelectorAll(".room3:not([data-w])").forEach(el=>{el.dataset.w=1;if(ro)ro.observe(el);else rPaint(el)});
+ if(document.fonts)document.fonts.ready.then(()=>document.querySelectorAll(".room3[data-w]").forEach(el=>el.isConnected&&rPaint(el)));
  new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes)if(n.nodeType===1&&(n.matches(".room3")||n.querySelector(".room3"))){scan();return}}).observe(document.documentElement,{childList:true,subtree:true})}
