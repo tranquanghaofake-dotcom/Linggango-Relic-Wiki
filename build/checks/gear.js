@@ -103,3 +103,5 @@ for (const g of GE) if ((g.fx || []).some(r => r.when === 'release' && r.fire !=
 { const c = {}; GS.forEach(s => s.p.forEach(i => c[i] = (c[i] || 0) + 1)); for (const g of GE) if (g.k === 'armor' && c[g.id] !== 1) bad.push('armor piece in ' + (c[g.id] || 0) + ' sets: ' + g.id); }
 // copy-docs-04 / detail-pages-checks-09: no printf token in a gear tooltip line
 for (const g of ALL) for (const t of g.tip || []) if (/%\d*\$?[sd]\b|%%/.test(t)) bad.push('gear tooltip with a raw format token: ' + nm(g) + ': ' + t);
+// copy-docs-12: no attribute label shows a raw namespace (Goety's keys keep theirs since the audit; gAttr strips it)
+for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(k))) bad.push('attribute label with a dot: ' + gAttr(k) + ' on ' + (g.id || g.k));

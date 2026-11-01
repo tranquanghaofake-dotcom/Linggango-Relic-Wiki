@@ -40,3 +40,10 @@ for (const [k, v] of Object.entries(GOETY.types)) if (!/ Ritual( \(Goety Revelat
   if (!/Boss to beat next/.test(pPanelInner(6))) bad.push('Act VI panel calls the Ender Dragon a Keeper');
   if (Object.values(ACT).some(a => /Keeper of the Calamities/.test(a[1]))) bad.push('wiki-made Keeper of the Calamities');
   if (D.some(d => d.m === 'Covenant of the Seven') || !minfo('Sanctified Legacy')) bad.push('Sanctified Legacy mod label/MINFO'); }
+// copy-docs-07: one id, one name across the boss drop lists and summon ingredients (Redstone vs Redstone Dust)
+{ const nm = {}; const see = (id, n, w) => { if (!id || !n) return; (nm[id] = nm[id] || new Map()).set(n, w); };
+  for (const b in SIDEB) for (const x of SIDEB[b].drops || []) see(x.id, x.n, 'SIDEB ' + b);
+  for (const k in SUM) for (const x of SUM[k].ings || []) see(x.id, x.n, 'SUM ' + k);
+  for (const id in nm) if (nm[id].size > 1) bad.push('two names ' + id + ': ' + [...nm[id]].map(([n, w]) => n + ' (' + w + ')').join(' / ')); }
+// copy-docs-10: every mod in MINFO is a mod some curio carries
+for (const m in MINFO) if (!D.some(d => d.m === m)) bad.push('MINFO entry for a mod no curio carries: ' + m);

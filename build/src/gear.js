@@ -16,7 +16,7 @@ const GATTR={attack_damage:"Attack Damage",attack_speed:"Attack Speed",armor:"Ar
  experience_gained:"XP Gained",armor_shred:"Armor Shred",mana_regen:"Mana Regen",spell_resist:"Spell Resist",natural_regeneration_increase:"Natural Regen",
  "ars_nouveau.perk.warding":"Warding","ars_nouveau.perk.mana_regen":"Mana Regen (Ars)","ars_nouveau.perk.spell_damage":"Spell Damage (Ars)","ars_nouveau.perk.max_mana":"Max Mana (Ars)",
  "goety.spell_potency":"Spell Potency (Goety)","goety_revelation.spell_power":"Goety Spell Power","goety.casting_speed":"Casting Speed (Goety)"};
-const gAttr=k=>GATTR[k]||k.replace(/^[a-z_]+\.perk\./,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+const gAttr=k=>GATTR[k]||(m=>(m?k.slice(m[0].length):k.replace(/^[a-z_]+\.perk\./,"")).replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase())+(m?" (Goety)":""))(k.match(/^(goety|goety_revelation|goetyawaken|goety_cataclysm|bosgoety)\./));
 const gRound=v=>Math.round(v*100)/100;
 /* "+12% Spell Power" / "+2 Attack Damage", the way the game words AttributeModifier operations. An addition is a percent only for the
    attributes the game prints as one: Apothic Attributes' PercentBased ones, the base-1 multipliers (damage taken, Brutality's lifesteal,

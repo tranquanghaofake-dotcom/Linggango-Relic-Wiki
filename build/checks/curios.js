@@ -85,3 +85,6 @@ for (const d of D) for (const s of statsOf(d)) if (/\b(to|against|for each|per|w
   for (const q of ['ring slot:ring', 'sword swordsman', 'fire -mod:fire', 'mod:"a b" a']) { const all = q.match(/-?[a-z]+:"[^"]*"?|-?"[^"]*"?|\S+/gi);
     for (const r of all) { st.q = q; const left = qDrop(r), want = all.slice(); want.splice(want.indexOf(r), 1); if (raws(left) !== want.sort().join('|')) bad.push(`qDrop('${r}') on '${q}' leaves '${left}'`); } }
   Object.assign(st, JSON.parse(keep)); }
+// data-curios-02: every chest or mob chance the pack's Unique Accessories config gives a curio is named in its sources
+for (const d of D) for (const x of d.st || []) { const m = x.match(/^Drop chance from (.+?): ([\d.]+)%$/);
+  if (m && !d.src.join(' ').includes(m[1]) && !(m[1] === 'Nether Bridge' && d.src.join(' ').includes('Nether Fortress'))) bad.push(`config chance not in the sources: ${d.id} ${m[1]} ${m[2]}`); }

@@ -803,3 +803,31 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Still open: the per-chunk invariants of the audit not yet ported (now a matter of adding files to `build/checks/`);
   the other audit items listed in the 2026-10-31 entry; Wave 2F (one class layer and one interpreter).
 
+## 2026-11-01: the audit's leftovers ("chạy tiếp các mục còn lại")
+- Invariants: the 111 the fix chunks wrote but did not land are in `build/checks/` (gear 24, curios 20, bosses 13, routes 12,
+  text 8) and a new `build/a11y_check.js` run by `check.sh` (16: first paint with slow fonts, boot classes and layout
+  shift, scroll and focus on Equipment and the planner, contrast, visible Tab focus, accessible names, search keys, saved
+  state, share links, room heads at 4 widths, touch wording, reduced motion). 11 were duplicates, 6 already in the tree,
+  2 could not fail and were dropped. Check files may `await patchJSON('x.json')` (check.js exposes `build/patches/`).
+  Each file was shown to fire on broken data. `check.sh` now takes about 10 minutes (CLAUDE.md and README updated).
+- The invariants found five live bugs, fixed: Goety attribute labels showed their namespace ('+0.1 Goety.Soul Discount':
+  `gAttr` now prints 'Soul Discount (Goety)'); 15 Unique Accessories curios lacked the vanilla chests and mobs the pack's
+  config gives them (`curio_fix.json`; mod's own loot modifiers are active: `global_loot_modifiers.json` has
+  `replace: false`, `curio_dedupe.js` only swaps recipes); Redstone vs Redstone Dust; a stale `MINFO` entry for Celestial
+  Artifacts; Enter on a planner slot's × dropped focus when a preset had overfilled the slot (focus now goes to the next ×).
+- Icons (own-3/own-4): chests, ender chest, archwood chest, shield, red banner, two plushies and Pyrium Staff drawn from
+  their renderers' bytecode (client jar remapped to SRG with Mojang's 1.20.1 `client.txt` + `joined.tsrg`, not committed)
+  with vanilla or the mod's own textures, 32 px, display.gui, GUI light; `build/checks/icons.js`. Four gear items still
+  have no icon (Spell Bow, Potato Staff, two Nether Exp shotguns), listed in the check so the list can only shrink.
+- Rooms grow by whole blocks when the title does not fit (owner's choice); props move down with the floor; repainted after
+  the web fonts load. Checked 320–1440 px on the five rooms: no title on the floor; 288 px kept at 1280 and 1440.
+- Mechanics AE2 gates: 12 parts per Act, the rest behind 'N more' (7,250 → 3,156 px at 375 px).
+- `icon2.py`, `icon3.py`, `mkicons.py`, `gui_icons.py` deleted (RENOVATION_PREP called them retired; nothing called them).
+- Correction: the "37 stale ids in gear_fix.json" of the 2026-10-31 entry are not stale: the items exist in the pack's jars
+  (Sword of the Elements, Simply More Mimicry, Too Many Bows) and wait for the wide gear scan; their notes stay.
+- Plan for the rest: `docs/plans/2026-11-01-classlib-and-producers.md` (Fable): producers `attrs.py`/`cfg.py` first, then
+  one class layer, one interpreter with frame merging, and jmodel/gear_fx on it, each proved by byte diffs.
+- Checked: `check.sh` green (10 min 11 s; a11y_check 88 s); shots of the rooms, the AE2 table, the icon pages.
+- Still open: P1, 1A, 1B, 1C and P2 of that plan; Crucible Sword's damage (needs a game server); the four gear items
+  without an icon.
+

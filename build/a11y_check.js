@@ -71,7 +71,7 @@ const { chromium } = require('playwright'), path = require('path');
       if (n < 15) bad.push(`focus on #pn-0 is invisible: ${n} pixels change`); } }
   // a11y-perf-04: keyboard focus survives the planner's redraws
   { await nav(P, '#build', 800);
-    for (const s of ['[data-preset]', '#bclr', '[data-preset]']) { if (!await P.$(s)) { bad.push('#build: no ' + s); continue; }
+    for (const s of ['[data-preset]', '#bclr', '[data-preset]', '.bslots [data-rm]']) {   // the last: a preset can overfill a slot, so no + appears if (!await P.$(s)) { bad.push('#build: no ' + s); continue; }
       await P.focus(s); await P.keyboard.press('Enter'); await P.waitForTimeout(150);
       if (!await P.evaluate(() => document.activeElement !== document.body && document.getElementById('main').contains(document.activeElement))) bad.push('#build: Enter on ' + s + ' drops focus to body'); } }
   // Mechanics stays light (under 5,000 nodes, no task over 200 ms) and its ritual filter finds what the data has (a11y-perf)

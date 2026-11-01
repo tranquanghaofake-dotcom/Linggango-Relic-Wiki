@@ -1,4 +1,103 @@
 {
  "_": "Hand corrections to curios (curio_fix.py): id -> fields to set; a new id with \"n\" is added, null removes it. Say why in the commit.",
- "covenant_of_the_seven:rebirth_egg": {"r": 6}
+ "covenant_of_the_seven:rebirth_egg": {
+  "r": 6
+ },
+ "uniqueaccessories:power_crystal": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories); Found in chests at Ati Stoneworks, Desert Outpost, Granite Fort, Illager Homestead and 3 more places.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Abandoned Mineshaft 2%."
+  ]
+ },
+ "uniqueaccessories:amplifier_stone": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories); Found in chests at Ati Stoneworks, Desert Outpost, Granite Fort, Illager Homestead and 3 more places.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Abandoned Mineshaft 7%."
+  ]
+ },
+ "uniqueaccessories:rusty_guillotine_blade": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories); Found in chests at Ati Stoneworks, Crypt, Portal, Skyris and 1 more places.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Ruined Portal 20%."
+  ]
+ },
+ "uniqueaccessories:devils_eyeball": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories).",
+   "Also craftable from Act V.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Bastion Treasure 10%, Nether Bridge 1%."
+  ]
+ },
+ "uniqueaccessories:shiny_stone": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories); Found in chests at Ancient Temple, Collectors Museum, Fortified Temple, Jungle Prison and 7 more places.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Jungle Temple 20%."
+  ]
+ },
+ "uniqueaccessories:moon_stone": {
+  "src": [
+   "Since 6.6.6 the chests and mobs that gave Moon Stone give this instead: Dropped by Phantom (3%).",
+   "Can roll from an Accessory Box (Unique Accessories); Found in chests at Ancient Tower Remains, Astral Meteorite, Desert Outpost, End Post and 14 more places.",
+   "Also craftable from Act V.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): End City Treasure 3%."
+  ]
+ },
+ "uniqueaccessories:still_beating_heart": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories).",
+   "Dropped by Piglin Brute (2%) (Unique Accessories, pack config)."
+  ]
+ },
+ "uniqueaccessories:silver_cat_tail": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories); Found in chests at Deepslate Keep, Fortified Temple, Illager Tower, Mud Tower and 5 more places.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Woodland Mansion 7%."
+  ]
+ },
+ "uniqueaccessories:life_jacket_belt": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories); Found in chests at Fortified Temple, Granite Fort, Large Floating Island, Marble Chateau and 3 more places.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Shipwreck Treasure 15%."
+  ]
+ },
+ "uniqueaccessories:sharp_fishing_hook": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories); Found in chests at Fortified Temple, Illager Homestead, Jungle Grotto, Jungle Settlement and 5 more places.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Shipwreck Supply 10%."
+  ]
+ },
+ "uniqueaccessories:soul_gem": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories); Found in chests at Blighted Shack, Crypt, Jungle Settlement, Large Floating Island and 1 more places.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Stronghold Corridor 7%, Stronghold Crossing 7%."
+  ]
+ },
+ "uniqueaccessories:sun_stone": {
+  "src": [
+   "Since 6.6.6 the chests and mobs that gave Sun Stone give this instead: Dropped by Blaze (7%).",
+   "Can roll from an Accessory Box (Unique Accessories); Found in chests at Ancient City, Ati Stoneworks, Plague Asylum, Tavern and 1 more places.",
+   "Also craftable from Act XI.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Ancient City 3%."
+  ]
+ },
+ "uniqueaccessories:supreme_meat": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories).",
+   "Dropped by Hoglin (1%) (Unique Accessories, pack config)."
+  ]
+ },
+ "uniqueaccessories:rose_of_temptation": {
+  "src": [
+   "Can roll from an Accessory Box (Unique Accessories); Found in chests at Ancient Stronghold, Ancient Temple, Ati Stoneworks, Cloudy Temple and 33 more places.",
+   "Also craftable (pack recipe, shapeless): Beetroot, Wheat, Potato, Carrot, Rose Bush, Tree Fertilizer, Industrial Fertilizer and Bio-Alchemical Fertilizer.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Simple Dungeon 30%."
+  ]
+ },
+ "confluence:ancient_chisel": {
+  "src": [
+   "Since 6.6.6 the chests and mobs that gave Ancient Chisel give this instead: Can roll from an Accessory Box (Unique Accessories); Found in chests at Badlands Pyramid, Desert Shrine, Granite Fort, Herobrine Stronghold and 2 more places.",
+   "Brush suspicious blocks at Desert Pyramid (2%); Brush suspicious blocks at Desert Well (2%); Brush suspicious blocks at Ocean Ruin Cold (2%); Dropped by +3 other sources.",
+   "Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): Desert Pyramid 15%."
+  ]
+ }
 }
