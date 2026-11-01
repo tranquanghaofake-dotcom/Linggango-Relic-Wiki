@@ -18,7 +18,7 @@
 //          plane the later one wins: GeoRenderer draws a bone's cubes before its children, each cube's quads west, east,
 //          north, south, up, down (geo2three emits east, west, up, down, south, north; reordered below)
 //   pixels antialiasing off, nearest texel, `size` canvas pixels across `span` slots (32 over 1 = GUI scale 2)
-import * as THREE from 'three';import {buildGeo} from '../geo2three.js';
+import * as THREE from 'three';import {buildGeo,javaPart} from '../geo2three.js';
 const R=new THREE.WebGLRenderer({alpha:true,antialias:false,preserveDrawingBuffer:true});R.setPixelRatio(1);R.setClearColor(0,0);
 R.sortObjects=false;   // draw in GeckoLib's order (scene order), not three.js's front-to-back sort
 document.body.appendChild(R.domElement);
@@ -58,5 +58,56 @@ window.render=async(geo,tex,gui,size=32,hide=[],span=1)=>{R.setSize(size,size); 
  const S=new THREE.Scene(),o=new THREE.Group();o.matrixAutoUpdate=false;o.matrix.copy(M);o.add(model);S.add(o);
  const cam=new THREE.OrthographicCamera(-span/2,span/2,span/2,-span/2,-100,100);cam.position.z=50;R.render(S,cam);
  const url=R.domElement.toDataURL('image/png');model.traverse(x=>{if(x.geometry)x.geometry.dispose()});m.dispose();t.dispose();return url}
+// An item drawn by Java code (a BlockEntityWithoutLevelRenderer: chests, shield, banner, Goety's plushies, Iron's Pyrium
+// Staff), planned by weapon_icons/plan.py from the renderer's bytecode. renderJava({gui, light, draws}, size, span) -> PNG data URL.
+//   place  the slot as render() above (display.gui), then ItemRenderer's translate(-0.5) before renderByItem; each draw
+//          then applies its own PoseStack steps `ops` ([t, x, y, z] translate, [r, axis, degrees] rotate, [s, x, y, z]
+//          scale) and draws either `model` (a ModelPart tree from jmodel.py, geo2three.javaPart, in pixels: scaled 1/16 as
+//          ModelPart does; `parts` picks and orders the root's children, `pose` overrides a part's pose as the renderer
+//          sets it before drawing) or `quads` (baked item quads in block units, uv 0..1, with their face normal)
+//   light  `light` 'side' = setupFor3DItems (M3D below), 'front' = setupForFlatItems (FL above);
+//          minecraft_mix_light per vertex on the pose's normal (the slot's y flip leaves the normal alone; back faces keep
+//          their normal); `mode` unlit: rendertype_energy_swirl, no light
+//   modes  the render type's shader and state: solid (entitySolid: no alpha test, opaque), cutout (entityCutout: discard
+//          under 0.1, opaque), translucent (entityTranslucent(Cull) / item sheet: discard under 0.1, blended), nooutline
+//          (entityNoOutline, banner patterns: no discard, blended), unlit (energy swirl: discard under 0.1, opaque);
+//          `cull` false = NO_CULL; `tint` the vertex colour (a dye's textureDiffuseColors)
+const M3D=new THREE.Matrix4().makeRotationY(1.0821041).multiply(new THREE.Matrix4().makeRotationX(3.2375858)).multiply(new THREE.Matrix4().makeRotationY(-Math.PI/8)).multiply(new THREE.Matrix4().makeRotationX(2.3561945));   // GlStateManager.setupGui3DDiffuseLighting (block_render.LIGHTS['side'])
+const SIDE_L=[new THREE.Vector3(0.2,1,-0.7).normalize().applyMatrix4(M3D),new THREE.Vector3(-0.2,1,0.7).normalize().applyMatrix4(M3D)];
+const jmat=(t,mode,cull,tint,light)=>{const [a,b]=light==='front'?[L0,L1]:SIDE_L,blend=mode==='translucent'||mode==='nooutline',cut=mode!=='solid'&&mode!=='nooutline';
+ return new THREE.ShaderMaterial({uniforms:{map:{value:t},l0:{value:a},l1:{value:b},tint:{value:new THREE.Vector3(...(tint||[1,1,1]))}},
+  vertexShader:'uniform vec3 l0, l1; varying vec2 vUv; varying float vK;\n'+
+   'void main() { vUv = uv; vec3 n = normalize(normalMatrix * normal);\n'+
+   (mode==='unlit'?'  vK = 1.0;\n':'  vK = min(1.0, 0.6 * (max(0.0, dot(l0, n)) + max(0.0, dot(l1, n))) + 0.4);\n')+
+   '  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+  fragmentShader:'uniform sampler2D map; uniform vec3 tint; varying vec2 vUv; varying float vK;\n'+
+   'void main() { vec4 c = texture2D(map, vUv);'+(cut?' if (c.a < 0.1) discard;':'')+' gl_FragColor = vec4(c.rgb * tint * vK, '+(blend?'c.a':'1.0')+'); }',
+  side:cull?THREE.FrontSide:THREE.DoubleSide,transparent:blend,depthTest:true,depthWrite:true})};
+function quadMesh(Q,mat){const pos=[],uv=[],nor=[],idx=[];
+ for(const [P,U,N] of Q){const b=pos.length/3;for(let i=0;i<4;i++){pos.push(...P[i]);uv.push(U[i][0],1-U[i][1]);nor.push(...N)}idx.push(b,b+1,b+2,b,b+2,b+3)}
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
+ g.setAttribute('normal',new THREE.Float32BufferAttribute(nor,3));g.setIndex(idx);return new THREE.Mesh(g,mat)}
+function ops(L){const M=new THREE.Matrix4(),D=Math.PI/180;
+ for(const [k,...a] of L||[]){if(k==='t')M.multiply(new THREE.Matrix4().makeTranslation(a[0],a[1],a[2]));
+  else if(k==='s')M.multiply(new THREE.Matrix4().makeScale(a[0],a[1],a[2]));
+  else if(k==='r')M.multiply(new THREE.Matrix4()[{x:'makeRotationX',y:'makeRotationY',z:'makeRotationZ'}[a[0]]](a[1]*D))}return M}
+window.renderJava=async(spec,size=32,span=1)=>{R.setSize(size,size);   // span: slots across the canvas, as render()
+ const g=spec.gui||{},D=Math.PI/180,c=(v,a)=>Math.min(a,Math.max(-a,v)),r=g.rotation||[0,0,0],tr=(g.translation||[0,0,0]).map(v=>c(v*0.0625,5)),sc=(g.scale||[1,1,1]).map(v=>c(v,4));
+ const M=new THREE.Matrix4().makeTranslation(tr[0],tr[1],tr[2]).multiply(new THREE.Matrix4().makeRotationX(r[0]*D))
+  .multiply(new THREE.Matrix4().makeRotationY(r[1]*D)).multiply(new THREE.Matrix4().makeRotationZ(r[2]*D))
+  .multiply(new THREE.Matrix4().makeScale(sc[0],sc[1],sc[2])).multiply(new THREE.Matrix4().makeTranslation(-0.5,-0.5,-0.5));
+ const S=new THREE.Scene(),trash=[];
+ for(const d of spec.draws){const t=await new THREE.TextureLoader().loadAsync('data:image/png;base64,'+d.tex);
+  t.colorSpace=THREE.NoColorSpace;t.magFilter=t.minFilter=THREE.NearestFilter;t.generateMipmaps=false;
+  const m=jmat(t,d.mode,d.cull!==false,d.tint,spec.light);trash.push(m,t);
+  const o=new THREE.Group();o.matrixAutoUpdate=false;o.matrix.copy(M.clone().multiply(ops(d.ops)));
+  if(d.quads)o.add(quadMesh(d.quads,m));
+  else{let root=JSON.parse(JSON.stringify(d.model.root));const find=(p,n)=>p.name===n?p:p.children.map(k=>find(k,n)).find(Boolean);
+   for(const [n,ps] of Object.entries(d.pose||{})){const p=find(root,n);if(!p)throw new Error('no part '+n);ps.forEach((v,i)=>{if(v!==null)p.pose[i]=v})}
+   if(d.parts)root={...root,cubes:[],children:d.parts.map(n=>{const p=find(root,n);if(!p)throw new Error('no part '+n);return p})};
+   const k=new THREE.Group();k.scale.setScalar(1/16);k.add(javaPart(root,d.model.tw,d.model.th,m));o.add(k)}
+  S.add(o)}
+ const cam=new THREE.OrthographicCamera(-span/2,span/2,span/2,-span/2,-100,100);cam.position.z=50;R.render(S,cam);
+ const url=R.domElement.toDataURL('image/png');S.traverse(x=>{if(x.geometry)x.geometry.dispose()});trash.forEach(x=>x.dispose());return url}
 window.ready=true;
 </script></body></html>

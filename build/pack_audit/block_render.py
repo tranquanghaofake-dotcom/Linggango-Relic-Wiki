@@ -102,6 +102,42 @@ def _quads_of(m, tex, tint=None):
     return out
 
 
+def generated_elements(im, texture="#layer0", tint=-1):
+    """the elements ItemModelGenerator (client-1.20.1.jar, read with javap) builds for one layer of an item/generated
+    model when it is drawn in 3D: a 16 x 16 x 1 slab (south face uv 0 0 16 16, north 16 0 0 16: mirrored) plus one
+    zero-thickness face per run of pixel edges that border transparency (a texel is transparent at alpha 0); runs are
+    kept per facing and anchor row or column, extended to the furthest pixel on that line, as getSpans does. These are the
+    quads ItemRenderer draws when a renderer draws such a model in the world or under its own transform (Iron's
+    PyriumStaffRenderer draws its haft this way); _quads_of turns them into faces."""
+    a = np.asarray(im.convert("RGBA"))[..., 3]; h, w = a.shape
+    face = lambda uv, d: {d: {"uv": uv, "texture": texture, "tintindex": tint}}
+    els = [{"from": [0, 0, 7.5], "to": [16, 16, 8.5], "faces": {**face([0, 0, 16, 16], "south"), **face([16, 0, 0, 16], "north")}}]
+    FAC = (("up", "up", 0, -1), ("down", "down", 0, 1), ("left", "east", -1, 0), ("right", "west", 1, 0))   # SpanFacing
+    clear = lambda x, y: x < 0 or y < 0 or x >= w or y >= h or a[y, x] == 0
+    spans = []   # [facing, min, max, anchor] in the order getSpans finds them
+    for y in range(h):
+        for x in range(w):
+            if clear(x, y): continue
+            for f, _, dx, dy in FAC:
+                if not clear(x + dx, y + dy): continue
+                hor = f in ("up", "down"); anchor, k = (y, x) if hor else (x, y)
+                s = next((s for s in spans if s[0] == f and s[3] == anchor), None)
+                if s is None: spans.append([f, k, k, anchor])
+                elif k < s[1]: s[1] = k
+                elif k > s[2]: s[2] = k
+    sx, sy = 16 / w, 16 / h
+    for f, lo, hi, an in spans:
+        if f == "up": x0 = u0 = lo; x1 = u1 = hi + 1; y0 = v0 = an; y1 = an; v1 = an + 1
+        elif f == "down": v0 = an; v1 = an + 1; x0 = u0 = lo; x1 = u1 = hi + 1; y0 = an + 1; y1 = an + 1
+        elif f == "left": x0 = u0 = an; x1 = an; u1 = an + 1; v1 = y0 = lo; v0 = y1 = hi + 1
+        else: u0 = an; u1 = an + 1; x0 = an + 1; x1 = an + 1; v1 = y0 = lo; v0 = y1 = hi + 1
+        x0, x1, y0, y1 = x0 * sx, x1 * sx, 16 - y0 * sy, 16 - y1 * sy
+        uv = [u0 * sx, v0 * sy, u1 * sx, v1 * sy]; d = next(d for g, d, _, _ in FAC if g == f)
+        fr, to = {"up": ([x0, y0], [x1, y0]), "down": ([x0, y1], [x1, y1]), "left": ([x0, y0], [x0, y1]), "right": ([x1, y0], [x1, y1])}[f]
+        els.append({"from": fr + [7.5], "to": to + [8.5], "faces": face(uv, d)})
+    return els
+
+
 def _raster(tris, size, A, off, N, light, blend=None):
     """tris: [(pos 3x3 model px, uv 3x2 in 0..16, image array, normal)] -> RGBA image (z-buffer, nearest texel).
     blend: None = texels with partial alpha are blended (no render_type given), False = cutout (opaque at alpha >= 0.1),

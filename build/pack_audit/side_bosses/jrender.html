@@ -1,30 +1,16 @@
 <!doctype html><html><body style="margin:0;background:transparent">
-<!-- Renders a Java entity model read by jmodel.py the way vanilla ModelPart draws it (cube vertices and box UVs from
-     ModelPart.Cube, part pose = translate then rotate Z, Y, X, the model under scale(-1,-1,1)), framed like the Keepers'
+<!-- Renders a Java entity model read by jmodel.py the way vanilla ModelPart draws it (geo2three.javaPart: cube vertices
+     and box UVs from ModelPart.Cube, part pose = translate then rotate Z, Y, X; the model under scale(-1,-1,1)), framed like the Keepers'
      portraits (../boss_portraits.html): the game's inventory light (vanillaMaterial), orthographic, nearest texels, no
      antialiasing, turned 30° and tilted 10°, the model's bounds fitted in view space with 2% air, 256 px.
      Opened in place by jrender.js through ../render_page.js (build/node_modules/three, build/geo2three.js). -->
 <script type="importmap">{"imports":{"three":"../../node_modules/three/build/three.module.js"}}</script>
 <script type="module">
-import * as THREE from 'three';import {measure,vanillaMaterial} from '../../geo2three.js';
+import * as THREE from 'three';import {measure,vanillaMaterial,javaPart} from '../../geo2three.js';
 const R=new THREE.WebGLRenderer({alpha:true,antialias:false,preserveDrawingBuffer:true});R.setPixelRatio(1);R.setClearColor(0,0);document.body.appendChild(R.domElement);
-function cube(c,tw,th,mat){
- let [x,y,z,w,h,d,g,u,v,mir]=c;const x0=x-g,y0=y-g,z0=z-g;let x1=x+w+g,y1=y+h+g,z1=z+d+g,xa=x0;
- if(mir){[xa,x1]=[x1,xa]}
- const V=[[xa,y0,z0],[x1,y0,z0],[x1,y1,z0],[xa,y1,z0],[xa,y0,z1],[x1,y0,z1],[x1,y1,z1],[xa,y1,z1]];
- const f7=u,f8=u+d,f9=u+d+w,f10=u+d+w+w,f11=u+d+w+d,f12=u+d+w+d+w,f13=v,f14=v+d,f15=v+d+h;
- const P=[[[5,1,2,6],f9,f14,f11,f15],[[0,4,7,3],f7,f14,f8,f15],[[5,4,0,1],f8,f13,f9,f14],[[2,3,7,6],f9,f14,f10,f13],[[1,0,3,2],f8,f14,f9,f15],[[4,5,6,7],f11,f14,f12,f15]];
- const pos=[],uv=[],idx=[];
- for(const [vs,u1,v1,u2,v2] of P){let q=[[vs[0],u2,v1],[vs[1],u1,v1],[vs[2],u1,v2],[vs[3],u2,v2]];if(mir)q=q.reverse();
-  const b=pos.length/3;for(const [i,uu,vv] of q){pos.push(...V[i]);uv.push(uu/tw,1-vv/th)}idx.push(b,b+1,b+2,b,b+2,b+3)}
- const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));geo.setIndex(idx);geo.computeVertexNormals();
- return new THREE.Mesh(geo,mat)}
-function part(p,tw,th,mat){const o=new THREE.Group();const [x,y,z,rx,ry,rz]=p.pose;o.position.set(x,y,z);o.rotation.order='ZYX';o.rotation.set(rx,ry,rz);
- if(p.scale)o.scale.set(...p.scale);   // ModelPart xScale.. (a pose at rest or a keyframe), applied after the rotation as translateAndRotate does
- for(const c of p.cubes)o.add(cube(c,tw,th,mat));for(const k of p.children)o.add(part(k,tw,th,mat));return o}
 window.ready=true;
 window.renderJava=async(m,tex,alpha,size=256,yaw=30,pitch=10)=>{const t=await new THREE.TextureLoader().loadAsync('data:image/png;base64,'+tex);
- const flip=new THREE.Group();flip.scale.set(-1,-1,1);flip.add(part(m.root,m.tw,m.th,vanillaMaterial(t,{transparent:alpha==='blend'})));  // vanilla renders models with scale(-1,-1,1)
+ const flip=new THREE.Group();flip.scale.set(-1,-1,1);flip.add(javaPart(m.root,m.tw,m.th,vanillaMaterial(t,{transparent:alpha==='blend'})));  // vanilla renders models with scale(-1,-1,1)
  const g=new THREE.Group();g.add(flip);g.rotation.y=Math.PI;g.scale.setScalar(1/16);   // front (-z) to +z, as buildGeo turns a GeckoLib model
  // from here as boss_portraits.html: the camera turned and tilted around the model, its bounds' eight corners fitted in view space
  const S=new THREE.Scene();S.add(g);const box=measure(g),c=box.getCenter(new THREE.Vector3());

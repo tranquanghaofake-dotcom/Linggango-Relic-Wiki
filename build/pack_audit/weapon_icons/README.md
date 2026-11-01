@@ -13,12 +13,24 @@ packs out), parents merged, the `gui` perspective of `forge:separate_transforms`
   +(0.5, 0.51, 0.5), the flat-item light (`renderInGui` → `Lighting.setupForFlatItems`), no culling, quads in GeckoLib's order,
   `fixInvertedFlatCube` normals, orthographic, no antialiasing. Muzzle-flash bones and arm-shaped `left`/`right` bones (the player
   arms MCreator's renderers hide) are dropped; `GEOX` also hides the spell-book tier bones Ars Nouveau's renderer hides.
-`render.js` copies the flat and element icons through and adds the GeckoLib ones → `rendered.json` (id → base64 PNG). A model bigger
+- `java`: `builtin/entity` drawn by Java code (`JAVA` in `plan.py`): the renderer's `renderByItem` read with javap (vanilla classes from
+  client-1.20.1.jar remapped to SRG names by `gear/wide/srgjar.py` with Mojang's client.txt, `CLIENT_SRG=`), its ModelPart models
+  through `../side_bosses/jmodel.py`, its PoseStack steps, textures and render types, drawn by `../geo_icon_render.html` `renderJava`
+  (shared ModelPart builder: `geo2three.js` `javaPart`); a model drawn by an item renderer of its own (Pyrium Staff's haft) gets the
+  quads `ItemModelGenerator` builds (`../block_render.py` `generated_elements`).
+`render.js` copies the flat and element icons through and adds the GeckoLib and Java ones → `rendered.json` (id → base64 PNG). A model bigger
 than the slot is cut at the slot edge (in game it spills over the neighbouring slots). Output goes to `patches/gear_icons.json` (a
 `null` value removes an icon: items whose only art is a model atlas, like Brutality's phasesabers, show a letter tile instead).
 Setup: work dir `W` (`W/pack/mods/*.jar` and resource zips, `W/pack/src` = the unzipped pack, `W/mc_client.jar` = client-1.20.1.jar;
 see `pack_audit/README.md`), run from a folder holding `W` (or `W=<dir>`): `python3 build/pack_audit/weapon_icons/plan.py && node
-build/pack_audit/weapon_icons/render.js` → `plan.json`, `rendered.json` (`ld.py` reads the table out of `src/gear_data.js`).
+build/pack_audit/weapon_icons/render.js` → `plan.json`, `rendered.json` (`ld.py` reads the table out of `src/gear_data.js`), then
+`python3 build/pack_audit/weapon_icons/plan.py --put rendered.json` (packed losslessly; an id `data.js` IC holds is replaced there,
+the rest go to `patches/gear_icons.json`) and `bash build/patches/apply_all.sh`.
+
+2026-11-01: the items the game draws by code (audit own-3, own-4) are model renders: Chest, Ender Chest, Archwood Chest (vanilla
+ChestRenderer, single layer, facing south, lid shut), Shield (ShieldModel, no pattern), Red Banner (BannerRenderer, red base pattern),
+Goety's Plushie and Plushie 1 (ModISTER + PlushieModel), Pyrium Staff (PyriumStaffRenderer: generated haft, head, orb at time 0). The
+seven ingredients had shown their model's particle texture (oak planks, obsidian, wool); `build/checks/icons.js` keeps it so.
 
 2026-10-31: the 181 icons drawn at 128 px with an invented diagonal pose and fitted to the canvas (shown at 32 or 16 px by dropping
 pixels, so shafts broke into dots) were redrawn this way: 104 element models, 62 GeckoLib models, 13 items that the pack's resource

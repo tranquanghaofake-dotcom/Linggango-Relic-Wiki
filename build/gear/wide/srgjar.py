@@ -4,7 +4,9 @@ installer: Mojang's own server jar remapped with Mojang's server.txt (class name
 and method names), the two mappings the installer combines.
 Usage: srgjar.py SERVER_JAR server.txt joined.tsrg G
   SERVER_JAR  the 1.20.1 server jar from Mojang's version manifest (a bundler: the real jar is under META-INF/versions)
-  writes G/srv/libraries/net/minecraft/server/1.20.1-20230612.114412/server-1.20.1-20230612.114412-srg.jar
+  writes G/srv/libraries/net/minecraft/server/1.20.1-20230612.114412/server-1.20.1-20230612.114412-srg.jar, or G itself when
+  it ends in .jar (the client the same way: client-1.20.1.jar with Mojang's client.txt, for pack_audit/weapon_icons/plan.py
+  JAVA, whose side_bosses/jmodel.py reads vanilla renderers by SRG name)
 What it rewrites, in each class file: Class entries (and the class names inside every field and method descriptor,
 NameAndType and MethodType), the names of declared fields and methods, and the member name of every Fieldref / Methodref
 / InterfaceMethodref, looked up on its owner and then up the owner's superclasses and interfaces (a call names the class
@@ -81,7 +83,7 @@ def main(server, mtxt, tsrg, G):
             h = member(p, name, d, kind, seen)
             if h: return h
         return None
-    out_path = os.path.join(G, "srv/libraries/net/minecraft/server/1.20.1-20230612.114412/server-1.20.1-20230612.114412-srg.jar")
+    out_path = G if G.endswith(".jar") else os.path.join(G, "srv/libraries/net/minecraft/server/1.20.1-20230612.114412/server-1.20.1-20230612.114412-srg.jar")
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     zo = zipfile.ZipFile(out_path, "w", zipfile.ZIP_DEFLATED)
     stats = {"classes": 0, "members": 0, "refs": 0}

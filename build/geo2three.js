@@ -299,6 +299,33 @@ export function buildGeo(geoIn, texture, opts = {}) {
   return root;
 }
 
+// ---------------------------------------------------------------------------------------------
+// A Java model (vanilla ModelPart, read by pack_audit/side_bosses/jmodel.py: {name, pose [x, y, z, rx, ry, rz], scale?,
+// cubes [[x, y, z, w, h, d, grow, u, v, mirror]], children}) as client-1.20.1.jar draws it: cube vertices and box UVs
+// from ModelPart.Cube, its polygons in the cube's order (east, west, down, up, north, south), a part's own cubes before
+// its children, part pose = translate, then rotate Z·Y·X, then scale (ModelPart.translateAndRotate). In model pixels
+// (the game divides by 16; the caller scales the tree by 1/16).
+// ---------------------------------------------------------------------------------------------
+function javaCube(c, tw, th, mat) {
+  const [x, y, z, w, h, d, g, u, v, mir] = c; const x0 = x - g, y0 = y - g, z0 = z - g; let x1 = x + w + g, y1 = y + h + g, z1 = z + d + g, xa = x0;
+  if (mir) [xa, x1] = [x1, xa];
+  const V = [[xa, y0, z0], [x1, y0, z0], [x1, y1, z0], [xa, y1, z0], [xa, y0, z1], [x1, y0, z1], [x1, y1, z1], [xa, y1, z1]];
+  const f7 = u, f8 = u + d, f9 = u + d + w, f10 = u + d + w + w, f11 = u + d + w + d, f12 = u + d + w + d + w, f13 = v, f14 = v + d, f15 = v + d + h;
+  const P = [[[5, 1, 2, 6], f9, f14, f11, f15], [[0, 4, 7, 3], f7, f14, f8, f15], [[5, 4, 0, 1], f8, f13, f9, f14], [[2, 3, 7, 6], f9, f14, f10, f13], [[1, 0, 3, 2], f8, f14, f9, f15], [[4, 5, 6, 7], f11, f14, f12, f15]];
+  const pos = [], uv = [], idx = [];
+  for (const [vs, u1, v1, u2, v2] of P) {
+    let q = [[vs[0], u2, v1], [vs[1], u1, v1], [vs[2], u1, v2], [vs[3], u2, v2]]; if (mir) q = q.reverse();
+    const b = pos.length / 3; for (const [i, uu, vv] of q) { pos.push(...V[i]); uv.push(uu / tw, 1 - vv / th); } idx.push(b, b + 1, b + 2, b, b + 2, b + 3);
+  }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); geo.setIndex(idx); geo.computeVertexNormals();
+  return new THREE.Mesh(geo, mat);
+}
+export function javaPart(p, tw, th, mat) {
+  const o = new THREE.Group(); const [x, y, z, rx, ry, rz] = p.pose; o.position.set(x, y, z); o.rotation.order = 'ZYX'; o.rotation.set(rx, ry, rz);
+  if (p.scale) o.scale.set(...p.scale);   // ModelPart xScale.. (a pose at rest or a keyframe), applied after the rotation as translateAndRotate does
+  for (const c of p.cubes) o.add(javaCube(c, tw, th, mat)); for (const k of p.children) o.add(javaPart(k, tw, th, mat)); return o;
+}
+
 /** Axis-aligned bounds of the model in its current pose (world units of the group). */
 export function measure(group) {
   group.updateMatrixWorld(true);
