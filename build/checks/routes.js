@@ -4,39 +4,8 @@
 // replaceState + render(), so no hashchange is queued behind the loop.
 const go = h => { history.replaceState(null, '', h || location.pathname); render(); }, main = () => document.getElementById('main');
 const ST = JSON.stringify(st);   // the filter state: '#slot/Ring' sets a slot filter, restored before Start here and at the end
-// data-t on a page resolves to a curio, a gear item or a set (app-logic-13)
-const dataT = h => { for (const n of main().querySelectorAll('[data-t]')) { const t = n.dataset.t;
-  if (!(/^\d+$/.test(t) ? D[+t] : /^g\d+$/.test(t) ? GE[+t.slice(1)] : /^s\d+$/.test(t) ? GS[+t.slice(1)] : 0)) bad.push(h + ': data-t "' + t + '" resolves to nothing'); } };
-// detail-pages-checks-05 / -09 / phone-17: no 'undefined' or NaN (closed <details> included), no raw game template, key placeholder,
-// SRG name or JSON list, and no 'the The' ('Crafting the The Corrupted Tear')
-const RAW = /%\d*\$?[sd]\b|%%|\[\]|\+-\d|\b[mf]_\d{3,}_|\["[a-z_]+: ?[a-z_]+"/;
-const text = (h, grp) => { const t = main().textContent, m = t.match(RAW);
-  if (/\bundefined\b|\bNaN\b/.test(t)) bad.push(h + ': prints undefined or NaN');
-  if (m) bad.push(h + ': raw game text ' + JSON.stringify(t.slice(Math.max(0, m.index - 30), m.index + 30)));
-  if (/\b(the|The)\s+(the|The)\b/.test(t)) bad.push(h + ': "the The"'); };
-// detail-pages-checks-07/08: no namespaced item id in a recipe list (.mcl) or a summon table
-const ID = /\b[a-z][a-z0-9_]{2,}:[a-z0-9_]/;
-const recipeIds = h => { for (const c of main().querySelectorAll('.mcl, table.sumings')) { const w = document.createTreeWalker(c, NodeFilter.SHOW_TEXT);
-  for (let n; (n = w.nextNode());) if (ID.test(n.data)) { bad.push(h + ': namespaced id in a recipe list: ' + n.data.trim().slice(0, 60)); return; } } };
-// gear and set pages: no empty infobox value, no broken lock sentence or short Act label, no '#mod/' link to a mod with no curios,
-// no space before a comma or full stop in the lead (detail-pages-checks-02 / -12, app-logic-01)
-const SHORT = /\bActs? Dragon\b|–Dragon\b|Dragon–|\b0–I–[IVX]|Outclassed from (?:Dragon|[IVX0])|(?:until|once)\s{2,}falls/;
-for (const [pre, xs] of [['#g', GE], ['#gs', GS]]) for (let i = 0; i < xs.length; i++) { const h = pre + i; go(h); const m = main();
-  if ([...m.querySelectorAll('.ip-info dd')].some(d => !d.textContent.trim())) bad.push(h + ': empty infobox value');
-  const x = m.textContent.match(SHORT); if (x) bad.push(h + ': ' + x[0]);
-  for (const a of m.querySelectorAll('a[href^="#mod/"]')) { const n = decodeURIComponent(a.getAttribute('href').slice(5)); if (!(MODS.some(([y]) => y === n) && D.some(d => d.m === n))) bad.push(h + ': #mod link to a mod with no curios: ' + n); }
-  if (/\s[,.]/.test(m.querySelector('.ip-lead')?.textContent || '')) bad.push(h + ': lead with a space before punctuation');
-  text(h); dataT(h); }
-// curio pages: also no raw item id anywhere in the text outside the id box, code and tag labels (detail-pages-checks-08), and the
-// sibling box ('More ... curios') is never empty (app-logic-09)
-for (const d of D) { const h = '#i' + d.ix; go(h); text(h); dataT(h); recipeIds(h);
-  const w = document.createTreeWalker(main(), NodeFilter.SHOW_TEXT);
-  for (let n; (n = w.nextNode());) { if (n.parentElement.closest('.ip-id,code,.tg,script,style')) continue; if (ID.test(n.textContent)) { bad.push(`${h}: raw id ${n.textContent.trim().slice(0, 60)}`); break; } }
-  const s = main().querySelector('.sib'); if (s && !s.querySelector('.gridc > *')) bad.push('empty .sib on ' + h); }
-// Keeper and side-boss pages; a side page's external links are web addresses (app-logic-09)
-for (const k of KEEPERS().concat('ender_dragon')) { const h = '#boss/' + k; go(h); text(h); dataT(h); recipeIds(h); }
-for (const n of Object.keys(SIDEB)) { const h = '#side/' + encodeURIComponent(n); go(h); text(h); dataT(h);
-  for (const a of main().querySelectorAll('a[target=_blank]')) if (!/^https?:/.test(a.getAttribute('href'))) bad.push('non-URL link on ' + h); }
+// The per-page text checks (data-t, raw game text, ids in recipe lists, gear-page leads, curio raw ids, side links) run inside
+// check.js's own pass over every detail page (PAGE), so each page is drawn once.
 // app-logic-09 / detail-pages-checks-14: odd and bad routes draw a page with a title, never throw and never print undefined or NaN;
 // '#gear/6.1/...' lands on Act VI; an unknown item says so instead of falling back silently
 for (const h of ['#act/abc', '#act/1', '#act/6.1', '#act/6.2', '#act/13', '#i', '#i99999', '#iabc', '#g99999', '#gs99999', '#gear/6.1/ME/w', '#gear/6.2/RA/a', '#gear/99/XX/z', '#boss/nobody', '#side/Nobody', ...Object.keys(ACT).map(a => '#act/' + a)]) {

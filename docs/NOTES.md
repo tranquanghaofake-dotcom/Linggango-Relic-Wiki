@@ -862,4 +862,9 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - The `site` workflow skips commits that only touch Markdown, `docs/`, `.claude/` or `.gitattributes` (`paths-ignore`;
   checked first that no build or check step reads a Markdown file). Docs-only pushes no longer cost an 8–10 minute run;
   `/build.txt` then names the last commit that changed the site (CLAUDE.md step 6 says so).
+- Faster checks: the per-page text checks of `checks/routes.js` (data-t, raw game text, ids in recipe lists, gear leads,
+  curio raw ids, side links) run inside `check.js`'s own pass (PAGE), so the 3,918 detail pages are drawn once, not twice;
+  `check.sh` runs `check.js` beside `style_check` → `a11y_check` → `site_check` (those three in sequence, so a11y's timings
+  are not taken under three browsers). Local `check.sh`: 10 min 11 s → 6 min 21 s, green. Proved the moved checks still
+  fire: a probe that broke one curio's text before the loop made `check.js` report `#i5` and exit 1.
 

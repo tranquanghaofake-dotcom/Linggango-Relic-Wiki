@@ -19,6 +19,31 @@ const { chromium } = require('playwright'), path = require('path'), fs = require
     if (!a.querySelector('.ip-info')) return 'no infobox'; if (!a.querySelector('.navbox')) return 'no navbox';
     if ([...a.querySelectorAll('.ip-sec')].some(x => !x.querySelector(':scope>h2')?.textContent.trim())) return 'untitled section';
     return ''; })()`;
+  // text checks on each detail page, run right after the page is drawn (ported from checks/routes.js so each page is drawn
+  // once): data-t resolves (app-logic-13); no undefined/NaN, raw game template, key placeholder, SRG name or JSON list, no
+  // 'the The' (detail-pages-checks-05/-09, phone-17); no namespaced id in a recipe list or summon table (-07/-08); gear and set
+  // pages: no empty infobox value, broken lock sentence, short Act label, '#mod/' link to a mod without curios, space before
+  // punctuation in the lead (-02/-12, app-logic-01); curio pages: no raw id outside the id box, no empty sibling box (app-logic-09);
+  // side pages: external links are web addresses
+  const PAGE = h => {
+    const out = [], m = document.getElementById('main'), t = m.textContent, rx = /%\d*\$?[sd]\b|%%|\[\]|\+-\d|\b[mf]_\d{3,}_|\["[a-z_]+: ?[a-z_]+"/, ID = /\b[a-z][a-z0-9_]{2,}:[a-z0-9_]/;
+    for (const n of m.querySelectorAll('[data-t]')) { const v = n.dataset.t;
+      if (!(/^\d+$/.test(v) ? D[+v] : /^g\d+$/.test(v) ? GE[+v.slice(1)] : /^s\d+$/.test(v) ? GS[+v.slice(1)] : 0)) out.push(h + ': data-t "' + v + '" resolves to nothing'); }
+    if (/\bundefined\b|\bNaN\b/.test(t)) out.push(h + ': prints undefined or NaN');
+    const r = t.match(rx); if (r) out.push(h + ': raw game text ' + JSON.stringify(t.slice(Math.max(0, r.index - 30), r.index + 30)));
+    if (/\b(the|The)\s+(the|The)\b/.test(t)) out.push(h + ': "the The"');
+    if (/^#(i|boss\/)/.test(h)) for (const c of m.querySelectorAll('.mcl, table.sumings')) { const w = document.createTreeWalker(c, NodeFilter.SHOW_TEXT);
+      for (let n; (n = w.nextNode());) if (ID.test(n.data)) { out.push(h + ': namespaced id in a recipe list: ' + n.data.trim().slice(0, 60)); break; } }
+    if (/^#gs?\d/.test(h)) {
+      if ([...m.querySelectorAll('.ip-info dd')].some(d => !d.textContent.trim())) out.push(h + ': empty infobox value');
+      const x = t.match(/\bActs? Dragon\b|–Dragon\b|Dragon–|\b0–I–[IVX]|Outclassed from (?:Dragon|[IVX0])|(?:until|once)\s{2,}falls/); if (x) out.push(h + ': ' + x[0]);
+      for (const a of m.querySelectorAll('a[href^="#mod/"]')) { const n = decodeURIComponent(a.getAttribute('href').slice(5)); if (!(MODS.some(([y]) => y === n) && D.some(d => d.m === n))) out.push(h + ': #mod link to a mod with no curios: ' + n); }
+      if (/\s[,.]/.test(m.querySelector('.ip-lead')?.textContent || '')) out.push(h + ': lead with a space before punctuation'); }
+    if (/^#i\d/.test(h)) { const w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT);
+      for (let n; (n = w.nextNode());) { if (n.parentElement.closest('.ip-id,code,.tg,script,style')) continue; if (ID.test(n.textContent)) { out.push(h + ': raw id ' + n.textContent.trim().slice(0, 60)); break; } }
+      const s = m.querySelector('.sib'); if (s && !s.querySelector('.gridc > *')) out.push('empty .sib on ' + h); }
+    if (/^#side\//.test(h)) for (const a of m.querySelectorAll('a[target=_blank]')) if (!/^https?:/.test(a.getAttribute('href'))) out.push('non-URL link on ' + h);
+    return out; };
   // render a route, then [text length, pictures that fail to decode]; a picture still loading after 2 s counts as fine
   const VIEW = async h => {
     location.hash = h; render(); const m = document.getElementById('main'), im = [...m.querySelectorAll('img')];
@@ -27,17 +52,19 @@ const { chromium } = require('playwright'), path = require('path'), fs = require
     return [m.innerText.length, f.reduce((s, x) => s + x, 0)];
   };
   const [ne, ns] = await p.evaluate(() => [GE.length, GS.length]);
-  const lay = [], brokenImg = [];
+  const lay = [], brokenImg = [], txt = [];
   for (const [pre, n] of [['#g', ne], ['#gs', ns]])
     for (let i = 0; i < n; i++) {
       const r = await p.evaluate(VIEW, pre + i);
       if (r[0] < 40 || r[1]) bad.push(pre + i);
       const l = await p.evaluate(LAYOUT); if (l) lay.push(pre + i + ' ' + l);
+      txt.push(...await p.evaluate(PAGE, pre + i));
     }
   const others = await p.evaluate(() => [...D.map(d => '#i' + d.ix), ...KEEPERS().concat('ender_dragon').map(k => '#boss/' + k), ...Object.keys(SIDEB).map(n => '#side/' + encodeURIComponent(n))]);
   for (const h of others) {
     const r = await p.evaluate(VIEW, h); if (r[1]) brokenImg.push(h + ' ' + r[1]);
     const l = await p.evaluate(LAYOUT); if (l) lay.push(h + ' ' + l);
+    txt.push(...await p.evaluate(PAGE, h));
   }
   // data and ranking invariants (each one is a bug that has happened)
   const inv = await p.evaluate(() => {
@@ -87,7 +114,8 @@ const { chromium } = require('playwright'), path = require('path'), fs = require
   console.log(`gear pages ${ne}, sets ${ns}, empty or broken: ${bad.length} ${bad.slice(0, 10).join(' ')}`);
   console.log(`curio, Keeper and side boss pages ${others.length}, with a broken picture: ${brokenImg.length} ${brokenImg.slice(0, 8).join(' | ')}`);
   console.log(`detail pages ${ne + ns + others.length}, off the shared layout: ${lay.length} ${lay.slice(0, 6).join(' | ')}`);
+  console.log(`page text: ${txt.length} problems ${txt.slice(0, 6).join(' | ')}`);
   console.log(`script errors: ${errs.length} ${errs.slice(0, 3).join(' | ')}`);
   await b.close();
-  process.exit(errs.length || inv.length || bad.length || brokenImg.length || lay.length || noBg.length || !cards.length ? 1 : 0);
+  process.exit(txt.length || errs.length || inv.length || bad.length || brokenImg.length || lay.length || noBg.length || !cards.length ? 1 : 0);
 })();

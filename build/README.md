@@ -10,7 +10,7 @@ src/*.js, v5.css, style.game.css, template.html ──► build.py ──► ind
 1. Edit a source: `src/app.js`, `src/gear.js`, `src/ux.js`, `src/rooms.js`, `src/template.html`, `src/v5.css`, `style.game.css`, or a data file in `patches/`.
 2. `bash build/patches/apply_all.sh` (about 10 s): every patch in order, `build.py`, then the curio tiers. Always this, never `build.py` alone: a change to scoring in `gear.js` moves curio tiers, and only `apply_all.sh` recomputes them.
 3. Look at the pages you changed: `node build/shot.js '#home' '#g12' …` writes screenshots (add `--width 375` for phones). For a change that should not move pixels (a data or encoding pass), shoot the old build first and compare: `--diff <dir of old shots>` writes a red-on-grey diff per route and the share of changed pixels (motion off, tolerance 2/255).
-4. `bash build/check.sh` (about 10 min): patches idempotent and build reproducible; in Chromium, every detail page on the shared layout, the data invariants, the pixel and spacing rules, and the deployable site loading with every file found. Needs `playwright` (`NODE_PATH=$(npm root -g)`).
+4. `bash build/check.sh` (about 6 min): patches idempotent and build reproducible; in Chromium, every detail page on the shared layout, the data invariants, the pixel and spacing rules, and the deployable site loading with every file found. Needs `playwright` (`NODE_PATH=$(npm root -g)`).
 5. Commit the sources (never the outputs: they are git-ignored) together with the session's entry in `docs/NOTES.md`, and push to `main`. The `site` workflow runs the same checks and deploys only if they pass.
 
 ## What is source and what is generated
