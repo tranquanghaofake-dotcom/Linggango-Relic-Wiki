@@ -61,6 +61,11 @@ Tests: the audit's synthetic `javac` test sets live only in the session scratchp
 6. Done per consumer = its JSON byte-identical to a baseline made with the current code in the same session, or every
    difference listed and explained (and shot and looked at when it changes a picture). Baselines first, always.
 
+## Status (2026-11-01)
+P1 and 1A done (on main). 1B, 1C and P2 are deferred by the owner: they change tools, not pages, and cost hours
+for little a reader would see. Take 1B/1C up again only for a concrete need (a loop-built model part, an effect inside a
+loop that the wiki gets wrong); take P2 up with the wide gear scan (RENOVATION_PREP item 1).
+
 ## Chunks (one heavy agent at a time, Opus; each ends with apply_all.sh, check.sh, one commit, a NOTES entry)
 
 ### P1: `attrs.py`, `cfg.py`, `supers.json`; `stats.py` and `summons.py` re-run end to end (~250–350k tokens)

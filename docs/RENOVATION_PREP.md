@@ -115,11 +115,13 @@ renovation starts. The look itself is not decided here: any change to the overal
    the site only through a new wide gear scan (`gear/wide/README.md`: Forge 47.4.20's srg server jar, then every jar,
    then `gear_data.py`), and its 2,000 items need comparing one by one before `gear_table.json` is replaced. Base stats
    of 2,050 items come from the game's own dump and would not move; Acts could.
-2. **One class layer and one interpreter**: `classlib.py` on jawa (sorted class index, typed constants, descriptor
+2. **One class layer and one interpreter** (2026-11-01: `classlib.py` under mjvm done, the shared interpreter and jmodel/gear_fx
+   on it deferred by the owner; see `docs/plans/2026-11-01-classlib-and-producers.md`): `classlib.py` on jawa (sorted class index, typed constants, descriptor
    slots) under mjvm, with jmodel, gear_fx and iss_armor as intrinsics tables instead of their own `javap` parsers;
    control flow by merging frames at branch targets (the design of ASM's Analyzer, BSD-3: learn the algorithm, do not
    port it). jmodel still runs a method straight through, so a loop body runs once.
-3. **Missing producers**: `attrs.py` and `cfg.py` (inputs of `side_bosses/stats.py`), `fallback.py` (`merge.py`) and
+3. **Missing producers** (2026-11-01: `attrs.py` and `cfg.py` done, `stats.py`/`summons.py` regenerate their JSON; `fallback.py`
+   left for the wide gear scan): `attrs.py` and `cfg.py` (inputs of `side_bosses/stats.py`), `fallback.py` (`merge.py`) and
    `tools2/map.json`. Done on 2026-10-31: `reg.py` (EntityType registrations from the jars, 82 of 84 side-boss ids; it
    writes the `ent_class.json` that `renders.py` needs) and the GeckoLib packing step (`bgeo.py` → `boss_portraits.js
    --in/--out` → `pack.py`); all 77 side-boss portraits are redrawn with the game's light, and no wiki picture is left

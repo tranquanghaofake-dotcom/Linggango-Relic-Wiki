@@ -848,4 +848,10 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   `iss_mats.json` identical; P1 still reproduces `side_stats.json`; the site build byte-identical; `check.sh` green
   (implementing agent), `run.py` green here. Not run end to end: `tints.py` and the old `gear_extract.py` (they compile and
   build `VM` the same way). Still open: 1B, 1C, P2.
+- 1B stopped and dropped at the owner's choice ("kế hoạch quá phức tạp, chạy hàng giờ mà không đem lại kết quả quá lớn"):
+  1B, 1C and P2 change tools, not pages. Its unfinished work was discarded with its worktree; the plan file says when to
+  take them up again. Lesson for the process: a tool refactor whose proof is "byte-identical output" earns its hours only
+  when a reader-visible fix needs it; plan it then, not ahead.
+- Still open: the wide gear scan (RENOVATION_PREP item 1, with P2); Crucible Sword's damage (needs a game server); four gear
+  items without an icon.
 
