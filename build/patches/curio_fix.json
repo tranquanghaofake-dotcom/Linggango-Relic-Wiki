@@ -1,0 +1,4 @@
+{
+ "_": "Hand corrections to curios (curio_fix.py): id -> fields to set; a new id with \"n\" is added, null removes it. Say why in the commit.",
+ "covenant_of_the_seven:rebirth_egg": {"r": 6}
+}

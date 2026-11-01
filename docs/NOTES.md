@@ -786,3 +786,20 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   Mechanics AE2 gates table is ~7,000 px tall at 375 px (one chip per line); `stats.py`, `summons.py` and `goety.py` were
   fixed but not re-run (their inputs are not in the repo: the JSON was hand-edited to what they would write); `gear_fix.json`
   carries 37 stale ids the pipeline never applies; the icon pass (own-3/own-4, `docs/RENOVATION_PREP.md` item 5).
+
+## 2026-11-01: process changes after the audit fix pass
+- Asked: delete the leftover fix branches, list what the whole session did, rate how it worked, improve the process. The
+  11 local `fix-*` branches (never pushed; every commit is on `main`, checked by subject) and 19 scratch worktrees are gone.
+- Repo changes (plan and reasons: `docs/plans/2026-11-01-process-after-audit.md`): `.gitattributes` merges `docs/NOTES.md`
+  as a union; invariants live one file per topic in `build/checks/` (the audit's moved to `audit-2026-10-31.js`), loaded by
+  `check.js`; hand corrections to curios go into `build/patches/curio_fix.json`, applied first by `apply_all.sh`, so
+  `data.js` is written by scripts only (Cradle of Rebirth's Must-Have is the first entry). CLAUDE.md Process: big passes
+  ship high-severity first, one finding per file group, one review per group, a token budget and model split, a dry run of
+  workflow scripts, at most two parallel builds, generated files committed with their cause; README and CLAUDE.md tables
+  follow.
+- Checked: `apply_all.sh` leaves `data.js` byte-identical (curio_fix: 0 changes); `curio_fix.py` on a test file set,
+  added and removed curios and a second run changed nothing (then reverted); a probe file in `build/checks/` turned
+  `check.js` red (exit 1) and the audit invariants passed; `check.sh` green (see the commit).
+- Still open: the per-chunk invariants of the audit not yet ported (now a matter of adding files to `build/checks/`);
+  the other audit items listed in the 2026-10-31 entry; Wave 2F (one class layer and one interpreter).
+
