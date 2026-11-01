@@ -36,6 +36,18 @@ MCPConfig 1.20.1-20230612.114412 joined.tsrg (SRG member names).
   --no-package-lock --prefix build`), so nothing is copied as `r.html` / `armor.html` any more. `PW_CHROMIUM` picks
   another Chromium binary.
 
+## side_bosses/: side-boss stats and summons, in this order
+JARS = `W/pack/mods` plus RevelationFix taken out of GoetyRevelation's `META-INF/jarjar/` (it registers the Ice Hermit); SRG = Forge's
+`server-1.20.1-*-srg.jar` (the server pack's `libraries/net/minecraft/server/1.20.1-20230612.114412/`). Times on 2026-11-01.
+1. `side_bosses/reg.py W JARS` (30 s) → `W/reg.json`, `W/ent_class.json`: entity id → class.
+2. `side_bosses/attrs.py W JARS SRG` (7 s) → `W/attrs.json` (each side boss's attribute builder run on `gear/mjvm.py`'s VM, config
+   reads kept as `"<Class>.<field>"`) and `W/supers.json` (Monster or not, from the superclass chain).
+3. `side_bosses/cfg.py W JARS` (2 s) → `W/cfg.json`: the defaults of the nine config classes `stats.py` reads (no pack config).
+4. `side_bosses/stats.py W W/pack/src/overrides` (under 1 s) → `patches/side_stats.json`. `man.json` is the class-by-hand table
+   both `attrs.py` and `stats.py` read; `map.json`/`info.json` beside them are what `assemble.py`, `loot.py` and `geofind.py` read.
+5. `summons.py W OUT.json` (under 1 s) needs `W/lang.json` from `gear/prep.py W` (20 s) and `W/rec.json` from `gear/recipes.py W`
+   (16 s); `W/pack_lang.json` is optional (the 2026-11-01 run had none and matched `patches/summons.json` byte for byte).
+
 ## kubejs/: measuring gear in game
 Scripts to copy into the pack's `kubejs/` folder (single player with cheats, or a server as op). Untested outside the game: check `logs/latest.log` (or `kubejs/logs/`) for `dump_gear_all` / `dmg_logger` warnings the first time.
 - `server_scripts/dump_gear_all.js`: `/kubejs custom_command dump_gear_all` writes `kubejs/gear_dump_all.json`, the attribute modifiers of every item (the pack's own `dump_gear.js` only covers tiered tools and armor, so staves, bows, guns and summon weapons were missing). Same format: convert it into `build/patches/gear_runtime.json` like the v27 dump.

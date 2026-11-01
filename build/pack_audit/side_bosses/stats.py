@@ -1,22 +1,26 @@
 """Side-boss base stats (health, armor, toughness, attack damage, knockback resistance) read from the mod jars.
-Usage: stats.py W  (W holds attrs.json, reg.json, cfg.json, cfg2.json from attrs.py, reg.py and cfg.py in this folder;
-reg.py also writes the ent_class.json renders.py reads; attrs.py and cfg.py are still to be rewritten)
+Usage: stats.py W [OVERRIDES]  (W holds reg.json and ent_class.json from reg.py, attrs.json and supers.json from attrs.py,
+cfg.json from cfg.py, all in this folder; build/pack_audit/README.md gives the order; cfg2.json, extra config classes, is read
+when present)
 Writes build/patches/side_stats.json: {boss name: [{entity, hp, armor, tough, dmg, kbr, hits, monster, src}, ...]}.
-monster: whether the entity class extends net.minecraft...Monster (Armageddon's Hardmode raises attack only for those).
-It comes from the superclass chain read from the jars (W/supers.json, {entity: true|false}, if present), else it is kept
-from the side_stats.json already there; a row with neither stops the script. The pack's soul_bosses pins (health, armor,
-damage factor) are laid over these rows by build/patches/wiki_data.py from soul_bosses.json, not written here.
-Optional third argument: the pack's overrides folder (the modpack zip's `overrides/`, CurseForge 1343057 file 9304214 is
+The entity's class: the one man.json names (shared with attrs.py), else ent_class.json's (reg.py, by namespace), else
+reg.json's registration of that name. monster: whether the entity class extends net.minecraft...Monster (Armageddon's
+Hardmode raises attack only for those). It comes from the superclass chain read from the jars (W/supers.json, {entity:
+true|false}, if present), else it is kept from the side_stats.json already there; a row with neither stops the script. The
+pack's soul_bosses pins (health, armor, damage factor) are laid over these rows by build/patches/wiki_data.py from
+soul_bosses.json, not written here.
+Optional second argument: the pack's overrides folder (the modpack zip's `overrides/`, CurseForge 1343057 file 9304214 is
 `Linggango-V6.6.6hf.zip`). Order of the facts, each one over the one before: the value in the entity's attribute builder
 (or the mod's config default), the pack's entitybalance.json, then the pack's own config files (PACK below: a value
 replaces, a multiplier multiplies, Iron's "additional" values add). Hardmode is applied on the page, not here."""
 import json, sys, pathlib, re, tomllib
 W = sys.argv[1]; OV = pathlib.Path(sys.argv[2]) if len(sys.argv) > 2 else None; H = pathlib.Path(__file__).resolve().parents[2] / "patches"
 A = json.load(open(W + "/attrs.json")); R = json.load(open(W + "/reg.json"))
-CF = {**json.load(open(W + "/cfg.json")), **json.load(open(W + "/cfg2.json"))}
+CF = {**json.load(open(W + "/cfg.json")), **(json.load(open(W + "/cfg2.json")) if pathlib.Path(W + "/cfg2.json").exists() else {})}  # cfg2.json: optional extra classes
 EB = json.loads((H / "entitybalance.json").read_text())
 SB = json.loads((H / "side_bosses.json").read_text()); BX = json.loads((H / "boss_extra.json").read_text())
 OLD = {r["entity"]: r for rows in json.loads((H / "side_stats.json").read_text(encoding="utf-8")).values() for r in rows} if (H / "side_stats.json").exists() else {}
+ENT = json.load(open(W + "/ent_class.json")) if pathlib.Path(W + "/ent_class.json").exists() else {}
 SUP = json.load(open(W + "/supers.json")) if pathlib.Path(W + "/supers.json").exists() else {}
 UNRES = []  # PACK keys missing from the pack's config files: a renamed key would otherwise drop a multiplier silently
 CLS = {c: m for v in A.values() for c, m in v.items()}
@@ -25,17 +29,7 @@ REG = {}
 for j in R:
     for k, c in R[j].items(): REG.setdefault(j.split("-")[0].split("_")[0].lower() + ":" + k, c); REG.setdefault(k, c)
 # entities whose registry the reader could not follow (static-init registries, MCreator, Kotlin): class by hand
-MAN = {"block_factorys_bosses:infernal_dragon": "InfernalDragonEntity", "block_factorys_bosses:underworld_knight": "UnderworldKnightEntity",
-       "block_factorys_bosses:yeti": "YetiEntity", "born_in_chaos_v1:lord_pumpkinhead": "LordPumpkinheadEntity",
-       "goety:apostle": "Apostle", "goety:brood_mother": "AbstractBroodMother", "goety:crone": "Crone", "goety:ender_keeper": "EnderKeeper",
-       "goety:heresiarch": "Heresiarch", "goety:hostile_redstone_golem": "HostileRedstoneGolem", "goety:minister": "Minister",
-       "goety:redstone_monstrosity": "HostileRedstoneMonstrosity", "goety:skull_lord": "SkullLord", "goety:vizier": "Vizier", "goety:wight": "Wight",
-       "goety:wither_necromancer": "AbstractWitherNecromancer", "meetyourfight:bellringer": "BellringerEntity",
-       "meetyourfight:dame_fortuna": "DameFortunaEntity", "meetyourfight:rosalyne": "RosalyneEntity", "meetyourfight:swampjaw": "SwampjawEntity",
-       "mutantmonsters:mutant_enderman": "MutantEnderman", "soulsweapons:moonknight_phase_2": "Moonknight",
-       "terramity:enchanter_merlin": "EnchanterMerlinEntity", "terramity:gob": "GobEntity", "terramity:gundalf": "GundalfEntity",
-       "terramity:sorceress_circe": "SorceressCirceEntity", "terramity:super_sniffer": "SuperSnifferEntity", "terramity:trial_guardian": "TrialGuardianEntity",
-       "terramity:ultra_sniffer": "UltraSnifferEntity", "terramity:virtue": "VirtueEntity"}
+MAN = json.loads((pathlib.Path(__file__).resolve().parent / "man.json").read_text())
 # bosses whose numbers live only in a config class
 BOMD = {"bosses_of_mass_destruction:" + k: v for k, v in {"gauntlet": "GauntletConfig", "lich": "LichConfig", "obsidilith": "ObsidilithConfig", "void_blossom": "VoidBlossomConfig"}.items()}
 HITS = {"fdbosses:malkuth": ("MalkuthConfig", "malkuthMaxHits"), "fdbosses:chesed": ("ChesedConfig", "chesedMaxHits")}
@@ -119,7 +113,8 @@ def one(e):
     elif e == "goety_revelation:apollyon":
         o["hp"] = CF["ModConfig"]["APOLLYON_HEALTH"]; src.append("mod config default (Goety Revelation)")
     else:
-        c = MAN.get(e) and SIMPLE.get(MAN[e]) or REG.get(e) or REG.get(e.split(":")[1])
+        # ent_class.json before the bare name: goety also registers an "endersent" (2026-11-01), which hid Legendary Monsters' one
+        c = MAN.get(e) and SIMPLE.get(MAN[e]) or ENT.get(e) or REG.get(e) or REG.get(e.split(":")[1])
         if not c or c not in CLS: return None
         meth = next(iter(CLS[c].values())); used = False
         for k, v in meth:

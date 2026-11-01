@@ -1,7 +1,7 @@
 import json,zipfile,glob,sys,os
 sys.path.insert(0,os.path.join(os.path.dirname(os.path.abspath(__file__)),'..'))
 import lootlib  # vanilla 1.20.1 loot rules (rolls, conditions, composite entries, nested tables; luck 0)
-W=sys.argv[1];I=json.load(open(W+'/sb_idx.json'));M=json.load(open(W+'/tools2/map.json'))
+W=sys.argv[1];I=json.load(open(W+'/sb_idx.json'));M=json.load(open(os.path.dirname(os.path.abspath(__file__))+'/map.json'))
 LANG={}
 for j in sorted(glob.glob(W+'/pack/mods/*.jar'))+[W+'/mc_client.jar']:
   try:z=zipfile.ZipFile(j)

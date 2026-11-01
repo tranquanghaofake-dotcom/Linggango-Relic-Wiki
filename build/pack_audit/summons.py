@@ -116,11 +116,15 @@ def where(i, boss):
     lt = rec["loot"].get(i, [])
     if lt: return ", ".join(sorted({t.split(":")[1].split("/")[-1].replace("_", " ").title() + (" chests" if "/chests/" in "/" + t.split(":")[1] else "") for t in lt}))[:120]
     return ""
+# the wiki's wording over the JEI text ("Allow you to spawn The Calamities!\nDrops from the Bringer of Doom"), written by hand
+# into summons.json on 2026-10-27 (8ed56df4e) and kept here so a re-run does not drop it
+INFO = {"sigil_of_calamity": "Drops from the Bringer of Doom. Using it summons all three Calamities (Famine, Chaos, The Discord); "
+        "the pack makes The Discord the Calamitous Keeper."}
 out = {}
 for boss, it in BOSS.items():
     iid = "armageddon_mod:" + it
     use = " ".join(clean(L.get(f"item.armageddon_mod.{it}.description_{n}", "")) for n in (1, 2)).strip()
-    info = clean(L.get(f"jei.armageddon_mod.{JEI[it]}_info", ""))
+    info = INFO.get(it) or clean(L.get(f"jei.armageddon_mod.{JEI[it]}_info", ""))
     r = kjs.get(iid) or jar_recipe(iid)
     g = grid(r) if r else None
     ings = sorted({c for row in (g or []) for c in row if c})

@@ -1,6 +1,6 @@
-import json,sys,re
+import json,os,sys,re
 W=sys.argv[1]
-I=json.load(open(W+'/tools2/info.json'));L=json.load(open(W+'/sb_loot.json'));M=json.load(open(W+'/tools2/map.json'))
+I=json.load(open(os.path.dirname(os.path.abspath(__file__))+'/info.json'));L=json.load(open(W+'/sb_loot.json'));M=json.load(open(os.path.dirname(os.path.abspath(__file__))+'/map.json'))
 S=json.load(open(W+'/sb_list.json'))
 # pictures: pack.py writes them into build/patches/side_bosses.json (renders only, 2026-10-31); kept from there
 IM=json.load(open(__import__('pathlib').Path(__file__).resolve().parents[2]/'patches'/'side_bosses.json',encoding='utf-8'))

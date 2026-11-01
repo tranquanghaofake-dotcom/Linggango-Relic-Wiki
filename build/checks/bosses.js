@@ -36,6 +36,10 @@ if (SSTAT.Rosalyne?.[0].dmg !== 84) bad.push('Rosalyne dmg ' + SSTAT.Rosalyne?.[
     if (!r || r.monster !== false) { bad.push(e + ' must be monster:false (not a Monster subclass)'); continue; }
     if (!SIDEB[n]) continue; history.replaceState(null, '', '#side/' + encodeURIComponent(n)); render();
     if (/Hardmode/.test(colCells(/ATTACK/i)[SSTAT[n].indexOf(r)] || '')) bad.push('#side/' + n + ' Attack shows a Hardmode alternate for the non-Monster ' + e); } }
+// 2026-11-01, stats.py: every side boss has a stats row but Geburah (its fight is not on health). A lookup by the bare registry name
+// took goety's "endersent" for Legendary Monsters' Endersent and dropped its row; the Ice Hermit's row needs RevelationFix (nested
+// in GoetyRevelation's jar) read
+for (const n of SIDES) if (n !== 'Geburah' && !(SSTAT[n] || []).length) bad.push('side boss without a stats row: ' + n);
 // data-bosses-mech-07: Apostle's toughness is the pack's apostleToughness (66)
 if (SSTAT.Apostle?.[0].tough !== 66) bad.push('Apostle tough ' + SSTAT.Apostle?.[0].tough + ' (pack apostleToughness = 66)');
 // data-bosses-mech-08: Rosalyne always drops an enchanted book (the books pool rolls 1-2, every entry a book)

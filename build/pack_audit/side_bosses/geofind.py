@@ -1,5 +1,5 @@
-import json,zipfile,glob,sys,re
-W=sys.argv[1];M=json.load(open(W+'/tools2/map.json'))
+import json,os,zipfile,glob,sys,re
+W=sys.argv[1];M=json.load(open(os.path.dirname(os.path.abspath(__file__))+'/map.json'))
 F={}
 for j in glob.glob(W+'/pack/mods/*.jar'):
   try:z=zipfile.ZipFile(j)

@@ -777,6 +777,18 @@
 "monster": false
 }
 ],
+"Ice Hermit": [
+{
+"entity": "revelationfix:ice_hermit",
+"hp": 268.0,
+"dmg": 10.0,
+"armor": 4.0,
+"tough": 3.0,
+"kbr": 0.8,
+"src": "entity attribute builder (IceHermitEntity)",
+"monster": true
+}
+],
 "Tongbi, the Sculptor": [
 {
 "entity": "mowziesmobs:sculptor",
