@@ -830,4 +830,14 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Checked: `check.sh` green (10 min 11 s; a11y_check 88 s); shots of the rooms, the AE2 table, the icon pages.
 - Still open: P1, 1A, 1B, 1C and P2 of that plan; Crucible Sword's damage (needs a game server); the four gear items
   without an icon.
+- P1 of the classlib plan done (feed84b73): `side_bosses/attrs.py` (attribute builders and superclass chains on mjvm's VM,
+  writes `attrs.json` + `supers.json`) and `cfg.py` (the nine config classes' defaults) replace the lost producers;
+  `stats.py` now regenerates `side_stats.json` from the jars: the 82 committed rows byte-identical, one new row, Ice Hermit
+  (268 HP, 4 armor, 10 attack; `IceHermitEntity.createAttributes()` in RevelationFix 4.7, the jar nested in Goety
+  Revelation, never read before). `stats.py` fixed: a bare registry name ('endersent', also Goety's) picked the wrong
+  class and dropped Endersent's row with a fresh `reg.json`; invariant in `checks/bosses.js`. `summons.py` reproduces
+  `summons.json` byte for byte; the hand-written Sigil of Calamity text is kept in its `INFO` table. MAN moved to
+  `man.json`; `assemble.py`/`loot.py`/`geofind.py` read the committed `map.json`/`info.json`. Order in pack_audit/README.
+  Checked: `check.sh` green on this tree (run by the implementing agent); Ice Hermit page shot at 1440 and 375.
+  Still open: the RevelationFix jar has to be unpacked next to the mods by hand before `reg.py`; 1A, 1B, 1C, P2.
 
