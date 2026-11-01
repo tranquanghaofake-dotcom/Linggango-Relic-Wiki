@@ -76,10 +76,12 @@ const { chromium } = require('playwright'), path = require('path'), fs = require
     return bad;
   });
   // more invariants, one file per topic in build/checks/: each is a function body run in the page with `bad` (an array to
-  // push messages into) and `acts` (ORDER without -1) in scope; a new bug's invariant goes in a new or existing file there
+  // push messages into) and `acts` (ORDER without -1) in scope; a new bug's invariant goes in a new or existing file there.
+  // The body may `await`; `await patchJSON('x.json')` reads build/patches/x.json (so a check compares the page with the file itself)
   const CK = path.join(__dirname, 'checks');
+  await p.exposeFunction('patchJSON', f => JSON.parse(fs.readFileSync(path.join(__dirname, 'patches', path.basename(f)), 'utf8')));
   for (const f of fs.readdirSync(CK).filter(x => x.endsWith('.js')).sort())
-    inv.push(...(await p.evaluate(`(() => { const bad = [], acts = ORDER.filter(x => x != -1);\n${fs.readFileSync(path.join(CK, f), 'utf8')}\nreturn bad; })()`)).map(x => f + ': ' + x));
+    inv.push(...(await p.evaluate(`(async () => { const bad = [], acts = ORDER.filter(x => x != -1);\n${fs.readFileSync(path.join(CK, f), 'utf8')}\nreturn bad; })()`)).map(x => f + ': ' + x));
   console.log(`invariants: ${inv.length} broken ${inv.slice(0, 8).join(' | ')}`);
   console.log(`path cards ${cards.length}, without background: ${noBg.length} ${noBg.join(', ')}`);
   console.log(`gear pages ${ne}, sets ${ns}, empty or broken: ${bad.length} ${bad.slice(0, 10).join(' ')}`);

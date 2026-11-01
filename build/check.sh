@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# Build and verify the wiki — the same checks the site workflow runs before it deploys (about 5 minutes):
+# Build and verify the wiki — the same checks the site workflow runs before it deploys (about 10 minutes):
 # (1) the patch chain is idempotent and the build reproducible (three runs, same bytes), and the curio tier run on that
 #     build exits 0 (tiers unchanged; a crash or a change fails);
 # (2) the offline file renders every detail page with the shared layout and keeps the data invariants (check.js)
-#     and the pixel and spacing rules (style_check.js);
+#     and the pixel and spacing rules (style_check.js), and the checks that need fresh loads, other viewports, keys,
+#     injected storage or timing (a11y_check.js);
 # (3) the deployable site (index.html + static/) loads with every file found and no script errors (site_check.js).
 set -e; H=$(cd "$(dirname "$0")" && pwd); R=$(dirname "$H"); cd "$R"
 export NODE_PATH=${NODE_PATH:-$(npm root -g)}
@@ -16,4 +17,5 @@ a=$(sum); bash "$H/patches/apply_all.sh" >/dev/null; b=$(sum)
 node "$H/patches/curio_tiers.js" || { echo "curio_tiers: exit $? (3 = tiers changed, run apply_all.sh and commit; other = the tier run failed)"; exit 1; }
 node "$H/check.js" dist/Linggango_Relic_Wiki.html
 node "$H/style_check.js" dist/Linggango_Relic_Wiki.html
+node "$H/a11y_check.js" dist/Linggango_Relic_Wiki.html
 node "$H/site_check.js" index.html
