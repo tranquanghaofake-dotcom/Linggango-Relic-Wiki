@@ -756,6 +756,7 @@ a.pbc,a.pb{text-decoration:none;color:inherit;cursor:pointer}
 .tier .t>img,.tier .t .aimg,.tier .t .aimg img{width:var(--ip,32px)!important;height:var(--ip,32px)!important}
 .gtl img{width:var(--ip2,48px)!important;height:var(--ip2,48px)!important;padding:var(--s1)!important;box-sizing:content-box}
 .nchs{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s2)}
+.nmore{flex-basis:100%}.nmore>summary{cursor:pointer;color:var(--gui-link);font-size:13px}.nmore>.nchs{margin-top:var(--s2)}
 .nch{display:inline-flex;align-items:center;gap:var(--s1);padding:2px var(--s2) 2px var(--s1);border-radius:6px;background:#ffffff0b;border:1px solid #ffffff12;font-size:13px;line-height:1.2;max-width:100%}
 .nch b{color:#ffd84a;font-weight:700}
 .nic{width:22px;height:22px;flex:none;image-rendering:pixelated;vertical-align:middle;margin-right:var(--s1)}
