@@ -840,4 +840,12 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   `man.json`; `assemble.py`/`loot.py`/`geofind.py` read the committed `map.json`/`info.json`. Order in pack_audit/README.
   Checked: `check.sh` green on this tree (run by the implementing agent); Ice Hermit page shot at 1440 and 375.
   Still open: the RevelationFix jar has to be unpacked next to the mods by hand before `reg.py`; 1A, 1B, 1C, P2.
+- 1A of the classlib plan done (3f14acc8a): `build/gear/classlib.py` (sorted class path, first jar wins, cached class
+  files, supers/interfaces/find_method, descriptors with slots, typed constants, bootstrap methods, constant-pool scans,
+  services, mods.toml) under `mjvm.py`; `iss_armor.py` reads the jar (no javap) and `--gear-stats` rewrites
+  `gear_stats.json` `iss_materials`; the audit's synthetic javac tests are in `build/tests/bytecode/` (`run.py`, 99 checks,
+  a hand tool). Proved: the wide gear scan's 106 `ext_raw` files identical before and after (ignoring timings);
+  `iss_mats.json` identical; P1 still reproduces `side_stats.json`; the site build byte-identical; `check.sh` green
+  (implementing agent), `run.py` green here. Not run end to end: `tints.py` and the old `gear_extract.py` (they compile and
+  build `VM` the same way). Still open: 1B, 1C, P2.
 
