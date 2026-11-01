@@ -4,8 +4,10 @@
 # Pull requests run the same checks without deploying.
 name: site
 on:
-  push: { branches: [main] }
-  pull_request: { branches: [main] }
+  # a commit that only touches docs (Markdown, docs/, .claude/ skills) changes nothing the build reads: no run, the site
+  # keeps its build and /build.txt names the last commit that changed it
+  push: { branches: [main], paths-ignore: ['**/*.md', 'docs/**', '.claude/**', '.gitattributes'] }
+  pull_request: { branches: [main], paths-ignore: ['**/*.md', 'docs/**', '.claude/**', '.gitattributes'] }
   workflow_dispatch: {}
 permissions:
   contents: read

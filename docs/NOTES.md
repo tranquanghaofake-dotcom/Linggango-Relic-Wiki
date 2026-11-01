@@ -859,4 +859,7 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   resume stopped agents, clean up worktrees the same day), `check.js` during work and `check.sh` once per wave, and docs say
   only what was checked (two wrong claims of 2026-10-31 were corrected above). The Facts bullet now points at
   `build/checks/`.
+- The `site` workflow skips commits that only touch Markdown, `docs/`, `.claude/` or `.gitattributes` (`paths-ignore`;
+  checked first that no build or check step reads a Markdown file). Docs-only pushes no longer cost an 8–10 minute run;
+  `/build.txt` then names the last commit that changed the site (CLAUDE.md step 6 says so).
 
