@@ -884,3 +884,19 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   item names in English or translated, who pays for translation); official-lang coverage of the 383 jars is not measured (needs the
   pack); whether upstream Monocraft has Cyrillic and Vietnamese glyphs is not checked; the token estimates are rough (plus or minus
   50%) until the Phase 1 pilot.
+
+## 2026-11-08: multilingual, Phase 0 measured (owner approved the plan: "làm"; D1 to D4 at their defaults)
+- Added `build/i18n/harvest.py` (`fetch`, `vanilla`, `build`): streams every jar of the CurseForge manifest (454 of 455 files; one
+  has no file listed on cfwidget), keeps only lang and Patchouli files, drops the jar (56 MB cache, under 3 minutes in the cloud
+  session); `build` writes `build/i18n/official/{ru,pt,es,vi}.json` (names by id, English text to official text; pt is pt_br only,
+  es tries es_mx then es_es) and prints coverage. No site source changed, so `check.sh` was not run.
+- Measured, 306 mods with a lang file: ru_ru 170, pt_br 114, es_es 91, es_mx 70, vi_vn 36 ship; pt_pt adds one mod without pt_br.
+  Official names exist for ru 49%, es 23%, pt 20%, vi 9% of the 3,519 curio and gear ids; verbatim English text found and
+  translated for 53%, 29%, 25%, 10% of the 6,604 strings that are game text (of 24,909 unique strings). Curio `fx` is wiki-written
+  (1% verbatim). The plan's L1 claims and its token estimate were wrong and are corrected in the plan (sections 3.2, 3.5, 6, 13).
+- `RCV` and `Key requirement` need no change (the code keeps reading English; only the print step translates). Icons: the set comes
+  from the English line, a per-language table only places them (spike: positions found 61% ru, 84% es on unmodified drafts).
+- Fonts: real Monocraft has all of Cyrillic (the embedded subset has none) but only part of Vietnamese; no pixel font has both.
+  The comparison image went to the owner. Waiting for their pick of V1 / V2 / V3 for Vietnamese; ru needs no decision.
+- Still open: the owner's Vietnamese font choice (recommended V2); glossary; Phase 1 (engine, language menu, vi interface).
+  Unverified: token cost per 1,000 characters (pilot), ru layout growth, licence note for translated mod text (plan section 10).

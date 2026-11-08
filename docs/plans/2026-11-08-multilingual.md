@@ -1,6 +1,6 @@
 # 2026-11-08: Đa ngôn ngữ cho toàn bộ wiki (Tiếng Việt, Русский, Português, Español)
 
-Spec và plan trong một file (CLAUDE.md, Process: việc kiến trúc). **Trạng thái: bản nháp chờ chủ dự án duyệt. Chưa sửa dòng code nào.**
+Spec và plan trong một file (CLAUDE.md, Process: việc kiến trúc). **Trạng thái: chủ dự án đã duyệt ("làm", 2026-11-08; D1–D4 dùng mặc định). Phase 0 đã đo xong, kết quả ở mục 13; các chỗ bị số đo làm sai đã sửa tại chỗ và ghi "(đã đo)".**
 Lập từ main `b0c2c0e`; mọi con số đo trên bản build của commit đó (`apply_all.sh` chạy sạch, `git status` không đổi).
 Chữ của wiki vẫn là tiếng Anh gốc (nguồn sự thật). File này viết bằng tiếng Việt vì người duyệt là chủ dự án.
 
@@ -20,10 +20,10 @@ không thấy gì đổi và không tải thêm gói dịch nào.
 | # | Phát hiện | Hệ quả |
 |---|---|---|
 | 3.1 | **Không có cơ chế i18n nào.** Chữ giao diện nằm lẫn trong template literal của `app.js`: ≈535 text node, ≈235 chuỗi trong JS, 77 template có văn xuôi (≈110–140k ký tự; hai cách đếm chồng nhau), thêm `gear.js` (35 chuỗi), `ux.js` (6) và `template.html` (nav, skip link, footer; chưa đếm chính xác). | Phải tách chữ khỏi code, từng nhóm trang một. Đây là phần tốn công nhất, không phải phần dịch. |
-| 3.2 | **Code đọc ngược chữ tiếng Anh trong dữ liệu**: `RCV=/^(Craft\|Combine\|Infuse…)\b/` (`app.js:1527`), `/^Key requirement: locked behind/i` (`app.js:1267`), và `fmt()` (`app.js:784`) gắn icon bằng regex từ khóa tiếng Anh (`AIRG`, `app.js:778`). | Dịch dữ liệu tại chỗ sẽ làm hỏng logic và mất icon. Giữ tiếng Anh làm khóa (msgid), dịch ở bước cuối trước khi in. |
+| 3.2 | **Code đọc ngược chữ tiếng Anh trong dữ liệu**: `RCV=/^(Craft\|Combine\|Infuse…)\b/` (`app.js:1527`), `/^Key requirement: locked behind/i` (`app.js:1267`), và `fmt()` (`app.js:784`) gắn icon bằng regex từ khóa tiếng Anh (`AIRG`, `app.js:778`). | Dịch dữ liệu tại chỗ sẽ làm hỏng logic và mất icon. Giữ tiếng Anh làm khóa (msgid), dịch ở bước cuối trước khi in. **(đã đo, sửa)**: vì `tr()` chỉ áp ở bước in cuối, `RCV` và `Key requirement` vẫn đọc tiếng Anh nên **không phải sửa**; chỉ `fmt()` / `AIRG` bị ảnh hưởng (mục 13.3). |
 | 3.3 | **Font nhúng chỉ có Latin cơ bản** (`build/fonts/README.md`: subset U+0020–00FF). Đo bằng fontTools: Russian thiếu **66/66** chữ cái ở cả 3 font; Vietnamese thiếu **54–55/74** ký tự có dấu; Português và Español đủ. | ru và vi sẽ rơi về font hệ thống ở tiêu đề / nút, vỡ phong cách pixel. Cần quyết định về look. |
 | 3.4 | Dữ liệu có ≈18,2k chuỗi duy nhất, ≈770k ký tự (đã loại id và số; trong đó ≈24k là tên class Java `GE.cls`, không cần dịch). Nhưng phần lớn chỉ là **mẫu câu khác tên**: `src` 1.483 chuỗi → 272 mẫu; `src0` 1.182 → 300; `why` 252 → 111 (đếm bằng cách thay tên riêng và số bằng ký hiệu). | Dịch mẫu một lần, sinh chuỗi bằng chương trình (mục 6, L2). |
-| 3.5 | Tên vật phẩm (1.302 curio + 2.150 gear), tooltip (`fx`, `GE.tip`) và sách Patchouli (`GUIDE`, 424 chuỗi) là chữ **của mod**; game có bản dịch chính thức. Vanilla có `vi_vn`, `ru_ru`, `pt_br`, `pt_pt`, `es_es`; mẫu 1 mod (Ars Nouveau) có đủ cả năm. | Lấy từ file `lang`, không dịch bằng AI: 0 token và đúng thuật ngữ game. **Độ phủ cả 383 jar chưa đo** (bước 0.2). |
+| 3.5 | Tên vật phẩm (1.302 curio + 2.150 gear), tooltip (`fx`, `GE.tip`) và sách Patchouli (`GUIDE`, 424 chuỗi) là chữ **của mod**; game có bản dịch chính thức. Vanilla có `vi_vn`, `ru_ru`, `pt_br`, `pt_pt`, `es_es`; mẫu 1 mod (Ars Nouveau) có đủ cả năm. | Lấy từ file `lang`, không dịch bằng AI: 0 token và đúng thuật ngữ game. **(đã đo, sửa mạnh)**: độ phủ thật thấp hơn tôi kỳ vọng, đặc biệt ngoài tiếng Nga, và tooltip curio (`fx`) hầu như **không** phải chữ nguyên văn của mod (mục 13.2). |
 | 3.6 | `build/pack_audit/` đã có sẵn code đọc lang (`name_icons.py`, `tips.py`, `guides.py`, `goety.py`, `summons.py`). | Mở rộng cái có sẵn thay vì viết mới. |
 | 3.7 | Không bước Python nào của build hiện **ghi** câu `src` của curio (đã grep `patches/*.py`: chỉ đọc hoặc sửa chỗ khác); `data.js` là source, câu là chữ đã đóng băng từ lần migrate một lần. | Không có "chỗ sinh câu" để thay bằng mẫu; phải khai thác mẫu ngược từ chuỗi có sẵn (L2). |
 
@@ -62,7 +62,7 @@ Quy tắc chạy:
 | Bậc | Việc | Token |
 |---|---|---|
 | L0 | **Không dịch**: id, số, công thức, tên class Java, tên mod, tên riêng của pack | 0 |
-| L1 | **Thu hoạch bản dịch chính thức** từ vanilla + jar (`build/i18n/harvest.py`, mở rộng `pack_audit/*`): tên, hiệu ứng, tooltip, Patchouli. Chuỗi trong wiki là bản sao nguyên văn lang `en_us` ("lang templates are stored verbatim", `app.js:779`) nên tra ngược English → khóa → bản `ru_ru` / `pt_br` / `es_es` / `vi_vn`. Một câu Anh ứng nhiều khóa khác nghĩa thì ưu tiên khóa cùng namespace với vật phẩm; vẫn mơ hồ thì gắn cờ, không đoán | 0 |
+| L1 | **Thu hoạch bản dịch chính thức** từ vanilla + jar (`build/i18n/harvest.py`, mở rộng `pack_audit/*`): tên, hiệu ứng, tooltip, Patchouli. Chuỗi trong wiki là bản sao nguyên văn lang `en_us` ("lang templates are stored verbatim", `app.js:779`) nên tra ngược English → khóa → bản `ru_ru` / `pt_br` / `es_es` / `vi_vn`. Một câu Anh ứng nhiều khóa mà bản dịch khác nhau thì **bỏ qua** (đã làm: bỏ 22–115 chuỗi mỗi ngôn ngữ), không đoán. Thiếu bản dịch thì **giữ tiếng Anh**: đúng cái người chơi thấy trong game (key thiếu thì game rơi về `en_us`). **(đã đo)** tên: ru 49%, es 23%, pt 20%, vi 9%; câu nguyên văn: ru 53%, es 29%, pt 25%, vi 10% (mục 13.2) | 0 |
 | L2 | **Mẫu câu**: khai thác mẫu (`N at a N from N, N.`), dịch ≈600 mẫu, sinh ra mọi chuỗi cụ thể bằng chương trình (`build/i18n/expand.py`) với tên lấy từ L1. Kiểm bằng cách: sinh lại câu **Anh** từ mẫu phải ra đúng từng ký tự, nếu không thì chuỗi đó rớt xuống L5 | ≈ 1/10 so với dịch thẳng |
 | L3 | **Glossary** (`build/i18n/glossary.json`, ≈300–500 mục: Act, Keeper, Curio, Relic, The Path, Hardmode, S/A/B/C/D, DPS, EHP, các từ cơ chế). Mỗi lô chỉ gửi những mục xuất hiện trong lô đó. Mẫu định dạng: `doNotTranslate` + `terms{en→{vi,ru,pt,es}}` (như `ory/elements`). Bạn duyệt bản vi; ru / pt / es dựa lang chính thức và Minecraft Wiki bản ngôn ngữ làm tham chiếu | thấp |
 | L4 | **Bộ nhớ dịch** (`build/i18n/tm/<lang>.json`: `hash → {en, t, s, r}`; `s` = official / tpl / llm / mt / human; `r` = đã soát). Chạy lại chỉ dịch chuỗi mới hoặc đổi; sửa chữ Anh thì chuỗi cũ thành "stale" và công cụ báo, không dịch lại âm thầm | 0 khi lặp |
@@ -70,7 +70,7 @@ Quy tắc chạy:
 | L6 | **QA tự động** (`build/i18n/qa.py` và `build/checks/i18n.js`): giữ nguyên `%s` `%d` `{x}` thẻ HTML và số; đủ thuật ngữ glossary; không sót tiếng Anh (tỷ lệ chữ Cyrillic cho ru…); độ dài hợp lý; cùng tập icon với bản Anh. Chuỗi rớt thì chạy lại riêng, không soát tay cả kho | 0 |
 | L7 | **Soát người**: vi do bạn; ru / pt / es qua cộng đồng (Phase 5). Chưa soát thì menu ghi "bản dịch hỗ trợ máy" | — |
 
-**Ước lượng token** (thô, sai số ±50%, đo lại ở pilot Phase 1): ≈750k ký tự ≈190k token Anh. Dịch thẳng mọi thứ cho 4 ngôn ngữ ≈ 1,0–1,6 triệu token output (ru tốn khoảng gấp đôi, vi ≈1,5×, pt/es ≈1,3×). Qua thang L0–L6 chỉ còn ≈360k ký tự cần AI cho mỗi ngôn ngữ, tức ≈0,5–0,7 triệu token output cho cả bốn. Con số này sẽ thay bằng số đo thật sau pilot, trước khi cam kết Phase 3–4.
+**Ước lượng token** (thô, sai số ±50%, đo lại ở pilot Phase 1): ≈750k ký tự ≈190k token Anh. Dịch thẳng mọi thứ cho 4 ngôn ngữ ≈ 1,0–1,6 triệu token output (ru tốn khoảng gấp đôi, vi ≈1,5×, pt/es ≈1,3×). **Sửa sau khi đo L1**: bản dịch chính thức phủ ít hơn dự kiến (tooltip curio hầu như không có), nên phần cần AI cho mỗi ngôn ngữ ≈ 490k ký tự (giao diện ≈125k, `fx` 82k, `st` ≈100k, mẫu `src` ≈40k, boss / sách / ghi chú ≈90k, `tip` ≈30k, `why` 24k), không phải 360k. Qua thang L0–L6 ước **≈0,7–0,9 triệu token output cho cả bốn** (trước đây ghi 0,5–0,7). Vẫn là ước lượng; thay bằng số đo thật sau pilot, trước khi cam kết Phase 3–4.
 
 Nguồn mở đã xem làm tham chiếu (chưa đọc mã, chưa kiểm giấy phép; chỉ lấy thiết kế, tự viết ≈150–300 dòng Python vì khóa của ta là hash của chuỗi Anh và dữ liệu là JS, không phải file i18n chuẩn):
 - `taahamahdi/i18n-ai-translate`: dịch theo diff, glossary giữ nguyên / ép dịch theo ngôn ngữ, cache (TM) theo nguồn + ngôn ngữ + ngữ cảnh.
@@ -99,9 +99,9 @@ Gói gửi lên site chỉ chứa `hash → bản dịch` (bỏ `en`).
 Mỗi phase đi hết CLAUDE.md bước 2–6 và ship riêng; mỗi nhóm trang một invariant. Số phiên là ước lượng.
 
 ### Phase 0: nền (người đọc chưa thấy gì; ≈2 phiên)
-- **0.1 Font.** Kiểm font gốc Monocraft (README của họ nói "hơn 500 glyph" nhờ ghép dấu; chưa biết có Cyrillic không) và Jersey 15; vá subset hoặc chọn font OFL dự phòng có Cyrillic + dấu Việt. *Cần bạn duyệt ảnh so sánh* (CLAUDE.md: đổi look phải duyệt). Xong khi bạn gật ảnh.
-- **0.2 Đo độ phủ lang chính thức.** `harvest.py` đọc vanilla + 383 jar (cần pack: README nói file server pack 877 MB trên Google Drive; phiên cloud này có tải được không **chưa kiểm**, nếu không thì chạy trên máy bạn rồi commit JSON kết quả, nhỏ). Xong khi có báo cáo % tên / tooltip / sách có bản chính thức theo từng ngôn ngữ; đây là con số quyết định khối lượng L5.
-- **0.3 Gỡ phụ thuộc chữ Anh trong code.** `RCV`, "Key requirement" → cờ trong dữ liệu; `AIRG` → làm theo ngôn ngữ. Icon trong câu dịch: thử 2 cách trong một spike nhỏ (a: dịch giữ thẻ `{k:fire|…}` và QA kiểm cùng tập icon; b: bảng từ khóa theo ngôn ngữ lấy từ glossary; ru có biến cách nên b dễ sót). Xong khi `shot.js --diff` 0% đổi pixel trên các route chính và `check.sh` xanh (đây là refactor có lý do hiển thị: điều kiện của mọi phase sau).
+- **0.1 Font. (đã đo; chờ bạn chọn vi.)** Monocraft gốc có đủ Cyrillic nên **ru: subset lại, không đổi look** (ảnh R1). Không font pixel OFL nào có đủ cả Cyrillic lẫn tiếng Việt, nên **vi cần bạn chọn** V1 / V2 / V3 (mục 13.1). Việc làm: thêm `@font-face` với `unicode-range` để người đọc tiếng Anh không tải glyph thừa.
+- **0.2 Đo độ phủ lang chính thức. (xong.)** `build/i18n/harvest.py` (`fetch`, `vanilla`, `build`) tải từng jar của manifest CurseForge, giữ chỉ file lang + Patchouli, xóa jar (454/455 file, 56 MB, chạy được ngay trong phiên cloud, chưa đầy 3 phút); `build` ra `build/i18n/official/<lang>.json` (đã commit) và báo cáo. Kết quả ở mục 13.2.
+- **0.3 Icon trong câu dịch. (đã đo; thiết kế chốt.)** Không cần gỡ `RCV` / `Key requirement` (xem 3.2). Chỉ `fmt()` cần đổi: **tập icon lấy từ câu tiếng Anh gốc; bảng từ khóa của từng ngôn ngữ chỉ để tìm vị trí đặt icon trong bản dịch, không tìm thấy thì đặt đầu dòng** (mục 13.3). Làm khi viết `i18n.js` (Phase 1), kèm bảng ru / es / pt / vi (đã có bản nháp ru, es).
 - **0.4** Bạn chốt D1–D4.
 
 ### Phase 1: động cơ + vỏ giao diện, tiếng Việt (≈2 phiên)
@@ -139,9 +139,39 @@ Nút "Đề xuất bản dịch tốt hơn" mở issue / PR sửa `tm/<lang>.jso
 Không subagent, không workflow song song (bạn chưa yêu cầu). Opus cho glossary, hướng dẫn văn phong và chuỗi QA bắt lỗi; Sonnet cho các lô L5 và sửa nhỏ. Mỗi lô ghi TM ngay nên dừng vì usage limit rồi chạy tiếp được. Mỗi phiên thêm một mục vào `docs/NOTES.md`; mỗi lỗi tìm thấy trong bản dịch thành một bất biến trong `build/checks/i18n.js`.
 
 ## 12. Chưa kiểm chứng (đừng coi là sự thật)
-- Độ phủ bản dịch chính thức của cả pack (mới xem 1 mod: Ars Nouveau; thử xem Goety bị 404 do sai nhánh, bỏ).
-- Font Monocraft gốc có Cyrillic / dấu Việt không; font OFL dự phòng nào có đủ cả hai.
-- Phiên cloud có tải được pack hay không.
 - Giấy phép và chất lượng của `i18n-ai-translate`, `ai-i18n`; gói miễn phí Weblate / Crowdin; giá API hiện hành.
 - Tỷ lệ token thật cho ru / vi (mục 6 là ước lượng).
 - Mức nở layout của ru trên wiki.
+- Độ phủ bản dịch của sách Patchouli (`GUIDE`): file đã nằm trong cache thu hoạch nhưng `harvest.py build` chưa ghép (mới ghép tên theo id và câu nguyên văn).
+- Chất lượng bảng vị trí icon ngoài hai bản nháp ru / es; chưa thử pt, vi.
+- Độ chính xác của "câu nguyên văn": một câu ứng một khóa duy nhất thì chắc; còn lại là bỏ qua khi mơ hồ, nhưng chưa ai đọc từng cặp.
+
+## 13. Kết quả Phase 0 (đo ngày 2026-11-08 trên bản build của `b0c2c0e`)
+### 13.1 Font (đã đo bằng fontTools; ảnh so sánh đã gửi bạn)
+| Font | Cyrillic thiếu | Tiếng Việt thiếu |
+|---|---|---|
+| Monocraft đang nhúng (subset) | 66/66 | 55/74 |
+| Monocraft gốc (v4.2.1, 1.475 glyph) | **0/66** | 48/74 (không có combining mark) |
+| Jersey 15 (cả họ Jersey) | 66/66 | 50/74 |
+| Pixelify Sans / Press Start 2P | 2 / 0 của 66 | 48 / 49 của 74 |
+| VT323 | 66/66 | **0/74** |
+| Be Vietnam Pro (thân bài hiện tại) | 66/66 | 0/74 |
+- **ru**: Jersey 15 → Monocraft gốc cho đủ chữ, cùng phong cách (ảnh R1 đẹp). Không phải xin duyệt look vì không đổi gì ở tiếng Anh.
+- **vi**, ba cách (ảnh): **V1** Monocraft + VT323 chen từng glyph: chữ nhỏ to lẫn lộn trong một từ ("đồ", "Kẻ"), **không nên**. **V2** VT323 cho cả dòng: đồng nhất, vẫn pixel, thanh mảnh và cao hơn Monocraft. **V3** Be Vietnam Pro đậm: sạch nhất, không còn pixel. Tôi khuyên **V2** cho tiêu đề và nhãn khi `lang=vi`, thân bài giữ Be Vietnam Pro. *Chờ bạn chọn.*
+
+### 13.2 Độ phủ bản dịch chính thức (`harvest.py`, 306 mod có lang)
+Số mod ship từng file: `ru_ru` 170, `pt_br` 114, `es_es` 91, `es_mx` 70, `vi_vn` 36; `pt_pt` chỉ thêm đúng 1 mod không có `pt_br` (ủng hộ D1); 124 mod không có ngôn ngữ nào trong bốn.
+| | ru | pt (pt_br) | es (es_mx → es_es) | vi |
+|---|---|---|---|---|
+| Tên theo id (3.519 curio + gear) | 49% | 20% | 23% | 9% |
+| Chuỗi nguyên văn trong `en_us` (6.604 chuỗi duy nhất của dữ liệu) | 53% | 25% | 29% | 10% |
+| Chuỗi bỏ qua vì mơ hồ | 115 | 60 | 114 | 22 |
+- Chỉ **6.604 / 24.909** chuỗi duy nhất (≥8 ký tự) của dữ liệu là chữ nguyên văn của game. Phần còn lại do wiki tự soạn.
+- Tooltip curio (`fx`): chỉ **1%** nguyên văn (13 / 2.213): đó là câu tóm tắt do wiki ghép từ nhiều dòng và thuộc tính. Tooltip gear (`tip`): **87%** nguyên văn, nhưng có bản dịch chỉ ru 44%, es 43%, pt 8%, vi 5%. Dòng `st` của curio: 33% nguyên văn, ru 14%.
+- Hệ quả: L1 cho **tên** (đúng thuật ngữ game, 0 token) và một phần tooltip gear; phần văn xuôi do wiki soạn vẫn cần L2 / L5. Ước lượng token ở mục 6 đã sửa theo đó.
+- Lỗi dữ liệu nguồn đã gặp và xử lý: một số file lang của mod kết thúc giá trị bằng dấu phẩy thừa ("Pergamino de Historia,"); `build` bỏ dấu phẩy nếu câu Anh không có.
+- Kết quả đã commit: `build/i18n/official/{ru,pt,es,vi}.json` (≈370 / 124 / 160 / 52 KB). Chỉ chứa tên và các chuỗi mà wiki đã trích sẵn (xem rủi ro giấy phép, mục 10).
+
+### 13.3 Icon trong câu dịch (spike trên 301 / 279 cặp dịch chính thức không mơ hồ)
+- Cách "chạy lại bảng từ khóa trên bản dịch" cho tập icon khác bản Anh nhiều (cùng tập: ru 27%, es 48%) vì bảng từ khóa vốn đã mờ ngay cả ở tiếng Anh và nhiều cặp dịch không sát nghĩa.
+- Cách chọn: **tập icon từ câu Anh (100% giống bản Anh theo cách xây)**, bảng ngôn ngữ chỉ tìm vị trí. Bản nháp chưa chỉnh tìm được vị trí cho ru 61% (66/109 icon), es 84% (78/93); phần còn lại đặt đầu dòng. Chỉnh bảng bằng glossary khi làm Phase 1.
