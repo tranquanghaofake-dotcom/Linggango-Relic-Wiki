@@ -38,5 +38,5 @@ function setLang(c){return langPack(c).then(()=>{if(c!=="en"&&!I18N[c])return;ls
 const I18N_READY=wantLang()==="en"?null:langPack(wantLang());
 /* called once by app.js before the first render: the menu, then the chosen language if its pack arrived */
 function langBoot(){const s=document.getElementById("lang");
- if(s&&!s.options.length){for(const[c,n]of LANGS){const o=document.createElement("option");o.value=c;o.textContent=n;s.appendChild(o)}s.onchange=()=>setLang(s.value)}
+ if(s&&!s.options.length){for(const[c,n]of LANGS){const o=document.createElement("option");o.value=c;o.textContent=c.toUpperCase()+"\u2003\u2003\u2003\u2003"+n;s.appendChild(o)}s.onchange=()=>setLang(s.value)}
  const w=wantLang();useLang(w==="en"||I18N[w]?w:"en")}

@@ -920,3 +920,19 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Still open: the owner's choice of Vietnamese font (V1, V2 or V3; ru uses upstream Monocraft and needs no choice) and the fonts
   step itself; the page-body strings (Phase 2) and the data text (Phase 3); the icon placement tables per language; the pilot that
   measures tokens per 1,000 characters; native review of ru, pt, es (the glossary and `ui.json` are unreviewed).
+
+## 2026-11-08: correction to the Phase 1 entry above (header layout), and the check.sh result
+- The commit `e53d039` put the language menu as a fourth item of the one-row header. That was wrong: the full `check.sh` failed on
+  `style_check` ("768px #mechanics: the AE2 heading lands under the header (-28 px)"; the previous build passes), and measuring
+  showed the menu falling outside the 64 px header at 1000 to 1100 px and the header growing a row at 768 and 900 px. My earlier
+  pixel diff only covered 1440 px and missed it. Its NOTES line "only the header differs" was true at 1440 px only.
+- Fix: the menu is a stone button inside the right end of the search box (`.sbox`, `style.game.css`); the wrapped header (search on its
+  own row) now starts at 1180 px instead of 900 px, and at 1320 px for ru and pt whose nav is wider (767 and 754 px against 640;
+  English needs 1171 px for one row with a 240 px search box, vi 1103, es 1194). `html{scroll-padding-top:176px}` follows the same range.
+- Checked after the fix: header geometry equals the previous build at 768 and 900 px; across 5 languages by 5 widths the menu is
+  always inside the header and inside the search box; `style_check` passes; `site_check` passes; `checks/i18n.js` returns nothing and
+  still reports its two deliberate faults; six English routes against the previous build with motion off: 0.148% of pixels differ
+  on each, the size of the menu button. English readers also see a two-row header at 901 to 1180 px now (it was one row with a 70 to
+  170 px search box): a visible change, flagged for the owner.
+- The result of the second full `build/check.sh` is recorded in the line after this one once it has finished.
+
