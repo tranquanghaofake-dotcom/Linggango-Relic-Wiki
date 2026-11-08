@@ -80,6 +80,31 @@ def ui_packs():
     print("i18n:", len(UI), "keys;", ", ".join("%s %d" % (l, len(p)) for l, p in out.items()))
     return out
 PACKS = ui_packs()
+# sentences written in the code, keyed by the hash of their English (i18n/tmlib.py, tm/<lang>.json): checked here, shipped as the pack's `tr`
+sys.path.insert(0, str(B / "i18n")); import tmlib
+def add_tm(packs):
+    need = tmlib.scan_msgids(); logp = B / "i18n" / "tr_log.json"
+    if logp.exists(): need |= set(json.loads(read(logp)))   # sentences built from variables, listed by i18n/trlog.js
+    keepp = B / "i18n" / "keep.json"; keep = set(json.loads(read(keepp))) if keepp.exists() else set()   # stay English by design (proper names, rarity names)
+    seen = {}
+    for n in need:
+        assert seen.setdefault(tmlib.hsh(n), n) == n, "i18n: two sentences share a hash: %r and %r" % (seen[tmlib.hsh(n)], n)
+    ph = lambda x: set(re.findall(r"\{\w+\}", x)); tg = lambda x: sorted(set(re.findall(r"</?\w+|href=\"[^\"]*\"", x)))
+    for lang, pk in packs.items():
+        tm, tr = tmlib.load_tm(lang), {}
+        for k, e in tm.items():
+            en, t = e["en"], e["t"]
+            assert tmlib.hsh(en) == k, "i18n: tm/%s.json key %s is not the hash of %r" % (lang, k, en)
+            forms = [t] if isinstance(t, str) else list(t.values())
+            assert (isinstance(t, dict) and "other" in t and set(t) <= {"zero", "one", "two", "few", "many", "other"}) if "\u0001" in en else isinstance(t, str), "i18n: %s %r: plural forms are wrong" % (lang, en)
+            for f in forms:
+                assert ph(f) <= ph(en) and (not isinstance(t, str) or ph(f) == ph(en)), "i18n: %s %r: {placeholders} differ from English: %r" % (lang, en, f)
+                assert tg(f) == tg(en) or ("\u0001" in en and set(tg(f)) <= set(tg(en))), "i18n: %s %r: tags or links differ from English" % (lang, en)
+            tr[k] = t
+        pk["tr"] = tr; pk["keep"] = sorted(keep)   # keep: sentences that stay English on purpose (checks/i18n.js tells them from untranslated ones)
+        miss = sorted(n for n in need if tmlib.hsh(n) not in tr and n not in keep)
+        print("i18n %s: %d translated sentences; %d of %d sentences asked for are translated or kept in English on purpose%s" % (lang, len(tm), len(need) - len(miss), len(need), "" if not miss else "; untranslated: " + "; ".join(repr(m.replace("\u0001", " | "))[:48] for m in miss[:6]) + (" …" if len(miss) > 6 else "")))
+add_tm(PACKS)
 PACKS_JS = "window.I18N=" + json.dumps(PACKS, ensure_ascii=False, separators=(",", ":")) + ";"
 
 # dist: one self-contained file for offline use

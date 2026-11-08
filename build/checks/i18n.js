@@ -33,3 +33,13 @@
   if (!lt.includes('VT323 vi') || !h1.includes('VT323 vi')) bad.push('fonts: the Vietnamese page does not use VT323 for labels and titles: ' + lt + ' | ' + h1);
   useLang('ru'); if (getComputedStyle(document.querySelector('.logo .lt')).fontFamily.includes('VT323')) bad.push('fonts: VT323 leaked into the Russian page');
   useLang('en'); if (getComputedStyle(document.querySelector('.logo .lt')).fontFamily.includes('VT323')) bad.push('fonts: VT323 leaked into the English page'); }
+// Pages drawn so far in the language (the hub, an Act page, an Act that does not exist): nothing half-filled, and every sentence they ask for
+// is translated or kept in English on purpose (the pack's `keep`: proper names, rarity names). A sentence missing from tm/<lang>.json shows up here.
+{ const h0 = location.hash;
+  for (const c of LANG_CODES.filter(x => x !== 'en')) { useLang(c); window.__TRLOG = new Set();
+    for (const h of ['#', '#act/2', '#act/99']) { location.hash = h; render();
+      const t = document.getElementById('main').innerText; if (/\{\w+\}|\$\{|undefined|NaN|\[object/.test(t)) bad.push('i18n ' + c + ' ' + h + ': a placeholder or "undefined" shows on the page'); }
+    const keep = new Set(I18N[c].keep || []);
+    for (const en of window.__TRLOG) if (!trOf(en) && !keep.has(en)) bad.push('i18n ' + c + ': no translation for ' + JSON.stringify(en.replace('\u0001', ' | ')).slice(0, 80)); }
+  window.__TRLOG = undefined; useLang('en'); location.hash = h0; render(); }
+

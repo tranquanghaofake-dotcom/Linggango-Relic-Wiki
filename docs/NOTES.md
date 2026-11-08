@@ -953,3 +953,24 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   Vietnamese labels in VT323 should be looked at by the owner on real pages beyond the home page.- Full `build/check.sh` on the tree of this entry (fonts for ru and vi): green, exit 0 (invariants 0 broken, 3,918 detail pages off the shared
   layout 0, page text 0 problems, style passes, a11y and timing 0 broken, site check passes with the fonts).
 
+
+## 2026-11-08: multilingual, Phase 2 group (a): hub, Act pages, The Path, navbox
+- JS sentences now use the English as the key: `T("…{x}…",{x})` and `TN(n,"{n} curio","{n} curios")` (`src/i18n.js`, hash `hsh`; the same hash in
+  `i18n/tmlib.py`, checked equal on strings with accents, Cyrillic and an empty string). Translations: `i18n/tm/<lang>.json`; English-on-purpose:
+  `i18n/keep.json`; `i18n/trlog.js` crawls the site for sentences built from variables (`i18n/tr_log.json`); `build.py` checks hash, `{x}`, tags and
+  plural forms and prints coverage; `checks/i18n.js` fails when the hub or an Act page asks for a sentence without a translation or a keep entry.
+- Converted: `crumb`, `actL` / `actF`, `wikiNav` (the navbox that ends every detail page), the active-filters bar, the title-screen buttons, the four
+  Start-here cards, The Path (heading, per-Act panel, "I'm here", "Your run"), the hub sections (Equipment, Must-Have, Curio slots, Mythic, New in
+  6.6.6) and the Act page (heading, lede, "Opened by beating", "Next boss", "Showing … of …", not found). 88 literal sentences and 29 built from
+  variables; 104 translated into each of vi, ru, pt-BR, es (by the assistant, unreviewed by a native speaker), 13 kept in English by design.
+- New terms for the owner to look at: "The Path" is translated (vi "Lộ trình", ru "Путь", pt "O Caminho", es "El Camino") since it is the wiki's own concept;
+  "Act" is vi "Act", ru "Акт", pt "Ato", es "Acto"; the Russian sentences put a boss name after a colon so it stays in the nominative.
+- Proof the English did not change: `<main>` innerHTML, tab title and title-screen buttons for 34 route states (17 routes, with and without "I'm here") are
+  identical to the build before this group, character for character (blob URLs and the `seen` / `seen2` classes normalised). The comparison found one
+  bug of mine (a single-quoted string that does not interpolate `${}`), fixed. Russian titles use Monocraft throughout (the first look mixed Cyrillic
+  from Monocraft with "II" from Jersey 15). Screenshots of the hub, an Act page and a gear page's navbox in vi, ru, pt, es looked at.
+- Full `build/check.sh` on this tree: green, exit 0 (invariants 0 broken, 3,918 detail pages off the shared layout 0, page text 0 problems, style passes,
+  a11y and timing 0 broken, site check passes).
+- Still English on these pages, on purpose for the next groups: slot names (Charm, Ring … have official translations in the Curios mod), the filter column
+  and role chips (group b), curio text, the Act title pictures (images made by the pack), the credits in the footer. The pilot that measures tokens per
+  1,000 characters is not done: the 104 sentences were translated in this session without a count.

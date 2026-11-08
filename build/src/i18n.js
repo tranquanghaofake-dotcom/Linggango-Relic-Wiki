@@ -18,6 +18,16 @@ const fill=(s,p)=>p?s.replace(/\{(\w+)\}/g,(m,k)=>k in p?p[k]:m):s;
 const pack=()=>LANG==="en"?null:I18N[LANG]||null;
 const t=(k,en,p)=>{const P=pack();return fill(P&&P[k]||en,p)};
 const tn=(k,n,en,p)=>{const P=pack(),f=P&&P[k]||en;PRULES=PRULES||new Intl.PluralRules(LANG);return fill(f[PRULES.select(n)]||f.other,{n:n.toLocaleString(LANG),...p})};
+/* Sentences written in the code (not in template.html): the English text is the key, so nothing is named by hand and the English stays readable where it is used.
+     T("Opens when {boss} falls.",{boss:esc(name)})        one sentence; the caller escapes what it passes in
+     TN(n,"{n} curio","{n} curios")                       a counted one: the pack holds the language's CLDR forms (one, few, many, other); {n} is n as written
+   The pack's `tr` maps hsh(English) to the text (a string, or an object of plural forms); a sentence without one shows its English. build/i18n/tm/<lang>.json
+   is where the translations live; build.py checks them (the same hash in Python), and build/i18n/trlog.js crawls the site to list every sentence a page asks for. */
+const hsh=s=>{let a=0xdeadbeef,b=0x41c6ce57;for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);a=Math.imul(a^c,2654435761);b=Math.imul(b^c,1597334677)}
+ a=Math.imul(a^(a>>>16),2246822507)^Math.imul(b^(b>>>13),3266489909);b=Math.imul(b^(b>>>16),2246822507)^Math.imul(a^(a>>>13),3266489909);return(4294967296*(2097151&b)+(a>>>0)).toString(36)};
+const trOf=en=>{const P=pack();if(window.__TRLOG)window.__TRLOG.add(en);return P&&P.tr&&P.tr[hsh(en)]};
+const T=(en,p)=>fill(trOf(en)||en,p);
+const TN=(n,one,other,p)=>{const f=trOf(one+"\u0001"+other);let s;if(f&&typeof f==="object"){PRULES=PRULES||new Intl.PluralRules(LANG);s=f[PRULES.select(n)]||f.other}else s=n===1?one:other;return fill(s,{n,...p})};
 /* a pack arrives as a script (site) or is already there (offline file, or loaded before); either way the promise resolves, with English if it failed */
 const langPack=c=>new Promise(ok=>{if(c==="en"||I18N[c])return ok();const u=document.documentElement.getAttribute("data-lang-"+c);if(!u)return ok();
  const s=document.createElement("script");s.src=u;s.onload=s.onerror=()=>ok();document.head.appendChild(s)});
