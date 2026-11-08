@@ -868,3 +868,19 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   are not taken under three browsers). Local `check.sh`: 10 min 11 s → 6 min 21 s, green. Proved the moved checks still
   fire: a probe that broke one curio's text before the loop made `check.js` report `#i5` and exit 1.
 
+
+## 2026-11-08: plan for a multilingual wiki (vi, ru, pt, es); no code changed
+- Wrote `docs/plans/2026-11-08-multilingual.md` (spec and plan in one file, draft awaiting the owner's approval). Nothing in `build/`
+  or the site changed; `apply_all.sh` was run once only to measure, and left `git status` clean.
+- Measured (build of `b0c2c0e`): no i18n mechanism exists; UI text sits inside `app.js` template literals; the code reads English
+  back out of data (`RCV` `app.js:1527`, `Key requirement` `app.js:1267`, icon regexes `AIRG`/`fmt` `app.js:778-784`); the embedded
+  fonts lack Russian (66/66 letters missing in all three) and most Vietnamese letters (54-55/74 missing); the data holds about
+  18.2k unique strings (about 770k characters, of which about 24k are Java class names) but `src`/`src0`/`why` collapse to
+  272/300/111 sentence patterns; item names, tooltips and Patchouli text belong to the mods and exist in the game's own lang files
+  (one mod sampled, Ars Nouveau, ships ru_ru, pt_br, pt_pt, es_es and vi_vn).
+- Checked against sources: DeepL supports VI, RU, PT-BR and ES with glossaries (API Free: 500,000 characters a month), from its
+  documentation today.
+- Still open (with the reason): D1 to D4 of the plan need the owner's answer (pt-BR or pt-PT, neutral Spanish or es-ES, Vietnamese
+  item names in English or translated, who pays for translation); official-lang coverage of the 383 jars is not measured (needs the
+  pack); whether upstream Monocraft has Cyrillic and Vietnamese glyphs is not checked; the token estimates are rough (plus or minus
+  50%) until the Phase 1 pilot.
