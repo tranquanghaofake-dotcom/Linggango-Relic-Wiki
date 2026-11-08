@@ -2002,3 +2002,7 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 @media (max-width:479px){.ptitle,.ptitle.big{display:none}.pph h3.ptxt,.actban h3.ptxt{display:block;margin:0}}
 /* side-boss cards: the game's own name under the wiki name (audit copy-docs-08) */
 .sbc .sbg{display:block;font-style:normal;font-size:12px;line-height:1.2;color:var(--mute)}
+
+/* Vietnamese (docs/plans/2026-11-08-multilingual.md, 13.1; the owner's pick, V2): VT323, a pixel face that has every Vietnamese letter, for titles and labels;
+   the body stays Be Vietnam Pro. Russian needs nothing here: Jersey 15 and Monocraft fall through to Monocraft's own Cyrillic (build.py EXTRA). */
+html[lang=vi]{--disp:"VT323 vi",Monocraft,ui-monospace,monospace;--title:"VT323 vi",Monocraft,monospace}

@@ -22,3 +22,14 @@
   if (ru !== '1 a,2 b,5 c,21 a,22 b,25 c') bad.push('i18n: Russian plural forms ' + ru);
   useLang('vi'); if (tn('no.such.key', 2, f) !== '2 d') bad.push('i18n: Vietnamese counted string ' + tn('no.such.key', 2, f));
   useLang('en'); if (tn('no.such.key', 1, f) !== '1 a' || tn('no.such.key', 2, f) !== '2 d') bad.push('i18n: English plural forms'); }
+// Fonts: Russian draws in Monocraft's own Cyrillic faces and Vietnamese in VT323 (pixel faces, not the system fallback), and the Vietnamese page asks for VT323.
+// A width test against the browser's default font does not work (Chromium picks a system face per missing glyph), so this asks which faces the text loads.
+{ const ru = 'Путь испытаний Ёё', vi = 'Chế tạo bằng ấ ệ ử ữ Đường đi';
+  const cyr = (fs, wt) => fs.some(f => f.status === 'loaded' && f.weight === wt && /U\+400/i.test(f.unicodeRange));
+  if (!cyr(await document.fonts.load('32px Monocraft', ru), '400')) bad.push('fonts: no loaded Monocraft face for Cyrillic (regular)');
+  if (!cyr(await document.fonts.load('700 32px Monocraft', ru), '700')) bad.push('fonts: no loaded Monocraft face for Cyrillic (bold)');
+  if (!(await document.fonts.load('32px "VT323 vi"', vi)).some(f => f.family.includes('VT323') && f.status === 'loaded')) bad.push('fonts: VT323 not loaded for Vietnamese text');
+  useLang('vi'); const lt = getComputedStyle(document.querySelector('.logo .lt')).fontFamily, h1 = getComputedStyle(document.querySelector('.top')).getPropertyValue('--title');
+  if (!lt.includes('VT323 vi') || !h1.includes('VT323 vi')) bad.push('fonts: the Vietnamese page does not use VT323 for labels and titles: ' + lt + ' | ' + h1);
+  useLang('ru'); if (getComputedStyle(document.querySelector('.logo .lt')).fontFamily.includes('VT323')) bad.push('fonts: VT323 leaked into the Russian page');
+  useLang('en'); if (getComputedStyle(document.querySelector('.logo .lt')).fontFamily.includes('VT323')) bad.push('fonts: VT323 leaked into the English page'); }

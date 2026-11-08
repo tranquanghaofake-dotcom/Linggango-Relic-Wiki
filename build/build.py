@@ -42,6 +42,12 @@ import base64
 style = "".join('@font-face{font-family:Monocraft;font-weight:%d;font-display:swap;src:url(data:font/woff2;base64,%s) format("woff2")}\n'
                 % (w, base64.b64encode((B / "fonts" / f).read_bytes()).decode()) for w, f in ((400, "Monocraft.woff2"), (700, "Monocraft-Bold.woff2"))) \
     + '@font-face{font-family:"Jersey 15";font-weight:400;font-display:swap;src:url(data:font/woff2;base64,%s) format("woff2")}\n' % base64.b64encode((B / "fonts" / "Jersey15.woff2").read_bytes()).decode() + style
+# faces for the other languages (docs/plans/2026-11-08-multilingual.md, 13.1): Monocraft's own Cyrillic for ru (the faces above stop at Latin-1), and VT323 for Vietnamese
+# titles and labels (html[lang=vi] in style.game.css), which no pixel font with Cyrillic covers. The offline file inlines them; the site serves them as files that the
+# browser fetches only when text needs them (unicode-range for Cyrillic, the family itself for VT323), so an English reader downloads none of it.
+EXTRA = [("Monocraft", "400", "U+0400-04FF,U+2116", "Monocraft-Cyrillic.woff2", ""), ("Monocraft", "700", "U+0400-04FF,U+2116", "Monocraft-Bold-Cyrillic.woff2", ""),
+         ("VT323 vi", "400 900", None, "VT323-Vietnamese.woff2", "size-adjust:127%;")]   # 127%: VT323 is drawn smaller than Monocraft (the image the owner chose V2 from used 19 px for 15 px)
+faces = lambda url: "".join('@font-face{font-family:"%s";font-weight:%s;font-display:swap;%s%ssrc:url(%s) format("woff2")}\n' % (fam, w, "unicode-range:%s;" % r if r else "", x, url(f)) for fam, w, r, f, x in EXTRA)
 import hashlib
 tpl = read(S / "template.html")
 NAMES = ["data.js", "gear_data.js", "wiki_data.js", "wiki_pics.js", "scenes.js", "uiicons.js", "rooms.js", "i18n.js", "app.js", "gear.js", "ux.js"]
@@ -77,7 +83,7 @@ PACKS = ui_packs()
 PACKS_JS = "window.I18N=" + json.dumps(PACKS, ensure_ascii=False, separators=(",", ":")) + ";"
 
 # dist: one self-contained file for offline use
-html = tpl.replace("{{STYLE}}", "<style>\n" + style + "\n</style>").replace("{{i18n_packs.js}}", PACKS_JS)
+html = tpl.replace("{{STYLE}}", "<style>\n" + style + faces(lambda f: "data:font/woff2;base64," + base64.b64encode((B / "fonts" / f).read_bytes()).decode()) + "\n</style>").replace("{{i18n_packs.js}}", PACKS_JS)
 for name in NAMES:
     html = html.replace("{{%s}}" % name, read(S / name))
 dist = ROOT / "dist" / "Linggango_Relic_Wiki.html"
@@ -90,13 +96,14 @@ A = ROOT / "static"
 A.mkdir(exist_ok=True)
 for old in A.glob("*"):
     old.unlink()
-def put(name, text):
-    h = hashlib.sha1(text.encode()).hexdigest()[:10]
+def put(name, text, data=None):
+    h = hashlib.sha1(data if data is not None else text.encode()).hexdigest()[:10]
     stem, ext = name.rsplit(".", 1)
     fn = f"{stem}.{h}.{ext}"
-    (A / fn).write_text(text, encoding="utf-8")
+    if data is None: (A / fn).write_text(text, encoding="utf-8")
+    else: (A / fn).write_bytes(data)
     return "static/" + fn
-site = tpl.replace("{{STYLE}}", '<link rel="stylesheet" href="%s">' % put("style.css", style)).replace("<script>\n{{i18n_packs.js}}\n</script>\n", "")
+site = tpl.replace("{{STYLE}}", '<link rel="stylesheet" href="%s">' % put("style.css", style + faces(lambda f: put(f, "", (B / "fonts" / f).read_bytes()).split("/")[-1]))).replace("<script>\n{{i18n_packs.js}}\n</script>\n", "")
 for lang, pk in PACKS.items():   # one small file per language, fetched only when a reader picks it (src/i18n.js langPack)
     site = site.replace("<html", '<html data-lang-%s="%s"' % (lang, put("lang-%s.js" % lang, "(window.I18N=window.I18N||{}).%s=%s;" % (lang, json.dumps(pk, ensure_ascii=False, separators=(",", ":"))))), 1)
 for name in NAMES:

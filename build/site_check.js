@@ -23,16 +23,21 @@ const { chromium } = (() => { try { return require('playwright'); } catch { // g
   const q = await b.newPage({ viewport: { width: 1400, height: 900 } });
   q.on('pageerror', e => errs.push('vi: ' + e.message)); q.on('requestfailed', r => failed.push(r.url() + ' (vi)'));
   await q.goto(url + '?lang=vi', { waitUntil: 'load' }); await q.waitForTimeout(2500);
-  const vi = await q.evaluate(() => ({ lang: document.documentElement.lang, nav: document.querySelector('[data-lg="nav.gear"]').textContent, want: window.I18N.vi && I18N.vi['nav.gear'] }));
+  const vi = await q.evaluate(async () => ({ lang: document.documentElement.lang, nav: document.querySelector('[data-lg="nav.gear"]').textContent, want: window.I18N.vi && I18N.vi['nav.gear'],
+    font: (await document.fonts.load('32px "VT323 vi"', 'Tiếng Việt')).some(f => f.status === 'loaded') }));
+  const ru = await b.newPage({ viewport: { width: 1400, height: 900 } });   // the Cyrillic faces are separate files, fetched only for Cyrillic text
+  ru.on('pageerror', e => errs.push('ru: ' + e.message)); ru.on('requestfailed', r => failed.push(r.url() + ' (ru)'));
+  await ru.goto(url + '?lang=ru', { waitUntil: 'load' }); await ru.waitForTimeout(2000);
+  const ruFont = await ru.evaluate(async () => (await document.fonts.load('32px Monocraft', 'Русский')).some(f => f.status === 'loaded' && /U\+400/i.test(f.unicodeRange)));
   const r = await b.newPage({ viewport: { width: 1400, height: 900 } }), rerr = [];
   r.on('pageerror', e => rerr.push(e.message)); await r.route(/lang-vi\./, x => x.abort());
   await r.goto(url + '?lang=vi', { waitUntil: 'load' }); await r.waitForTimeout(2500);
   const nopack = await r.evaluate(() => ({ lang: document.documentElement.lang, app: typeof render === 'function', text: (document.getElementById('main')?.innerText || '').length }));
   await b.close();
-  const langOk = vi.lang === 'vi' && !!vi.want && vi.nav === vi.want && nopack.lang === 'en' && nopack.app && nopack.text > 40 && !rerr.length;
+  const langOk = vi.lang === 'vi' && !!vi.want && vi.nav === vi.want && vi.font && ruFont && nopack.lang === 'en' && nopack.app && nopack.text > 40 && !rerr.length;
   console.log(`site: ${st.scripts} scripts, app ${st.app ? 'started' : 'NOT started'}, ${st.gear} gear items, ` +
     `home page ${st.text} chars, ${failed.length} missing files, ${errs.length} script errors; ` +
-    `language pack ${langOk ? 'loads, and a missing pack leaves English' : 'FAILED ' + JSON.stringify({ vi, nopack, rerr })}`);
+    `language pack ${langOk ? 'loads with its fonts, and a missing pack leaves English' : 'FAILED ' + JSON.stringify({ vi, ruFont, nopack, rerr })}`);
   [...failed, ...errs].slice(0, 10).forEach(x => console.log('  ' + x));
   process.exit(!errs.length && !failed.length && st.app && st.gear > 0 && st.text > 40 && langOk ? 0 : 1);
 })();

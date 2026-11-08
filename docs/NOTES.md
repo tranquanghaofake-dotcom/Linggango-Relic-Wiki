@@ -935,4 +935,21 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   on each, the size of the menu button. English readers also see a two-row header at 901 to 1180 px now (it was one row with a 70 to
   170 px search box): a visible change, flagged for the owner.
 - The result of the second full `build/check.sh` is recorded in the line after this one once it has finished.
+- Result of the second full `build/check.sh` (on `083aace`, the header fix): green. Invariants 0 broken; 3,918 detail pages off the shared
+  layout 0; page text 0 problems; style: passes (the 768 px AE2 failure is gone); a11y and timing 0 broken; site check passes.
+
+## 2026-11-08: multilingual, fonts for ru and vi (the owner chose V2 for Vietnamese)
+- ru: `Monocraft-Cyrillic.woff2` and `Monocraft-Bold-Cyrillic.woff2` (about 3 KB each, from the v4.2.1 release), same family as Monocraft with a
+  `unicode-range`, so Russian labels and titles use Monocraft itself. vi: `VT323-Vietnamese.woff2` (VT323, SIL OFL 1.1, about 20 KB), family
+  `VT323 vi`, `size-adjust:127%`, used for titles and labels under `html[lang=vi]`; body text stays Be Vietnam Pro. Credit added to the footer's
+  Art paragraph (still English by design), `fonts/README.md`, `OFL-VT323.txt`. The offline file inlines the faces (+about 33 KB); the site serves them
+  as files fetched only when the text needs them.
+- Checked: `checks/i18n.js` font block passes on the offline file and reports each of two deliberate faults (Cyrillic faces removed; VT323
+  removed); `site_check.js` loads the Cyrillic and VT323 files from the site build with no failed request; six English routes against the
+  build before i18n: 0.148% of pixels differ on each (the menu button), fonts change nothing in English; vi and ru pages at 1440 px looked at.
+  A first font test (text width against the browser's default font) gave a green result that proved nothing, because Chromium picks a system
+  face per missing glyph; replaced by asking which faces the text loads.
+- Still open: Russian body text is the system font (Be Vietnam Pro has no Cyrillic); Phase 2 and 3 text; icon placement tables; the
+  Vietnamese labels in VT323 should be looked at by the owner on real pages beyond the home page.- Full `build/check.sh` on the tree of this entry (fonts for ru and vi): green, exit 0 (invariants 0 broken, 3,918 detail pages off the shared
+  layout 0, page text 0 problems, style passes, a11y and timing 0 broken, site check passes with the fonts).
 
