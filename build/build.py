@@ -44,11 +44,40 @@ style = "".join('@font-face{font-family:Monocraft;font-weight:%d;font-display:sw
     + '@font-face{font-family:"Jersey 15";font-weight:400;font-display:swap;src:url(data:font/woff2;base64,%s) format("woff2")}\n' % base64.b64encode((B / "fonts" / "Jersey15.woff2").read_bytes()).decode() + style
 import hashlib
 tpl = read(S / "template.html")
-NAMES = ["data.js", "gear_data.js", "wiki_data.js", "wiki_pics.js", "scenes.js", "uiicons.js", "rooms.js", "app.js", "gear.js", "ux.js"]
+NAMES = ["data.js", "gear_data.js", "wiki_data.js", "wiki_pics.js", "scenes.js", "uiicons.js", "rooms.js", "i18n.js", "app.js", "gear.js", "ux.js"]
 LATE = {"wiki_pics.js"}   # site only: pictures of detail pages, fetched after the first page is drawn (app.js loadPics)
 
+# interface strings: build/i18n/ui.json -> one pack per language (docs/plans/2026-11-08-multilingual.md). English stays in the HTML and the JS
+# (src/i18n.js), so the table is checked against it: every key used exists, English matches, {x} and tags match in every language
+import json
+def ui_packs():
+    UI = json.loads(read(B / "i18n" / "ui.json")); ws = lambda x: re.sub(r"\s+", " ", x).strip(); used = {}
+    for m in re.finditer(r'<(\w+)\b([^>]*?)\bdata-lgh?="([\w.]+)"([^>]*)>(.*?)</\1>', tpl, re.S):
+        used[m.group(3)] = ws(m.group(5))
+    for m in re.finditer(r'<\w+\b([^>]*\bdata-lga="([^"]+)"[^>]*)>', tpl):
+        for pr in m.group(2).split(";"):
+            a, k = pr.split("="); used[k] = ws(re.search(r'\b%s="([^"]*)"' % a, m.group(1)).group(1))
+    for f in ("app.js", "gear.js", "ux.js", "rooms.js"):   # t("key", "English"): keys are written out in full so they can be found here
+        for m in re.finditer(r'\bt\("([\w.]+)"\s*,\s*("(?:[^"\\]|\\.)*")', read(S / f)): used[m.group(1)] = ws(json.loads(m.group(2)))
+        for m in re.finditer(r'\btn\("([\w.]+)"', read(S / f)): used.setdefault(m.group(1), None)
+    for k, en in used.items():
+        assert k in UI, "i18n: key %s is used but not in build/i18n/ui.json" % k
+        assert en is None or ws(UI[k]["en"]) == en, "i18n: English of %s differs from the page: %r vs %r" % (k, ws(UI[k]["en"]), en)
+    assert not set(UI) - set(used), "i18n: keys in ui.json that nothing uses: %s" % sorted(set(UI) - set(used))
+    ph = lambda x: sorted(re.findall(r"\{\w+\}", json.dumps(x))); tags = lambda x: re.findall(r"</?\w+|href=\"[^\"]*\"", json.dumps(x))
+    out = {}
+    for lang in ("vi", "ru", "pt", "es"):
+        out[lang] = {k: v[lang] for k, v in UI.items() if v.get(lang)}
+        for k, t in out[lang].items():
+            assert ph(t) == ph(UI[k]["en"]), "i18n: %s %s: {placeholders} differ from English" % (lang, k)
+            assert tags(t) == tags(UI[k]["en"]), "i18n: %s %s: tags or links differ from English" % (lang, k)
+    print("i18n:", len(UI), "keys;", ", ".join("%s %d" % (l, len(p)) for l, p in out.items()))
+    return out
+PACKS = ui_packs()
+PACKS_JS = "window.I18N=" + json.dumps(PACKS, ensure_ascii=False, separators=(",", ":")) + ";"
+
 # dist: one self-contained file for offline use
-html = tpl.replace("{{STYLE}}", "<style>\n" + style + "\n</style>")
+html = tpl.replace("{{STYLE}}", "<style>\n" + style + "\n</style>").replace("{{i18n_packs.js}}", PACKS_JS)
 for name in NAMES:
     html = html.replace("{{%s}}" % name, read(S / name))
 dist = ROOT / "dist" / "Linggango_Relic_Wiki.html"
@@ -67,7 +96,9 @@ def put(name, text):
     fn = f"{stem}.{h}.{ext}"
     (A / fn).write_text(text, encoding="utf-8")
     return "static/" + fn
-site = tpl.replace("{{STYLE}}", '<link rel="stylesheet" href="%s">' % put("style.css", style))
+site = tpl.replace("{{STYLE}}", '<link rel="stylesheet" href="%s">' % put("style.css", style)).replace("<script>\n{{i18n_packs.js}}\n</script>\n", "")
+for lang, pk in PACKS.items():   # one small file per language, fetched only when a reader picks it (src/i18n.js langPack)
+    site = site.replace("<html", '<html data-lang-%s="%s"' % (lang, put("lang-%s.js" % lang, "(window.I18N=window.I18N||{}).%s=%s;" % (lang, json.dumps(pk, ensure_ascii=False, separators=(",", ":"))))), 1)
 for name in NAMES:
     if name in LATE:
         site = site.replace("<script>\n{{%s}}\n</script>\n" % name, "").replace("<html", '<html data-pics="%s"' % put(name, read(S / name)), 1)

@@ -1,0 +1,103 @@
+{
+ "_note": "L3 of docs/plans/2026-11-08-multilingual.md. doNotTranslate: kept as written in every language. terms: English term -> text per language; src says where a term came from. Not yet reviewed by a native speaker in ru, pt, es.",
+ "doNotTranslate": [
+  "Linggango",
+  "Keeper",
+  "Warden Act",
+  "Wither Act",
+  "Armageddon",
+  "Goety",
+  "KubeJS",
+  "Must-Have",
+  "Mythic",
+  "Legendary",
+  "Epic",
+  "Rare"
+ ],
+ "terms": {
+  "Curio": {
+   "vi": "Curio",
+   "ru": "Аксессуар",
+   "pt": "Acessório",
+   "es": "Curio",
+   "src": "Curios mod lang (curios.identifier.curio): vi official is 'Phụ Kiện', kept English by D3 (owner may switch)"
+  },
+  "Act": {
+   "vi": "Act",
+   "ru": "Акт",
+   "pt": "Ato",
+   "es": "Acto",
+   "src": "wiki term (CLAUDE.md Content); proper names such as 'Act 0–I' and 'Warden Act' stay English"
+  },
+  "Boss": {
+   "vi": "Boss",
+   "ru": "Босс",
+   "pt": "Chefe",
+   "es": "Jefe",
+   "src": "vanilla ru 'Босс', es 'Jefe'; vi official 'Boss'; pt chosen (no official entry): check with a Brazilian player"
+  },
+  "Power": {
+   "vi": "Sức mạnh",
+   "ru": "Мощь",
+   "pt": "Poder",
+   "es": "Poder",
+   "src": "the wiki's own tier word, deliberately not the official 'Сила'/'Força' (those mean strength)"
+  },
+  "Equipment": {
+   "vi": "Trang bị",
+   "ru": "Снаряжение",
+   "pt": "Equipamentos",
+   "es": "Equipo",
+   "src": "chosen; no official entry"
+  },
+  "Build": {
+   "vi": "build",
+   "ru": "билд",
+   "pt": "build",
+   "es": "build",
+   "src": "gaming loanword in all four communities"
+  },
+  "Slot": {
+   "vi": "vị trí",
+   "ru": "слот",
+   "pt": "slot",
+   "es": "ranura",
+   "src": "official: vi 'Vị Trí', ru 'Слот', pt 'Slot', es 'Ranuras'"
+  },
+  "Mechanics": {
+   "vi": "Cơ chế",
+   "ru": "Механики",
+   "pt": "Mecânicas",
+   "es": "Mecánicas",
+   "src": "ru official; others chosen"
+  },
+  "Changes": {
+   "vi": "Thay đổi",
+   "ru": "Изменения",
+   "pt": "Alterações",
+   "es": "Cambios",
+   "src": "official in all four"
+  },
+  "Warden (mob)": {
+   "vi": "Warden",
+   "ru": "Хранитель",
+   "pt": "Sentinela",
+   "es": "Warden",
+   "src": "vanilla names; note ru 'Хранитель' is why 'Keeper' stays English"
+  },
+  "Ender Dragon": {
+   "vi": "Ender Dragon",
+   "ru": "Эндер-дракон",
+   "pt": "Dragão de Ender",
+   "es": "Enderdragón",
+   "src": "vanilla names; vi kept English by D3 (official 'Rồng Ender')"
+  },
+  "Wither": {
+   "vi": "Wither",
+   "ru": "Визер",
+   "pt": "Wither",
+   "es": "Wither",
+   "src": "vanilla names"
+  }
+ }
+}

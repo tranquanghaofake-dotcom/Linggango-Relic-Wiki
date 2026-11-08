@@ -900,3 +900,23 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   The comparison image went to the owner. Waiting for their pick of V1 / V2 / V3 for Vietnamese; ru needs no decision.
 - Still open: the owner's Vietnamese font choice (recommended V2); glossary; Phase 1 (engine, language menu, vi interface).
   Unverified: token cost per 1,000 characters (pilot), ru layout growth, licence note for translated mod text (plan section 10).
+
+## 2026-11-08: multilingual, Phase 1 slice (engine and page shell in vi, ru, pt, es)
+- Added `build/src/i18n.js` (`t`, `tn`, `shell`, `setLang`, the menu), `build/i18n/ui.json` (34 keys by 5 languages), `build/i18n/glossary.json`
+  (12 starting terms), `checks/i18n.js`; `build.py` checks the table against the page (key used but missing, English differs, key
+  unused, `{x}` / tags / links differ) and writes one pack per language (inline in the offline file, `static/lang-xx.<hash>.js` on the
+  site, fetched only when chosen); `shot.js --lang`; `site_check.js` loads `?lang=vi` and checks that a blocked pack leaves English.
+  The header, nav, filter column headings, footer (except the credits paragraph) and the language menu change with the language.
+  Hub, lists and every page body stay English until Phase 2 and 3.
+- A bug found on the way, fixed: `app.js` already uses `data-i` (the Path's Act tabs), so the first draft's `shell()` rewrote those
+  buttons. i18n now owns `data-lg`, `data-lgh`, `data-lga`; `build/README.md` says so. The "cycle every language and come back to
+  English: outerHTML must be identical" check is what caught it.
+- Checked: `apply_all.sh` builds; `site_check.js` green; `checks/i18n.js` run on the offline file returns no findings, and two
+  deliberate faults (a `{x}` left in a translation, a missing pack) are both reported; pixel diff of six English routes (home, gear,
+  g12, bosses, mechanics, build) against the previous build with motion off: only the header differs (the menu, and the search box
+  narrowed to make room), the page bodies are identical; screenshots of vi, ru, pt at 1440 px and 375 px looked at.
+- Not yet recorded here: the result of the full `build/check.sh` (started, still running when this entry was written; the `site`
+  workflow runs it on this push too). Nothing was pushed to `main`; the work is on `claude/busy-ride-88rgef`.
+- Still open: the owner's choice of Vietnamese font (V1, V2 or V3; ru uses upstream Monocraft and needs no choice) and the fonts
+  step itself; the page-body strings (Phase 2) and the data text (Phase 3); the icon placement tables per language; the pilot that
+  measures tokens per 1,000 characters; native review of ru, pt, es (the glossary and `ui.json` are unreviewed).

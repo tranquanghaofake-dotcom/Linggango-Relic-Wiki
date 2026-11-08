@@ -1490,7 +1490,7 @@ function showTip(n){if(!EXT.tip.some(f=>f(n)))showTipBase(n)}
 function loadPics(){const u=document.documentElement.dataset.pics;if(!u||window.PICS)return;const s=document.createElement("script");s.src=u;document.head.appendChild(s)}
 function picsLoaded(){if(!window.PICS_MISS)return;window.PICS_MISS=0;const y=scrollY;render();decorate();scrollTo(0,y)}
 const needPics=()=>{if(!window.PICS)window.PICS_MISS=1};
-document.addEventListener("DOMContentLoaded",()=>{render();decorate();loadPics()});
+document.addEventListener("DOMContentLoaded",()=>{const go=()=>{langBoot();render();decorate();loadPics()};I18N_READY?I18N_READY.then(go):go()});
 function refresh(){const h=decodeURIComponent(location.hash);if(h==="#home"||/^#(slot|act|mod)\//.test(h)){SOFT=true;render()}else location.hash="#home"}
 /* page change: a cross-fade between sections (View Transitions, where the browser has them); switches inside one page
    (an Equipment Act, a Path filter) redraw in place so the controls you just pressed do not blink */

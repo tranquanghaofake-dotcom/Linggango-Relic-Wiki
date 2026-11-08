@@ -1,0 +1,24 @@
+// Languages (docs/plans/2026-11-08-multilingual.md). Runs in the page (check.js: `bad` in scope; the offline file has every pack inline).
+// Every language draws the shell in its own words with nothing half-filled, English comes back untouched, a missing key shows English,
+// and counted strings pick the language's CLDR plural form (Russian has four, Vietnamese one).
+{ const en0 = [...document.querySelectorAll('[data-lg],[data-lgh]')].map(n => n.innerHTML).join('|'), at0 = [...document.querySelectorAll('[data-lga]')].map(n => n.outerHTML).join('|');
+  for (const c of LANG_CODES.filter(x => x !== 'en')) {
+    if (!I18N[c]) { bad.push('i18n: no pack for ' + c); continue; }
+    useLang(c);
+    const els = [...document.querySelectorAll('[data-lg],[data-lgh]')];
+    for (const n of els) { const k = n.dataset.lg || n.dataset.lgh;
+      if (!n.textContent.trim()) bad.push('i18n ' + c + ': empty ' + k);
+      if (/\{\w+\}/.test(n.textContent)) bad.push('i18n ' + c + ': placeholder left in ' + k); }
+    if (document.documentElement.lang !== c) bad.push('i18n: <html lang> is ' + document.documentElement.lang + ' for ' + c);
+    if (els.map(n => n.innerHTML).join('|') === en0) bad.push('i18n ' + c + ': the shell is still English');
+    if ([...document.querySelectorAll('[data-lga]')].map(n => n.outerHTML).join('|') === at0) bad.push('i18n ' + c + ': attributes (placeholder, aria-label) still English');
+    if (document.getElementById('lang').value !== c) bad.push('i18n: the menu does not show ' + c);
+  }
+  useLang('en');
+  if ([...document.querySelectorAll('[data-lg],[data-lgh]')].map(n => n.innerHTML).join('|') !== en0 || [...document.querySelectorAll('[data-lga]')].map(n => n.outerHTML).join('|') !== at0) bad.push('i18n: English did not come back after the languages');
+  if (t('no.such.key', 'x {n}', { n: 2 }) !== 'x 2') bad.push('i18n: t() does not fall back to the English text');
+  const f = { one: '{n} a', few: '{n} b', many: '{n} c', other: '{n} d' };
+  useLang('ru'); const ru = [1, 2, 5, 21, 22, 25].map(n => tn('no.such.key', n, f)).join(',');
+  if (ru !== '1 a,2 b,5 c,21 a,22 b,25 c') bad.push('i18n: Russian plural forms ' + ru);
+  useLang('vi'); if (tn('no.such.key', 2, f) !== '2 d') bad.push('i18n: Vietnamese counted string ' + tn('no.such.key', 2, f));
+  useLang('en'); if (tn('no.such.key', 1, f) !== '1 a' || tn('no.such.key', 2, f) !== '2 d') bad.push('i18n: English plural forms'); }

@@ -1,5 +1,5 @@
 // Screenshots of wiki routes from the built site, to look at a change before committing (cloud sessions have no screen).
-// Usage: node build/shot.js '#home' '#gear' '#g12' [--width 1440] [--out /tmp/wiki-shots] [--diff DIR [--tol 2]]   (run from the repo root, after a build)
+// Usage: node build/shot.js '#home' '#gear' '#g12' [--width 1440] [--lang vi|ru|pt|es] [--out /tmp/wiki-shots] [--diff DIR [--tol 2]]   (run from the repo root, after a build)
 // Prints one PNG path per route; exits 1 if a script error happened while drawing them.
 // --diff DIR compares each shot with the file of the same name in DIR (shots of an earlier build: check out the old
 // commit, build, shoot into DIR) and writes <name>.diff.png (changed pixels red over a dimmed copy) with the share of
@@ -10,7 +10,7 @@ const { chromium } = (() => { try { return require('playwright'); } catch { // g
   return require(path.join(require('child_process').execSync('npm root -g').toString().trim(), 'playwright')); } })();
 const args = process.argv.slice(2);
 const opt = (k, d) => { const i = args.indexOf(k); return i >= 0 ? args.splice(i, 2)[1] : d; };
-const out = opt('--out', '/tmp/wiki-shots'), width = +opt('--width', 1440), base = opt('--diff', null), tol = +opt('--tol', 2);
+const out = opt('--out', '/tmp/wiki-shots'), width = +opt('--width', 1440), base = opt('--diff', null), tol = +opt('--tol', 2), lang = opt('--lang', null);
 const b64 = f => 'data:image/png;base64,' + fs.readFileSync(f).toString('base64');
 async function diff(page, a, b, f) {   // in the browser: no image library needed
   const r = await page.evaluate(async ([A, B, T]) => {
@@ -36,13 +36,13 @@ async function diff(page, a, b, f) {   // in the browser: no image library neede
   const b = await chromium.launch(), p = await b.newPage({ viewport: { width, height: 900 } });
   if (base) await p.emulateMedia({ reducedMotion: 'reduce' });
   const errs = []; p.on('pageerror', e => errs.push(e.message));
-  await p.goto('file://' + path.resolve('index.html'), { waitUntil: 'load' });
+  await p.goto('file://' + path.resolve('index.html') + (lang ? '?lang=' + lang : ''), { waitUntil: 'load' });
   await p.waitForTimeout(1500);
   let changed = 0;
   for (const h of args.length ? args : ['#home']) {
     await p.evaluate(h => { location.hash = h; if (typeof render === 'function') render(); }, h);
     await p.waitForTimeout(800);
-    const f = path.join(out, (h.replace(/[^\w-]+/g, '_').replace(/^_+/, '') || 'hub') + `_${width}.png`);
+    const f = path.join(out, (h.replace(/[^\w-]+/g, '_').replace(/^_+/, '') || 'hub') + `_${width}${lang ? '_' + lang : ''}.png`);
     await p.screenshot({ path: f });
     console.log(f);
     if (!base) continue;

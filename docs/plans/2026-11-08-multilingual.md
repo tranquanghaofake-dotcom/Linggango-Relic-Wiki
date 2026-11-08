@@ -83,8 +83,8 @@ Nguồn mở đã xem làm tham chiếu (chưa đọc mã, chưa kiểm giấy p
 
 ## 7. Các phần mới trong repo
 ```
-build/src/i18n.js            t(), tn() (số nhiều), tr(), trạng thái ngôn ngữ, nạp gói; thêm vào NAMES của build.py
-build/i18n/en.json           khóa giao diện + chuỗi Anh gốc (do extract.py tạo từ code, rồi giữ tay)
+build/src/i18n.js            t(), tn() (số nhiều), trạng thái ngôn ngữ, nạp gói, menu (đã làm); tr() cho chữ dữ liệu: Phase 3
+build/i18n/ui.json           chữ giao diện: {khóa: {en, vi, ru, pt, es}}; build.py tách thành gói từng ngôn ngữ và kiểm với trang (đã làm, Phase 1)
 build/i18n/glossary.json     L3
 build/i18n/tm/<lang>.json    L4 (commit; có `en` để xem diff dịch được)
 build/i18n/official/<l>.json L1 (commit; kết quả harvest, nhỏ)
@@ -105,7 +105,7 @@ Mỗi phase đi hết CLAUDE.md bước 2–6 và ship riêng; mỗi nhóm trang
 - **0.4** Bạn chốt D1–D4.
 
 ### Phase 1: động cơ + vỏ giao diện, tiếng Việt (≈2 phiên)
-Người đọc thấy: menu ngôn ngữ; đầu trang, nav, footer, hub bằng tiếng Việt. Làm: `i18n.js`, gói ui, `build.py` (gói + bản offline), `shot.js --lang`, `site_check.js` (gói tải được, mất gói → vẫn tiếng Anh), `checks/i18n.js`. **Pilot đo token**: dịch hub + một trang curio hết đường L1→L6, ghi token / 1.000 ký tự, so DeepL với Claude trên 40 chuỗi mỗi ngôn ngữ (bạn chấm bản vi). Cập nhật mục 6 bằng số thật rồi mới sang Phase 2.
+**Đã làm (mục 13.4): menu ngôn ngữ + vỏ trang (header, nav, thanh lọc, footer) ở cả 4 ngôn ngữ; trang hub dời sang Phase 2(a).** Dự kiến ban đầu: menu ngôn ngữ; đầu trang, nav, footer, hub bằng tiếng Việt. Làm: `i18n.js`, gói ui, `build.py` (gói + bản offline), `shot.js --lang`, `site_check.js` (gói tải được, mất gói → vẫn tiếng Anh), `checks/i18n.js`. **Pilot đo token**: dịch hub + một trang curio hết đường L1→L6, ghi token / 1.000 ký tự, so DeepL với Claude trên 40 chuỗi mỗi ngôn ngữ (bạn chấm bản vi). Cập nhật mục 6 bằng số thật rồi mới sang Phase 2.
 
 ### Phase 2: toàn bộ chữ giao diện, tiếng Việt (≈3 phiên, ship từng nhóm)
 (a) hub + Act + The Path; (b) Curios; (c) Equipment + Build planner; (d) Bosses + trang Keeper / side boss; (e) Mechanics + Changes. Mỗi nhóm: tách chữ ra `t()`, dịch, shot 1440 px và 375 px, bạn xem. Chuỗi có số nhiều dùng `tn()`.
@@ -175,3 +175,13 @@ Số mod ship từng file: `ru_ru` 170, `pt_br` 114, `es_es` 91, `es_mx` 70, `vi
 ### 13.3 Icon trong câu dịch (spike trên 301 / 279 cặp dịch chính thức không mơ hồ)
 - Cách "chạy lại bảng từ khóa trên bản dịch" cho tập icon khác bản Anh nhiều (cùng tập: ru 27%, es 48%) vì bảng từ khóa vốn đã mờ ngay cả ở tiếng Anh và nhiều cặp dịch không sát nghĩa.
 - Cách chọn: **tập icon từ câu Anh (100% giống bản Anh theo cách xây)**, bảng ngôn ngữ chỉ tìm vị trí. Bản nháp chưa chỉnh tìm được vị trí cho ru 61% (66/109 icon), es 84% (78/93); phần còn lại đặt đầu dòng. Chỉnh bảng bằng glossary khi làm Phase 1.
+
+### 13.4 Lát cắt Phase 1: động cơ + vỏ trang (làm ngày 2026-11-08, nhánh `claude/busy-ride-88rgef`)
+- **Có gì:** `build/src/i18n.js` (`t`, `tn`, `shell`, `setLang`, menu), `build/i18n/ui.json` (34 khóa × 5 ngôn ngữ), `build/i18n/glossary.json` (12 thuật ngữ khởi đầu), `build.py` (kiểm bảng chuỗi rồi tách gói: nhúng sẵn trong file offline, mỗi ngôn ngữ một file `static/lang-xx.<hash>.js` trên site, chỉ tải khi chọn), `shot.js --lang`, `site_check.js` (gói tải được; gói bị chặn thì vẫn tiếng Anh), `checks/i18n.js`.
+- **Cách chọn ngôn ngữ:** `?lang=xx` → lựa chọn lần trước (`localStorage`) → tiếng Anh. Chưa đoán theo trình duyệt vì bản dịch chưa được soát (Phase 5).
+- **Phần cố ý để nguyên tiếng Anh:** đoạn "Art" của footer (ghi công và giấy phép: chữ pháp lý giữ nguyên để không sai lệch); chữ do JS sinh ra (Phase 2 và 3).
+- **Lỗi đã bắt được nhờ kiểm bằng so `outerHTML`:** `app.js` đã dùng sẵn `data-i` cho nút Act của The Path; bản đầu của tôi cũng dùng `data-i` nên `shell()` ghi đè các nút đó. Đổi sang `data-lg` / `data-lgh` / `data-lga` (đã kiểm không ai dùng). Bài học: kiểm "đi vòng các ngôn ngữ rồi về tiếng Anh phải y nguyên" là phép kiểm cần có.
+- **Điểm ảnh:** so với bản build trước (`b0c2c0e`, cả hai chụp tắt motion, 6 route ở 1440 px): chỉ vùng header đổi (menu mới, ô tìm kiếm co lại), thân trang giữ nguyên.
+- **Giao diện cần bạn duyệt:** menu ngôn ngữ ở bên phải header, dùng luôn kiểu `select` của wiki; ở 375 px nằm cùng hàng với logo. Ru hiện còn dùng font hệ thống cho chữ Cyrillic cho đến khi làm bước font (13.1).
+- **Chưa làm:** font ru / vi (chờ bạn chọn V1–V3), chữ do JS sinh, `tr()` cho dữ liệu, bảng vị trí icon, gói `data`.
+
