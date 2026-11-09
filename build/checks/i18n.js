@@ -38,7 +38,10 @@
 { const h0 = location.hash;
   for (const c of LANG_CODES.filter(x => x !== 'en')) { useLang(c); window.__TRLOG = new Set();
     const st0 = JSON.stringify(st); Object.assign(st, { c: ['ME'], r: ['4'], s: 'Ring', q: 'role:melee -mod:brutality' });   // the Curios page with filters on: the pills, the legend, the table of tiers
-    for (const h of ['#', '#act/2', '#act/99', '#home', '#i5', '#g12', '#gs3']) { location.hash = h; render();
+    // curio pages that reach every helper of the page body: a relic (its level panel too), the stacking rules, a ladder, a scarce material, a Must-Have, a Keeper gate, a ring gate, an evolution
+    const cp = [x => RL[x.id], x => SK.i[x.id] && SK.i[x.id].s === 'n', x => SK.i[x.id] && SK.i[x.id].l, x => SK.i[x.id] && SK.i[x.id].l && SK.i[x.id].l[2], x => x.sca, isMust, x => x.gk, x => x.rq, x => evo().from[x.id], x => (evo().to[x.id] || []).length, x => x.g === 'Loot'].map(f => D.find(x => { try { return f(x); } catch (e) { return false; } })).filter(Boolean).map(x => '#i' + x.ix);
+    for (const h of ['#', '#act/2', '#act/99', '#home', '#i5', '#g12', '#gs3', ...cp]) { location.hash = h; render();
+      const rv = document.querySelector('[data-rlv]'); if (rv) { rv.value = Math.max(1, Math.floor(rv.max / 2)); rv.dispatchEvent(new Event('input', { bubbles: true })); }   // the relic panel after a move of the slider
       const t = document.getElementById('main').innerText; if (/\{\w+\}|\$\{|undefined|NaN|\[object/.test(t)) bad.push('i18n ' + c + ' ' + h + ': a placeholder or "undefined" shows on the page'); }
     // the tooltip's chrome: Keeper-gated, ring-gated, Must-Have, evolving, estimate, luck window
     for (const d of [D.find(x => x.gk), D.find(x => x.rq), D.find(isMust), D.find(x => evo().from[x.id]), D.find(x => (evo().to[x.id] || []).length), D.find(x => x.pe), D.find(x => x.a !== x.t)].filter(Boolean)) {

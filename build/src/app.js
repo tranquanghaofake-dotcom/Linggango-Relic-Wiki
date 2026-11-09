@@ -569,7 +569,7 @@ function rtreeHtml(d,insp){
  return node(d.id,1,0)}
 function recipeTree(d){
  const host=el("s-recipe"),tr=host&&rtreeHtml(d);if(!tr)return;
- host.insertAdjacentHTML("afterend",`<section class="s ip-sec" id="s-tree"><h2>Recipe tree</h2><ul class="rtree">${tr}</ul><p class="note">Curio ingredients open into their own recipes. Counts are per craft.</p></section>`)}
+ host.insertAdjacentHTML("afterend",`<section class="s ip-sec" id="s-tree"><h2>${T("Recipe tree")}</h2><ul class="rtree">${tr}</ul><p class="note">${T("Curio ingredients open into their own recipes. Counts are per craft.")}</p></section>`)}
 
 /* ---------- relic levels: per-level stats from the pack's Relics configs (RL, tools/relic_levels.py) ---------- */
 var RLV={},RLMAX=Math.max(...Object.values(RL).map(r=>r.mx));
@@ -604,22 +604,22 @@ function rlBQ(t,v){return rlBase(t,rlQMap(t).get(rlSnap(t,v)))}
 function rlRelicQ(r,q){if(q.some(v=>v<0))return -1;let o=0,n=r.ab.length,s=0;
  r.ab.forEach(x=>{const qs=x.st.map((t,j)=>rlSnap(t,q[o+j]));o+=x.st.length;if(x.nq)n--;else s+=qs.length?Math.trunc(qs.reduce((p,c)=>p+c,0)/qs.length):0});
  return n>0?Math.max(0,Math.min(10,Math.trunc(s/n))):0}
-function rlStars(q){return `<span class="rst" title="${q/2} of 5 stars">${[0,1,2,3,4].map(i=>`<i class="${q>=2*i+2?"f":q>=2*i+1?"h":""}">★</i>`).join("")}</span>`}
+function rlStars(q){return `<span class="rst" title="${T("{n} of 5 stars",{n:q/2})}">${[0,1,2,3,4].map(i=>`<i class="${q>=2*i+2?"f":q>=2*i+1?"h":""}">★</i>`).join("")}</span>`}
 const RLQO=(q,t)=>`${q===-2?`<option value="-2" selected>${T("mixed")}</option>`:""}<option value="-1"${q===-1?" selected":""}>${T("any roll")}</option>${(t?[...rlQMap(t).keys()].sort((a,b)=>a-b):[...Array(11).keys()]).map(v=>`<option value="${v}"${v===q?" selected":""}>${v/2} ★</option>`).join("")}`;
 function rlStat(t,z,q){const a=(q>=0?[rlVal(t,rlBQ(t,q),z)]:[rlVal(t,t.lo,z),rlVal(t,t.hi,z)].sort((p,c)=>p-c)).map(v=>rlFmt(t.p,v));if(!a[1])a[1]=a[0];
  return t.f.replace("%1$s",a[0]===a[1]?a[0]:a[0]+" ~ "+a[1]).replace(/%%/g,"%").replace(/\.$/,"")}
 function rlXp(r,l){let t=0;for(let i=0;i<l;i++)t+=r.xp[0]+r.xp[1]*i;return t}
 // tooltip: no spend is assumed, so each ability shows its base and the most this level could buy for it alone
 function rlTip(d){const r=RL[d.id],l=Math.min(st.rl,r.mx),q=st.rq;
- return `<div class="trl"><b>Relic level ${l} / ${r.mx}</b> <small>${l} point${l===1?"":"s"} to spend${q>=0?` · every stat rolled near ${q/2} ★`:""}</small>${r.ab.map(x=>{if(x.rq>l)return `<p class="trlk">${ui("lock")} ${esc(TD(x.n))}: unlocks at level ${x.rq}</p>`;
-  const z=Math.min(x.mx,Math.floor(l/x.pt));return `<p><b>${esc(TD(x.n))}</b>${x.st.length?` <small>${z?`up to ${z}/${x.mx}`:`0/${x.mx}`}</small>${x.st.map(t=>` · ${esc(TD(t.n))} ${esc(rlStat(t,0,q))}${z?` → ${esc(rlStat(t,z,q))}`:""}`).join("")}`:" <small>passive</small>"}</p>`}).join("")}</div>`}
+ return `<div class="trl"><b>${T("Relic level {l} / {max}",{l,max:r.mx})}</b> <small>${TN(l,"{n} point to spend","{n} points to spend")}${q>=0?" · "+T("every stat rolled near {n} ★",{n:q/2}):""}</small>${r.ab.map(x=>{if(x.rq>l)return `<p class="trlk">${ui("lock")} ${T("{name}: unlocks at level {lv}",{name:esc(TD(x.n)),lv:x.rq})}</p>`;
+  const z=Math.min(x.mx,Math.floor(l/x.pt));return `<p><b>${esc(TD(x.n))}</b>${x.st.length?` <small>${z?T("up to {z}/{max}",{z,max:x.mx}):`0/${x.mx}`}</small>${x.st.map(t=>` · ${esc(TD(t.n))} ${esc(rlStat(t,0,q))}${z?` → ${esc(rlStat(t,z,q))}`:""}`).join("")}`:` <small>${T("passive")}</small>`}</p>`}).join("")}</div>`}
 function rlBody(id,compact){const r=RL[rlId(id)],s=rlState(id),free=rlFree(r,s),rq=rlRelicQ(r,s.q);let o=0;
- return `<p class="rls"><b>Level ${s.l} / ${r.mx}</b> · <span class="${free?"rlf":""}">${free} point${free===1?"":"s"} free</span> <button class="ghost" data-rlx="auto">Auto-spend</button>${s.a.some(Boolean)?` <button class="ghost" data-rlx="reset">Reset</button>`:""}</p>
- ${s.q.length?`<p class="rlq"><label>Roll quality <select data-rlq="all" aria-label="Set every stat's stars">${RLQO(s.q.every(v=>v===s.q[0])?s.q[0]:-2)}</select></label> ${rq>=0?`Relic ${rlStars(rq)} <small>${rq/2} / 5</small>`:`<small>pick stars to see the relic's rating</small>`}</p>`:""}
- ${r.ab.map((x,i)=>{const lock=x.rq>s.l;return `<div class="rla${lock?" lk":""}"><div class="rlah"><b>${esc(TD(x.n))}</b>${lock?`<span>${ui("lock")} unlocks at relic level ${x.rq}</span>`:!x.mx?`<span>passive, no upgrades</span>`:`<span>level ${s.a[i]} / ${x.mx}${x.pt>1?` · ${x.pt} points each`:""}</span><button class="chip" data-rlx="-${i}"${s.a[i]?"":" disabled"} aria-label="Lower ${esc(TD(x.n))}">−</button><button class="chip" data-rlx="+${i}"${s.a[i]<x.mx&&free>=x.pt?"":" disabled"} aria-label="Raise ${esc(TD(x.n))}">+</button>`}</div>${x.st.length?`<ul>${x.st.map(t=>{const j=o++;return `<li>${esc(TD(t.n))}: <b>${esc(rlStat(t,lock?0:s.a[i],s.q[j]))}</b>${t.lo===t.hi?"":` <select class="rlqs" data-rlq="${j}" aria-label="${esc(TD(t.n))} stars">${RLQO(s.q[j],t)}</select>`}</li>`}).join("")}</ul>`:""}</div>`}).join("")}
- ${compact?"":`<p class="note">Each relic level gives 1 point; spend them with + and −, or let Auto-spend spread them evenly. Values follow this pack's config and the mod's own rounding: a new relic rolls a random base inside the range (its stars: 0 ★ is the worst roll, 5 ★ the best; the relic's rating averages its abilities), upgrades scale it, and some stats have a hard cap. Reaching level ${s.l} takes ${rlXp(r,s.l).toLocaleString()} relic XP.</p>`}`}
+ return `<p class="rls"><b>${T("Level {l} / {max}",{l:s.l,max:r.mx})}</b> · <span class="${free?"rlf":""}">${TN(free,"{n} point free","{n} points free")}</span> <button class="ghost" data-rlx="auto">${T("Auto-spend")}</button>${s.a.some(Boolean)?` <button class="ghost" data-rlx="reset">${T("Reset")}</button>`:""}</p>
+ ${s.q.length?`<p class="rlq"><label>${T("Roll quality")} <select data-rlq="all" aria-label="${T("Set every stat's stars")}">${RLQO(s.q.every(v=>v===s.q[0])?s.q[0]:-2)}</select></label> ${rq>=0?T("Relic {stars} {rating}",{stars:rlStars(rq),rating:`<small>${rq/2} / 5</small>`}):`<small>${T("pick stars to see the relic's rating")}</small>`}</p>`:""}
+ ${r.ab.map((x,i)=>{const lock=x.rq>s.l;return `<div class="rla${lock?" lk":""}"><div class="rlah"><b>${esc(TD(x.n))}</b>${lock?`<span>${ui("lock")} ${T("unlocks at relic level {lv}",{lv:x.rq})}</span>`:!x.mx?`<span>${T("passive, no upgrades")}</span>`:`<span>${T("level {a} / {max}",{a:s.a[i],max:x.mx})}${x.pt>1?" · "+T("{n} points each",{n:x.pt}):""}</span><button class="chip" data-rlx="-${i}"${s.a[i]?"":" disabled"} aria-label="${esc(T("Lower {name}",{name:TD(x.n)}))}">−</button><button class="chip" data-rlx="+${i}"${s.a[i]<x.mx&&free>=x.pt?"":" disabled"} aria-label="${esc(T("Raise {name}",{name:TD(x.n)}))}">+</button>`}</div>${x.st.length?`<ul>${x.st.map(t=>{const j=o++;return `<li>${esc(TD(t.n))}: <b>${esc(rlStat(t,lock?0:s.a[i],s.q[j]))}</b>${t.lo===t.hi?"":` <select class="rlqs" data-rlq="${j}" aria-label="${esc(T("{name} stars",{name:TD(t.n)}))}">${RLQO(s.q[j],t)}</select>`}</li>`}).join("")}</ul>`:""}</div>`}).join("")}
+ ${compact?"":`<p class="note">${T("Each relic level gives 1 point; spend them with + and −, or let Auto-spend spread them evenly. Values follow this pack's config and the mod's own rounding: a new relic rolls a random base inside the range (its stars: 0 ★ is the worst roll, 5 ★ the best; the relic's rating averages its abilities), upgrades scale it, and some stats have a hard cap.")} ${T("Reaching level {l} takes {xp} relic XP.",{l:s.l,xp:rlXp(r,s.l).toLocaleString()})}</p>`}`}
 function rlPanel(id,compact){const r=RL[rlId(id)],s=rlState(id);
- return `<div class="rlp${compact?" sm":""}" data-rl="${esc(id)}"><label class="rlh">Relic level <input type="range" min="0" max="${r.mx}" value="${s.l}" data-rlv aria-label="Relic level"></label><div class="rlb">${rlBody(id,compact)}</div></div>`}
+ return `<div class="rlp${compact?" sm":""}" data-rl="${esc(id)}"><label class="rlh">${T("Relic level")} <input type="range" min="0" max="${r.mx}" value="${s.l}" data-rlv aria-label="${T("Relic level")}"></label><div class="rlb">${rlBody(id,compact)}</div></div>`}
 function rlDraw(p){p.querySelector(".rlb").innerHTML=rlBody(p.dataset.rl,p.classList.contains("sm"))}
 document.addEventListener("input",e=>{const v=e.target.closest("[data-rlv]");if(!v)return;const p=v.closest("[data-rl]"),id=p.dataset.rl;RLV[id]=rlFit(RL[rlId(id)],+v.value,rlState(id).a,rlState(id).q);rlDraw(p)});
 document.addEventListener("change",e=>{const g=e.target.closest("[data-rlq]");if(g){const p=g.closest("[data-rl]"),s=rlState(p.dataset.rl),v=+g.value;if(g.dataset.rlq==="all"){if(v>-2)s.q=rlStats(RL[rlId(p.dataset.rl)]).map(t=>v<0?-1:rlSnap(t,v))}else s.q[+g.dataset.rlq]=v;location.hash.startsWith("#build")?bSave():rlDraw(p);return}
@@ -632,17 +632,17 @@ function rlSlots(id){const r=RL[rlId(id)],s=rlState(id),o={};
  let n=0;r.ab.forEach((x,i)=>{const o0=n;n+=x.st.length;if(x.rq<=s.l)x.st.forEach((t,j)=>{const k=/slots?/i.test(t.f)&&Object.keys(SLOT_BASE).find(k=>k.toLowerCase()===t.n.toLowerCase().replace(/s$/,""));if(k)o[k]=(o[k]||0)+jround(s.q[o0+j]>=0?rlVal(t,rlBQ(t,s.q[o0+j]),s.a[i]):Math.min(rlVal(t,t.lo,s.a[i]),rlVal(t,t.hi,s.a[i])))})});return o}
 
 /* ---------- duplicates: what a second copy does, read from the mods' bytecode (tools/stacking.py) ---------- */
-const SKL={y:"Stacks",p:"Partly stacks",n:"Doesn't stack",u:"One per player"};
-const SKW={u:"The game won't let you equip a second copy.",s:"Its stat bonus is tied to the slot it sits in, so each copy adds it again.",c:"Its effect counts how many copies you wear.",
- f:"Its stat bonus uses one fixed ID, so a second copy just replaces the first.",o:"Its effect only checks whether one is worn."};
+const SKL={y:N("Stacks"),p:N("Partly stacks"),n:N("Doesn't stack"),u:N("One per player")};
+const SKW={u:N("The game won't let you equip a second copy."),s:N("Its stat bonus is tied to the slot it sits in, so each copy adds it again."),c:N("Its effect counts how many copies you wear."),
+ f:N("Its stat bonus uses one fixed ID, so a second copy just replaces the first."),o:N("Its effect only checks whether one is worn.")};
 const pct=v=>Math.round(v*100)+"%";
-function skTag(id){const k=SK.i[id];return k?(k.s?`<span class="sk sk-${k.s}">${SKL[k.s]}</span>`:"")+(k.l?`<span class="sk sk-l">${esc(k.l[0])} ladder #${k.l[1]}</span>`:""):""}
-function skLadderText(l){return `${esc(l[0])} set, place ${l[1]}. Linggango lets only the best ${esc(l[0])} curio you wear work in full; the next best keeps ${pct(SK.f[0])} of its effect (upsides and costs alike), the third ${pct(SK.f[1])}, and any more switch off.${l[2]?` This one switches off completely as soon as a better ${esc(l[0])} curio is worn.`:""} A copy of the same curio doesn't outrank it.`}
+function skTag(id){const k=SK.i[id];return k?(k.s?`<span class="sk sk-${k.s}">${T(SKL[k.s])}</span>`:"")+(k.l?`<span class="sk sk-l">${esc(T("{set} ladder #{n}",{set:k.l[0],n:k.l[1]}))}</span>`:""):""}
+function skLadderText(l){return T("{set} set, place {n}. Linggango lets only the best {set} curio you wear work in full; the next best keeps {f1} of its effect (upsides and costs alike), the third {f2}, and any more switch off.",{set:esc(l[0]),n:l[1],f1:pct(SK.f[0]),f2:pct(SK.f[1])})+(l[2]?" "+T("This one switches off completely as soon as a better {set} curio is worn.",{set:esc(l[0])}):"")+" "+T("A copy of the same curio doesn't outrank it.")}
 function skSec(d){const k=SK.i[d.id];if(!k)return"";
  const lad=k.l?D.filter(x=>SK.i[x.id]&&SK.i[x.id].l&&SK.i[x.id].l[0]===k.l[0]).sort((a,b)=>SK.i[a.id].l[1]-SK.i[b.id].l[1]):[];
- return `${k.s?`<p><b class="sk sk-${k.s}">${SKL[k.s]}</b> ${[...k.w].map(c=>SKW[c]).join(" ")}</p>`:""}${k.l?`<p><b class="sk sk-l">${esc(k.l[0])} ladder</b> ${skLadderText(k.l)}</p>
- <ol class="sklad">${lad.map(x=>`<li${x===d?' class="me"':""}>${img(x.id)}<a href="#i${x.ix}" data-t="${x.ix}">${esc(TD(x.n))}</a>${SK.i[x.id].l[2]?' <small>switches off when outranked</small>':""}</li>`).join("")}</ol>`:""}
- <p class="note">Read from the mods' code by a script: it looks at how each curio's bonuses are keyed and how its effects check what you wear. Effects coded in unusual ways can be missed.</p>`}
+ return `${k.s?`<p><b class="sk sk-${k.s}">${T(SKL[k.s])}</b> ${[...k.w].map(c=>T(SKW[c])).join(" ")}</p>`:""}${k.l?`<p><b class="sk sk-l">${T("{set} ladder",{set:esc(k.l[0])})}</b> ${skLadderText(k.l)}</p>
+ <ol class="sklad">${lad.map(x=>`<li${x===d?' class="me"':""}>${img(x.id)}<a href="#i${x.ix}" data-t="${x.ix}">${esc(TD(x.n))}</a>${SK.i[x.id].l[2]?` <small>${T("switches off when outranked")}</small>`:""}</li>`).join("")}</ol>`:""}
+ <p class="note">${T("Read from the mods' code by a script: it looks at how each curio's bonuses are keyed and how its effects check what you wear. Effects coded in unusual ways can be missed.")}</p>`}
 // linggango_tweaks AccessoryStacking.factorFor: share of its effect each worn ladder curio keeps
 function skLadder(ids){const out={};
  ids.forEach(id=>{const l=SK.i[id]&&SK.i[id].l;if(!l)return;let n=0;
@@ -813,7 +813,7 @@ const envFx=(a,k)=>{const e=BENV[k]||PENV[PTEX[a]];return e?`<span class="envfx"
 const SPR=["p_glint","p_sga_a","p_sga_e","p_sga_k","p_sga_r","p_sga_x","p_sga_z","p_glitter_0","p_glitter_3","p_spark_3"];
 const MFSP={terra:"p_glitter_3",brut:"p_critical_hit",leth:"p_critical_hit",summ:"p_glitter_0",enigma:"p_sga_k",armag:"p_flame",celest:"p_glint",goety:"p_soul_5",l2:"p_sga_x",spell:"p_sga_e",blood:"p_drip_hang",tech:"p_spark_3",calam:"p_soul_fire_flame",relic:"p_glitter_6"};
 const isMust=d=>d.r===6;
-const rLabel=d=>isMust(d)?`${RN[6]} <span class="base">· power ${RN[d.br]}</span>`:RN[d.r];
+const rLabel=d=>isMust(d)?`${RN[6]} <span class="base">· ${T("power {tier}",{tier:RN[d.br]})}</span>`:RN[d.r];
 const srcText=d=>Array.isArray(d.src)?d.src.join(" "):d.src;
 /* floating relics behind the page, re-seeded per view */
 const bgfx=document.createElement("div");bgfx.id="bgfx";bgfx.setAttribute("aria-hidden","true");document.body.prepend(bgfx);
@@ -1215,11 +1215,11 @@ function relicRows(line){
    gives it: the mob's face (mob_faces.py; a spawner for modded mobs), the Keeper's emblem for a treasure bag, a chest
    with the structures, a suspicious block for brushing, the container item. Lines that say something else stay as text. */
 let IDNM=null;const idName=id=>{if(!IDNM){IDNM={};if(typeof NAMEID!=="undefined")for(const k in NAMEID)IDNM[NAMEID[k]]??=k}return IDNM[id]};
-const rcNm=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||idName(c[0])||(c[0].includes(":")?nmI(c[0]):c[0])):"Any "+(c[1].split(":")[1]||c[1]).replace(/_/g," ");
+const rcNm=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||idName(c[0])||(c[0].includes(":")?nmI(c[0]):c[0])):T("Any {kind}",{kind:(c[1].split(":")[1]||c[1]).replace(/_/g," ")});
 const STATION=[[/Dark Altar|Ritual Goety/,"goety:dark_altar","ring"],[/Enchanting Apparatus/,"","ring"],[/Ritual of the Forest|Natural Altar|Offering Table/,"","ring"],
  [/Blood Altar|Imbuement|Cursed Infuser|Mixing Cauldron/,"goety:cursed_infuser","ring"],[/Smithing/,"minecraft:smithing_table","row"],[/Tinkerer|Upgrade Forge|Alchemy Array/,"","row"],[/Crafting Table/,"","grid"]];
 /* stations whose use the generic line gets wrong */
-const STHOW={"Alchemy Array":"draw the array with Arcane Ashes, drop the first item on it, then the second","Hellfire Forge":"any slots; needs Demon Will in a Tartaric Gem in the forge"};
+const STHOW={"Alchemy Array":N("draw the array with Arcane Ashes, drop the first item on it, then the second"),"Hellfire Forge":N("any slots; needs Demon Will in a Tartaric Gem in the forge")};
 /* the station's own block: its name in the pack's lang files (name_icons.py) gives the item; the vanilla table stays vanilla */
 const STN={"Ritual Goety":"Dark Altar","Ritual of the Forest":"Natural Altar","Crafting Table":"","Enchanting Apparatus":"Enchanting Apparatus"};
 const stIcon=st=>{const base=st.replace(/\s*\(.*\)\s*$/,"").replace(/^an? /,""),inner=(st.match(/\(([^)]+)\)/)||[])[1];
@@ -1228,16 +1228,16 @@ const stIcon=st=>{const base=st.replace(/\s*\(.*\)\s*$/,"").replace(/^an? /,""),
 function recipeGui(d){const g=d.gr,stn=g.st.replace(/\s*\(shapeless\)/i,""),kind=(STATION.find(x=>x[0].test(stn))||[,,"grid"])[2],grid=kind==="grid"&&g.l===0&&!/shapeless/i.test(g.st);
  const ing=[],seen={};g.c.forEach(c=>{if(!c)return;const k=c[0]+"|"+c[1];if(!seen[k]){seen[k]={c,n:0};ing.push(seen[k])}seen[k].n++});
  const slot=(c,cls="",k)=>{const sty=k!=null?` style="--k:${k}"`:"";if(!c)return `<div class="mcs${cls}"${sty}></div>`;const t=BYID[c[0]];
-  return `<div class="mcs${cls}"${sty} data-k="${esc(c[0]+"|"+c[1])}"${t?` data-t="${t.ix}"`:""} title="${esc(rcNm(c))}${c[1]?" (any item tagged "+esc(c[1].replace(/^#/,""))+")":""}">${c[0]?img(c[0]):c[1]&&typeof TAGID!=="undefined"&&IC[TAGID["#"+c[1].replace(/^#/,"")]]?img(TAGID["#"+c[1].replace(/^#/,"")]):'<span class="ph">'+esc(rcNm(c))+'</span>'}${c[1]?'<span class="tagm" aria-label="tag">#</span>':""}</div>`};
+  return `<div class="mcs${cls}"${sty} data-k="${esc(c[0]+"|"+c[1])}"${t?` data-t="${t.ix}"`:""} title="${esc(rcNm(c))}${c[1]?" "+T("(any item tagged {tag})",{tag:esc(c[1].replace(/^#/,""))}):""}">${c[0]?img(c[0]):c[1]&&typeof TAGID!=="undefined"&&IC[TAGID["#"+c[1].replace(/^#/,"")]]?img(TAGID["#"+c[1].replace(/^#/,"")]):'<span class="ph">'+esc(rcNm(c))+'</span>'}${c[1]?'<span class="tagm" aria-label="${T("tag")}">#</span>':""}</div>`};
  const flat=ing.flatMap(e=>Array(e.n).fill(e.c));let inputs;
  if(kind==="ring"){const n=flat.length;inputs=`<div class="mring" style="--n:${n}">${flat.map((c,i)=>slot(c,"",i)).join("")}<span class="mcen" title="${esc(stn)}">${stIcon(stn)}</span></div>`}
  else if(kind==="row")inputs=`<div class="mcg mrow">${flat.map(c=>slot(c)).join("")}</div>`;
  else inputs=grid?`<div class="mcg" style="grid-template-columns:repeat(${g.w},var(--sz))">${g.c.map(c=>slot(c)).join("")}</div>`:`<div class="mcg free">${flat.map(c=>slot(c)).join("")}</div>`;
- const list=`<ol class="mcl">${ing.map(e=>{const t=BYID[e.c[0]];return `<li><span class="mcs sm">${e.c[0]?img(e.c[0]):""}</span><b>${e.n}×</b> ${t?`<a href="#i${t.ix}" data-t="${t.ix}">${esc(rcNm(e.c))}</a>`:esc(rcNm(e.c))}${e.c[1]&&!/^Any /.test(rcNm(e.c))?` <span class="tg">any ${esc(e.c[1].replace(/^#?[a-z0-9_.-]+:/,"").replace(/_/g," "))}</span>`:""}</li>`}).join("")}</ol>`;
- const how=STHOW[stn.replace(/\s*\(.*\)\s*$/,"")]||(kind==="ring"?"put the ingredients on the pedestals around it, then start the ritual":kind==="row"?"the ingredients go in left to right":grid?"shaped: the layout matters":"shapeless: any arrangement");
- return `<div class="mcwin k-${kind}"><div class="mct"><span class="mcst">${stIcon(stn)}</span>${esc(stn)}<span>${how}</span></div>
+ const list=`<ol class="mcl">${ing.map(e=>{const t=BYID[e.c[0]];return `<li><span class="mcs sm">${e.c[0]?img(e.c[0]):""}</span><b>${e.n}×</b> ${t?`<a href="#i${t.ix}" data-t="${t.ix}">${esc(rcNm(e.c))}</a>`:esc(rcNm(e.c))}${e.c[1]&&e.c[0]?` <span class="tg">${T("any {tag}",{tag:esc(e.c[1].replace(/^#?[a-z0-9_.-]+:/,"").replace(/_/g," "))})}</span>`:""}</li>`}).join("")}</ol>`;
+ const how=T(STHOW[stn.replace(/\s*\(.*\)\s*$/,"")]||(kind==="ring"?N("put the ingredients on the pedestals around it, then start the ritual"):kind==="row"?N("the ingredients go in left to right"):grid?N("shaped: the layout matters"):N("shapeless: any arrangement")));
+ return `<div class="mcwin k-${kind}"><div class="mct"><span class="mcst">${stIcon(stn)}</span>${esc(TD(stn))}<span>${how}</span></div>
  <div class="mcrow">${inputs}<i class="mca" aria-hidden="true"></i>${slot([d.id,""]," big").replace(/<\/div>$/,`${g.n>1?`<span class="cnt">${g.n}</span>`:""}</div>`)}</div>
- <div class="mcli"><div class="mch">Ingredients</div>${list}</div></div>`}
+ <div class="mcli"><div class="mch">${T("Ingredients")}</div>${list}</div></div>`}
 const SRCX={mob:/[Dd]ropped by ([^(;]+?)\s*\(([^)]*)\)/g,bag:/[Cc]omes from (?:the )?(.+?)'s treasure bag \(([^)]+)\)/g,brush:/Brush suspicious blocks at ([^(;]+?) \(([^)]+)\)/g,
  chest:/[Ff]ound in chests at ([^;]+?)(?:, up to ([\d.]+%) per chest)?\.?(?=;|$)/g,tomb:/[Ff]ound in ([A-Z][\w' ]+?) chests \(([^)]+)\)/g,van:/Vanilla chests \(([^)]*)\): ([^;]+?)\.?(?=;|$)/g,
  box:/(?:From an?|Can roll from an?) ([A-Z][\w' ]+?)(?: \(([^)]*)\))?(?= or|[.;]|$)/g,trade:/Bought from ([^.;]+)/g};
@@ -1251,17 +1251,17 @@ function lootCards(d){const out=[],used=new Set();
  const rt=k=>`<i class="lrt" style="--lrt:var(--rt-${k})"></i>`;
  d.src.forEach((line,li)=>{let m,hit=0;const R=k=>{SRCX[k].lastIndex=0;const xs=[];while(m=SRCX[k].exec(line))xs.push(m);return xs};
   R("mob").forEach(m=>{hit=1;const n=m[1].trim(),bk=bossByName(n),fk="mf_"+n.replace(/s$/,"").toLowerCase().replace(/ /g,"_"),sk=sideByName(n),sp=sk&&sidePic(sk);
-   out.push(bk?card(emblem(bossPath(bk)??0,"sm"),esc(bossName(bk)),"Boss drop",m[2],"#boss/"+bk)
-    :sk?card(sp?`<img class="lsc" alt="" src="${sp}">`:rt("spawner"),esc(n),"Side boss drop",m[2],"#side/"+enc(sk))
-    :card(typeof ROOMT!=="undefined"&&ROOMT[fk]?rt(fk):rt("spawner"),esc(n),"Mob drop",m[2]))});
+   out.push(bk?card(emblem(bossPath(bk)??0,"sm"),esc(bossName(bk)),T("Boss drop"),m[2],"#boss/"+bk)
+    :sk?card(sp?`<img class="lsc" alt="" src="${sp}">`:rt("spawner"),esc(n),T("Side boss drop"),m[2],"#side/"+enc(sk))
+    :card(typeof ROOMT!=="undefined"&&ROOMT[fk]?rt(fk):rt("spawner"),esc(n),T("Mob drop"),m[2]))});
   R("bag").forEach(m=>{hit=1;const bk=bossByName(m[1]),bag=bk&&BINFO[bk]&&(BINFO[bk].drops||[]).find(x=>/treasure_?bag/.test(x.id));
-   out.push(card(bag&&IC[bag.id]?img(bag.id):bag&&BIMG[bag.id]?`<img alt="" src="${BIMG[bag.id]}">`:bk?emblem(bossPath(bk)??0,"sm"):rt("ftb_chest"),esc(bk?bossName(bk):m[1])+"'s treasure bag","Open the bag the Keeper drops",m[2],bk?"#boss/"+bk:""))});
-  R("brush").forEach(m=>{hit=1;out.push(card(rt("lt_sand"),esc(m[1]),"Brush the suspicious blocks",m[2]))});
-  R("tomb").forEach(m=>{hit=1;out.push(card(rt("ftb_chest"),esc(m[1])+" chests","Chest loot",m[2]))});
-  R("chest").forEach(m=>{hit=1;out.push(card(rt("ftb_chest"),esc(m[1].replace(/ and (\d+) more places/," +$1 more")),"Chest loot",m[2]?"up to "+m[2]:""))});
-  R("van").forEach(m=>{hit=1;const c=m[2].match(/^(.+?) ([\d.]+%)$/);out.push(card(rt("ftb_chest"),esc(c?c[1]:m[2]),"Vanilla chest loot",c?c[2]:""))});
-  R("box").forEach(m=>{const id=NAMEID[m[1]];if(!id&&!/Bag|Box|Chest|Crate/.test(m[1]))return;hit=1;out.push(card(id&&IC[id]?img(id):rt("lt_bundle"),esc(m[1]),m[2]?esc(m[2]):"Open it for a random roll",""))});
-  R("trade").forEach(m=>{hit=1;out.push(card(rt("lt_emerald"),esc(m[1]),"Trade",""))});
+   out.push(card(bag&&IC[bag.id]?img(bag.id):bag&&BIMG[bag.id]?`<img alt="" src="${BIMG[bag.id]}">`:bk?emblem(bossPath(bk)??0,"sm"):rt("ftb_chest"),T("{boss}'s treasure bag",{boss:esc(bk?bossName(bk):m[1])}),T("Open the bag the Keeper drops"),m[2],bk?"#boss/"+bk:""))});
+  R("brush").forEach(m=>{hit=1;out.push(card(rt("lt_sand"),esc(m[1]),T("Brush the suspicious blocks"),m[2]))});
+  R("tomb").forEach(m=>{hit=1;out.push(card(rt("ftb_chest"),T("{place} chests",{place:esc(m[1])}),T("Chest loot"),m[2]))});
+  R("chest").forEach(m=>{hit=1;out.push(card(rt("ftb_chest"),esc(m[1].replace(/ and (\d+) more places/," +$1 more")),T("Chest loot"),m[2]?T("up to {n}",{n:m[2]}):""))});
+  R("van").forEach(m=>{hit=1;const c=m[2].match(/^(.+?) ([\d.]+%)$/);out.push(card(rt("ftb_chest"),esc(c?c[1]:m[2]),T("Vanilla chest loot"),c?c[2]:""))});
+  R("box").forEach(m=>{const id=NAMEID[m[1]];if(!id&&!/Bag|Box|Chest|Crate/.test(m[1]))return;hit=1;out.push(card(id&&IC[id]?img(id):rt("lt_bundle"),esc(m[1]),m[2]?esc(m[2]):T("Open it for a random roll"),""))});
+  R("trade").forEach(m=>{hit=1;out.push(card(rt("lt_emerald"),esc(m[1]),T("Trade"),""))});
   if(hit)used.add(li)});
  return {html:out.length?`<div class="lcards">${out.join("")}</div>`:"",used}}
 /* no recipe in the pack files (curio_recipes.json): the ingredients the "Craft at … from A, B and C" line names, as a row with the station */
@@ -1271,7 +1271,7 @@ function textRecipe(d){if(d.gr)return null;for(let i=0;i<d.src.length;i++){const
   const names=m[2].replace(/\.+$/,"").split(/,\s*|\s+and\s+/).map(x=>x.trim()).filter(Boolean),ids=names.map(n=>NAMEID[n]||(D.find(x=>x.n===n)||{}).id||dropId(n));
   if(!ids.some(id=>id&&(IC[id]||BIMG[id])))continue;
   const slot=(id,n)=>{const t=BYID[id];return `<div class="mcs"${t?` data-t="${t.ix}"`:""} title="${esc(n)}">${id&&IC[id]?img(id):id&&BIMG[id]?`<img alt="" src="${BIMG[id]}">`:`<span class="ph">${esc(n)}</span>`}</div>`};
-  return {i,html:`<div class="mcwin k-row"><div class="mct"><span class="mcst">${stIcon(m[1])}</span>${esc(m[1].replace(/^a /,""))}<span>ingredients</span></div>
+  return {i,html:`<div class="mcwin k-row"><div class="mct"><span class="mcst">${stIcon(m[1])}</span>${esc(TD(m[1].replace(/^a /,"")))}<span>${T("ingredients")}</span></div>
   <div class="mcrow"><div class="mcg mrow">${ids.map((id,j)=>slot(id,names[j])).join("")}</div><i class="mca" aria-hidden="true"></i><div class="mcs big">${img(d.id)}</div></div></div>`}}return null}
 const howVisual=d=>(d.gr?recipeGui(d):(textRecipe(d)||{}).html||"")+lootCards(d).html;
 const howText=d=>{const u=lootCards(d).used,tr=textRecipe(d);if(tr)u.add(tr.i);const xs=d.src.filter((x,i)=>!u.has(i)&&!(d.gr&&RCV.test(x))&&!/^Key requirement: locked behind/i.test(x));return xs.length?`<ol class="how">${xs.map(x=>`<li>${fmt(x)}</li>`).join("")}</ol>`:""};
@@ -1281,22 +1281,22 @@ const howText=d=>{const u=lootCards(d).used,tr=textRecipe(d);if(tr)u.add(tr.i);c
    clause, with numbers picked out (blue = bonus, red = cost, as in the game's tooltip). The in-game tooltip follows with
    its wrapped lines joined back into sentences, then the pack's config numbers as a small table. No source tags. */
 const ELEM={"Fire":"fire","Ice":"ice","Water":"water","Lightning":"lightning","Dark":"dark","Holy":"holy","Blood":"blood","Ender / Eldritch":"ender","Poison / Nature":"nature"};
-const DMGT=[["Slash",/\bslash(ing)? damage|[+\-−]\s?[\d.]+%? slash\b/i,"ui_sword"],["Pierce",/\bpierc(e|ing) damage|[+\-−]\s?[\d.]+%? pierce\b/i,"dt_pierce"],["Blunt",/\bblunt damage|[+\-−]\s?[\d.]+%? blunt\b/i,"dt_blunt"],["Magic",/\b(magic|spell)\b[^.;]*\b(damage|power)|\bspell (power|damage)/i,"dt_magic"],
- ["Projectile",/\b(projectile|arrow|ranged)\b[^.;]*damage|\bdamage[^.;]*\b(projectile|arrow)/i,"ui_bow"],["Melee",/\b(melee|attack) damage|\bmelee\b/i,"ui_sword"],["Summon",/\b(summon|minion)s?\b[^.;]*damage/i,"ui_bone"]];
+const DMGT=[[N("Slash"),/\bslash(ing)? damage|[+\-−]\s?[\d.]+%? slash\b/i,"ui_sword"],[N("Pierce"),/\bpierc(e|ing) damage|[+\-−]\s?[\d.]+%? pierce\b/i,"dt_pierce"],[N("Blunt"),/\bblunt damage|[+\-−]\s?[\d.]+%? blunt\b/i,"dt_blunt"],[N("Magic"),/\b(magic|spell)\b[^.;]*\b(damage|power)|\bspell (power|damage)/i,"dt_magic"],
+ [N("Projectile"),/\b(projectile|arrow|ranged)\b[^.;]*damage|\bdamage[^.;]*\b(projectile|arrow)/i,"ui_bow"],[N("Melee"),/\b(melee|attack) damage|\bmelee\b/i,"ui_sword"],[N("Summon"),/\b(summon|minion)s?\b[^.;]*damage/i,"ui_bone"]];
 const ELX=[["Fire",/\b(ignite|on fire|fire damage|burn|flame)/i],["Ice",/\b(freez|frost|ice damage)/i],["Lightning",/\b(lightning|thunder|shock)/i],["Holy",/\bholy\b/i]];
 const kindOf=d=>{const txt=d.fx+" "+d.st.join(" "),el=(d.mt||[]).filter(k=>k.startsWith("e:")).map(k=>k.slice(2));ELX.forEach(([e,re])=>{if(!el.includes(e)&&re.test(d.fx))el.push(e)});return {el,dt:DMGT.filter(x=>x[1].test(txt))}};
 const kchip=(k,label,cls)=>`<span class="kchip ${cls}"><i style="--kc:var(--rt-${k})"></i>${esc(label)}</span>`;
 /* stat names on curio pages: short hover text, click goes to Mechanics › Stats */
-const STATH=[[/\barmor penetration\b/i,"Percent: the target counts with that much less armor (Brutality, cap 95%). Best vs heavy armor."],[/\blethality\b/i,"Flat armor removal, applied last; each point past zero armor is +10% damage. Best vs light armor."],[/\barmor pierce\b/i,"Flat armor removal (Apothic), weakened by the target's toughness."],[/\barmor pass\b/i,"Becomes Apothic Armor Pierce in this pack: flat armor removal."],[/\benchantment piercing\b/i,"Gives back part of the damage Protection enchantments removed (Goety Revelation)."],[/\barmor shred\b/i,"Percent armor removal after penetration (Apothic), weakened by the target's toughness."],[/\bdamage taken\b/i,"Multiplies the damage you take: −5% means 5% less."],
- [/\bcritical strike chance\b/i,"Brutality: the roll every melee crit needs (base 0%). No jump needed; a failed roll cancels jump crits."],[/\bcritical strike damage\b/i,"Brutality melee crit multiplier: base ×1.4, capped at ×3."],[/\bcritical chance\b/i,"Apothic crit: its own roll on every hit you own (base 5%, ×1.5)."],[/\bspell crit\b/i,"Iron's Spells damage only; needs both spell crit chance and spell crit damage."],[/\bcrit damage\b/i,"Adds to a crit's multiplier; which crit depends on the mod (see Mechanics › Stats)."],[/\bcrit chance\b/i,"There are several crit chances; see Mechanics › Stats."],
- [/\bdodge chance\b/i,"Chance to avoid a hit completely. Capped at 50% (Brutality) or 40% (Apothic) in this pack."],[/\bomnivamp\b/i,"Heals a share of every hit you own: melee, arrows, spells (cap 10% max health a tick)."],[/\blife ?steal\b/i,"Heals a share of the melee damage you deal (cap 10% max health a tick)."],[/\bminion damage\b/i,"Multiplies minion damage (Summonity); halved without a summoning item or whip in hand."],[/\bsummon damage\b/i,"Multiplies summoned creatures' damage (Iron's Spells)."],
- [/\broll count\b/i,"Roll charges; only whole numbers count."],[/\broll recharge\b/i,"Charges come back faster: cooldown × 20 / Roll Recharge."],[/\bdodge window\b/i,"Extra invulnerable ticks on rolls and dashes, rounded, at most +4."],[/\bcooldown reduction\b/i,"Spell cooldown × (2 − value), softened past +50%."]];
-function statHint(h){for(const [re,tip] of STATH){const m=h.match(re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/stats" title="${esc(tip)}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
+const STATH=[[/\barmor penetration\b/i,N("Percent: the target counts with that much less armor (Brutality, cap 95%). Best vs heavy armor.")],[/\blethality\b/i,N("Flat armor removal, applied last; each point past zero armor is +10% damage. Best vs light armor.")],[/\barmor pierce\b/i,N("Flat armor removal (Apothic), weakened by the target's toughness.")],[/\barmor pass\b/i,N("Becomes Apothic Armor Pierce in this pack: flat armor removal.")],[/\benchantment piercing\b/i,N("Gives back part of the damage Protection enchantments removed (Goety Revelation).")],[/\barmor shred\b/i,N("Percent armor removal after penetration (Apothic), weakened by the target's toughness.")],[/\bdamage taken\b/i,N("Multiplies the damage you take: −5% means 5% less.")],
+ [/\bcritical strike chance\b/i,N("Brutality: the roll every melee crit needs (base 0%). No jump needed; a failed roll cancels jump crits.")],[/\bcritical strike damage\b/i,N("Brutality melee crit multiplier: base ×1.4, capped at ×3.")],[/\bcritical chance\b/i,N("Apothic crit: its own roll on every hit you own (base 5%, ×1.5).")],[/\bspell crit\b/i,N("Iron's Spells damage only; needs both spell crit chance and spell crit damage.")],[/\bcrit damage\b/i,N("Adds to a crit's multiplier; which crit depends on the mod (see Mechanics › Stats).")],[/\bcrit chance\b/i,N("There are several crit chances; see Mechanics › Stats.")],
+ [/\bdodge chance\b/i,N("Chance to avoid a hit completely. Capped at 50% (Brutality) or 40% (Apothic) in this pack.")],[/\bomnivamp\b/i,N("Heals a share of every hit you own: melee, arrows, spells (cap 10% max health a tick).")],[/\blife ?steal\b/i,N("Heals a share of the melee damage you deal (cap 10% max health a tick).")],[/\bminion damage\b/i,N("Multiplies minion damage (Summonity); halved without a summoning item or whip in hand.")],[/\bsummon damage\b/i,N("Multiplies summoned creatures' damage (Iron's Spells).")],
+ [/\broll count\b/i,N("Roll charges; only whole numbers count.")],[/\broll recharge\b/i,N("Charges come back faster: cooldown × 20 / Roll Recharge.")],[/\bdodge window\b/i,N("Extra invulnerable ticks on rolls and dashes, rounded, at most +4.")],[/\bcooldown reduction\b/i,N("Spell cooldown × (2 − value), softened past +50%.")]];
+function statHint(h){for(const [re,tip] of STATH){const m=h.match(re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/stats" title="${esc(T(tip))}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
 function statLine(t){const h=fmt(t).replace(/(^|[\s(])([+\-−]\s?\d[\d.,]*\s?%?|x\s?\d[\d.]*|×\s?\d[\d.]*|\d[\d.,]*\s?%)/g,(m,a,n)=>`${a}<b class="${/^[\-−]/.test(n)?"neg":"pos"}">${n}</b>`);return effHint(statHint(h))}
 function joinTip(xs){const out=[];xs.forEach(x=>{x=String(x).trim();if(!x)return;const p=out[out.length-1];
  if(p&&!/[.!?:)]$/.test(p)&&/^[a-z(…]/.test(x))out[out.length-1]=p+" "+x;else out.push(x)});return out}
 function statsHtml(d,other){const k=kindOf(d),nm=d.n.toLowerCase();
- const head=(k.el.length||k.dt.length)?`<div class="kinds">${k.el.length?`<span class="klab">Element</span>${k.el.map(e=>kchip("el_"+(ELEM[e]||"fire"),e.replace(" / ","/"),"el")).join("")}`:""}${k.dt.length?`<span class="klab">Damage</span>${k.dt.map(x=>kchip(x[2],x[0],"dt")).join("")}`:""}</div>`:"";
+ const head=(k.el.length||k.dt.length)?`<div class="kinds">${k.el.length?`<span class="klab">${T("Element")}</span>${k.el.map(e=>kchip("el_"+(ELEM[e]||"fire"),T(e).replace(" / ","/"),"el")).join("")}`:""}${k.dt.length?`<span class="klab">${T("Damage")}</span>${k.dt.map(x=>kchip(x[2],T(x[0]),"dt")).join("")}`:""}</div>`:"";
  const sum=d.fx.split(/;\s*/).filter(Boolean),tip=joinTip(other.filter(x=>x[0]!=="pack").map(x=>x[1])).filter(x=>x.toLowerCase()!==nm&&!/^obtain\b/i.test(x)&&!/^(hold shift|the finale$)/i.test(x)),
   cfg=other.filter(x=>x[0]==="pack").map(x=>String(x[1]).split(/:\s*/)).filter(x=>x.length>1);
  const HD=/^(passive effect|active ability|when worn|when equipped|set bonus|abilities?)\s*:?$/i;
@@ -1304,28 +1304,28 @@ function statsHtml(d,other){const k=kindOf(d),nm=d.n.toLowerCase();
  // the wiki's summary is complete and curated; the game's own tooltip (often wrapped, sometimes only lore) folds away below it
  const lines=sum;
  return `${head}<ul class="attr">${lines.map(x=>HD.test(x)?`<li class="fxh">${fmt(x)}</li>`:`<li>${statLine(x)}</li>`).join("")}</ul>
- ${tip.length?`<details class="tipx"><summary>In-game tooltip</summary><ul>${tip.map(x=>HD.test(x)?`<li class="fxh">${fmt(x)}</li>`:`<li>${statLine(x)}</li>`).join("")}</ul></details>`:""}
- ${cfg.length?`<details class="tipx"><summary>Config values (${cfg.length})</summary><table class="cfg">${cfg.map(([a,...b])=>`<tr><td>${esc(a)}</td><td class="num">${esc(cfgTx(b.join(": ")))}</td></tr>`).join("")}</table></details>`:""}`}
+ ${tip.length?`<details class="tipx"><summary>${T("In-game tooltip")}</summary><ul>${tip.map(x=>HD.test(x)?`<li class="fxh">${fmt(x)}</li>`:`<li>${statLine(x)}</li>`).join("")}</ul></details>`:""}
+ ${cfg.length?`<details class="tipx"><summary>${T("Config values ({n})",{n:cfg.length})}</summary><table class="cfg">${cfg.map(([a,...b])=>`<tr><td>${esc(a)}</td><td class="num">${esc(cfgTx(b.join(": ")))}</td></tr>`).join("")}</table></details>`:""}`}
 const guideHtml=g=>(needPics(),"")+`<div class="gbk">${g.i?`<img alt="" src="${g.i}">`:""}<div><small>📖 ${esc(g.b)} · ${esc(g.e)}</small><p>${esc(gameTx(g.t))}</p></div></div>`;
 function page(d){
  document.title=TD(d.n)+" · Linggango Wiki";seedBg("item"+d.m,D.filter(x=>x.m===d.m));
- const F=mf(d.m),slot=d.sl.join(", ")||"—",loot=d.g==="Loot",secs=[];
+ const F=mf(d.m),slot=d.sl.map(x=>T(x)).join(", ")||"—",loot=d.g==="Loot",secs=[];
  /* when and how it opens, said once: the Act, the luck window, the Keeper gate, the ring it needs */
- const gate=d.gk?`locked until <b>${GK[d.gk]}</b> falls (you can't craft, use or wear it before, even from a chest)`:"";
- const unlock=`<div class="unlock"><i class="ui" style="--ui:var(--rt-${d.gk||d.rq?"lg_lock":"lg_check"})" aria-hidden="true"></i><div><b>${esc(actL(d.t))}</b>${d.a===-1?" · drops from L2 Hostility mobs by their level":d.a!==d.t?` · with luck from ${esc(actL(d.a))}`:` · ${esc(ACT[d.t][1])}`}${gate?`<br><span>${gate}</span>`:""}${d.rq?`<br><span>only for bearers of the <a href="#i${BYID[RQRING[d.rq]].ix}">${rqName(d)}</a></span>`:""}</div></div>`;
- const must=isMust(d)?`<div class="mh-banner"><span class="mhs">★</span><div><b>Must-Have</b><p>${!/etching|charm_of_looting/.test(d.id)?"It adds curio slots, so you can wear more curios at once: every other relic on this wiki gets better with it.":/etching/.test(d.id)?"An Etching turns one of your Catastrophe Scroll curses into a blessing and is an ingredient for most Celestial Artifacts relics.":"A Looting Charm unlocks L2 Hostility trait drops; without the right tier worn, trait mobs drop nothing extra."} Get it as soon as ${esc(actL(d.t))} opens and keep it in every build. Base power rating: <b>${RN[d.br]}</b>.</p></div></div>`:"";
- const scarce=d.sca?`<div class="mh-banner sca"><span class="mhs">⛏</span><div><b>Scarce Act 0 material</b><p>Daemonium and Iridium need a high-tier pickaxe to mine, but Terramity structures can drop them in chests. That makes this craftable early with luck, so it is rated one rarity higher than other Act 0 curios.</p></div></div>`:"";
- secs.push(["get",loot?"Where it drops":"How to get it",`${must}${scarce}${unlock}${howVisual(d)}${howText(d)}`]);
- {const gu=typeof GUIDE!=="undefined"&&GUIDE[d.id];if(gu)secs.push(["guide","From the guide book",guideHtml(gu)])}
- {const ev=evoSec(d);if(ev)secs.push(["evo","Evolution",ev])}
+ const gate=d.gk?T("locked until {boss} falls (you can't craft, use or wear it before, even from a chest)",{boss:`<b>${TD(GK[d.gk])}</b>`}):"";
+ const unlock=`<div class="unlock"><i class="ui" style="--ui:var(--rt-${d.gk||d.rq?"lg_lock":"lg_check"})" aria-hidden="true"></i><div><b>${esc(actL(d.t))}</b>${d.a===-1?" · "+T("drops from L2 Hostility mobs by their level"):d.a!==d.t?" · "+T("with luck from {act}",{act:esc(actL(d.a))}):" · "+esc(T(ACT[d.t][1]))}${gate?`<br><span>${gate}</span>`:""}${d.rq?`<br><span>${T("only for bearers of the {ring}",{ring:`<a href="#i${BYID[RQRING[d.rq]].ix}">${rqName(d)}</a>`})}</span>`:""}</div></div>`;
+ const must=isMust(d)?`<div class="mh-banner"><span class="mhs">★</span><div><b>${T("Must-Have")}</b><p>${!/etching|charm_of_looting/.test(d.id)?T("It adds curio slots, so you can wear more curios at once: every other relic on this wiki gets better with it."):/etching/.test(d.id)?T("An Etching turns one of your Catastrophe Scroll curses into a blessing and is an ingredient for most Celestial Artifacts relics."):T("A Looting Charm unlocks L2 Hostility trait drops; without the right tier worn, trait mobs drop nothing extra.")} ${T("Get it as soon as {act} opens and keep it in every build. Base power rating: {tier}.",{act:esc(actL(d.t)),tier:`<b>${RN[d.br]}</b>`})}</p></div></div>`:"";
+ const scarce=d.sca?`<div class="mh-banner sca"><span class="mhs">⛏</span><div><b>${T("Scarce Act 0 material")}</b><p>${T("Daemonium and Iridium need a high-tier pickaxe to mine, but Terramity structures can drop them in chests. That makes this craftable early with luck, so it is rated one rarity higher than other Act 0 curios.")}</p></div></div>`:"";
+ secs.push(["get",loot?T("Where it drops"):T("How to get it"),`${must}${scarce}${unlock}${howVisual(d)}${howText(d)}`]);
+ {const gu=typeof GUIDE!=="undefined"&&GUIDE[d.id];if(gu)secs.push(["guide",T("From the guide book"),guideHtml(gu)])}
+ {const ev=evoSec(d);if(ev)secs.push(["evo",T("Evolution"),ev])}
  const rel=d.tg.map((t,j)=>[t,d.st[j],d.sr&&d.sr[j]]).filter(r=>typeof r[1]==="string"),relic=rel.filter(r=>r[0]==="relic"),other=rel.filter(r=>r[0]!=="relic");
  let sh="";
- if(RL[d.id])secs.push(["levels","Relic levels",rlPanel(d.id)]);
- if(relic.length&&!RL[d.id])sh+=`<div class="tw"><table><thead><tr><th>Stat</th><th>On pickup (random)</th><th>Max upgrade</th></tr></thead><tbody>${relic.map(r=>relicRows(r[1])).join("")}</tbody></table></div>`;
+ if(RL[d.id])secs.push(["levels",T("Relic levels"),rlPanel(d.id)]);
+ if(relic.length&&!RL[d.id])sh+=`<div class="tw"><table><thead><tr><th>${T("Stat")}</th><th>${T("On pickup (random)")}</th><th>${T("Max upgrade")}</th></tr></thead><tbody>${relic.map(r=>relicRows(r[1])).join("")}</tbody></table></div>`;
  sh=statsHtml(d,other)+sh;
- if(sh)secs.push(["stats","Stats",sh]);
- if(typeof gCurioMs==="function"){const mh=gCurioMs(d);if(mh)secs.push(["ms","Measured in game",mh])}
- if(d.uid.length)secs.push(["uses","Used to craft",`<div class="cards">${d.uid.map(o=>{const t=BYID[o];return `<a class="card"${t?` href="#i${t.ix}" data-t="${t.ix}"`:""}>${img(o)}<span>${esc(NM[o]||o)}${t?"":' <span class="meta">(not a curio)</span>'}</span></a>`}).join("")}</div>`]);
+ if(sh)secs.push(["stats",T("Stats"),sh]);
+ if(typeof gCurioMs==="function"){const mh=gCurioMs(d);if(mh)secs.push(["ms",T("Measured in game"),mh])}
+ if(d.uid.length)secs.push(["uses",T("Used to craft"),`<div class="cards">${d.uid.map(o=>{const t=BYID[o];return `<a class="card"${t?` href="#i${t.ix}" data-t="${t.ix}"`:""}>${img(o)}<span>${esc(NM[o]||o)}${t?"":` <span class="meta">${T("(not a curio)")}</span>`}</span></a>`}).join("")}</div>`]);
  const bar=(v,l)=>`<div class="sg" style="grid-template-columns:150px 1fr;margin:var(--s1) 0"><span>${l}</span><div class="bar"><i style="width:${Math.round(Math.min(5,Math.max(0,v))*20)}%;background:var(--rc);opacity:.55"></i><span>${(+v).toFixed(1)} / 5</span></div></div>`;
   const same=D.filter(x=>x!==d&&x.m===d.m&&x.t===d.t).slice(0,8);
  const ic=slotImg(d);
@@ -1334,16 +1334,16 @@ function page(d){
  const near=sx.filter(x=>x!==d).slice(Math.max(0,si-4),Math.max(0,si-4)+8);
  // the link lands on Curios filtered to slot:<s0> with the sidebar filters kept: count what it will show
  let seeAll="";if(s0){const q0=st.q;st.q=slotQ(s0);let n=0,all=0;D.forEach(x=>{if(qMatch(x)){all++;if(pass(x))n++}});st.q=q0;
-  seeAll=n===all?`see all ${all} →`:`see ${n} (your filters; ${all} in all) →`}
+  seeAll=n===all?T("see all {n} →",{n:all}):T("see {n} (your filters; {all} in all) →",{n,all})}
  const art=`<div class="ip-art"><span class="ip-badge">${RN[d.r]}</span><div class="ip-stage" style="${tex(d.t)}">${envFx(d.t)}<span class="orb" aria-hidden="true">${[0,1,2,3,4,5].map(i=>`<i style="--k:${i};--sp:var(--v-${MFSP[F[0]]||"p_glint"})"></i>`).join("")}</span><div class="ip-icon framed">${ic}${glint(d)}</div></div><span class="ip-mini">${ic}</span><span class="ip-path" title="${esc(actL(d.t))}">${emblem(d.t,"xs")}</span></div>`;
- const sib=s0&&near.length?`<section class="sib"><h2>More ${esc(s0)} curios <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">${seeAll}</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>← Previous in ${esc(s0)}</small>${esc(TD(pv.n))}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>Next in ${esc(s0)} →</small>${esc(TD(nx.n))}</a>`:""}</nav></section>`:"";
+ const sib=s0&&near.length?`<section class="sib"><h2>${T("More {slot} curios",{slot:esc(T(s0))})} <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">${seeAll}</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>${T("← Previous in {slot}",{slot:esc(T(s0))})}</small>${esc(TD(pv.n))}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>${T("Next in {slot} →",{slot:esc(T(s0))})}</small>${esc(TD(nx.n))}</a>`:""}</nav></section>`:"";
  el("main").innerHTML=article({cls:"r"+d.r,data:` data-mf="${F[0]}"`,style:`${tex(d.t)};--tc:${ACT[d.t][2]}`,
   crumb:`<div class="crumb ip-crumb"><a href="#">${T("Home")}</a> / <a href="#home">${T("Curios")}</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>`,
   pre:isMust(d)?'<span class="mstar">★</span>':"",title:esc(TD(d.n)),lead:fmt(d.fx),
-  meta:`<span class="ip-fam">${esc(d.m)}</span><span>${rLabel(d)}</span><span>${esc(slot)}</span><span>${loot?"Loot":"Craft"}</span>${d.nw?"<span>new in 6.6.6</span>":""}`,
+  meta:`<span class="ip-fam">${esc(d.m)}</span><span>${rLabel(d)}</span><span>${esc(slot)}</span><span>${loot?T("Loot"):T("Craft")}</span>${d.nw?`<span>${T("new in 6.6.6")}</span>`:""}`,
   secs,after:sib,art,
   box:{head:`<span class="ip-slot">${ic}</span><div><b>${esc(TD(d.n))}</b><span>${esc(d.m)}</span></div>`,
-   rows:[["Slot",esc(slot)],["Power",rLabel(d)+(d.pe?' <span class="kest">estimate</span>':""),d.pe?"Read from its text: the game test cannot see what it does (a condition, an active ability, loot or utility)":"Measured in game: how much it adds to a typical build of its Act, next to the other curios of that Act"],["Act",actL(d.t)],d.a!==d.t&&["With luck",actL(d.a)],d.rq&&["Requires",rqName(d)],["Role",isMust(d)?"Every build":d.ro.map(k=>ROLE[k]).join(", ")],['<span class="ign-dt">Name colour</span>',igName(d),"Colour of the item's name in game; not the wiki rarity"],SK.i[d.id]&&["Duplicates",skTag(d.id)]],
+   rows:[[T("Slot"),esc(slot)],[T("Power"),rLabel(d)+(d.pe?` <span class="kest">${T("estimate")}</span>`:""),d.pe?T("Read from its text: the game test cannot see what it does (a condition, an active ability, loot or utility)"):T("Measured in game: how much it adds to a typical build of its Act, next to the other curios of that Act")],[T("Act"),actL(d.t)],d.a!==d.t&&[T("With luck"),actL(d.a)],d.rq&&[T("Requires"),rqName(d)],[T("Role"),isMust(d)?T("Every build"):d.ro.map(k=>T(ROLE[k])).join(", ")],[`<span class="ign-dt">${T("Name colour")}</span>`,igName(d),T("Colour of the item's name in game; not the wiki rarity")],SK.i[d.id]&&[T("Duplicates"),skTag(d.id)]],
    foot:idBox(d.id)},
   nav:wikiNav({act:d.t},[[`${esc(d.m)} · ${esc(actL(d.t))}`,same.map(x=>["#i"+x.ix,esc(TD(x.n))])]])});
  wireArticle();
@@ -1529,13 +1529,13 @@ let tipFor=null;const TIPC=new Map();
 const TOP={COMMON:["#969696","#575757","#3C3C3C"],UNCOMMON:["#9CA028","#6A6D18","#4B4D0E"],RARE:["#335FA0","#193A6D","#0A1D38"],EPIC:["#A02283","#691356","#3C0730"],LEGENDARY:["#A0803C","#815F19","#372808"],CHAOS:["#9F373A","#81191B","#370809"],CUSTOM:["#E8B84A","#B5832A","#6B4A12"]};
 const VRAR={Common:"COMMON",Uncommon:"UNCOMMON",Rare:"RARE",Epic:"EPIC"};
 const pal=d=>isMust(d)?["#FFE14D","#FFB300","#5A3A00"]:d.ig?(TOP[VRAR[d.ig[0]]]||TOP.CUSTOM):TOP.COMMON;
-const igName=d=>d.ig?`<span class="ign" style="${d.ig[1]==="rainbow"?"":"color:"+d.ig[1]}"${d.ig[1]==="rainbow"?' data-rb="1"':""}>${esc(d.ig[0])}</span>`:'<span class="ign">Unverified</span>';
+const igName=d=>d.ig?`<span class="ign" style="${d.ig[1]==="rainbow"?"":"color:"+d.ig[1]}"${d.ig[1]==="rainbow"?' data-rb="1"':""}>${esc(d.ig[0])}</span>`:`<span class="ign">${T("Unverified")}</span>`;
 /* the enchantment glint over Mythic and Must-Have items, cut to the item's shape (mask = its icon) */
 const glint=d=>d.r>=5&&IC[d.id]?`<span class="glint" style="--gm:url(${icu(d.id)})" aria-hidden="true"></span>`:"";
 const slotImg=(d,cls="")=>IC[d.id]?`<span class="aimg ${cls}"${AN[d.id]?` data-an="${esc(d.id)}"`:""}><img alt="" src="${icu(d.id)}"></span>`:`<span class="ph">${esc(d.n.slice(0,2))}</span>`;
 /* tooltip recipe: mini crafting grid instead of the "Craft at ... from ..." line */
 const RCV=/^(Craft|Combine|Infuse|Perform|Upgrade|Imbue|Forge)\b/;
-const rcName=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||c[0]):"Any "+(c[1].split(":")[1]||c[1]).replace(/_/g," ");
+const rcName=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||c[0]):T("Any {kind}",{kind:(c[1].split(":")[1]||c[1]).replace(/_/g," ")});
 const tipRecipe=d=>{const g=d.gr,shaped=g.l===0&&!/shapeless/i.test(g.st),cs=shaped?g.c:g.c.filter(Boolean);
  return `<div class="trcp"><div class="trg" style="grid-template-columns:repeat(${shaped?g.w:Math.min(cs.length,5)},18px)">${cs.map(c=>`<i class="trc"${c?` title="${esc(rcName(c))}"`:""}>${c?(c[0]?img(c[0]):"<b>#</b>"):""}</i>`).join("")}</div><i class="tra" aria-hidden="true">→</i><i class="trc out">${img(d.id)}${g.n>1?`<b>${g.n}</b>`:""}</i><span class="trs">${esc(g.st.replace(/\s*\(shapeless\)/i,""))}</span></div>`};
 function showTipBase(n){const d=/^\d+$/.test(n.dataset.t)&&D[+n.dataset.t];if(!d){hideTip();return}tipFor=n;const F=mf(d.m),P=pal(d),nc=d.ig&&d.ig[1]!=="rainbow"?d.ig[1]:"#FFFFFF";

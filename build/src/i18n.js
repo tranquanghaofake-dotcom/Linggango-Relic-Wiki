@@ -28,6 +28,8 @@ const hsh=s=>{let a=0xdeadbeef,b=0x41c6ce57;for(let i=0;i<s.length;i++){const c=
 const trOf=en=>{const P=pack();if(window.__TRLOG)window.__TRLOG.add(en);return P&&P.tr&&P.tr[hsh(en)]};
 const T=(en,p)=>fill(trOf(en)||en,p);
 /* a string that comes from the data (an item name, an effect text): looked up in the pack's `tr` like a sentence, but not logged by trlog.js and not a placeholder template */
+/* N("…") marks a sentence inside a constant table (a tooltip, a label): it returns the string unchanged so the build can find it; print it with T(x) */
+const N=s=>s;
 const TD=en=>{const P=pack();return P&&P.tr&&P.tr[hsh(en)]||en};
 const TN=(n,one,other,p)=>{const f=trOf(one+"\u0001"+other);let s;if(f&&typeof f==="object"){PRULES=PRULES||new Intl.PluralRules(LANG);s=f[PRULES.select(n)]||f.other}else s=n===1?one:other;return fill(s,{n,...p})};
 /* a pack arrives as a script (site) or is already there (offline file, or loaded before); either way the promise resolves, with English if it failed */

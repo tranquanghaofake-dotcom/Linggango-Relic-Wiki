@@ -1011,3 +1011,17 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Seen while looking at screenshots, not a bug: the h1 of a detail page is missing in a plain screenshot taken 0.8 s after load in every language (it fades in); the
   Russian title wraps to two lines at 56 px, which fits.
 - Still English on a curio page: everything in the body (How to get it, Stats, Used to craft, the source lines) and the effect text; that is group (c2) and Phase 3.
+
+## 2026-11-09: multilingual, Phase 2 group (c2): the body of the curio page
+- Converted the whole body of the curio detail page in `app.js` to `T`/`TN`/`TD`/`N`: section headings, Must-Have / Scarce banners, Keeper and ring gates, source cards
+  (Boss drop, Mob drop, treasure bag, chests, Trade…), the recipe window (Ingredients, "any {tag}", how-to-place text), the stats tab (Element, Damage, stat names
+  with their hints), the relic table and the relic level panel, the Duplicates card (Stacks / Doesn't stack, set ladder). `N("…")` is a new no-op marker for
+  sentences kept in constant tables (STATH, DMGT, SKL, SKW, STHOW, how-text); they print through `T(x)` and `tmlib.scan_msgids` reads them.
+- 131 new sentences translated by me in ru, pt, es, vi (390 per language, 390 of 390 covered). All unreviewed by a native speaker. The damage-type labels
+  (Slash/Pierce/Blunt/Magic/Projectile) and "Relic" (ru реликвия, pt relíquia, es reliquia; vi stays Relic) are new terminology choices to review.
+- English did not change: `<main>` + sidebar of 51 route states equal the build before group (b) except "1 item"; tooltips of 35 curios identical; HTML of 50 curio pages
+  (relic, each stacking kind, ladder, Must-Have, Keeper and ring gates, evolution, and the relic panel after moving the level slider) identical (`pagedump.js`, a scratch script).
+- `checks/i18n.js` draws 11 more kinds of curio page (relic with the slider moved, each rule above) in every language and requires every sentence to be translated or
+  kept. It caught 3 sentences hidden in a constant table at once (how-text of a recipe); wrapped in `N()`, translated.
+- Looked at: ru and vi curio pages at 1440 px (Drowned Belt, Ultra Sniffer Fur), the relic panel in ru. full `build/check.sh` green, exit 0 (invariants 0 broken, detail pages off the shared layout 0, page text 0 problems, style passes, a11y and timing 0 broken, site check passes), run on a copy of the tree taken before the next group's edits.
+- Open: numbers use the browser's separator (`toLocaleString()` without a locale; ru should read "2 100"); the curio effect, source and note texts (`fx`, `src`, `st`, `why`) stay English until Phase 3.

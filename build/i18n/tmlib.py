@@ -38,7 +38,7 @@ def scan_msgids(files=("app.js", "gear.js", "ux.js", "rooms.js")):
     out = set()
     for f in files:
         s = open(os.path.join(SRC, f), encoding="utf-8").read()
-        for m in re.finditer(r'\bT\(' + _LIT, s): out.add(json.loads('"' + m.group(1) + '"'))
+        for m in re.finditer(r'\b[TN]\(' + _LIT, s): out.add(json.loads('"' + m.group(1) + '"'))   # N("…") marks a sentence in a constant table (src/i18n.js)
         for m in re.finditer(r'\bT\(`([^`$\\]*)`', s): out.add(m.group(1))   # a sentence with double quotes inside is written between backticks
         for m in re.finditer(r'\bTN\([^"`\n]*?,\s*' + _LIT + r'\s*,\s*' + _LIT, s):
             out.add(json.loads('"' + m.group(1) + '"') + "\u0001" + json.loads('"' + m.group(2) + '"'))
