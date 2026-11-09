@@ -6,7 +6,9 @@ function ui(k,big){return `<i class="ui${big?" ui2":""}" style="--ui:var(--${UIK
 /* show any script error on the page itself, so a screenshot tells us what broke */
 {const box=()=>{let b=document.getElementById("jserr");if(!b){b=document.createElement("div");b.id="jserr";b.onclick=()=>b.remove();document.body.appendChild(b)}return b};
  const show=m=>{try{const b=box();b.textContent="Wiki error (click to hide): "+m}catch(e){}};
- addEventListener("error",e=>show(`${e.message} @ ${String(e.filename||"").split("/").pop()}:${e.lineno}`));
+ // "ResizeObserver loop completed with undelivered notifications" is the browser saying a resize callback changed the layout again in the same frame (a room painted after
+ // a longer translated text wrapped); the next frame delivers it and nothing is lost, so it is not shown as a wiki error
+ addEventListener("error",e=>{if(/^ResizeObserver loop/.test(e.message))return;show(`${e.message} @ ${String(e.filename||"").split("/").pop()}:${e.lineno}`)});
  addEventListener("unhandledrejection",e=>show(String(e.reason&&e.reason.stack||e.reason).slice(0,300)))}
 /* pixel art at whole device pixels: 16px textures drawn at an integer multiple of the screen's pixels (Windows 125%/150% scaling) */
 {const fit=()=>{const r=devicePixelRatio||1,k=n=>Math.max(1,Math.round(n*r/16))*16/r;document.documentElement.style.setProperty("--ip",k(32)+"px");document.documentElement.style.setProperty("--ip2",k(48)+"px")};

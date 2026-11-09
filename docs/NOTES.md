@@ -1025,3 +1025,16 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   kept. It caught 3 sentences hidden in a constant table at once (how-text of a recipe); wrapped in `N()`, translated.
 - Looked at: ru and vi curio pages at 1440 px (Drowned Belt, Ultra Sniffer Fur), the relic panel in ru. full `build/check.sh` green, exit 0 (invariants 0 broken, detail pages off the shared layout 0, page text 0 problems, style passes, a11y and timing 0 broken, site check passes), run on a copy of the tree taken before the next group's edits.
 - Open: numbers use the browser's separator (`toLocaleString()` without a locale; ru should read "2 100"); the curio effect, source and note texts (`fx`, `src`, `st`, `why`) stay English until Phase 3.
+
+## 2026-11-09: multilingual, Phase 2 group (d1): Equipment
+- `gear.js` converted: the Equipment list (title, per-Act lede, Act strip, Best loadout, tabs, search, counts with plural forms, the five-paragraph "How the tiers are worked out"),
+  weapon and armor pages (lead, How to get, Stats, Bonuses, Effects, every branch of Measured in game, Tier by Act, infobox, navbox), set pages, the weapon and set tooltips, and the
+  "Measured in game" section of curio pages. `GROLE`, `GKIND`, `GSLOT`, `GMK`, `GWHEN` are read through `T()` by `gT()`, so the ~20 places that print a role needed no edit.
+- Left English on purpose (Phase 3): the stat lines of tooltips and Bonuses (`fmt()` places icons by English words), effect and attribute names (`gAttr`, `gCName`).
+- 187 new sentences (577 per language, 577 of 577 covered), translated by me, unreviewed by a native speaker. New terms to review: Playstyle, Loadout, Toughness, "tier list".
+- English did not change: 205 captures (8 states of the Equipment list, a search with and without hits, show-all, 76 weapon/armor pages covering each measured branch, 13 sets, 16 curios
+  with a measured section, 89 tooltips) are identical after dropping timing noise (`data-px`, `style`, the room canvas); the 51 route states and 50 curio pages as before. Scratch scripts, not kept.
+- Real bug found by looking: in ru and pt the Equipment list showed a red "Wiki error: ResizeObserver loop completed with undelivered notifications" (the room paints, longer
+  text then changes its height). It is the browser's harmless notice, so `app.js` no longer shows it; `site_check.js` loads `?lang=ru#gear/5/ME/w` fresh and requires no error box
+  (verified it fails on a build with the old handler).
+- `checks/i18n.js` draws Equipment pages and gear tooltips in every language; it caught the lowercase slot ids in the measurement data ("charm") at once (fixed with `gSl`).

@@ -40,12 +40,20 @@
     const st0 = JSON.stringify(st); Object.assign(st, { c: ['ME'], r: ['4'], s: 'Ring', q: 'role:melee -mod:brutality' });   // the Curios page with filters on: the pills, the legend, the table of tiers
     // curio pages that reach every helper of the page body: a relic (its level panel too), the stacking rules, a ladder, a scarce material, a Must-Have, a Keeper gate, a ring gate, an evolution
     const cp = [x => RL[x.id], x => SK.i[x.id] && SK.i[x.id].s === 'n', x => SK.i[x.id] && SK.i[x.id].l, x => SK.i[x.id] && SK.i[x.id].l && SK.i[x.id].l[2], x => x.sca, isMust, x => x.gk, x => x.rq, x => evo().from[x.id], x => (evo().to[x.id] || []).length, x => x.g === 'Loot'].map(f => D.find(x => { try { return f(x); } catch (e) { return false; } })).filter(Boolean).map(x => '#i' + x.ix);
-    for (const h of ['#', '#act/2', '#act/99', '#home', '#i5', '#g12', '#gs3', ...cp]) { location.hash = h; render();
+    // Equipment: the list in each tab, a search that finds and one that does not, weapon pages of each measured kind (swings, conditions, effects), a set page, a curio with a measured section
+    const gp = [x => x.ms && x.ms.sw && !x.ms.st, x => x.ms && x.ms.st === 'cond', x => x.ms && x.ms.pct, x => x.ms && x.ms.st === 'grows', x => x.fx && x.fx.some(r => r.fire !== undefined), x => x.fx && x.fx.some(r => r.chance && r.chance < 1), x => x.fx && x.fx.some(r => r.unseen), x => x.ga, x => x.est, x => x.k === 'armor'].map(f => GE.find(x => { try { return f(x); } catch (e) { return false; } })).filter(Boolean).map(x => '#g' + x.ix);
+    const gsp = [x => x.ms && x.ms.bonus, x => !x.kn, x => x.fx && x.fx.length].map(f => GS.find(x => { try { return f(x); } catch (e) { return false; } })).filter(Boolean).map(x => '#gs' + x.ix);
+    const cm = D.filter(x => typeof CM !== 'undefined' && CM[x.id]).slice(0, 6).map(x => '#i' + x.ix);
+    for (const h of ['#', '#act/2', '#act/99', '#home', '#i5', '#g12', '#gs3', ...cp, '#gear', '#gear/5/RA/a', '#gear/9/MA/c', '#gear/3/SU/w', '#gear/99', ...gp, ...gsp, ...cm]) { location.hash = h; render();
       const rv = document.querySelector('[data-rlv]'); if (rv) { rv.value = Math.max(1, Math.floor(rv.max / 2)); rv.dispatchEvent(new Event('input', { bubbles: true })); }   // the relic panel after a move of the slider
       const t = document.getElementById('main').innerText; if (/\{\w+\}|\$\{|undefined|NaN|\[object/.test(t)) bad.push('i18n ' + c + ' ' + h + ': a placeholder or "undefined" shows on the page'); }
     // the tooltip's chrome: Keeper-gated, ring-gated, Must-Have, evolving, estimate, luck window
     for (const d of [D.find(x => x.gk), D.find(x => x.rq), D.find(isMust), D.find(x => evo().from[x.id]), D.find(x => (evo().to[x.id] || []).length), D.find(x => x.pe), D.find(x => x.a !== x.t)].filter(Boolean)) {
       const n = document.createElement('a'); n.dataset.t = String(d.ix); document.body.appendChild(n); TIPC.clear(); showTipBase(n); n.remove(); }
+    for (const k of [GE.findIndex(x => x.est) >= 0 ? 'g' + GE.findIndex(x => x.est) : 'g0', GE.findIndex(x => x.ga) >= 0 ? 'g' + GE.findIndex(x => x.ga) : 'g1', 's0', 's' + Math.floor(GS.length / 2)]) { const n = document.createElement('a'); n.dataset.t = k; document.body.appendChild(n); gearTip(n); n.remove(); }   // the tooltip of a weapon and of a set
+    GSTATE.q = 'sword'; location.hash = '#gear/0/ME/w'; render(); GSTATE.q = 'zzzz'; render(); GSTATE.q = '';
+    for (const h of ['#gear/5/ME/w', '#gear/0/MA/c']) { location.hash = h; render(); await new Promise(r => setTimeout(r, 500)); }   // a room painted after longer text wrapped once raised a ResizeObserver notice that showed as a wiki error
+    const je = document.getElementById('jserr'); if (je) { bad.push('i18n ' + c + ': the page shows a wiki error: ' + je.textContent.slice(0, 120)); je.remove(); }
     hideTip();
     Object.assign(st, JSON.parse(st0));
     const keep = new Set(I18N[c].keep || []);
