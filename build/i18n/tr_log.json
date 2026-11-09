@@ -30,10 +30,12 @@
 "Bundle",
 "Changes",
 "Charm",
+"Checked against Linggango {v}. Numbers come from the pack's own files; estimates say so.",
 "Clear all",
 "Common",
 "Continue: {act}",
 "Cooldown",
+"Copy",
 "Craft",
 "Craft or loot",
 "Crit",
@@ -120,6 +122,7 @@
 "None: this is the last Act",
 "Not found",
 "Nyxaris",
+"On this page",
 "Opened by beating",
 "Opens when {boss} falls.",
 "Pick an Act to see what it opens and who guards it. Press “I'm here” on the Act you reached and the map follows your run.",
@@ -230,7 +233,9 @@
 "{n} item\u0001{n} items",
 "{n} mod\u0001{n} mods",
 "{n} of {total}",
+"{set} set",
 "{slot} slot",
 "{w} weapons and {s} armor sets from the pack, ranked for each playstyle at every Act. Best melee weapon as you progress:",
-"… {n} more, narrow the filters to see them"
+"… {n} more, narrow the filters to see them",
+"↑ Back to top"
 ]

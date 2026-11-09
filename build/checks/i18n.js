@@ -38,8 +38,12 @@
 { const h0 = location.hash;
   for (const c of LANG_CODES.filter(x => x !== 'en')) { useLang(c); window.__TRLOG = new Set();
     const st0 = JSON.stringify(st); Object.assign(st, { c: ['ME'], r: ['4'], s: 'Ring', q: 'role:melee -mod:brutality' });   // the Curios page with filters on: the pills, the legend, the table of tiers
-    for (const h of ['#', '#act/2', '#act/99', '#home']) { location.hash = h; render();
+    for (const h of ['#', '#act/2', '#act/99', '#home', '#i5', '#g12', '#gs3']) { location.hash = h; render();
       const t = document.getElementById('main').innerText; if (/\{\w+\}|\$\{|undefined|NaN|\[object/.test(t)) bad.push('i18n ' + c + ' ' + h + ': a placeholder or "undefined" shows on the page'); }
+    // the tooltip's chrome: Keeper-gated, ring-gated, Must-Have, evolving, estimate, luck window
+    for (const d of [D.find(x => x.gk), D.find(x => x.rq), D.find(isMust), D.find(x => evo().from[x.id]), D.find(x => (evo().to[x.id] || []).length), D.find(x => x.pe), D.find(x => x.a !== x.t)].filter(Boolean)) {
+      const n = document.createElement('a'); n.dataset.t = String(d.ix); document.body.appendChild(n); TIPC.clear(); showTipBase(n); n.remove(); }
+    hideTip();
     Object.assign(st, JSON.parse(st0));
     const keep = new Set(I18N[c].keep || []);
     for (const en of window.__TRLOG) if (!trOf(en) && !keep.has(en)) bad.push('i18n ' + c + ': no translation for ' + JSON.stringify(en.replace('\u0001', ' | ')).slice(0, 80)); }

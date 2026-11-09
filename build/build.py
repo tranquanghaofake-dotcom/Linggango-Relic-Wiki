@@ -81,7 +81,18 @@ def ui_packs():
     return out
 PACKS = ui_packs()
 # sentences written in the code, keyed by the hash of their English (i18n/tmlib.py, tm/<lang>.json): checked here, shipped as the pack's `tr`
-sys.path.insert(0, str(B / "i18n")); import tmlib
+sys.path.insert(0, str(B / "i18n")); import tmlib, harvest
+def official_overlay():
+    """The game's own names and texts (i18n/official/<lang>.json, made by i18n/harvest.py) keyed like a sentence: by the hash of the English a page shows."""
+    W = harvest.load_wiki(); en_of = {d["id"]: d["n"] for d in W["D"]}; en_of.update({g["id"]: g["n"] for g in W["GE"]})
+    out = {}
+    for lang in ("vi", "ru", "pt", "es"):
+        p = B / "i18n" / "official" / (lang + ".json"); o = json.loads(read(p)) if p.exists() else {"names": {}, "text": {}}; tr = {}
+        for i, t in o["names"].items():
+            if i in en_of: tr[tmlib.hsh(en_of[i])] = t
+        for en, t in o["text"].items(): tr.setdefault(tmlib.hsh(en), t)
+        out[lang] = tr
+    return out
 def add_tm(packs):
     need = tmlib.scan_msgids(); logp = B / "i18n" / "tr_log.json"
     if logp.exists(): need |= set(json.loads(read(logp)))   # sentences built from variables, listed by i18n/trlog.js
@@ -102,9 +113,13 @@ def add_tm(packs):
                 assert ph(f) <= ph(en) and (not isinstance(t, str) or ph(f) == ph(en)), "i18n: %s %r: {placeholders} differ from English: %r" % (lang, en, f)
                 assert tg(f) == tg(en) or ("\u0001" in en and set(tg(f)) <= set(tg(en))), "i18n: %s %r: tags or links differ from English" % (lang, en)
             tr[k] = t
+        n0 = len(tr)
+        for k, t in OFFICIAL[lang].items(): tr.setdefault(k, t)   # a sentence of ours always wins over the game's text for the same English
+        print("i18n %s: %d names and texts from the game's own translations added" % (lang, len(tr) - n0))
         pk["tr"] = tr; pk["keep"] = sorted(keep)   # keep: sentences that stay English on purpose (checks/i18n.js tells them from untranslated ones)
         miss = sorted(n for n in need if tmlib.hsh(n) not in tr and n not in keep)
         print("i18n %s: %d translated sentences; %d of %d sentences asked for are translated or kept in English on purpose%s" % (lang, len(tm), len(need) - len(miss), len(need), "" if not miss else "; untranslated: " + "; ".join(repr(m.replace("\u0001", " | "))[:48] for m in miss[:6]) + (" …" if len(miss) > 6 else "")))
+OFFICIAL = official_overlay()
 add_tm(PACKS)
 PACKS_JS = "window.I18N=" + json.dumps(PACKS, ensure_ascii=False, separators=(",", ":")) + ";"
 

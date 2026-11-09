@@ -995,3 +995,19 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   page text 0 problems, style passes, a11y and timing 0 broken, site check passes). Screenshots of the Curios page in ru and vi at 1440 px looked at.
 - Still English: the tooltip and the curio detail page (next group, together with curio text), the equipment pages, bosses, mechanics, changes, the Build planner;
   mod names; rarity names; curio and gear names and texts (Phase 3). Token cost of the 127 sentences was not counted.
+
+## 2026-11-09: multilingual, Phase 2 group (c1): the shared detail-page frame, tooltip and the game's own item names
+- Item names: `build.py` merges the game's own names and verbatim texts (`i18n/official/<lang>.json`) into each pack's `tr`, keyed by the hash of the English a
+  page shows (ids are mapped to English names from the data); a sentence of ours wins. New `TD(en)` in `i18n.js` (the same lookup, not logged, no placeholders)
+  wraps 70 name prints (`esc(x.n)`) in app.js and gear.js, the tab titles of curio, gear and set pages, and search (`qf` also holds the localized name, cleared on a
+  language switch). A name without an official translation stays English, as it does in the game. The offline file grew from 13.93 to 14.33 MB (the packs are inline);
+  on the site each language is a separate file.
+- Converted: the `article()` frame (On this page, Back to top, the "Checked against" line, Copy / Copied / Press Ctrl+C, the curio breadcrumb) and the tooltip's
+  own sentences (kind, Evolves from / into, Locked until, Requires the, Must-Have, luck window, estimate). 13 new sentences, 257 per language, 257 of 257 covered.
+- English did not change: HTML of 51 route states equals the build before group (b) except "1 item" (noted under group b); the tooltip HTML of 35 curios (plain,
+  Keeper-gated, ring-gated, Must-Have, evolving, estimate, luck window) is identical character for character (`tipdump`, a scratch script, not kept).
+- `checks/i18n.js` now also draws a curio, a gear and a set page and builds the tooltip of seven kinds of curio in every language and requires every sentence they ask
+  for to be translated or kept. Full `build/check.sh` green, exit 0.
+- Seen while looking at screenshots, not a bug: the h1 of a detail page is missing in a plain screenshot taken 0.8 s after load in every language (it fades in); the
+  Russian title wraps to two lines at 56 px, which fits.
+- Still English on a curio page: everything in the body (How to get it, Stats, Used to craft, the source lines) and the effect text; that is group (c2) and Phase 3.

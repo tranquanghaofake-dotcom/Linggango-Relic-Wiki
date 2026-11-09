@@ -208,3 +208,11 @@ Số mod ship từng file: `ru_ru` 170, `pt_br` 114, `es_es` 91, `es_mx` 70, `vi
 - **Xung đột thuật ngữ đã xử lý:** chính thức ru gọi Evocation là "Призыв" và es là "Invocación", trùng nhãn vai trò Summon; đổi vai trò Summon thành "Призыватель" (ru) và "Invocador" (es) để hai chip trong cùng cột lọc không giống nhau.
 - **Tiếng Anh thay đổi đúng một chỗ, có chủ đích:** "1 items" → "1 item" khi một Act (đang lọc) chỉ có một curio. Ngoài ra HTML của 51 trạng thái route (17 route × thường / "I'm here" / bộ lọc bật), gồm cả cột lọc, giống bản trước **từng ký tự**. Phép so này lại bắt được một lỗi nháy đơn của tôi (huy hiệu Must-Have trên thẻ).
 
+### 13.8 Phase 2, nhóm (c1): khung trang chi tiết, tooltip và **tên vật phẩm theo bản dịch chính thức** (2026-11-09)
+- **Tên vật phẩm (L1, bắt đầu Phase 3):** `build.py` đưa vào gói của từng ngôn ngữ các tên và câu nguyên văn lấy từ chính game (`i18n/official/<lang>.json`, đã thu hoạch ở Phase 0), khóa theo băm của câu Anh mà trang hiển thị; câu của ta luôn thắng. Thêm `TD(en)` (cùng cách tra nhưng không ghi nhật ký, không điền tham số) và bọc nó quanh **70 chỗ in tên** (`esc(x.n)`) ở `app.js` và `gear.js`, tiêu đề tab của trang curio / gear / bộ giáp, và ô tìm: gõ tên tiếng Nga của một curio cũng ra nó (`d._q` có thêm tên bản địa). Tên chưa có bản dịch chính thức vẫn là tiếng Anh, đúng như người chơi thấy trong game khi bản dịch thiếu. Kết quả: ru có tên Nga cho khoảng một nửa số curio và gear, es ≈23%, pt ≈20%, vi ≈9% (số đã đo ở 13.2).
+- **Khung `article()`** (mọi trang chi tiết: 3.918 trang): "On this page", "↑ Back to top", dòng "Checked against…", nút Copy / Copied / Press Ctrl+C, breadcrumb của trang curio.
+- **Tooltip:** dòng loại, "Evolves from / into", "Locked until … falls", "Requires the …", "Must-Have: get it as soon as … opens", "with luck from …", "estimate"; `relabelSide` xóa bộ nhớ đệm tooltip khi đổi ngôn ngữ.
+- **Dịch:** 13 câu mới → 257 câu mỗi ngôn ngữ, phủ 257/257.
+- **Tiếng Anh không đổi:** HTML của 51 trạng thái route giống bản trước (chỉ khác "1 item" đã nêu ở 13.7), và HTML tooltip của 35 curio (thường, bị khóa Keeper, cần nhẫn, Must-Have, tiến hóa, ước lượng, cửa sổ may mắn) giống từng ký tự.
+- **Chưa làm (c2):** thân trang curio ("How to get it", "Stats", "Used to craft", các dòng nguồn…), cùng chữ dữ liệu (`fx`, `src`, `st`, `why`) cần dịch thật sự (Phase 3).
+

@@ -27,6 +27,8 @@ const hsh=s=>{let a=0xdeadbeef,b=0x41c6ce57;for(let i=0;i<s.length;i++){const c=
  a=Math.imul(a^(a>>>16),2246822507)^Math.imul(b^(b>>>13),3266489909);b=Math.imul(b^(b>>>16),2246822507)^Math.imul(a^(a>>>13),3266489909);return(4294967296*(2097151&b)+(a>>>0)).toString(36)};
 const trOf=en=>{const P=pack();if(window.__TRLOG)window.__TRLOG.add(en);return P&&P.tr&&P.tr[hsh(en)]};
 const T=(en,p)=>fill(trOf(en)||en,p);
+/* a string that comes from the data (an item name, an effect text): looked up in the pack's `tr` like a sentence, but not logged by trlog.js and not a placeholder template */
+const TD=en=>{const P=pack();return P&&P.tr&&P.tr[hsh(en)]||en};
 const TN=(n,one,other,p)=>{const f=trOf(one+"\u0001"+other);let s;if(f&&typeof f==="object"){PRULES=PRULES||new Intl.PluralRules(LANG);s=f[PRULES.select(n)]||f.other}else s=n===1?one:other;return fill(s,{n,...p})};
 /* a pack arrives as a script (site) or is already there (offline file, or loaded before); either way the promise resolves, with English if it failed */
 const langPack=c=>new Promise(ok=>{if(c==="en"||I18N[c])return ok();const u=document.documentElement.getAttribute("data-lang-"+c);if(!u)return ok();
