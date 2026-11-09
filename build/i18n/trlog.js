@@ -6,9 +6,10 @@ const { chromium } = (() => { try { return require('playwright'); } catch { retu
 const ROUTES = ['#', '#act/99', '#i5', '#g12', '#gs3', '#boss/iron_colossus', '#bosses', '#mechanics', '#changes', '#home'];   // Acts are added from ORDER
 (async () => {
   const b = await chromium.launch(), seen = new Set();
-  for (const here of [null, 3]) {
+  const FILT = '{"c":["ME"],"r":["4","5"],"x":[],"g":[],"m":"","s":"Ring","a":"","q":"role:melee -mod:brutality","nw":true,"sort":"a","dir":1,"cl":[],"op":null,"rl":3,"rq":-1}';
+  for (const [here, lgw2] of [[null, null], [3, null], [null, FILT]]) {
     const ctx = await b.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' }), p = await ctx.newPage();
-    await p.addInitScript(h => { window.__TRLOG = new Set(); try { localStorage.clear(); if (h !== null) localStorage.setItem('lgw-here', String(h)); } catch (e) {} }, here);
+    await p.addInitScript(([h, f]) => { window.__TRLOG = new Set(); try { localStorage.clear(); if (h !== null) localStorage.setItem('lgw-here', String(h)); if (f) localStorage.setItem('lgw2', f); } catch (e) {} }, [here, lgw2]);
     await p.goto('file://' + path.resolve(process.argv[2] || 'dist/Linggango_Relic_Wiki.html'), { waitUntil: 'load' }); await p.waitForTimeout(1200);
     const acts = await p.evaluate(() => ORDER.filter(x => x !== -1 || D.some(d => d.t === -1)));
     for (const r of [...ROUTES, ...acts.map(a => '#act/' + a)]) { await p.evaluate(h => { location.hash = h; render(); }, r); await p.waitForTimeout(250); }

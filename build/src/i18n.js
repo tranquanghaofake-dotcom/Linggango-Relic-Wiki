@@ -40,7 +40,7 @@ function shell(){const P=pack();
   if(n.dataset.lgh)n.innerHTML=P&&P[n.dataset.lgh]||n._en.h;
   for(const pr of(n.dataset.lga||"").split(";").filter(Boolean)){const[a,k]=pr.split("=");n.setAttribute(a,P&&P[k]||n._en.a[a])}}}
 /* the language is taken here once its pack is in; render() / decorate() (app.js) then redraw whatever JS wrote */
-function useLang(c){LANG=c;PRULES=null;document.documentElement.lang=c;shell();
+function useLang(c){LANG=c;PRULES=null;document.documentElement.lang=c;shell();if(typeof relabelSide==="function")relabelSide();
  const s=document.getElementById("lang");if(s)s.value=c}
 function setLang(c){return langPack(c).then(()=>{if(c!=="en"&&!I18N[c])return;lsSet("lgw-lang",c);
  const u=new URL(location.href);if(c==="en")u.searchParams.delete("lang");else u.searchParams.set("lang",c);history.replaceState(null,"",u);

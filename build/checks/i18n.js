@@ -37,9 +37,17 @@
 // is translated or kept in English on purpose (the pack's `keep`: proper names, rarity names). A sentence missing from tm/<lang>.json shows up here.
 { const h0 = location.hash;
   for (const c of LANG_CODES.filter(x => x !== 'en')) { useLang(c); window.__TRLOG = new Set();
-    for (const h of ['#', '#act/2', '#act/99']) { location.hash = h; render();
+    const st0 = JSON.stringify(st); Object.assign(st, { c: ['ME'], r: ['4'], s: 'Ring', q: 'role:melee -mod:brutality' });   // the Curios page with filters on: the pills, the legend, the table of tiers
+    for (const h of ['#', '#act/2', '#act/99', '#home']) { location.hash = h; render();
       const t = document.getElementById('main').innerText; if (/\{\w+\}|\$\{|undefined|NaN|\[object/.test(t)) bad.push('i18n ' + c + ' ' + h + ': a placeholder or "undefined" shows on the page'); }
+    Object.assign(st, JSON.parse(st0));
     const keep = new Set(I18N[c].keep || []);
     for (const en of window.__TRLOG) if (!trOf(en) && !keep.has(en)) bad.push('i18n ' + c + ': no translation for ' + JSON.stringify(en.replace('\u0001', ' | ')).slice(0, 80)); }
   window.__TRLOG = undefined; useLang('en'); location.hash = h0; render(); }
+// The sidebar is built once in English and only relabelled: the filter keys stay English (saved filters and shared links keep working), the labels follow the
+// language, and a query can name a role in the reader's own language.
+{ const h0 = location.hash; useLang('ru'); const chip = document.querySelector('#fc button'), d = D.find(x => x.ro.includes('ME')), q0 = st.q;
+  if (chip.dataset.k !== 'ME' || chip.firstChild.nodeValue !== T('Melee') || T('Melee') === 'Melee') bad.push('i18n ru: the Role chip is not relabelled (' + chip.firstChild.nodeValue + ' for key ' + chip.dataset.k + ')');
+  st.q = 'role:ближний'; if (!qMatch(d)) bad.push('i18n ru: "role:ближний" does not find a melee curio'); st.q = 'role:melee'; if (!qMatch(d)) bad.push('i18n ru: "role:melee" stopped working'); st.q = q0;
+  useLang('en'); if (document.querySelector('#fc button').firstChild.nodeValue !== 'Melee') bad.push('i18n: the Role chip did not come back to English'); location.hash = h0; render(); }
 

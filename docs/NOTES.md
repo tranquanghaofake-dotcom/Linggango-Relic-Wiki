@@ -974,3 +974,24 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Still English on these pages, on purpose for the next groups: slot names (Charm, Ring … have official translations in the Curios mod), the filter column
   and role chips (group b), curio text, the Act title pictures (images made by the pack), the credits in the footer. The pilot that measures tokens per
   1,000 characters is not done: the 104 sentences were translated in this session without a count.
+
+## 2026-11-09: multilingual, Phase 2 group (b): the Curios page, the filter column, slot names
+- The sidebar (role, rarity, mechanic and element chips, the mod / slot / Act selects) is built once, in English, when the page loads. A language change
+  does not rebuild it: `relabelSide` (app.js, called from `useLang`) writes each chip's label from the English it remembers (`b._en`), so filter keys, saved
+  filters (`lgw2`) and shared links stay English. The query also understands a role named in the reader's language (`role:ближний`); `d._q` is cleared on a switch.
+- Converted: the filter bar (search box, field list, buttons, the "How it works" paragraph, the Relic level controls), the active-filter pills, the Curios
+  page (heading, lede, legend, tier headers, table view, "Show all N curios"), the curio card, the slot badge and the hub's slot list, the "N / TOTAL curios"
+  count and the index list. `tmlib.scan_msgids` now reads sentences written between backticks.
+- 127 new sentences, 244 per language in `tm/`, all four languages covered 244 of 244. The game's own text is used where it exists: slot names from the
+  Curios mod (Charm, Ring, Necklace, Head, Hands, Belt, Body, Feet, Back, Bracelet, Accessory, Spellstone) and Iron's Spells school names (Fire … Eldritch), read
+  from the jars; `keep.json` is now `{"all": […], "<lang>": […]}`: vi keeps English for slot and school names (D3), rarity names and mod-specific slots stay English
+  everywhere. A term clash found and fixed: the official ru "Призыв" and es "Invocación" mean the Evocation school, so the Summon role is "Призыватель" (ru) and
+  "Invocador" (es).
+- English output: HTML of 51 route states (17 routes, plain / "I'm here" / filters on; main, sidebar, title, title-screen buttons) equals the build before this group
+  character for character, with one deliberate exception: "1 items" now reads "1 item" (`TN`) for an Act with one curio under a filter. The comparison caught one bug
+  of mine again (a single-quoted string that does not interpolate, on the Must-Have star), fixed. `i18n/domdump.js` and `i18n/domcmp.py` are now in the repo.
+- Checked: `checks/i18n.js` clean; deliberate faults reported (a translation deleted → named; the Melee chip not relabelled → named, and "role:ближний" not found);
+  `build.py` rejects bad hashes, `{x}`, tags and plural forms; full `build/check.sh` green, exit 0 (invariants 0 broken, 3,918 detail pages off the shared layout 0,
+  page text 0 problems, style passes, a11y and timing 0 broken, site check passes). Screenshots of the Curios page in ru and vi at 1440 px looked at.
+- Still English: the tooltip and the curio detail page (next group, together with curio text), the equipment pages, bosses, mechanics, changes, the Build planner;
+  mod names; rarity names; curio and gear names and texts (Phase 3). Token cost of the 127 sentences was not counted.

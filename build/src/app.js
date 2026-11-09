@@ -605,7 +605,7 @@ function rlRelicQ(r,q){if(q.some(v=>v<0))return -1;let o=0,n=r.ab.length,s=0;
  r.ab.forEach(x=>{const qs=x.st.map((t,j)=>rlSnap(t,q[o+j]));o+=x.st.length;if(x.nq)n--;else s+=qs.length?Math.trunc(qs.reduce((p,c)=>p+c,0)/qs.length):0});
  return n>0?Math.max(0,Math.min(10,Math.trunc(s/n))):0}
 function rlStars(q){return `<span class="rst" title="${q/2} of 5 stars">${[0,1,2,3,4].map(i=>`<i class="${q>=2*i+2?"f":q>=2*i+1?"h":""}">★</i>`).join("")}</span>`}
-const RLQO=(q,t)=>`${q===-2?`<option value="-2" selected>mixed</option>`:""}<option value="-1"${q===-1?" selected":""}>any roll</option>${(t?[...rlQMap(t).keys()].sort((a,b)=>a-b):[...Array(11).keys()]).map(v=>`<option value="${v}"${v===q?" selected":""}>${v/2} ★</option>`).join("")}`;
+const RLQO=(q,t)=>`${q===-2?`<option value="-2" selected>${T("mixed")}</option>`:""}<option value="-1"${q===-1?" selected":""}>${T("any roll")}</option>${(t?[...rlQMap(t).keys()].sort((a,b)=>a-b):[...Array(11).keys()]).map(v=>`<option value="${v}"${v===q?" selected":""}>${v/2} ★</option>`).join("")}`;
 function rlStat(t,z,q){const a=(q>=0?[rlVal(t,rlBQ(t,q),z)]:[rlVal(t,t.lo,z),rlVal(t,t.hi,z)].sort((p,c)=>p-c)).map(v=>rlFmt(t.p,v));if(!a[1])a[1]=a[0];
  return t.f.replace("%1$s",a[0]===a[1]?a[0]:a[0]+" ~ "+a[1]).replace(/%%/g,"%").replace(/\.$/,"")}
 function rlXp(r,l){let t=0;for(let i=0;i<l;i++)t+=r.xp[0]+r.xp[1]*i;return t}
@@ -674,13 +674,15 @@ function parseQ(q){const o={raw:q,t:[],k:{}};
   const e={v,neg,raw,k:k||""};k?(o.k[k]=o.k[k]||[]).push(e):o.t.push(e)});return o}
 function qParsed(){if(QP.raw!==st.q)QP=parseQ(st.q);return QP}
 function qTokens(){const P=qParsed();return [...P.t,...Object.values(P.k).flat()]}
-function qLabel(e){return (e.neg?"not ":"")+(e.k?QNAME[e.k]+": ":"“")+e.v+(e.k?"":"”")}
+const qName=k=>({m:T("Mod"),s:T("Slot"),st:T("Stat"),fx:T("Effect"),src:T("Source"),p:T("Act"),r:T("Power"),ro:T("Role"),g:T("Type"),x:T("Tag"),n:T("Name")})[k];
+const qfLab=k=>({mod:T("Mod"),slot:T("Slot"),stat:T("Stat"),effect:T("Effect"),source:T("Source"),path:T("Act"),rarity:T("Power"),role:T("Role"),type:T("Craft or loot"),tag:T("Element or mechanic"),name:T("Name")})[k];
+function qLabel(e){return (e.neg?T("not")+" ":"")+(e.k?qName(e.k)+": ":"“")+e.v+(e.k?"":"”")}
 // remove exactly the clicked token: split the query the way parseQ does, so "ring" is not cut out of "slot:ring" or "swordsman"
 const slotQ=v=>`slot:${/\s/.test(v)?`"${v}"`:v}`;
 function qDrop(raw){const ws=st.q.match(QTOK)||[],i=ws.indexOf(raw);if(i>=0)ws.splice(i,1);return ws.join(" ")}
 function qf(d){if(d._q)return d._q;const F=mf(d.m);
  return d._q={n:qNorm(d.n),m:qNorm(d.m+"|"+(F?F[2]:"")),s:qNorm(d.sl.join("|")),st:qNorm(d.st.join(" | ")),fx:qNorm(d.fx),src:qNorm(srcText(d)),
-  p:qNorm(ACT[d.t][0]),pl:qNorm(actL(d.t)),r:qNorm(RN[d.r]+(isMust(d)?"|"+RN[d.br]:"")),ro:qNorm(d.ro.map(k=>ROLE[k]).join("|")),g:qNorm(d.g),
+  p:qNorm(ACT[d.t][0]),pl:qNorm(actL(d.t)),r:qNorm(RN[d.r]+(isMust(d)?"|"+RN[d.br]:"")),ro:qNorm(d.ro.map(k=>ROLE[k]+(T(ROLE[k])!==ROLE[k]?"|"+T(ROLE[k]):"")).join("|")),g:qNorm(d.g),
   x:qNorm(d.mt.map(t=>t.slice(2)).join("|")),all:qNorm(d.n+" "+d.fx+" "+srcText(d)+" "+d.m+" "+d.id+" "+d.st.join(" "))}}
 function qHit(d,f,k,v){
  if(k==="p")return v===f.p||v===String(d.t)||v===f.pl||"act "+v===f.pl||"path "+v===f.pl||(f.p==="0-i"&&(v==="0"||v==="i"))||(v.length>2&&!/^[ivx]+$/.test(v)&&f.pl.includes(v));
@@ -700,13 +702,13 @@ function fSug(k){const u=new Set(),add=x=>x&&u.add(x);
  else if(k==="tag")D.forEach(d=>d.mt.forEach(t=>add(t.slice(2))));else if(k==="stat")D.forEach(d=>statsOf(d).forEach(s=>add(s.k)));
  return [...u].sort((a,b)=>String(a).localeCompare(String(b)))}
 function fbar(n,total){
- return `<div class="fbar" role="search"><div class="fbr"><input id="fq" type="search" autocomplete="off" spellcheck="false" name="pathq" placeholder="Search, or filter: mod:terramity slot:ring stat:damage…" aria-label="Search and filter curios" value="${esc(st.q)}"><span class="fn">${n===total?`${total} curios`:`${n} of ${total}`}</span></div>
-<div class="fbr fadd"><select id="fk" aria-label="Filter field">${QFIELDS.map(([k,t])=>`<option value="${k}"${k===FKEY?" selected":""}>${t}</option>`).join("")}</select><input id="fv" list="fvl" autocomplete="off" name="filterv" placeholder="e.g. Terramity…" aria-label="Filter value"><datalist id="fvl"></datalist><button class="chip" id="fgo">Add filter</button><button class="ghost" id="fhelp" aria-expanded="${FHINT}">How it works</button></div>
-<p class="fhint" id="fhint"${FHINT?"":" hidden"}>Words search names, effects, stats and sources. Add <b>field:value</b> to narrow it down, e.g. <code>mod:terramity slot:ring stat:damage</code>. The same field twice means either one (<code>slot:ring slot:charm</code>); different fields must all match. Put <b>-</b> in front to exclude (<code>-mod:brutality</code>) and quotes around spaces (<code>stat:"attack speed"</code>). Fields: mod, slot, stat, effect, source, act, rarity, role, type, tag, name. Sidebar filters stack with these.</p>
-<details class="fadv"${st.rl?" open":""}><summary>Relic levels in tooltips</summary><div class="fbr frl"><label for="frl">Relic level</label><input id="frl" type="range" min="0" max="${RLMAX}" value="${Math.min(st.rl,RLMAX)}"><b id="frlv">${st.rl>=RLMAX?"Max":st.rl}</b><label class="frq">Stars <select id="frq">${RLQO(st.rq)}</select></label><span class="fn">${Object.keys(RL).length} Relics and More Relics curios; each stops at its own max</span></div></details>
+ return `<div class="fbar" role="search"><div class="fbr"><input id="fq" type="search" autocomplete="off" spellcheck="false" name="pathq" placeholder="${T("Search, or filter: mod:terramity slot:ring stat:damage…")}" aria-label="${T("Search and filter curios")}" value="${esc(st.q)}"><span class="fn">${n===total?TN(total,"{n} curio","{n} curios"):T("{n} of {total}",{n,total})}</span></div>
+<div class="fbr fadd"><select id="fk" aria-label="${T("Filter field")}">${QFIELDS.map(([k])=>`<option value="${k}"${k===FKEY?" selected":""}>${qfLab(k)}</option>`).join("")}</select><input id="fv" list="fvl" autocomplete="off" name="filterv" placeholder="${T("e.g. Terramity…")}" aria-label="${T("Filter value")}"><datalist id="fvl"></datalist><button class="chip" id="fgo">${T("Add filter")}</button><button class="ghost" id="fhelp" aria-expanded="${FHINT}">${T("How it works")}</button></div>
+<p class="fhint" id="fhint"${FHINT?"":" hidden"}>${T(`Words search names, effects, stats and sources. Add <b>field:value</b> to narrow it down, e.g. <code>mod:terramity slot:ring stat:damage</code>. The same field twice means either one (<code>slot:ring slot:charm</code>); different fields must all match. Put <b>-</b> in front to exclude (<code>-mod:brutality</code>) and quotes around spaces (<code>stat:"attack speed"</code>). Fields: mod, slot, stat, effect, source, act, rarity, role, type, tag, name. Sidebar filters stack with these.`)}</p>
+<details class="fadv"${st.rl?" open":""}><summary>${T("Relic levels in tooltips")}</summary><div class="fbr frl"><label for="frl">${T("Relic level")}</label><input id="frl" type="range" min="0" max="${RLMAX}" value="${Math.min(st.rl,RLMAX)}"><b id="frlv">${st.rl>=RLMAX?T("Max"):st.rl}</b><label class="frq">${T("Stars")} <select id="frq">${RLQO(st.rq)}</select></label><span class="fn">${T("{n} Relics and More Relics curios; each stops at its own max",{n:Object.keys(RL).length})}</span></div></details>
 ${activeBar()}</div>`}
 function fbind(){const q=el("fq");if(!q)return;
- const rl=el("frl");rl.oninput=()=>{st.rl=+rl.value;el("frlv").textContent=st.rl>=RLMAX?"Max":st.rl;TIPC.clear();save()};
+ const rl=el("frl");rl.oninput=()=>{st.rl=+rl.value;el("frlv").textContent=st.rl>=RLMAX?T("Max"):st.rl;TIPC.clear();save()};
  el("frq").onchange=e=>{st.rq=+e.target.value;TIPC.clear();save()};
  q.oninput=()=>{clearTimeout(FQT);FQT=setTimeout(()=>{st.q=q.value.trim();el("q").value=st.q;FQS=[q.selectionStart,q.selectionEnd];refresh()},220)};
  const k=el("fk"),v=el("fv"),sug=()=>{el("fvl").innerHTML=fSug(k.value).map(x=>`<option value="${esc(x)}">`).join("")};
@@ -849,7 +851,7 @@ const DFP=(()=>{let h=0;D.forEach(d=>{for(const c of d.id)h=(h*31+c.charCodeAt(0
 const RQRING={Curses:"enigmaticlegacy:cursed_ring",Virtues:"covenant_of_the_seven:virtue_ring"},RQRX=/requires (?:the )?(?:Ring of )?(?:the )?Seven (?:Curses|Virtues)|Seven (?:Curses|Virtues) bearers only|\(Seven (?:Curses|Virtues)(?: path)?\)|Break the Ring of (?:the )?Seven Curses/i;
 D.forEach(d=>{if(d.id===RQRING.Curses||d.id===RQRING.Virtues)return;const m=RQRX.exec([d.fx,...d.st,...d.src].join(" | "));if(m)d.rq=/curses/i.test(m[0])?"Curses":"Virtues"});
 const rqName=d=>"Ring of the Seven "+d.rq;
-const rqb=(d,cls="")=>d.rq?`<i class="rqring${cls}" title="Requires the ${rqName(d)}" aria-label="Requires the ${rqName(d)}">${img(RQRING[d.rq])}</i>`:"";
+const rqb=(d,cls="")=>d.rq?`<i class="rqring${cls}" title="${T("Requires the {ring}",{ring:rqName(d)})}" aria-label="${T("Requires the {ring}",{ring:rqName(d)})}">${img(RQRING[d.rq])}</i>`:"";
 const TOTAL=count(D);
 const usedBy=id=>D.filter(d=>d.gr&&d.gr.c.some(c=>c&&c[0]===id));
 const SLOTS=(()=>{const c={};D.forEach(d=>d.sl.forEach(s=>(c[s]=c[s]||[]).push(d)));return Object.entries(c).sort((a,b)=>b[1].length-a[1].length)})();
@@ -872,7 +874,7 @@ function pass(d,skip){
 
 /* ---------- sidebar ---------- */
 const chipEls={c:[],r:[],g:[],x:[]};
-function chips(id,map,key){const box=el(id);for(const k in map){const b=document.createElement("button");b.className="chip"+(key==="r"?" r"+k:"");b.dataset.k=k;b.innerHTML=esc(map[k])+'<span class="n"></span>';
+function chips(id,map,key){const box=el(id);for(const k in map){const b=document.createElement("button");b.className="chip"+(key==="r"?" r"+k:"");b.dataset.k=k;b._en=map[k];b.innerHTML=esc(map[k])+'<span class="n"></span>';
  b.onclick=()=>{const a=st[key],i=a.indexOf(k);i<0?a.push(k):a.splice(i,1);refresh()};box.appendChild(b);chipEls[key].push(b)}}
 /* sidebar tags, read from each curio's effect text: spell schools (not elemental damage or immunities) and secondary stats the Role filter doesn't cover */
 {const SCH=/\b(Aqua|Lightning|Eldritch|Ender|Fire|Holy|Nature|Blood|Evocation|Ice|Geo|Annihilation) (?:spell|magic)/gi;
@@ -903,12 +905,20 @@ function refreshSide(){
  for(const key in chipEls)chipEls[key].forEach(b=>{const k=b.dataset.k;b.setAttribute("aria-pressed",st[key].includes(k));
   b.querySelector(".n").textContent=count(D.filter(d=>(key==="c"?(d.ro.includes(k)||isMust(d)):key==="x"?d.mt.includes(k):String(d[key])===k)&&pass(d,key)))});
  nb.setAttribute("aria-pressed",st.nw);
- const xs=D.filter(d=>pass(d));el("cnt").textContent=`${count(xs)} / ${TOTAL} curios`;
+ const xs=D.filter(d=>pass(d));el("cnt").textContent=T("{n} / {total} curios",{n:count(xs),total:TOTAL});
  const cur=location.hash.startsWith("#i")?+location.hash.slice(2):-9;
  const sig=xs.map(d=>d.ix).join();if(sig!==IDXSIG){IDXSIG=sig;el("idx").innerHTML=[...xs].sort((a,b)=>a.n.localeCompare(b.n)).slice(0,600).map(d=>`<li><a href="#i${d.ix}" data-t="${d.ix}">${img(d.id)}<span>${esc(d.n)}</span><span class="act">${ACT[d.t][0]}</span></a></li>`).join("")
-  +(xs.length>600?`<li class="meta">… ${xs.length-600} more, narrow the filters to see them</li>`:"")}
+  +(xs.length>600?`<li class="meta">${T("… {n} more, narrow the filters to see them",{n:xs.length-600})}</li>`:"")}
  el("idx").querySelectorAll("[aria-current]").forEach(a=>a.removeAttribute("aria-current"));const ca=el("idx").querySelector(`a[href="#i${cur}"]`);if(ca)ca.setAttribute("aria-current","page");
  return xs}
+
+/* the sidebar is built once, in English, when the page loads; a language change (i18n.js useLang) only relabels it: the filter keys stay English, so saved filters and links keep working */
+function relabelSide(){
+ for(const key in chipEls)chipEls[key].forEach(b=>{b.firstChild.nodeValue=T(b._en)});
+ nb.textContent=T("New in 6.6.6");
+ for(const o of el("fs").options)if(o.value)o.textContent=T(o.value);
+ for(const o of el("fa").options)if(o.value!=="")o.textContent=T("Up to {act}",{act:actL(+o.value)});
+ IDXSIG="";D.forEach(d=>{d._q=null})}
 
 /* ---------- shared bits ---------- */
 /* Curios slot icons: the empty-slot silhouette each mod registers for that slot */
@@ -918,10 +928,10 @@ const slotKey=n=>{const k=n.toLowerCase();return SLA[k]||k.replace(/ /g,"_")};
 const slotIcon=(n,t)=>{const k=slotKey(n),b=(UI[t?"cslotT":"cslot"]||{})[k],c=t?k+"~":k;if(!b)return "";if(!SLU[c])SLU[c]=URL.createObjectURL(new Blob([Uint8Array.from(atob(b),c=>c.charCodeAt(0))],{type:"image/png"}));return SLU[c]};
 /* slot badge in the tile corner (slot_badges.py): one drawn sign per slot family */
 const SBK={Charm:"charm",Accessory:"curio",Curio:"curio",Anklet:"anklet",Blasphemy:"skull",Scroll:"scroll",Ring:"ring",Head:"head",Hands:"hands",Glove:"hands",Focus:"orb",Spellbook:"book",Back:"back",Spellstone:"orb",Heart:"heart",Necklace:"necklace",Belt:"belt","Living Armour":"living","Hostility Curse":"skull",Elytra:"elytra","Binding Key":"key",Feet:"feet",Body:"body",Bracelet:"bracelet",Talent:"talent",Magnetizer:"magnet",Bundle:"bundle",Sacrament:"chalice"};
-const sbadge=(s,cls="")=>`<i class="sbdg${cls}" style="--sb:var(--rt-sb_${SBK[s]||"curio"})" title="${esc(s)} slot" aria-hidden="true"></i>`;
+const sbadge=(s,cls="")=>`<i class="sbdg${cls}" style="--sb:var(--rt-sb_${SBK[s]||"curio"})" title="${esc(T("{slot} slot",{slot:T(s)}))}" aria-hidden="true"></i>`;
 const slk=d=>sbadge(d.sl[0]||"Curio");
-const tile=(d,i=99)=>`<a style="--i:${i}" class="t c${d.c} r${d.r}${d.g==="Loot"?" L":""}${d.inv?" inv":""}" data-mf="${mf(d.m)[0]}" href="#i${d.ix}" data-t="${d.ix}" aria-label="${esc(d.n)}">${AN[d.id]?`<span class="aimg" data-an="${esc(d.id)}">${img(d.id)}</span>`:img(d.id)}${d.k>1?`<span class="kv">${d.k}</span>`:""}${glint(d)}${isMust(d)?'<span class="star" aria-label="Must-Have">★</span>':""}${rqb(d)}${slk(d)}</a>`;
-const gcard=(d,i)=>`<a class="gc r${d.r}" style="--i:${Math.min(i,40)}" href="#i${d.ix}" data-t="${d.ix}"><span class="pic">${img(d.id)}</span><b>${esc(d.n)}</b><small>${esc(d.sl.join(", "))} · ${esc(d.m)}</small><span class="gm"><span class="rk">${isMust(d)?ui("star")+"Must-Have":RN[d.r]}</span><span class="ak">${esc(actL(d.t))}</span></span></a>`;
+const tile=(d,i=99)=>`<a style="--i:${i}" class="t c${d.c} r${d.r}${d.g==="Loot"?" L":""}${d.inv?" inv":""}" data-mf="${mf(d.m)[0]}" href="#i${d.ix}" data-t="${d.ix}" aria-label="${esc(d.n)}">${AN[d.id]?`<span class="aimg" data-an="${esc(d.id)}">${img(d.id)}</span>`:img(d.id)}${d.k>1?`<span class="kv">${d.k}</span>`:""}${glint(d)}${isMust(d)?`<span class="star" aria-label="${T("Must-Have")}">★</span>`:""}${rqb(d)}${slk(d)}</a>`;
+const gcard=(d,i)=>`<a class="gc r${d.r}" style="--i:${Math.min(i,40)}" href="#i${d.ix}" data-t="${d.ix}"><span class="pic">${img(d.id)}</span><b>${esc(d.n)}</b><small>${esc(d.sl.map(x=>T(x)).join(", "))} · ${esc(d.m)}</small><span class="gm"><span class="rk">${isMust(d)?ui("star")+"Must-Have":RN[d.r]}</span><span class="ak">${esc(actL(d.t))}</span></span></a>`;
 const rbar=xs=>`<span class="bar5">${RNS.map(i=>{const n=xs.filter(d=>d.r===i).length;return n?`<i style="flex:${n};background:${RC[i]}"></i>`:""}).join("")}</span>`;
 const cards=xs=>`<div class="cards">${xs.map(x=>`<a class="card" href="#i${x.ix}" data-t="${x.ix}">${img(x.id)}<span>${esc(x.n)}</span></a>`).join("")}</div>`;
 const crumb=(...p)=>`<div class="crumb"><a href="#">${T("Home")}</a> / ${p.join(" / ")}</div>`;
@@ -1026,7 +1036,7 @@ function wikiNav(cur,extra){cur=cur||{};const a=cur.act!=null&&ACT[cur.act]&&ORD
   [T("Tools"),[["#build",T("Build planner")],["#bosses",T("Bosses")],["#mechanics",T("Mechanics")],["#changes",T("Changes")]]]])}
 function activeBar(){const P=[];
  st.c.forEach(k=>P.push(["c",k,ROLE[k]]));st.r.forEach(k=>P.push(["r",k,RN[k]]));st.x.forEach(k=>P.push(["x",k,k.slice(2)]));st.g.forEach(k=>P.push(["g",k,k]));
- if(st.nw)P.push(["nw","",T("New in 6.6.6")]);if(st.m)P.push(["m","",st.m]);if(st.s)P.push(["s","",T("Slot {s}",{s:st.s})]);if(st.a!=="")P.push(["a","",T("Up to {act}",{act:actL(st.a)})]);if(st.q)qTokens().forEach(e=>P.push(["qt",e.raw,qLabel(e)]));
+ if(st.nw)P.push(["nw","",T("New in 6.6.6")]);if(st.m)P.push(["m","",st.m]);if(st.s)P.push(["s","",T("Slot {s}",{s:T(st.s)})]);if(st.a!=="")P.push(["a","",T("Up to {act}",{act:actL(st.a)})]);if(st.q)qTokens().forEach(e=>P.push(["qt",e.raw,qLabel(e)]));
  return P.length?`<div class="act-bar" role="group" aria-label="${T("Active filters")}">${P.map(([k,v,t])=>`<button class="pill" data-k="${k}" data-v="${esc(v)}" aria-label="${esc(T("Remove filter {t}",{t}))}">${esc(t)}<b aria-hidden="true">×</b></button>`).join("")}<button class="ghost" id="clr2">${T("Clear all")}</button></div>`:""}
 
 /* ---------- views ---------- */
@@ -1105,7 +1115,7 @@ ${typeof GE!=="undefined"?`<section class="gui"><h2 class="gt">${T("Equipment")}
  <section class="gui"><h2 class="gt">${ui("star")} ${T("Must-Have")}</h2><p class="gs">${T("Looting Charms and every curio that adds curio slots. Get each one the moment its Act opens.")}</p>
  ${slotRow(D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).map(d=>rCurio(d,esc(ACT[d.t][0]),1)),T("Must-Have curios"))}</section>
  <section class="gui"><h2 class="gt">${T("Curio slots")}</h2><p class="gs">${T("The pack's Curios menu, slot by slot.")}</p>
- <div class="slotlist">${BIGSLOTS.map(([s,xs])=>`<a href="#slot/${enc(s)}"><span class="slot sm">${(()=>{const u=slotIcon(s);return u?`<img alt="" src="${u}">`:byRank(xs).filter(d=>IC[d.id]).slice(0,1).map(d=>img(d.id)).join("")})()}</span><b>${esc(s)}</b><em>${xs.length}</em>${rbar(xs)}</a>`).join("")}</div></section>
+ <div class="slotlist">${BIGSLOTS.map(([s,xs])=>`<a href="#slot/${enc(s)}"><span class="slot sm">${(()=>{const u=slotIcon(s);return u?`<img alt="" src="${u}">`:byRank(xs).filter(d=>IC[d.id]).slice(0,1).map(d=>img(d.id)).join("")})()}</span><b>${esc(T(s))}</b><em>${xs.length}</em>${rbar(xs)}</a>`).join("")}</div></section>
  <section class="gui"><h2 class="gt">${T("Mythic")}</h2><p class="gs">${T("The rarest curios in the pack.")}</p>
  <div class="feat">${pick.map(d=>`<a class="fc r${d.r}" href="#i${d.ix}" data-t="${d.ix}"><span class="slot">${img(d.id)}</span><span><b>${esc(d.n)}</b><span class="mo">${esc(d.m)} · ${actL(d.t)}${d.pe?` <i class="kest" title="${T("Mythic tier read from its text")}">${T("estimate")}</i>`:""}</span><p>${esc(d.fx)}</p></span></a>`).join("")}</div></section>
  <div class="hcols">
@@ -1168,23 +1178,23 @@ let pathXs=[];
 const tierOpen=a=>fOn()?!st.cl.includes(a):(st.op||[hereOn()??ORDER[0]]).includes(a);
 /* an Act shows its first 72 curios (best first) and a button for the rest: Act 0-I alone has over 600 */
 const TMORE=72;
-const tierTiles=(ys,all)=>ys.length?(all||ys.length<=TMORE+12?ys:ys.slice(0,TMORE)).map((d,i)=>tile(d,i)).join("")+(!all&&ys.length>TMORE+12?`<button type="button" class="mcb tmore" data-more="${ys[0].t}">Show all ${ys.length} curios</button>`:""):'<span class="empty">No items match the filters.</span>';
+const tierTiles=(ys,all)=>ys.length?(all||ys.length<=TMORE+12?ys:ys.slice(0,TMORE)).map((d,i)=>tile(d,i)).join("")+(!all&&ys.length>TMORE+12?`<button type="button" class="mcb tmore" data-more="${ys[0].t}">${T("Show all {n} curios",{n:ys.length})}</button>`:""):`<span class="empty">${T("No items match the filters.")}</span>`;
 document.addEventListener("click",e=>{const b=e.target.closest(".tmore");if(!b)return;const a=+b.dataset.more,t=b.closest(".tiles");t.innerHTML=tierTiles(pathXs.filter(d=>d.t===a),1);decorate(t.closest(".tier"))});
 function home(xs,asTable){pathXs=xs;
- let h=`${crumb("Curios")}${room("library",D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).map(d=>rCurio(d,esc(ACT[d.t][0]),1)),{head:`<h1 class="qb">Curios</h1>
- <p class="lede">Every curio, grouped by the Act you can get it in. Open an Act below to see its curios; ${NOHOVER?"tap one to open its page":"hover one for its tooltip"}.</p>`,cols:8,label:"Must-Have curios"})}
+ let h=`${crumb(T("Curios"))}${room("library",D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).map(d=>rCurio(d,esc(ACT[d.t][0]),1)),{head:`<h1 class="qb">${T("Curios")}</h1>
+ <p class="lede">${T("Every curio, grouped by the Act you can get it in. Open an Act below to see its curios; {how}.",{how:NOHOVER?T("tap one to open its page"):T("hover one for its tooltip")})}</p>`,cols:8,label:T("Must-Have curios")})}
 
  ${fbar(xs.length,D.length)}
-<div class="legend lgl"><span title="Frame colour: power tier, brighter = stronger at its Act (measured in game where the game test can see it)"><i class="lgr"></i>Power</span><span title="Curio slot it goes in">${sbadge("Ring"," lg")}Slot</span><span title="Variants merged into one tile"><b class="lgn">16</b>Variants</span><span title="Must-Have: get it first"><b class="lgs">★</b>Must-Have</span><span title="Needs the Seven Curses or Virtues ring">${rqb({rq:"Curses"}," lg")}Curses ring</span></div>${xs.length?"":`<p class="note">No curios match these filters. Remove one above or clear them all.</p>`}`;
+<div class="legend lgl"><span title="${T("Frame colour: power tier, brighter = stronger at its Act (measured in game where the game test can see it)")}"><i class="lgr"></i>${T("Power")}</span><span title="${T("Curio slot it goes in")}">${sbadge("Ring"," lg")}${T("Slot")}</span><span title="${T("Variants merged into one tile")}"><b class="lgn">16</b>${T("Variants")}</span><span title="${T("Must-Have: get it first")}"><b class="lgs">★</b>${T("Must-Have")}</span><span title="${T("Needs the Seven Curses or Virtues ring")}">${rqb({rq:"Curses"}," lg")}${T("Curses ring")}</span></div>${xs.length?"":`<p class="note">${T("No curios match these filters. Remove one above or clear them all.")}</p>`}`;
  seedBg("path"+st.a,xs.filter(d=>d.r>=4));
  if(!asTable){
   for(const a of ORDER){if(st.a!==""&&a>+st.a)continue;const ys=xs.filter(d=>d.t===a);if((a===-1||fOn())&&!ys.length)continue;const cl=!tierOpen(a);
-   h+=`<section class="tier${cl?" closed":""}${VBOSS[a]?" vb":""}" style="--tc:${ACT[a][2]};${tex(a)}" id="p${String(a).replace(".","_")}"><button class="tl" data-tier="${a}" aria-expanded="${!cl}"><span class="tlem">${emblem(a)}</span><span class="ta">${actL(a)}</span><small>${esc(ACT[a][1])}</small>${a==-1?"":`<span class="tn">${ACTN[a]?"next: "+esc(ACTN[a]):"the last Act"}</span>`}<span class="rs">${RNS.map(i=>{const n=ys.filter(d=>d.r===i).length;return n?`<i class="r${i}" style="flex:${n}" title="${RN[i]}: ${n}"></i>`:""}).join("")}</span><small>${count(ys)} items</small></button><div class="tiles">${cl?"":tierTiles(ys)}</div></section>`}
+   h+=`<section class="tier${cl?" closed":""}${VBOSS[a]?" vb":""}" style="--tc:${ACT[a][2]};${tex(a)}" id="p${String(a).replace(".","_")}"><button class="tl" data-tier="${a}" aria-expanded="${!cl}"><span class="tlem">${emblem(a)}</span><span class="ta">${actL(a)}</span><small>${esc(T(ACT[a][1]))}</small>${a==-1?"":`<span class="tn">${ACTN[a]?T("next: {boss}",{boss:esc(T(ACTN[a]))}):T("the last Act")}</span>`}<span class="rs">${RNS.map(i=>{const n=ys.filter(d=>d.r===i).length;return n?`<i class="r${i}" style="flex:${n}" title="${RN[i]}: ${n}"></i>`:""}).join("")}</span><small>${TN(count(ys),"{n} item","{n} items")}</small></button><div class="tiles">${cl?"":tierTiles(ys)}</div></section>`}
  }else{
-  const COLS=[["n","Curio"],["r","Power"],["c","Role"],["t","Tier"],["a","Usable from"],["g","Source"],["m","Mod"],["fx","Effect"]];
+  const COLS=[["n",T("Curio")],["r",T("Power")],["c",T("Role")],["t",T("Tier")],["a",T("Usable from")],["g",T("Source")],["m",T("Mod")],["fx",T("Effect")]];
   const CO=Object.keys(ROLE);
   const ys=[...xs].sort((p,q)=>{const k=st.sort;const r=k==="a"?p.a-q.a:k==="t"?p.t-q.t:k==="r"?(p.r-q.r||p.sc-q.sc):k==="c"?CO.indexOf(p.c)-CO.indexOf(q.c):String(p[k]).localeCompare(String(q[k]));return r*st.dir});
-  h+=`<div class="tw"><table><thead><tr><th></th>${COLS.map(([k,t])=>`<th><button class="ghost" data-s="${k}">${t}${st.sort===k?(st.dir>0?" ▲":" ▼"):""}</button></th>`).join("")}</tr></thead><tbody>${ys.map(d=>`<tr><td data-t="${d.ix}">${img(d.id)}</td><td><a href="#i${d.ix}" data-t="${d.ix}">${esc(d.n)}</a></td><td class="r${d.r}"><i class="rdot"></i>${RN[d.r]}</td><td>${d.ro.map(k=>ROLE[k]).join(", ")}</td><td class="num">${ACT[d.t][0]}</td><td class="num">${ACT[d.a][0]}</td><td>${d.g}</td><td>${esc(d.m)}</td><td>${esc(d.fx)}</td></tr>`).join("")}</tbody></table></div>`}
+  h+=`<div class="tw"><table><thead><tr><th></th>${COLS.map(([k,t])=>`<th><button class="ghost" data-s="${k}">${t}${st.sort===k?(st.dir>0?" ▲":" ▼"):""}</button></th>`).join("")}</tr></thead><tbody>${ys.map(d=>`<tr><td data-t="${d.ix}">${img(d.id)}</td><td><a href="#i${d.ix}" data-t="${d.ix}">${esc(d.n)}</a></td><td class="r${d.r}"><i class="rdot"></i>${RN[d.r]}</td><td>${d.ro.map(k=>T(ROLE[k])).join(", ")}</td><td class="num">${ACT[d.t][0]}</td><td class="num">${ACT[d.a][0]}</td><td>${T(d.g)}</td><td>${esc(d.m)}</td><td>${esc(d.fx)}</td></tr>`).join("")}</tbody></table></div>`}
  el("main").innerHTML=h;decorate();fbind();
  el("main").querySelectorAll("th button").forEach(b=>b.onclick=()=>{const k=b.dataset.s;st.dir=st.sort===k?-st.dir:1;st.sort=k;render()});
 }

@@ -85,12 +85,13 @@ sys.path.insert(0, str(B / "i18n")); import tmlib
 def add_tm(packs):
     need = tmlib.scan_msgids(); logp = B / "i18n" / "tr_log.json"
     if logp.exists(): need |= set(json.loads(read(logp)))   # sentences built from variables, listed by i18n/trlog.js
-    keepp = B / "i18n" / "keep.json"; keep = set(json.loads(read(keepp))) if keepp.exists() else set()   # stay English by design (proper names, rarity names)
+    keepp = B / "i18n" / "keep.json"; keeps = json.loads(read(keepp)) if keepp.exists() else {}   # stay English by design: {"all": [...], "<lang>": [...]} (proper names, rarity names; vi keeps the game's slot and school names)
     seen = {}
     for n in need:
         assert seen.setdefault(tmlib.hsh(n), n) == n, "i18n: two sentences share a hash: %r and %r" % (seen[tmlib.hsh(n)], n)
     ph = lambda x: set(re.findall(r"\{\w+\}", x)); tg = lambda x: sorted(set(re.findall(r"</?\w+|href=\"[^\"]*\"", x)))
     for lang, pk in packs.items():
+        keep = set(keeps.get("all", [])) | set(keeps.get(lang, []))
         tm, tr = tmlib.load_tm(lang), {}
         for k, e in tm.items():
             en, t = e["en"], e["t"]
