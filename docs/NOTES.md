@@ -1038,3 +1038,17 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   text then changes its height). It is the browser's harmless notice, so `app.js` no longer shows it; `site_check.js` loads `?lang=ru#gear/5/ME/w` fresh and requires no error box
   (verified it fails on a build with the old handler).
 - `checks/i18n.js` draws Equipment pages and gear tooltips in every language; it caught the lowercase slot ids in the measurement data ("charm") at once (fixed with `gSl`).
+
+## 2026-11-09: multilingual, Phase 2 group (d2): Build planner and Bosses
+- Converted in `app.js`: the Build planner (title, lede for touch and mouse, progress bar, starter builds, add/remove, picker and search, warnings, the side panel with totals, relic
+  levels and effects, evolve, the stale and lost link notes) and Bosses (the list, Keeper pages, the three vanilla bosses with their summon steps, side boss pages, stat tables and
+  the Hardmode notes, previous/next). Sentences kept in constant tables (VSUM, stat table columns, `kind`) use `N()`.
+- Left English on purpose (Phase 3): attack descriptions and where to find a side boss (`b.attacks`, `b.find`), the `BST` rules, `SUM[k].use/info`, the Weak to / Looting Charm cells
+  of the ACTS table, stat names in the build totals.
+- 155 new sentences (732 per language, 732 of 732 covered), mine, unreviewed by a native speaker. "Hardmode", "Keeper" and "Boss Soul" stay English in all four; vanilla item names
+  in the summon steps are written in English in brackets for ru, pt, es.
+- English did not change: 106 captures (the list, 14 Keeper and vanilla pages, 71 side boss pages, the planner with each starter build, picker with and without a hit, inspector,
+  side panel, a consumable, a relic in the build, a lost link) identical; the 205 Equipment captures and 51 route states as before. Scratch scripts, not kept.
+- Real bug found by looking: `build.py` merged the game's own translations after our `keep` list, so Vietnamese showed "Vòng Cổ" for Necklace beside English slot names (D3). It now skips
+  the game's text for a sentence in `keep`; `checks/i18n.js` requires that no `keep` sentence has a translation in the pack (tried by injecting one: reported).
+- Open: the Progress label of the planner bar wraps to two lines in Vietnamese (narrow label column), not touched because it is a look change.

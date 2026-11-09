@@ -114,7 +114,9 @@ def add_tm(packs):
                 assert tg(f) == tg(en) or ("\u0001" in en and set(tg(f)) <= set(tg(en))), "i18n: %s %r: tags or links differ from English" % (lang, en)
             tr[k] = t
         n0 = len(tr)
-        for k, t in OFFICIAL[lang].items(): tr.setdefault(k, t)   # a sentence of ours always wins over the game's text for the same English
+        kept = {tmlib.hsh(x) for x in keep}   # English on purpose (vi keeps slot and school names): the game's own translation of it is not merged either
+        for k, t in OFFICIAL[lang].items():
+            if k not in kept: tr.setdefault(k, t)   # a sentence of ours always wins over the game's text for the same English
         print("i18n %s: %d names and texts from the game's own translations added" % (lang, len(tr) - n0))
         pk["tr"] = tr; pk["keep"] = sorted(keep)   # keep: sentences that stay English on purpose (checks/i18n.js tells them from untranslated ones)
         miss = sorted(n for n in need if tmlib.hsh(n) not in tr and n not in keep)

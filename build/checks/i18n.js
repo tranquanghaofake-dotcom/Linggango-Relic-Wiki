@@ -44,12 +44,19 @@
     const gp = [x => x.ms && x.ms.sw && !x.ms.st, x => x.ms && x.ms.st === 'cond', x => x.ms && x.ms.pct, x => x.ms && x.ms.st === 'grows', x => x.fx && x.fx.some(r => r.fire !== undefined), x => x.fx && x.fx.some(r => r.chance && r.chance < 1), x => x.fx && x.fx.some(r => r.unseen), x => x.ga, x => x.est, x => x.k === 'armor'].map(f => GE.find(x => { try { return f(x); } catch (e) { return false; } })).filter(Boolean).map(x => '#g' + x.ix);
     const gsp = [x => x.ms && x.ms.bonus, x => !x.kn, x => x.fx && x.fx.length].map(f => GS.find(x => { try { return f(x); } catch (e) { return false; } })).filter(Boolean).map(x => '#gs' + x.ix);
     const cm = D.filter(x => typeof CM !== 'undefined' && CM[x.id]).slice(0, 6).map(x => '#i' + x.ix);
-    for (const h of ['#', '#act/2', '#act/99', '#home', '#i5', '#g12', '#gs3', ...cp, '#gear', '#gear/5/RA/a', '#gear/9/MA/c', '#gear/3/SU/w', '#gear/99', ...gp, ...gsp, ...cm]) { location.hash = h; render();
+    // Bosses: the list, a Keeper with phases, the three vanilla bosses, a side boss with attacks and drops; the Build planner is driven below
+    const bp = ['#bosses', '#boss/iron_colossus', '#boss/discord', '#boss/warden', '#boss/wither', '#boss/ender_dragon', ...Object.keys(SIDEB || {}).filter(n => SIDEB[n].drops && SIDEB[n].drops.length && SIDEB[n].attacks && SIDEB[n].attacks.length).slice(0, 3).map(n => '#side/' + encodeURIComponent(n)), '#build', '#build/6'];
+    for (const h of ['#', '#act/2', '#act/99', '#home', '#i5', '#g12', '#gs3', ...cp, '#gear', '#gear/5/RA/a', '#gear/9/MA/c', '#gear/3/SU/w', '#gear/99', ...gp, ...gsp, ...cm, ...bp]) { location.hash = h; render();
       const rv = document.querySelector('[data-rlv]'); if (rv) { rv.value = Math.max(1, Math.floor(rv.max / 2)); rv.dispatchEvent(new Event('input', { bubbles: true })); }   // the relic panel after a move of the slider
       const t = document.getElementById('main').innerText; if (/\{\w+\}|\$\{|undefined|NaN|\[object/.test(t)) bad.push('i18n ' + c + ' ' + h + ': a placeholder or "undefined" shows on the page'); }
     // the tooltip's chrome: Keeper-gated, ring-gated, Must-Have, evolving, estimate, luck window
     for (const d of [D.find(x => x.gk), D.find(x => x.rq), D.find(isMust), D.find(x => evo().from[x.id]), D.find(x => (evo().to[x.id] || []).length), D.find(x => x.pe), D.find(x => x.a !== x.t)].filter(Boolean)) {
       const n = document.createElement('a'); n.dataset.t = String(d.ix); document.body.appendChild(n); TIPC.clear(); showTipBase(n); n.remove(); }
+    // the Build planner: a starter build, the picker with and without a hit, the inspector, a second panel, a consumable
+    location.hash = '#build/12'; render(); await new Promise(r => setTimeout(r, 300));   // the hashchange redraw lands after this render
+    for (const f of [() => document.querySelector('[data-preset]').click(), () => document.querySelector('[data-pick]').click(), () => { const q = document.getElementById('bq'); q.value = 'sword'; q.dispatchEvent(new Event('input', { bubbles: true })); }, () => { const q = document.getElementById('bq'); q.value = 'zzzzzz'; q.dispatchEvent(new Event('input', { bubbles: true })); }, () => document.getElementById('bpx').click(), () => document.querySelector('.bxi[data-insp]').click(), () => document.querySelector('[data-pgs="1"]').click(), () => document.querySelector('[data-cons]').click()]) {
+      try { f(); } catch (e) { bad.push('i18n ' + c + ': the Build planner step failed: ' + e.message); } await new Promise(r => setTimeout(r, 120));
+      const t = document.getElementById('main').innerText; if (/\{\w+\}|\$\{|undefined|NaN|\[object/.test(t)) bad.push('i18n ' + c + ' Build planner: a placeholder or "undefined" shows'); }
     for (const k of [GE.findIndex(x => x.est) >= 0 ? 'g' + GE.findIndex(x => x.est) : 'g0', GE.findIndex(x => x.ga) >= 0 ? 'g' + GE.findIndex(x => x.ga) : 'g1', 's0', 's' + Math.floor(GS.length / 2)]) { const n = document.createElement('a'); n.dataset.t = k; document.body.appendChild(n); gearTip(n); n.remove(); }   // the tooltip of a weapon and of a set
     GSTATE.q = 'sword'; location.hash = '#gear/0/ME/w'; render(); GSTATE.q = 'zzzz'; render(); GSTATE.q = '';
     for (const h of ['#gear/5/ME/w', '#gear/0/MA/c']) { location.hash = h; render(); await new Promise(r => setTimeout(r, 500)); }   // a room painted after longer text wrapped once raised a ResizeObserver notice that showed as a wiki error
@@ -57,6 +64,7 @@
     hideTip();
     Object.assign(st, JSON.parse(st0));
     const keep = new Set(I18N[c].keep || []);
+    for (const en of keep) if (I18N[c].tr[hsh(en)] !== undefined) bad.push('i18n ' + c + ': "' + en + '" is kept in English on purpose but the pack translates it (' + I18N[c].tr[hsh(en)] + ')');   // the game\'s own text must not slip past the keep list
     for (const en of window.__TRLOG) if (!trOf(en) && !keep.has(en)) bad.push('i18n ' + c + ': no translation for ' + JSON.stringify(en.replace('\u0001', ' | ')).slice(0, 80)); }
   window.__TRLOG = undefined; useLang('en'); location.hash = h0; render(); }
 // The sidebar is built once in English and only relabelled: the filter keys stay English (saved filters and shared links keep working), the labels follow the
