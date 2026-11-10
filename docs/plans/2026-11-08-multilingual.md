@@ -265,3 +265,8 @@ Số mod ship từng file: `ru_ru` 170, `pt_br` 114, `es_es` 91, `es_mx` 70, `vi
 - `gAL` giữ số, dịch tên thuộc tính qua `TD` (96 tên mới); 205 đoạn `GUIDE` dịch tay. Tiếng Anh không đổi (205 bản chụp Equipment, 50 trang curio); invariant mới.
 - **Chưa làm:** `st` (dòng chỉ số ở tooltip curio), tên chỉ số trong một số bảng khác.
 
+
+### 13.17 Phase 3 (phần): dòng chỉ số `st` của curio (2026-11-10)
+- `stT` (app.js) → `TD` cả câu, hoặc `gAL` (số giữ nguyên, tên qua `TD`; thêm dạng "N second cooldown", "+1.5x Tên", "(multiplies the final value)"). 1.658 dòng văn xuôi dịch tay + 90 tên/dạng/mảnh câu + 86 dòng bổ sung cho vi/pt/es.
+- Phạm vi chốt: dòng kiểu cấu hình "Tên: giá trị" (1.014 dòng), tiêu đề, tag và tên riêng giữ tiếng Anh; invariant mới trong `build/checks/i18n.js`.
+- Kiểm: tiếng Anh giống hệt bản đã commit (dump tooltip, trang curio, Equipment), invariant sạch, đã xem tooltip ru và es.

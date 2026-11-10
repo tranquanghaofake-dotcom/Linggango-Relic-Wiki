@@ -70,7 +70,7 @@ def ui_packs():
         assert k in UI, "i18n: key %s is used but not in build/i18n/ui.json" % k
         assert en is None or ws(UI[k]["en"]) == en, "i18n: English of %s differs from the page: %r vs %r" % (k, ws(UI[k]["en"]), en)
     assert not set(UI) - set(used), "i18n: keys in ui.json that nothing uses: %s" % sorted(set(UI) - set(used))
-    ph = lambda x: sorted(re.findall(r"\{\w+\}", json.dumps(x))); tags = lambda x: re.findall(r"</?\w+|href=\"[^\"]*\"", json.dumps(x))
+    ph = lambda x: sorted(re.findall(r"\{\w+\}", json.dumps(x))); tags = lambda x: re.findall(r"</?[A-Za-z]\w*|href=\"[^\"]*\"", json.dumps(x))
     out = {}
     for lang in ("vi", "ru", "pt", "es"):
         out[lang] = {k: v[lang] for k, v in UI.items() if v.get(lang)}
@@ -100,7 +100,7 @@ def add_tm(packs):
     seen = {}
     for n in need:
         assert seen.setdefault(tmlib.hsh(n), n) == n, "i18n: two sentences share a hash: %r and %r" % (seen[tmlib.hsh(n)], n)
-    ph = lambda x: set(re.findall(r"\{\w+\}", x)); tg = lambda x: sorted(set(re.findall(r"</?\w+|href=\"[^\"]*\"", x)))
+    ph = lambda x: set(re.findall(r"\{\w+\}", x)); tg = lambda x: sorted(set(re.findall(r"</?[A-Za-z]\w*|href=\"[^\"]*\"", x)))
     for lang, pk in packs.items():
         keep = set(keeps.get("all", [])) | set(keeps.get(lang, []))
         tm, tr = tmlib.load_tm(lang), {}

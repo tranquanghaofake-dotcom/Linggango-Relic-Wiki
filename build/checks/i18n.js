@@ -107,3 +107,13 @@
 { const L = new Set(); for (const k in GUIDE) if (GUIDE[k].t) L.add(GUIDE[k].t);
   for (const c of ['vi', 'ru', 'pt', 'es']) { let n = 0; for (const l of L) if (I18N[c].tr[hsh(l)] === undefined && l.trim().split(/\s+/).length >= 3) { if (n++ < 3) bad.push('i18n ' + c + ': a guide book text has no translation: ' + l.slice(0, 80)); }
     if (n > 3) bad.push('i18n ' + c + ': ' + n + ' guide book texts in all have no translation'); } }
+// Curio tooltip lines (Phase 3): the raw stat lines of the in-game tooltip (d.st) are said in every language. A whole sentence has a pack entry (stT -> TD); a "+8% Name" line keeps its number and
+// translates the name (gAL). Left English on purpose: "Name: value" config lines, titles (every word capitalised), tags, symbol-only lines, the names Spell Power / Cast / Luck / Lethality / Omnivamp / Tenacity.
+{ const L = new Set(); for (const d of D) for (const x of d.st || []) if (typeof x === 'string') L.add(x);
+  const skip = l => /^[^:]{1,60}: /.test(l) || / — /.test(l) || !/[a-z]{3}/.test(l) || /^[a-z ]+$/.test(l) || /_/.test(l) || /^([A-Z][\w'’\-!?]*|of|the|to|and|in|a|an|from|for|is|[IVX]+|\?+)( |$)/.test(l) && l.split(/\s+/).every(w => /^([A-Z][\w'’\-!?]*|of|the|to|and|in|a|an|from|for|is|[IVX]+|\?+)$/.test(w))
+    || / Spell Power$| Cast( \d)?$|^[+\-−]?\d[\d.,]*x? ?%? ?(Luck|Lethality|Omnivamp|Tenacity|Brimwielder School Level|Robes Iron Resist|Effect Geomancy Break)$/.test(l);
+  for (const c of ['vi', 'ru', 'pt', 'es']) { useLang(c); let n = 0;
+    for (const l of L) if (!skip(l) && stT(l) === l && I18N[c].tr[hsh(l)] === undefined) { if (n++ < 3) bad.push('i18n ' + c + ': a tooltip line is still English: ' + l.slice(0, 90)); }
+    if (n > 3) bad.push('i18n ' + c + ': ' + n + ' tooltip lines in all are still English'); }
+  useLang('ru'); if (stT('+2.5% Life Steal') !== '+2,5% ' + TD('Life Steal') || gAL('+1.5x Damage dealt') === '+1.5x Damage dealt' || !/^\+1,5x /.test(gAL('+1.5x Damage dealt')) || gAL('30 second cooldown') === '30 second cooldown') bad.push('i18n ru: stT/gAL do not translate a multiplier or cooldown line');
+  useLang('en'); if (D.some(d => (d.st || []).some(x => typeof x === 'string' && stT(x) !== x))) bad.push('i18n: stT changes an English tooltip line'); }

@@ -1114,3 +1114,18 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Found while writing the Vietnamese lines for the boss pages (already corrected there): none new here. A few guide texts are the mods' own jokes or lore ("He's the DEADLIEST minecraft player…"); translated as written.
 - Open: the stat lines `st` (hover tooltip and "In-game tooltip") are still English; item names inside lists, and names in general, stay English in ru, pt, es.
 
+
+## 2026-11-10: multilingual, Phase 3 (data text), curio tooltip stat lines `st`: done
+- The raw stat lines of a curio (`d.st`: the hover tooltip and "In-game tooltip" on the curio page) were English in every language. `stT` (app.js, before `statLine`) says a line as a whole sentence through `TD`, else
+  through `gAL` ("+8% Name" keeps the number and says the name), else leaves it. `gAL` (gear.js) now also takes "(multiplies the final value)", "N second cooldown" (shape `{n} second cooldown`) and "+1.5x Name" multipliers.
+- Translated into vi, ru, pt, es: 1,658 prose lines (by hand, in 13 batches), 90 attribute names, shapes and sentence fragments, 5 multiplier names, and 86 lines vi, pt and es lacked (ru already had them from the
+  game's own translations). 2,972 distinct lines exist; after this 1,112 still show English in ru, of which 1,014 are "Name: value" config lines (e.g. "Damage bonus: 1.5") and 98 are titles, tags and names.
+  Config-style lines, titles and item/mob names stay English on purpose; the numbers in them are not localised either.
+- The tag check in `build.py` (a translation must keep the English's tags and links) read "(<3m)" as a tag; it now only counts tags that start with a letter, in both places it appears (lines 73 and 103).
+- English did not change: tooltip dump (40 curios) and curio-page dump identical to the committed build. The Equipment dump differs from run to run in one inline `style` attribute of the page header
+  (`<div class="rhead" style=…>` present or not); the committed build differs from itself the same way (two sequential runs of it), so it is a timing effect, not text. Looked at the ru tooltip of the Enigmatic Amulet
+  and the es tooltip of the Dueling Glove: wrapping and decimals fine ("+1,5x Daño infligido…").
+- New invariant (`build/checks/i18n.js`): every tooltip line that is not config-style, a title, a tag or one of the names kept on purpose (Spell Power, Cast, Luck, Lethality, Omnivamp, Tenacity) is translated in each pack; it found 86 gaps
+  in vi, pt and es that the first pass (done with ru in mind) had missed.
+- Open: locale number formatting (`toLocaleString()` without LANG: ru should group with a space); the `why` lines (only on the "Off the act" page); the relic table rows (`relicRows`); item and place names inside lists in ru, pt, es;
+  the Vietnamese "Progress" label wraps (a look change, needs approval); native review of ru, pt, es (all machine-translated, unreviewed); terms to review: gate (cổng / барьер / barreira / barrera), treasure bag, Curio / Act, attack names.
