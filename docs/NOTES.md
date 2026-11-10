@@ -1076,6 +1076,19 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - English did not change: the step only adds translations to `build/i18n/tm/*.json` (git shows no other file changed), the build prints "1117 of 1117 sentences asked for are translated"
   for all four languages, `inv7.js` (the i18n invariants, clean and with a deliberate fault) passes. Pages looked at: a ru and a vi curio page (#i300, #i40).
 - Open: the stat lines (`st`, 2,972 distinct), source lines (`src`, ~1,480, templated by the patch scripts: top patterns "Craft at a Crafting Table from…",
-  "Key requirement: locked behind the…", "Combine at a Tinkerer's Workshop:…") and `why` lines (~40 templates) stay English. Seen once and not chased: on a first load in ru the hero title
-  of a curio with a Latin name (#i300) was blank for a moment in a screenshot taken before Monocraft's Latin face finished loading; 3 s later it draws (a timing artefact of the capture, not
-  checked on a slow connection).
+  "Key requirement: locked behind the…", "Combine at a Tinkerer's Workshop:…") and `why` lines (~40 templates) stay English. Seen and not chased: in `shot.js` captures of a curio page the hero title is blank in every language, English included (the capture is taken before the title's reveal); a 3 s element screenshot of the ru page draws it.
+
+## 2026-11-10: multilingual, Phase 3 (data text), the source lines (`src`): done
+- A curio's source lines ("How to get it" list, the tooltip's last two lines) are put together by the patch scripts from a few clause shapes joined with "; ". Instead of one translation per
+  concrete line (607 distinct lines shown, 648 distinct clauses), `srcT` (app.js, before `howText`) matches each clause against ~40 shapes (`SRCSH`, `SRCSUF` for the part after "Hardest ingredient: X — ")
+  and says it with `T("sentence with {slots}")`: mob and item names go through `TD` (the game's own names), place and structure names stay as the mods print them, "and N more places" is a plural
+  (`TN`), a percentage takes the decimal comma (and, in es, " %"). 83 clauses and lines no shape fits (fragments of lines joined by "; " inside brackets, one-off sentences) are whole entries in the pack. English never
+  goes through `srcT` (it returns the line it was given). The loot cards' "+N more" is now `T("+{n} more")`.
+- Round trip: with an empty pack every clause that a shape matches comes back as it went in (589 clauses, 0 wrong; the harness ignores articles and "place/places" in the check); 86 clauses match no shape and are the hand entries.
+  All 607 distinct lines are translated in vi, ru, pt, es.
+- English did not change: `howText`, the loot cards and the tooltip's source lines are byte-identical for all 1,321 curios against the committed build; 50 curio pages and 35 tooltips identical.
+- New invariant in `build/checks/i18n.js`: every effect line (`fx`) has an entry in each pack, and every source line shown has a translation (`srcT(line) !== line`); checked with a deliberate fault (a deleted template, a deleted effect line).
+- Terms chosen (unreviewed): "gate" (Netherite gate) → vi cổng, ru барьер, pt barreira, es barrera (the Keeper gate in Mechanics reads "bloqueio/bloqueo de Keeper"; the two differ in pt/es);
+  "treasure bag" → vi túi kho báu, ru мешок с сокровищами, pt bolsa de tesouro, es bolsa del tesoro; "vanilla" kept in vi/pt/es, ru ванильный.
+- Open: place and structure names inside lists stay English (e.g. "Ancient City" in a chest list but "Древний город" in a mod-page list); the stat lines (`st`, ~2,800 distinct lines shown in the hover tooltip and the folded
+  "In-game tooltip") are still English; `why` lines are not shown anywhere but the "Off the act" page.

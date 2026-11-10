@@ -1264,7 +1264,7 @@ function lootCards(d){const out=[],used=new Set();
    out.push(card(bag&&IC[bag.id]?img(bag.id):bag&&BIMG[bag.id]?`<img alt="" src="${BIMG[bag.id]}">`:bk?emblem(bossPath(bk)??0,"sm"):rt("ftb_chest"),T("{boss}'s treasure bag",{boss:esc(bk?bossName(bk):m[1])}),T("Open the bag the Keeper drops"),m[2],bk?"#boss/"+bk:""))});
   R("brush").forEach(m=>{hit=1;out.push(card(rt("lt_sand"),esc(m[1]),T("Brush the suspicious blocks"),m[2]))});
   R("tomb").forEach(m=>{hit=1;out.push(card(rt("ftb_chest"),T("{place} chests",{place:esc(m[1])}),T("Chest loot"),m[2]))});
-  R("chest").forEach(m=>{hit=1;out.push(card(rt("ftb_chest"),esc(m[1].replace(/ and (\d+) more places/," +$1 more")),T("Chest loot"),m[2]?T("up to {n}",{n:m[2]}):""))});
+  R("chest").forEach(m=>{hit=1;out.push(card(rt("ftb_chest"),esc(m[1].replace(/ and (\d+) more places/,(x,n)=>" "+T("+{n} more",{n}))),T("Chest loot"),m[2]?T("up to {n}",{n:m[2]}):""))});
   R("van").forEach(m=>{hit=1;const c=m[2].match(/^(.+?) ([\d.]+%)$/);out.push(card(rt("ftb_chest"),esc(c?c[1]:m[2]),T("Vanilla chest loot"),c?c[2]:""))});
   R("box").forEach(m=>{const id=NAMEID[m[1]];if(!id&&!/Bag|Box|Chest|Crate/.test(m[1]))return;hit=1;out.push(card(id&&IC[id]?img(id):rt("lt_bundle"),esc(m[1]),m[2]?esc(m[2]):T("Open it for a random roll"),""))});
   R("trade").forEach(m=>{hit=1;out.push(card(rt("lt_emerald"),esc(m[1]),T("Trade"),""))});
@@ -1280,7 +1280,48 @@ function textRecipe(d){if(d.gr)return null;for(let i=0;i<d.src.length;i++){const
   return {i,html:`<div class="mcwin k-row"><div class="mct"><span class="mcst">${stIcon(m[1])}</span>${esc(TD(m[1].replace(/^a /,"")))}<span>${T("ingredients")}</span></div>
   <div class="mcrow"><div class="mcg mrow">${ids.map((id,j)=>slot(id,names[j])).join("")}</div><i class="mca" aria-hidden="true"></i><div class="mcs big">${img(d.id)}</div></div></div>`}}return null}
 const howVisual=d=>(d.gr?recipeGui(d):(textRecipe(d)||{}).html||"")+lootCards(d).html;
-const howText=d=>{const u=lootCards(d).used,tr=textRecipe(d);if(tr)u.add(tr.i);const xs=d.src.filter((x,i)=>!u.has(i)&&!(d.gr&&RCV.test(x))&&!/^Key requirement: locked behind/i.test(x));return xs.length?`<ol class="how">${xs.map(x=>`<li>${fmt(x)}</li>`).join("")}</ol>`:""};
+/* Source lines in the reader's language. The patch scripts put a curio's source lines together from a few clause shapes joined with "; ".
+   A shape is one sentence with {slots}: srcClause matches a clause against the shapes and says it in the reader's language; mob and item names go
+   through TD, structure and place names stay as the mods print them, a percentage takes the language's decimal comma. A clause no shape fits goes to the
+   translation memory whole (TD) and stays English if it is not there. English never goes through here: srcT hands the line back as it is. */
+const dec=s=>LANG==="en"||LANG==="vi"?s:(s=s.replace(/(\d)\.(\d)/g,"$1,$2"),LANG==="es"?s.replace(/(\d)%/g,"$1 %"):s);
+const plc=s=>{const m=s.match(/^(.*) and (\d+) more places?$/);if(m)return TN(+m[2],"{a} and {n} more place","{a} and {n} more places",{a:m[1]});
+ const k=s.lastIndexOf(" and ");return k>0?T("{a} and {b}",{a:s.slice(0,k),b:s.slice(k+5)}):s};
+const SRCSUF=[[/^dropped by (.+)$/,N("dropped by {b}"),m=>({b:TD(m[1])})],[/^mined from (.+)$/,N("mined from {b}"),m=>({b:TD(m[1])})],
+ [/^found in the Nether$/,N("found in the Nether"),()=>({})],[/^found in the End$/,N("found in the End"),()=>({})],[/^trait mobs drop it while you wear Curse of (.+)$/,N("trait mobs drop it while you wear Curse of {b}"),m=>({b:m[1]})],
+ [/^from (?:the )?(.+?)'s? treasure bag \(([\d.–]+%?)\)$/,N("from {b}'s treasure bag ({c})"),m=>({b:TD(m[1]),c:dec(m[2])})],[/^from (?:the )?(.+?)'s? treasure bag$/,N("from {b}'s treasure bag"),m=>({b:TD(m[1])})],
+ [/^comes from the (.+?) on this wiki's Act ladder$/,N("comes from the {b} on this wiki's Act ladder"),m=>({b:TD(m[1])})],[/^made with an? (.+)$/,N("made with {b}"),m=>({b:TD(m[1])})],
+ [/^locked behind the (\w+) gate until you defeat (?:the )?(.+)$/,N("locked behind the {g} gate until you defeat {b}"),m=>({g:m[1],b:TD(m[2])})],
+ [/^throw (.+?) into (.+)$/,N("throw {a} into {b}"),m=>({a:TD(m[1]),b:TD(m[2])})],[/^found in (.+?) chests$/,N("found in {p} chests"),m=>({p:m[1]})],
+ [/^upgraded from (.+?) \(Goety Revelation special mechanic\)$/,N("upgraded from {a} (Goety Revelation special mechanic)"),m=>({a:TD(m[1])})],
+ [/^L(\d+) Hostility (.+?) trait drop$/,N("L{n} Hostility {t} trait drop"),m=>({n:m[1],t:m[2]})]];
+const SRCSH=[[/^Found in chests at (.+?), up to ([\d.]+%) per chest$/,N("Found in chests at {p}, up to {c} per chest"),m=>({p:plc(m[1]),c:dec(m[2])})],
+ [/^Found in chests at ([^()]+)$/,N("Found in chests at {p}"),m=>({p:plc(m[1])})],
+ [/^Also: found in chests at (.+?), up to ([\d.]+%) per chest$/,N("Also: found in chests at {p}, up to {c} per chest"),m=>({p:plc(m[1]),c:dec(m[2])})],
+ [/^Also: found in chests at ([^()]+)$/,N("Also: found in chests at {p}"),m=>({p:plc(m[1])})],
+ [/^Also: found in (.+?) chests \(([\d.]+%) per chest\)$/,N("Also: found in {x} chests ({c} per chest)"),m=>({x:m[1],c:dec(m[2])})],
+ [/^Found in (.+?) chests \(([\d.]+%) per chest\)$/,N("Found in {x} chests ({c} per chest)"),m=>({x:m[1],c:dec(m[2])})],
+ [/^Dropped by ([^(:+]+?) \(([\d.–]+%)\)$/,N("Dropped by {m} ({c})"),m=>({m:TD(m[1]),c:dec(m[2])})],
+ [/^Also: dropped by ([^(]+?) \(([\d.]+%)\)$/,N("Also: dropped by {m} ({c})"),m=>({m:TD(m[1]),c:dec(m[2])})],
+ [/^Brush suspicious blocks at (.+?) \(([\d.]+%)\)$/,N("Brush suspicious blocks at {p} ({c})"),m=>({p:m[1],c:dec(m[2])})],
+ [/^Also in vanilla chests \(Unique Accessories' own loot, chance from the pack config\): (.+)$/,N("Also in vanilla chests (Unique Accessories' own loot, chance from the pack config): {l}"),m=>({l:dec(m[1])})],
+ [/^Vanilla chests \(Terra Curio adds it\): (.+)$/,N("Vanilla chests (Terra Curio adds it): {l}"),m=>({l:dec(m[1])})],
+ [/^Since ([\d.]+) every chest and mob that gave (.+?) gives this instead: (.+)$/,N("Since {v} every chest and mob that gave {x} gives this instead: {r}"),m=>({v:m[1],x:TD(m[2]),r:srcClause(m[3])})],
+ [/^Since ([\d.]+) the chests and mobs that gave (.+?) give this instead: (.+)$/,N("Since {v} the chests and mobs that gave {x} give this instead: {r}"),m=>({v:m[1],x:TD(m[2]),r:srcClause(m[3])})],
+ [/^Comes from (?:the )?(.+?)'s? treasure bag \(([\d.]+%)\)$/,N("Comes from {b}'s treasure bag ({c})"),m=>({b:TD(m[1]),c:dec(m[2])})],
+ [/^Comes from (?:the )?(.+?)'s? treasure bag$/,N("Comes from {b}'s treasure bag"),m=>({b:TD(m[1])})],
+ [/^Draw an Alchemy Array \(Blood Magic\) with (.+?) and (.+)$/,N("Draw an Alchemy Array (Blood Magic) with {a} and {b}"),m=>({a:TD(m[1]),b:TD(m[2])})],
+ [/^The mod's own page \(([\d.]+)\) says: evolves from (.+)$/,N("The mod's own page ({v}) says: evolves from {n}"),m=>({v:m[1],n:TD(m[2])})],
+ [/^The mod's own page \(([\d.]+)\) says: (.+)$/,N("The mod's own page ({v}) says: {x}"),m=>({v:m[1],x:m[2].split(", ").map(w=>TD(w)).join(", ")})],
+ [/^Also craftable from Act ([IVX]+)$/,N("Also craftable from {a}"),m=>({a:T("Act {n}",{n:m[1]})})]];
+function srcSuf(s){let m;for(const [re,tpl,f] of SRCSUF)if(m=re.exec(s))return T(tpl,f(m));return TD(s)}
+function srcClause(c){const h=TD(c);if(h!==c)return h;const e=c.replace(/\.$/,""),dot=e===c?"":".";const h2=TD(e);if(h2!==e)return h2+dot;let m;
+ if(m=e.match(/^Hardest ingredient: (.+?)(?: — (.+))?$/))return (m[2]?T("Hardest ingredient: {a} — {s}",{a:TD(m[1]),s:srcSuf(m[2])}):T("Hardest ingredient: {a}",{a:TD(m[1])}))+dot;
+ if(m=e.match(/^Dropped by \+(\d+) other sources?$/))return TN(+m[1],"Dropped by +{n} other source","Dropped by +{n} other sources")+dot;
+ for(const [re,tpl,f] of SRCSH)if(m=re.exec(e))return T(tpl,f(m))+dot;
+ return c}
+const srcT=l=>{if(LANG==="en")return l;const w=TD(l);return w!==l?w:l.split(/;\s+/).map(srcClause).join("; ")};
+const howText=d=>{const u=lootCards(d).used,tr=textRecipe(d);if(tr)u.add(tr.i);const xs=d.src.filter((x,i)=>!u.has(i)&&!(d.gr&&RCV.test(x))&&!/^Key requirement: locked behind/i.test(x));return xs.length?`<ol class="how">${xs.map(x=>`<li>${fmt(srcT(x))}</li>`).join("")}</ol>`:""};
 
 /* ---------- Stats, readable ----------
    First what the curio is (element, damage types it touches), then the effect as the wiki sums it up, one line per
@@ -1551,7 +1592,7 @@ function showTipBase(n){const d=/^\d+$/.test(n.dataset.t)&&D[+n.dataset.t];if(!d
  let c=TIPC.get(d.ix);if(!c){const w=document.createElement("div");w.innerHTML=`<div class="tbox"><div class="tfr"></div>
  <div class="thd"><span class="tslot">${slotImg(d)}</span><div class="tht"><div class="tnm" style="color:${nc}"${d.ig&&d.ig[1]==="rainbow"?' data-rb="1"':""}>${isMust(d)?ui("star"):""}${esc(TD(d.n))}</div><div class="tsub">${esc(d.sl.map(x=>T(x)).join(", "))} · ${d.g==="Loot"?T("Loot"):T("Craft")}</div></div></div>
  <div class="tbd"><p class="tfx">${fmt(fxT(d))}</p>${RL[d.id]?rlTip(d):""}${evo().from[d.id]?`<p class="tevo">${T("⟲ Evolves from {name}",{name:esc(TD(BYID[evo().from[d.id]].n))})}</p>`:""}${(evo().to[d.id]||[]).map(t=>`<p class="tevo">${T("⟳ Evolves into {name}",{name:esc(TD(BYID[t].n))})}</p>`).join("")}${SK.i[d.id]?`<p class="tsk">${skTag(d.id)}</p>`:""}${stats.length?`<ul class="tst">${stats.map(([t,x])=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${d.gk?`<p class="tlock">${ui("lock")} ${T("Locked until {boss} falls",{boss:TD(GK[d.gk])})}</p>`:""}${d.rq?`<p class="tlock trq">${ui("lock")} ${img(RQRING[d.rq])} ${T("Requires the {ring}",{ring:rqName(d)})}</p>`:""}${isMust(d)?`<p class="tmust">${ui("star")} ${T("Must-Have: get it as soon as {act} opens.",{act:esc(actL(d.t))})}</p>`:""}
- ${d.gr?tipRecipe(d):""}${(x=>x.length?`<p class="tsrc">${fmt(x.join(" "))}</p>`:"")((d.gr?d.src.filter(x=>!RCV.test(x)):d.src).slice(0,2))}<p class="twhere">${esc(actL(d.t))}${d.a!==d.t?" · "+T("with luck from {act}",{act:esc(actL(d.a))}):""}</p></div>
+ ${d.gr?tipRecipe(d):""}${(x=>x.length?`<p class="tsrc">${fmt(x.map(srcT).join(" "))}</p>`:"")((d.gr?d.src.filter(x=>!RCV.test(x)):d.src).slice(0,2))}<p class="twhere">${esc(actL(d.t))}${d.a!==d.t?" · "+T("with luck from {act}",{act:esc(actL(d.a))}):""}</p></div>
  <div class="tft"><span class="tmod">${esc(d.m)}</span><span class="trt">${RN[d.r]}${d.pe?' <i class="kest" title="'+T("Power tier read from its text")+'">'+T("estimate")+'</i>':""}</span></div></div>`;c=w.firstElementChild;TIPC.set(d.ix,c)}tip.replaceChildren(c);
  if(lastAct)lastAct.classList.remove("act");lastAct=n.classList.contains("t")?n:null;if(lastAct)lastAct.classList.add("act");
  const first=!tip.classList.contains("on");place(n);tip.classList.add("on");if(first)tip.classList.add("in");decorate(tip)}

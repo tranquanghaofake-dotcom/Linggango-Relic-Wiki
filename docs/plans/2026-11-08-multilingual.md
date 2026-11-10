@@ -251,3 +251,8 @@ Số mod ship từng file: `ru_ru` 170, `pt_br` 114, `es_es` 91, `es_mx` 70, `vi
 - Dịch tay theo lô ~115 dòng, tệp `idx|vi|ru|pt|es` (script tạm `fx_apply.py` gộp vào `tm/<lang>.json`, kiểm mọi con số của dòng gốc có trong bản dịch; `--dry` để xem trước). Quy ước: giữ số nguyên vẹn (dấu phẩy thập phân ở ru/pt/es), tên hiệu ứng mod, tên vật phẩm, tên trường phái phép (Aqua, Geo…) giữ tiếng Anh; ru/pt/es dùng tên hiệu ứng vanilla chính thức của game; vi giữ tên hiệu ứng tiếng Anh. Thuật ngữ: Summon → Triệu hồi/Призыв/Invocação/Invocación; minion → minion/миньон/lacaio/esbirro; cooldown → hồi/перезарядка/recarga/enfriamiento; lifesteal → hút máu/вампиризм/roubo de vida/robo de vida; trait (đặc tính mob) → đặc tính/черта/característica/rasgo.
 - **Chưa làm:** `st` (2.972 dòng chỉ số), `src` (~1.480 dòng nguồn, sinh theo mẫu), `why` (~40 mẫu), tên chỉ số trong tooltip, mô tả mod `I[2]`/`I[3]`, mô tả đòn đánh của boss.
 
+### 13.14 Phase 3 (phần): dòng nguồn `src` (2026-11-10)
+- Các dòng nguồn do script vá ghép từ vài mẫu mệnh đề, nối bằng "; ". Thay vì dịch từng dòng cụ thể (607 dòng, 648 mệnh đề), `srcT` khớp từng mệnh đề với ~40 mẫu (`SRCSH`, `SRCSUF`) và nói lại bằng `T("câu có {chỗ trống}")`: tên mob/vật phẩm qua `TD`, tên địa điểm giữ nguyên, "and N more places" là dạng số nhiều (`TN`), phần trăm dùng dấu phẩy thập phân. 83 mệnh đề/dòng không mẫu nào khớp được dịch nguyên câu. Tiếng Anh không đi qua `srcT`.
+- Kiểm: vòng đi-về với gói rỗng (589 mệnh đề khớp, 0 sai), `howText`/thẻ loot/dòng nguồn trong tooltip giống từng byte với bản đã commit cho cả 1.321 curio; invariant mới trong `checks/i18n.js`.
+- **Chưa làm:** `st` (~2.800 dòng chỉ số ở tooltip khi rê chuột và mục "In-game tooltip"), tên địa điểm trong danh sách vẫn tiếng Anh.
+

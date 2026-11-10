@@ -78,3 +78,14 @@
   st.q = 'role:ближний'; if (!qMatch(d)) bad.push('i18n ru: "role:ближний" does not find a melee curio'); st.q = 'role:melee'; if (!qMatch(d)) bad.push('i18n ru: "role:melee" stopped working'); st.q = q0;
   useLang('en'); if (document.querySelector('#fc button').firstChild.nodeValue !== 'Melee') bad.push('i18n: the Role chip did not come back to English'); location.hash = h0; render(); }
 
+// Data text (Phase 3): a curio's effect line and its source lines (the "How to get it" list, the tooltip's last lines) are said in every language.
+// fxT reads the pack's table; srcT matches the clause shapes of the patch scripts and falls back to a whole-line entry. A line that stays English means the
+// patch scripts made a new line (or clause shape) nobody translated.
+{ const h0 = location.hash, seen = new Set(), srcLines = new Set(), fxLines = new Set();
+  for (const d of D) { fxLines.add(d.fx); for (const x of d.src) if (!(d.gr && RCV.test(x)) && !/^Key requirement: locked behind/i.test(x)) srcLines.add(x); for (const x of (d.gr ? d.src.filter(x => !RCV.test(x)) : d.src).slice(0, 2)) srcLines.add(x); }
+  for (const c of ['vi', 'ru', 'pt', 'es']) { useLang(c); let nf = 0, ns = 0;
+    for (const l of fxLines) if (l && I18N[c].tr[hsh(l)] === undefined && !(I18N[c].keep || []).includes(l)) { if (nf++ < 3) bad.push('i18n ' + c + ': the effect line is still English: ' + l.slice(0, 90)); }
+    if (nf > 3) bad.push('i18n ' + c + ': ' + nf + ' effect lines in all are still English');
+    for (const l of srcLines) if (srcT(l) === l) { if (ns++ < 3) bad.push('i18n ' + c + ': the source line is still English: ' + l.slice(0, 90)); }
+    if (ns > 3) bad.push('i18n ' + c + ': ' + ns + ' source lines in all are still English'); }
+  useLang('en'); if (D.some(d => srcT(d.src[0] || '') !== (d.src[0] || ''))) bad.push('i18n: srcT changes an English source line'); location.hash = h0; }
