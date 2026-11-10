@@ -335,7 +335,7 @@ function gStats(g){const rows=[];
  else{if(g.dmg!=null)rows.push(["fx_strength",N("Attack Damage"),gRound(g.dmg+gAdd(g,"attack_damage")),"code"]);if(g.spd!=null)rows.push(["fx_haste",N("Attack Speed"),gRound(g.spd+gAdd(g,"attack_speed")),"code"])}
  return rows}
 /* "+8% Attack Speed", "12 Armor": the number stays (decimal comma, " %" in es), the attribute name goes through TD (the names the gear tables produce); English returns the line as it is */
-const gAL=s=>{if(LANG==="en")return s;const m=String(s).match(/^([+\-−]?\d[\d.,]*)(%?) (.+)$/);return m?dec(m[1]+m[2])+" "+TD(m[3]):s};
+const gAL=s=>{if(LANG==="en")return s;let suf="";s=String(s).replace(/ \(multiplies the final value\)$/,()=>(suf=" ("+T("multiplies the final value")+")",""));const m=s.match(/^([+\-−]?\d[\d.,]*)(%?) (.+)$/);return m?dec(m[1]+m[2])+" "+TD(m[3])+suf:s+suf};
 function gBonus(g){const fold=g.k==="armor"?(g.arm!=null?["armor","armor_toughness","knockback_resistance"]:[]):[g.dmg!=null?"attack_damage":"",g.spd!=null?"attack_speed":""];
  return Object.entries(g.at).flatMap(([k,[a,m]])=>gMod(k,fold.includes(k)?0:a,m))}
 /* How to get, as pictures (like a curio page): each recipe as its station with the ingredient slots and the result,
