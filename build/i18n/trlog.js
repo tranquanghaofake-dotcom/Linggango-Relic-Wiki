@@ -3,7 +3,7 @@
 // Run it after a change to the pages it covers; it only adds what a visit shows, so a page that is not in ROUTES below is not listed.
 const path = require('path'), fs = require('fs');
 const { chromium } = (() => { try { return require('playwright'); } catch { return require(path.join(require('child_process').execSync('npm root -g').toString().trim(), 'playwright')); } })();
-const ROUTES = ['#', '#act/99', '#i5', '#g12', '#gs3', '#boss/iron_colossus', '#bosses', '#mechanics', '#changes', '#home'];   // Acts are added from ORDER
+const ROUTES = ['#', '#act/99', '#i5', '#g12', '#gs3', '#boss/iron_colossus', '#boss/warden', '#bosses', '#mechanics', '#changes', '#home', '#gear', '#build', '#mods', '#mod/Brutality'];   // Acts are added from ORDER
 (async () => {
   const b = await chromium.launch(), seen = new Set();
   const FILT = '{"c":["ME"],"r":["4","5"],"x":[],"g":[],"m":"","s":"Ring","a":"","q":"role:melee -mod:brutality","nw":true,"sort":"a","dir":1,"cl":[],"op":null,"rl":3,"rq":-1}';

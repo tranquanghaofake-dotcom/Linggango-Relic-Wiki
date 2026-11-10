@@ -1052,3 +1052,15 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Real bug found by looking: `build.py` merged the game's own translations after our `keep` list, so Vietnamese showed "Vòng Cổ" for Necklace beside English slot names (D3). It now skips
   the game's text for a sentence in `keep`; `checks/i18n.js` requires that no `keep` sentence has a translation in the pack (tried by injecting one: reported).
 - Open: the Progress label of the planner bar wraps to two lines in Vietnamese (narrow label column), not touched because it is a look change.
+
+## 2026-11-09: multilingual, Phase 2 group (e): Mechanics, Changes, mod pages, footer
+- A scratch script (`mkwrap.py`, not kept) wrapped the static text of the HTML lines in `mechPage`, `changesPage` and `modPage` with `T("…")`: a whole element, inline tags included,
+  simple `${expr}` as `{a}`, `{b}`; the rest by hand. A bold-only stat name (`<b>Dodge Chance</b>`) stays English on purpose (the names the game and the mods print). The footer's Art
+  credits (its links kept as they are) are now `foot.p3` in `ui.json`; "Back to top" and "Search results" follow the language (refreshed by `relabelSide`); ritual ingredient names go through `TD`.
+- 383 new sentences + 19 effect descriptions (through `TD`) translated by me: 1,117 per language, 1,117 of 1,117 covered. Unreviewed by a native speaker. `trlog.js` also visits
+  `#boss/warden`, `#gear`, `#build`, `#mods`, `#mod/Brutality`.
+- English did not change: 68 captures (Mechanics with the ritual filter in six states and "show more", Changes, the Mods list, all 56 mod pages, the footer, the two aria-labels) are
+  identical except two intended differences: `<option value="Craft">` (the option text is translated, so the value carries the English the filter compares with) and `data-lgh="foot.p3"`.
+  Also identical: 106 Bosses/planner captures, 205 Equipment captures, 51 route states except "1 item".
+- Left English (Phase 3): the curio effect, stat, source and why lines, mod blurbs, the stat lines of tooltips, the changelog's item and mod names.
+- `checks/i18n.js` now also draws Mechanics (with its ritual filter), Changes, the Mods list and a mod page in every language; looked at: ru Mechanics table, vi footer at 375 px.

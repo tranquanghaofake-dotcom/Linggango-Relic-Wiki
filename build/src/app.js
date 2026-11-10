@@ -284,7 +284,7 @@ function bossPage(k){
  wireArticle()}
 
 const nic=n=>{const id=typeof NAMEID!=="undefined"&&NAMEID[n];return id&&IC[id]?`<img class="nic" alt="" src="${icu(id)}">`:""};
-const nchip=(x,re=/^(\d+)× /)=>{const m=x.match(re),n=m?x.slice(m[0].length):x;return `<span class="nch">${nic(n)}${m?`<b>${m[1]}×</b>`:""}${esc(n)}</span>`};
+const nchip=(x,re=/^(\d+)× /)=>{const m=x.match(re),n=m?x.slice(m[0].length):x;return `<span class="nch">${nic(n)}${m?`<b>${m[1]}×</b>`:""}${esc(/^any /.test(n)?T("any {tag}",{tag:TD(n.slice(4))}):TD(n))}</span>`};
 const EFF_LOOK="(?<!Fire |Knockback |Grave |Attack |Movement |Mining |Armor |Damage |Swim |Sprint |Eldritch |Ender )";
 const effRe=n=>new RegExp(EFF_LOOK+"\\b"+n+"\\b");
 const EFFECTS=[
@@ -311,251 +311,251 @@ const EFFECTS=[
 // effect names in an item's text link to the Effects list
 function effHint(h){for(const e of EFFECTS){const m=h.match(e.re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/effects" title="${esc(TD(e.n))}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
 function mechPage(){
- document.title="Mechanics · Linggango Wiki";
+ document.title=T("Mechanics")+" · Linggango Wiki";
  needPics();const G=GOETY,A=AE2,TY=Object.entries(G.types),cnt=G.counts;
  const tName=t=>(G.types[t]||{name:t}).name.replace(/ Rituals?$/,"");
  const act=a=>a?esc(actL(a)):"—";
  const kindL={craft:"Craft",enchant:"Enchant",summon:"Summon",summon_tamed:"Summon",summon_tamed_no_variant:"Summon",convert:"Convert",convert_tamed:"Convert",convert_complete_tamed:"Convert",locate:"Locate",teleport:"Teleport"};
  const gate=Object.entries(G.base_gate).filter(([,v])=>v).map(([k,v])=>`${esc(k)} (${act(v)})`).join(", ");
- const rowH=r=>`<tr data-ty="${esc(r.type||"")}" data-k="${esc(kindL[r.kind]||r.kind)}"><td>${r.out_id&&IC[r.out_id]?islot(r.out_id)+" ":""}<b>${r.out_id&&BYID[r.out_id]?ilink(r.out_id,r.out):esc(r.out)}</b>${r.xp?` <small>· ${r.xp} XP levels</small>`:""}</td><td>${esc(tName(r.type))}</td><td>${r.act_id&&IC[r.act_id]?`<img class="nic" alt="" loading="lazy" src="${icu(r.act_id)}">`:""}${esc(r.act)}</td><td class="nchs">${r.ings.map(x=>nchip(x)).join("")}</td><td class="num">${r.soul??"—"}</td><td>${[r.research?`Research: ${esc(G.research[r.research]||r.research)}`:"",r.sacrifice?`Sacrifice: ${esc(r.sacrifice)}`:"",r.gate?`Locked until ${act(r.gate)}`:""].filter(Boolean).join("<br>")||"—"}</td></tr>`;
+ const rowH=r=>`<tr data-ty="${esc(r.type||"")}" data-k="${esc(kindL[r.kind]||r.kind)}"><td>${r.out_id&&IC[r.out_id]?islot(r.out_id)+" ":""}<b>${r.out_id&&BYID[r.out_id]?ilink(r.out_id,r.out):esc(r.out)}</b>${r.xp?` <small>· ${T("{n} XP levels",{n:r.xp})}</small>`:""}</td><td>${esc(TD(tName(r.type)))}</td><td>${r.act_id&&IC[r.act_id]?`<img class="nic" alt="" loading="lazy" src="${icu(r.act_id)}">`:""}${esc(r.act)}</td><td class="nchs">${r.ings.map(x=>nchip(x)).join("")}</td><td class="num">${r.soul??"—"}</td><td>${[r.research?T("Research: {x}",{x:esc(G.research[r.research]||r.research)}):"",r.sacrifice?T("Sacrifice: {x}",{x:esc(r.sacrifice)}):"",r.gate?T("Locked until {act}",{act:act(r.gate)}):""].filter(Boolean).join("<br>")||"—"}</td></tr>`;
  // 711 rituals: drawn from the data, 60 at a time (a full table is ~40k nodes); the filter redraws instead of hiding rows
  const RMAX=60,rOk=(r,v,ty,k)=>(!ty||(r.type||"")===ty)&&(!k||(kindL[r.kind]||r.kind)===k)&&(!v||(r.out+" "+r.act+" "+r.ings.join(" ")).toLowerCase().includes(v));
  const cells=A.cells.map(c=>`<tr><td><b>${c.t}</b></td><td class="num">${c.bytes.toLocaleString()}</td><td class="num">${c.bpt}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-63*c.bpt)*A.per_byte_item).toLocaleString()}</td><td class="num">${((c.bytes-c.bpt)*A.per_byte_fluid_mb/1000).toLocaleString()} B</td><td class="num">${c.drain}</td></tr>`).join("");
- const gates=Object.entries(A.gates).sort((a,b)=>a[0]-b[0]).map(([a,xs])=>`<tr><td><b>${act(+a)}</b><br><small>after ${esc(GK[a]||"")}</small></td><td class="nchs">${xs.slice(0,12).map(x=>nchip(x)).join("")}${xs.length>12?`<details class="nmore"><summary>${xs.length-12} more</summary><div class="nchs">${xs.slice(12).map(x=>nchip(x)).join("")}</div></details>`:""}</td></tr>`).join("");
+ const gates=Object.entries(A.gates).sort((a,b)=>a[0]-b[0]).map(([a,xs])=>`<tr><td><b>${act(+a)}</b><br><small>${T("after {boss}",{boss:esc(TD(GK[a]||""))})}</small></td><td class="nchs">${xs.slice(0,12).map(x=>nchip(x)).join("")}${xs.length>12?`<details class="nmore"><summary>${T("{n} more",{n:xs.length-12})}</summary><div class="nchs">${xs.slice(12).map(x=>nchip(x)).join("")}</div></details>`:""}</td></tr>`).join("");
  const made=[...new Map(G.rituals.filter(r=>r.out_id&&BYID[r.out_id]).map(r=>[r.out_id,BYID[r.out_id]])).values()].slice(0,8);
- const EFX_ROWS=EFFECTS.map(e=>({...e,items:D.filter(d=>e.re.test(d.fx))})).filter(e=>e.items.length||e.k!=="Vanilla").map(e=>`<tr id="eff-${esc(e.n.toLowerCase().replace(/ /g,"-"))}"><td><b>${esc(TD(e.n))}</b><br><small>${esc(e.k)}</small></td><td>${esc(e.d)||"—"}</td><td class="nchs">${e.note?esc(e.note):e.items.map(d=>ilink(d.id,d.n)).join(" ")||"—"}</td></tr>`).join("");
- el("main").innerHTML=`${crumb("Mechanics")}${room("ritual",made.map(d=>rCurio(d)),{head:`<h1>Mechanics</h1><p class="lede">How the pack's bigger systems work: Goety's dark rituals, AE2 storage and how the combat stats work, with Linggango's own changes.</p>`,cols:4,label:"Curios made by rituals"})}
+ const EFX_ROWS=EFFECTS.map(e=>({...e,items:D.filter(d=>e.re.test(d.fx))})).filter(e=>e.items.length||e.k!=="Vanilla").map(e=>`<tr id="eff-${esc(e.n.toLowerCase().replace(/ /g,"-"))}"><td><b>${esc(TD(e.n))}</b><br><small>${esc(T(e.k))}</small></td><td>${e.d?esc(TD(e.d)):"—"}</td><td class="nchs">${e.note?esc(TD(e.note)):e.items.map(d=>ilink(d.id,d.n)).join(" ")||"—"}</td></tr>`).join("");
+ el("main").innerHTML=`${crumb(T("Mechanics"))}${room("ritual",made.map(d=>rCurio(d)),{head:`<h1>${T("Mechanics")}</h1><p class="lede">${T("How the pack's bigger systems work: Goety's dark rituals, AE2 storage and how the combat stats work, with Linggango's own changes.")}</p>`,cols:4,label:T("Curios made by rituals")})}
 
-<nav class="mtabs"><a href="#mechanics" data-go="m-goety">Goety rituals</a><a href="#mechanics" data-go="m-ae2">AE2 storage</a><a href="#mechanics" data-go="m-effects">Effects</a><a href="#mechanics" data-go="m-stats">Stats</a></nav>
-<section class="s" id="m-goety"><h2>Goety: Dark Rituals</h2>
+<nav class="mtabs"><a href="#mechanics" data-go="m-goety">${T("Goety rituals")}</a><a href="#mechanics" data-go="m-ae2">${T("AE2 storage")}</a><a href="#mechanics" data-go="m-effects">${T("Effects")}</a><a href="#mechanics" data-go="m-stats">${T("Stats")}</a></nav>
+<section class="s" id="m-goety"><h2>${T("Goety: Dark Rituals")}</h2>
 <div class="flow">
-<div class="fst">${islot("goety:totem_of_souls",1)}<b>1. Fill a totem</b><span>Kill mobs with a Totem of Roots / Souls in your hotbar</span></div><i class="far">→</i>
-<div class="fst">${islot("goety:cursed_cage",1)}${islot("goety:dark_altar",1)}<b>2. Cage + Altar</b><span>Totem in the Cursed Cage, Dark Altar on top</span></div><i class="far">→</i>
-<div class="fst">${islot("goety:pedestal",1)}<b>3. Pedestals</b><span>Ingredients on Pedestals within ${G.range} blocks, plus the blocks the ritual type needs</span></div><i class="far">→</i>
-<div class="fst">${islot("goety:dark_wand",1)}<b>4. Activate</b><span>Right-click the altar with the activation item</span></div>
+<div class="fst">${islot("goety:totem_of_souls",1)}<b>${T("1. Fill a totem")}</b><span>${T("Kill mobs with a Totem of Roots / Souls in your hotbar")}</span></div><i class="far">→</i>
+<div class="fst">${islot("goety:cursed_cage",1)}${islot("goety:dark_altar",1)}<b>${T("2. Cage + Altar")}</b><span>${T("Totem in the Cursed Cage, Dark Altar on top")}</span></div><i class="far">→</i>
+<div class="fst">${islot("goety:pedestal",1)}<b>${T("3. Pedestals")}</b><span>${T("Ingredients on Pedestals within {a} blocks, plus the blocks the ritual type needs",{a:G.range})}</span></div><i class="far">→</i>
+<div class="fst">${islot("goety:dark_wand",1)}<b>${T("4. Activate")}</b><span>${T("Right-click the altar with the activation item")}</span></div>
 </div>
-<div class="kchips"><span><i class="lk" aria-hidden="true"></i>Ritual blocks open at <b>${act(3)}</b></span><span><i class="ki" style="--ki:var(--rt-writable_book)" aria-hidden="true"></i>Some rituals need a <b>research scroll</b></span><span><i class="ki" style="--ki:var(--v-i_netherite_sword)" aria-hidden="true"></i>Some need a <b>sacrifice</b> in range</span><span><i class="ki" style="--ki:var(--rt-ftb_alert)" aria-hidden="true"></i>Wrong or extra items = ritual fails</span><span><i class="ki" style="--ki:var(--rt-ftb_shape_gear)" aria-hidden="true"></i>6.6.6: the <b>Sabbath Engine</b> multiblock runs about 200 altar rituals for you on soul sand instead of souls (not the ones that need a research scroll)</span></div>
-<h3>Ritual types</h3>
-<div class="rtypes">${TY.map(([k,t])=>`<div class="rtype">${t.img?`<img src="data:image/webp;base64,${t.img}" alt="${esc(t.name)} example layout" loading="lazy">`:""}<b>${esc(t.name)}</b><small>${cnt[k]||0} ritual${cnt[k]===1?"":"s"}</small><div class="nchs">${t.req.map(x=>nchip(x,/^(\d+) /)).join("")}</div></div>`).join("")}</div>
-<h3>Every ritual in the pack (${G.rituals.length})</h3>
-<p class="note">From Goety ${"and its addons (Goety Revelation, Goety Delight, Goety Cataclysm, Goety Hostility, Goety Awaken)"}, plus the pack's own datapack recipes; rituals the pack removes are left out. Soul = Soul Energy drained over the ritual.</p>
-<div class="rflt"><input id="rq" type="search" aria-label="Find a ritual, item or ingredient" placeholder="Find a ritual, item or ingredient…"><select id="rt" aria-label="Ritual type"><option value="">All types</option>${TY.map(([k,t])=>`<option value="${esc(k)}">${esc(t.name)}</option>`).join("")}</select><select id="rk" aria-label="Ritual kind"><option value="">All kinds</option>${["Craft","Enchant","Summon","Convert","Locate","Teleport"].map(k=>`<option>${k}</option>`).join("")}</select><span id="rn"></span></div>
-<div class="tw rtw"><table class="rtab"><thead><tr><th>Result</th><th>Type</th><th>Activation item</th><th>Ingredients (on pedestals)</th><th>Soul</th><th>Also needs</th></tr></thead><tbody id="rtb">${G.rituals.slice(0,RMAX).map(rowH).join("")}</tbody></table></div><div id="rmore"></div>
+<div class="kchips"><span><i class="lk" aria-hidden="true"></i>${T("Ritual blocks open at {act}",{act:`<b>${act(3)}</b>`})}</span><span><i class="ki" style="--ki:var(--rt-writable_book)" aria-hidden="true"></i>${T("Some rituals need a <b>research scroll</b>")}</span><span><i class="ki" style="--ki:var(--v-i_netherite_sword)" aria-hidden="true"></i>${T("Some need a <b>sacrifice</b> in range")}</span><span><i class="ki" style="--ki:var(--rt-ftb_alert)" aria-hidden="true"></i>${T("Wrong or extra items = ritual fails")}</span><span><i class="ki" style="--ki:var(--rt-ftb_shape_gear)" aria-hidden="true"></i>${T("6.6.6: the <b>Sabbath Engine</b> multiblock runs about 200 altar rituals for you on soul sand instead of souls (not the ones that need a research scroll)")}</span></div>
+<h3>${T("Ritual types")}</h3>
+<div class="rtypes">${TY.map(([k,t])=>`<div class="rtype">${t.img?`<img src="data:image/webp;base64,${t.img}" alt="${esc(T("{name} example layout",{name:TD(t.name)}))}" loading="lazy">`:""}<b>${esc(TD(t.name))}</b><small>${TN(cnt[k]||0,"{n} ritual","{n} rituals")}</small><div class="nchs">${t.req.map(x=>nchip(x,/^(\d+) /)).join("")}</div></div>`).join("")}</div>
+<h3>${T("Every ritual in the pack ({a})",{a:G.rituals.length})}</h3>
+<p class="note">${T("From Goety {a}, plus the pack's own datapack recipes; rituals the pack removes are left out. Soul = Soul Energy drained over the ritual.",{a:"and its addons (Goety Revelation, Goety Delight, Goety Cataclysm, Goety Hostility, Goety Awaken)"})}</p>
+<div class="rflt"><input id="rq" type="search" aria-label="${T("Find a ritual, item or ingredient")}" placeholder="${T("Find a ritual, item or ingredient…")}"><select id="rt" aria-label="${T("Ritual type")}"><option value="">${T("All types")}</option>${TY.map(([k,t])=>`<option value="${esc(k)}">${esc(TD(t.name))}</option>`).join("")}</select><select id="rk" aria-label="${T("Ritual kind")}"><option value="">${T("All kinds")}</option>${[N("Craft"),N("Enchant"),N("Summon"),N("Convert"),N("Locate"),N("Teleport")].map(k=>`<option value="${k}">${T(k)}</option>`).join("")}</select><span id="rn"></span></div>
+<div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Result")}</th><th>${T("Type")}</th><th>${T("Activation item")}</th><th>${T("Ingredients (on pedestals)")}</th><th>${T("Soul")}</th><th>${T("Also needs")}</th></tr></thead><tbody id="rtb">${G.rituals.slice(0,RMAX).map(rowH).join("")}</tbody></table></div><div id="rmore"></div>
 </section>
-<section class="s" id="m-ae2"><h2>AE2 storage</h2>
-<p>Applied Energistics 2 (15.4.11) with AE2 Things, AE2 Wireless Terminals and Insert/Export Card, plus the add-ons MEGA Cells (2.4.6), ExtendedAE (1.4.21) and Applied Flux (1.3.7). In Linggango its later parts open with the Keepers:</p>
-<div class="tw"><table><tr><th>Opens at</th><th>AE2 parts that unlock</th></tr>${gates}</table></div>
-<p class="note">Since 6.6.6 (boss locks loosened) the ME Controller, Drive, Chest, 1k–16k cells, crafting and wireless terminals are open from the start; of AE2's own parts only 64k cells, the ME DISK line, spatial and quantum parts wait for ${act(6)}, and 256k for ${act(7)}. The add-ons are gated too: most ExtendedAE and Applied Flux parts at ${act(6)}, MEGA Cells from its 1M cells at ${act(8)} up to 64M and 256M at ${act(11)} (its Cell Dock at ${act(4)}).</p>
-${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],["4k",0],["16k",0],["64k",6],["256k",7]].map(([c,a])=>({h:"#mechanics",i:`<img alt="" src="data:image/png;base64,${ROOMT["ae2_item_storage_cell_"+c]}">`,n:`${c} ME Storage Cell: ${a?"from "+actL(a):"open from the start"}`,l:c+(a?" · "+esc(ACT[a][0]):"")})),"ME storage cells"):""}
-<h3>Getting started</h3>
+<section class="s" id="m-ae2"><h2>${T("AE2 storage")}</h2>
+<p>${T("Applied Energistics 2 (15.4.11) with AE2 Things, AE2 Wireless Terminals and Insert/Export Card, plus the add-ons MEGA Cells (2.4.6), ExtendedAE (1.4.21) and Applied Flux (1.3.7). In Linggango its later parts open with the Keepers:")}</p>
+<div class="tw"><table><tr><th>${T("Opens at")}</th><th>${T("AE2 parts that unlock")}</th></tr>${gates}</table></div>
+<p class="note">${T("Since 6.6.6 (boss locks loosened) the ME Controller, Drive, Chest, 1k–16k cells, crafting and wireless terminals are open from the start; of AE2's own parts only 64k cells, the ME DISK line, spatial and quantum parts wait for {a}, and 256k for {b}. The add-ons are gated too: most ExtendedAE and Applied Flux parts at {a}, MEGA Cells from its 1M cells at {c} up to 64M and 256M at {d} (its Cell Dock at {e}).",{a:act(6),b:act(7),c:act(8),d:act(11),e:act(4)})}</p>
+${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],["4k",0],["16k",0],["64k",6],["256k",7]].map(([c,a])=>({h:"#mechanics",i:`<img alt="" src="data:image/png;base64,${ROOMT["ae2_item_storage_cell_"+c]}">`,n:a?T("{c} ME Storage Cell: from {act}",{c,act:actL(a)}):T("{c} ME Storage Cell: open from the start",{c}),l:c+(a?" · "+esc(ACT[a][0]):"")})),T("ME storage cells")):""}
+<h3>${T("Getting started")}</h3>
 <div class="flow">
-<div class="fst">${islot("ae2:certus_quartz_crystal",1)}<b>Certus Quartz</b><span>Grow it, or Nether Quartz + Light Blue Dye</span></div>
-<div class="fst">${islot("ae2:inscriber",1)}<b>Presses</b><span>Found in meteorites</span></div>
-<div class="fst">${islot("ae2:energy_acceptor",1)}<b>Power</b><span>1 FE = ${A.fe_ratio} AE</span></div>
-<div class="fst">${islot("ae2:drive",1)}<b>Drive</b><span>Without a Controller: max 8 channels total</span></div>
-<div class="fst">${islot("ae2:controller",1)}<b>Controller</b><span>Cable 8 · dense 32 · each face 32 channels</span></div>
+<div class="fst">${islot("ae2:certus_quartz_crystal",1)}<b>${T("Certus Quartz")}</b><span>${T("Grow it, or Nether Quartz + Light Blue Dye")}</span></div>
+<div class="fst">${islot("ae2:inscriber",1)}<b>${T("Presses")}</b><span>${T("Found in meteorites")}</span></div>
+<div class="fst">${islot("ae2:energy_acceptor",1)}<b>${T("Power")}</b><span>1 FE = ${A.fe_ratio} AE</span></div>
+<div class="fst">${islot("ae2:drive",1)}<b>${T("Drive")}</b><span>${T("Without a Controller: max 8 channels total")}</span></div>
+<div class="fst">${islot("ae2:controller",1)}<b>${T("Controller")}</b><span>${T("Cable 8 · dense 32 · each face 32 channels")}</span></div>
 </div>
-<h3>How much a cell holds</h3>
-<p>A cell has a byte budget. Every <b>item type</b> stored costs a fixed number of bytes before any items go in, then each byte holds ${A.per_byte_item} items (or ${A.per_byte_fluid_mb.toLocaleString()} mB of fluid). Item cells take up to ${A.types_item} types, fluid cells ${A.types_fluid}. So one type fills a cell best; many types eat the budget.</p>
-<div class="tw"><table><tr><th>Cell</th><th>Bytes</th><th>Bytes per type</th><th>Items, 1 type</th><th>Items, 63 types</th><th>Fluid, 1 type</th><th>Idle drain (AE/t)</th></tr>${cells}</table></div>
-<h3>ME DISK Drives (AE2 Things)</h3>
-<p>A DISK drive counts items one by one with <b>no type limit and no per-type cost</b>: a ${A.disk.tiers[0]} DISK holds ${(A.disk.per_k).toLocaleString()} items of any mix, a 256k DISK ${(256*A.disk.per_k).toLocaleString()}. Items only, no fluids. The contents are saved with the world under the drive's ID, so a full drive stays light to carry. Use them for messy mixed storage, normal cells for bulk single items.</p>
-<p class="note">Linggango makes them expensive: each DISK drive needs 2 Quartz Glass, 3 Quantum Entangled Singularities, 2 Netherite Ingots, a Nether Star and the matching AE2 storage component (pack recipe; the DISK Housing swaps the component for an empty slot), and they open at ${act(6)} (256k at ${act(7)}).</p>
-<h3>Wireless and curios</h3>
-<p>The wireless range is ${A.wireless_range} blocks around a Wireless Access Point before boosters. These terminals can be worn in the Curio slot, so you can use them without holding them: ${A.curio.map(esc).join(", ")}. The plain Wireless Terminal can't.</p>
+<h3>${T("How much a cell holds")}</h3>
+<p>${T("A cell has a byte budget. Every <b>item type</b> stored costs a fixed number of bytes before any items go in, then each byte holds {a} items (or {b} mB of fluid). Item cells take up to {c} types, fluid cells {d}. So one type fills a cell best; many types eat the budget.",{a:A.per_byte_item,b:A.per_byte_fluid_mb.toLocaleString(),c:A.types_item,d:A.types_fluid})}</p>
+<div class="tw"><table><tr><th>${T("Cell")}</th><th>${T("Bytes")}</th><th>${T("Bytes per type")}</th><th>${T("Items, 1 type")}</th><th>${T("Items, 63 types")}</th><th>${T("Fluid, 1 type")}</th><th>${T("Idle drain (AE/t)")}</th></tr>${cells}</table></div>
+<h3>${T("ME DISK Drives (AE2 Things)")}</h3>
+<p>${T("A DISK drive counts items one by one with <b>no type limit and no per-type cost</b>: a {a} DISK holds {b} items of any mix, a 256k DISK {c}. Items only, no fluids. The contents are saved with the world under the drive's ID, so a full drive stays light to carry. Use them for messy mixed storage, normal cells for bulk single items.",{a:A.disk.tiers[0],b:(A.disk.per_k).toLocaleString(),c:(256*A.disk.per_k).toLocaleString()})}</p>
+<p class="note">${T("Linggango makes them expensive: each DISK drive needs 2 Quartz Glass, 3 Quantum Entangled Singularities, 2 Netherite Ingots, a Nether Star and the matching AE2 storage component (pack recipe; the DISK Housing swaps the component for an empty slot), and they open at {a} (256k at {b}).",{a:act(6),b:act(7)})}</p>
+<h3>${T("Wireless and curios")}</h3>
+<p>${T("The wireless range is {a} blocks around a Wireless Access Point before boosters. These terminals can be worn in the Curio slot, so you can use them without holding them: {b}. The plain Wireless Terminal can't.",{a:A.wireless_range,b:A.curio.map(esc).join(", ")})}</p>
 </section>
-<section class="s" id="m-effects"><h2>Effects</h2>
-<p>Status effects in the pack, what each one does, and the items whose own text names it. Food buffs are not an item: eating a meal that scores high enough gives them, as set in <code>linggango_tweaks-common.toml</code>.</p>
-<div class="tw"><table><tr><th>Effect</th><th>What it does</th><th>Given by</th></tr>${EFX_ROWS}</table></div></section>
-<section class="s" id="m-stats"><h2>Stats explained</h2>
-<p>About a dozen mods in the pack add combat stats, often with the same name and a different rule. This section follows one hit from your swing to the target's health bar and says at which step each stat counts. It is read from the code of the V6.6.6hf jars and the pack's own config files (the stat caps in <code>attributefix.json</code>, the Linggango Tweaks combat rules). Two warnings up front: several stats on the wiki do nothing in this pack, and some caps are much lower than the mods' own tooltips say.</p>
-<nav class="mtabs" aria-label="Stats explained"><a href="#mechanics" data-go="m-st-hit">One hit</a><a href="#mechanics" data-go="m-st-armor">Armor</a><a href="#mechanics" data-go="m-st-crit">Crits</a><a href="#mechanics" data-go="m-st-dodge">Dodge</a><a href="#mechanics" data-go="m-st-def">Taking damage</a><a href="#mechanics" data-go="m-st-heal">Healing</a><a href="#mechanics" data-go="m-st-roll">Roll and parry</a><a href="#mechanics" data-go="m-st-type">Damage types</a><a href="#mechanics" data-go="m-st-combo">Status and combos</a><a href="#mechanics" data-go="m-st-magic">Magic</a><a href="#mechanics" data-go="m-st-summon">Summons</a></nav>
+<section class="s" id="m-effects"><h2>${T("Effects")}</h2>
+<p>${T("Status effects in the pack, what each one does, and the items whose own text names it. Food buffs are not an item: eating a meal that scores high enough gives them, as set in <code>linggango_tweaks-common.toml</code>.")}</p>
+<div class="tw"><table><tr><th>${T("Effect")}</th><th>${T("What it does")}</th><th>${T("Given by")}</th></tr>${EFX_ROWS}</table></div></section>
+<section class="s" id="m-stats"><h2>${T("Stats explained")}</h2>
+<p>${T("About a dozen mods in the pack add combat stats, often with the same name and a different rule. This section follows one hit from your swing to the target's health bar and says at which step each stat counts. It is read from the code of the V6.6.6hf jars and the pack's own config files (the stat caps in <code>attributefix.json</code>, the Linggango Tweaks combat rules). Two warnings up front: several stats on the wiki do nothing in this pack, and some caps are much lower than the mods' own tooltips say.")}</p>
+<nav class="mtabs" aria-label="${T("Stats explained")}"><a href="#mechanics" data-go="m-st-hit">${T("One hit")}</a><a href="#mechanics" data-go="m-st-armor">${T("Armor")}</a><a href="#mechanics" data-go="m-st-crit">${T("Crits")}</a><a href="#mechanics" data-go="m-st-dodge">${T("Dodge")}</a><a href="#mechanics" data-go="m-st-def">${T("Taking damage")}</a><a href="#mechanics" data-go="m-st-heal">${T("Healing")}</a><a href="#mechanics" data-go="m-st-roll">${T("Roll and parry")}</a><a href="#mechanics" data-go="m-st-type">${T("Damage types")}</a><a href="#mechanics" data-go="m-st-combo">${T("Status and combos")}</a><a href="#mechanics" data-go="m-st-magic">${T("Magic")}</a><a href="#mechanics" data-go="m-st-summon">${T("Summons")}</a></nav>
 
-<h3 id="m-st-hit">One hit, step by step</h3>
-<p>Every hit goes through these steps in order. A stat only changes the steps it belongs to, so the same "+10%" can be worth very different amounts.</p>
-<div class="tw"><table><tr><th>Step</th><th>What happens</th><th>Stats that count here</th></tr>
-<tr><td><b>1. Swing</b></td><td>Weapon damage, scaled by how charged the attack is (vanilla attack cooldown).</td><td>Attack Damage, Brutality's weapon and damage-type stats (Sword Damage, Slash Damage…), Food buffs</td></tr>
-<tr><td><b>2. Melee crit</b></td><td>Decided once per swing. Melee only.</td><td>Brutality Critical Strike Chance / Damage, plus small add-ons (see Crits)</td></tr>
-<tr><td><b>3. Dodge</b></td><td>The target gets its chances to avoid the hit completely.</td><td>Dodge Chance (three different ones), roll and parry</td></tr>
-<tr><td><b>4. Bonus stage</b></td><td>Multipliers on the hit before armor. Order between mods does not matter here: they multiply.</td><td>Apothic Critical Chance / Damage, damage affinity, Exposed, Perfect Hit, roll counters, Damage Taken, Summon Damage</td></tr>
-<tr><td><b>5. Hit soft cap</b></td><td>How much step 4 grew your hit is measured. Up to ×3 it stays; past ×3 only the square root of the extra counts (×10 lands as ×5.5). Your summons' hits are exempt.</td><td>Everything in step 4</td></tr>
-<tr><td><b>6. Armor</b></td><td>The target's armor takes its share (formula below).</td><td>Armor, Armor Penetration, Armor Shred, Armor Pierce, Lethality</td></tr>
-<tr><td><b>7. Resistance, Protection</b></td><td>The Resistance effect, then Protection enchantments.</td><td>Resistance levels, Protection, Protection Pierce / Shred</td></tr>
-<tr><td><b>8. Floor and cap</b></td><td>Players only, and only for hits from something: at least 13% of the hit always lands, and no single hit takes more than half your max health.</td><td>Max Health (moves the cap)</td></tr>
-<tr><td><b>9. Healing from the hit</b></td><td>Lifesteal-type stats heal the attacker. All of it together is capped at 10% of max health per tick.</td><td>Lifesteal, Omnivamp, Life Steal, Overheal, Healing Received</td></tr>
+<h3 id="m-st-hit">${T("One hit, step by step")}</h3>
+<p>${T("Every hit goes through these steps in order. A stat only changes the steps it belongs to, so the same \"+10%\" can be worth very different amounts.")}</p>
+<div class="tw"><table><tr><th>${T("Step")}</th><th>${T("What happens")}</th><th>${T("Stats that count here")}</th></tr>
+<tr><td>${T("<b>1. Swing</b>")}</td><td>${T("Weapon damage, scaled by how charged the attack is (vanilla attack cooldown).")}</td><td>${T("Attack Damage, Brutality's weapon and damage-type stats (Sword Damage, Slash Damage…), Food buffs")}</td></tr>
+<tr><td>${T("<b>2. Melee crit</b>")}</td><td>${T("Decided once per swing. Melee only.")}</td><td>${T("Brutality Critical Strike Chance / Damage, plus small add-ons (see Crits)")}</td></tr>
+<tr><td>${T("<b>3. Dodge</b>")}</td><td>${T("The target gets its chances to avoid the hit completely.")}</td><td>${T("Dodge Chance (three different ones), roll and parry")}</td></tr>
+<tr><td>${T("<b>4. Bonus stage</b>")}</td><td>${T("Multipliers on the hit before armor. Order between mods does not matter here: they multiply.")}</td><td>${T("Apothic Critical Chance / Damage, damage affinity, Exposed, Perfect Hit, roll counters, Damage Taken, Summon Damage")}</td></tr>
+<tr><td>${T("<b>5. Hit soft cap</b>")}</td><td>${T("How much step 4 grew your hit is measured. Up to ×3 it stays; past ×3 only the square root of the extra counts (×10 lands as ×5.5). Your summons' hits are exempt.")}</td><td>${T("Everything in step 4")}</td></tr>
+<tr><td>${T("<b>6. Armor</b>")}</td><td>${T("The target's armor takes its share (formula below).")}</td><td>${T("Armor, Armor Penetration, Armor Shred, Armor Pierce, Lethality")}</td></tr>
+<tr><td>${T("<b>7. Resistance, Protection</b>")}</td><td>${T("The Resistance effect, then Protection enchantments.")}</td><td>${T("Resistance levels, Protection, Protection Pierce / Shred")}</td></tr>
+<tr><td>${T("<b>8. Floor and cap</b>")}</td><td>${T("Players only, and only for hits from something: at least 13% of the hit always lands, and no single hit takes more than half your max health.")}</td><td>${T("Max Health (moves the cap)")}</td></tr>
+<tr><td>${T("<b>9. Healing from the hit</b>")}</td><td>${T("Lifesteal-type stats heal the attacker. All of it together is capped at 10% of max health per tick.")}</td><td>${T("Lifesteal, Omnivamp, Life Steal, Overheal, Healing Received")}</td></tr>
 </table></div>
-<p class="note">Bosses on the Nightmare Altar roster also have an intake ceiling: they lose at most 1/30 of their max health per second (40–50 s for Sanghor, Zoranth Newborn and Nyxaris), banked up to 3 s, until you have beaten them once. Past that point more damage buys nothing.</p>
+<p class="note">${T("Bosses on the Nightmare Altar roster also have an intake ceiling: they lose at most 1/30 of their max health per second (40–50 s for Sanghor, Zoranth Newborn and Nyxaris), banked up to 3 s, until you have beaten them once. Past that point more damage buys nothing.")}</p>
 
-<h3 id="m-st-armor">Armor: how much gets through</h3>
-<p>Apothic Attributes replaces vanilla armor. A hit keeps <b>A / (A + armor)</b> of its damage, where A is 10 for hits under 20 and 10 + (hit − 20) / 2 above. Armor has no cap, and big hits go through it more easily.</p>
-<div class="tw"><table><tr><th>Target armor</th><th>10 damage hit</th><th>50 damage hit</th><th>200 damage hit</th></tr>
-<tr><td>10</td><td>50% lands</td><td>71%</td><td>91%</td></tr>
+<h3 id="m-st-armor">${T("Armor: how much gets through")}</h3>
+<p>${T("Apothic Attributes replaces vanilla armor. A hit keeps <b>A / (A + armor)</b> of its damage, where A is 10 for hits under 20 and 10 + (hit − 20) / 2 above. Armor has no cap, and big hits go through it more easily.")}</p>
+<div class="tw"><table><tr><th>${T("Target armor")}</th><th>${T("10 damage hit")}</th><th>${T("50 damage hit")}</th><th>${T("200 damage hit")}</th></tr>
+<tr><td>10</td><td>${T("50% lands")}</td><td>71%</td><td>91%</td></tr>
 <tr><td>20</td><td>33%</td><td>56%</td><td>83%</td></tr>
 <tr><td>50</td><td>17%</td><td>33%</td><td>67%</td></tr>
 <tr><td>100</td><td>9%</td><td>20%</td><td>50%</td></tr>
 <tr><td>200</td><td>5%</td><td>11%</td><td>33%</td></tr>
 <tr><td>400</td><td>2%</td><td>6%</td><td>20%</td></tr>
 </table></div>
-<p><b>Armor Toughness</b> does not reduce damage in this formula. Its only job is to blunt Armor Shred and Armor Pierce used against you: 2% per point, up to 60% at 30 toughness. Mobs rarely have either, so for a player toughness is almost dead weight.</p>
-<h4>Getting through armor</h4>
-<p>On your hits, the stats below are worked out in this order: Armor Penetration, then Shred, then Pierce, then Lethality. A small pack mod (Lethality Guard) takes over the armor step whenever the attacker has any of these four, so they all work together and armor never goes below zero.</p>
-<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>Kind</th><th>What it does</th></tr>
-<tr><td><b>Armor Penetration</b></td><td>Brutality</td><td>Percent</td><td>Ignores that share of the target's armor: +50% means the target counts with half its armor. Capped at 95% by the pack.</td></tr>
-<tr><td><b>Armor Shred</b></td><td>Apothic</td><td>Percent</td><td>Removes another share of what is left, weakened by the target's toughness.</td></tr>
-<tr><td><b>Armor Pierce</b></td><td>Apothic</td><td>Flat</td><td>Subtracts armor points, also weakened by toughness. TerraCurio's "armor pass" items give this stat.</td></tr>
-<tr><td><b>Lethality</b></td><td>Brutality</td><td>Flat</td><td>Subtracts armor points last. <b>Each point past zero armor becomes +10% damage</b> (Lethality Guard), so it is strongest against lightly armored or unarmored targets.</td></tr>
-<tr><td>Armor pierce</td><td>Iron's Lib</td><td>Flat</td><td><b>Does nothing on your hits</b>: it hooks a part of the armor code that Brutality skips for every player hit. Mobs with it still use it on you.</td></tr>
-<tr><td>Needle armor penetration</td><td>Goety Revelation</td><td>Recovery</td><td>Gives back a share of what armor took. Same problem as Iron's: skipped on player hits.</td></tr>
-<tr><td>Enchantment piercing</td><td>Goety Revelation</td><td>Recovery</td><td>Gives back a share of what Protection enchantments took (damage = after + (before − after) × value). The Protection step is not skipped on player hits, so this one can work.</td></tr>
-<tr><td>Protection Pierce / Shred</td><td>Apothic</td><td>Flat / Percent</td><td>The same as Armor Pierce / Shred, for the target's Protection points.</td></tr>
+<p>${T("<b>Armor Toughness</b> does not reduce damage in this formula. Its only job is to blunt Armor Shred and Armor Pierce used against you: 2% per point, up to 60% at 30 toughness. Mobs rarely have either, so for a player toughness is almost dead weight.")}</p>
+<h4>${T("Getting through armor")}</h4>
+<p>${T("On your hits, the stats below are worked out in this order: Armor Penetration, then Shred, then Pierce, then Lethality. A small pack mod (Lethality Guard) takes over the armor step whenever the attacker has any of these four, so they all work together and armor never goes below zero.")}</p>
+<div class="tw"><table><tr><th>${T("Stat on the wiki")}</th><th>${T("Mod")}</th><th>${T("Kind")}</th><th>${T("What it does")}</th></tr>
+<tr><td><b>Armor Penetration</b></td><td>${T("Brutality")}</td><td>${T("Percent")}</td><td>${T("Ignores that share of the target's armor: +50% means the target counts with half its armor. Capped at 95% by the pack.")}</td></tr>
+<tr><td><b>Armor Shred</b></td><td>${T("Apothic")}</td><td>${T("Percent")}</td><td>${T("Removes another share of what is left, weakened by the target's toughness.")}</td></tr>
+<tr><td><b>Armor Pierce</b></td><td>${T("Apothic")}</td><td>${T("Flat")}</td><td>${T("Subtracts armor points, also weakened by toughness. TerraCurio's \"armor pass\" items give this stat.")}</td></tr>
+<tr><td><b>Lethality</b></td><td>${T("Brutality")}</td><td>${T("Flat")}</td><td>${T("Subtracts armor points last. <b>Each point past zero armor becomes +10% damage</b> (Lethality Guard), so it is strongest against lightly armored or unarmored targets.")}</td></tr>
+<tr><td>${T("Armor pierce")}</td><td>${T("Iron's Lib")}</td><td>${T("Flat")}</td><td>${T("<b>Does nothing on your hits</b>: it hooks a part of the armor code that Brutality skips for every player hit. Mobs with it still use it on you.")}</td></tr>
+<tr><td>${T("Needle armor penetration")}</td><td>${T("Goety Revelation")}</td><td>${T("Recovery")}</td><td>${T("Gives back a share of what armor took. Same problem as Iron's: skipped on player hits.")}</td></tr>
+<tr><td>${T("Enchantment piercing")}</td><td>${T("Goety Revelation")}</td><td>${T("Recovery")}</td><td>${T("Gives back a share of what Protection enchantments took (damage = after + (before − after) × value). The Protection step is not skipped on player hits, so this one can work.")}</td></tr>
+<tr><td>${T("Protection Pierce / Shred")}</td><td>${T("Apothic")}</td><td>${T("Flat / Percent")}</td><td>${T("The same as Armor Pierce / Shred, for the target's Protection points.")}</td></tr>
 </table></div>
-<div class="tw"><table><tr><th>Example</th><th>Nothing</th><th>+50% Armor Penetration</th><th>10 Lethality</th><th>Both</th></tr>
-<tr><td>50 damage into a Keeper with 100 armor</td><td>10.0</td><td>16.7</td><td>10.9</td><td>19.2</td></tr>
-<tr><td>10 damage into a mob with 4 armor</td><td>7.1</td><td>8.3</td><td>16.0</td><td>18.0</td></tr>
+<div class="tw"><table><tr><th>${T("Example")}</th><th>${T("Nothing")}</th><th>${T("+50% Armor Penetration")}</th><th>${T("10 Lethality")}</th><th>${T("Both")}</th></tr>
+<tr><td>${T("50 damage into a Keeper with 100 armor")}</td><td>10.0</td><td>16.7</td><td>10.9</td><td>19.2</td></tr>
+<tr><td>${T("10 damage into a mob with 4 armor")}</td><td>7.1</td><td>8.3</td><td>16.0</td><td>18.0</td></tr>
 </table></div>
-<p class="note">Penetration is the stat against heavy armor, Lethality against light armor. Against the 4-armor mob, 10 Lethality leaves 6 points past zero, worth +60%.</p>
+<p class="note">${T("Penetration is the stat against heavy armor, Lethality against light armor. Against the 4-armor mob, 10 Lethality leaves 6 points past zero, worth +60%.")}</p>
 
-<h3 id="m-st-crit">Crits</h3>
-<p>There are two crit systems on top of each other, and they multiply: a melee crit decided at the swing, then the Apothic crit, which rolls on every hit you own.</p>
-<h4>The melee crit (Brutality decides)</h4>
-<p>Brutality's <b>Critical Strike Chance</b> is the gate for every melee crit. Your swing crits when it is charged over 90% and this roll succeeds. Jumping does not matter, and a jump without a successful roll is <b>not</b> a crit any more. The base chance is 0%, so with no crit gear, jump crits are gone. A crit deals <b>Critical Strike Damage</b>: base ×1.4, capped at ×3 by the pack. Most armor in the pack carries a little of it (+0.06 to +0.15 a piece).</p>
-<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does to melee crits</th></tr>
-<tr><td><b>Critical Strike Chance</b></td><td>Brutality</td><td>The roll above. Base 0%.</td></tr>
-<tr><td><b>Critical Strike Damage</b></td><td>Brutality</td><td>Sets the crit multiplier. Base ×1.4, cap ×3. Fuzzy Dice: a second roll doubles it.</td></tr>
-<tr><td>Crit damage</td><td>Iron's Lib</td><td>Adds to the multiplier (+0.15 turns ×1.4 into ×1.55). It runs at the same step as Brutality, so if it goes first, Brutality overwrites it. Not reliable.</td></tr>
-<tr><td>Weapon crit rate / damage</td><td>L2 (l2damagetracker)</td><td>Brutality's gate cancels or overwrites it on melee. It still works on fully drawn arrows (×1.5 at base crit damage).</td></tr>
-<tr><td>Chaos / Vex / Allay's Wing</td><td>Armageddon (Linggango Fixes)</td><td>+0.35 / +0.25 / +0.18 added to every melee crit's multiplier, after everything else.</td></tr>
-<tr><td>Perfect Hit</td><td>Linggango</td><td>Not a crit stat: any hit while falling has 5% to deal ×1.5 more (and huge knockback), at most once every 30 s.</td></tr>
+<h3 id="m-st-crit">${T("Crits")}</h3>
+<p>${T("There are two crit systems on top of each other, and they multiply: a melee crit decided at the swing, then the Apothic crit, which rolls on every hit you own.")}</p>
+<h4>${T("The melee crit (Brutality decides)")}</h4>
+<p>${T("Brutality's <b>Critical Strike Chance</b> is the gate for every melee crit. Your swing crits when it is charged over 90% and this roll succeeds. Jumping does not matter, and a jump without a successful roll is <b>not</b> a crit any more. The base chance is 0%, so with no crit gear, jump crits are gone. A crit deals <b>Critical Strike Damage</b>: base ×1.4, capped at ×3 by the pack. Most armor in the pack carries a little of it (+0.06 to +0.15 a piece).")}</p>
+<div class="tw"><table><tr><th>${T("Stat on the wiki")}</th><th>${T("Mod")}</th><th>${T("What it does to melee crits")}</th></tr>
+<tr><td><b>Critical Strike Chance</b></td><td>${T("Brutality")}</td><td>${T("The roll above. Base 0%.")}</td></tr>
+<tr><td><b>Critical Strike Damage</b></td><td>${T("Brutality")}</td><td>${T("Sets the crit multiplier. Base ×1.4, cap ×3. Fuzzy Dice: a second roll doubles it.")}</td></tr>
+<tr><td>${T("Crit damage")}</td><td>${T("Iron's Lib")}</td><td>${T("Adds to the multiplier (+0.15 turns ×1.4 into ×1.55). It runs at the same step as Brutality, so if it goes first, Brutality overwrites it. Not reliable.")}</td></tr>
+<tr><td>${T("Weapon crit rate / damage")}</td><td>${T("L2 (l2damagetracker)")}</td><td>${T("Brutality's gate cancels or overwrites it on melee. It still works on fully drawn arrows (×1.5 at base crit damage).")}</td></tr>
+<tr><td>${T("Chaos / Vex / Allay's Wing")}</td><td>${T("Armageddon (Linggango Fixes)")}</td><td>${T("+0.35 / +0.25 / +0.18 added to every melee crit's multiplier, after everything else.")}</td></tr>
+<tr><td>${T("Perfect Hit")}</td><td>${T("Linggango")}</td><td>${T("Not a crit stat: any hit while falling has 5% to deal ×1.5 more (and huge knockback), at most once every 30 s.")}</td></tr>
 </table></div>
-<h4>The Apothic crit (every hit)</h4>
-<p><b>Critical Chance</b> and <b>Critical Damage</b> from Apothic Attributes roll again at the bonus stage, on every hit where you are the attacker: melee, arrows and spells. Base 5% for ×1.5, and every mob has the same base 5% against you. TerraCurio's "critical chance" items (Destroyer Emblem, Celestial Stone…) give this stat. Above 100% it can crit more than once: each extra crit has the chance that is left over and multiplies by the crit damage ×0.85.</p>
-<p class="note">Example: a 20 damage swing that wins both rolls: ×1.4 (Brutality) = 28, then ×1.5 (Apothic) = 42. Only the Apothic part counts toward the ×3 soft cap.</p>
-<div class="tw"><table><tr><th>Other crits</th><th>Mod</th><th>Where it applies</th></tr>
-<tr><td><b>Spell crit chance / damage</b></td><td>GTBCS</td><td>Iron's Spells damage only. Base 0% chance and ×1.0 damage, so you need both stats for it to do anything.</td></tr>
-<tr><td><b>Bow crit chance</b></td><td>Too Many Bows</td><td>Arrows from that mod's bows only, with each bow's own multiplier.</td></tr>
-<tr><td>Reforge crit</td><td>Linggango (Reforging Table)</td><td>×1.5 on swings that are not jumps, and a chance at double base damage on arrows. On melee it is cancelled when Brutality's roll fails, unless it happens to run later. The order is not fixed.</td></tr>
-</table></div>
-
-<h3 id="m-st-dodge">Dodge</h3>
-<p>Three mods have a Dodge Chance and each rolls separately. A hit has to get past all of them, so they combine as 1 − (1 − a)(1 − b): 50% and 40% avoid 70% of hits.</p>
-<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>Cap in the pack</th><th>What it does</th></tr>
-<tr><td><b>Dodge Chance</b> (anklets…)</td><td>Brutality</td><td><b>50%</b></td><td>Any hit. After a dodge it rests for half a second. Players only.</td></tr>
-<tr><td><b>Dodge Chance</b> (Master Ninja Gear…)</td><td>Apothic</td><td><b>40%</b></td><td>Only melee from within reach, and projectiles. Hits in the same tick share one roll. TerraCurio's dodge items give this stat.</td></tr>
-<tr><td>Dodge chance</td><td>Iron's Lib</td><td>none</td><td>Any hit; a dodge also gives 1 s of invulnerability.</td></tr>
-</table></div>
-<p class="note">The mods' tooltips say up to 95% (Brutality) and 100% (Apothic); the pack's attributefix config lowers them to 50% and 40%. Stacking past the cap does nothing. A dodge cancels the hit outright, so the 13% damage floor does not apply to it.</p>
-
-<h3 id="m-st-def">Taking damage</h3>
-<div class="tw"><table><tr><th>Stat or rule</th><th>Mod</th><th>What it does</th></tr>
-<tr><td><b>Damage Taken</b></td><td>Brutality</td><td>Multiplies the damage you take, at the bonus stage. Many armor pieces have −5%: a full set at −5% each takes ×0.8. Because it works before the floor is measured, it can push a hit below 13%.</td></tr>
-<tr><td><b>Armor</b></td><td>vanilla, Apothic formula</td><td>See the table above. Never below the 13% floor on hits from something.</td></tr>
-<tr><td><b>Resistance</b> (effect)</td><td>Linggango Fixes</td><td>Rescaled: I 20%, II 24%, III 29%, IV 33%, V 38%, VI 42%, VII 47%, VIII 51%, IX 56%, X 60%, then only +0.04% a level. Vanilla Resistance V would make you immune; here it is 38%.</td></tr>
-<tr><td><b>Protection</b> (enchantments)</td><td>Apothic formula</td><td>2.5% per Protection point, up to 85% at 34 points.</td></tr>
-<tr><td><b>Magic resist</b> (all, or one school)</td><td>Iron's Spells</td><td>Spell damage taken × (2 − resist). Past +50% it softens: +100% resist blocks 75%, never 100%.</td></tr>
-<tr><td>Damage floor</td><td>Linggango</td><td>At least 13% of a hit always lands after armor, Resistance, Protection and absorption. Reductions at the bonus stage (Damage Taken, some accessories) count before the floor is set.</td></tr>
-<tr><td>Hit cap</td><td>Linggango</td><td>No single hit from something takes more than half your max health. Falls, lava and drowning are not floored or capped.</td></tr>
-<tr><td><b>Knockback Resistance</b></td><td>vanilla</td><td>Share of knockback ignored, capped at 100%.</td></tr>
+<h4>${T("The Apothic crit (every hit)")}</h4>
+<p>${T("<b>Critical Chance</b> and <b>Critical Damage</b> from Apothic Attributes roll again at the bonus stage, on every hit where you are the attacker: melee, arrows and spells. Base 5% for ×1.5, and every mob has the same base 5% against you. TerraCurio's \"critical chance\" items (Destroyer Emblem, Celestial Stone…) give this stat. Above 100% it can crit more than once: each extra crit has the chance that is left over and multiplies by the crit damage ×0.85.")}</p>
+<p class="note">${T("Example: a 20 damage swing that wins both rolls: ×1.4 (Brutality) = 28, then ×1.5 (Apothic) = 42. Only the Apothic part counts toward the ×3 soft cap.")}</p>
+<div class="tw"><table><tr><th>${T("Other crits")}</th><th>${T("Mod")}</th><th>${T("Where it applies")}</th></tr>
+<tr><td><b>Spell crit chance / damage</b></td><td>${T("GTBCS")}</td><td>${T("Iron's Spells damage only. Base 0% chance and ×1.0 damage, so you need both stats for it to do anything.")}</td></tr>
+<tr><td><b>Bow crit chance</b></td><td>${T("Too Many Bows")}</td><td>${T("Arrows from that mod's bows only, with each bow's own multiplier.")}</td></tr>
+<tr><td>${T("Reforge crit")}</td><td>${T("Linggango (Reforging Table)")}</td><td>${T("×1.5 on swings that are not jumps, and a chance at double base damage on arrows. On melee it is cancelled when Brutality's roll fails, unless it happens to run later. The order is not fixed.")}</td></tr>
 </table></div>
 
-<h3 id="m-st-heal">Healing from damage</h3>
-<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>Which hits</th><th>Heals</th></tr>
-<tr><td><b>Lifesteal</b></td><td>Brutality</td><td>Your melee swings only</td><td>That share of the swing's damage, before armor</td></tr>
-<tr><td><b>Omnivamp</b></td><td>Brutality</td><td>Every hit you own: melee, arrows, spells (not your summons)</td><td>That share of the damage at the bonus stage, before armor</td></tr>
-<tr><td><b>Life Steal</b></td><td>Apothic</td><td>Physical hits you land in person (melee; not arrows or spells)</td><td>That share of the damage before armor, at most the target's remaining health</td></tr>
-<tr><td><b>Overheal</b></td><td>Apothic</td><td>Same as Life Steal</td><td>Absorption hearts instead of health, up to half your max health</td></tr>
-<tr><td><b>Healing Received</b></td><td>Apothic, Iron's Lib</td><td>Every heal</td><td>Multiplies it (two separate stats, both apply)</td></tr>
+<h3 id="m-st-dodge">${T("Dodge")}</h3>
+<p>${T("Three mods have a Dodge Chance and each rolls separately. A hit has to get past all of them, so they combine as 1 − (1 − a)(1 − b): 50% and 40% avoid 70% of hits.")}</p>
+<div class="tw"><table><tr><th>${T("Stat on the wiki")}</th><th>${T("Mod")}</th><th>${T("Cap in the pack")}</th><th>${T("What it does")}</th></tr>
+<tr><td>${T("<b>Dodge Chance</b> (anklets…)")}</td><td>${T("Brutality")}</td><td><b>50%</b></td><td>${T("Any hit. After a dodge it rests for half a second. Players only.")}</td></tr>
+<tr><td>${T("<b>Dodge Chance</b> (Master Ninja Gear…)")}</td><td>${T("Apothic")}</td><td><b>40%</b></td><td>${T("Only melee from within reach, and projectiles. Hits in the same tick share one roll. TerraCurio's dodge items give this stat.")}</td></tr>
+<tr><td>${T("Dodge chance")}</td><td>${T("Iron's Lib")}</td><td>${T("none")}</td><td>${T("Any hit; a dodge also gives 1 s of invulnerability.")}</td></tr>
 </table></div>
-<p class="note">Cap: in a tick where you dealt damage, all healing from hits together is at most 10% of your max health. Regeneration, food and potions are not capped.</p>
+<p class="note">${T("The mods' tooltips say up to 95% (Brutality) and 100% (Apothic); the pack's attributefix config lowers them to 50% and 40%. Stacking past the cap does nothing. A dodge cancels the hit outright, so the 13% damage floor does not apply to it.")}</p>
 
-<h3 id="m-st-roll">Roll and parry</h3>
-<p>Linggango's dodge roll (one press dashes, a second press rolls) and its parry have their own stats. During a roll's invulnerable ticks every hit is dodged.</p>
-<div class="tw"><table><tr><th>Stat on the wiki</th><th>Base</th><th>What it does</th></tr>
-<tr><td><b>Roll Count</b></td><td>1</td><td>Roll charges. Only whole numbers count: +0.5 does nothing until the total reaches 2.</td></tr>
-<tr><td><b>Roll Recharge</b></td><td>20</td><td>A charge comes back in 3.2 s after a roll and 1.3 s after a dash, × 20 / Roll Recharge. +10% (22) is 9% faster.</td></tr>
-<tr><td><b>Roll Distance</b></td><td>3 blocks</td><td>How far a roll goes; a dash goes 70% of it.</td></tr>
-<tr><td><b>Roll Top Speed</b></td><td>0.8</td><td>Caps the speed you can build by chaining rolls and jumps.</td></tr>
-<tr><td><b>Dodge Window</b></td><td>0</td><td>Extra invulnerable ticks on rolls, dashes and air steps, rounded to the nearest tick (+0.5 is a whole tick), at most +4. A roll starts with 4 ticks, a dash with 3.</td></tr>
-<tr><td><b>Dodge Damage</b></td><td>×1</td><td>Multiplies the damage of the counter after a dodge, Bash and Flash.</td></tr>
-<tr><td><b>Parry Window</b></td><td>3 ticks</td><td>Adds ticks to the parry window.</td></tr>
-<tr><td><b>Parry Recovery</b></td><td>×1</td><td>Divides the lockout after a missed parry.</td></tr>
-<tr><td><b>Stun Duration</b></td><td>×1</td><td>Multiplies how long parries, counters and Bash leave a mob stunned or Exposed. Exposed mobs take +20% damage from you.</td></tr>
-<tr><td>Technique Recharge / Range</td><td>×1</td><td>Bash and Thunderclap: shorter cooldown, longer reach.</td></tr>
-</table></div>
-<p class="note">A counter is the first hit within 1.5 s on the mob you just dodged: ×1.5, ×2 or ×2.5 by Mirror Step rank, times Dodge Damage, and it Exposes the mob.</p>
-
-<h3 id="m-st-type">Damage types and bonus damage</h3>
-<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does</th></tr>
-<tr><td><b>Sword / Axe / Hammer / Scythe / Spear Damage</b> and <b>Slash / Pierce / Blunt Damage</b></td><td>Brutality</td><td>Added to your melee swing by the weapon you hold. Swords and axes take Slash, Brutality hammers Blunt, scythes Slash, spears and tridents Pierce, pickaxes and hoes Pierce, shovels Blunt. Flat values first, then percents. It goes by the item's class, not by the wiki's Damage chips.</td></tr>
-<tr><td>Damage affinity</td><td>Linggango</td><td>A mob weak to your damage type (the Damage chips on curio pages) takes ×1.25, or ×1.5 when the type is boosted (rain for lightning, unarmored targets for slash, airborne targets for pierce…). A resistance is ×0.75 or ×0.5. Elemental types also fill a status meter on the target, see Status and combos below.</td></tr>
-<tr><td><b>Arrow Damage</b></td><td>Apothic, Iron's Lib</td><td>Multiplies arrow damage (Apothic when the arrow is shot, Iron's when it hits). TerraCurio's ranged damage items give the Apothic one.</td></tr>
-<tr><td><b>Fire / Cold Damage</b></td><td>Apothic</td><td>An extra hit of that much on swings charged 55% or more; Fire also sets the target alight, Cold slows it.</td></tr>
-<tr><td><b>Magic Damage</b></td><td>TerraCurio</td><td>Multiplies damage of the magic and indirect magic types.</td></tr>
-<tr><td>Food buffs</td><td>Linggango</td><td>Well Fed, Plenty Satisfied, Exquisitely Stuffed: +5 / 10 / 15% attack, spell, summon and arrow damage and movement speed.</td></tr>
+<h3 id="m-st-def">${T("Taking damage")}</h3>
+<div class="tw"><table><tr><th>${T("Stat or rule")}</th><th>${T("Mod")}</th><th>${T("What it does")}</th></tr>
+<tr><td><b>Damage Taken</b></td><td>${T("Brutality")}</td><td>${T("Multiplies the damage you take, at the bonus stage. Many armor pieces have −5%: a full set at −5% each takes ×0.8. Because it works before the floor is measured, it can push a hit below 13%.")}</td></tr>
+<tr><td><b>Armor</b></td><td>${T("vanilla, Apothic formula")}</td><td>${T("See the table above. Never below the 13% floor on hits from something.")}</td></tr>
+<tr><td>${T("<b>Resistance</b> (effect)")}</td><td>${T("Linggango Fixes")}</td><td>${T("Rescaled: I 20%, II 24%, III 29%, IV 33%, V 38%, VI 42%, VII 47%, VIII 51%, IX 56%, X 60%, then only +0.04% a level. Vanilla Resistance V would make you immune; here it is 38%.")}</td></tr>
+<tr><td>${T("<b>Protection</b> (enchantments)")}</td><td>${T("Apothic formula")}</td><td>${T("2.5% per Protection point, up to 85% at 34 points.")}</td></tr>
+<tr><td>${T("<b>Magic resist</b> (all, or one school)")}</td><td>${T("Iron's Spells")}</td><td>${T("Spell damage taken × (2 − resist). Past +50% it softens: +100% resist blocks 75%, never 100%.")}</td></tr>
+<tr><td>${T("Damage floor")}</td><td>${T("Linggango")}</td><td>${T("At least 13% of a hit always lands after armor, Resistance, Protection and absorption. Reductions at the bonus stage (Damage Taken, some accessories) count before the floor is set.")}</td></tr>
+<tr><td>${T("Hit cap")}</td><td>${T("Linggango")}</td><td>${T("No single hit from something takes more than half your max health. Falls, lava and drowning are not floored or capped.")}</td></tr>
+<tr><td><b>Knockback Resistance</b></td><td>${T("vanilla")}</td><td>${T("Share of knockback ignored, capped at 100%.")}</td></tr>
 </table></div>
 
-<h3 id="m-st-combo">Status and combos</h3>
-<p class="lede">Each hit fills a meter for its damage type on the target. When the meter is full it goes off into a status. Two elements that both reach half a meter on the same mob react as a combo.</p>
-<div class="tw"><table><tr><th>Element</th><th>Boosted in or on</th><th>Status when the meter goes off</th></tr>
-<tr><td><b>Fire</b></td><td>Hot places and the Nether</td><td><b>Scorched</b>: takes 15% more fire damage</td></tr>
-<tr><td><b>Frost</b></td><td>The cold, and frozen targets</td><td><b>Frostbite</b>: 40% slower and takes 15% more damage</td></tr>
-<tr><td><b>Lightning</b></td><td>Rain, and wet targets</td><td><b>Stunned</b>: can't move or attack</td></tr>
-<tr><td><b>Holy</b></td><td>Daylight</td><td><b>Judged</b>: glows and can't heal</td></tr>
-<tr><td><b>Dark</b></td><td>The dark</td><td><b>Dread</b>: deals 30% less damage. When it ends, a quarter of the damage taken during it hits again</td></tr>
-<tr><td><b>Blood</b></td><td>Wounded targets</td><td><b>Bleeding</b>: loses health every half second, twice as much while moving</td></tr>
-<tr><td><b>Nature</b></td><td>Poisoned targets</td><td><b>Rooted</b> (can't move, can still attack) and <b>Rot</b> (loses 1% of max health every second)</td></tr>
-<tr><td><b>Arcane</b></td><td>The End, and under a full moon</td><td><b>Unravelled</b>: takes 20% more elemental and magic damage</td></tr>
+<h3 id="m-st-heal">${T("Healing from damage")}</h3>
+<div class="tw"><table><tr><th>${T("Stat on the wiki")}</th><th>${T("Mod")}</th><th>${T("Which hits")}</th><th>${T("Heals")}</th></tr>
+<tr><td><b>Lifesteal</b></td><td>${T("Brutality")}</td><td>${T("Your melee swings only")}</td><td>${T("That share of the swing's damage, before armor")}</td></tr>
+<tr><td><b>Omnivamp</b></td><td>${T("Brutality")}</td><td>${T("Every hit you own: melee, arrows, spells (not your summons)")}</td><td>${T("That share of the damage at the bonus stage, before armor")}</td></tr>
+<tr><td><b>Life Steal</b></td><td>${T("Apothic")}</td><td>${T("Physical hits you land in person (melee; not arrows or spells)")}</td><td>${T("That share of the damage before armor, at most the target's remaining health")}</td></tr>
+<tr><td><b>Overheal</b></td><td>${T("Apothic")}</td><td>${T("Same as Life Steal")}</td><td>${T("Absorption hearts instead of health, up to half your max health")}</td></tr>
+<tr><td><b>Healing Received</b></td><td>${T("Apothic, Iron's Lib")}</td><td>${T("Every heal")}</td><td>${T("Multiplies it (two separate stats, both apply)")}</td></tr>
 </table></div>
-<p class="note">Slash, pierce and blunt do not have a status of their own. The pack's config comment says they fill a meter too, but no effect name for them is in the pack's text, so none is listed here.</p>
+<p class="note">${T("Cap: in a tick where you dealt damage, all healing from hits together is at most 10% of your max health. Regeneration, food and potions are not capped.")}</p>
+
+<h3 id="m-st-roll">${T("Roll and parry")}</h3>
+<p>${T("Linggango's dodge roll (one press dashes, a second press rolls) and its parry have their own stats. During a roll's invulnerable ticks every hit is dodged.")}</p>
+<div class="tw"><table><tr><th>${T("Stat on the wiki")}</th><th>${T("Base")}</th><th>${T("What it does")}</th></tr>
+<tr><td><b>Roll Count</b></td><td>1</td><td>${T("Roll charges. Only whole numbers count: +0.5 does nothing until the total reaches 2.")}</td></tr>
+<tr><td><b>Roll Recharge</b></td><td>20</td><td>${T("A charge comes back in 3.2 s after a roll and 1.3 s after a dash, × 20 / Roll Recharge. +10% (22) is 9% faster.")}</td></tr>
+<tr><td><b>Roll Distance</b></td><td>${T("3 blocks")}</td><td>${T("How far a roll goes; a dash goes 70% of it.")}</td></tr>
+<tr><td><b>Roll Top Speed</b></td><td>0.8</td><td>${T("Caps the speed you can build by chaining rolls and jumps.")}</td></tr>
+<tr><td><b>Dodge Window</b></td><td>0</td><td>${T("Extra invulnerable ticks on rolls, dashes and air steps, rounded to the nearest tick (+0.5 is a whole tick), at most +4. A roll starts with 4 ticks, a dash with 3.")}</td></tr>
+<tr><td><b>Dodge Damage</b></td><td>×1</td><td>${T("Multiplies the damage of the counter after a dodge, Bash and Flash.")}</td></tr>
+<tr><td><b>Parry Window</b></td><td>${T("3 ticks")}</td><td>${T("Adds ticks to the parry window.")}</td></tr>
+<tr><td><b>Parry Recovery</b></td><td>×1</td><td>${T("Divides the lockout after a missed parry.")}</td></tr>
+<tr><td><b>Stun Duration</b></td><td>×1</td><td>${T("Multiplies how long parries, counters and Bash leave a mob stunned or Exposed. Exposed mobs take +20% damage from you.")}</td></tr>
+<tr><td>${T("Technique Recharge / Range")}</td><td>×1</td><td>${T("Bash and Thunderclap: shorter cooldown, longer reach.")}</td></tr>
+</table></div>
+<p class="note">${T("A counter is the first hit within 1.5 s on the mob you just dodged: ×1.5, ×2 or ×2.5 by Mirror Step rank, times Dodge Damage, and it Exposes the mob.")}</p>
+
+<h3 id="m-st-type">${T("Damage types and bonus damage")}</h3>
+<div class="tw"><table><tr><th>${T("Stat on the wiki")}</th><th>${T("Mod")}</th><th>${T("What it does")}</th></tr>
+<tr><td><b>Sword / Axe / Hammer / Scythe / Spear Damage</b> and <b>Slash / Pierce / Blunt Damage</b></td><td>${T("Brutality")}</td><td>${T("Added to your melee swing by the weapon you hold. Swords and axes take Slash, Brutality hammers Blunt, scythes Slash, spears and tridents Pierce, pickaxes and hoes Pierce, shovels Blunt. Flat values first, then percents. It goes by the item's class, not by the wiki's Damage chips.")}</td></tr>
+<tr><td>${T("Damage affinity")}</td><td>${T("Linggango")}</td><td>${T("A mob weak to your damage type (the Damage chips on curio pages) takes ×1.25, or ×1.5 when the type is boosted (rain for lightning, unarmored targets for slash, airborne targets for pierce…). A resistance is ×0.75 or ×0.5. Elemental types also fill a status meter on the target, see Status and combos below.")}</td></tr>
+<tr><td><b>Arrow Damage</b></td><td>${T("Apothic, Iron's Lib")}</td><td>${T("Multiplies arrow damage (Apothic when the arrow is shot, Iron's when it hits). TerraCurio's ranged damage items give the Apothic one.")}</td></tr>
+<tr><td><b>Fire / Cold Damage</b></td><td>${T("Apothic")}</td><td>${T("An extra hit of that much on swings charged 55% or more; Fire also sets the target alight, Cold slows it.")}</td></tr>
+<tr><td><b>Magic Damage</b></td><td>${T("TerraCurio")}</td><td>${T("Multiplies damage of the magic and indirect magic types.")}</td></tr>
+<tr><td>${T("Food buffs")}</td><td>${T("Linggango")}</td><td>${T("Well Fed, Plenty Satisfied, Exquisitely Stuffed: +5 / 10 / 15% attack, spell, summon and arrow damage and movement speed.")}</td></tr>
+</table></div>
+
+<h3 id="m-st-combo">${T("Status and combos")}</h3>
+<p class="lede">${T("Each hit fills a meter for its damage type on the target. When the meter is full it goes off into a status. Two elements that both reach half a meter on the same mob react as a combo.")}</p>
+<div class="tw"><table><tr><th>${T("Element")}</th><th>${T("Boosted in or on")}</th><th>${T("Status when the meter goes off")}</th></tr>
+<tr><td><b>Fire</b></td><td>${T("Hot places and the Nether")}</td><td>${T("<b>Scorched</b>: takes 15% more fire damage")}</td></tr>
+<tr><td><b>Frost</b></td><td>${T("The cold, and frozen targets")}</td><td>${T("<b>Frostbite</b>: 40% slower and takes 15% more damage")}</td></tr>
+<tr><td><b>Lightning</b></td><td>${T("Rain, and wet targets")}</td><td>${T("<b>Stunned</b>: can't move or attack")}</td></tr>
+<tr><td><b>Holy</b></td><td>${T("Daylight")}</td><td>${T("<b>Judged</b>: glows and can't heal")}</td></tr>
+<tr><td><b>Dark</b></td><td>${T("The dark")}</td><td>${T("<b>Dread</b>: deals 30% less damage. When it ends, a quarter of the damage taken during it hits again")}</td></tr>
+<tr><td><b>Blood</b></td><td>${T("Wounded targets")}</td><td>${T("<b>Bleeding</b>: loses health every half second, twice as much while moving")}</td></tr>
+<tr><td><b>Nature</b></td><td>${T("Poisoned targets")}</td><td>${T("<b>Rooted</b> (can't move, can still attack) and <b>Rot</b> (loses 1% of max health every second)")}</td></tr>
+<tr><td><b>Arcane</b></td><td>${T("The End, and under a full moon")}</td><td>${T("<b>Unravelled</b>: takes 20% more elemental and magic damage")}</td></tr>
+</table></div>
+<p class="note">${T("Slash, pierce and blunt do not have a status of their own. The pack's config comment says they fill a meter too, but no effect name for them is in the pack's text, so none is listed here.")}</p>
 <ul>
-<li>A normal elemental weapon fills its meter in about five hits.</li>
-<li>Slow weapons fill it faster per hit. A hit on a weakness fills it faster. A resistance never fills it.</li>
-<li>After a meter goes off, the next one takes longer, so one weapon can't keep a mob stunned.</li>
-<li>Bosses fill at half speed, take smaller bursts, and are never stunned or rooted.</li>
+<li>${T("A normal elemental weapon fills its meter in about five hits.")}</li>
+<li>${T("Slow weapons fill it faster per hit. A hit on a weakness fills it faster. A resistance never fills it.")}</li>
+<li>${T("After a meter goes off, the next one takes longer, so one weapon can't keep a mob stunned.")}</li>
+<li>${T("Bosses fill at half speed, take smaller bursts, and are never stunned or rooted.")}</li>
 </ul>
-<h4>Combos</h4>
-<div class="tw"><table><tr><th>Pair</th><th>Combo</th><th>What it does</th></tr>
-<tr><td>Fire + Frost</td><td><b>Shatter</b></td><td>An ice burst that hits the mob for a share of its max health. Bosses take half.</td></tr>
-<tr><td>Fire + Lightning</td><td><b>Detonation</b></td><td>An explosion that hurts the mob and the mobs close to it.</td></tr>
-<tr><td>Frost + Lightning</td><td><b>Superconduct</b></td><td>Applies Exposed and stuns the mob.</td></tr>
-<tr><td>Holy + Dark</td><td><b>Eclipse</b></td><td>The mob ignores its resistances for a while.</td></tr>
-<tr><td>Blood + Nature</td><td><b>Fester</b></td><td>Bleeding on the mob, and Rot on the mobs around it.</td></tr>
-<tr><td>Fire + Nature</td><td><b>Wildfire</b></td><td>Scorched on the mobs around it.</td></tr>
-<tr><td>Frost + Blood</td><td><b>Crimson Ice</b></td><td>A stun after a short delay.</td></tr>
-<tr><td>Lightning + Holy</td><td><b>Smite</b></td><td>Judged on the mob.</td></tr>
-<tr><td>Dark + Blood</td><td><b>Bloodletting</b></td><td>A heavy hit with blood particles.</td></tr>
-<tr><td>Frost + Nature</td><td><b>Frostbloom</b></td><td>Rooted and Frostbite on the mobs around it.</td></tr>
-<tr><td>Lightning + Blood</td><td><b>Arterial Surge</b></td><td>Bleeding on the mobs around it.</td></tr>
-<tr><td>Holy + Fire</td><td><b>Sunfire</b></td><td>Hits the mobs around it, harder against undead.</td></tr>
-<tr><td>Arcane</td><td><b>Resonance</b></td><td>A burst. With Iron's Spellbooks installed you also get 25 mana.</td></tr>
+<h4>${T("Combos")}</h4>
+<div class="tw"><table><tr><th>${T("Pair")}</th><th>${T("Combo")}</th><th>${T("What it does")}</th></tr>
+<tr><td>${T("Fire + Frost")}</td><td><b>Shatter</b></td><td>${T("An ice burst that hits the mob for a share of its max health. Bosses take half.")}</td></tr>
+<tr><td>${T("Fire + Lightning")}</td><td><b>Detonation</b></td><td>${T("An explosion that hurts the mob and the mobs close to it.")}</td></tr>
+<tr><td>${T("Frost + Lightning")}</td><td><b>Superconduct</b></td><td>${T("Applies Exposed and stuns the mob.")}</td></tr>
+<tr><td>${T("Holy + Dark")}</td><td><b>Eclipse</b></td><td>${T("The mob ignores its resistances for a while.")}</td></tr>
+<tr><td>${T("Blood + Nature")}</td><td><b>Fester</b></td><td>${T("Bleeding on the mob, and Rot on the mobs around it.")}</td></tr>
+<tr><td>${T("Fire + Nature")}</td><td><b>Wildfire</b></td><td>${T("Scorched on the mobs around it.")}</td></tr>
+<tr><td>${T("Frost + Blood")}</td><td><b>Crimson Ice</b></td><td>${T("A stun after a short delay.")}</td></tr>
+<tr><td>${T("Lightning + Holy")}</td><td><b>Smite</b></td><td>${T("Judged on the mob.")}</td></tr>
+<tr><td>${T("Dark + Blood")}</td><td><b>Bloodletting</b></td><td>${T("A heavy hit with blood particles.")}</td></tr>
+<tr><td>${T("Frost + Nature")}</td><td><b>Frostbloom</b></td><td>${T("Rooted and Frostbite on the mobs around it.")}</td></tr>
+<tr><td>${T("Lightning + Blood")}</td><td><b>Arterial Surge</b></td><td>${T("Bleeding on the mobs around it.")}</td></tr>
+<tr><td>${T("Holy + Fire")}</td><td><b>Sunfire</b></td><td>${T("Hits the mobs around it, harder against undead.")}</td></tr>
+<tr><td>${T("Arcane")}</td><td><b>Resonance</b></td><td>${T("A burst. With Iron's Spellbooks installed you also get 25 mana.")}</td></tr>
 </table></div>
-<h4>When Arcane hits max</h4>
-<p>The Arcane meter goes off into <b>Unravelled</b>: the mob takes 20% more elemental and magic damage. Resonance is the Arcane combo: its burst gives you 25 mana, the mana from Iron's Spellbooks. The pack's own in-game text describes it as "Arcane blows up around it and gives you mana back".</p>
+<h4>${T("When Arcane hits max")}</h4>
+<p>${T("The Arcane meter goes off into <b>Unravelled</b>: the mob takes 20% more elemental and magic damage. Resonance is the Arcane combo: its burst gives you 25 mana, the mana from Iron's Spellbooks. The pack's own in-game text describes it as \"Arcane blows up around it and gives you mana back\".")}</p>
 
-<h3 id="m-st-magic">Magic (Iron's Spells)</h3>
-<div class="tw"><table><tr><th>Stat on the wiki</th><th>What it does</th></tr>
-<tr><td><b>Spell Power</b> and <b>School Power</b> (Fire, Ice, Ender…)</td><td>Spell damage = the spell's base × Spell Power × that school's power. They multiply each other.</td></tr>
-<tr><td><b>Cooldown Reduction</b></td><td>Cooldown × (2 − value), softened past +50%: +25% → ×0.75, +50% → ×0.5, +100% → ×0.25, +200% → ×0.125. Imbued weapons also have half the cooldown (pack config).</td></tr>
-<tr><td><b>Cast Time Reduction</b></td><td>The same formula on cast time.</td></tr>
-<tr><td><b>Max Mana</b>, <b>Mana Regen</b></td><td>Every half second you get back 1% of max mana × Mana Regen: 100 mana refills in 50 s at base.</td></tr>
-<tr><td><b>Casting Movement Speed</b></td><td>How fast you can move while casting.</td></tr>
+<h3 id="m-st-magic">${T("Magic (Iron's Spells)")}</h3>
+<div class="tw"><table><tr><th>${T("Stat on the wiki")}</th><th>${T("What it does")}</th></tr>
+<tr><td>${T("<b>Spell Power</b> and <b>School Power</b> (Fire, Ice, Ender…)")}</td><td>${T("Spell damage = the spell's base × Spell Power × that school's power. They multiply each other.")}</td></tr>
+<tr><td><b>Cooldown Reduction</b></td><td>${T("Cooldown × (2 − value), softened past +50%: +25% → ×0.75, +50% → ×0.5, +100% → ×0.25, +200% → ×0.125. Imbued weapons also have half the cooldown (pack config).")}</td></tr>
+<tr><td><b>Cast Time Reduction</b></td><td>${T("The same formula on cast time.")}</td></tr>
+<tr><td><b>Max Mana</b>, <b>Mana Regen</b></td><td>${T("Every half second you get back 1% of max mana × Mana Regen: 100 mana refills in 50 s at base.")}</td></tr>
+<tr><td><b>Casting Movement Speed</b></td><td>${T("How fast you can move while casting.")}</td></tr>
 </table></div>
 
-<h3 id="m-st-summon">Summons</h3>
-<div class="tw"><table><tr><th>Stat on the wiki</th><th>Mod</th><th>What it does</th></tr>
-<tr><td><b>Minion Damage</b></td><td>Summonity</td><td>Multiplies your minions' damage. Halved while you hold neither a summoning item nor a whip.</td></tr>
-<tr><td><b>Summon Damage</b></td><td>Iron's Spells</td><td>Multiplies the damage of Iron's summons, and of Summonity minions too.</td></tr>
-<tr><td>Linggango's summon bridge</td><td>Linggango</td><td>Iron's and Goety summons you own also get your Minion Damage (no half-damage penalty), capped at ×2.</td></tr>
-<tr><td><b>Minion Slots</b></td><td>Summonity</td><td>How many minions you can have (base 2). Each slot above 2 also adds one to every Goety summon limit.</td></tr>
-<tr><td><b>Minion Range</b>, <b>Minion Attack Speed</b>, <b>Minion Movement Speed</b></td><td>Summonity</td><td>How far minions roam from you (base 20 blocks), how fast they attack and move.</td></tr>
-<tr><td><b>Whip Damage / Range / Attack Speed</b></td><td>Summonity</td><td>Your whip's own hit, reach and speed.</td></tr>
+<h3 id="m-st-summon">${T("Summons")}</h3>
+<div class="tw"><table><tr><th>${T("Stat on the wiki")}</th><th>${T("Mod")}</th><th>${T("What it does")}</th></tr>
+<tr><td><b>Minion Damage</b></td><td>${T("Summonity")}</td><td>${T("Multiplies your minions' damage. Halved while you hold neither a summoning item nor a whip.")}</td></tr>
+<tr><td><b>Summon Damage</b></td><td>${T("Iron's Spells")}</td><td>${T("Multiplies the damage of Iron's summons, and of Summonity minions too.")}</td></tr>
+<tr><td>${T("Linggango's summon bridge")}</td><td>${T("Linggango")}</td><td>${T("Iron's and Goety summons you own also get your Minion Damage (no half-damage penalty), capped at ×2.")}</td></tr>
+<tr><td><b>Minion Slots</b></td><td>${T("Summonity")}</td><td>${T("How many minions you can have (base 2). Each slot above 2 also adds one to every Goety summon limit.")}</td></tr>
+<tr><td><b>Minion Range</b>, <b>Minion Attack Speed</b>, <b>Minion Movement Speed</b></td><td>${T("Summonity")}</td><td>${T("How far minions roam from you (base 20 blocks), how fast they attack and move.")}</td></tr>
+<tr><td><b>Whip Damage / Range / Attack Speed</b></td><td>${T("Summonity")}</td><td>${T("Your whip's own hit, reach and speed.")}</td></tr>
 </table></div>
-<p class="note">Your summons' hits skip the ×3 soft cap, and your crit and lifesteal stats do not apply to them. When a mob hurts you, idle Summonity minions turn on it.</p>
-<p class="note">Read from the V6.6.6hf jars (Brutality 0.8.5, Apothic Attributes 1.3.7, Lethality Guard 1.0.0, Iron's Lib 1.1.0, Iron's Spells 3.15.6, TerraCurio 0.1.13, Summonity 0.1.7, L2 Damage Tracker 0.3.8, Linggango Tweaks 7.47, Linggango Fixes 2.16) and the pack's config. Not yet measured in game. Where two mods act at the same step with no fixed order, the text says so. Stat names on curio pages have a dotted underline: ${NOHOVER?"tap one to come back here":"hover one for the short version, or click it to come back here"}.</p>
+<p class="note">${T("Your summons' hits skip the ×3 soft cap, and your crit and lifesteal stats do not apply to them. When a mob hurts you, idle Summonity minions turn on it.")}</p>
+<p class="note">${T("Read from the V6.6.6hf jars (Brutality 0.8.5, Apothic Attributes 1.3.7, Lethality Guard 1.0.0, Iron's Lib 1.1.0, Iron's Spells 3.15.6, TerraCurio 0.1.13, Summonity 0.1.7, L2 Damage Tracker 0.3.8, Linggango Tweaks 7.47, Linggango Fixes 2.16) and the pack's config. Not yet measured in game. Where two mods act at the same step with no fixed order, the text says so. Stat names on curio pages have a dotted underline: {a}.",{a:NOHOVER?T("tap one to come back here"):T("hover one for the short version, or click it to come back here")})}</p>
 </section>${wikiNav()}`;
  const q=el("rq"),t=el("rt"),kk=el("rk");let lim=RMAX;
  const f=more=>{if(more!==true)lim=RMAX;const v=q.value.trim().toLowerCase(),hit=G.rituals.filter(r=>rOk(r,v,t.value,kk.value));
-  el("rtb").innerHTML=hit.slice(0,lim).map(rowH).join("");el("rn").textContent=`${hit.length} of ${G.rituals.length}`;
-  el("rmore").innerHTML=hit.length>lim?`<button class="gmore" type="button">Show ${Math.min(RMAX*5,hit.length-lim)} more</button>`:"";
+  el("rtb").innerHTML=hit.slice(0,lim).map(rowH).join("");el("rn").textContent=T("{a} of {b}",{a:hit.length,b:G.rituals.length});
+  el("rmore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(RMAX*5,hit.length-lim)})}</button>`:"";
   const b=el("rmore").firstChild;if(b)b.onclick=()=>{lim+=RMAX*5;f(true)}};
  [q,t,kk].forEach(x=>x.addEventListener("input",f));f();
  el("main").querySelectorAll(".mtabs [data-go]").forEach(a=>a.onclick=e=>{e.preventDefault();el(a.dataset.go).scrollIntoView({behavior:"smooth"})});
@@ -917,6 +917,7 @@ function refreshSide(){
 
 /* the sidebar is built once, in English, when the page loads; a language change (i18n.js useLang) only relabels it: the filter keys stay English, so saved filters and links keep working */
 function relabelSide(){
+ {const t=document.getElementById("totop"),q=document.getElementById("qs");if(t)t.setAttribute("aria-label",T("Back to top"));if(q)q.setAttribute("aria-label",T("Search results"))}
  for(const key in chipEls)chipEls[key].forEach(b=>{b.firstChild.nodeValue=T(b._en)});
  nb.textContent=T("New in 6.6.6");
  for(const o of el("fs").options)if(o.value)o.textContent=T(o.value);
@@ -974,59 +975,59 @@ const rCurio=(d,l,g)=>({h:"#i"+d.ix,i:img(d.id)+glint(d),t:d.ix,n:d.n,l,g});
 const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.indexOf("zoranth_forgotten");if(i>=0)ks.splice(i+1,0,"warden","wither");return ks};
 /* update log, newest first */
 function changesPage(){
- document.title="Changes · Linggango Wiki";
- el("main").innerHTML=`${crumb("Changes")}<h1>Changes</h1><p class="lede">What's new on the wiki, newest first.</p>
-<section class="s" id="c-2026-10-31"><h2>October 31, 2026</h2>
-<h3>Changed</h3><ul>
-<li><b>Boss pictures</b> are drawn from each mod's own model with the game's light, for the Keepers and the side bosses. Crone, Ice Hermit and Mutant Enderman have a picture for the first time, and none is taken from another wiki.</li>
-<li><b>Drop chances and gear effects</b> are re-read from the pack's official server files. For example, the Crone drops glowstone dust 37% of the time, not 55%.</li>
-<li><b>Obsidian armor</b> (Composite Material) moved from Act V to Act VI: the pack's own recipe upgrades a netherite piece.</li>
-<li><b>Icons</b> come from the mods' own and vanilla textures, tinted the way the game tints them. None are drawn from All Rights Reserved resource packs.</li>
+ document.title=T("Changes")+" · Linggango Wiki";
+ el("main").innerHTML=`${crumb(T("Changes"))}<h1>${T("Changes")}</h1><p class="lede">${T("What's new on the wiki, newest first.")}</p>
+<section class="s" id="c-2026-10-31"><h2>${T("October 31, 2026")}</h2>
+<h3>${T("Changed")}</h3><ul>
+<li>${T("<b>Boss pictures</b> are drawn from each mod's own model with the game's light, for the Keepers and the side bosses. Crone, Ice Hermit and Mutant Enderman have a picture for the first time, and none is taken from another wiki.")}</li>
+<li>${T("<b>Drop chances and gear effects</b> are re-read from the pack's official server files. For example, the Crone drops glowstone dust 37% of the time, not 55%.")}</li>
+<li>${T("<b>Obsidian armor</b> (Composite Material) moved from Act V to Act VI: the pack's own recipe upgrades a netherite piece.")}</li>
+<li>${T("<b>Icons</b> come from the mods' own and vanilla textures, tinted the way the game tints them. None are drawn from All Rights Reserved resource packs.")}</li>
 </ul>
-<h3>Fixed</h3><ul>
-<li>A pass over search, filters, The Path, the build planner, Mechanics and the boss pages. For example, quick search calls the Ender Dragon a required boss, not a Keeper; "What can I get now?" says it lists the curios that open at your Act; on phones the pages say tap, not hover.</li>
+<h3>${T("Fixed")}</h3><ul>
+<li>${T("A pass over search, filters, The Path, the build planner, Mechanics and the boss pages. For example, quick search calls the Ender Dragon a required boss, not a Keeper; \"What can I get now?\" says it lists the curios that open at your Act; on phones the pages say tap, not hover.")}</li>
 </ul></section>
-<section class="s" id="c-2026-10-30"><h2>October 30, 2026</h2>
-<h3>Added</h3><ul>
-<li><b><a href="#gear">Best loadout at each Act</a></b> on Equipment: the best weapon and armor set for each playstyle (melee, ranged, mage, summon) at that Act.</li>
+<section class="s" id="c-2026-10-30"><h2>${T("October 30, 2026")}</h2>
+<h3>${T("Added")}</h3><ul>
+<li>${T("<b><a href=\"#gear\">Best loadout at each Act</a></b> on Equipment: the best weapon and armor set for each playstyle (melee, ranged, mage, summon) at that Act.")}</li>
 </ul>
-<h3>Changed</h3><ul>
-<li><b>Build planner</b> keeps only the permanent Consumables row. The Food buffs and Potions rows are gone.</li>
-<li><b>Stacks</b> label fix: Summonity curios that can't be worn twice (Minion Metronome, Lead Bell, Ring of Summoning and others, plus the whistles) now show One per player instead of Stacks.</li>
-<li><b>Act pages</b> no longer run idle animations on curio tiles. They animate on hover.</li>
+<h3>${T("Changed")}</h3><ul>
+<li>${T("<b>Build planner</b> keeps only the permanent Consumables row. The Food buffs and Potions rows are gone.")}</li>
+<li>${T("<b>Stacks</b> label fix: Summonity curios that can't be worn twice (Minion Metronome, Lead Bell, Ring of Summoning and others, plus the whistles) now show One per player instead of Stacks.")}</li>
+<li>${T("<b>Act pages</b> no longer run idle animations on curio tiles. They animate on hover.")}</li>
 </ul></section>
-<section class="s" id="c-2026-10-29"><h2>October 29, 2026</h2>
-<h3>Added</h3><ul>
-<li><b>Consumables</b> in the build planner: the five home boons (Hearty Feast, Angler's Pearl, Amber Core, Hunter's Essence, Arcane Crystal). They are toggled on and off, kept out of the stat totals, and saved in the link.</li>
-<li><b>Status and combos</b> in Stats explained: what each element's meter does when it fills, the 13 element combos, and what happens when Arcane hits max.</li>
-<li><b><a href="#mechanics/effects">Effects</a></b> on the Mechanics page: food buffs, Linggango's effects and the vanilla effects in the pack, each with the items whose text names it. Effect names on item pages link there.</li>
+<section class="s" id="c-2026-10-29"><h2>${T("October 29, 2026")}</h2>
+<h3>${T("Added")}</h3><ul>
+<li>${T("<b>Consumables</b> in the build planner: the five home boons (Hearty Feast, Angler's Pearl, Amber Core, Hunter's Essence, Arcane Crystal). They are toggled on and off, kept out of the stat totals, and saved in the link.")}</li>
+<li>${T("<b>Status and combos</b> in Stats explained: what each element's meter does when it fills, the 13 element combos, and what happens when Arcane hits max.")}</li>
+<li>${T("<b><a href=\"#mechanics/effects\">Effects</a></b> on the Mechanics page: food buffs, Linggango's effects and the vanilla effects in the pack, each with the items whose text names it. Effect names on item pages link there.")}</li>
 </ul>
-<h3>Changed</h3><ul>
-<li><b>Build planner share links</b> are shorter: slots use one-character codes and relic data is packed in base 36. Older links still open.</li>
-<li><b>Path curios</b> only animate while the tile is hovered; the idle bobbing, shine and star motion is off.</li>
-<li><b><a href="#mechanics/stats">Stats explained</a></b> rewritten from the mods' code and the pack's config. It now follows one hit step by step and covers armor, crits, dodge, taking damage, healing, roll and parry, damage types, magic and summons. What changed from the first version:<ul>
-<li><b>Melee crits:</b> Brutality's Critical Strike Chance is the roll every melee crit needs. Jumping is not required, and with 0% chance jump crits are gone. TerraCurio's "critical chance" is the Apothic crit (base 5%, every hit), not a separate roll.</li>
-<li><b>Dodge caps</b> in this pack are 50% (Brutality) and 40% (Apothic), not 95% and 100%.</li>
-<li><b>Lethality</b> past zero armor turns into +10% damage per point.</li>
-<li><b>Slash, Pierce and Blunt Damage</b> do work: Brutality adds them by the weapon you hold.</li>
-<li><b>Does nothing on your hits:</b> Iron's Lib armor pierce and Goety Revelation's armor penetration.</li>
-<li><b>Armor Toughness</b> does not reduce damage here; it only weakens armor shred and pierce used against you.</li>
-<li>The pack's own rules are in: 13% damage floor, a hit never over half your max health, ×3 soft cap on bonus damage, 10% max health a tick from lifesteal, Resistance levels (V is 38%, not immunity).</li></ul></li>
-<li><b>Stat tooltips</b> on curio pages match the new text, and a few more stats have one (Damage Taken, Armor Shred, roll stats, Cooldown Reduction).</li></ul>
-<h3>Fixed</h3><ul>
-<li>Warden melee damage now shows the pack's +5: 18.5 / 35 / 52.5.</li></ul>
+<h3>${T("Changed")}</h3><ul>
+<li>${T("<b>Build planner share links</b> are shorter: slots use one-character codes and relic data is packed in base 36. Older links still open.")}</li>
+<li>${T("<b>Path curios</b> only animate while the tile is hovered; the idle bobbing, shine and star motion is off.")}</li>
+<li>${T("<b><a href=\"#mechanics/stats\">Stats explained</a></b> rewritten from the mods' code and the pack's config. It now follows one hit step by step and covers armor, crits, dodge, taking damage, healing, roll and parry, damage types, magic and summons. What changed from the first version:")}<ul>
+<li>${T("<b>Melee crits:</b> Brutality's Critical Strike Chance is the roll every melee crit needs. Jumping is not required, and with 0% chance jump crits are gone. TerraCurio's \"critical chance\" is the Apothic crit (base 5%, every hit), not a separate roll.")}</li>
+<li>${T("<b>Dodge caps</b> in this pack are 50% (Brutality) and 40% (Apothic), not 95% and 100%.")}</li>
+<li>${T("<b>Lethality</b> past zero armor turns into +10% damage per point.")}</li>
+<li>${T("<b>Slash, Pierce and Blunt Damage</b> do work: Brutality adds them by the weapon you hold.")}</li>
+<li>${T("<b>Does nothing on your hits:</b> Iron's Lib armor pierce and Goety Revelation's armor penetration.")}</li>
+<li>${T("<b>Armor Toughness</b> does not reduce damage here; it only weakens armor shred and pierce used against you.")}</li>
+<li>${T("The pack's own rules are in: 13% damage floor, a hit never over half your max health, ×3 soft cap on bonus damage, 10% max health a tick from lifesteal, Resistance levels (V is 38%, not immunity).")}</li></ul></li>
+<li>${T("<b>Stat tooltips</b> on curio pages match the new text, and a few more stats have one (Damage Taken, Armor Shred, roll stats, Cooldown Reduction).")}</li></ul>
+<h3>${T("Fixed")}</h3><ul>
+<li>${T("Warden melee damage now shows the pack's +5: 18.5 / 35 / 52.5.")}</li></ul>
 </section>
-<section class="s" id="c-2026-10-28"><h2>October 28, 2026</h2>
-<h3>New</h3><ul>
-<li><b>Equipment › Curios:</b> 1,318 curios measured in game; 357 are tiered on the same scale as weapons and sets.</li>
-<li><b>Gear measured in game:</b> 1,038 weapons and 328 armor sets (hits, on-hit effects, worn effects, set bonuses, damage taken).</li>
-<li><b>Ranking:</b> tiers are set against the fifth best item, and survival scores use the pack's damage floor and hit cap.</li>
-<li><b>Stats explained</b> (Mechanics › Stats), first version. Rewritten on October 29.</li>
-<li><b>Stat tooltips on curio pages:</b> stat names have a dotted underline. Hover one for a short explanation, or click it to open the full guide.</li>
-<li><b>Changes:</b> this page.</li></ul>
-<h3>Fixed</h3><ul>
-<li>Warden health is now 700 and Wither health is now 500.</li>
-<li>Keeper armor in the Path rows: Goblin Lord 12 (Act II), Arion 20 on foot and 15 on its Ravager (Act III), Eldorath 18 (Act IV).</li></ul>
+<section class="s" id="c-2026-10-28"><h2>${T("October 28, 2026")}</h2>
+<h3>${T("New")}</h3><ul>
+<li>${T("<b>Equipment › Curios:</b> 1,318 curios measured in game; 357 are tiered on the same scale as weapons and sets.")}</li>
+<li>${T("<b>Gear measured in game:</b> 1,038 weapons and 328 armor sets (hits, on-hit effects, worn effects, set bonuses, damage taken).")}</li>
+<li>${T("<b>Ranking:</b> tiers are set against the fifth best item, and survival scores use the pack's damage floor and hit cap.")}</li>
+<li>${T("<b>Stats explained</b> (Mechanics › Stats), first version. Rewritten on October 29.")}</li>
+<li>${T("<b>Stat tooltips on curio pages:</b> stat names have a dotted underline. Hover one for a short explanation, or click it to open the full guide.")}</li>
+<li>${T("<b>Changes:</b> this page.")}</li></ul>
+<h3>${T("Fixed")}</h3><ul>
+<li>${T("Warden health is now 700 and Wither health is now 500.")}</li>
+<li>${T("Keeper armor in the Path rows: Goblin Lord 12 (Act II), Arion 20 on foot and 15 on its Ravager (Act III), Eldorath 18 (Act IV).")}</li></ul>
 </section>${wikiNav()}`;
 }
 
@@ -1155,24 +1156,24 @@ function hubList(kind,key){
 
 function modPage(m){
  const xs=byRank(D.filter(d=>d.m===m));if(!xs.length){location.hash="#mods";return}
- document.title=m+" · Linggango Wiki";seedBg("mod"+m,xs);const F=mf(m),I=minfo(m),hero=xs.filter(d=>IC[d.id]).slice(0,7);
+ document.title=TD(m)+" · Linggango Wiki";seedBg("mod"+m,xs);const F=mf(m),I=minfo(m),hero=xs.filter(d=>IC[d.id]).slice(0,7);
  const sl={};xs.forEach(d=>d.sl.forEach(s=>sl[s]=(sl[s]||0)+1));const sls=Object.entries(sl).sort((a,b)=>b[1]-a[1]);
  const acts=ORDER.map(a=>[a,xs.filter(d=>d.t===a)]).filter(x=>x[1].length),mx=Math.max(...acts.map(x=>x[1].length));
  const rc=RN.map((n,i)=>xs.filter(d=>d.r===i).length);
  const fx=xs.filter(d=>pass(d)),fa=ORDER.map(a=>[a,fx.filter(d=>d.t===a)]).filter(x=>x[1].length);
- const links=I?`<a class="mbtn" href="${I[1]}" target="_blank" rel="noopener">CurseForge ↗</a>`:`<a class="mbtn" href="https://www.curseforge.com/minecraft/search?search=${enc(m)}" target="_blank" rel="noopener">Search on CurseForge ↗</a>`;
- el("main").innerHTML=`<div class="mp" data-mf="${F[0]}">${crumb('<a href="#mods">Mods</a>',esc(m))}
+ const links=I?`<a class="mbtn" href="${I[1]}" target="_blank" rel="noopener">CurseForge ↗</a>`:`<a class="mbtn" href="https://www.curseforge.com/minecraft/search?search=${enc(m)}" target="_blank" rel="noopener">${T("Search on CurseForge ↗")}</a>`;
+ el("main").innerHTML=`<div class="mp" data-mf="${F[0]}">${crumb(`<a href="#mods">${T("Mods")}</a>`,esc(m))}
  <section class="mhero"><span class="mbg"></span><span class="mwm" aria-hidden="true"></span>
-  <div class="mht"><h1>${esc(m)}</h1>${I?`<p class="mby">by ${esc(I[0])}</p><p>${esc(I[2])}</p>`:`<p>${xs.length} curios from this mod are in Linggango.</p>`}<div class="mlinks">${links}</div></div>
+  <div class="mht"><h1>${esc(m)}</h1>${I?`<p class="mby">${T("by {author}",{author:esc(I[0])})}</p><p>${esc(TD(I[2]))}</p>`:`<p>${TN(xs.length,"{n} curio from this mod is in Linggango.","{n} curios from this mod are in Linggango.")}</p>`}<div class="mlinks">${links}</div></div>
   <div class="mshow">${hero.map((d,i)=>`<a class="ms r${d.r}" style="--i:${i}" href="#i${d.ix}" data-t="${d.ix}">${img(d.id)}</a>`).join("")}</div></section>
  <div class="mstat">
-  <div class="mbox"><h3>Curios</h3><b class="big">${xs.length}</b><div class="rmix">${rc.map((n,i)=>n?`<i class="r${i}" style="flex:${n}" title="${RN[i]}: ${n}"></i>`:"").join("")}</div><small>${rc.map((n,i)=>n?`${RN[i]} ${n}`:"").filter(Boolean).join(" · ")}</small></div>
-  <div class="mbox"><h3>Slot</h3><div class="slb">${sls.slice(0,8).map(([s,n])=>`<a href="#slot/${enc(s)}"><span>${esc(s)}</span><i style="width:${n/sls[0][1]*100}%"></i><em>${n}</em></a>`).join("")}</div></div>
-  <div class="mbox wide"><h3>Unlocks by Act</h3><div class="abars">${acts.map(([a,ys])=>`<a href="#act/${a}" style="--tc:${ACT[a][2]}" title="${esc(actF(a))}: ${ys.length}"><i style="height:${Math.max(6,ys.length/mx*100)}%"></i><span>${ACT[a][0]}</span><em>${ys.length}</em></a>`).join("")}</div></div>
+  <div class="mbox"><h3>${T("Curios")}</h3><b class="big">${xs.length}</b><div class="rmix">${rc.map((n,i)=>n?`<i class="r${i}" style="flex:${n}" title="${RN[i]}: ${n}"></i>`:"").join("")}</div><small>${rc.map((n,i)=>n?`${RN[i]} ${n}`:"").filter(Boolean).join(" · ")}</small></div>
+  <div class="mbox"><h3>${T("Slot")}</h3><div class="slb">${sls.slice(0,8).map(([s,n])=>`<a href="#slot/${enc(s)}"><span>${esc(T(s))}</span><i style="width:${n/sls[0][1]*100}%"></i><em>${n}</em></a>`).join("")}</div></div>
+  <div class="mbox wide"><h3>${T("Unlocks by Act")}</h3><div class="abars">${acts.map(([a,ys])=>`<a href="#act/${a}" style="--tc:${ACT[a][2]}" title="${esc(actF(a))}: ${ys.length}"><i style="height:${Math.max(6,ys.length/mx*100)}%"></i><span>${ACT[a][0]}</span><em>${ys.length}</em></a>`).join("")}</div></div>
  </div>
- ${I&&I[3]?`<aside class="mnote"><b>In Linggango</b><p>${esc(I[3])}</p></aside>`:""}
- ${fbar(fx.length,xs.length)}${fa.length?"":`<p class="note">No curios from this mod match these filters.</p>`}
- ${fa.map(([a,ys])=>`<section class="mact" style="--tc:${ACT[a][2]}"><h2>${emblem(a,"xs")}<span>${actL(a)}</span>${esc(ACT[a][1])}<small>${ys.length}</small></h2><div class="gridc">${ys.map(gcard).join("")}</div></section>`).join("")}</div>`;fbind()
+ ${I&&I[3]?`<aside class="mnote"><b>${T("In Linggango")}</b><p>${esc(TD(I[3]))}</p></aside>`:""}
+ ${fbar(fx.length,xs.length)}${fa.length?"":`<p class="note">${T("No curios from this mod match these filters.")}</p>`}
+ ${fa.map(([a,ys])=>`<section class="mact" style="--tc:${ACT[a][2]}"><h2>${emblem(a,"xs")}<span>${actL(a)}</span>${esc(T(ACT[a][1]))}<small>${ys.length}</small></h2><div class="gridc">${ys.map(gcard).join("")}</div></section>`).join("")}</div>`;fbind()
 }
 
 /* The Path opens one Act by default (the reader's "I'm here" Act, else Act 0–I); a closed Act's tiles are only built when it opens.
@@ -1577,7 +1578,7 @@ document.addEventListener("click",e=>{
   s.classList.toggle("closed",!open);tl.setAttribute("aria-expanded",open)}
 });
 document.addEventListener("keydown",e=>{if(location.hash.startsWith("#i")&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&(e.key==="ArrowLeft"||e.key==="ArrowRight")){const a=[...document.querySelectorAll(".pnx a")].find(x=>x.textContent.includes(e.key==="ArrowLeft"?"Previous":"Next"));if(a){location.hash=a.getAttribute("href")}}if(e.key==="Escape")hideTip();if(e.key==="/"&&!e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.isComposing&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&!document.activeElement.isContentEditable){e.preventDefault();el("q").focus()}});
-{const b=document.createElement("button");b.id="totop";b.setAttribute("aria-label","Back to top");b.textContent="↑";b.onclick=()=>scrollTo({top:0,behavior:RM?"auto":"smooth"});document.body.appendChild(b);
+{const b=document.createElement("button");b.id="totop";b.setAttribute("aria-label",T("Back to top"));b.textContent="↑";b.onclick=()=>scrollTo({top:0,behavior:RM?"auto":"smooth"});document.body.appendChild(b);
  addEventListener("scroll",()=>b.classList.toggle("on",scrollY>600),{passive:true})}
 {const s=document.createElement("style");s.textContent=Object.entries(ROLE_C).map(([k,v])=>`.t.c${k}{--cat:${v}}`).join("");document.head.appendChild(s)}
 /* recipe: hovering a slot or an ingredient line lights up every cell of that ingredient */
