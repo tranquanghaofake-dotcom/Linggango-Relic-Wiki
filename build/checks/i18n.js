@@ -89,3 +89,10 @@
     for (const l of srcLines) if (srcT(l) === l) { if (ns++ < 3) bad.push('i18n ' + c + ': the source line is still English: ' + l.slice(0, 90)); }
     if (ns > 3) bad.push('i18n ' + c + ': ' + ns + ' source lines in all are still English'); }
   useLang('en'); if (D.some(d => srcT(d.src[0] || '') !== (d.src[0] || ''))) bad.push('i18n: srcT changes an English source line'); location.hash = h0; }
+// Boss text (Phase 3): the attack lists, "where to find it" lines and the items' own summon texts have an entry in every pack (the wiki's data file stays English).
+{ const L = new Set(); const add = s => { if (typeof s === 'string' && s.trim().split(/\s+/).length >= 3) L.add(s); };   // three words or more: a name or a place stays English
+  for (const k in BINFO) for (const p of BINFO[k].ph || []) for (const a of p.at || []) { add(a.n); add(a.d); }
+  for (const k in SIDEB) { const b = SIDEB[k]; add(b.find); add(b.drops_note); for (const a of b.attacks || []) { add(a.name); add(a.desc); } }
+  for (const k in SUM) add(SUM[k].info);
+  for (const c of ['vi', 'ru', 'pt', 'es']) { let n = 0; for (const l of L) if (I18N[c].tr[hsh(l)] === undefined && !(I18N[c].keep || []).includes(l)) { if (n++ < 3) bad.push('i18n ' + c + ': boss text without a translation: ' + l.slice(0, 90)); }
+    if (n > 3) bad.push('i18n ' + c + ': ' + n + ' boss texts in all have no translation'); } }

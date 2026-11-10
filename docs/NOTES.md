@@ -1092,3 +1092,16 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   "treasure bag" → vi túi kho báu, ru мешок с сокровищами, pt bolsa de tesouro, es bolsa del tesoro; "vanilla" kept in vi/pt/es, ru ванильный.
 - Open: place and structure names inside lists stay English (e.g. "Ancient City" in a chest list but "Древний город" in a mod-page list); the stat lines (`st`, ~2,800 distinct lines shown in the hover tooltip and the folded
   "In-game tooltip") are still English; `why` lines are not shown anywhere but the "Off the act" page.
+
+## 2026-11-10: multilingual, Phase 3 (data text), boss pages: done
+- Every sentence on the 14 Keeper / vanilla boss pages and the 71 side-boss pages is now translated: the attack lists (names and descriptions, from `BINFO[].ph[].at` and `SIDEB[].attacks`), "where to find it"
+  (`SIDEB[].find`), the drop notes and chance texts, the summon items' own text (`SUM[].info`, the part after "Allow you to spawn X!" is still dropped), the Keeper rules and notes from `BST`, `VBI` and the Acts table.
+  995 strings (47.7k characters), written by me in 8 batches (`boss_b01..08.txt`) and merged by the same scratch script as the effect lines. The data file stays English; the display sites call `TD(...)`
+  (attack `d`, `ph`, `title`, drop `note`, `count`, `chance`, side `find`, `drops_note`, `src_note`, source labels, machine labels, "Weak to", the vanilla boss line, "Good to know").
+- Found by scanning every boss route in ru for English text nodes (`bossleft.js`, scratch): 996 distinct nodes before, 196 after, all of them names (bosses, items, machines, mods) and four lists of item names.
+- English did not change: the 106 Bosses / boss / side-boss / Build planner captures are identical to the committed build.
+- New invariant (`build/checks/i18n.js`): every attack, find and summon text of three words or more has an entry in each pack. A translation of "Sanghor" (a kept name) slipped in and was removed; the existing invariant caught it.
+- Terms chosen (unreviewed): attack names are translated (they are the wiki's labels, not the game's); effect names the game has (Slowness, Weakness, Hunger, Levitation, Darkness…) use the game's own names in ru, pt, es and stay English in vi; modded effects (Stun, Hemorrhage, Chaos State, Void Flame, Sunburn, Amaterasu, Frenzy, Wet) stay English everywhere;
+  boss, item, structure and mod names stay English. Found and fixed while writing: vi "Brews" had been written as "Gạo nấu" (rice cooking), now "Thuốc ủ".
+- Open: item names inside lists stay English in ru, pt, es (e.g. "Geomancer Staff, Geomancer Beads…"), as do boss names and epithets ("The Famine, First Calamity").
+

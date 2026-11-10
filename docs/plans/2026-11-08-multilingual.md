@@ -256,3 +256,8 @@ Số mod ship từng file: `ru_ru` 170, `pt_br` 114, `es_es` 91, `es_mx` 70, `vi
 - Kiểm: vòng đi-về với gói rỗng (589 mệnh đề khớp, 0 sai), `howText`/thẻ loot/dòng nguồn trong tooltip giống từng byte với bản đã commit cho cả 1.321 curio; invariant mới trong `checks/i18n.js`.
 - **Chưa làm:** `st` (~2.800 dòng chỉ số ở tooltip khi rê chuột và mục "In-game tooltip"), tên địa điểm trong danh sách vẫn tiếng Anh.
 
+### 13.15 Phase 3 (phần): trang boss (2026-11-10)
+- 995 câu (attack, find, drop note, chance, SUM info, rules BST/VBI, bảng Acts) dịch tay, nối vào hiển thị bằng `TD(...)`; dữ liệu giữ tiếng Anh. Tên attack dịch (nhãn của wiki), tên boss/vật phẩm/cấu trúc/mod giữ nguyên.
+- Kiểm: quét mọi route boss ở ru (996 nút chữ Anh → 196, toàn tên); 106 bản chụp Bosses/planner tiếng Anh giống từng byte; invariant mới trong `checks/i18n.js`.
+- **Chưa làm:** `st` (~2.800 dòng chỉ số), `GUIDE` (sách hướng dẫn trong game, 323 đoạn / 45k ký tự), mô tả mod `I[2]`/`I[3]`, tên chỉ số trong tooltip Equipment.
+
