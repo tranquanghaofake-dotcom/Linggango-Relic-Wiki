@@ -1065,14 +1065,17 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - Left English (Phase 3): the curio effect, stat, source and why lines, mod blurbs, the stat lines of tooltips, the changelog's item and mod names.
 - `checks/i18n.js` now also draws Mechanics (with its ritual filter), Changes, the Mods list and a mod page in every language; looked at: ru Mechanics table, vi footer at 375 px.
 
-## 2026-11-10: multilingual, Phase 3 (data text), the curio effect line (`fx`): in progress
+## 2026-11-10: multilingual, Phase 3 (data text), the curio effect line (`fx`): done
 - A curio's one-line effect (`d.fx`, 1,256 distinct lines, 82k characters) now prints through `fxT(d)` = `TD(d.fx)` in the picker, the planner side panel, the Effects pane, the card,
   the table, the curio page lead and Stats fallback, and the tooltip. `d.fx` itself stays English: scores, search and the effect hints read it; search also indexes the translated line.
   Vanilla item names in recipe lists, links and slots now go through `TD` too (the game's own names, e.g. Phantom Membrane → Мембрана фантома).
-- Translated so far: lines 0–674 of 1,256 (scratch files `fx_b01..06.txt`, merged with a scratch script that checks every number of the English line appears in each translation;
-  the only differences were "3×" written out as "втрое", "tres veces"). Effect, item and mod names inside a line stay as the game prints them: vanilla effects use the game's own
-  names in ru, pt, es (Слабость, Fraqueza, Debilidad…), modded effects and all names stay English in vi (D3). All by me, unreviewed by a native speaker.
-- English did not change: 51 route states (except "1 item" and the Mechanics option value, as before), 50 curio pages, 106 Bosses/planner captures, 205 Equipment captures identical.
-  Full `check.sh` not yet run for this step (it ran green for every earlier group); to be run once the line set is complete.
-- Open: lines 675–1255 of `fx`; the stat lines (`st`, 2,972 distinct), source lines (`src`, ~1,480, templated by the patch scripts: top patterns "Craft at a Crafting Table from…",
-  "Key requirement: locked behind the…", "Combine at a Tinkerer's Workshop:…") and `why` lines (~40 templates) stay English.
+- All 1,256 lines are translated into vi, ru, pt, es (scratch files `fx_b01..11.txt`, merged with a scratch script that checks every number of the English line appears in each translation;
+  the only differences were "3×" written out as "втрое", "tres veces", "triple"). Effect, item and mod names inside a line stay as the game prints them: vanilla effects use the game's own
+  names in ru, pt, es (Слабость, Fraqueza, Debilidad…), modded effects and all names stay English in vi (D3). All by me, unreviewed by a native speaker. One Spanish slip
+  ("recibís", a voseo form in a neutral-Spanish pack) was found and fixed while merging; a grep for "recibís/tenéis/vosotros/podéis" over the batch files finds nothing else.
+- English did not change: the step only adds translations to `build/i18n/tm/*.json` (git shows no other file changed), the build prints "1117 of 1117 sentences asked for are translated"
+  for all four languages, `inv7.js` (the i18n invariants, clean and with a deliberate fault) passes. Pages looked at: a ru and a vi curio page (#i300, #i40).
+- Open: the stat lines (`st`, 2,972 distinct), source lines (`src`, ~1,480, templated by the patch scripts: top patterns "Craft at a Crafting Table from…",
+  "Key requirement: locked behind the…", "Combine at a Tinkerer's Workshop:…") and `why` lines (~40 templates) stay English. Seen once and not chased: on a first load in ru the hero title
+  of a curio with a Latin name (#i300) was blank for a moment in a screenshot taken before Monocraft's Latin face finished loading; 3 s later it draws (a timing artefact of the capture, not
+  checked on a slow connection).
