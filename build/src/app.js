@@ -2,6 +2,8 @@
    ui(k) is 16 px for running text; ui(k,1) is the 16 px sprite at x2 for icon boxes. */
 const UIK={star:"rt-ui_star",lock:"rt-lg_lock",check:"rt-lg_check",q:"rt-ftb_info",spy:"rt-spyglass",sword:"rt-ui_sword",bow:"rt-ui_bow",aoe:"rt-ui_fire_charge",
  summon:"rt-ui_bone",move:"rt-ui_feather",buff:"rt-ui_glowstone",helmet:"rt-ui_helmet",chest:"rt-ui_chestplate",legs:"rt-ui_leggings",boots:"rt-ui_boots"};
+/* a curio's effect line in the reader's language (the English stays in the data: scores, search and the effect hints read it) */
+const fxT=d=>TD(d.fx);
 function ui(k,big){return `<i class="ui${big?" ui2":""}" style="--ui:var(--${UIK[k]})" aria-hidden="true"></i>`}
 /* show any script error on the page itself, so a screenshot tells us what broke */
 {const box=()=>{let b=document.getElementById("jserr");if(!b){b=document.createElement("div");b.id="jserr";b.onclick=()=>b.remove();document.body.appendChild(b)}return b};
@@ -94,13 +96,13 @@ function bWorn(id){return Object.values(BS.s).flat().filter(x=>x===id).length}
 function bFade(){const o=el("bopts");if(!o)return;o.classList.toggle("mt",o.scrollTop>2);o.classList.toggle("mb",o.scrollTop+o.clientHeight<o.scrollHeight-2)}
 function bPickHtml(){
  if(!BPICK)return"";const xs=bOpts(BPICK,el("bq")?el("bq").value:"");
- return xs.map(d=>`<div class="bopt r${d.r}${BINSP===d.id?" sel":""}"><button class="bopi" data-insp="${esc(d.id)}" data-t="${d.ix}" title="${T("Show recipe and details")}">${img(d.id)}<span><b>${esc(TD(d.n))}</b><small>${esc(actL(d.t))} · ${isMust(d)?ui("star")+"Must-Have":RN[d.r]} · ${esc(d.m)}${bWorn(d.id)?` · <b>${T("worn ×{n}",{n:bWorn(d.id)})}</b>`:""}</small>${SK.i[d.id]?`<small>${skTag(d.id)}</small>`:""}<small class="bofx">${esc(d.fx)}</small></span></button><button class="chip" data-add="${esc(BPICK)}|${esc(d.id)}" aria-label="${esc(T("Add {name}",{name:TD(d.n)}))}">${T("Add")}</button></div>`).join("")||`<p class="note">${el("bq")&&el("bq").value?T("Nothing for this slot on this act matches the search."):T("Nothing for this slot on this act.")}</p>`}
+ return xs.map(d=>`<div class="bopt r${d.r}${BINSP===d.id?" sel":""}"><button class="bopi" data-insp="${esc(d.id)}" data-t="${d.ix}" title="${T("Show recipe and details")}">${img(d.id)}<span><b>${esc(TD(d.n))}</b><small>${esc(actL(d.t))} · ${isMust(d)?ui("star")+"Must-Have":RN[d.r]} · ${esc(d.m)}${bWorn(d.id)?` · <b>${T("worn ×{n}",{n:bWorn(d.id)})}</b>`:""}</small>${SK.i[d.id]?`<small>${skTag(d.id)}</small>`:""}<small class="bofx">${esc(fxT(d))}</small></span></button><button class="chip" data-add="${esc(BPICK)}|${esc(d.id)}" aria-label="${esc(T("Add {name}",{name:TD(d.n)}))}">${T("Add")}</button></div>`).join("")||`<p class="note">${el("bq")&&el("bq").value?T("Nothing for this slot on this act matches the search."):T("Nothing for this slot on this act.")}</p>`}
 function bInspHtml(){
  const d=BINSP&&BYID[BINSP];if(!d)return"";const k0=Object.keys(BS.s).find(k=>BS.s[k].includes(d.id)),caps=bCaps();
  const adds=k0&&SK.i[d.id]?.s==="u"?"":Object.keys(SLOT_BASE).filter(k=>bFits(d,k)).map(k=>`<button class="chip" data-add="${esc(k)}|${esc(d.id)}"${(BS.s[k]||[]).length>=caps[k]?` title="${esc(T("{slot} is full",{slot:T(k)}))}"`:""}>${T("Add to {slot}",{slot:esc(T(k))})}</button>`).join("");
  const tree=rtreeHtml(d,true),how=d.gr?"":(d.src||[]).slice(0,3).map(s=>`<li>${fmt(s)}</li>`).join("");
  return `<div class="binsp"><div class="bph"><b class="bih">${img(d.id)}<span>${esc(TD(d.n))}<small>${esc(d.sl.map(x=>T(x)).join(", "))} · ${esc(actL(d.t))} · ${esc(d.m)}</small></span></b><button class="ghost" data-insp="">${T("Close")}</button></div>
-<p class="bifx">${fmt(d.fx)}</p>${SK.i[d.id]?`<p class="bisk">${skTag(d.id)} <a href="#i${d.ix}">${T("why?")}</a></p>`:""}${d.gr?tipRecipe(d).replace(/,18px\)/,",30px)"):""}${tree?`<h3>${T("Recipe tree")}</h3><ul class="rtree">${tree}</ul><p class="note">${T("Click an ingredient to open its recipe here.")}</p>`:how?`<h3>${T("How to get it")}</h3><ul class="bihow">${how}</ul>`:""}
+<p class="bifx">${fmt(fxT(d))}</p>${SK.i[d.id]?`<p class="bisk">${skTag(d.id)} <a href="#i${d.ix}">${T("why?")}</a></p>`:""}${d.gr?tipRecipe(d).replace(/,18px\)/,",30px)"):""}${tree?`<h3>${T("Recipe tree")}</h3><ul class="rtree">${tree}</ul><p class="note">${T("Click an ingredient to open its recipe here.")}</p>`:how?`<h3>${T("How to get it")}</h3><ul class="bihow">${how}</ul>`:""}
 <p class="biact">${k0?`<button class="chip" data-rm="${esc(k0)}|${esc(d.id)}">${T("Remove from {slot}",{slot:esc(T(k0))})}</button>`:""}${bAvail(d)?adds:k0?"":`<span class="note">${T("Past your selected Act.")}</span>`} <a href="#i${d.ix}">${T("Open full page →")}</a></p></div>`}
 // side box: one page at a time (stats, each relic copy, effects), switched by arrows, tabs or ←/→
 var BPANE="stats";
@@ -132,7 +134,7 @@ function buildPage(h){
  const pages=[["stats",T("Build"),T("Stat totals"),`${stats.length?`<table>${stats.map(([k,v])=>`<tr><td>${esc(k.replace(/ %$/," (%)"))}</td><td class="num ${v<0?"neg":""}">${v>0?"+":""}${v}${/ %$/.test(k)?"%":""}</td></tr>`).join("")}</table>`:`<p class="note">${eq.length?T("No flat or percentage bonuses to sum."):T("Add curios to see totals.")}</p>`}
 ${BSTALE?`<p class="note">${T("This link was made on a different wiki version, so some items may not match.")}</p>`:""}${BLOST?`<p class="note">${TN(BLOST,"{n} item in this link could not be placed.","{n} items in this link could not be placed.")}</p>`:""}<p class="note">${Object.values(lf).some(v=>v<1)?T("Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks, and ladder-reduced curios count at their reduced share. Conditional effects and ×multipliers are not summed: see the Effects tab."):T("Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks. Conditional effects and ×multipliers are not summed: see the Effects tab.")}</p>`]];
  bKeys().filter(k=>RL[rlId(k)]).forEach(k=>{const id=rlId(k),c=k.split("#")[1]||(bWorn(id)>1?1:0);pages.push(["rl:"+k,T("Relic levels"),TD(BYID[id].n)+(c?" #"+c:""),rlPanel(k,true)+`<p class="note">${T("Slots a relic adds count its lowest roll.")}</p>`,id])});
- if(eq.length)pages.push(["fx",T("Build"),T("Effects"),`<ul>${uq.map(id=>{const d=BYID[id],n=bWorn(id);const k=Object.keys(BS.s).find(k=>BS.s[k].includes(id)),nx=(evo().to[id]||[]).filter(t=>bFits(BYID[t],k));return `<li><a href="#i${d.ix}" data-t="${d.ix}">${esc(TD(d.n))}</a>${n>1?` ×${n}${SK.i[id]?" "+skTag(id):""}`:""}: ${esc(d.fx)}${lf[id]<1?` <span class="sk sk-${lf[id]?"l":"n"}" title="${esc(T("Outranked by a better {set} curio in this build",{set:SK.i[id].l[0]}))}">${lf[id]?esc(T("{set} ladder: {pct} strength",{set:SK.i[id].l[0],pct:pct(lf[id])})):esc(T("{set} ladder: switched off",{set:SK.i[id].l[0]}))}</span>`:""}${nx.map(t=>` <button class="chip" data-evo="${esc(k)}|${esc(id)}|${esc(t)}">${T("Evolve → {name}",{name:esc(TD(BYID[t].n))})}</button>`).join("")}</li>`}).join("")}</ul>`]);
+ if(eq.length)pages.push(["fx",T("Build"),T("Effects"),`<ul>${uq.map(id=>{const d=BYID[id],n=bWorn(id);const k=Object.keys(BS.s).find(k=>BS.s[k].includes(id)),nx=(evo().to[id]||[]).filter(t=>bFits(BYID[t],k));return `<li><a href="#i${d.ix}" data-t="${d.ix}">${esc(TD(d.n))}</a>${n>1?` ×${n}${SK.i[id]?" "+skTag(id):""}`:""}: ${esc(fxT(d))}${lf[id]<1?` <span class="sk sk-${lf[id]?"l":"n"}" title="${esc(T("Outranked by a better {set} curio in this build",{set:SK.i[id].l[0]}))}">${lf[id]?esc(T("{set} ladder: {pct} strength",{set:SK.i[id].l[0],pct:pct(lf[id])})):esc(T("{set} ladder: switched off",{set:SK.i[id].l[0]}))}</span>`:""}${nx.map(t=>` <button class="chip" data-evo="${esc(k)}|${esc(id)}|${esc(t)}">${T("Evolve → {name}",{name:esc(TD(BYID[t].n))})}</button>`).join("")}</li>`}).join("")}</ul>`]);
  el("main").innerHTML=`${crumb(T("Build planner"))}${room("armory",uq.map(id=>rCurio(BYID[id])),{head:`<h1>${T("Build planner")}</h1>
 <p class="lede">${T("Pick the furthest Act you've reached, then fill your curio slots. Slot counts are the base pack's player slots; curios that add slots raise them, and the Curio slot takes any accessory.")} ${NOHOVER?T("Tap any curio to see its recipe tree, and use × to take it off."):T("Hover any curio for its tooltip; click it to see its recipe tree, and use × to take it off.")}</p>`,min:8,cols:8,label:T("Your build")})}
 <div class="bbar"><label>${T("Progress")} <select id="bp">${ORDER.map(a=>`<option value="${a}"${a===BS.p?" selected":""}>${esc(actL(a))}${a?" · "+esc(T(ACT[a][1])):""}</option>`).join("")}</select></label>
@@ -165,8 +167,8 @@ function pathText(s){return String(s)}
 function bossPath(k){const a=ORDER.find(a=>PB[a]===k);return a!==undefined?a:SIDEV[k]}
 function bossName(k){return (bst(k)&&bst(k).name)||(VBI[k==="ender_dragon"?"dragon":k]||{}).n||nmI("x:"+k)}
 const bossNameT=k=>TD(bossName(k));
-const ilink=(id,n)=>{const d=BYID[id];return d?`<a href="#i${d.ix}" data-t="${d.ix}">${esc(TD(n||d.n))}</a>`:esc(n||NM[id]||nmI(id))};
-const islot=(id,big)=>`<span class="slot${big?" big":" sm"}" title="${esc(NM[id]||nmI(id))}">${img(id)}</span>`;
+const ilink=(id,n)=>{const d=BYID[id];return d?`<a href="#i${d.ix}" data-t="${d.ix}">${esc(TD(n||d.n))}</a>`:esc(TD(n||NM[id]||nmI(id)))};
+const islot=(id,big)=>`<span class="slot${big?" big":" sm"}" title="${esc(TD(NM[id]||nmI(id)))}">${img(id)}</span>`;
 // vanilla summons, written out step by step (no item recipe to show)
 const VSUM={
  warden:{item:"minecraft:sculk_shrieker",name:"Sculk Shrieker",steps:[N("Go to an Ancient City in the Deep Dark (deep below y 0 in the Deep Dark biome)."),N("Set off a natural Sculk Shrieker three times: walk or sprint near Sculk Sensors, or step on the shrieker. Each shriek raises your warning level and gives Darkness."),N("The fourth shriek makes the Warden dig out of the ground next to the shrieker. Sneaking and wool keep the warning level down if you are not ready.")],extra:N("The pack gives the Warden 700 health and 20 armor. If every player who hurt it dies in that dimension it gets back 50% of its health. It drops a Sculk Catalyst."),grid:null},
@@ -686,7 +688,7 @@ function qDrop(raw){const ws=st.q.match(QTOK)||[],i=ws.indexOf(raw);if(i>=0)ws.s
 function qf(d){if(d._q)return d._q;const F=mf(d.m),tn=TD(d.n)!==d.n?" | "+TD(d.n):"";
  return d._q={n:qNorm(d.n+tn),m:qNorm(d.m+"|"+(F?F[2]:"")),s:qNorm(d.sl.join("|")),st:qNorm(d.st.join(" | ")),fx:qNorm(d.fx),src:qNorm(srcText(d)),
   p:qNorm(ACT[d.t][0]),pl:qNorm(actL(d.t)),r:qNorm(RN[d.r]+(isMust(d)?"|"+RN[d.br]:"")),ro:qNorm(d.ro.map(k=>ROLE[k]+(T(ROLE[k])!==ROLE[k]?"|"+T(ROLE[k]):"")).join("|")),g:qNorm(d.g),
-  x:qNorm(d.mt.map(t=>t.slice(2)).join("|")),all:qNorm(d.n+tn+" "+d.fx+" "+srcText(d)+" "+d.m+" "+d.id+" "+d.st.join(" "))}}
+  x:qNorm(d.mt.map(t=>t.slice(2)).join("|")),all:qNorm(d.n+tn+" "+d.fx+(fxT(d)!==d.fx?" "+fxT(d):"")+" "+srcText(d)+" "+d.m+" "+d.id+" "+d.st.join(" "))}}
 function qHit(d,f,k,v){
  if(k==="p")return v===f.p||v===String(d.t)||v===f.pl||"act "+v===f.pl||"path "+v===f.pl||(f.p==="0-i"&&(v==="0"||v==="i"))||(v.length>2&&!/^[ivx]+$/.test(v)&&f.pl.includes(v));
  if(k==="r"||k==="ro"||k==="g")return f[k].split("|").some(x=>x.startsWith(v));
@@ -1121,7 +1123,7 @@ ${typeof GE!=="undefined"?`<section class="gui"><h2 class="gt">${T("Equipment")}
  <section class="gui"><h2 class="gt">${T("Curio slots")}</h2><p class="gs">${T("The pack's Curios menu, slot by slot.")}</p>
  <div class="slotlist">${BIGSLOTS.map(([s,xs])=>`<a href="#slot/${enc(s)}"><span class="slot sm">${(()=>{const u=slotIcon(s);return u?`<img alt="" src="${u}">`:byRank(xs).filter(d=>IC[d.id]).slice(0,1).map(d=>img(d.id)).join("")})()}</span><b>${esc(T(s))}</b><em>${xs.length}</em>${rbar(xs)}</a>`).join("")}</div></section>
  <section class="gui"><h2 class="gt">${T("Mythic")}</h2><p class="gs">${T("The rarest curios in the pack.")}</p>
- <div class="feat">${pick.map(d=>`<a class="fc r${d.r}" href="#i${d.ix}" data-t="${d.ix}"><span class="slot">${img(d.id)}</span><span><b>${esc(TD(d.n))}</b><span class="mo">${esc(d.m)} · ${actL(d.t)}${d.pe?` <i class="kest" title="${T("Mythic tier read from its text")}">${T("estimate")}</i>`:""}</span><p>${esc(d.fx)}</p></span></a>`).join("")}</div></section>
+ <div class="feat">${pick.map(d=>`<a class="fc r${d.r}" href="#i${d.ix}" data-t="${d.ix}"><span class="slot">${img(d.id)}</span><span><b>${esc(TD(d.n))}</b><span class="mo">${esc(d.m)} · ${actL(d.t)}${d.pe?` <i class="kest" title="${T("Mythic tier read from its text")}">${T("estimate")}</i>`:""}</span><p>${esc(fxT(d))}</p></span></a>`).join("")}</div></section>
  <div class="hcols">
  ${news.length?`<section class="gui"><h2 class="gt">${T("New in 6.6.6")}</h2><p class="gs">${T("{n} curios the pack added in 6.6.6, from {mods}. {link}",{n:D.filter(d=>d.nw).length,mods:(m=>Object.keys(m).sort((x,y)=>m[y]-m[x]).map(esc).join(", "))(D.filter(d=>d.nw).reduce((m,d)=>(m[d.m]=(m[d.m]||0)+1,m),{})),link:`<a href="#home" id="seenew">${T("See them all →")}</a>`})}</p><ul class="latest">${news.map(d=>`<li><a href="#i${d.ix}" data-t="${d.ix}"><span class="slot sm">${img(d.id)}</span><span>${esc(TD(d.n))}</span><span class="meta">${esc(d.m)}</span></a></li>`).join("")}</ul></section>`:""}
 </div>`;
@@ -1198,7 +1200,7 @@ function home(xs,asTable){pathXs=xs;
   const COLS=[["n",T("Curio")],["r",T("Power")],["c",T("Role")],["t",T("Tier")],["a",T("Usable from")],["g",T("Source")],["m",T("Mod")],["fx",T("Effect")]];
   const CO=Object.keys(ROLE);
   const ys=[...xs].sort((p,q)=>{const k=st.sort;const r=k==="a"?p.a-q.a:k==="t"?p.t-q.t:k==="r"?(p.r-q.r||p.sc-q.sc):k==="c"?CO.indexOf(p.c)-CO.indexOf(q.c):String(p[k]).localeCompare(String(q[k]));return r*st.dir});
-  h+=`<div class="tw"><table><thead><tr><th></th>${COLS.map(([k,t])=>`<th><button class="ghost" data-s="${k}">${t}${st.sort===k?(st.dir>0?" ▲":" ▼"):""}</button></th>`).join("")}</tr></thead><tbody>${ys.map(d=>`<tr><td data-t="${d.ix}">${img(d.id)}</td><td><a href="#i${d.ix}" data-t="${d.ix}">${esc(TD(d.n))}</a></td><td class="r${d.r}"><i class="rdot"></i>${RN[d.r]}</td><td>${d.ro.map(k=>T(ROLE[k])).join(", ")}</td><td class="num">${ACT[d.t][0]}</td><td class="num">${ACT[d.a][0]}</td><td>${T(d.g)}</td><td>${esc(d.m)}</td><td>${esc(d.fx)}</td></tr>`).join("")}</tbody></table></div>`}
+  h+=`<div class="tw"><table><thead><tr><th></th>${COLS.map(([k,t])=>`<th><button class="ghost" data-s="${k}">${t}${st.sort===k?(st.dir>0?" ▲":" ▼"):""}</button></th>`).join("")}</tr></thead><tbody>${ys.map(d=>`<tr><td data-t="${d.ix}">${img(d.id)}</td><td><a href="#i${d.ix}" data-t="${d.ix}">${esc(TD(d.n))}</a></td><td class="r${d.r}"><i class="rdot"></i>${RN[d.r]}</td><td>${d.ro.map(k=>T(ROLE[k])).join(", ")}</td><td class="num">${ACT[d.t][0]}</td><td class="num">${ACT[d.a][0]}</td><td>${T(d.g)}</td><td>${esc(d.m)}</td><td>${esc(fxT(d))}</td></tr>`).join("")}</tbody></table></div>`}
  el("main").innerHTML=h;decorate();fbind();
  el("main").querySelectorAll("th button").forEach(b=>b.onclick=()=>{const k=b.dataset.s;st.dir=st.sort===k?-st.dir:1;st.sort=k;render()});
 }
@@ -1219,7 +1221,7 @@ function relicRows(line){
    gives it: the mob's face (mob_faces.py; a spawner for modded mobs), the Keeper's emblem for a treasure bag, a chest
    with the structures, a suspicious block for brushing, the container item. Lines that say something else stay as text. */
 let IDNM=null;const idName=id=>{if(!IDNM){IDNM={};if(typeof NAMEID!=="undefined")for(const k in NAMEID)IDNM[NAMEID[k]]??=k}return IDNM[id]};
-const rcNm=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||idName(c[0])||(c[0].includes(":")?nmI(c[0]):c[0])):T("Any {kind}",{kind:(c[1].split(":")[1]||c[1]).replace(/_/g," ")});
+const rcNm=c=>c[0]?TD(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||idName(c[0])||(c[0].includes(":")?nmI(c[0]):c[0])):T("Any {kind}",{kind:(c[1].split(":")[1]||c[1]).replace(/_/g," ")});
 const STATION=[[/Dark Altar|Ritual Goety/,"goety:dark_altar","ring"],[/Enchanting Apparatus/,"","ring"],[/Ritual of the Forest|Natural Altar|Offering Table/,"","ring"],
  [/Blood Altar|Imbuement|Cursed Infuser|Mixing Cauldron/,"goety:cursed_infuser","ring"],[/Smithing/,"minecraft:smithing_table","row"],[/Tinkerer|Upgrade Forge|Alchemy Array/,"","row"],[/Crafting Table/,"","grid"]];
 /* stations whose use the generic line gets wrong */
@@ -1301,7 +1303,7 @@ function joinTip(xs){const out=[];xs.forEach(x=>{x=String(x).trim();if(!x)return
  if(p&&!/[.!?:)]$/.test(p)&&/^[a-z(…]/.test(x))out[out.length-1]=p+" "+x;else out.push(x)});return out}
 function statsHtml(d,other){const k=kindOf(d),nm=d.n.toLowerCase();
  const head=(k.el.length||k.dt.length)?`<div class="kinds">${k.el.length?`<span class="klab">${T("Element")}</span>${k.el.map(e=>kchip("el_"+(ELEM[e]||"fire"),T(e).replace(" / ","/"),"el")).join("")}`:""}${k.dt.length?`<span class="klab">${T("Damage")}</span>${k.dt.map(x=>kchip(x[2],T(x[0]),"dt")).join("")}`:""}</div>`:"";
- const sum=d.fx.split(/;\s*/).filter(Boolean),tip=joinTip(other.filter(x=>x[0]!=="pack").map(x=>x[1])).filter(x=>x.toLowerCase()!==nm&&!/^obtain\b/i.test(x)&&!/^(hold shift|the finale$)/i.test(x)),
+ const sum=fxT(d).split(/;\s*/).filter(Boolean),tip=joinTip(other.filter(x=>x[0]!=="pack").map(x=>x[1])).filter(x=>x.toLowerCase()!==nm&&!/^obtain\b/i.test(x)&&!/^(hold shift|the finale$)/i.test(x)),
   cfg=other.filter(x=>x[0]==="pack").map(x=>String(x[1]).split(/:\s*/)).filter(x=>x.length>1);
  const HD=/^(passive effect|active ability|when worn|when equipped|set bonus|abilities?)\s*:?$/i;
  // the title's lead already says the wiki's one-line summary: Stats shows the game's own tooltip (or the summary split, if there is none)
@@ -1343,7 +1345,7 @@ function page(d){
  const sib=s0&&near.length?`<section class="sib"><h2>${T("More {slot} curios",{slot:esc(T(s0))})} <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">${seeAll}</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>${T("← Previous in {slot}",{slot:esc(T(s0))})}</small>${esc(TD(pv.n))}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>${T("Next in {slot} →",{slot:esc(T(s0))})}</small>${esc(TD(nx.n))}</a>`:""}</nav></section>`:"";
  el("main").innerHTML=article({cls:"r"+d.r,data:` data-mf="${F[0]}"`,style:`${tex(d.t)};--tc:${ACT[d.t][2]}`,
   crumb:`<div class="crumb ip-crumb"><a href="#">${T("Home")}</a> / <a href="#home">${T("Curios")}</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>`,
-  pre:isMust(d)?'<span class="mstar">★</span>':"",title:esc(TD(d.n)),lead:fmt(d.fx),
+  pre:isMust(d)?'<span class="mstar">★</span>':"",title:esc(TD(d.n)),lead:fmt(fxT(d)),
   meta:`<span class="ip-fam">${esc(d.m)}</span><span>${rLabel(d)}</span><span>${esc(slot)}</span><span>${loot?T("Loot"):T("Craft")}</span>${d.nw?`<span>${T("new in 6.6.6")}</span>`:""}`,
   secs,after:sib,art,
   box:{head:`<span class="ip-slot">${ic}</span><div><b>${esc(TD(d.n))}</b><span>${esc(d.m)}</span></div>`,
@@ -1539,7 +1541,7 @@ const glint=d=>d.r>=5&&IC[d.id]?`<span class="glint" style="--gm:url(${icu(d.id)
 const slotImg=(d,cls="")=>IC[d.id]?`<span class="aimg ${cls}"${AN[d.id]?` data-an="${esc(d.id)}"`:""}><img alt="" src="${icu(d.id)}"></span>`:`<span class="ph">${esc(d.n.slice(0,2))}</span>`;
 /* tooltip recipe: mini crafting grid instead of the "Craft at ... from ..." line */
 const RCV=/^(Craft|Combine|Infuse|Perform|Upgrade|Imbue|Forge)\b/;
-const rcName=c=>c[0]?(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||c[0]):T("Any {kind}",{kind:(c[1].split(":")[1]||c[1]).replace(/_/g," ")});
+const rcName=c=>c[0]?TD(BYID[c[0]]?BYID[c[0]].n:NM[c[0]]||c[0]):T("Any {kind}",{kind:(c[1].split(":")[1]||c[1]).replace(/_/g," ")});
 const tipRecipe=d=>{const g=d.gr,shaped=g.l===0&&!/shapeless/i.test(g.st),cs=shaped?g.c:g.c.filter(Boolean);
  return `<div class="trcp"><div class="trg" style="grid-template-columns:repeat(${shaped?g.w:Math.min(cs.length,5)},18px)">${cs.map(c=>`<i class="trc"${c?` title="${esc(rcName(c))}"`:""}>${c?(c[0]?img(c[0]):"<b>#</b>"):""}</i>`).join("")}</div><i class="tra" aria-hidden="true">→</i><i class="trc out">${img(d.id)}${g.n>1?`<b>${g.n}</b>`:""}</i><span class="trs">${esc(g.st.replace(/\s*\(shapeless\)/i,""))}</span></div>`};
 function showTipBase(n){const d=/^\d+$/.test(n.dataset.t)&&D[+n.dataset.t];if(!d){hideTip();return}tipFor=n;const F=mf(d.m),P=pal(d),nc=d.ig&&d.ig[1]!=="rainbow"?d.ig[1]:"#FFFFFF";
@@ -1548,7 +1550,7 @@ function showTipBase(n){const d=/^\d+$/.test(n.dataset.t)&&D[+n.dataset.t];if(!d
  const stats=d.st.map((x,j)=>[d.tg[j],x]).filter(([t,x])=>t!=="relic"&&x.length<110&&!/^(When worn|Passive Effect|Hold Shift)/i.test(x)).slice(0,5);
  let c=TIPC.get(d.ix);if(!c){const w=document.createElement("div");w.innerHTML=`<div class="tbox"><div class="tfr"></div>
  <div class="thd"><span class="tslot">${slotImg(d)}</span><div class="tht"><div class="tnm" style="color:${nc}"${d.ig&&d.ig[1]==="rainbow"?' data-rb="1"':""}>${isMust(d)?ui("star"):""}${esc(TD(d.n))}</div><div class="tsub">${esc(d.sl.map(x=>T(x)).join(", "))} · ${d.g==="Loot"?T("Loot"):T("Craft")}</div></div></div>
- <div class="tbd"><p class="tfx">${fmt(d.fx)}</p>${RL[d.id]?rlTip(d):""}${evo().from[d.id]?`<p class="tevo">${T("⟲ Evolves from {name}",{name:esc(TD(BYID[evo().from[d.id]].n))})}</p>`:""}${(evo().to[d.id]||[]).map(t=>`<p class="tevo">${T("⟳ Evolves into {name}",{name:esc(TD(BYID[t].n))})}</p>`).join("")}${SK.i[d.id]?`<p class="tsk">${skTag(d.id)}</p>`:""}${stats.length?`<ul class="tst">${stats.map(([t,x])=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${d.gk?`<p class="tlock">${ui("lock")} ${T("Locked until {boss} falls",{boss:TD(GK[d.gk])})}</p>`:""}${d.rq?`<p class="tlock trq">${ui("lock")} ${img(RQRING[d.rq])} ${T("Requires the {ring}",{ring:rqName(d)})}</p>`:""}${isMust(d)?`<p class="tmust">${ui("star")} ${T("Must-Have: get it as soon as {act} opens.",{act:esc(actL(d.t))})}</p>`:""}
+ <div class="tbd"><p class="tfx">${fmt(fxT(d))}</p>${RL[d.id]?rlTip(d):""}${evo().from[d.id]?`<p class="tevo">${T("⟲ Evolves from {name}",{name:esc(TD(BYID[evo().from[d.id]].n))})}</p>`:""}${(evo().to[d.id]||[]).map(t=>`<p class="tevo">${T("⟳ Evolves into {name}",{name:esc(TD(BYID[t].n))})}</p>`).join("")}${SK.i[d.id]?`<p class="tsk">${skTag(d.id)}</p>`:""}${stats.length?`<ul class="tst">${stats.map(([t,x])=>`<li>${fmt(x)}</li>`).join("")}</ul>`:""}${d.gk?`<p class="tlock">${ui("lock")} ${T("Locked until {boss} falls",{boss:TD(GK[d.gk])})}</p>`:""}${d.rq?`<p class="tlock trq">${ui("lock")} ${img(RQRING[d.rq])} ${T("Requires the {ring}",{ring:rqName(d)})}</p>`:""}${isMust(d)?`<p class="tmust">${ui("star")} ${T("Must-Have: get it as soon as {act} opens.",{act:esc(actL(d.t))})}</p>`:""}
  ${d.gr?tipRecipe(d):""}${(x=>x.length?`<p class="tsrc">${fmt(x.join(" "))}</p>`:"")((d.gr?d.src.filter(x=>!RCV.test(x)):d.src).slice(0,2))}<p class="twhere">${esc(actL(d.t))}${d.a!==d.t?" · "+T("with luck from {act}",{act:esc(actL(d.a))}):""}</p></div>
  <div class="tft"><span class="tmod">${esc(d.m)}</span><span class="trt">${RN[d.r]}${d.pe?' <i class="kest" title="'+T("Power tier read from its text")+'">'+T("estimate")+'</i>':""}</span></div></div>`;c=w.firstElementChild;TIPC.set(d.ix,c)}tip.replaceChildren(c);
  if(lastAct)lastAct.classList.remove("act");lastAct=n.classList.contains("t")?n:null;if(lastAct)lastAct.classList.add("act");

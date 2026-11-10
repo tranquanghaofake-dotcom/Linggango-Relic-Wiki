@@ -339,7 +339,7 @@ function gBonus(g){const fold=g.k==="armor"?(g.arm!=null?["armor","armor_toughne
 /* How to get, as pictures (like a curio page): each recipe as its station with the ingredient slots and the result,
    each loot table as a card (the mob's face, a chest). The pack exports gear recipes as ingredient lists, not grids. */
 function gSrcText(g){const o=[],out=g.ps?gIcon(g).id:g.id;
- const slot=(x,n)=>{const t=GBY[x]||BYID[x],nm=x.startsWith("#")?T("any {tag}",{tag:x.split(":")[1].split("/").pop().replace(/_/g," ")}):BYID[x]?TD(BYID[x].n):NM[x]||nmI(x),
+ const slot=(x,n)=>{const t=GBY[x]||BYID[x],nm=x.startsWith("#")?T("any {tag}",{tag:x.split(":")[1].split("/").pop().replace(/_/g," ")}):TD(BYID[x]?BYID[x].n:NM[x]||nmI(x)),
   h=GBY[x]?`#g${GBY[x].ix}`:BYID[x]?`#i${BYID[x].ix}`:"";
   return `<${h?`a href="${h}"`:"div"} class="mcs"${GBY[x]?` data-t="g${GBY[x].ix}"`:BYID[x]?` data-t="${BYID[x].ix}"`:""} title="${esc(nm)}">${x.startsWith("#")?(typeof TAGID!=="undefined"&&IC[TAGID[x]]?img(TAGID[x]):`<span class="ph">${esc(nm)}</span>`)+`<span class="tagm">#</span>`:IC[x]?img(x):`<span class="ph">${esc(nm)}</span>`}${n>1?`<span class="cnt">${n}</span>`:""}</${h?"a":"div"}>`};
  g.rc.forEach(r=>{const ing=[...new Set(r.i)].filter(x=>x!==r.t&&!GNOISE.test(x)).slice(0,9),st=gStation(r.t);

@@ -1064,3 +1064,15 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   Also identical: 106 Bosses/planner captures, 205 Equipment captures, 51 route states except "1 item".
 - Left English (Phase 3): the curio effect, stat, source and why lines, mod blurbs, the stat lines of tooltips, the changelog's item and mod names.
 - `checks/i18n.js` now also draws Mechanics (with its ritual filter), Changes, the Mods list and a mod page in every language; looked at: ru Mechanics table, vi footer at 375 px.
+
+## 2026-11-10: multilingual, Phase 3 (data text), the curio effect line (`fx`): in progress
+- A curio's one-line effect (`d.fx`, 1,256 distinct lines, 82k characters) now prints through `fxT(d)` = `TD(d.fx)` in the picker, the planner side panel, the Effects pane, the card,
+  the table, the curio page lead and Stats fallback, and the tooltip. `d.fx` itself stays English: scores, search and the effect hints read it; search also indexes the translated line.
+  Vanilla item names in recipe lists, links and slots now go through `TD` too (the game's own names, e.g. Phantom Membrane → Мембрана фантома).
+- Translated so far: lines 0–674 of 1,256 (scratch files `fx_b01..06.txt`, merged with a scratch script that checks every number of the English line appears in each translation;
+  the only differences were "3×" written out as "втрое", "tres veces"). Effect, item and mod names inside a line stay as the game prints them: vanilla effects use the game's own
+  names in ru, pt, es (Слабость, Fraqueza, Debilidad…), modded effects and all names stay English in vi (D3). All by me, unreviewed by a native speaker.
+- English did not change: 51 route states (except "1 item" and the Mechanics option value, as before), 50 curio pages, 106 Bosses/planner captures, 205 Equipment captures identical.
+  Full `check.sh` not yet run for this step (it ran green for every earlier group); to be run once the line set is complete.
+- Open: lines 675–1255 of `fx`; the stat lines (`st`, 2,972 distinct), source lines (`src`, ~1,480, templated by the patch scripts: top patterns "Craft at a Crafting Table from…",
+  "Key requirement: locked behind the…", "Combine at a Tinkerer's Workshop:…") and `why` lines (~40 templates) stay English.
