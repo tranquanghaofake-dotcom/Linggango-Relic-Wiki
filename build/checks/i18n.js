@@ -96,3 +96,14 @@
   for (const k in SUM) add(SUM[k].info);
   for (const c of ['vi', 'ru', 'pt', 'es']) { let n = 0; for (const l of L) if (I18N[c].tr[hsh(l)] === undefined && !(I18N[c].keep || []).includes(l)) { if (n++ < 3) bad.push('i18n ' + c + ': boss text without a translation: ' + l.slice(0, 90)); }
     if (n > 3) bad.push('i18n ' + c + ': ' + n + ' boss texts in all have no translation'); } }
+// Equipment attribute names (Phase 3): the lines "+8% Attack Speed" of the tooltip and the Bonuses list keep their number and translate the attribute name (gAL); every name the gear tables produce has an entry,
+// except the ones that stay English on purpose (a spell school's Spell Power, Luck, Omnivamp, Lethality).
+{ const names = new Set(); for (const g of GE) { for (const x of gBonus(g)) { const m = x.match(/^([+\-−]?\d[\d.,]*)(%?) (.+)$/); if (m) names.add(m[3]); } for (const [, n] of gStats(g)) names.add(n); }
+  for (const c of ['vi', 'ru', 'pt', 'es']) { let n = 0; for (const a of names) if (I18N[c].tr[hsh(a)] === undefined && !/ Spell Power$|^(Luck|Omnivamp|Lethality|Spell Power)$/.test(a)) { if (n++ < 3) bad.push('i18n ' + c + ': the attribute name has no translation: ' + a); }
+    if (n > 3) bad.push('i18n ' + c + ': ' + n + ' attribute names in all have no translation'); }
+  useLang('ru'); if (gAL('+8% Attack Speed') === '+8% Attack Speed' || gAL('+2.5% Life Steal') !== '+2,5% ' + TD('Life Steal')) bad.push('i18n ru: gAL does not translate the name or does not take the decimal comma: ' + gAL('+2.5% Life Steal')); useLang('en');
+  if (gAL('+8% Attack Speed') !== '+8% Attack Speed') bad.push('i18n: gAL changes an English line'); }
+// Guide book (Phase 3): the text of each "From the guide book" entry has an entry in every pack (the book and entry titles are names and stay English).
+{ const L = new Set(); for (const k in GUIDE) if (GUIDE[k].t) L.add(GUIDE[k].t);
+  for (const c of ['vi', 'ru', 'pt', 'es']) { let n = 0; for (const l of L) if (I18N[c].tr[hsh(l)] === undefined && l.trim().split(/\s+/).length >= 3) { if (n++ < 3) bad.push('i18n ' + c + ': a guide book text has no translation: ' + l.slice(0, 80)); }
+    if (n > 3) bad.push('i18n ' + c + ': ' + n + ' guide book texts in all have no translation'); } }

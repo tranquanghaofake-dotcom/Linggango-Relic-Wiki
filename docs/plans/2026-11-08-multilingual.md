@@ -261,3 +261,7 @@ Số mod ship từng file: `ru_ru` 170, `pt_br` 114, `es_es` 91, `es_mx` 70, `vi
 - Kiểm: quét mọi route boss ở ru (996 nút chữ Anh → 196, toàn tên); 106 bản chụp Bosses/planner tiếng Anh giống từng byte; invariant mới trong `checks/i18n.js`.
 - **Chưa làm:** `st` (~2.800 dòng chỉ số), `GUIDE` (sách hướng dẫn trong game, 323 đoạn / 45k ký tự), mô tả mod `I[2]`/`I[3]`, tên chỉ số trong tooltip Equipment.
 
+### 13.16 Phase 3 (phần): thuộc tính Equipment và sách hướng dẫn (2026-11-10)
+- `gAL` giữ số, dịch tên thuộc tính qua `TD` (96 tên mới); 205 đoạn `GUIDE` dịch tay. Tiếng Anh không đổi (205 bản chụp Equipment, 50 trang curio); invariant mới.
+- **Chưa làm:** `st` (dòng chỉ số ở tooltip curio), tên chỉ số trong một số bảng khác.
+

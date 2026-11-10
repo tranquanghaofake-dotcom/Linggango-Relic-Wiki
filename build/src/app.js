@@ -1355,7 +1355,7 @@ function statsHtml(d,other){const k=kindOf(d),nm=d.n.toLowerCase();
  return `${head}<ul class="attr">${lines.map(x=>HD.test(x)?`<li class="fxh">${fmt(x)}</li>`:`<li>${statLine(x)}</li>`).join("")}</ul>
  ${tip.length?`<details class="tipx"><summary>${T("In-game tooltip")}</summary><ul>${tip.map(x=>HD.test(x)?`<li class="fxh">${fmt(x)}</li>`:`<li>${statLine(x)}</li>`).join("")}</ul></details>`:""}
  ${cfg.length?`<details class="tipx"><summary>${T("Config values ({n})",{n:cfg.length})}</summary><table class="cfg">${cfg.map(([a,...b])=>`<tr><td>${esc(a)}</td><td class="num">${esc(cfgTx(b.join(": ")))}</td></tr>`).join("")}</table></details>`:""}`}
-const guideHtml=g=>(needPics(),"")+`<div class="gbk">${g.i?`<img alt="" src="${g.i}">`:""}<div><small>📖 ${esc(g.b)} · ${esc(g.e)}</small><p>${esc(gameTx(g.t))}</p></div></div>`;
+const guideHtml=g=>(needPics(),"")+`<div class="gbk">${g.i?`<img alt="" src="${g.i}">`:""}<div><small>📖 ${esc(g.b)} · ${esc(g.e)}</small><p>${esc(gameTx(TD(g.t)))}</p></div></div>`;
 function page(d){
  document.title=TD(d.n)+" · Linggango Wiki";seedBg("item"+d.m,D.filter(x=>x.m===d.m));
  const F=mf(d.m),slot=d.sl.map(x=>T(x)).join(", ")||"—",loot=d.g==="Loot",secs=[];

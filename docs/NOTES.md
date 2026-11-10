@@ -1105,3 +1105,12 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   boss, item, structure and mod names stay English. Found and fixed while writing: vi "Brews" had been written as "Gạo nấu" (rice cooking), now "Thuốc ủ".
 - Open: item names inside lists stay English in ru, pt, es (e.g. "Geomancer Staff, Geomancer Beads…"), as do boss names and epithets ("The Famine, First Calamity").
 
+## 2026-11-10: multilingual, Phase 3 (data text), Equipment attribute lines and the guide book: done
+- Equipment tooltips, the item page's Bonuses list and the set page's piece list printed "+8% Attack Speed" and "12 Armor" in English in every language. `gAL` (gear.js, before `gBonus`) keeps the number
+  (decimal comma, " %" in es) and says the attribute name through `TD`: 96 new names (all 119 the gear tables produce; the spell schools' "Spell Power", Luck, Omnivamp and Lethality stay English on purpose),
+  next to the 7 that the Build planner already had. English returns the line as it is.
+- The guide book (`GUIDE`, "From the guide book" on curio and gear pages): the 205 distinct texts (43k characters) translated; the book and entry titles are names and stay English. `guideHtml` now calls `TD`.
+- English did not change: 205 Equipment captures and 50 curio pages identical to the committed build; invariants added to `build/checks/i18n.js` for both (every gear attribute name and every guide text of three words or more has an entry).
+- Found while writing the Vietnamese lines for the boss pages (already corrected there): none new here. A few guide texts are the mods' own jokes or lore ("He's the DEADLIEST minecraft player…"); translated as written.
+- Open: the stat lines `st` (hover tooltip and "In-game tooltip") are still English; item names inside lists, and names in general, stay English in ru, pt, es.
+
