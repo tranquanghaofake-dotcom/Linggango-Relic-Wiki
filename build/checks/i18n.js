@@ -117,3 +117,14 @@
     if (n > 3) bad.push('i18n ' + c + ': ' + n + ' tooltip lines in all are still English'); }
   useLang('ru'); if (stT('+2.5% Life Steal') !== '+2,5% ' + TD('Life Steal') || gAL('+1.5x Damage dealt') === '+1.5x Damage dealt' || !/^\+1,5x /.test(gAL('+1.5x Damage dealt')) || gAL('30 second cooldown') === '30 second cooldown') bad.push('i18n ru: stT/gAL do not translate a multiplier or cooldown line');
   useLang('en'); if (D.some(d => (d.st || []).some(x => typeof x === 'string' && stT(x) !== x))) bad.push('i18n: stT changes an English tooltip line'); }
+// Numbers with a thousands group (the AE2 cell tables, relic XP): ru groups with a space and a decimal comma, pt with dots, vi like English (its decimals keep the dot); English leaves it to the browser as before.
+{ useLang('ru'); const r = nL(1234567.5); useLang('pt'); const q = nL(1234.5); useLang('vi'); const v = nL(1234.5); useLang('en');
+  if (!/^1\s234\s567,5$/.test(r) || q !== '1.234,5' || v !== '1,234.5' || nL(1234.5) !== (1234.5).toLocaleString()) bad.push('i18n: nL groups numbers wrongly: ' + [r, q, v].join(' | ')); }
+// Relic panel (Phase 3): the stat names ("Maximum duration") and the formats of their values ("%1$s seconds.") have an entry in every pack; a percent sign in es is written with a space.
+// Ability names (Fins, Gills, Leap...) and Charms / Stun / Frostbite are names and stay English.
+{ const nm = new Set(), fm = new Set(); for (const id in RL) for (const a of RL[id].ab) for (const t of a.st) { nm.add(t.n); fm.add(t.f); }
+  for (const c of ['vi', 'ru', 'pt', 'es']) { let n = 0; for (const x of nm) if (!/^(Charms|Stun|Frostbite)$/.test(x) && I18N[c].tr[hsh(x)] === undefined) { if (n++ < 3) bad.push('i18n ' + c + ': a relic stat name has no translation: ' + x); }
+    for (const f of fm) if ((/[a-z]{3}/.test(f.replace('%1$s', '')) || (c === 'es' && /%%/.test(f))) && I18N[c].tr[hsh(f)] === undefined) { if (n++ < 3) bad.push('i18n ' + c + ': a relic value format has no translation: ' + f); }
+    if (n > 3) bad.push('i18n ' + c + ': ' + n + ' relic stat names and formats in all have no translation'); }
+  const t0 = RL[Object.keys(RL)[0]].ab[0].st[0]; useLang('ru'); const sr = rlStat(t0, 0, -1); useLang('en'); if (/seconds/.test(sr) || /\d\.\d/.test(sr)) bad.push('i18n ru: rlStat does not translate the format or the decimal sign: ' + sr);
+  if (!/seconds/.test(rlStat(t0, 0, -1))) bad.push('i18n: rlStat does not say the English format in English: ' + rlStat(t0, 0, -1)); }

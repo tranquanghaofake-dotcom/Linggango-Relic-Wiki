@@ -1129,3 +1129,16 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   in vi, pt and es that the first pass (done with ru in mind) had missed.
 - Open: locale number formatting (`toLocaleString()` without LANG: ru should group with a space); the `why` lines (only on the "Off the act" page); the relic table rows (`relicRows`); item and place names inside lists in ru, pt, es;
   the Vietnamese "Progress" label wraps (a look change, needs approval); native review of ru, pt, es (all machine-translated, unreviewed); terms to review: gate (cổng / барьер / barreira / barrera), treasure bag, Curio / Act, attack names.
+
+## 2026-11-11: multilingual, Phase 3 (data text), number grouping and the relic panel: done
+- Numbers with a thousands group (AE2 cell tables, "takes {xp} relic XP", the DISK sentence) called `toLocaleString()` with no language. `nL` (i18n.js) now groups by language: ru "2 100 000", pt and es "2.100.000" (es leaves a 4-digit number
+  ungrouped, 1234,5), vi like English with commas because its decimals keep the dot; English still leaves it to the browser, so it is unchanged. The plural-count helper `tn` uses `nL` too.
+- Relic panel (the level slider, abilities and stats on the 49 relic pages and in the tooltip): `rlStat` said the mod's value format in English ("%1$s seconds.") with a dot decimal. It now says the format through `TD` and the number through
+  `dec`; 89 stat names ("Maximum duration", "Speed multiplier"…) and 27 formats translated in vi, ru, pt, es (es writes " %"). Ability names (Fins, Gills, Leap…) and the stat names Charms, Stun, Frostbite stay English as names.
+  Known small flaw: ru "%1$s блоков" is wrong for 1, 21… (the values are mostly 2.5–64, fractions read as "2,5 блока"; left).
+- English did not change: the panel (`rlBody`) and tooltip (`rlTip`) HTML of all 49 relics and the Mechanics page are identical to the committed build.
+- New invariants (`build/checks/i18n.js`): `nL` groups by language; every relic stat name and every format with words in it has an entry in each pack and `rlStat` translates in ru.
+- Checked and dropped from "still open": the Off the act page (`outside()` in app.js and its `why` lines) is never called, so no reader sees it; I left the dead function alone. A scan of ru on Home, Equipment, Bosses, Build planner,
+  Mechanics, Changes, a curio page, an equipment page and the Path shows only names (curios, bosses, items, mods, licences) and the labels "Must-Have", "Armor Toughness", "Max Mana" as English.
+- Open: ru plural of "блоков"; item and place names inside lists in ru, pt, es; relic ability names; "Name: value" config lines in the tooltip; the Vietnamese "Progress" label wraps (a look change, needs approval);
+  native review of ru, pt, es (machine-translated, unreviewed).

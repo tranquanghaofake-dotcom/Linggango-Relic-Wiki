@@ -17,7 +17,8 @@ const wantLang=()=>{const q=new URLSearchParams(location.search).get("lang");if(
 const fill=(s,p)=>p?s.replace(/\{(\w+)\}/g,(m,k)=>k in p?p[k]:m):s;
 const pack=()=>LANG==="en"?null:I18N[LANG]||null;
 const t=(k,en,p)=>{const P=pack();return fill(P&&P[k]||en,p)};
-const tn=(k,n,en,p)=>{const P=pack(),f=P&&P[k]||en;PRULES=PRULES||new Intl.PluralRules(LANG);return fill(f[PRULES.select(n)]||f.other,{n:n.toLocaleString(LANG),...p})};
+const nL=n=>LANG==="en"?n.toLocaleString():n.toLocaleString(LANG==="vi"?"en-US":LANG==="es"?"es-ES":LANG==="pt"?"pt-BR":"ru-RU");   // number with the language's grouping (vi keeps the dot decimal, so it groups with commas); English leaves the browser to decide, as before
+const tn=(k,n,en,p)=>{const P=pack(),f=P&&P[k]||en;PRULES=PRULES||new Intl.PluralRules(LANG);return fill(f[PRULES.select(n)]||f.other,{n:nL(n),...p})};
 /* Sentences written in the code (not in template.html): the English text is the key, so nothing is named by hand and the English stays readable where it is used.
      T("Opens when {boss} falls.",{boss:esc(name)})        one sentence; the caller escapes what it passes in
      TN(n,"{n} curio","{n} curios")                       a counted one: the pack holds the language's CLDR forms (one, few, many, other); {n} is n as written
