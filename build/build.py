@@ -122,6 +122,21 @@ def add_tm(packs):
         for k, t in OFFICIAL[lang].items():
             if k not in kept: tr.setdefault(k, t)   # a sentence of ours always wins over the game's text for the same English
         print("i18n %s: %d names and texts from the game's own translations added" % (lang, len(tr) - n0))
+        # references (tmlib.REF): a sentence names an item as ⟦English⟧ and the page shows that item's name in this language
+        forms, nref, kept_en = tmlib.load_forms(lang), 0, set(); look = lambda en: (lambda v: v if isinstance(v, str) else None)(tr.get(tmlib.hsh(en)))
+        for k, e in tm.items():
+            assert "\u27e6" not in e["en"], "i18n: tm/%s: the English %r holds a reference mark" % (lang, e["en"])
+            texts = [e["t"]] if isinstance(e["t"], str) else list(e["t"].values())
+            for x in texts:
+                for en, case in tmlib.REF.findall(x):
+                    nref += 1
+                    if (case and not forms.get(en, {}).get(case)) or (not case and not look(en)): kept_en.add(en + ("|" + case if case else ""))
+        base = dict(tr)   # the names are looked up in the table as it was before any reference was written out
+        for k, e in tm.items(): tr[k] = tmlib.resolve_value(lang, tr[k], lambda en: (lambda v: v if isinstance(v, str) else None)(base.get(tmlib.hsh(en))), forms)
+        if nref: print("i18n %s: %d references to names written out%s" % (lang, nref, "" if not kept_en else "; %d left in English (no name or no case form yet): %s" % (len(kept_en), "; ".join(sorted(kept_en)[:6]) + (" …" if len(kept_en) > 6 else ""))))
+        st = {"official": 0, "human": 0, "llm": 0}
+        for e in tm.values(): st[e.get("s") if e.get("s") in st else "llm"] += 1
+        tot = sum(st.values()) or 1; pk["meta"] = {k: round(100 * v / tot) for k, v in st.items()}   # shown in the footer: whose words these are
         pk["tr"] = tr; pk["keep"] = sorted(keep)   # keep: sentences that stay English on purpose (checks/i18n.js tells them from untranslated ones)
         miss = sorted(n for n in need if tmlib.hsh(n) not in tr and n not in keep)
         print("i18n %s: %d translated sentences; %d of %d sentences asked for are translated or kept in English on purpose%s" % (lang, len(tm), len(need) - len(miss), len(need), "" if not miss else "; untranslated: " + "; ".join(repr(m.replace("\u0001", " | "))[:48] for m in miss[:6]) + (" …" if len(miss) > 6 else "")))

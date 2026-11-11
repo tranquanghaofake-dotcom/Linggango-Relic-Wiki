@@ -12,7 +12,7 @@ V = json.load(open(os.path.join(tmlib.HERE, 'official', 'vanilla_terms.json'), e
 G = json.load(open(os.path.join(tmlib.HERE, 'glossary.json'), encoding='utf-8')); chosen = G.get('terms', {})
 def stems(t): return [w.lower()[:max(3, len(w) - 2)] if re.search('[а-яё]', w.lower()) else w.lower()[:max(4, len(w) - 2)] for w in re.findall(r'[^\W\d_]+', t) if len(w) > 2]   # a Russian word is compared without its last two letters (case endings)
 for lang in ([a.lang] if a.lang else ['vi', 'ru', 'pt', 'es']):
-    tm = tmlib.load_tm(lang); rows = []
+    tm = tmlib.resolved_tm(lang); rows = []
     for en, per in V.items():
         if lang not in per or len(en) < 4 or not en[0].isupper() or (a.cat and per.get('_c') not in a.cat.split(',')): continue
         rx = re.compile(r'(?<![A-Za-z])' + re.escape(en) + r"(?![a-z])")

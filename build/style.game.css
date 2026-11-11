@@ -1011,6 +1011,7 @@ html[data-pvt=prev]::view-transition-new(ppanel){animation:.2s ease-out .08s bot
 .pbtn .phere{grid-column:1/-1}
 
 /* ================= v27: legal line, quest-book pages, rarity frames, section scenes ================= */
+.sfoot .strans{grid-column:1/-1;margin:0 0 var(--s8);font-size:12px;color:#8d8a9c}
 .sfoot .slegal{grid-column:1/-1;margin:var(--s2) 0 0;padding-top:var(--s4);border-top:1px solid #ffffff10;font-size:12px;color:#8d8a9c}
 
 /* ---------- quest book: progression (The Path map, Bosses, boss pages) ----------

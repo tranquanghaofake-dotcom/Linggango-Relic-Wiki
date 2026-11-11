@@ -147,3 +147,7 @@
     if (bad1) bad.push('i18n ' + c + ': nameCmp leaves ' + bad1 + ' translated names out of order'); }
   useLang('en'); const en = [...D].sort((a, b) => nameCmp(a.n, b.n)).map(d => d.n), en2 = [...D].sort((a, b) => a.n.localeCompare(b.n)).map(d => d.n);
   if (en.join('|') !== en2.join('|')) bad.push('i18n: English A–Z order changed'); }
+// References (docs/I18N.md, "Names inside sentences"): the build writes every ⟦name⟧ of a translation out in the language of the pack; none reaches the page.
+{ for (const c of ['vi', 'ru', 'pt', 'es']) { let n = 0;
+    for (const k in I18N[c].tr) { const t = I18N[c].tr[k], s = typeof t === 'string' ? t : Object.values(t).join(' ');
+      if (/[⟦⟧]/.test(s) && n++ < 3) bad.push('i18n ' + c + ': a reference mark is left in a text: ' + s.slice(0, 80)); } } }

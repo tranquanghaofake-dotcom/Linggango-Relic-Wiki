@@ -106,7 +106,7 @@ def check(lang, e, g, names, kept, common):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--lang'); ap.add_argument('--domain'); ap.add_argument('--rule'); ap.add_argument('--all', action='store_true'); ap.add_argument('--strict', action='store_true'); ap.add_argument('--json')
     a = ap.parse_args(); g, names, per = load_glossary(); langs = [a.lang] if a.lang else LANGS
-    tm_all = {l: tmlib.load_tm(l) for l in LANGS}; common = lower_words(tm_all); res = []; counts = collections.Counter(); shown = collections.Counter()
+    tm_all = {l: tmlib.resolved_tm(l) for l in LANGS}; common = lower_words(tm_all); res = []; counts = collections.Counter(); shown = collections.Counter()   # resolved: what the reader sees (references written out)
     for lang in langs:
         for k, e in tm_all[lang].items():
             if a.domain and e['d'] != a.domain: continue

@@ -5,7 +5,7 @@
 # (2) the offline file renders every detail page with the shared layout and keeps the data invariants (check.js)
 #     and the pixel and spacing rules (style_check.js), and the checks that need fresh loads, other viewports, keys,
 #     injected storage or timing (a11y_check.js);
-# (3) the translations pass the hard rules of i18n/tools/qa.py (a few seconds);
+# (3) the translations pass the hard rules of i18n/tools/qa.py and every reference to a name resolves (refs.py check; a few seconds);
 # (4) the deployable site (index.html + static/) loads with every file found and no script errors (site_check.js).
 set -e; H=$(cd "$(dirname "$0")" && pwd); R=$(dirname "$H"); cd "$R"
 export NODE_PATH=${NODE_PATH:-$(npm root -g)}
@@ -22,7 +22,8 @@ T=$(mktemp -d); trap 'rm -rf "$T"' EXIT
 node "$H/check.js" dist/Linggango_Relic_Wiki.html >"$T/check" 2>&1 & C=$!
 rc=0
 python3 "$H/i18n/tools/qa.py" --strict >"$T/qa" 2>&1 || rc=1   # the translation text itself: typography, symbols, glossary terms (hard rules only fail; see docs/I18N.md)
+python3 "$H/i18n/tools/refs.py" check --strict >"$T/refs" 2>&1 || rc=1   # every ⟦name⟧ in a translation points at a name that exists (and has the case form it asks for)
 for s in style_check a11y_check site_check; do f=dist/Linggango_Relic_Wiki.html; [ $s = site_check ] && f=index.html
   node "$H/$s.js" "$f" >"$T/$s" 2>&1 || rc=1; done
 wait $C || rc=1
-tail -2 "$T/qa"; cat "$T/check" "$T/style_check" "$T/a11y_check" "$T/site_check"; exit $rc
+tail -2 "$T/qa"; cat "$T/refs"; cat "$T/check" "$T/style_check" "$T/a11y_check" "$T/site_check"; exit $rc

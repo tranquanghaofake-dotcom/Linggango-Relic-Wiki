@@ -104,7 +104,8 @@
    "es": "Enderdragón",
    "src": "vanilla names; vi kept English by D3 (official 'Rồng Ender')",
    "ignore": [
-    "Ender Dragon Act"
+    "Ender Dragon Act",
+    "Ender Dragon Spawn Egg"
    ]
   },
   "Wither": {

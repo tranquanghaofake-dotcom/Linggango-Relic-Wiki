@@ -52,6 +52,60 @@ def write_tm(lang, tm):
     old = os.path.join(HERE, "tm", lang + ".json")
     if os.path.exists(old): os.remove(old)
 
+# References: a translation may name an item or a term by its English between ⟦ ⟧, and the build writes that name in the language of the page ("Lleva la ⟦Frozen Blade⟧" shows
+# the Spanish name of the Frozen Blade). One source for each name: change it in names.json and every sentence follows. ⟦English|gen⟧ asks for a case form (ru): forms/<lang>.json
+# holds {"English": {"gen": "..."}}; a form that is missing leaves the English name, never a wrong case. See docs/I18N.md, "Names inside sentences".
+REF = re.compile(r"\u27e6([^\u27e7|]+?)(?:\|(\w+))?\u27e7")
+
+LEAD_ART = {"pt": {"own": ["O", "A", "Os", "As"], "before": {"o", "a", "os", "as", "um", "uma", "uns", "umas", "do", "da", "dos", "das", "no", "na", "nos", "nas", "ao", "à", "aos", "às", "pelo", "pela", "pelos", "pelas", "num", "numa"}},
+            "es": {"own": ["El", "La", "Los", "Las"], "before": {"el", "la", "los", "las", "un", "una", "unos", "unas", "del", "al"}}}
+
+def load_forms(lang):
+    p = os.path.join(HERE, "forms", lang + ".json")
+    return json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {}
+
+def resolve_refs(lang, t, lookup, forms=None):
+    """t with every reference written in the language: lookup(english) -> its translation (or None), forms = case forms of this language. English stays where nothing is known."""
+    if "\u27e6" not in t: return t
+    forms = load_forms(lang) if forms is None else forms
+    def sub(m):
+        en, case = m.group(1), m.group(2)
+        if case: r = forms.get(en, {}).get(case) or en
+        else:
+            r = lookup(en); r = r if isinstance(r, str) and r else en
+        if lang in LEAD_ART and r != en:   # "del ⟦The Eye⟧": the name's own article goes when one stands before it ("del ojo", not "del el ojo")
+            before = re.search(r"([\w'’À-ÿ]+)\W*$", m.string[:m.start()]); w = (before.group(1) if before else "").lower()
+            if w in LEAD_ART[lang]["before"]:
+                a = re.match(r"(%s)\s+(\S)" % "|".join(LEAD_ART[lang]["own"]), r)
+                if a: r = a.group(2).lower() + r[a.end():] if lang == "es" else a.group(2) + r[a.end():]
+        return r
+    return REF.sub(sub, t)
+
+def resolve_value(lang, t, lookup, forms=None):
+    return resolve_refs(lang, t, lookup, forms) if isinstance(t, str) else {k: resolve_refs(lang, v, lookup, forms) for k, v in t.items()}
+
+def official_names_by_english(lang):
+    """{English name: the game's own name} from official/<lang>.json (names are by id there; the English of an id is read from data.js and gear_data.js)."""
+    en_of = {}
+    for f in ("data.js", "gear_data.js"):
+        p = os.path.join(SRC, f)
+        if not os.path.exists(p): continue
+        for m in re.finditer(r'\{"id":"([^"]+)","n":"((?:[^"\\]|\\.)*)"', open(p, encoding="utf-8").read()): en_of[m.group(1)] = json.loads('"' + m.group(2) + '"')
+    p = os.path.join(HERE, "official", lang + ".json")
+    o = json.load(open(p, encoding="utf-8"))["names"] if os.path.exists(p) else {}
+    return {en_of[i]: t for i, t in o.items() if i in en_of}
+
+def name_lookup(lang, tm=None):
+    """English -> translation for references: our entries first, then the game's own names."""
+    tm = load_tm(lang) if tm is None else tm; off = official_names_by_english(lang)
+    mine = {e["en"]: e["t"] for e in tm.values() if isinstance(e["t"], str)}
+    return lambda en: mine.get(en) or off.get(en)
+
+def resolved_tm(lang, tm=None):
+    """A copy of the TM with every reference written out: what the reader sees (for the tools that read the text: qa.py, terms.py, status.py)."""
+    tm = load_tm(lang) if tm is None else tm; look = name_lookup(lang, tm); forms = load_forms(lang)
+    return {k: dict(e, t=resolve_value(lang, e["t"], look, forms)) for k, e in tm.items()}
+
 def _nums(t): return sorted(re.findall(r"\d+", re.sub(r"(?<=\d)[.,](?=\d)", "", t)))
 def _phs(t): return sorted(re.findall(r"%\d?\$?[sd]|\{\w+\}|\[\]", t))
 

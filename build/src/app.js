@@ -923,6 +923,8 @@ function refreshSide(){
 
 /* the sidebar is built once, in English, when the page loads; a language change (i18n.js useLang) only relabels it: the filter keys stay English, so saved filters and links keep working */
 function relabelSide(){
+ {const n=document.getElementById("strans"),m=typeof pack==="function"&&pack()&&pack().meta;   // how much of this language was checked by a person (the build counts the states in the translation memory)
+  if(n){if(LANG==="en"||!m)n.hidden=true;else{n.hidden=false;n.innerHTML=T(`Translation: {official}% is the game's own wording, {human}% was checked by a native speaker, {llm}% is machine translation still waiting for one. <a href="https://github.com/tranquanghaofake-dotcom/Linggango-Relic-Wiki/issues" target="_blank" rel="noopener">Report a mistake</a>`,m)}}}
  {const t=document.getElementById("totop"),q=document.getElementById("qs");if(t)t.setAttribute("aria-label",T("Back to top"));if(q)q.setAttribute("aria-label",T("Search results"))}
  for(const key in chipEls)chipEls[key].forEach(b=>{b.firstChild.nodeValue=T(b._en)});
  nb.textContent=T("New in 6.6.6");
