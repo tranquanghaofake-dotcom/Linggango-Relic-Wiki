@@ -829,9 +829,10 @@ const bgfx=document.createElement("div");bgfx.id="bgfx";bgfx.setAttribute("aria-
 let bgKey="";
 /* the page background: a deepslate cave wall with tuff and cobbled patches and small ore veins, painted once at 16 px per block
    and shown at x4 behind everything (#cave). Seeded, toroidal, so it repeats without a seam. Textures: uiicons.js (bg_*).
-   The precious ores also glow (.og, shown on the home page): the wall's own gold, redstone, lapis, diamond and emerald
-   blocks plus GLOWN more at seeded cells near the two edges, where no panel covers them; a glow is the ore texture's gem
-   pixels alone (the pixels that differ from plain deepslate), blurred and pulsing over the block. */
+   The precious ores twinkle (.og, shown on the home page): the wall's own gold, redstone, lapis, diamond and emerald
+   blocks plus GLOWN more at seeded cells near the two edges, where no panel covers them. A block is as dark as the wall;
+   every so often (each block on its own clock) three of its gem pixels (the pixels that differ from plain deepslate)
+   catch the light for a moment, then three others. */
 {const T=typeof ROOMT!=="undefined"?ROOMT:{},need=["bg_deepslate","bg_cobbled_deepslate","bg_tuff"];
  if(need.every(k=>T[k])){const W=32,Hh=20,cv=document.createElement("canvas");cv.width=W*16;cv.height=Hh*16;const g=cv.getContext("2d");
   let sd=7;const rnd=()=>(sd=(sd*16807)%2147483647)/2147483647;
@@ -839,14 +840,18 @@ let bgKey="";
   const ores=["bg_deepslate_coal_ore","bg_deepslate_iron_ore","bg_deepslate_copper_ore","bg_deepslate_coal_ore","bg_deepslate_gold_ore","bg_deepslate_redstone_ore","bg_deepslate_lapis_ore","bg_deepslate_iron_ore","bg_deepslate_diamond_ore","bg_deepslate_emerald_ore"];
   const map=[...Array(Hh)].map((_,y)=>[...Array(W)].map((_,x)=>{for(const[bx,by,r,k]of blobs){const dx=Math.min(Math.abs(x-bx),W-Math.abs(x-bx)),dy=Math.min(Math.abs(y-by),Hh-Math.abs(y-by));if(dx*dx+dy*dy<r*r)return k}return "bg_deepslate"}));
   for(let i=0;i<14;i++){const k=ores[Math.floor(rnd()*ores.length)];let x=Math.floor(rnd()*W),y=Math.floor(rnd()*Hh);for(let n=1+Math.floor(rnd()*3);n--;){map[y][x]=k;x=(x+(rnd()<.5?1:0))%W;y=(y+(rnd()<.5?1:0))%Hh}}
-  const GEM=["gold","redstone","lapis","diamond","emerald"].map(k=>"bg_deepslate_"+k+"_ore").filter(k=>T[k]),GLOWN=30;
+  const GEM=["gold","redstone","lapis","diamond","emerald"].map(k=>"bg_deepslate_"+k+"_ore").filter(k=>T[k]),GLOWN=18;
   const ims={};let left=0;const draw=()=>{for(let y=0;y<Hh;y++)for(let x=0;x<W;x++)g.drawImage(ims[map[y][x]],x*16,y*16);
    const c=document.createElement("div"),R=document.documentElement.style;c.id="cave";c.setAttribute("aria-hidden","true");R.setProperty("--cave",`url(${cv.toDataURL()})`);
    // gem pixels of each precious ore: what differs from plain deepslate
    const px=im=>{const q=document.createElement("canvas");q.width=q.height=16;const x=q.getContext("2d",{willReadFrequently:true});x.drawImage(im,0,0);return [q,x,x.getImageData(0,0,16,16)]},[, ,base]=px(ims.bg_deepslate);
-   GEM.forEach((k,i)=>{const [q,x,d]=px(ims[k]);for(let j=0;j<d.data.length;j+=4)if(Math.abs(d.data[j]-base.data[j])+Math.abs(d.data[j+1]-base.data[j+1])+Math.abs(d.data[j+2]-base.data[j+2])<36)d.data[j+3]=0;x.putImageData(d,0,0);
-    R.setProperty("--ore"+i,`url(data:image/png;base64,${T[k]})`);R.setProperty("--gem"+i,`url(${q.toDataURL()})`)});
-   const cell=(x,y,i,right)=>`<i class="og" style="${right?"right":"left"}:${x*64}px;top:${y*64}px;--t:var(--ore${i});--g:var(--gem${i});--d:-${(rnd()*5).toFixed(1)}s"></i>`,og=[];
+   GEM.forEach((k,i)=>{const [q,x,d]=px(ims[k]),gem=[];let cr=0,cg=0,cb=0;
+    for(let j=0;j<d.data.length;j+=4)if(Math.abs(d.data[j]-base.data[j])+Math.abs(d.data[j+1]-base.data[j+1])+Math.abs(d.data[j+2]-base.data[j+2])>=90){gem.push(j);cr+=d.data[j];cg+=d.data[j+1];cb+=d.data[j+2]}
+    R.setProperty("--ore"+i,`url(data:image/png;base64,${T[k]})`);R.setProperty("--gc"+i,`rgb(${cr/gem.length|0},${cg/gem.length|0},${cb/gem.length|0})`);
+    // two sets of three gems, each lightened towards white
+    for(const v of "ab"){const o=x.createImageData(16,16);for(let n=0;n<3&&gem.length;n++){const j=gem[Math.floor(rnd()*gem.length)];for(let c=0;c<3;c++)o.data[j+c]=d.data[j+c]+(255-d.data[j+c])*.6;o.data[j+3]=255}
+     x.putImageData(o,0,0);R.setProperty("--sp"+v+i,`url(${q.toDataURL()})`)}});
+   const cell=(x,y,i,right)=>`<i class="og" style="${right?"right":"left"}:${x*64}px;top:${y*64}px;--t:var(--ore${i});--ka:var(--spa${i});--kb:var(--spb${i});--gc:var(--gc${i});--dur:${(14+rnd()*16).toFixed(1)}s;--d:-${(rnd()*30).toFixed(1)}s"></i>`,og=[];
    for(let y=0;y<Hh;y++)for(let x=0;x<W;x++){const i=GEM.indexOf(map[y][x]);if(i>=0)og.push(cell(x,y,i),cell(x+W,y,i))}
    for(let n=0;n<GLOWN;n++)og.push(cell(Math.floor(rnd()*5),Math.floor(rnd()*Hh),Math.floor(rnd()*GEM.length),n%2));
    c.innerHTML=og.join("");document.body.prepend(c)};
@@ -998,33 +1003,33 @@ const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.index
 /* update log, newest first */
 function changesPage(){
  document.title=T("Changes")+" · Linggango Wiki";
- el("main").innerHTML=`${crumb(T("Changes"))}<h1>${T("Changes")}</h1><p class="lede">${T("What's new on the wiki, newest first.")}</p>
+ el("main").innerHTML=`${crumb(T("Changes"))}${room("vault",[],{head:`<h1>${T("Changes")}</h1><p class="lede">${T("What's new on the wiki, newest first.")}</p>`})}
 <section class="s" id="c-2026-10-31"><h2>${T("October 31, 2026")}</h2>
-<h3>${T("Changed")}</h3><ul>
+<h3 class="ck chg">${T("Changed")}</h3><ul>
 <li>${T("<b>Boss pictures</b> are drawn from each mod's own model with the game's light, for the Keepers and the side bosses. Crone, Ice Hermit and Mutant Enderman have a picture for the first time, and none is taken from another wiki.")}</li>
 <li>${T("<b>Drop chances and gear effects</b> are re-read from the pack's official server files. For example, the Crone drops glowstone dust 37% of the time, not 55%.")}</li>
 <li>${T("<b>Obsidian armor</b> (Composite Material) moved from Act V to Act VI: the pack's own recipe upgrades a netherite piece.")}</li>
 <li>${T("<b>Icons</b> come from the mods' own and vanilla textures, tinted the way the game tints them. None are drawn from All Rights Reserved resource packs.")}</li>
 </ul>
-<h3>${T("Fixed")}</h3><ul>
+<h3 class="ck fix">${T("Fixed")}</h3><ul>
 <li>${T("A pass over search, filters, The Path, the build planner, Mechanics and the boss pages. For example, quick search calls the Ender Dragon a required boss, not a Keeper; \"What can I get now?\" says it lists the curios that open at your Act; on phones the pages say tap, not hover.")}</li>
 </ul></section>
 <section class="s" id="c-2026-10-30"><h2>${T("October 30, 2026")}</h2>
-<h3>${T("Added")}</h3><ul>
+<h3 class="ck add">${T("Added")}</h3><ul>
 <li>${T("<b><a href=\"#gear\">Best loadout at each Act</a></b> on Equipment: the best weapon and armor set for each playstyle (melee, ranged, mage, summon) at that Act.")}</li>
 </ul>
-<h3>${T("Changed")}</h3><ul>
+<h3 class="ck chg">${T("Changed")}</h3><ul>
 <li>${T("<b>Build planner</b> keeps only the permanent Consumables row. The Food buffs and Potions rows are gone.")}</li>
 <li>${T("<b>Stacks</b> label fix: Summonity curios that can't be worn twice (Minion Metronome, Lead Bell, Ring of Summoning and others, plus the whistles) now show One per player instead of Stacks.")}</li>
 <li>${T("<b>Act pages</b> no longer run idle animations on curio tiles. They animate on hover.")}</li>
 </ul></section>
 <section class="s" id="c-2026-10-29"><h2>${T("October 29, 2026")}</h2>
-<h3>${T("Added")}</h3><ul>
+<h3 class="ck add">${T("Added")}</h3><ul>
 <li>${T("<b>Consumables</b> in the build planner: the five home boons (Hearty Feast, Angler's Pearl, Amber Core, Hunter's Essence, Arcane Crystal). They are toggled on and off, kept out of the stat totals, and saved in the link.")}</li>
 <li>${T("<b>Status and combos</b> in Stats explained: what each element's meter does when it fills, the 13 element combos, and what happens when Arcane hits max.")}</li>
 <li>${T("<b><a href=\"#mechanics/effects\">Effects</a></b> on the Mechanics page: food buffs, Linggango's effects and the vanilla effects in the pack, each with the items whose text names it. Effect names on item pages link there.")}</li>
 </ul>
-<h3>${T("Changed")}</h3><ul>
+<h3 class="ck chg">${T("Changed")}</h3><ul>
 <li>${T("<b>Build planner share links</b> are shorter: slots use one-character codes and relic data is packed in base 36. Older links still open.")}</li>
 <li>${T("<b>Path curios</b> only animate while the tile is hovered; the idle bobbing, shine and star motion is off.")}</li>
 <li>${T("<b><a href=\"#mechanics/stats\">Stats explained</a></b> rewritten from the mods' code and the pack's config. It now follows one hit step by step and covers armor, crits, dodge, taking damage, healing, roll and parry, damage types, magic and summons. What changed from the first version:")}<ul>
@@ -1036,18 +1041,18 @@ function changesPage(){
 <li>${T("<b>Armor Toughness</b> does not reduce damage here; it only weakens armor shred and pierce used against you.")}</li>
 <li>${T("The pack's own rules are in: 13% damage floor, a hit never over half your max health, ×3 soft cap on bonus damage, 10% max health a tick from lifesteal, Resistance levels (V is 38%, not immunity).")}</li></ul></li>
 <li>${T("<b>Stat tooltips</b> on curio pages match the new text, and a few more stats have one (Damage Taken, Armor Shred, roll stats, Cooldown Reduction).")}</li></ul>
-<h3>${T("Fixed")}</h3><ul>
+<h3 class="ck fix">${T("Fixed")}</h3><ul>
 <li>${T("Warden melee damage now shows the pack's +5: 18.5 / 35 / 52.5.")}</li></ul>
 </section>
 <section class="s" id="c-2026-10-28"><h2>${T("October 28, 2026")}</h2>
-<h3>${T("New")}</h3><ul>
+<h3 class="ck add">${T("New")}</h3><ul>
 <li>${T("<b>Equipment › Curios:</b> 1,318 curios measured in game; 357 are tiered on the same scale as weapons and sets.")}</li>
 <li>${T("<b>Gear measured in game:</b> 1,038 weapons and 328 armor sets (hits, on-hit effects, worn effects, set bonuses, damage taken).")}</li>
 <li>${T("<b>Ranking:</b> tiers are set against the fifth best item, and survival scores use the pack's damage floor and hit cap.")}</li>
 <li>${T("<b>Stats explained</b> (Mechanics › Stats), first version. Rewritten on October 29.")}</li>
 <li>${T("<b>Stat tooltips on curio pages:</b> stat names have a dotted underline. Hover one for a short explanation, or click it to open the full guide.")}</li>
 <li>${T("<b>Changes:</b> this page.")}</li></ul>
-<h3>${T("Fixed")}</h3><ul>
+<h3 class="ck fix">${T("Fixed")}</h3><ul>
 <li>${T("Warden health is now 700 and Wither health is now 500.")}</li>
 <li>${T("Keeper armor in the Path rows: Goblin Lord 12 (Act II), Arion 20 on foot and 15 on its Ravager (Act III), Eldorath 18 (Act IV).")}</li></ul>
 </section>${wikiNav()}`;
@@ -1105,18 +1110,29 @@ const ENDB={12:["apollyon","Apollyon"]};
 const SPARKS=[[-46,-14,0],[-18,10,.5],[8,-8,1],[30,16,.25],[52,-10,.8]].map(([x,dx,d])=>`<i class="sp" style="--x:${x}px;--dx:${dx}px;--d:${d}s"></i>`).join("");
 /* The Path on the home page is the hero: each Act is a step of its own block, with the Keeper to beat there standing on it
    (BFIG: a strip of its idle loop, framed on its feet and sized by its in-game height; build/pack_audit/boss_portraits.js --figs).
-   A step is a tab; its panel opens under the sky. The open step's Keeper and the pointed one grow and play their loop. */
+   A step is a tab; its panel opens under the sky. Every Keeper plays its idle loop; the open step's Keeper and the pointed one
+   grow, and the pointed one walks (BWALK, a second strip that comes with the late pictures: pathMapWire puts it in). Each step
+   carries its Act's air (envFx) and a light that runs up the stairs (.sw). */
 function pathMap(path,lead){
  return `<div class="pmap" id="pmap"><section class="title-scr climb">${SKY}
  ${lead}
  <div class="pcap"><h2 class="gt">${T("The Path")}</h2><p class="gs">${T("Pick an Act to see what it opens and who guards it. Press “I'm here” on the Act you reached and the map follows your run.")}</p><p class="prun" id="prun" aria-live="polite"></p></div>
  <div class="ptrack" role="tablist" aria-label="${T("Acts of The Path")}" style="--n:${path.length}"><div class="pxp" aria-hidden="true"><i id="pxpf"></i></div>
  ${path.map((a,i)=>{const k=NEXTB[a],e=!k&&ENDB[a],f=typeof BFIG!=="undefined"&&BFIG[k||(e&&e[0])];
-  return `<button type="button" role="tab" class="pn${VBOSS[a]?" ch":""}" id="pn-${i}" data-i="${i}" aria-controls="pp-${i}" aria-selected="${!i}" tabindex="${i?-1:0}" style="--tc:${ACT[a][2]};--i:${i};${tex(a)}" title="${esc(actF(a))}" data-k="${k?esc(kShort(k)):e?esc(TD(e[1])):""}"><span class="pfr" data-h="${esc(T("You are here"))}">${f?`<i class="au"></i><span class="pk${f.n>1?"":" st"}" style="--w:${f.w};--h:${f.h};--n:${f.n};--z:${f.z};--ms:${f.ms}"><img alt="" decoding="async" src="${f.src}"></span>${SPARKS}`:emblem(a,"lg")}</span><b>${esc(ACT[a][0])}</b></button>`}).join("")}</div></section>
+  return `<button type="button" role="tab" class="pn${VBOSS[a]?" ch":""}" id="pn-${i}" data-i="${i}" aria-controls="pp-${i}" aria-selected="${!i}" tabindex="${i?-1:0}" style="--tc:${ACT[a][2]};--i:${i};${tex(a)}" title="${esc(actF(a))}" data-k="${k?esc(kShort(k)):e?esc(TD(e[1])):""}" data-fk="${k||(e?e[0]:"")}"><i class="sw"></i>${envFx(a)}<span class="pfr" data-h="${esc(T("You are here"))}">${f?`<i class="au"></i><span class="pk${f.n>1?"":" st"}" style="--w:${f.w};--h:${f.h};--n:${f.n};--z:${f.z};--ms:${f.ms}"><img alt="" decoding="async" src="${f.src}"></span>${SPARKS}`:emblem(a,"lg")}</span><b>${esc(ACT[a][0])}</b></button>`}).join("")}</div></section>
  ${path.map((a,i)=>pPanel(a,i,!i)).join("")}
  ${D.some(d=>d.t===-1)?`<p class="gs side">${T("Side Act: {link}, dropped by L2 Hostility mobs by level, outside the Keeper order.",{link:`<a href="#act/-1">${T("L2 Artifacts")}</a>`})}</p>`:""}</div>`}
 function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...map.querySelectorAll(".pn")],pans=[...map.querySelectorAll(".ppanel")];let cur=0;
  const tr=map.querySelector(".ptrack"),ctr=i=>{if(tr.scrollWidth>tr.clientWidth+1)tr.scrollLeft=tabs[i].offsetLeft-(tr.clientWidth-tabs[i].offsetWidth)/2};
+ // the sky fills the screen under the header, whatever the header's height (it wraps in some languages and on phones)
+ const top=document.querySelector(".top"),toph=()=>document.documentElement.style.setProperty("--toph",top.offsetHeight+"px");
+ // a Keeper that is not the open or the pointed one stays over its own step: a wide one (a spear, wings) is drawn smaller
+ const fit=()=>tabs.forEach(t=>{const k=t.querySelector(".pk:not(.wk)");if(k&&k.offsetWidth)k.parentNode.style.setProperty("--fit",Math.min(1,1.2*t.offsetWidth/k.offsetWidth).toFixed(3))});
+ toph();fit();if(window.ResizeObserver){const ro=new ResizeObserver(()=>{if(!map.isConnected){ro.disconnect();return}toph();fit()});ro.observe(top);ro.observe(tr)}
+ // the walk loop of the Keeper under the pointer (or the keyboard): put in the first time, once its picture is ready
+ const walk=t=>{const w=t&&!t.dataset.wk&&window.BWALK&&BWALK[t.dataset.fk],f=w&&BFIG[t.dataset.fk];if(!w)return;t.dataset.wk=0;const im=new Image();im.alt="";im.src=w.src;
+  im.decode().then(()=>{const k=document.createElement("span");k.className="pk wk";k.style.cssText=`--w:${w.w};--h:${w.h};--n:${w.n};--z:${f.z};--ms:${w.ms}`;k.appendChild(im);t.querySelector(".pfr").appendChild(k);t.dataset.wk=1}).catch(()=>{})};
+ tr.addEventListener("pointerover",e=>walk(e.target.closest(".pn")));tr.addEventListener("focusin",e=>walk(e.target.closest(".pn")));
  const paint=()=>{const h=pHere(),hi=h===null?-1:path.indexOf(h);
   tabs.forEach((t,i)=>{t.classList.toggle("done",hi>=0&&i<hi);t.classList.toggle("here",i===hi);t.classList.toggle("ahead",hi>=0&&i>hi)});
   el("pxpf").style.transform=`scaleX(${hi<0?0:(hi+.5)/path.length})`;

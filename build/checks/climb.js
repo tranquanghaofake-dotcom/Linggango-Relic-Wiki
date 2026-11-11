@@ -3,7 +3,8 @@
 // is drawn from data-k, so tools and tests that read a step still read "XI"); the figure on a step is the Keeper to beat at
 // that Act (NEXTB) and, on the last Act, the Act's end-game side boss (ENDB: it must be a side boss of that Act); every figure
 // has a strip in BFIG whose picture is as wide as its frames say; an Act's chest holds its strongest curios first; "I'm here"
-// marks that step and the ones before it; the wordmark is gone from the hero (one "Linggango" at the top, the header's).
+// marks that step and the ones before it; the wordmark is gone from the hero (one "Linggango" at the top, the header's);
+// every step carries its Act's air and the stair light.
 // (the page redraws once more when the address changes, so wait for that before reading: this file awaits between steps)
 { location.hash = '#'; await new Promise(r => setTimeout(r, 80)); render();
   const path = ORDER.filter(a => a >= 0 && D.some(d => d.t === a)), pn = () => [...document.querySelectorAll('#pmap .pn')];
@@ -15,10 +16,15 @@
   for (const [i, b] of pn().entries()) { const a = path[i], k = NEXTB[a] || (ENDB[a] || [])[0], f = k && BFIG[k], im = b.querySelector('.pk img');
     if (b.textContent.trim() !== ACT[a][0]) bad.push(`climb: step ${i} reads "${b.textContent.trim()}", not "${ACT[a][0]}"`);
     if (!/url\(/.test(getComputedStyle(b).backgroundImage)) bad.push(`climb: step ${ACT[a][0]} has no block texture`);
+    if (!b.querySelector('.sw') || !b.querySelector('.envfx')) bad.push(`climb: step ${ACT[a][0]} has no air or no stair light`);
     if (!f || !im || im.getAttribute('src') !== f.src || !b.dataset.k) { bad.push(`climb: step ${ACT[a][0]} does not show and name ${k || 'a boss'}`); continue; }
     await im.decode().catch(() => {});
     if (im.naturalWidth !== f.w * f.n || im.naturalHeight !== f.h) bad.push(`climb: the strip of ${k} is ${im.naturalWidth}x${im.naturalHeight}, its record says ${f.n} frames of ${f.w}x${f.h}`);
     if (NEXTB[a] && (f.n < 2 || !f.ms)) bad.push(`climb: the Keeper ${k} has no idle loop`); }
+  // the walk loops (BWALK, with the late pictures): each belongs to a figure, shares its scale and its ground, and its picture is as wide as its frames say
+  for (const [k, w] of Object.entries(window.BWALK || {})) { const f = BFIG[k], im = new Image(); im.src = w.src; await im.decode().catch(() => {});
+    if (!f || f.n < 2) bad.push(`climb: a walk loop for ${k}, which has no animated figure`);
+    else if (im.naturalWidth !== w.w * w.n || im.naturalHeight !== w.h || Math.abs(w.h - f.h) > f.h * .12) bad.push(`climb: the walk strip of ${k} is ${im.naturalWidth}x${im.naturalHeight} for ${w.n} frames of ${w.w}x${w.h} (idle ${f.h} tall)`); }
   const i = Math.min(2, path.length - 1), a = path[i]; pn()[i].click();
   const sl = [...document.querySelectorAll(`#pp-${i} .chest .sslot`)], top = byRank(D.filter(d => d.t === a));
   if (!sl.length || sl.length > CHESTN || sl.length !== Math.min(CHESTN, top.length)) bad.push(`climb: the chest of ${ACT[a][0]} has ${sl.length} slots for ${top.length} curios`);

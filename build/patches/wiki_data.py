@@ -50,6 +50,7 @@ out += "const BEXTRA=" + json.dumps(J("boss_extra.json"), ensure_ascii=False, se
 pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(",", ":")) + ");\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_ui, separators=(",", ":")) + "))if(GUIDE[k])GUIDE[k].i=v;\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_gi, separators=(",", ":")) + "))if(GOETY.types[k])GOETY.types[k].img=v;\n"
+        + "window.BWALK=" + json.dumps(J("boss_walks.json"), separators=(",", ":")) + ";\n"   # the walk loops of the home page's figures (boss_portraits.js --figs)
         + "window.PICS=1;if(typeof picsLoaded==='function')picsLoaded();\n")
 (H.parent / "src" / "wiki_pics.js").write_text(pics, encoding="utf-8")
 print("wiki_data.js", len(out) // 1024, "kB + wiki_pics.js", len(pics) // 1024, "kB")
