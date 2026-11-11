@@ -123,25 +123,6 @@ body.hub #side{display:none}
 .idx .meta{color:#8f8f8f;font-size:12px;padding:var(--s2)}
 
 /* ---------- title screen (hub) ---------- */
-.title-scr{position:relative;display:grid;justify-items:center;gap:var(--s4);min-height:540px;padding:var(--s8) var(--s5) 96px;margin:0 0 var(--s6);overflow:hidden;border-radius:4px;box-shadow:0 0 0 2px #000,0 6px 0 2px rgba(0,0,0,.35);text-align:center;isolation:isolate}
-.title-scr .pano{position:absolute;inset:-4%;z-index:-1;background:var(--hbg,linear-gradient(#3b2a5c,#1b1427)) 50% 50%/cover no-repeat;filter:saturate(1.05) brightness(.62);animation:pano 60s ease-in-out infinite alternate}
-.title-scr::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% 40%,transparent 30%,rgba(0,0,0,.55))}
-@keyframes pano{from{transform:translateX(-2.5%) scale(1.06)}to{transform:translateX(2.5%) scale(1.06)}}
-.title-scr .lg{margin:0}
-.title-scr .wm{display:block;width:min(560px,80%);height:auto;margin:0 auto;filter:drop-shadow(0 6px 0 rgba(0,0,0,.45))}
-.title-scr .lg{width:100%}
-.splash{position:absolute;left:calc(50% + 250px);top:110px;font:700 20px var(--disp);color:var(--yellow);text-shadow:2px 2px 0 #3f3f00;transform:rotate(-20deg);transform-origin:left center;animation:splash .55s ease-in-out infinite;white-space:nowrap;pointer-events:none}
-.hsearch{width:min(420px,100%)}
-.hsearch input{width:100%;height:44px;font-size:16px}
-.tbtns{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3) var(--s3);width:min(420px,100%)}
-.tbtns .wide{grid-column:1/-1}
-.tcorner{position:absolute;bottom:12px;margin:0;font:500 14px/1.35 var(--body);color:#fff;text-shadow:2px 2px 0 #3f3f3f}
-.tcorner.l{left:16px;text-align:left}.tcorner.r{right:16px;text-align:right}
-/* translated languages: a long word in a title-screen button or corner text must not push the panel wider than the phone (English is untouched) */
-html:not([lang="en"]) .title-scr{grid-template-columns:minmax(0,1fr)}
-html:not([lang="en"]) .tbtns{grid-template-columns:repeat(2,minmax(0,1fr))}
-html:not([lang="en"]) .tbtns .mcb{min-width:0;white-space:normal;line-height:1.15;text-align:center}
-@media (max-width:480px){html:not([lang="en"]) .tcorner{position:static;text-align:center}}
 
 /* advancement tree */
 .advtree{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:var(--s5) var(--s3);padding:var(--s4) var(--s4) var(--s3);background:#000 var(--v-b_stone,none) 0 0/48px 48px;
@@ -424,7 +405,6 @@ ol.how li::before{content:counter(howc);position:absolute;left:10px;top:8px;disp
  .ip-body{grid-template-columns:minmax(0,1fr)}
  .ip-side{grid-template-columns:260px minmax(0,1fr)}
  .ip-toc{position:static}
- .splash{left:calc(50% + 120px)}
 }
 /* Russian and Portuguese labels are wider (nav 767 and 754 px against 640): the one-row header would leave the search box under 240 px below about 1310 px */
 @media (min-width:761px) and (max-width:1320px){
@@ -440,12 +420,11 @@ ol.how li::before{content:counter(howc);position:absolute;left:10px;top:8px;disp
  .adv::after,.adv::before{display:none}
  .ip-side{grid-template-columns:1fr}
  .mstat,.mhero{grid-template-columns:1fr}
- .splash{display:none}
  .slotlist{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:440px){.slotlist{grid-template-columns:minmax(0,1fr)}}
 @media (prefers-reduced-motion:reduce){
- .title-scr .pano,.splash,a.t.sweep::before{animation:none!important}
+ a.t.sweep::before{animation:none!important}
  .mcb,.chip,#totop{transition:none}
 }
 
@@ -836,20 +815,6 @@ body:has(.boot) .sfoot{visibility:hidden}
 @keyframes vtOut{to{opacity:0}}
 @keyframes vtIn{from{opacity:0;transform:translateY(10px)}}
 
-/* title screen: one entrance, logo first, then the menu */
-body.hub .title-scr .wm{animation:logoIn .8s var(--ease-pop) both}
-body.hub .title-scr .splash{animation-delay:.55s}
-body.hub .title-scr .hsearch,body.hub .title-scr .tbtns>*{animation:menuIn .42s var(--ease-out) both}
-body.hub .title-scr .hsearch{animation-delay:.28s}
-body.hub .title-scr .tbtns>:nth-child(1){animation-delay:.34s}
-body.hub .title-scr .tbtns>:nth-child(2){animation-delay:.39s}
-body.hub .title-scr .tbtns>:nth-child(3){animation-delay:.42s}
-body.hub .title-scr .tbtns>:nth-child(4){animation-delay:.45s}
-body.hub .title-scr .tbtns>:nth-child(5){animation-delay:.48s}
-@keyframes logoIn{from{opacity:0;transform:translateY(-18px) scale(.94)}}
-@keyframes menuIn{from{opacity:0;transform:translateY(8px)}}
-.title-scr .mcb{transition:background-color .1s,transform .12s var(--ease-out)}
-.title-scr .tbtns .mcb:hover{transform:translateY(-1px)}
 
 /* Equipment: tiles deal in, row by row, when the Act or playstyle changes */
 .gtl-list.deal .gtiles>a,.gtiles.gsr.deal>a{animation:dealIn .34s var(--ease-pop) both;animation-delay:calc(var(--n,0) * 14ms)}
@@ -883,9 +848,9 @@ body.hub .title-scr .tbtns>:nth-child(5){animation-delay:.48s}
 #qs kbd{display:inline-block;min-width:18px;margin-right:var(--s1);padding:0 var(--s1);font:600 11px/17px var(--body);text-align:center;color:#ddd;background:#2a2533;box-shadow:inset 0 -2px 0 #000,0 0 0 1px #000}
 
 @media (prefers-reduced-motion:reduce){
- body.hub .title-scr .wm,body.hub .title-scr .hsearch,body.hub .title-scr .tbtns>*,.gtl-list.deal .gtiles>a,.gtiles.gsr.deal>a,#qs.in,.boot-bar i{animation:none!important}
+ .gtl-list.deal .gtiles>a,.gtiles.gsr.deal>a,#qs.in,.boot-bar i{animation:none!important}
  ::view-transition-old(root),::view-transition-new(root){animation:none!important}
- .top,.gacts a,.title-scr .mcb{transition:none}
+ .top,.gacts a{transition:none}
 }
 
 /* ================= v25: guideline pass (Web Interface Guidelines) and fixes ================= */
@@ -941,36 +906,8 @@ html[data-vt=prev]::view-transition-new(root){animation:.22s ease-out .1s both v
 .bsb .btog.on{filter:none;box-shadow:inset 0 0 0 2px #80c040}
 .bsb .btog img{width:32px;height:32px;image-rendering:pixelated}
 
-/* ================= v26: The Path as an interactive map (home page) =================
-   Advancement frames on an XP bar; the panel below holds the selected Act. */
-.pmap .pmh{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s5)}
-.pmap .pmh .gs{max-width:68ch}
-.prun{margin:0 0 var(--s4);font:600 13px var(--body);color:var(--xp);white-space:nowrap;font-variant-numeric:tabular-nums}
-.ptrack{position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:var(--s1);margin:var(--s2) 0 0;padding:var(--s4) var(--s2) var(--s4);
- background:rgba(0,0,0,.35);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
-.pxp{position:absolute;left:calc(100% / var(--n) / 2 + 8px);right:calc(100% / var(--n) / 2 + 8px);top:41px;height:8px;background:#000;box-shadow:0 0 0 2px #2a2733}
-.pxp i{position:absolute;inset:0;background:linear-gradient(#b7ff7a,var(--xp) 45%,#4c9b12);transform-origin:left;transform:scaleX(0);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
-.pxp::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 calc(100% / 18 - 2px),rgba(0,0,0,.5) calc(100% / 18 - 2px) calc(100% / 18))}
-.pn{position:relative;z-index:1;display:grid;justify-items:center;gap:var(--s2);padding:0;background:none;border:0;cursor:pointer;color:var(--gui-mute);font:600 13px var(--body)}
-.pn .pfr{display:grid;place-items:center;width:52px;height:52px;background:#3b3846;
- box-shadow:0 0 0 2px #000,inset 2px 2px 0 #6b6680,inset -2px -2px 0 #1a1820;transition:transform .15s cubic-bezier(.2,1.3,.4,1),background-color .2s,box-shadow .2s}
-.pn .pfr .emb{transform:scale(.9)}
-.pn b{font:600 13px/1.1 var(--body);white-space:nowrap}
-.pn.ch .pfr{clip-path:polygon(50% 0,62% 14%,82% 8%,86% 30%,100% 50%,86% 70%,82% 92%,62% 86%,50% 100%,38% 86%,18% 92%,14% 70%,0 50%,14% 30%,18% 8%,38% 14%);width:60px;height:60px;margin:-4px 0}
-/* reached Acts get the obtained-advancement gold frame, the Act you are on pulses once */
-.pn.done .pfr,.pn.here .pfr{background:#c9a227;box-shadow:0 0 0 2px #000,inset 2px 2px 0 #ffe27a,inset -2px -2px 0 #6e5410}
-.pn.done b{color:#e9d27c}
-.pn.here b{color:var(--xp)}
-.pn.here .pfr{animation:hereIn .6s cubic-bezier(.2,1.3,.4,1)}
-.pn.ahead .pfr{filter:saturate(.35) brightness(.7)}
-.pn.ahead b{color:#77738a}
-.pn:hover .pfr{transform:translateY(-3px)}
-.pn[aria-selected=true] .pfr{transform:translateY(-3px) scale(1.08);box-shadow:0 0 0 2px #fff,0 0 0 4px #000,0 8px 18px rgba(0,0,0,.5),inset 2px 2px 0 rgba(255,255,255,.35),inset -2px -2px 0 rgba(0,0,0,.4)}
-.pn[aria-selected=true] b{color:#fff}
-.pn[aria-selected=true]::after{content:"";position:absolute;bottom:-19px;left:50%;width:14px;height:14px;background:var(--gui);transform:translateX(-50%) rotate(45deg);box-shadow:-2px -2px 0 #000}
-/* the ring goes on the button: .pfr is clipped to a hexagon, which clips its own outline away */
-.pn:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
-@keyframes hereIn{40%{transform:scale(1.18)}}
+/* ================= v26: The Path's Act panel (home page) =================
+   The panel under the hero holds the selected Act; the steps themselves are in "The climb" at the end of this file. */
 
 .ppanel{position:relative;margin:var(--s4) 0 0;padding:var(--s5) var(--s5) var(--s5);border-radius:2px;
  background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 14%,var(--gui2)),var(--gui2) 55%);box-shadow:0 0 0 2px #000,inset 4px 0 0 var(--tc)}
@@ -1000,12 +937,9 @@ html[data-pvt=next]::view-transition-old(ppanel){animation:.14s ease-in both vtF
 html[data-pvt=next]::view-transition-new(ppanel){animation:.2s ease-out .08s both vtFade,.3s ease-in-out both vtFromR}
 html[data-pvt=prev]::view-transition-old(ppanel){animation:.14s ease-in both vtFade reverse,.3s ease-in-out both vtToR}
 html[data-pvt=prev]::view-transition-new(ppanel){animation:.2s ease-out .08s both vtFade,.3s ease-in-out both vtFromL}
-@media (max-width:1100px){.ppg{grid-template-columns:1fr}.pn b{font-size:11px}.pn .pfr{width:40px;height:40px}.pn.ch .pfr{width:46px;height:46px}.pxp{top:35px}}
-@media (max-width:760px){.ptrack{display:flex;overflow-x:auto;gap:var(--s3);scrollbar-width:none}.pn{flex:none;width:56px}.pxp{display:none}.pmap .pmh{display:block}}
-@media (prefers-reduced-motion:reduce){.pxp i,.pn .pfr{transition:none}.pn.here .pfr{animation:none}}
+@media (max-width:1100px){.ppg{grid-template-columns:1fr}}
 /* the pixel face draws 5 like 8 and 9 like 3 (see v13), so the map's numbers use the body face */
 .pstat dd{font:700 22px/1.2 var(--body)}
-.pn[aria-selected=true] .pfr{filter:none}
 .pbtn{display:grid;grid-template-columns:1fr 1fr}
 .pbtn .mcb{white-space:normal;text-align:center;min-height:38px}
 .pbtn .phere{grid-column:1/-1}
@@ -1022,25 +956,6 @@ html[data-pvt=prev]::view-transition-new(ppanel){animation:.2s ease-out .08s bot
  --qb-hex:polygon(25% 4%,75% 4%,100% 50%,75% 96%,25% 96%,0 50%)}
 
 /* The Path map: quest line instead of XP bar */
-.pxp{height:4px;top:44px;background:var(--qb-todo);box-shadow:0 0 0 2px #000}
-.pxp::after{display:none}
-.pxp i{background:linear-gradient(#fff,#cfcfcf)}
-.pn .pfr{--qo:#2a2833;--qf:color-mix(in srgb,var(--tc) 22%,#2e2b38);position:relative;width:56px;height:56px;background:var(--qo);
- box-shadow:none;clip-path:var(--qb-hex);filter:drop-shadow(0 4px 0 rgba(0,0,0,.45))}
-.pn .pfr::before{content:"";position:absolute;inset:3px;background:linear-gradient(rgba(255,255,255,.14),transparent 45%,rgba(0,0,0,.25)),var(--qf);clip-path:inherit}
-.pn .pfr .emb{position:relative;z-index:1}
-.pn:first-child .pfr{clip-path:circle(50%)}
-.pn.done .pfr,.pn.here .pfr{--qo:#fff;background:var(--qo);box-shadow:none}
-.pn.here .pfr{--qo:var(--qb-now)}
-.pn.done::before{content:"✓";position:absolute;z-index:2;top:-4px;right:calc(50% - 34px);width:18px;height:18px;display:grid;place-items:center;font:700 12px/1 var(--body);color:#fff;
- background:var(--qb-done);box-shadow:0 0 0 2px #000,inset 1px 1px 0 #d4ff6a,inset -1px -2px 0 var(--qb-done2)}
-.pn.done b{color:#fff}
-.pn.here b{color:#9db8ff}
-.pn.ahead .pfr{filter:drop-shadow(0 4px 0 rgba(0,0,0,.45))}
-.pn.ahead .pfr .emb{opacity:.5;filter:grayscale(.6)}
-.pn.ahead b{color:#8a8698}
-.pn[aria-selected=true] .pfr{box-shadow:none;filter:drop-shadow(0 4px 0 rgba(0,0,0,.45)) drop-shadow(0 0 10px color-mix(in srgb,var(--tc) 75%,transparent))}
-.pn[aria-selected=true] .pfr .emb{opacity:1;filter:none}
 /* the panel is the quest chapter: tinted by its Act */
 .ppanel{background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 18%,var(--gui2)),var(--gui2) 60%)}
 .ppanel .pph h3,.pph .ptitle{filter:drop-shadow(2px 2px 0 rgba(0,0,0,.5))}
@@ -1086,9 +1001,6 @@ body.qbook .bdrop:not(.bag) .slot{box-shadow:inset 3px 3px 0 var(--slot-lo),inse
    No floating emblems, no hover lift, no bounce or growing line; selection and state show by colour and outline only. */
 body.qbook .bcardl .emb img,body.qbook .bcardl .emb .ph,.pmap .emb img,.pmap .emb .ph{animation:none}
 body.qbook .bcardl,body.qbook .bcardl:hover{transform:none;transition:background-color .12s}
-.ptrack .pn .pfr,.ptrack .pn:hover .pfr,.ptrack .pn[aria-selected=true] .pfr{transform:none;transition:none;animation:none}
-.ptrack .pn[aria-selected=true] b{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
-.pxp i{transition:none}
 
 /* Visual pass (taste-skill / ui-ux-pro-max review, user-approved) */
 /* E. no label the reader needs under 12px */
@@ -1260,7 +1172,6 @@ input[type=range]::-moz-range-thumb{width:28px;height:26px;border:0;border-radiu
 .lk,.ki{display:inline-block;width:1em;height:1em;vertical-align:-.15em;margin-right:.35em;background:var(--ki,var(--rt-lg_lock)) center/contain no-repeat;image-rendering:pixelated}
 .lk{width:.72em;height:1em}
 /* The Path map: Acts you have beaten carry the pack's check mark */
-.pn.done::before{content:""!important;width:18px!important;height:16px!important;background:var(--rt-lg_check) center/18px 16px no-repeat!important;box-shadow:none!important;border:0!important;image-rendering:pixelated}
 .ip:is(.r4,.r5,.r6) .ip-badge{z-index:4;top:auto;bottom:6px;left:50%;transform:translateX(-50%)}
 
 /* ---------- rooms, richer: lights of their own on chains or walls, a painting beside the frames, a drift of particles ----------
@@ -1476,7 +1387,7 @@ body.qbg{background:linear-gradient(rgba(13,13,13,.5),rgba(13,13,13,.5)),var(--r
 
 /* integer scales elsewhere (16 px art at x1, x2 or x3) */
 .emb{--s:48px}.emb.sm,.h3d.sm{--s:32px}.emb.xs,.h3d.xs{--s:16px}.emb.lg,.h3d.lg{--s:48px}
-.pn .pfr .emb,.ip-ih .ip-slot .emb{transform:none}
+.ip-ih .ip-slot .emb{transform:none}
 .slot.sm img,.sgrid .slot.sm img{width:32px;height:32px}
 .slot.big img{width:48px;height:48px}
 .room .rfr img,.room .rfr .aimg,.room .rfr .ph{width:round(nearest,calc(var(--b) * .66),16px);height:round(nearest,calc(var(--b) * .66),16px)}
@@ -1939,9 +1850,6 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 *:not(#_) .ph.gph{opacity:1;filter:none;position:relative;display:inline-grid;place-items:center}
 *:not(#_) .ph.gph::after{content:"3D";position:absolute;right:1px;bottom:1px;font:400 12px/1 var(--disp);color:#ffd36a;text-shadow:1px 1px 0 #000}
 /* the open Act's tab: a bar in the Act's colour under its label (no link-style underline, no arrow cutting into the track's edge) */
-*:not(#_) .ptrack .pn[aria-selected=true] b{text-decoration:none;color:#fff;padding-bottom:var(--s1);box-shadow:0 3px 0 var(--tc,#fff)}
-*:not(#_) .ptrack .pn[aria-selected=true]::after{content:none}
-*:not(#_) .ptrack .pn b{font:600 13px/1.1 var(--body)}
 /* relic ability head: name over its level, the − + pair always side by side on the right (it used to wrap the + onto its own line in the planner's side column) */
 *:not(#_) .rlah{display:grid;grid-template-columns:minmax(0,1fr) auto auto;column-gap:var(--s2);row-gap:2px;align-items:center}
 *:not(#_) .rlah>b{grid-column:1}
@@ -2000,8 +1908,8 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 #pmap .envfx{display:none}
 /* Path curios: idle motion off, hover only */
 .tier .t:not(:hover)>img,.tier .t:not(:hover) .aimg,.tier .t:not(:hover) .aimg img,.tier .t:not(:hover) .glint::before,.tier .t:not(:hover) .star,.tier .t:not(:hover) .star::before,.tier .t:not(:hover) .star::after{animation-name:none!important}
-/* Path title drift and floating icons off */
-.title-scr .pano,.ip-icon,.emb img,.emb .ph{animation:none}
+/* floating icons off */
+.ip-icon,.emb img,.emb .ph{animation:none}
 .tier.seen .t>img,.tier.seen .t .aimg,.tier.seen .t.r4>img,.tier.seen .t.r5>img,.tier.seen .t.r6>img,.tier .t.vis>img,.tier .t.vis .aimg,.tier .t .aimg.anim img.strip{animation:none!important}
 .tier .t:hover .aimg.anim img.strip{animation:stripY var(--ms) steps(var(--n)) infinite!important}
 .pmap .envfx{display:none}
@@ -2016,3 +1924,109 @@ details.fadv[open]>summary{margin-bottom:var(--s2)}
 html[lang=vi]{--disp:"VT323 vi",Monocraft,ui-monospace,monospace;--title:"VT323 vi",Monocraft,monospace}
 /* Russian titles in Monocraft throughout: Jersey 15 has no Cyrillic, and a title with its Latin from one face and its Cyrillic from another ("АКТ II") looked uneven */
 html[lang=ru]{--title:Monocraft,monospace}
+
+/* ================= The climb: the home page opens on The Path at dusk =================
+   The hero is The Path itself: a sunset sky and a staircase of blocks, one step per Act, with the Keeper to beat there
+   standing on it (app.js pathMap). A step is a tab and its panel opens under the sky; the beacon marks the reader's own
+   Act ("I'm here"). While the page is at the top the header takes the sky's top colour, so header and sky read as one.
+   One entrance on load (the Keepers step up in order); after that, motion only answers the pointer. */
+body.hub .shell{max-width:none;padding:0 0 var(--s8)}
+body.hub #main{--gut:var(--s6);display:grid;grid-template-columns:minmax(var(--gut),1fr) minmax(0,1256px) minmax(var(--gut),1fr);align-content:start}
+body.hub #main>*,body.hub #pmap>*{grid-column:2;min-width:0}
+body.hub #pmap{display:contents}
+body.hub #pmap>.climb{grid-column:1/-1}
+body.hub:not(.scrolled) .top{background:#141038;box-shadow:none}
+body.hub:not(.scrolled) .top::after{opacity:0}
+
+.climb{--base:118px;--step:18px;--fig:176px;--sun:#ffd35e;--dusk:rgba(30,14,70,.7);position:relative;isolation:isolate;overflow:hidden;
+ display:grid;grid-template-columns:minmax(0,440px) minmax(0,420px) minmax(0,1fr);grid-template-rows:auto auto auto auto;align-content:start;align-items:start;gap:var(--s3) var(--s5);
+ height:720px;margin:0 0 var(--s5);padding:var(--s4) var(--s6) 0;color:#fff8ec;
+ background:linear-gradient(180deg,#141038 0%,#2e1d62 24%,#6d2f7c 46%,#c8506d 64%,#f58a54 80%,#ffc66e 93%,#ffe3a0 100%)}
+.climb>:not(.dsky):not(.ptrack){position:relative;z-index:2}
+.climb .dsky{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.climb .dsky i{position:absolute}
+.climb .dstars{left:0;top:0;width:2px;height:2px}
+.climb .dsun{left:17.5%;bottom:208px;width:120px;height:120px;background:#fff6c8;box-shadow:0 0 0 14px rgba(255,214,120,.55),0 0 0 30px rgba(255,170,90,.22),0 0 120px 60px rgba(255,170,90,.45)}
+.climb .dr1,.climb .dr2{inset:auto 0 0 0}
+.climb .dr1{height:330px;background:#5b2a72;opacity:.75}
+.climb .dr2{height:300px;background:#3a1b55}
+.climb .dcl{width:168px;height:28px;background:rgba(255,206,178,.4);transform-origin:0 0}
+.climb .dcl::before,.climb .dcl::after{content:"";position:absolute;background:inherit}
+.climb .dcl::before{left:42px;top:-28px;width:84px;height:28px}
+.climb .dcl::after{left:-28px;top:28px;width:224px;height:28px}
+.climb .dsky::after{content:"";position:absolute;inset:auto 0 0 0;height:420px;background:radial-gradient(ellipse 46% 80% at 21% 78%,rgba(255,196,110,.55),transparent 70%),linear-gradient(transparent,rgba(255,150,90,.22))}
+
+/* the title: wordmark, the pack's line, search, the reader's own buttons, and what the staircase is */
+.climb .lg{grid-area:1/1/2/3;margin:0}
+.climb .wm{display:block;width:auto;height:48px;filter:drop-shadow(0 4px 0 var(--dusk))}
+.climb .splash{grid-area:2/1/3/3;display:block;margin:0;font:400 clamp(40px,6.1vw,88px)/.84 "Jersey 15",var(--title);color:#fff8ec;text-shadow:0 5px 0 var(--dusk);white-space:nowrap}
+.climb .hsearch{grid-area:3/1;display:block;max-width:none;margin:var(--s2) 0 0}
+#pmap #hq{display:block;width:100%;max-width:none;height:52px;border-radius:0;padding:0 var(--s4)!important;border:0!important;border-image:none!important;background:rgba(10,6,26,.78)!important;color:#fff8ec;font:500 16px var(--body);
+ box-shadow:0 0 0 2px #fff8ec,0 6px 0 2px rgba(20,10,50,.5)!important;filter:none}
+#pmap #hq::placeholder{color:#cfc6e6}
+#pmap #hq:focus{box-shadow:0 0 0 2px var(--sun),0 6px 0 2px rgba(20,10,50,.5)!important}
+.climb .tbtns{grid-area:4/1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2);margin-top:var(--s1)}
+.climb .tbtns .mcb{min-width:0;min-height:40px;padding:var(--s1) var(--s2);font-size:14px;white-space:normal;line-height:1.15;text-align:center}
+.climb .pcap{grid-area:3/2/5/3;margin-top:var(--s2);max-width:46ch}
+.climb .pcap .gt{margin:0 0 var(--s1);font-size:26px;line-height:1;color:#fff8ec;text-shadow:0 3px 0 var(--dusk)}
+.climb .pcap .gs{margin:0;font-size:15px;line-height:1.45;color:#fff8ec;text-shadow:0 2px 0 var(--dusk)}
+.climb .prun{margin:var(--s1) 0 0;font:600 13px var(--body);color:var(--sun);text-shadow:0 2px 0 var(--dusk);font-variant-numeric:tabular-nums}
+.climb .tcs{grid-area:1/3/3/4;justify-self:end;text-align:right}
+.climb .tcorner{margin:0;font:500 13.5px/1.45 var(--body);color:#f1e9ff;text-shadow:0 2px 0 var(--dusk)}
+
+/* the staircase: a tablist laid over the whole sky, so a beacon can rise from a step to the top */
+#pmap .ptrack{position:absolute;inset:0;z-index:1;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));align-items:end;pointer-events:none}
+#pmap .pxp{display:none}
+#pmap .pn{position:relative;display:block;min-width:0;height:calc(var(--base) + var(--i)*var(--step));padding:0;border:0;cursor:pointer;pointer-events:auto;color:#fff;font:inherit;
+ background:linear-gradient(rgba(20,10,40,.18),rgba(20,10,40,.62)),var(--tex) 0 0/56px 56px;image-rendering:pixelated;
+ box-shadow:inset 3px 0 0 rgba(255,255,255,.1),inset 0 4px 0 rgba(255,255,255,.22),inset -3px 0 0 rgba(0,0,0,.28)}
+#pmap #pn-0::before{content:"";position:absolute;inset:0 0 auto 0;height:14px;background:linear-gradient(#7fd04a,#4f9a2e);box-shadow:0 4px 0 rgba(0,0,0,.25)}
+#pmap .pn b{position:absolute;inset:22px var(--s1) auto;text-align:center;font:400 34px/1 "Jersey 15",var(--title);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.7);white-space:nowrap}
+#pmap .pn::after{content:attr(data-k);position:absolute;inset:58px var(--s1) auto;text-align:center;font:600 12.5px/1.2 var(--body);color:#f1e9ff;text-shadow:0 2px 0 rgba(0,0,0,.7);overflow-wrap:anywhere}
+#pmap .pfr{--kc:color-mix(in srgb,var(--tc) 62%,#fff);position:absolute;left:50%;bottom:100%;display:flex;align-items:flex-end;height:var(--fig);translate:-50% 14px;isolation:isolate;transition:translate .14s var(--ease-out);
+ animation:stepUp .5s var(--ease-out) both;animation-delay:calc(var(--i)*45ms)}
+#pmap .pfr .pk{display:block;width:auto;height:100%;max-width:none;image-rendering:auto;filter:drop-shadow(8px 0 0 rgba(30,10,50,.25))}
+#pmap .pfr .emb{--s:96px;margin-bottom:var(--s5)}
+@keyframes stepUp{from{opacity:0;translate:-50% 48px}}
+#pmap .pn:hover .pfr{translate:-50% 6px}
+#pmap .pn[aria-selected=true]{background:linear-gradient(rgba(255,236,190,.2),rgba(20,10,40,.5)),var(--tex) 0 0/56px 56px;box-shadow:inset 0 0 0 3px var(--sun),inset 0 4px 0 3px rgba(255,255,255,.22)}
+#pmap .pn[aria-selected=true] b{color:var(--sun)}
+#pmap .pn[aria-selected=true] .pk{filter:drop-shadow(0 0 14px var(--kc))}
+#pmap .pn.done b::after{content:" ✓";font:700 16px var(--body);color:#9dff7a}
+#pmap .pn.here .pfr{height:calc(var(--fig)*1.2);translate:-50% 17px}
+#pmap .pn.here .pfr::before{content:"";position:absolute;left:50%;bottom:var(--s5);z-index:-1;width:40px;height:900px;translate:-50% 0;background:linear-gradient(90deg,transparent,var(--kc) 28%,#fff 50%,var(--kc) 72%,transparent);opacity:.5;filter:drop-shadow(0 0 14px var(--kc))}
+#pmap .pn.here .pfr::after{content:attr(data-h);position:absolute;left:50%;bottom:calc(100% + var(--s1));translate:-50% 0;white-space:nowrap;padding:var(--s2) var(--s3);font:400 20px/1 "Jersey 15",var(--title);color:#1b1206;background:var(--sun);box-shadow:0 0 0 2px #1b1206,0 5px 0 2px rgba(20,10,50,.45)}
+#pmap .pn:focus-visible{outline:3px solid var(--ring);outline-offset:-3px}
+
+/* an Act's chest: the vanilla container, light, with a slot per curio tinted by its power */
+.ppanel .chest{margin:var(--s5) 0 0;padding:var(--s3) var(--s4) var(--s4);background:#c6c6c6;box-shadow:0 0 0 2px #0c0a10,inset 3px 3px 0 #fff,inset -3px -3px 0 #555}
+.chest .cht{margin:0 0 var(--s2);font:400 26px/1 var(--title);color:#3b3b3b;text-transform:uppercase}
+.chest .srow{display:grid;grid-template-columns:repeat(18,minmax(0,1fr));margin:0}
+.chest .sslot{width:auto;height:auto;aspect-ratio:1;border:0;border-image:none;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--rc) 78%,transparent)),#8b8b8b;box-shadow:inset 3px 3px 0 #373737,inset -3px -3px 0 #fff}
+.chest .sslot:hover,.chest .sslot:focus-visible{outline:3px solid #fff;outline-offset:-3px;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--rc) 78%,transparent)),#a6a6a6}
+*:not(#_) .chest .sslot>img,*:not(#_) .chest .sslot .aimg{width:48px!important;height:48px!important;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.28))}
+
+/* laptops: the same scene, a little lower */
+@media (max-width:1400px){.climb{--fig:156px;height:680px}}
+/* tablets and phones: the title stacks, and the staircase becomes a strip that scrolls sideways (the open step is kept in view) */
+@media (max-width:1100px){
+ .climb{--base:84px;--step:12px;--fig:132px;display:block;height:auto;padding:var(--s4) var(--s4) 0}
+ .climb .wm{height:40px}
+ .climb .dcl{display:none}
+ .climb .splash{margin-top:var(--s2);white-space:normal;font-size:clamp(40px,11vw,72px)}
+ .climb .hsearch,.climb .tbtns,.climb .pcap{margin-top:var(--s3)}
+ .climb .tcs{display:flex;justify-content:space-between;gap:var(--s3);margin-top:var(--s3);text-align:left}
+ .climb .tcorner.r{text-align:right}
+ #pmap .ptrack{position:relative;inset:auto;display:flex;align-items:flex-end;height:calc(var(--base) + 12*var(--step) + var(--fig)*1.2 + var(--s8));margin:var(--s3) calc(-1*var(--s4)) 0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;pointer-events:auto}
+ #pmap .ptrack::-webkit-scrollbar{display:none}
+ #pmap .pn{flex:none;width:96px}
+ #pmap .pn b{font-size:28px;inset-block-start:var(--s4)}
+ #pmap .pn::after{inset-block-start:var(--s7)}
+ #pmap .pn.here .pfr::before{height:480px}
+ .chest .srow{grid-template-columns:repeat(12,minmax(0,1fr))}
+}
+@media (max-width:760px){
+ body.hub #main{--gut:var(--s3)}
+ .chest .srow{grid-template-columns:repeat(6,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:reduce){#pmap .pfr{animation:none;transition:none}}

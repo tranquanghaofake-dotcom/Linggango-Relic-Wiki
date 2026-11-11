@@ -55,6 +55,7 @@ How the pieces fit: `build/README.md`; why they are shaped that way: `build/ARCH
 ## Design
 - The look is Minecraft's own GUI: bevelled containers, stone buttons, inset item slots, the vanilla tooltip, advancement frames, the boss bar, and the motion that goes with them. It is deliberate; keep it.
 - Do not flatten or strip it. A pass that removed the bevels, shadows and animations was reverted at the user's request (it read as plain, not clean). Any change to the overall look needs the user's approval first.
+- The home page opens on The Path at dusk ("The climb": a sunset sky and a staircase of blocks, one step per Act, its Keeper on top), the direction the user chose on 2026-11-11; the other pages follow it phase by phase, each shown to the user first (`docs/plans/2026-11-11-the-climb.md`).
 - Do not build what the reader cannot see yet: The Path opens one Act (the reader's "I'm here" Act, else Act 0–I) and builds a collapsed Act's tiles when it opens.
 - Desktop and laptop first; check phones (375 px) for anything that can overflow.
 
