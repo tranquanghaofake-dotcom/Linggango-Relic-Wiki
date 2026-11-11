@@ -132,3 +132,12 @@
     if (n > 3) bad.push('i18n ' + c + ': ' + n + ' relic stat names and formats in all have no translation'); }
   const t0 = RL[Object.keys(RL)[0]].ab[0].st[0]; useLang('ru'); const sr = rlStat(t0, 0, -1); useLang('en'); if (/seconds/.test(sr) || /\d\.\d/.test(sr)) bad.push('i18n ru: rlStat does not translate the format or the decimal sign: ' + sr);
   if (!/seconds/.test(rlStat(t0, 0, -1))) bad.push('i18n: rlStat does not say the English format in English: ' + rlStat(t0, 0, -1)); }
+// Item names (Phase 3, C3): the names of curios and gear are said in every language (a name that is a proper noun, a coined metal or an acronym stays English on purpose, so a few per cent are left),
+// and every translated name keeps its English name beside it: a small line under the page title (enAlt) and in the tooltip (enTip). English shows neither; a name left English shows neither.
+{ const all = [...new Set([...D.map(d => d.n), ...GE.map(g => g.n)])];
+  for (const c of ['vi', 'ru', 'pt', 'es']) { useLang(c); const k = all.filter(n => TD(n) !== n).length;
+    if (k < all.length * 0.9) bad.push('i18n ' + c + ': only ' + k + ' of ' + all.length + ' item names are translated');
+    const t = all.find(n => TD(n) !== n), u = all.find(n => TD(n) === n);
+    if (!t || !new RegExp('^<p class="ip-alt" lang="en">').test(enAlt(t)) || !enAlt(t).includes(esc(t)) || !enTip(t).includes('class="tnen"')) bad.push('i18n ' + c + ': the English alias line is missing for a translated name');
+    if (u && (enAlt(u) !== '' || enTip(u) !== '')) bad.push('i18n ' + c + ': the English alias line shows for a name that is not translated: ' + u); }
+  useLang('en'); if (all.some(n => enAlt(n) !== '' || enTip(n) !== '')) bad.push('i18n: the English alias line shows in English'); }

@@ -45,7 +45,7 @@ Nguyên tắc: **đo trước, sửa sau; duyệt có mẫu**, không đọc l�
 - C0. Bảng quy tắc "danh từ riêng" (vào glossary `names`): tên mod/pack, tên boss, tên NPC/nhân vật, tên Act riêng, tên vật phẩm **duy nhất có tên riêng**. Còn lại là danh từ chung và được dịch. Cần bạn chốt phần tên vật phẩm (mục 4).
 - C1. 1.014 dòng "Tên: giá trị": từ điển nhãn (791) + giá trị (≈60 mẫu: yes/no, "(game-rule default)", "N seconds", "(at relic level 0; grows as the relic levels up)"), ghép bằng một hàm `cfgT` như `gAL`. Cơ học, xong trong một phiên.
 - C2. 95 tên ability relic + ≈98 tiêu đề tooltip.
-- C3. Tên vật phẩm/gear/địa điểm chưa có bản chính thức: còn lại 1.723 (ru), 2.630 (es), 2.735 (pt), 3.118 (vi) tên cần dịch (3.454 trừ số đã có bản chính thức ở mục 1), dịch theo glossary (từ như Charm, Ring, Belt đã có), bản chính thức luôn thắng.
+- C3 (xong 2026-11-11, xem NOTES). Tên vật phẩm/gear/địa điểm chưa có bản chính thức: còn lại 1.723 (ru), 2.630 (es), 2.735 (pt), 3.118 (vi) tên cần dịch (3.454 trừ số đã có bản chính thức ở mục 1), dịch theo glossary (từ như Charm, Ring, Belt đã có), bản chính thức luôn thắng.
 - C4. vi: dùng `vi_vn` chính thức của game khi có (hiện có 327 tên), dịch phần còn lại.
 - **Tiêu chí xong**: quét `leftover.js` (đưa vào `tools/`) trên mọi loại trang cho từng ngôn ngữ chỉ còn tên trong `glossary.names`; tìm kiếm bằng tên Anh và tên dịch đều ra cùng một trang; tiếng Anh giống hệt.
 

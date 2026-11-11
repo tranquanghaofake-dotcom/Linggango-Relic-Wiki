@@ -7,6 +7,7 @@
 list.json   a JSON array of English strings; batch.txt has one line per string: `index|vi|ru|pt|es` (index = position in list.json; a line break inside a text is written \\n).
 --pairs     instead of a list: batch.json = {english: [vi, ru, pt, es]} (plural sentences: key "<one>\\u0001<other>" and value {lang: {form: text}}).
 
+A text written `=` is the English itself (a proper noun that stays). For `--domain names` a language that already has the game's own name for that English (official/<lang>.json) is skipped: the game's name wins.
 Every text is checked against its English (the numbers must be the same digits, {placeholders} equal, tags equal); the ones that differ are listed and still written unless --strict.
 --dry only reports. A new entry gets state --state (default llm = machine translation, awaiting a human) and goes in the domain file tm/<lang>/<domain>.json.
 """
@@ -17,6 +18,16 @@ import tmlib
 LANGS = ['vi', 'ru', 'pt', 'es']
 num = lambda t: sorted(re.findall(r'\d+', re.sub(r'(?<=\d)[.,  ](?=\d{3}\b)', '', re.sub(r'(?<=\d)[.,](?=\d)', '', t))))
 ph = lambda x: sorted(re.findall(r'\{\w+\}', x)); tg = lambda x: sorted(set(re.findall(r'</?[A-Za-z]\w*|href="[^"]*"', x)))
+
+def official_names(lang):
+    """The English names that the game's own translation covers (official/<lang>.json names are by id; the English of an id is read from the built data)."""
+    import json as J
+    en_of = {}
+    for f in ('data.js', 'gear_data.js'):
+        t = open(os.path.join(tmlib.SRC, f), encoding='utf-8').read()
+        for m in re.finditer(r'\{"id":"([^"]+)","n":"((?:[^"\\]|\\.)*)"', t): en_of[m.group(1)] = J.loads('"' + m.group(2) + '"')
+    o = J.load(open(os.path.join(tmlib.HERE, 'official', lang + '.json'), encoding='utf-8'))['names']
+    return {en_of[i] for i in o if i in en_of}
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--domain', required=True); ap.add_argument('--dry', action='store_true'); ap.add_argument('--strict', action='store_true')
@@ -32,6 +43,7 @@ def main():
             if len(parts) != 5 or not parts[0].isdigit() or int(parts[0]) >= len(lst): bad.append((ln, 'format', line[:80])); continue
             got[lst[int(parts[0])]] = [p.replace('\\n', '\n') for p in parts[1:]]
     for en, forms in got.items():
+        forms[:] = [en if f == '=' else f for f in forms]
         for lang, t in zip(LANGS, forms):
             for f in ([t] if isinstance(t, str) else list(t.values())):
                 if not f.strip(): bad.append((en[:50], 'empty ' + lang, '')); continue
@@ -43,11 +55,12 @@ def main():
     for b in bad[:60]: print('  ', b)
     if a.dry or (a.strict and bad): return 1 if bad and a.strict else 0
     for k, lang in enumerate(LANGS):
-        tm = tmlib.load_tm(lang); new = 0
+        tm = tmlib.load_tm(lang); new = 0; skip = official_names(lang) if a.domain == 'names' else set(); skipped = 0
         for en, forms in got.items():
+            if en in skip: skipped += 1; continue
             h = tmlib.hsh(en); new += h not in tm
             old = tm.get(h, {}); tm[h] = {"en": en, "t": forms[k], "s": a.state, "d": old.get("d", a.domain)}
-        tmlib.write_tm(lang, tm); print(lang, 'written', len(got), '(%d new)' % new)
+        tmlib.write_tm(lang, tm); print(lang, 'written', len(got) - skipped, '(%d new)' % new, '' if not skipped else '; %d left to the game\'s own name' % skipped)
     return 0
 
 if __name__ == '__main__': sys.exit(main())

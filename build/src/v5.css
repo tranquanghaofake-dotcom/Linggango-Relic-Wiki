@@ -741,6 +741,7 @@ details.raw ul{margin:var(--s1) 0;padding-left:var(--s4)}
 #tip.to .tnm{font:400 15px/1.25 "Silkscreen",var(--disp);text-shadow:2px 2px 0 rgba(0,0,0,.6);overflow-wrap:anywhere}
 #tip.to [data-rb]{background:linear-gradient(90deg,#FF5A5A,#FFB45A,#FFFF5A,#78FF78,#78FFFF,#7878FF,#FF64FF,#FF5A5A) 0 0/200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:prism 4s linear infinite}
 #tip.to .tsub{font-size:11.5px;color:#AAAAAA}
+#tip .tnen{font-size:11px;line-height:1.25;color:#8a8a8a;overflow-wrap:anywhere}
 #tip.to .tbd{display:grid;gap:var(--s2);padding:var(--s2) 2px var(--s3)}
 #tip.to .tbd p{margin:0}
 #tip.to .tfx{color:#E8E8E8}

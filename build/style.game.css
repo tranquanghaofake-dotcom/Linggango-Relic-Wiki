@@ -269,6 +269,7 @@ h1.h-em{display:flex;align-items:center;gap:var(--s4)}
 .ip-title{display:flex;align-items:center;gap:var(--s3);font:700 42px/1.1 var(--disp);color:var(--rc);text-shadow:3px 3px 0 color-mix(in srgb,var(--rc) 22%,#000);margin:var(--s1) 0 var(--s2)}
 .ip.r0 .ip-title{color:#fff;text-shadow:3px 3px 0 #3f3f3f}
 .mstar{color:var(--r6)}
+.ip-alt{margin:calc(var(--s1)*-1) 0 var(--s2);font:500 14px/1.3 var(--body);color:var(--mute);overflow-wrap:anywhere}
 .ip-lead{margin:0 0 var(--s3);font-size:18px;color:#ecebf0;max-width:62ch}
 .ip-meta{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0}
 .ip-meta>span{padding:var(--s1) var(--s3);background:rgba(16,0,16,.85);box-shadow:0 0 0 2px #000,inset 0 0 0 2px #28007f;font:500 13px var(--body);color:#ddd}

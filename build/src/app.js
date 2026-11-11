@@ -955,9 +955,10 @@ const crumb=(...p)=>`<div class="crumb"><a href="#">${T("Home")}</a> / ${p.join(
      nav      navbox html (navbox() / wikiNav())
    wireArticle() runs after the html is in the page (copy button, the table of contents following the scroll). */
 const PACKV="V6.6.6hf";
+const enAlt=n=>LANG!=="en"&&TD(n)!==n?`<p class="ip-alt" lang="en">${esc(n)}</p>`:"",enTip=n=>LANG!=="en"&&TD(n)!==n?`<div class="tnen" lang="en">${esc(n)}</div>`:"";
 function article(o){const secs=(o.secs||[]).filter(Boolean),here=location.hash||"#",b=o.box||{};
  return `<div class="ip art ${o.cls||"r0"}"${o.style?` style="${o.style}"`:""}${o.data||""}>
- <header class="ip-hero"><span class="motes" aria-hidden="true">${"<i></i>".repeat(9)}</span><div class="ip-htext">${o.crumb||""}<h1 class="ip-title">${o.pre||""}${o.title}</h1>${o.lead?`<p class="ip-lead">${o.lead}</p>`:""}${o.meta?`<p class="ip-meta">${o.meta}</p>`:""}${o.head||""}</div></header>
+ <header class="ip-hero"><span class="motes" aria-hidden="true">${"<i></i>".repeat(9)}</span><div class="ip-htext">${o.crumb||""}<h1 class="ip-title">${o.pre||""}${o.title}</h1>${o.alt||""}${o.lead?`<p class="ip-lead">${o.lead}</p>`:""}${o.meta?`<p class="ip-meta">${o.meta}</p>`:""}${o.head||""}</div></header>
  <div class="ip-body"><div class="ip-main">${secs.map(x=>`<section class="s ip-sec${x[3]?" "+x[3]:""}" id="s-${x[0]}"><h2>${x[1]}</h2>${x[2]}</section>`).join("")}${o.after||""}</div>
  <aside class="ip-side">${o.art||""}${b.rows||b.head?`<div class="ip-info">${b.head?`<div class="ip-ih">${b.head}</div>`:""}<dl>${(b.rows||[]).filter(Boolean).map(([t,v,tt])=>`<dt${tt?` title="${esc(tt)}"`:""}>${t}</dt><dd>${v}</dd>`).join("")}</dl>${b.foot||""}</div>`:""}
  ${secs.length>1?`<nav class="ip-toc" aria-label="${T("On this page")}"><b>${T("On this page")}</b><ol>${secs.map(x=>`<li><a href="${here}" data-go="s-${x[0]}">${x[1].replace(/<[^>]+>/g,"")}</a></li>`).join("")}</ol><a href="${here}" class="ip-top" data-top="1">${T("↑ Back to top")}</a></nav>`:""}</aside></div>
@@ -1419,7 +1420,7 @@ function page(d){
  const sib=s0&&near.length?`<section class="sib"><h2>${T("More {slot} curios",{slot:esc(T(s0))})} <a style="font-size:13px;font-weight:400" href="#slot/${enc(s0)}">${seeAll}</a></h2><div class="gridc">${near.map(gcard).join("")}</div><nav class="pnx">${pv?`<a href="#i${pv.ix}"><small>${T("← Previous in {slot}",{slot:esc(T(s0))})}</small>${esc(TD(pv.n))}</a>`:"<span></span>"}${nx?`<a href="#i${nx.ix}"><small>${T("Next in {slot} →",{slot:esc(T(s0))})}</small>${esc(TD(nx.n))}</a>`:""}</nav></section>`:"";
  el("main").innerHTML=article({cls:"r"+d.r,data:` data-mf="${F[0]}"`,style:`${tex(d.t)};--tc:${ACT[d.t][2]}`,
   crumb:`<div class="crumb ip-crumb"><a href="#">${T("Home")}</a> / <a href="#home">${T("Curios")}</a> / <a href="#act/${d.t}">${actL(d.t)}</a></div>`,
-  pre:isMust(d)?'<span class="mstar">★</span>':"",title:esc(TD(d.n)),lead:fmt(fxT(d)),
+  pre:isMust(d)?'<span class="mstar">★</span>':"",title:esc(TD(d.n)),alt:enAlt(d.n),lead:fmt(fxT(d)),
   meta:`<span class="ip-fam">${esc(d.m)}</span><span>${rLabel(d)}</span><span>${esc(slot)}</span><span>${loot?T("Loot"):T("Craft")}</span>${d.nw?`<span>${T("new in 6.6.6")}</span>`:""}`,
   secs,after:sib,art,
   box:{head:`<span class="ip-slot">${ic}</span><div><b>${esc(TD(d.n))}</b><span>${esc(d.m)}</span></div>`,
@@ -1623,7 +1624,7 @@ function showTipBase(n){const d=/^\d+$/.test(n.dataset.t)&&D[+n.dataset.t];if(!d
  tip.style.setProperty("--c1",P[0]);tip.style.setProperty("--c2",P[1]);tip.style.setProperty("--c3",P[2]);
  const stats=d.st.map((x,j)=>[d.tg[j],x]).filter(([t,x])=>t!=="relic"&&x.length<110&&!/^(When worn|Passive Effect|Hold Shift)/i.test(x)).slice(0,5);
  let c=TIPC.get(d.ix);if(!c){const w=document.createElement("div");w.innerHTML=`<div class="tbox"><div class="tfr"></div>
- <div class="thd"><span class="tslot">${slotImg(d)}</span><div class="tht"><div class="tnm" style="color:${nc}"${d.ig&&d.ig[1]==="rainbow"?' data-rb="1"':""}>${isMust(d)?ui("star"):""}${esc(TD(d.n))}</div><div class="tsub">${esc(d.sl.map(x=>T(x)).join(", "))} · ${d.g==="Loot"?T("Loot"):T("Craft")}</div></div></div>
+ <div class="thd"><span class="tslot">${slotImg(d)}</span><div class="tht"><div class="tnm" style="color:${nc}"${d.ig&&d.ig[1]==="rainbow"?' data-rb="1"':""}>${isMust(d)?ui("star"):""}${esc(TD(d.n))}</div>${enTip(d.n)}<div class="tsub">${esc(d.sl.map(x=>T(x)).join(", "))} · ${d.g==="Loot"?T("Loot"):T("Craft")}</div></div></div>
  <div class="tbd"><p class="tfx">${fmt(fxT(d))}</p>${RL[d.id]?rlTip(d):""}${evo().from[d.id]?`<p class="tevo">${T("⟲ Evolves from {name}",{name:esc(TD(BYID[evo().from[d.id]].n))})}</p>`:""}${(evo().to[d.id]||[]).map(t=>`<p class="tevo">${T("⟳ Evolves into {name}",{name:esc(TD(BYID[t].n))})}</p>`).join("")}${SK.i[d.id]?`<p class="tsk">${skTag(d.id)}</p>`:""}${stats.length?`<ul class="tst">${stats.map(([t,x])=>`<li>${fmt(stT(x))}</li>`).join("")}</ul>`:""}${d.gk?`<p class="tlock">${ui("lock")} ${T("Locked until {boss} falls",{boss:TD(GK[d.gk])})}</p>`:""}${d.rq?`<p class="tlock trq">${ui("lock")} ${img(RQRING[d.rq])} ${T("Requires the {ring}",{ring:rqName(d)})}</p>`:""}${isMust(d)?`<p class="tmust">${ui("star")} ${T("Must-Have: get it as soon as {act} opens.",{act:esc(actL(d.t))})}</p>`:""}
  ${d.gr?tipRecipe(d):""}${(x=>x.length?`<p class="tsrc">${fmt(x.map(srcT).join(" "))}</p>`:"")((d.gr?d.src.filter(x=>!RCV.test(x)):d.src).slice(0,2))}<p class="twhere">${esc(actL(d.t))}${d.a!==d.t?" · "+T("with luck from {act}",{act:esc(actL(d.a))}):""}</p></div>
  <div class="tft"><span class="tmod">${esc(d.m)}</span><span class="trt">${RN[d.r]}${d.pe?' <i class="kest" title="'+T("Power tier read from its text")+'">'+T("estimate")+'</i>':""}</span></div></div>`;c=w.firstElementChild;TIPC.set(d.ix,c)}tip.replaceChildren(c);
