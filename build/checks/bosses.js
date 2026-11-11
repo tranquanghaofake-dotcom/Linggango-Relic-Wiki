@@ -88,3 +88,12 @@ for (const [n, src] of Object.entries(PIMG.side)) { const i = new Image(); i.src
       if (!row || row[1] !== exp || nm === bossName(k)) bad.push(`#boss/${k}: side row ${nm} (Act ${row && row[1]}, want ${exp})`); }
     const pa = [...document.querySelectorAll('.pnx a')].find(a => /Previous/.test(a.textContent));
     if (i > 0 && pa?.getAttribute('href') !== '#boss/' + K[i - 1]) bad.push(`#boss/${k}: previous ${pa && pa.getAttribute('href')}, want #boss/${K[i - 1]}`); } }
+// the Bosses list shows each Keeper itself on its card (its figure from BFIG, else its portrait, else the Act's emblem), and a
+// boss's own page shows the same picture on its stage: the figure where there is one (it plays its loop there), else the portrait
+{ const go = async h => { location.hash = h; await new Promise(r => setTimeout(r, 80)); render(); }, pic = k => BFIG[k] ? BFIG[k].src : BPORT[k] ? 'data:image/png;base64,' + BPORT[k] : null;
+  await go('#bosses'); const cards = [...main().querySelectorAll('.blist a.bcardl')];
+  if (cards.length < 12) bad.push('bosses list: only ' + cards.length + ' cards');
+  for (const a of cards) { const k = a.getAttribute('href').slice(6), im = a.querySelector('.bfig img');
+    if (pic(k) ? !im || im.getAttribute('src') !== pic(k) : !a.querySelector('.emb')) bad.push('bosses list: the card of ' + k + ' does not show ' + (BFIG[k] ? 'its figure' : BPORT[k] ? 'its portrait' : "the Act's emblem")); }
+  for (const k of ['arion', 'ender_dragon', 'warden']) { await go('#boss/' + k); const im = main().querySelector('.ip-stage .stage img');
+    if (!im || im.getAttribute('src') !== pic(k) || !!BFIG[k] !== !!main().querySelector('.ip-stage .stage .pk')) bad.push('boss page ' + k + ': the stage does not show its ' + (BFIG[k] ? 'figure' : 'portrait')); } }

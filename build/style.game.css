@@ -1971,10 +1971,15 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 #pmap .pn::after{content:attr(data-k);position:absolute;inset:58px var(--s1) auto;text-align:center;font:600 12.5px/1.2 var(--body);color:#f1e9ff;text-shadow:0 2px 0 rgba(0,0,0,.7);overflow-wrap:anywhere}
 #pmap .pfr{--kc:color-mix(in srgb,var(--tc) 62%,#fff);--sc:.94;position:absolute;left:50%;bottom:100%;display:block;translate:-50% 6px;isolation:isolate;pointer-events:none;
  animation:stepUp .5s var(--ease-out) both;animation-delay:calc(var(--i)*45ms)}
-#pmap .pk{display:block;overflow:hidden;width:calc(var(--w)*var(--z)*var(--fs)*1px);height:calc(var(--h)*var(--z)*var(--fs)*1px);transform-origin:50% 100%;scale:calc(var(--sc)*var(--fit,1));
+/* a boss's figure (app.js figHtml): a box one frame wide over the strip of its loop; --z strip px to shown px, --fs the place's own scale */
+.pk{display:block;overflow:hidden;width:calc(var(--w)*var(--z)*var(--fs,1)*1px);height:calc(var(--h)*var(--z)*var(--fs,1)*1px)}
+.pk img{display:block;width:calc(var(--n)*100%);max-width:none;height:100%;image-rendering:auto}
+#pmap .pk{transform-origin:50% 100%;scale:calc(var(--sc)*var(--fit,1));
  filter:drop-shadow(6px 0 0 rgba(30,10,50,.22));transition:scale .22s var(--ease-out),filter .22s}
-#pmap .pk img{display:block;width:calc(var(--n)*100%);max-width:none;height:100%;image-rendering:auto}
 #pmap .pk:not(.st) img{animation:figLoop calc(var(--ms)*1ms) steps(var(--n)) infinite}
+/* a boss with no loop (the last Act's end boss is a still picture) at least breathes */
+#pmap .pk.st img{animation:stillBob 3.6s ease-in-out infinite}
+@keyframes stillBob{50%{translate:0 -5px}}
 #pmap .pn:first-child .pk{transform-origin:12% 100%}
 #pmap .pn:last-child .pk{transform-origin:88% 100%}
 #pmap .pk.wk,#pmap .pn[data-wk="1"]:is(:hover,:focus-visible) .pk:not(.wk){display:none}
@@ -2070,7 +2075,7 @@ body.hub .sfoot{background:#0f0e14}
  .sfoot>div:nth-child(3){grid-row:auto}
  .sfoot>div:nth-child(3)>p{columns:1}
 }
-@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw,#pmap .pn,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.climb .dsun::after{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
+@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw,#pmap .pn,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.climb .dsun::after,.bcardl .pk img,.ip-stage .pk img{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
 
 /* ================= The room spreads over the page =================
    On a page that opens with a room (Curios: the library; Equipment: the forge; Bosses: the crypt; Build planner: the
@@ -2100,4 +2105,18 @@ main:not(#_):not(#__):has(>.rwall){background:none!important;box-shadow:none}
 #main section.s.shut{padding-bottom:var(--s4)}
 #main section.s.shut>h2{margin-bottom:0;padding-bottom:0}
 #main section.s.shut>:not(h2),#main[data-ck] section.s>[data-k]:not(.on){display:none}
+
+/* ================= Bosses: the Keeper itself on its card and on its own page =================
+   The Bosses list shows each Keeper's figure (BFIG; the Warden and the Wither their portrait) where the Act's emblem
+   stood; the idle loop plays while the card is pointed at or focused. A Keeper's own page plays the loop on its stage. */
+.blist{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
+.bcardl>.bfig{grid-row:span 3;display:grid;place-items:end center;width:112px;height:116px;filter:drop-shadow(4px 0 0 rgba(0,0,0,.3))}
+.bcardl .bst{width:112px;height:112px;image-rendering:auto}
+.bcardl:is(:hover,:focus-visible) .pk:not(.st) img,.ip-stage .stage .pk:not(.st) img{animation:figLoop calc(var(--ms)*1ms) steps(var(--n)) infinite}
+.ip-stage .stage .pk img{width:calc(var(--n)*100%);height:100%;max-width:none;max-height:none;object-fit:fill;image-rendering:auto}
+@media (max-width:640px){.ip-stage .stage .pk{--fs:.75}}
+
+/* Curios: an open Act's curios lie in a sunken tray, as the home page's shelves do */
+*:not(#_):not(#__) .tier:not(.closed)>.tiles{margin:var(--s2);background:rgba(0,0,0,.3)!important;box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
 
