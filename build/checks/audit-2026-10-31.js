@@ -25,9 +25,6 @@ if (GS.filter(x => x.k.startsWith('mowziesmobs:geomancer')).length !== 1) bad.pu
 // the pack disables Mystical Agriculture armor and never loads Tide Piercer's recipe: not in any tier list
 { const tp = GBY['somakespells:tide_piercer']; if (tp && gTierOf(tp, 5, 'MA', 'w') !== null) bad.push('Tide Piercer tiered');
   const ma = GS.find(x => x.k === 'mysticalagriculture:awakened_supremium'); if (ma && gTierOf(ma, 8, 'RA', 'a') !== null) bad.push('MA armor tiered'); }
-// loadout grid: a missing pick is one cell (an empty Summon weapon once pushed Chainmail into the label column)
-for (const a of acts) { const t = document.createElement('template'); t.innerHTML = gLoadout(a);
-  for (const row of t.content.querySelectorAll('.gld')) if (row.children.length !== 3) bad.push('loadout row with ' + row.children.length + ' cells at ' + a); }
 // bosses: Keepers, Wither and Ender Dragon are exempt from Hardmode (forge:armageddon_bosses); the Dragon is 600 HP / 30 armor
 if (typeof BST !== 'undefined') { if (!(BST.ender_dragon && BST.ender_dragon.effective.hp === 600 && BST.ender_dragon.effective.armor === 30)) bad.push('Ender Dragon stats');
   for (const k in BST) for (const ph of BST[k].phases || []) if (ph.hardmode) bad.push('Hardmode applied to ' + k); }

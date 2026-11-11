@@ -108,9 +108,7 @@ function spacingOffScale() {
           if (!t) o.push('no open Act on Curios'); else { const tl = t.querySelector('.tiles');
             if (tracks(t) > 1 && !(tl && tl.getBoundingClientRect().width >= 300)) o.push('open Act keeps its label column beside the tiles: ' + getComputedStyle(t).gridTemplateColumns);
             for (const m of t.querySelectorAll('.tmore')) if (m.getBoundingClientRect().right > window.innerWidth) o.push('"' + m.textContent.trim() + '" ends at ' + Math.round(m.getBoundingClientRect().right)) } }
-        if (r === '#gear') { for (const s of document.querySelectorAll('.gseg')) if (s.scrollWidth > s.clientWidth + 1) o.push(`.gseg clips its buttons (${s.clientWidth}/${s.scrollWidth})`);
-          const cut = W > 414 ? [] : [...document.querySelectorAll('.gld a.slot span')].filter(s => s.scrollWidth > s.clientWidth + 1 || s.scrollHeight > s.clientHeight + 1);
-          if (cut.length) o.push(cut.length + ' loadout names cut, e.g. ' + cut[0].textContent.trim()) }
+        if (r === '#gear') { for (const s of document.querySelectorAll('.gseg')) if (s.scrollWidth > s.clientWidth + 1) o.push(`.gseg clips its buttons (${s.clientWidth}/${s.scrollWidth})`); }
         if (r === '#') { let n = 0, first = '';
           for (const a of document.querySelectorAll('.slotlist>a')) { const ar = a.getBoundingClientRect().right;
             if ([...a.children].some(c => c.getBoundingClientRect().right > ar + 0.5) || textPast(a, ar)) { n++; first = first || a.textContent.trim().slice(0, 20) } }

@@ -26,7 +26,7 @@ for (const [k, v] of Object.entries(GOETY.types)) if (!/ Ritual( \(Goety Revelat
 { const mon = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
   const f = document.querySelector('footer.sfoot')?.textContent.match(/Last checked (\d{1,2}) ([A-Z][a-z]{2}) (\d{4})/);
   history.replaceState(null, '', '#changes'); render();
-  const ds = [...main().querySelectorAll('section.s > h2')].map(h => h.textContent.trim().match(/^([A-Z][a-z]+) (\d{1,2}), (\d{4})$/)).filter(Boolean).map(m => Date.UTC(+m[3], mon.indexOf(m[1].slice(0, 3).toLowerCase()), +m[2]));
+  const ds = [...main().querySelectorAll('section.s > h2')].map(h => (h.querySelector('.chtog') || h).textContent.trim().match(/^([A-Z][a-z]+) (\d{1,2}), (\d{4})$/)).filter(Boolean).map(m => Date.UTC(+m[3], mon.indexOf(m[1].slice(0, 3).toLowerCase()), +m[2]));
   if (!f) bad.push('footer: no "Last checked D Mon YYYY"'); else if (!ds.length) bad.push('Changes page: no dated section');
   else if (Date.UTC(+f[3], mon.indexOf(f[2].toLowerCase()), +f[1]) < Math.max(...ds)) bad.push(`footer "Last checked ${f[1]} ${f[2]} ${f[3]}" is older than the newest Changes entry ${new Date(Math.max(...ds)).toISOString().slice(0, 10)}`); }
 // copy-docs-14 / app-logic-10: plurals, the last Act, the Ender Dragon as a required boss (pages, quick search, The Path's Act VI panel)

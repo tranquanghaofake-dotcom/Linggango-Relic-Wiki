@@ -266,11 +266,8 @@ function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const
   out=GTIER.map(([t],i)=>[t,b[i]]);out.top=top}
  GTC.set(key,out);return out}
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
-/* best weapon and armor set per playstyle at an Act: the top of each pool, so every mod's gear is in the running */
+/* a pick is an estimate when the wiki could not read its damage or armor (a staff's Melee DPS is read, its Mage score is not) */
 const gEst=(g,r)=>!!g.est&&!(r==="ME"&&g.dmg!=null);
-const gLoadout=a=>{let est=false;const h=`<div class="gload">${Object.keys(GROLE).map(r=>{const cell=(k,x)=>x?`<a class="slot${gEst(x[0],r)?(est=true," est"):""}" href="${gHref(x[0])}" title="${esc(TD(x[0].n))}${gEst(x[0],r)?" "+T("(estimate)"):""}">${gImg(x[0])}<span>${esc(TD(x[0].n))}</span></a>`:`<span class="slot gnone" title="${k==="w"?T("No {role} weapon at this Act yet",{role:GROLE[r]}):T("No {role} armor set at this Act yet",{role:GROLE[r]})}">—</span>`;
- return `<div class="gld" style="--rc:${ROLE_C[r]||"#8a8f99"}"><b>${GROLE[r]}</b>${cell("w",gPool(a,r,"w")[0])}${cell("a",gPool(a,r,"a")[0])}</div>`}).join("")}</div>`;
- return h+(est?`<p class="note">${T("≈ Faded picks are estimates: the wiki could not read their damage or armor, so they are ranked by when you get them.")}</p>`:"")};
 const gHref=g=>g.ps?"#gs"+g.ix:"#g"+g.ix;
 /* a tile is faded when its score in this list is an estimate (a staff's Melee DPS is read, its Mage score is not) */
 /* later: the tile is a search hit that unlocks after Act a, marked with its Act in the NEW badge's place */
@@ -296,7 +293,6 @@ function gearPage(h,miss){
  ${room("forge",tiers.flatMap(([t,xs])=>xs.map(g=>({h:gHref(g),i:gImg(g),t:(g.ps?"s":"g")+g.ix,n:g.n,l:esc(t)}))).slice(0,10),{head:`<span class="gem">${emblem(a,"lg")}</span><div><h1>${T("Equipment tier list")}</h1>
  <p class="lede">${a==0?T("The best weapons and armor sets for each playstyle at {act}: everything you can use once you start, ranked against the best you have at that point.",{act:`<b>${esc(actL(a))}</b>`}):T("The best weapons and armor sets for each playstyle at {act}: everything you can use once {boss} is beaten, ranked against the best you have at that point.",{act:`<b>${esc(actL(a))}</b>`,boss:esc(TD(UNL[a]||""))})}</p></div>`,min:5,cols:5,label:T("Best at this Act")})}
  <nav class="gacts" aria-label="${T("Act")}">${ORDER.filter(x=>x!=-1).map(x=>`<a href="${go(x,r,w)}" style="--tc:${ACT[x][2]}"${x===+a?' aria-current="page"':""} title="${esc(actF(x))}"><span class="gx">${emblem(x,"xs")}</span><b>${esc(ACT[x][0])}</b></a>`).join("")}</nav>
- <h2 class="gt">${T("Best loadout at {act}",{act:esc(actL(a))})}</h2>${gLoadout(a)}
  <div class="gbar"><div class="gseg" role="tablist" aria-label="${T("Weapons or armor")}">${[["w",ui("sword")+" "+T("Weapons")],["a",ui("chest")+" "+T("Armor sets")],["c",ui("star")+" "+T("Curios")]].map(([k,t])=>`<a role="tab" href="${go(a,r,k)}"${k===w?' aria-selected="true"':""}>${t}</a>`).join("")}</div>
  <div class="gseg roles" role="tablist" aria-label="${T("Playstyle")}">${roles.map(k=>`<a role="tab" href="${go(a,k,w)}" style="--rc:${ROLE_C[k]||"#8a8f99"}"${k===r?' aria-selected="true"':""}>${GROLE[k]}</a>`).join("")}</div>
  <input id="gq" type="search" autocomplete="off" name="gearq" placeholder="${T("Find a weapon or set…")}" value="${esc(GSTATE.q)}" aria-label="${T("Find gear")}"></div>

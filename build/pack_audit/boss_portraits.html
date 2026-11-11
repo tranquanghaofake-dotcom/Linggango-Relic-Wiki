@@ -30,7 +30,8 @@ window.portrait=async(rec,size=256,yaw=30,pitch=10)=>{
 // pixel of all of them), so the page can swap one strip for another in place even though a walk is wider than an idle. `ppu` is pixels per block after the model's in-game scale; pass the same
 // value for every boss and their sizes compare as in the game (`fit` shrinks a boss by that factor, for the caller's own
 // size rule). `measure` returns the frame size without the pictures (to choose a view).
-// Returns {blocks (height in game), strips: {name: {w, h (one frame), n (frames), ms (loop length), png (base64)}}}.
+// Returns {blocks (height in game), strips: {name: {w, h (one frame), bw (the body's width: the middle of the frame that
+// holds 86% of the loop's pixels, so a sword or a wing tip does not count), n (frames), ms (loop length), png (base64)}}}.
 window.figure=async(rec,{ppu=40,fit=1,frames=12,anims=['idle'],yaw=30,pitch=10,type='image/png',measure:only=false}={})=>{
  const map=await tex(rec.texture,true),glow=rec.glow?await tex(rec.glow):null,layers=[];
  for(const l of rec.layers||[])layers.push({...l,texture:await tex(l.texture)});
@@ -47,11 +48,12 @@ window.figure=async(rec,{ppu=40,fit=1,frames=12,anims=['idle'],yaw=30,pitch=10,t
  const k=ppu*fit*(rec.scale||1),hx=Math.max(-lo.x,hi.x),W0=2*Math.ceil(hx*k)+4,H0=Math.ceil((hi.y-lo.y)*k)+4;
  Object.assign(cam,{left:-W0/2/k,right:W0/2/k,bottom:lo.y-2/k,top:lo.y-2/k+H0/k});cam.updateProjectionMatrix();R.setSize(W0,H0,false);
  let y1=-1;
- for(const l of L){l.fr=[];let x0=W0,x1=-1,y0=H0;for(let i=0;i<l.n;i++){if(l.A)l.A.update(i*l.dur/l.n);R.render(S,cam);const c=document.createElement('canvas');c.width=W0;c.height=H0;const q=c.getContext('2d',{willReadFrequently:true});q.drawImage(R.domElement,0,0);l.fr.push(c);
-  const d=q.getImageData(0,0,W0,H0).data;for(let y=0;y<H0;y++)for(let x=0;x<W0;x++)if(d[(y*W0+x)*4+3]>8){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}}
-  l.W=2*Math.ceil(Math.max(W0/2-x0,x1+1-W0/2));l.y0=y0}
+ for(const l of L){l.fr=[];let x0=W0,x1=-1,y0=H0;const col=new Float64Array(W0);for(let i=0;i<l.n;i++){if(l.A)l.A.update(i*l.dur/l.n);R.render(S,cam);const c=document.createElement('canvas');c.width=W0;c.height=H0;const q=c.getContext('2d',{willReadFrequently:true});q.drawImage(R.domElement,0,0);l.fr.push(c);
+  const d=q.getImageData(0,0,W0,H0).data;for(let y=0;y<H0;y++)for(let x=0;x<W0;x++)if(d[(y*W0+x)*4+3]>8){col[x]++;if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}}
+  l.W=2*Math.ceil(Math.max(W0/2-x0,x1+1-W0/2));l.y0=y0;
+  let tot=0,acc=0,h=0;for(const v of col)tot+=v;const c=W0/2;while(h<l.W/2&&acc<.86*tot){acc+=col[c-1-h]+col[c+h];h++}l.bw=2*h}
  const out={blocks:+blocks.toFixed(2),strips:{}};
- for(const l of L){const W=l.W,H=y1-l.y0+1,st=out.strips[l.name]={w:W,h:H,n:l.n,ms:Math.round(l.dur*1000)};if(only)continue;
+ for(const l of L){const W=l.W,H=y1-l.y0+1,st=out.strips[l.name]={w:W,h:H,bw:l.bw,n:l.n,ms:Math.round(l.dur*1000)};if(only)continue;
   const c=document.createElement('canvas');c.width=W*l.n;c.height=H;const q=c.getContext('2d');l.fr.forEach((f,i)=>q.drawImage(f,W0/2-W/2,l.y0,W,H,i*W,0,W,H));
   st.png=c.toDataURL(type,1).split(',')[1]}
  return out};

@@ -859,15 +859,7 @@ html[data-vt=prev]::view-transition-new(root){animation:.22s ease-out .1s both v
 .bslot{grid-template-columns:170px minmax(0,1fr);align-items:center}
 @media(max-width:520px){.bslot{grid-template-columns:1fr}}
 .bslot.bcons{grid-template-columns:1fr}
-.gload{display:grid;gap:var(--s2);padding:var(--s3)}
-.gld{display:grid;grid-template-columns:110px minmax(0,1fr) minmax(0,1fr);align-items:center;gap:var(--s2);font:500 14px var(--body);color:var(--gui-ink)}
-.gld>b{color:var(--rc)}
-.gld .slot{vertical-align:middle}
-.gld a.slot{width:auto;height:auto;padding:var(--s2);display:flex;align-items:center;gap:var(--s2);color:var(--gui-ink);text-decoration:none;font:500 13px/1.2 var(--body);min-width:0}
-.gld a.slot span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.gld a.slot img{width:40px!important;height:40px!important;flex:none}
 /* phones: the playstyle label on its own row, two equal cells under it, names wrap instead of being cut (touch shows no title tooltip) */
-@media (max-width:760px){.gld{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.gld>b{grid-column:1/-1}.gld a.slot span{white-space:normal;overflow-wrap:anywhere}}
 .bsh{white-space:nowrap;min-width:0}
 .bsh b{overflow:hidden;text-overflow:ellipsis}
 /* consumable/food/potion toggle buttons */
@@ -1908,12 +1900,30 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 .climb>:not(.dsky):not(.ptrack){position:relative;z-index:2}
 .climb .dsky{position:absolute;inset:0;z-index:-1;pointer-events:none}
 .climb .dsky i{position:absolute}
-.climb .dstars{left:0;top:0;width:2px;height:2px}
-.climb .dsun{left:17.5%;bottom:30%;width:120px;height:120px;background:#fff6c8;box-shadow:0 0 0 14px rgba(255,214,120,.55),0 0 0 30px rgba(255,170,90,.22),0 0 120px 60px rgba(255,170,90,.45)}
-.climb .dr1,.climb .dr2{inset:auto 0 0 0}
-.climb .dr1{height:46%;background:#5b2a72;opacity:.75}
-.climb .dr2{height:42%;background:#3a1b55}
-.climb .dcl{width:168px;height:28px;background:rgba(255,206,178,.4);transform-origin:0 0}
+.climb .dsky>i{transition:translate .5s ease-out}
+.climb .dstars{left:0;top:0;width:2px;height:2px;translate:calc(var(--mx,0)*-4px) calc(var(--my,0)*-3px)}
+.climb .dsun{left:17.5%;bottom:30%;width:120px;height:120px;background:#fff6c8;box-shadow:0 0 0 14px rgba(255,214,120,.55),0 0 0 30px rgba(255,170,90,.22),0 0 120px 60px rgba(255,170,90,.45);translate:calc(var(--mx,0)*-7px) calc(var(--my,0)*-4px)}
+/* the sun's light: long rays that turn slowly behind it, and a halo that breathes */
+.climb .dsun::before{content:"";position:absolute;left:50%;top:50%;width:980px;height:980px;translate:-50% -50%;border-radius:50%;
+ background:repeating-conic-gradient(rgba(255,214,140,.16) 0 5deg,transparent 5deg 18deg);-webkit-mask-image:radial-gradient(closest-side,#000 14%,transparent 72%);mask-image:radial-gradient(closest-side,#000 14%,transparent 72%);animation:sunRays 150s linear infinite}
+.climb .dsun::after{content:"";position:absolute;inset:-44px;background:rgba(255,190,110,.2);animation:sunHalo 7s ease-in-out infinite}
+@keyframes sunRays{to{rotate:360deg}}
+@keyframes sunHalo{50%{opacity:.25;scale:1.12}}
+.climb .dr1,.climb .dr2{inset:auto -24px 0 -24px}
+.climb .dr1{height:46%;background:#5b2a72;opacity:.75;translate:calc(var(--mx,0)*-9px) 0}
+.climb .dr2{height:42%;background:#3a1b55;translate:calc(var(--mx,0)*-16px) 0}
+.climb .dcl{left:0;width:168px;height:28px;background:rgba(255,206,178,.4);transform-origin:0 0;margin-left:calc(var(--mx,0)*-22px);animation:cloudDrift var(--cd) linear var(--cdl) infinite}
+@keyframes cloudDrift{from{translate:-240px 0}to{translate:calc(100vw + 60px) 0}}
+/* birds: three in a loose V cross the sky now and then (a two-frame flap; the wiki's own 7x4 drawing) */
+.climb .dbirds{left:0;width:96px;height:48px;animation:birdFly var(--bd) linear var(--bdl) infinite}
+.climb .dbirds b{position:absolute;left:0;top:0;width:21px;height:12px;overflow:hidden;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='4' shape-rendering='crispEdges' fill='%231b1030'%3E%3Cpath d='M0 0h1v1H0zM6 0h1v1H6zM1 1h1v1H1zM5 1h1v1H5zM2 2h3v1H2zM3 3h1v1H3zM9 1h3v1H9zM8 2h1v1H8zM12 2h1v1h-1zM7 3h1v1H7zM13 3h1v1h-1z'/%3E%3C/svg%3E") 0 0/42px 12px;image-rendering:pixelated;animation:birdFlap .56s steps(2) infinite}
+.climb .dbirds b:nth-child(2){left:34px;top:16px;animation-delay:-.2s}
+.climb .dbirds b:nth-child(3){left:62px;top:2px;animation-delay:-.38s}
+@keyframes birdFly{0%{translate:-120px 0}35%{translate:calc(100vw + 40px) -48px}100%{translate:calc(100vw + 40px) -48px}}
+@keyframes birdFlap{to{background-position:-42px 0}}
+/* wind: a thin gust slides across and fades */
+.climb .dwind{left:0;width:180px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,244,224,.45),transparent);opacity:0;animation:windGust 12s ease-in var(--wl) infinite}
+@keyframes windGust{0%{opacity:0;translate:10vw 0}6%{opacity:1}22%{opacity:0;translate:72vw -10px}100%{opacity:0;translate:72vw -10px}}
 .climb .dcl::before,.climb .dcl::after{content:"";position:absolute;background:inherit}
 .climb .dcl::before{left:42px;top:-28px;width:84px;height:28px}
 .climb .dcl::after{left:-28px;top:28px;width:224px;height:28px}
@@ -1950,7 +1960,10 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 #pmap .ptrack .pn:hover{height:calc(var(--base) + var(--i)*var(--step) + 40px)}
 #pmap .sw{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.14) 50%,transparent 58%) 220% 0/320% 100% no-repeat;animation:stairLight 6.5s linear calc(var(--i)*.45s - 6.5s) infinite}
 @keyframes stairLight{0%{background-position:220% 0}28%,100%{background-position:-120% 0}}
-#pmap .ptrack .envfx{display:block;inset:auto 0 100% 0;height:240px;overflow:visible}
+/* the Act's air stirs only over the open step and the pointed one (thirteen steps of particles at once were too many) */
+#pmap .ptrack .envfx{display:none}
+#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx{display:block;inset:auto 0 100% 0;height:240px;overflow:visible}
+#pmap .ptrack .envfx i:nth-child(n+6){display:none}
 #pmap #pn-0 b::before{content:"";position:absolute;inset:calc(-1*var(--bt)) calc(-1*var(--s1)) auto;height:14px;background:linear-gradient(#7fd04a,#4f9a2e);box-shadow:0 4px 0 rgba(0,0,0,.25)}
 /* the air above a step belongs to the step: pointing at the Keeper is pointing at its Act (the figure itself takes no pointer, a wide one would cover its neighbours) */
 #pmap .pn::before{content:"";position:absolute;inset:auto 0 100% 0;height:330px}
@@ -1967,6 +1980,9 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 #pmap .pk.wk,#pmap .pn[data-wk="1"]:is(:hover,:focus-visible) .pk:not(.wk){display:none}
 #pmap .pn[data-wk="1"]:is(:hover,:focus-visible) .pk.wk{display:block}
 #pmap .pfr .emb{--s:96px;margin-bottom:var(--s5)}
+/* the Ender Dragon flies: it hangs in the air over its step, behind its neighbours (in front when open or pointed at), and bobs */
+#pmap .pfr.fly{z-index:-1;margin-bottom:var(--s6);animation:stepUp .5s var(--ease-out) both,flyBob 5s ease-in-out infinite;animation-delay:calc(var(--i)*45ms),0s}
+@keyframes flyBob{50%{margin-bottom:var(--s7)}}
 #pmap .au{position:absolute;left:50%;bottom:0;z-index:-1;width:300px;height:300px;translate:-50% 30%;background:radial-gradient(closest-side,var(--kc),transparent);opacity:0;transition:opacity .25s}
 #pmap .sp{position:absolute;left:calc(50% + var(--x));bottom:12%;width:6px;height:6px;background:var(--kc);opacity:0}
 @keyframes stepUp{from{opacity:0;translate:-50% 48px}}
@@ -1977,7 +1993,8 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 /* the open step and the pointed step: their Keeper grows, glows and moves; the others step back */
 #pmap .ptrack:hover .pn .pfr{--sc:.8}
 #pmap .ptrack:hover .pn .pk{filter:brightness(.6) saturate(.75)}
-#pmap .ptrack .pn[aria-selected=true] .pfr{--sc:1.14}
+#pmap .ptrack .pn[aria-selected=true] .pfr{--sc:1.14;z-index:1}
+#pmap .ptrack .pn[aria-selected=true] .pfr.fly,#pmap .ptrack .pn:hover .pfr.fly{--sc:1}
 #pmap .ptrack:hover .pn[aria-selected=true] .pfr{--sc:1}
 #pmap .ptrack .pn:hover .pfr{--sc:1.26;z-index:2}
 #pmap .ptrack .pn:is(:hover,[aria-selected=true]) .pfr{--fit:1!important}
@@ -2004,19 +2021,18 @@ body.hub #cave .og::after{background-image:var(--kb);animation-delay:calc(var(--
 @keyframes oreTwinkle{0%,90%{opacity:0}93%{opacity:1}95%{opacity:.4}97%{opacity:.9}100%{opacity:0}}
 body.hub #pmap>.ppanel{margin-top:var(--s4)}
 
-/* a vanilla chest: light, with a slot per item tinted by its power (an Act's chest in its panel; the shelves of the home page) */
-.chest{padding:var(--s3) var(--s4) var(--s4);background:#c6c6c6;color:#3b3b3b;box-shadow:0 0 0 2px #0c0a10,inset 3px 3px 0 #fff,inset -3px -3px 0 #555}
-.ppanel .chest{margin:var(--s5) 0 0}
-.chest .cht{display:flex;align-items:center;gap:var(--s2);margin:0 0 var(--s1);font:400 26px/1 var(--title);color:#3b3b3b;text-transform:uppercase;text-shadow:none}
-.chest .chs{margin:0 0 var(--s3);font-size:13.5px;line-height:1.45;color:#3b3b3b}
-.chest .chs a{color:#1d4fb8}
+/* a chest: a tray of slots, one per item, each tinted from below by the item's power. On the home page the shelves are
+   ordinary panels (.gui) with a tray in them, and an Act's chest is a sunken tray inside its panel: the same dark
+   container as the rest of the wiki (a light vanilla chest stood out against it). */
+.ppanel .chest{margin:var(--s5) 0 0;padding:var(--s3) var(--s4) var(--s4);background:rgba(0,0,0,.3);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
+.chest .cht{margin:0 0 var(--s2);font:400 22px/1 var(--title);color:var(--gui-mute);text-transform:uppercase}
 .chest .srow{display:grid;grid-template-columns:repeat(18,minmax(0,1fr));margin:0}
-.chest .sslot{width:auto;height:auto;aspect-ratio:1;border:0;border-image:none;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--rc,#8b8b8b) 78%,transparent)),#8b8b8b;box-shadow:inset 3px 3px 0 #373737,inset -3px -3px 0 #fff}
-.chest .sslot:hover,.chest .sslot:focus-visible{outline:3px solid #fff;outline-offset:-3px;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--rc,#8b8b8b) 78%,transparent)),#a6a6a6}
-*:not(#_) .chest .sslot>img,*:not(#_) .chest .sslot .aimg{width:48px!important;height:48px!important;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.28))}
+.chest .sslot{width:auto;height:auto;aspect-ratio:1;border:0;border-image:none;background:linear-gradient(transparent 52%,color-mix(in srgb,var(--rc,#55555c) 46%,transparent)),var(--slot);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi)}
+.chest .sslot:hover,.chest .sslot:focus-visible{outline:2px solid #fff;outline-offset:-2px;background:linear-gradient(transparent 40%,color-mix(in srgb,var(--rc,#55555c) 70%,transparent)),var(--gui-hover)}
+*:not(#_) .chest .sslot>img,*:not(#_) .chest .sslot .aimg{width:48px!important;height:48px!important;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.45))}
 .shelves{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s5);margin:var(--s5) 0}
+.shelves>.gui{margin:0}
 .shelves .chest .srow{grid-template-columns:repeat(9,minmax(0,1fr))}
-.shelves .chest .cht{font-size:30px}
 
 /* footer: three even columns, and the art and font credits as one block of three columns under them */
 .sfoot{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -2031,7 +2047,7 @@ body.hub .sfoot{background:#0f0e14}
 /* tablets and phones: the title stacks, and the staircase becomes a strip that scrolls sideways (the open step is kept in view) */
 @media (max-width:1100px){
  .climb{--base:108px;--step:12px;--fs:.75;display:flex;flex-direction:column;align-items:stretch;height:auto;min-height:calc(100svh - var(--toph,64px));padding:var(--s4) var(--s4) 0}
- .climb .dcl{display:none}
+ .climb .dcl,.climb .dwind{display:none}
  .climb .lg{white-space:normal;font-size:clamp(40px,11vw,72px)}
  .climb .hsearch,.climb .tbtns,.climb .pcap{margin-top:var(--s3)}
  .climb .tcs{display:flex;justify-content:space-between;gap:var(--s3);margin-top:var(--s3);text-align:left}
@@ -2054,7 +2070,7 @@ body.hub .sfoot{background:#0f0e14}
  .sfoot>div:nth-child(3){grid-row:auto}
  .sfoot>div:nth-child(3)>p{columns:1}
 }
-@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw,#pmap .pn,#cave .og::before,#cave .og::after{animation:none!important;transition:none}#pmap .ptrack .envfx{display:none}}
+@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw,#pmap .pn,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.climb .dsun::after{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
 
 /* ================= The room spreads over the page =================
    On a page that opens with a room (Curios: the library; Equipment: the forge; Bosses: the crypt; Build planner: the
@@ -2065,8 +2081,23 @@ body.hub .sfoot{background:#0f0e14}
 #main>.rwall i{position:absolute;inset:auto 0 0 0;height:48px;background:linear-gradient(rgba(8,7,12,.62),rgba(8,7,12,.62)),var(--ft) var(--fx) 0/48px 48px repeat-x;box-shadow:0 -6px 0 rgba(0,0,0,.35)}
 main:not(#_):not(#__):has(>.rwall){background:none!important;box-shadow:none}
 *:not(#_) main:has(>.rwall) .room3{border-image:none!important}
-/* Changes: the kind of each group reads at a glance (a coloured block before Added, Changed, Fixed, Removed) */
+/* Changes: the kind of each group reads at a glance (a coloured block before Added, Changed, Fixed) */
 #main section.s>h3.ck{display:flex;align-items:center;gap:var(--s2)}
 #main section.s>h3.ck::before{content:"";flex:none;width:12px;height:12px;background:var(--ck);box-shadow:0 0 0 2px #000}
-.ck.add{--ck:#7fb33f}.ck.chg{--ck:#d9a43e}.ck.fix{--ck:#5fa8d9}.ck.rem{--ck:#c4483c}
+.ck.add{--ck:#7fb33f}.ck.chg{--ck:#d9a43e}.ck.fix{--ck:#5fa8d9}
+/* Changes: a bar to show one kind of change or jump to a day; a day folds at its date, which then carries the day's counts */
+.chbar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s3) var(--s5);margin:0 0 var(--s4)}
+.chbar .chips{gap:var(--s2)}
+.chbar .chip{min-height:34px;padding:var(--s1) var(--s3)}
+.chbar .chip.ck::before,.chn i::before{content:"";flex:none;width:10px;height:10px;background:var(--ck);box-shadow:0 0 0 2px #000}
+#main section.s>h2:has(.chtog){display:flex;align-items:center;gap:var(--s4)}
+.chtog{display:flex;align-items:center;gap:var(--s3);min-height:32px;padding:0;border:0;background:none;color:inherit;font:inherit;text-transform:inherit;letter-spacing:inherit;text-shadow:inherit;cursor:pointer}
+.chtog::before{content:"";flex:none;width:0;height:0;border:7px solid transparent;border-top-color:currentColor;border-bottom-width:0}
+.chtog[aria-expanded=false]::before{border:7px solid transparent;border-left-color:currentColor;border-right-width:0}
+.chtog:focus-visible{outline:3px solid var(--ring);outline-offset:4px}
+.chn{display:flex;gap:var(--s3);margin-left:auto;font:600 13px/1 var(--body);letter-spacing:0;color:var(--gui-mute);text-shadow:none}
+.chn i{display:flex;align-items:center;gap:var(--s1);font-style:normal;font-variant-numeric:tabular-nums}
+#main section.s.shut{padding-bottom:var(--s4)}
+#main section.s.shut>h2{margin-bottom:0;padding-bottom:0}
+#main section.s.shut>:not(h2),#main[data-ck] section.s>[data-k]:not(.on){display:none}
 

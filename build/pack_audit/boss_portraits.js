@@ -12,27 +12,29 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
   const M = JSON.parse(fs.readFileSync(inF || path.join(P, 'boss_models.json'))), F = outF || path.join(P, 'boss_portraits.json');
   const out = fs.existsSync(F) ? JSON.parse(fs.readFileSync(F)) : {};
   const { page, close } = await open('boss_portraits.html');
-  // --figs: the figures of The climb (the home page's staircase) -> build/patches/boss_figs.json {key: {src, w, h, n, ms, z}}
+  // --figs: the figures of The climb (the home page's staircase) -> build/patches/boss_figs.json {key: {src, w, h, bw, n, ms, z, fly?}}
   // and build/patches/boss_walks.json {key: {src, w, h, n, ms}}: per Keeper of The Path (app.js NEXTB) a strip of its idle loop
   // and one of its walk loop (boss_portraits.html figure: same centre line and ground, each cut to its own pixels), drawn at
-  // twice the size it is shown (z = shown px per strip px). View: of the turns in YAWS the one that makes the idle frame
-  // narrowest, so a sword or a wing reaches towards the reader and not across the next step. Size rule: a boss of MED blocks is CSSH px tall on the
-  // page; the others follow the square root of their in-game height (so Arion at 3.1 blocks and Sanghor at 6.8 differ, but
-  // not by 2.2 times), within LO..HI, and no frame is wider than MAXW. The last Act has no Keeper: its step shows the Act's
-  // end-game boss from STILL (a finished side-boss picture, no loop).
+  // twice the size it is shown (z = shown px per strip px), every boss from the same view (YAW: a boss turned further looks
+  // askew beside the others). bw is the body's width (the page keeps bodies, not sword tips, over their own step).
+  // Size rule: a boss of MED blocks is CSSH px tall on the page; the others follow the square root of their in-game height
+  // (so Arion at 3.1 blocks and Sanghor at 6.8 differ, but not by 2.2 times), within LO..HI, and no frame is wider than MAXW.
+  // OPT: the Ender Dragon flies (the page lifts it behind its neighbours) and is drawn larger, as the biggest thing on The Path.
+  // The last Act has no Keeper: its step shows the Act's end-game boss from STILL (a finished side-boss picture, no loop).
   if (a.includes('--figs')) {
     const PATH = ['iron_colossus', 'goblin_lord', 'arion', 'eldorath', 'zoranth_forgotten', 'ender_dragon', 'elvenite_paladin', 'vaedric', 'discord', 'sanghor', 'zoranth_newborn', 'nyxaris'];
-    const STILL = { apollyon: ['side_imgs.json', 'Apollyon'] }, SRC = 2, CSSH = 176, MED = 4.8, LO = 0.8, HI = 1.25, MAXW = 420, PPU = 40, YAWS = [30, 45, 60, 20], ANIMS = ['idle', 'walk'], figs = {}, walks = {};
-    const fig = (rec, o) => page.evaluate(([r, o]) => figure(r, o), [rec, { ppu: PPU, anims: ANIMS, type: 'image/webp', ...o }]);
-    for (const k of PATH) { const rec = M[k]; if (!rec) { console.log(k, 'has no model'); process.exitCode = 1; continue; }
-      let yaw = YAWS[0], m = null; for (const y of YAWS) { const t = await fig(rec, { yaw: y, frames: 6, measure: true }); if (!m || t.strips.idle.w < m.strips.idle.w * 0.94) { m = t; yaw = y; } }
-      let fit = SRC * CSSH * Math.min(HI, Math.max(LO, Math.sqrt(m.blocks / MED))) / (m.blocks * PPU); if (m.strips.idle.w * fit > MAXW) fit = MAXW / m.strips.idle.w;
-      const r = await fig(rec, { yaw, fit }), i = r.strips.idle, w = r.strips.walk;
-      figs[k] = { src: 'data:image/webp;base64,' + i.png, w: i.w, h: i.h, n: i.n, ms: i.ms, z: 1 / SRC };
+    const OPT = { ender_dragon: { fly: 1, size: 1.45, maxw: 700 } };
+    const STILL = { apollyon: ['side_imgs.json', 'Apollyon'] }, SRC = 2, CSSH = 176, MED = 4.8, LO = 0.95, HI = 1.2, MAXW = 520, PPU = 40, YAW = 30, ANIMS = ['idle', 'walk'], figs = {}, walks = {};
+    const fig = (rec, o) => page.evaluate(([r, o]) => figure(r, o), [rec, { ppu: PPU, yaw: YAW, anims: ANIMS, type: 'image/webp', ...o }]);
+    for (const k of PATH) { const rec = M[k], o = OPT[k] || {}; if (!rec) { console.log(k, 'has no model'); process.exitCode = 1; continue; }
+      const m = await fig(rec, { frames: 6, measure: true }), mw = o.maxw || MAXW;
+      let fit = (o.size || 1) * SRC * CSSH * Math.min(HI, Math.max(LO, Math.sqrt(m.blocks / MED))) / (m.blocks * PPU); if (m.strips.idle.w * fit > mw) fit = mw / m.strips.idle.w;
+      const r = await fig(rec, { fit }), i = r.strips.idle, w = r.strips.walk;
+      figs[k] = { src: 'data:image/webp;base64,' + i.png, w: i.w, h: i.h, bw: i.bw, n: i.n, ms: i.ms, z: 1 / SRC }; if (o.fly) figs[k].fly = 1;
       if (w) walks[k] = { src: 'data:image/webp;base64,' + w.png, w: w.w, h: w.h, n: w.n, ms: w.ms };
-      console.log(k.padEnd(18), `idle ${i.w}x${i.h} ${(i.png.length / 1024).toFixed(0)} kB`, w ? `walk ${w.w}x${w.h} ${(w.png.length / 1024).toFixed(0)} kB` : 'no walk', `yaw ${yaw}`, `${m.blocks} blocks`); }
+      console.log(k.padEnd(18), `idle ${i.w}x${i.h} body ${i.bw} ${(i.png.length / 1024).toFixed(0)} kB`, w ? `walk ${w.w}x${w.h} ${(w.png.length / 1024).toFixed(0)} kB` : 'no walk', `${m.blocks} blocks`); }
     for (const [k, [f, name]] of Object.entries(STILL)) { const r = await page.evaluate(u => still(u), JSON.parse(fs.readFileSync(path.join(P, f)))[name]);
-      figs[k] = { src: 'data:image/png;base64,' + r.png, w: r.w, h: r.h, n: 1, ms: 0, z: +(CSSH / r.h).toFixed(3) }; console.log(k.padEnd(18), `${r.w}x${r.h} still`); }
+      figs[k] = { src: 'data:image/png;base64,' + r.png, w: r.w, h: r.h, bw: r.w, n: 1, ms: 0, z: +(CSSH / r.h).toFixed(3) }; console.log(k.padEnd(18), `${r.w}x${r.h} still`); }
     for (const [f, o] of [['boss_figs.json', figs], ['boss_walks.json', walks]]) { fs.writeFileSync(path.join(P, f), JSON.stringify(o)); console.log(f, Object.keys(o).length, 'records,', (fs.statSync(path.join(P, f)).size / 1e6).toFixed(2), 'MB'); }
     await close(); return;
   }

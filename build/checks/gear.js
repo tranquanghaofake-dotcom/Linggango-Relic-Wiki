@@ -34,11 +34,6 @@ for (const g of ALL) { const v = gVerdict(g); if (!v) continue;
   const r = gMain(g), w = g.ps ? 'a' : 'w', as = acts.filter(x => oiA(x) >= oiA(g.a)), ts = as.map(x => gTierOf(g, x, r, w)), k = ts.findIndex((t, i) => i > 0 && (!t || t === 'D'));
   if (k > 0) { const body = v.split('Replace it by')[0];
     if (as.slice(k).some(x => [' ', '.', ' ('].some(e => body.includes(' ' + actL(x) + e)))) bad.push('verdict span past the strip: ' + g.n); } }
-// copy-docs-01: loadout cells fade exactly the estimated picks
-for (const a of acts) { const d = document.createElement('div'); d.innerHTML = gLoadout(a);
-  [...d.querySelectorAll('.gld')].forEach((c, i) => { const r = Object.keys(GROLE)[i];
-    c.querySelectorAll('a.slot').forEach(s => { const h = s.getAttribute('href'), g = h.startsWith('#gs') ? GS[+h.slice(3)] : GE[+h.slice(2)];
-      if (!!(g.est && !(r === 'ME' && g.dmg != null)) !== s.classList.contains('est')) bad.push('loadout est class: Act ' + a + ' ' + r + ' ' + g.n); }); }); }
 // data-gear-01: no disabled item and no set of disabled pieces in a tier list
 { const o = new Set(); for (const a of acts) for (const r of Object.keys(GROLE)) for (const w of ['w', 'a']) for (const [, xs] of gTiers(a, r, w)) for (const g of xs)
   if (gHidden(g) || (g.ps && g.ps.every(p => p.ob && p.ob[0] === '!'))) o.add('hidden item listed: ' + g.n + ' Act ' + a + ' ' + r); bad.push(...o); }

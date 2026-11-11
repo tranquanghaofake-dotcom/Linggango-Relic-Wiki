@@ -20,7 +20,10 @@
     if (!f || !im || im.getAttribute('src') !== f.src || !b.dataset.k) { bad.push(`climb: step ${ACT[a][0]} does not show and name ${k || 'a boss'}`); continue; }
     await im.decode().catch(() => {});
     if (im.naturalWidth !== f.w * f.n || im.naturalHeight !== f.h) bad.push(`climb: the strip of ${k} is ${im.naturalWidth}x${im.naturalHeight}, its record says ${f.n} frames of ${f.w}x${f.h}`);
-    if (NEXTB[a] && (f.n < 2 || !f.ms)) bad.push(`climb: the Keeper ${k} has no idle loop`); }
+    if (NEXTB[a] && (f.n < 2 || !f.ms)) bad.push(`climb: the Keeper ${k} has no idle loop`);
+    // the body's width is known and inside the frame (the page keeps bodies over their own step); only a flying figure is lifted off its step
+    if (!(f.bw > 0 && f.bw <= f.w)) bad.push(`climb: the figure of ${k} has no body width`);
+    if (!!f.fly !== b.querySelector('.pfr').classList.contains('fly')) bad.push(`climb: ${k} ${f.fly ? 'should fly and does not' : 'flies and should not'}`); }
   // the walk loops (BWALK, with the late pictures): each belongs to a figure, shares its scale and its ground, and its picture is as wide as its frames say
   for (const [k, w] of Object.entries(window.BWALK || {})) { const f = BFIG[k], im = new Image(); im.src = w.src; await im.decode().catch(() => {});
     if (!f || f.n < 2) bad.push(`climb: a walk loop for ${k}, which has no animated figure`);

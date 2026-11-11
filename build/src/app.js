@@ -1015,9 +1015,6 @@ function changesPage(){
 <li>${T("A pass over search, filters, The Path, the build planner, Mechanics and the boss pages. For example, quick search calls the Ender Dragon a required boss, not a Keeper; \"What can I get now?\" says it lists the curios that open at your Act; on phones the pages say tap, not hover.")}</li>
 </ul></section>
 <section class="s" id="c-2026-10-30"><h2>${T("October 30, 2026")}</h2>
-<h3 class="ck add">${T("Added")}</h3><ul>
-<li>${T("<b><a href=\"#gear\">Best loadout at each Act</a></b> on Equipment: the best weapon and armor set for each playstyle (melee, ranged, mage, summon) at that Act.")}</li>
-</ul>
 <h3 class="ck chg">${T("Changed")}</h3><ul>
 <li>${T("<b>Build planner</b> keeps only the permanent Consumables row. The Food buffs and Potions rows are gone.")}</li>
 <li>${T("<b>Stacks</b> label fix: Summonity curios that can't be worn twice (Minion Metronome, Lead Bell, Ring of Summoning and others, plus the whistles) now show One per player instead of Stacks.")}</li>
@@ -1056,6 +1053,25 @@ function changesPage(){
 <li>${T("Warden health is now 700 and Wither health is now 500.")}</li>
 <li>${T("Keeper armor in the Path rows: Goblin Lord 12 (Act II), Arion 20 on foot and 15 on its Ravager (Act III), Eldorath 18 (Act IV).")}</li></ul>
 </section>${wikiNav()}`;
+ /* the bar: show one kind of change (Added, Changed, Fixed) or jump to a day. A day folds at its date; the two newest start open,
+    and a folded day's date carries its counts. The page's own text is untouched: the groups are tagged, not moved. A new kind
+    of group needs its class here and in KN (and a translated name). */
+ const days=[...el("main").querySelectorAll('section.s[id^="c-"]')],KN={add:T("Added"),chg:T("Changed"),fix:T("Fixed")},cnt={};
+ days.forEach((d,i)=>{const h=d.querySelector("h2"),own={};let k=null;
+  [...d.children].forEach(c=>{if(c.tagName==="H3"&&c.classList.contains("ck"))k=["add","chg","fix"].find(x=>c.classList.contains(x));if(c!==h&&k){c.dataset.k=k;if(c.tagName==="UL"){const n=c.querySelectorAll(":scope>li").length;own[k]=(own[k]||0)+n;cnt[k]=(cnt[k]||0)+n}}});
+  h.innerHTML=`<button type="button" class="chtog" aria-expanded="${i<2}">${h.innerHTML}</button><span class="chn">${Object.keys(own).map(k=>`<i class="ck ${k}" title="${esc(KN[k])}">${own[k]}</i>`).join("")}</span>`;
+  d.classList.toggle("shut",i>=2);d.dataset.kinds=Object.keys(own).join(" ")});
+ const open=(d,on)=>{d.classList.toggle("shut",!on);d.querySelector(".chtog").setAttribute("aria-expanded",on)};
+ el("main").querySelector(".room3").insertAdjacentHTML("afterend",`<div class="chbar"><div class="chips" role="group" aria-label="${T("All kinds")}"><button type="button" class="chip" data-ck="" aria-pressed="true">${T("All kinds")}</button>${Object.keys(cnt).map(k=>`<button type="button" class="chip ck ${k}" data-ck="${k}" aria-pressed="false">${KN[k]} <span class="n">${cnt[k]}</span></button>`).join("")}</div>
+ <div class="chips" role="group" aria-label="${T("Changes")}">${days.map(d=>`<button type="button" class="chip" data-day="${d.id}">${d.querySelector(".chtog").textContent}</button>`).join("")}</div></div>`);
+ // listeners go on what this draw made (<main> itself outlives the page and would collect one more each visit)
+ days.forEach(d=>d.querySelector(".chtog").onclick=e=>open(d,e.currentTarget.getAttribute("aria-expanded")!=="true"));
+ el("main").querySelector(".chbar").addEventListener("click",e=>{const c=e.target.closest(".chip");if(!c)return;
+  if(c.dataset.day){const d=el(c.dataset.day);open(d,true);d.scrollIntoView({behavior:RM?"auto":"smooth",block:"start"});return}
+  const k=c.dataset.ck;c.parentNode.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",b===c));
+  if(k)el("main").dataset.ck=k;else delete el("main").dataset.ck;
+  // one kind: every day that has it opens and shows that kind only; a day without it steps aside
+  days.forEach((d,i)=>{const has=!k||d.dataset.kinds.split(" ").includes(k);d.hidden=!has;d.querySelectorAll("[data-k]").forEach(x=>x.classList.toggle("on",x.dataset.k===k));if(k&&has)open(d,true)})});
 }
 
 /* the wiki-wide groups every detail page ends with; extra = this page's own groups, put first */
@@ -1097,11 +1113,13 @@ function pPanelInner(a){const xs=D.filter(d=>d.t===a),m=xs.filter(isMust).length
  ${xs.length?`<div class="chest"><p class="cht">${esc(actL(a))}: ${T("Curios")}</p>${slotRow(byRank(xs).slice(0,CHESTN).map(d=>({...rCurio(d,"",1),c:" r"+d.r})),actL(a)+": "+T("Curios"))}</div>`:""}`}
 /* how many curios an Act's chest shows on the home page (two rows of a wide screen) */
 const CHESTN=36;
-/* the dusk sky behind The Path: stars and two far ridges, the same on every load (a seeded generator, no data) */
+/* the dusk sky behind The Path: stars and two far ridges, the same on every load (a seeded generator, no data), and what
+   moves in it: clouds that drift across, a few birds, gusts of wind (CSS; the sun's light too). The layers shift a little
+   with the pointer (pathMapWire: --mx, --my). */
 const SKY=(()=>{let q=7;const r=()=>(q=q*16807%2147483647)/2147483647;
  const stars=Array.from({length:90},()=>{const big=r()<.18;return `${(r()*100).toFixed(2)}vw ${r()*300|0}px 0 ${big?1:0}px rgba(255,255,255,${(.35+r()*.6).toFixed(2)})`}).join(",");
  const ridge=(n,lo,hi,st)=>{let h=(lo+hi)/2;const p=["0% 100%"];for(let i=0;i<n;i++){h=Math.max(lo,Math.min(hi,h+Math.round(r()*4-2)*st));p.push(`${(i*100/n).toFixed(2)}% ${100-h}%`,`${((i+1)*100/n).toFixed(2)}% ${100-h}%`)}p.push("100% 100%");return `polygon(${p.join(",")})`};
- return `<div class="dsky" aria-hidden="true"><i class="dstars" style="box-shadow:${stars}"></i><i class="dsun"></i><i class="dcl" style="left:69%;top:158px;scale:.8"></i><i class="dcl" style="left:87%;top:236px;scale:.55"></i><i class="dcl" style="left:1.5%;top:420px;scale:.7"></i><i class="dr1" style="clip-path:${ridge(30,34,78,6)}"></i><i class="dr2" style="clip-path:${ridge(22,22,60,7)}"></i></div>`})();
+ return `<div class="dsky" aria-hidden="true"><i class="dstars" style="box-shadow:${stars}"></i><i class="dsun"></i>${[[37,.8,230,0],[44,.55,300,.22],[40,.45,360,.47],[49,.7,260,.63],[35,.5,330,.85]].map(([y,z,d,o])=>`<i class="dcl" style="top:${y}%;scale:${z};--cd:${d}s;--cdl:-${(d*o).toFixed(0)}s;--cx:${(o*100).toFixed(0)}vw"></i>`).join("")}${[[22,64,0],[31,78,-23],[14,92,-47]].map(([y,d,l])=>`<i class="dbirds" style="top:${y}%;--bd:${d}s;--bdl:${l}s"><b></b><b></b><b></b></i>`).join("")}${[[38,0],[52,-4],[27,-8]].map(([y,l])=>`<i class="dwind" style="top:${y}%;--wl:${l}s"></i>`).join("")}<i class="dr1" style="clip-path:${ridge(30,34,78,6)}"></i><i class="dr2" style="clip-path:${ridge(22,22,60,7)}"></i></div>`})();
 /* a Keeper's short name for its step: "Arion, Tyrant of the Emerald Wrath" => "Arion" */
 const kShort=k=>bossNameT(k).split(",")[0].split(/ the /)[0].replace(/^The /,"");
 /* the last Act has no Keeper to beat: its step shows the Act's end-game boss, a side boss ([figure key in BFIG, name in SIDEB]) */
@@ -1119,15 +1137,18 @@ function pathMap(path,lead){
  <div class="pcap"><h2 class="gt">${T("The Path")}</h2><p class="gs">${T("Pick an Act to see what it opens and who guards it. Press “I'm here” on the Act you reached and the map follows your run.")}</p><p class="prun" id="prun" aria-live="polite"></p></div>
  <div class="ptrack" role="tablist" aria-label="${T("Acts of The Path")}" style="--n:${path.length}"><div class="pxp" aria-hidden="true"><i id="pxpf"></i></div>
  ${path.map((a,i)=>{const k=NEXTB[a],e=!k&&ENDB[a],f=typeof BFIG!=="undefined"&&BFIG[k||(e&&e[0])];
-  return `<button type="button" role="tab" class="pn${VBOSS[a]?" ch":""}" id="pn-${i}" data-i="${i}" aria-controls="pp-${i}" aria-selected="${!i}" tabindex="${i?-1:0}" style="--tc:${ACT[a][2]};--i:${i};${tex(a)}" title="${esc(actF(a))}" data-k="${k?esc(kShort(k)):e?esc(TD(e[1])):""}" data-fk="${k||(e?e[0]:"")}"><i class="sw"></i>${envFx(a)}<span class="pfr" data-h="${esc(T("You are here"))}">${f?`<i class="au"></i><span class="pk${f.n>1?"":" st"}" style="--w:${f.w};--h:${f.h};--n:${f.n};--z:${f.z};--ms:${f.ms}"><img alt="" decoding="async" src="${f.src}"></span>${SPARKS}`:emblem(a,"lg")}</span><b>${esc(ACT[a][0])}</b></button>`}).join("")}</div></section>
+  return `<button type="button" role="tab" class="pn${VBOSS[a]?" ch":""}" id="pn-${i}" data-i="${i}" aria-controls="pp-${i}" aria-selected="${!i}" tabindex="${i?-1:0}" style="--tc:${ACT[a][2]};--i:${i};${tex(a)}" title="${esc(actF(a))}" data-k="${k?esc(kShort(k)):e?esc(TD(e[1])):""}" data-fk="${k||(e?e[0]:"")}"><i class="sw"></i>${envFx(a)}<span class="pfr${f&&f.fly?" fly":""}" data-h="${esc(T("You are here"))}">${f?`<i class="au"></i><span class="pk${f.n>1?"":" st"}" data-bw="${(f.bw/f.w).toFixed(3)}" style="--w:${f.w};--h:${f.h};--n:${f.n};--z:${f.z};--ms:${f.ms}"><img alt="" decoding="async" src="${f.src}"></span>${SPARKS}`:emblem(a,"lg")}</span><b>${esc(ACT[a][0])}</b></button>`}).join("")}</div></section>
  ${path.map((a,i)=>pPanel(a,i,!i)).join("")}
  ${D.some(d=>d.t===-1)?`<p class="gs side">${T("Side Act: {link}, dropped by L2 Hostility mobs by level, outside the Keeper order.",{link:`<a href="#act/-1">${T("L2 Artifacts")}</a>`})}</p>`:""}</div>`}
 function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...map.querySelectorAll(".pn")],pans=[...map.querySelectorAll(".ppanel")];let cur=0;
  const tr=map.querySelector(".ptrack"),ctr=i=>{if(tr.scrollWidth>tr.clientWidth+1)tr.scrollLeft=tabs[i].offsetLeft-(tr.clientWidth-tabs[i].offsetWidth)/2};
  // the sky fills the screen under the header, whatever the header's height (it wraps in some languages and on phones)
  const top=document.querySelector(".top"),toph=()=>document.documentElement.style.setProperty("--toph",top.offsetHeight+"px");
- // a Keeper that is not the open or the pointed one stays over its own step: a wide one (a spear, wings) is drawn smaller
- const fit=()=>tabs.forEach(t=>{const k=t.querySelector(".pk:not(.wk)");if(k&&k.offsetWidth)k.parentNode.style.setProperty("--fit",Math.min(1,1.2*t.offsetWidth/k.offsetWidth).toFixed(3))});
+ // a Keeper that is not the open or the pointed one keeps its body over its own step (a sword or a wing tip may reach
+ // past it): a broad one is drawn smaller. The dragon flies behind the others and is left as it is.
+ const fit=()=>tabs.forEach(t=>{const k=t.querySelector(".pk:not(.wk)");if(k&&k.offsetWidth&&!k.parentNode.classList.contains("fly"))k.parentNode.style.setProperty("--fit",Math.min(1,1.25*t.offsetWidth/(k.offsetWidth*(+k.dataset.bw||1))).toFixed(3))});
+ // the sky's layers shift a little with the pointer
+ if(!RM){const cl=map.querySelector(".climb");let pq=0;cl.addEventListener("pointermove",e=>{if(pq)return;pq=requestAnimationFrame(()=>{pq=0;const r=cl.getBoundingClientRect();cl.style.setProperty("--mx",((e.clientX-r.left)/r.width*2-1).toFixed(3));cl.style.setProperty("--my",((e.clientY-r.top)/r.height*2-1).toFixed(3))})},{passive:true})}
  toph();fit();if(window.ResizeObserver){const ro=new ResizeObserver(()=>{if(!map.isConnected){ro.disconnect();return}toph();fit()});ro.observe(top);ro.observe(tr)}
  // the walk loop of the Keeper under the pointer (or the keyboard): put in the first time, once its picture is ready
  const walk=t=>{const w=t&&!t.dataset.wk&&window.BWALK&&BWALK[t.dataset.fk],f=w&&BFIG[t.dataset.fk];if(!w)return;t.dataset.wk=0;const im=new Image();im.alt="";im.src=w.src;
@@ -1151,8 +1172,8 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
    st.op=null;save();paint();const tb=document.querySelector(".tbtns");if(tb)tb.innerHTML=hereBtns()}});
  map.querySelector(".ptrack").addEventListener("keydown",e=>{const k={ArrowRight:1,ArrowLeft:-1,Home:-99,End:99}[e.key];if(!k)return;e.preventDefault();sel(Math.max(0,Math.min(path.length-1,k===-99?0:k===99?path.length-1:cur+k)),true)});
  const h=pHere(),hi=h===null?-1:path.indexOf(h);paint();if(hi>0){pans[0].hidden=true;tabs[0].setAttribute("aria-selected","false");tabs[0].tabIndex=-1;if(!pans[hi].firstElementChild){pans[hi].innerHTML=pPanelInner(path[hi]);paint()}pans[hi].hidden=false;tabs[hi].setAttribute("aria-selected","true");tabs[hi].tabIndex=0;cur=hi}ctr(cur)}
-/* a vanilla chest on the home page: a title, one line under it, and a row of slots */
-const chest=(title,sub,slots,label)=>`<section class="chest"><h2 class="cht">${title}</h2><p class="chs">${sub}</p>${slotRow(slots,label)}</section>`;
+/* a shelf of the home page: a panel with a title, one line under it, and a tray of slots */
+const chest=(title,sub,slots,label)=>`<section class="gui"><h2 class="gt">${title}</h2><p class="gs">${sub}</p><div class="chest">${slotRow(slots,label)}</div></section>`;
 function hubHome(){
  document.title="Linggango Wiki";document.body.classList.add("hub");
  const path=ORDER.filter(a=>a>=0&&D.some(d=>d.t===a)),news=D.filter(d=>d.nw),rc=d=>({...rCurio(d,esc(ACT[d.t][0]),1),c:" r"+d.r});
