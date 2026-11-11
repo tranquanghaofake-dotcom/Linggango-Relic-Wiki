@@ -19,20 +19,7 @@
   "Epic",
   "Legendary",
   "Must-Have ★",
-  "Anklet",
-  "Binding Key",
-  "Blasphemy",
-  "Elytra",
   "Focus",
-  "Glove",
-  "Heart",
-  "Hostility Curse",
-  "Living Armour",
-  "Magnetizer",
-  "Sacrament",
-  "Scroll",
-  "Spellbook",
-  "Talent",
   "Seven Curses",
   "Seven Virtues",
   "Trait L2",
@@ -41,15 +28,7 @@
   "Geo",
   "Annihilation"
  ],
- "vi": [
-  "Bundle",
-  "Spellstone"
- ],
- "es": [
-  "Spellstone",
-  "Bundle"
- ],
- "pt": [
-  "Bundle"
- ]
+ "vi": [],
+ "es": [],
+ "pt": []
 }
