@@ -143,6 +143,21 @@ function spacingOffScale() {
     }, r);
     for (const x of res) fails.push(`375px ${r} phone: ${x}`);
   }
+  // The translated languages on a phone (a long word in ru/pt/es/vi is the usual cause): on the hub, Equipment and a curio page nothing runs past its panel, and the page does not scroll sideways.
+  // The title screen's buttons and corner text stay inside the panel; the room title (Equipment) and the page title stay inside their box. English is checked above.
+  for (const lang of ['ru', 'vi', 'pt', 'es']) {
+    await p.evaluate(l => useLang(l), lang);
+    for (const r of ['#', '#gear', sample[0]]) {
+      await p.evaluate(h => { location.hash = h }, r); await p.waitForTimeout(r === '#' || r === '#gear' ? 1500 : 700);
+      const res = await p.evaluate(() => { const o = [], de = document.documentElement; if (de.scrollWidth > de.clientWidth) o.push('page scrolls sideways (' + de.scrollWidth + ' > ' + de.clientWidth + ')');
+        const ts = document.querySelector('.title-scr'); if (ts) { const t = ts.getBoundingClientRect(); for (const e of ts.querySelectorAll('.hsearch,.tbtns,.tbtns .mcb,.tcorner,h1.lg')) { const b = e.getBoundingClientRect(); if (b.width && (b.right > t.right + 1 || b.left < t.left - 1)) o.push(e.className + ' leaves the title screen panel') } }
+        const rm = document.querySelector('.room3'); if (rm) { const t = rm.getBoundingClientRect(); for (const e of rm.querySelectorAll('.rhead h1,.rhead .lede')) { const b = e.getBoundingClientRect(); if (b.width && b.right > t.right + 1) o.push('room ' + e.tagName.toLowerCase() + ' runs past the panel (' + Math.round(b.right) + ' > ' + Math.round(t.right) + ')') } }
+        const h = document.querySelector('main .ip-title'); if (h && h.scrollWidth > h.clientWidth + 1) o.push('page title is clipped');
+        return o });
+      for (const x of res) fails.push(`375px ${lang} ${r} phone: ${x}`);
+    }
+  }
+  await p.evaluate(() => useLang('en'));
   await p.setViewportSize({ width: 768, height: 900 });
   await p.evaluate(() => { location.hash = '#mechanics' }); await p.waitForTimeout(1000);
   const tab = await p.$('.mtabs [data-go=m-ae2]');

@@ -137,6 +137,11 @@ body.hub #side{display:none}
 .tbtns .wide{grid-column:1/-1}
 .tcorner{position:absolute;bottom:12px;margin:0;font:500 14px/1.35 var(--body);color:#fff;text-shadow:2px 2px 0 #3f3f3f}
 .tcorner.l{left:16px;text-align:left}.tcorner.r{right:16px;text-align:right}
+/* translated languages: a long word in a title-screen button or corner text must not push the panel wider than the phone (English is untouched) */
+html:not([lang="en"]) .title-scr{grid-template-columns:minmax(0,1fr)}
+html:not([lang="en"]) .tbtns{grid-template-columns:repeat(2,minmax(0,1fr))}
+html:not([lang="en"]) .tbtns .mcb{min-width:0;white-space:normal;line-height:1.15;text-align:center}
+@media (max-width:480px){html:not([lang="en"]) .tcorner{position:static;text-align:center}}
 
 /* advancement tree */
 .advtree{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:var(--s5) var(--s3);padding:var(--s4) var(--s4) var(--s3);background:#000 var(--v-b_stone,none) 0 0/48px 48px;
@@ -1639,6 +1644,7 @@ table.cfg{border-collapse:collapse;margin-top:var(--s1);font-size:14px}table.cfg
 .room3 .rhead h1{margin:0 0 var(--s2);font:700 36px/1.1 var(--disp);color:#fff;text-shadow:3px 3px 0 #000}
 .room3 .rhead .lede,.room3 .rhead p{margin:0;font:500 15px/1.6 var(--body);color:#e8e4da;max-width:560px}
 .room3 .rhead:has(.gem){display:flex;gap:var(--s4);align-items:flex-start}
+.room3 .rhead:has(.gem)>div{min-width:0}.room3 .rhead h1{overflow-wrap:anywhere}   /* a long word (ru "снаряжение") breaks instead of running out of the panel */
 .room3 .rfrs{position:absolute;z-index:2;display:grid;gap:0}
 .room3 .rfr{position:relative;width:48px;height:48px;display:grid;place-items:center;background:var(--rt-ri_item_frame,var(--rt-item_frame)) 0 0/48px 48px no-repeat;image-rendering:pixelated;text-decoration:none}
 .room3 .rfr.glow{background-image:var(--rt-ri_glow_item_frame,var(--rt-glow_item_frame))}
