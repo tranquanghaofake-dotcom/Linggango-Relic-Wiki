@@ -34,7 +34,7 @@
   useLang('ru'); if (getComputedStyle(document.querySelector('.logo .lt')).fontFamily.includes('VT323')) bad.push('fonts: VT323 leaked into the Russian page');
   useLang('en'); if (getComputedStyle(document.querySelector('.logo .lt')).fontFamily.includes('VT323')) bad.push('fonts: VT323 leaked into the English page'); }
 // Pages drawn so far in the language (the hub, an Act page, an Act that does not exist): nothing half-filled, and every sentence they ask for
-// is translated or kept in English on purpose (the pack's `keep`: proper names, rarity names). A sentence missing from tm/<lang>.json shows up here.
+// is translated or kept in English on purpose (the pack's `keep`: proper names, rarity names). A sentence missing from tm/<lang>/ shows up here.
 { const h0 = location.hash;
   for (const c of LANG_CODES.filter(x => x !== 'en')) { useLang(c); window.__TRLOG = new Set();
     const st0 = JSON.stringify(st); Object.assign(st, { c: ['ME'], r: ['4'], s: 'Ring', q: 'role:melee -mod:brutality' });   // the Curios page with filters on: the pills, the legend, the table of tiers

@@ -90,7 +90,11 @@ def official_overlay():
         p = B / "i18n" / "official" / (lang + ".json"); o = json.loads(read(p)) if p.exists() else {"names": {}, "text": {}}; tr = {}
         for i, t in o["names"].items():
             if i in en_of: tr[tmlib.hsh(en_of[i])] = t
-        for en, t in o["text"].items(): tr.setdefault(tmlib.hsh(en), t)
+        eng = set(o["text"]); bad = 0
+        for en, t in o["text"].items():
+            if tmlib.official_text_ok(en, t, eng): tr.setdefault(tmlib.hsh(en), t)
+            else: bad += 1
+        print("i18n %s: %d official texts not used (numbers or placeholders differ from the English: an older mod file)" % (lang, bad))
         out[lang] = tr
     return out
 def add_tm(packs):
@@ -106,7 +110,7 @@ def add_tm(packs):
         tm, tr = tmlib.load_tm(lang), {}
         for k, e in tm.items():
             en, t = e["en"], e["t"]
-            assert tmlib.hsh(en) == k, "i18n: tm/%s.json key %s is not the hash of %r" % (lang, k, en)
+            assert tmlib.hsh(en) == k, "i18n: tm/%s: key %s is not the hash of %r" % (lang, k, en)
             forms = [t] if isinstance(t, str) else list(t.values())
             assert (isinstance(t, dict) and "other" in t and set(t) <= {"zero", "one", "two", "few", "many", "other"}) if "\u0001" in en else isinstance(t, str), "i18n: %s %r: plural forms are wrong" % (lang, en)
             for f in forms:

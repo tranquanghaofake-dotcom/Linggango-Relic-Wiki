@@ -1,6 +1,6 @@
 // Proof that English did not change: <main> and sidebar HTML, tab title and title-screen buttons of 17 routes in three states (plain, "I'm here" at Act 3, filters on).
 // Build the commit before your change in a scratch copy (git archive <commit> | tar -x -C <dir>; run its build/patches/apply_all.sh), then:
-//   NODE_PATH=$(npm root -g) node build/i18n/domdump.js <dir>/index.html /tmp/before.json ; NODE_PATH=$(npm root -g) node build/i18n/domdump.js index.html /tmp/after.json ; python3 build/i18n/domcmp.py /tmp/before.json /tmp/after.json
+//   NODE_PATH=$(npm root -g) node build/i18n/tools/domdump.js <dir>/index.html /tmp/before.json ; NODE_PATH=$(npm root -g) node build/i18n/tools/domdump.js index.html /tmp/after.json ; python3 build/i18n/tools/domcmp.py /tmp/before.json /tmp/after.json
 const { chromium } = require('playwright'); const path = require('path'), fs = require('fs');
 const ROUTES = ['#', '#act/0', '#act/2', '#act/5', '#act/6', '#act/12', '#act/-1', '#act/99', '#i5', '#i700', '#g12', '#gs3', '#boss/iron_colossus', '#bosses', '#mechanics', '#changes', '#home'];
 const FILT = '{"c":["ME"],"r":["4","5"],"x":[],"g":[],"m":"","s":"Ring","a":"","q":"role:melee -mod:brutality","nw":false,"sort":"a","dir":1,"cl":[],"op":null,"rl":3,"rq":-1}';

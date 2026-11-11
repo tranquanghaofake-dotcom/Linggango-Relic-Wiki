@@ -1,4 +1,4 @@
-"""Compares two build/i18n/domdump.js outputs: prints every route state whose title, <main>, sidebar or title-screen buttons differ, with the first difference. Usage: domcmp.py before.json after.json"""
+"""Compares two build/i18n/tools/domdump.js outputs: prints every route state whose title, <main>, sidebar or title-screen buttons differ, with the first difference. Usage: domcmp.py before.json after.json"""
 import json,sys
 a=json.load(open(sys.argv[1])); b=json.load(open(sys.argv[2])); bad=0
 for k in a:

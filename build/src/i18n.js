@@ -22,7 +22,7 @@ const tn=(k,n,en,p)=>{const P=pack(),f=P&&P[k]||en;PRULES=PRULES||new Intl.Plura
 /* Sentences written in the code (not in template.html): the English text is the key, so nothing is named by hand and the English stays readable where it is used.
      T("Opens when {boss} falls.",{boss:esc(name)})        one sentence; the caller escapes what it passes in
      TN(n,"{n} curio","{n} curios")                       a counted one: the pack holds the language's CLDR forms (one, few, many, other); {n} is n as written
-   The pack's `tr` maps hsh(English) to the text (a string, or an object of plural forms); a sentence without one shows its English. build/i18n/tm/<lang>.json
+   The pack's `tr` maps hsh(English) to the text (a string, or an object of plural forms); a sentence without one shows its English. build/i18n/tm/<lang>/<domain>.json
    is where the translations live; build.py checks them (the same hash in Python), and build/i18n/trlog.js crawls the site to list every sentence a page asks for. */
 const hsh=s=>{let a=0xdeadbeef,b=0x41c6ce57;for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);a=Math.imul(a^c,2654435761);b=Math.imul(b^c,1597334677)}
  a=Math.imul(a^(a>>>16),2246822507)^Math.imul(b^(b>>>13),3266489909);b=Math.imul(b^(b>>>16),2246822507)^Math.imul(a^(a>>>13),3266489909);return(4294967296*(2097151&b)+(a>>>0)).toString(36)};

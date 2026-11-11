@@ -20,7 +20,10 @@
    "ru": "Аксессуар",
    "pt": "Acessório",
    "es": "Curio",
-   "src": "Curios mod lang (curios.identifier.curio): vi official is 'Phụ Kiện', kept English by D3 (owner may switch)"
+   "src": "Curios mod lang (curios.identifier.curio): vi official is 'Phụ Kiện', kept English by D3 (owner may switch)",
+   "ignore": [
+    "Terra Curio"
+   ]
   },
   "Act": {
    "vi": "Act",
@@ -34,14 +37,18 @@
    "ru": "Босс",
    "pt": "Chefe",
    "es": "Jefe",
-   "src": "vanilla ru 'Босс', es 'Jefe'; vi official 'Boss'; pt chosen (no official entry): check with a Brazilian player"
+   "src": "vanilla ru 'Босс', es 'Jefe'; vi official 'Boss'; pt chosen (no official entry): check with a Brazilian player",
+   "ignore": [
+    "Boss Soul"
+   ]
   },
   "Power": {
    "vi": "Sức mạnh",
    "ru": "Мощь",
    "pt": "Poder",
    "es": "Poder",
-   "src": "the wiki's own tier word, deliberately not the official 'Сила'/'Força' (those mean strength)"
+   "src": "the wiki's own tier word, deliberately not the official 'Сила'/'Força' (those mean strength)",
+   "whole": true
   },
   "Equipment": {
    "vi": "Trang bị",
@@ -97,7 +104,8 @@
    "ru": "Визер",
    "pt": "Wither",
    "es": "Wither",
-   "src": "vanilla names"
+   "src": "vanilla names",
+   "loose": true
   }
  }
 }
