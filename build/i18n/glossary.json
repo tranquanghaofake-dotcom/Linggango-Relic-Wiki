@@ -23,7 +23,8 @@
    "src": "Curios mod lang (curios.identifier.curio): vi official is 'Phụ Kiện', kept English by D3 (owner may switch)",
    "ignore": [
     "Terra Curio"
-   ]
+   ],
+   "loose": true
   },
   "Act": {
    "vi": "Act",
@@ -55,21 +56,24 @@
    "ru": "Снаряжение",
    "pt": "Equipamentos",
    "es": "Equipo",
-   "src": "chosen; no official entry"
+   "src": "chosen; no official entry",
+   "loose": true
   },
   "Build": {
    "vi": "build",
    "ru": "билд",
    "pt": "build",
    "es": "build",
-   "src": "gaming loanword in all four communities"
+   "src": "gaming loanword in all four communities",
+   "loose": true
   },
   "Slot": {
    "vi": "vị trí",
    "ru": "слот",
    "pt": "slot",
    "es": "ranura",
-   "src": "official: vi 'Vị Trí', ru 'Слот', pt 'Slot', es 'Ranuras'"
+   "src": "official: vi 'Vị Trí', ru 'Слот', pt 'Slot', es 'Ranuras'",
+   "loose": true
   },
   "Mechanics": {
    "vi": "Cơ chế",
@@ -83,21 +87,25 @@
    "ru": "Изменения",
    "pt": "Alterações",
    "es": "Cambios",
-   "src": "official in all four"
+   "src": "official in all four",
+   "loose": true
   },
   "Warden (mob)": {
-   "vi": "Warden",
+   "vi": "Kẻ cai ngục",
    "ru": "Хранитель",
    "pt": "Sentinela",
    "es": "Warden",
-   "src": "vanilla names; note ru 'Хранитель' is why 'Keeper' stays English"
+   "src": "vanilla lang: vi Kẻ cai ngục, ru Хранитель, pt Sentinela, es Warden"
   },
   "Ender Dragon": {
-   "vi": "Ender Dragon",
+   "vi": "Rồng Ender",
    "ru": "Эндер-дракон",
    "pt": "Dragão de Ender",
    "es": "Enderdragón",
-   "src": "vanilla names; vi kept English by D3 (official 'Rồng Ender')"
+   "src": "vanilla names; vi kept English by D3 (official 'Rồng Ender')",
+   "ignore": [
+    "Ender Dragon Act"
+   ]
   },
   "Wither": {
    "vi": "Wither",

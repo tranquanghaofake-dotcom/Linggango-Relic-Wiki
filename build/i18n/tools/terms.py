@@ -10,7 +10,7 @@ import tmlib
 ap = argparse.ArgumentParser(); ap.add_argument('--lang'); ap.add_argument('--min', type=int, default=6); ap.add_argument('--below', type=float, default=0.6); ap.add_argument('--show', type=int, default=3); ap.add_argument('--cat', help='only words of these kinds, comma separated: effect, attribute, entity, enchantment, biome, dimension, block, item'); ap.add_argument('--json', help='write every string with a word not said as the game says it: [{lang, en, t, term, game}]'); a = ap.parse_args(); flagged = []
 V = json.load(open(os.path.join(tmlib.HERE, 'official', 'vanilla_terms.json'), encoding='utf-8'))
 G = json.load(open(os.path.join(tmlib.HERE, 'glossary.json'), encoding='utf-8')); chosen = G.get('terms', {})
-def stems(t): return [w.lower()[:max(4, len(w) - (3 if re.search('[а-я]', w) else 2))] for w in re.findall(r'[^\W\d_]+', t) if len(w) > 2]
+def stems(t): return [w.lower()[:max(3, len(w) - 2)] if re.search('[а-яё]', w.lower()) else w.lower()[:max(4, len(w) - 2)] for w in re.findall(r'[^\W\d_]+', t) if len(w) > 2]   # a Russian word is compared without its last two letters (case endings)
 for lang in ([a.lang] if a.lang else ['vi', 'ru', 'pt', 'es']):
     tm = tmlib.load_tm(lang); rows = []
     for en, per in V.items():
