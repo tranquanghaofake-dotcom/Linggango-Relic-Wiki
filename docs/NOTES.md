@@ -1142,3 +1142,9 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   Mechanics, Changes, a curio page, an equipment page and the Path shows only names (curios, bosses, items, mods, licences) and the labels "Must-Have", "Armor Toughness", "Max Mana" as English.
 - Open: ru plural of "блоков"; item and place names inside lists in ru, pt, es; relic ability names; "Name: value" config lines in the tooltip; the Vietnamese "Progress" label wraps (a look change, needs approval);
   native review of ru, pt, es (machine-translated, unreviewed).
+
+## 2026-11-11: multilingual, đợt 2: kế hoạch (chưa sửa code)
+- Bạn giao 4 việc (làm tiếp; dịch hết trừ danh từ riêng; nâng độ hay và chính xác; bố cục dễ cập nhật). Viết `docs/plans/2026-11-11-i18n-quality-and-structure.md`: hiện trạng đo được, khảo sát (Weblate glossary/checks, GEMBA-MQM, MQM-APE, trang dịch của Minecraft Wiki, spike mạng cho dịch ngược cục bộ), gói A (cấu trúc và công cụ), B (chất lượng), C (dịch hết) và tiêu chí xong.
+- Đo mới: 3.454 tên vật phẩm (1.304 curio + 2.150 gear), đã dịch nhờ bản chính thức: ru 1.731, es 824, pt 719, vi 336; 1.014 dòng tooltip "Tên: giá trị" (791 nhãn, 280 giá trị) còn tiếng Anh.
+- Chưa kiểm chứng và đã ghi trong kế hoạch: dịch ngược bằng opus-mt (mới thử đường tải/cài, chưa chạy), kiến thức gettext/i18next, danh sách đầy đủ check của Weblate.
+- Open: chờ bạn chốt chính sách tên vật phẩm và dòng phụ tên Anh (mục 4 của kế hoạch) trước khi làm gói C3; gói A, B1, B6, C1 không phụ thuộc quyết định này.
