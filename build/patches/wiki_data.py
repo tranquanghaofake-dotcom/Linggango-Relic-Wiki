@@ -41,6 +41,7 @@ out += "const SSTAT=" + json.dumps(_ss, ensure_ascii=False, separators=(",", ":"
 out += "const SDROP=" + json.dumps(J("side_drops.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const SIMG=" + json.dumps(J("side_imgs.json"), separators=(",", ":")) + ";\n"
 out += "const BPORT=" + json.dumps(J("boss_portraits.json"), separators=(",", ":")) + ";\n"
+out += "const BFIG=" + json.dumps(J("boss_figs.json"), separators=(",", ":")) + ";\n"  # the home page's staircase figures (boss_portraits.js --figs)
 _cm = J("curio_measure.json")
 out += "const CM=" + json.dumps(_cm["curios"], ensure_ascii=False, separators=(",", ":")) + ",CMREF=" + json.dumps(_cm["ref_hit"]) + ";\n"
 out += "const CTIER=" + json.dumps(J("curio_tiers.json"), separators=(",", ":")) + ";\n"

@@ -121,8 +121,8 @@ function spacingOffScale() {
     }
   }
   // Phone details at 375 (phone-11/12/14/15): article sections never scroll sideways, the filter hint ends in an ellipsis,
-  // the Mechanics flow arrows point down at the step under them, controls are at least 24x24 (WCAG 2.5.8), and the hub's
-  // latest-curio names keep clear of their icon. At 768 (phone-21) a Mechanics tab jump lands below the sticky header.
+  // the Mechanics flow arrows point down at the step under them, and controls are at least 24x24 (WCAG 2.5.8).
+  // At 768 (phone-21) a Mechanics tab jump lands below the sticky header.
   await p.setViewportSize({ width: 375, height: 900 });
   for (const r of ['#side/Moonknight', '#g2078', '#g2000', sample[0], sample[2], sample[4], '#home', '#build', '#mechanics', '#']) {
     await p.evaluate(h => { location.hash = h }, r); await p.waitForTimeout(r === '#' || r === '#home' ? 1500 : 800);
@@ -137,8 +137,6 @@ function spacingOffScale() {
         if (nr.top >= ar.bottom - 1 && (cx < nr.left || cx > nr.right)) o.push('flow arrow ' + a.textContent.trim() + ' points beside its step') }
       const small = [...document.querySelectorAll('button,summary,select')].filter(e => vis(e) && (e.getBoundingClientRect().width < 24 || e.getBoundingClientRect().height < 24));
       if (small.length) o.push(small.length + ' controls under 24x24, e.g. ' + small[0].tagName.toLowerCase() + '.' + small[0].className + ' ' + Math.round(small[0].getBoundingClientRect().width) + 'x' + Math.round(small[0].getBoundingClientRect().height));
-      if (r === '#') for (const a of document.querySelectorAll('.latest li a')) { const [ic, lb] = a.children; if (!ic || !lb) continue;
-        const g = lb.getBoundingClientRect().left - ic.getBoundingClientRect().right; if (g < 8) { o.push('.latest label ' + Math.round(g) + ' px from its icon: ' + lb.textContent.trim().slice(0, 20)); break } }
       return o;
     }, r);
     for (const x of res) fails.push(`375px ${r} phone: ${x}`);

@@ -1,18 +1,24 @@
 // The climb: the home page's hero is The Path as a staircase (docs/plans/2026-11-11-the-climb.md). Runs in the page (check.js:
 // `bad` and `acts` in scope). One step per Act of The Path, in order; a step's text is the Act's label alone (the Keeper's name
-// is drawn from data-k, so tools and tests that read a step still read "XI"); the Keeper on a step is the one to beat at that
-// Act (NEXTB) and the last Act carries its emblem; an Act's chest holds its strongest curios first; "I'm here" marks that step
-// and the ones before it.
-{ location.hash = '#'; render();
+// is drawn from data-k, so tools and tests that read a step still read "XI"); the figure on a step is the Keeper to beat at
+// that Act (NEXTB) and, on the last Act, the Act's end-game side boss (ENDB: it must be a side boss of that Act); every figure
+// has a strip in BFIG whose picture is as wide as its frames say; an Act's chest holds its strongest curios first; "I'm here"
+// marks that step and the ones before it; the wordmark is gone from the hero (one "Linggango" at the top, the header's).
+// (the page redraws once more when the address changes, so wait for that before reading: this file awaits between steps)
+{ location.hash = '#'; await new Promise(r => setTimeout(r, 80)); render();
   const path = ORDER.filter(a => a >= 0 && D.some(d => d.t === a)), pn = () => [...document.querySelectorAll('#pmap .pn')];
   if (pn().length !== path.length) bad.push(`climb: ${pn().length} steps for ${path.length} Acts`);
-  if (!document.querySelector('#main h1')) bad.push('climb: the home page has no h1');
-  pn().forEach((b, i) => { const a = path[i], k = NEXTB[a], im = b.querySelector('img.pk');
+  const h1 = document.querySelector('#main h1');
+  if (!h1 || !/Linggango Wiki/.test(h1.textContent) || h1.querySelector('img')) bad.push('climb: the home page\'s h1 is not the text headline that names the wiki');
+  for (const [a, [k, name]] of Object.entries(ENDB)) { if (NEXTB[a]) bad.push(`climb: Act ${a} has a Keeper and an end boss`);
+    if (!SIDEB[name] || !BOSSR.some(r => r[0] === name && r[1] === +a)) bad.push(`climb: ${name} is not a side boss of Act ${a}`); }
+  for (const [i, b] of pn().entries()) { const a = path[i], k = NEXTB[a] || (ENDB[a] || [])[0], f = k && BFIG[k], im = b.querySelector('.pk img');
     if (b.textContent.trim() !== ACT[a][0]) bad.push(`climb: step ${i} reads "${b.textContent.trim()}", not "${ACT[a][0]}"`);
     if (!/url\(/.test(getComputedStyle(b).backgroundImage)) bad.push(`climb: step ${ACT[a][0]} has no block texture`);
-    if (k) { if (!b.dataset.k) bad.push(`climb: step ${ACT[a][0]} does not name its Keeper`);
-      if (BPORT[k] ? !im || !im.src.endsWith(BPORT[k]) : !!im) bad.push(`climb: step ${ACT[a][0]} does not show ${k}`); }
-    else if (im || b.dataset.k || !b.querySelector('.emb')) bad.push(`climb: step ${ACT[a][0]} has no Keeper to beat, so it shows the Act's emblem`); });
+    if (!f || !im || im.getAttribute('src') !== f.src || !b.dataset.k) { bad.push(`climb: step ${ACT[a][0]} does not show and name ${k || 'a boss'}`); continue; }
+    await im.decode().catch(() => {});
+    if (im.naturalWidth !== f.w * f.n || im.naturalHeight !== f.h) bad.push(`climb: the strip of ${k} is ${im.naturalWidth}x${im.naturalHeight}, its record says ${f.n} frames of ${f.w}x${f.h}`);
+    if (NEXTB[a] && (f.n < 2 || !f.ms)) bad.push(`climb: the Keeper ${k} has no idle loop`); }
   const i = Math.min(2, path.length - 1), a = path[i]; pn()[i].click();
   const sl = [...document.querySelectorAll(`#pp-${i} .chest .sslot`)], top = byRank(D.filter(d => d.t === a));
   if (!sl.length || sl.length > CHESTN || sl.length !== Math.min(CHESTN, top.length)) bad.push(`climb: the chest of ${ACT[a][0]} has ${sl.length} slots for ${top.length} curios`);

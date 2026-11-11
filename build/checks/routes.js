@@ -22,13 +22,14 @@ for (const h of ['#home', '#slot/Ring', '#mods', '#bosses', '#mechanics', '#chan
 // ui-desktop-17: the Filters column shows next to the curio list only
 for (const h of ['#build', '#gear', '#bosses', '#mechanics', '#changes', '#i5', '#g5', '#boss/arion', '#home']) { go(h);
   const none = getComputedStyle(document.getElementById('side')).display === 'none'; if (none !== (h !== '#home')) bad.push(h + ': #side display ' + (none ? 'none' : 'shown')); }
-// ui-desktop-15 / app-logic-11: with each Act as 'I'm here', the first Start-here square says 'open at' and its page lists exactly that
-// Act's curios; the run line counts stops on The Path, not Acts
+// ui-desktop-15 / app-logic-11: with each Act as 'I'm here', the open panel on the home page is that Act's and its "See N curios"
+// button leads to a page that lists exactly that Act's curios (the Start-here squares that first carried this are gone: the
+// panel answers the same question); the run line counts stops on The Path, not Acts
 { Object.assign(st, JSON.parse(ST)); let keep = null; try { keep = localStorage.getItem('lgw-here'); } catch (e) {}
   for (const a of ORDER.filter(x => x >= 0)) { try { localStorage.setItem('lgw-here', String(a)); } catch (e) { break; }
-    go(''); const run = document.getElementById('prun')?.textContent || '', s = document.querySelector('.sqs .sq'), href = s && s.getAttribute('href'), txt = s ? s.innerText : '';
+    go(''); const run = document.getElementById('prun')?.textContent || '', s = document.querySelector('#pmap .ppanel:not([hidden]) .pbtn a[href^="#act/"]'), href = s && s.getAttribute('href'), txt = s ? s.innerText : '';
     if (href) go(href); const m = (document.getElementById('bc')?.innerText || '').match(/of ([\d,]+) curios?/), n = m ? +m[1].replace(/,/g, '') : -1, want = D.filter(d => d.t === a).length;
-    if (!/open at/.test(txt) || n !== want) bad.push(`start-here ${a}: "${txt}" ${href} shows ${n} of ${want}`);
+    if (href !== '#act/' + a || !txt.includes(String(want)) || n !== want) bad.push(`open panel ${a}: "${txt}" ${href} shows ${n} of ${want}`);
     if (!/^Your run: .+ \(\d+ of \d+ on The Path\)$/.test(run)) bad.push(`run line ${a}: ${run}`); }
   try { keep === null ? localStorage.removeItem('lgw-here') : localStorage.setItem('lgw-here', keep); } catch (e) {} }
 // a11y-perf-12: heading levels never rise by more than one (the footer's h4 under an h1/h2), and exactly one visible h1 per page
