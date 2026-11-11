@@ -26,46 +26,50 @@ function dealGear(){const h=location.hash;if(!/^#gear/.test(h)){lastGear="";retu
 /* ---------- quick search ---------- */
 const QS={open:false,inp:null,items:[],sel:0,idx:null};
 const box=document.createElement("div");box.id="qs";box.setAttribute("role","listbox");box.setAttribute("aria-label",T("Search results"));box.hidden=true;document.body.appendChild(box);
-const PAGES=[["Curios","#home","Every curio by the Act you can get it in"],["Equipment","#gear","Weapon and armor tier lists"],["Build planner","#build","Plan curio slots and see stat totals"],["Bosses","#bosses","Keepers in fight order, with summon guides"],["Mechanics","#mechanics","Goety rituals, AE2 storage, how stats work"],["Changes","#changes","What's new on the wiki"]];
+const PAGES=[[N("Curios"),"#home",N("Every curio by the Act you can get it in")],[N("Equipment"),"#gear",N("Weapon and armor tier lists")],[N("Build planner"),"#build",N("Plan curio slots and see stat totals")],[N("Bosses"),"#bosses",N("Keepers in fight order, with summon guides")],[N("Mechanics"),"#mechanics",N("Goety rituals, AE2 storage, how stats work")],[N("Changes"),"#changes",N("What's new on the wiki")]];
+/* the app calls this when the language changes: the index is built again in the new language */
+window.QSRESET=()=>{QS.idx=null;box.setAttribute("aria-label",T("Search results"));if(QS.open)close()};
 function index(){if(QS.idx)return QS.idx;const o=[];
- const add=(n,h,ic,meta,kind,w,c,t)=>o.push({n,l:n.toLowerCase(),h,ic,meta,kind,w,c,t});
- PAGES.forEach(([n,h,m])=>add(n,h,()=>'<span class="qpg" aria-hidden="true">'+n[0]+"</span>",m,"Page",3));
+ // n is the English name; the row shows the name the reader sees (dn) and the search looks at both
+ const add=(n,h,ic,meta,kind,w,c,t,dn)=>{dn=dn||TD(n);o.push({n:dn,l:fold(dn),l2:dn!==n?fold(n):null,h,ic,meta,kind,w,c,t})};
+ PAGES.forEach(([n,h,m])=>add(n,h,()=>'<span class="qpg" aria-hidden="true">'+T(n)[0]+"</span>",T(m),"Page",3,null,null,T(n)));
  const ks=ORDER.map(a=>PB[a]).filter(Boolean);ks.splice(ks.indexOf("zoranth_forgotten")+1,0,"warden","wither");
- ks.forEach(k=>{const a=bossPath(k);add(bossName(k),"#boss/"+k,()=>emblem(a,"xs"),SIDEV[k]!=null?"Side boss at "+actL(a):(VBOSS[a]?"Required boss, opens ":"Keeper, opens ")+actL(a),"Boss",2.5)});
- if(typeof SIDEB!=="undefined")Object.keys(SIDEB).forEach(n=>{const b=SIDEB[n];add(n,"#side/"+enc(n),()=>b.img?`<img alt="" src="${b.img}">`:`<span class="qpg" aria-hidden="true">${esc(n[0])}</span>`,(b.mod?b.mod+" side boss":"Side boss"),"Boss",2);if(b.gname)add(b.gname,"#side/"+enc(n),()=>b.img?`<img alt="" src="${b.img}">`:`<span class="qpg" aria-hidden="true">${esc(n[0])}</span>`,"In-game name of "+n,"Boss",2)});
+ ks.forEach(k=>{const a=bossPath(k);add(bossName(k),"#boss/"+k,()=>emblem(a,"xs"),SIDEV[k]!=null?T("Side boss at {act}",{act:actL(a)}):VBOSS[a]?T("Required boss, opens {act}",{act:actL(a)}):T("Keeper, opens {act}",{act:actL(a)}),"Boss",2.5)});
+ if(typeof SIDEB!=="undefined")Object.keys(SIDEB).forEach(n=>{const b=SIDEB[n];add(n,"#side/"+enc(n),()=>b.img?`<img alt="" src="${b.img}">`:`<span class="qpg" aria-hidden="true">${esc(n[0])}</span>`,(b.mod?T("{mod} side boss",{mod:b.mod}):T("Side boss")),"Boss",2);if(b.gname)add(b.gname,"#side/"+enc(n),()=>b.img?`<img alt="" src="${b.img}">`:`<span class="qpg" aria-hidden="true">${esc(n[0])}</span>`,T("In-game name of {name}",{name:TD(n)}),"Boss",2)});
  D.forEach(d=>add(d.n,"#i"+d.ix,()=>img(d.id),d.m+", "+actL(d.t),"Curio",1+d.r/6,RC[d.r],String(d.ix)));
  if(typeof GE!=="undefined"){
-  GE.forEach(g=>{if(/creative only/i.test(g.n))return;const ar=g.k==="armor";add(g.n,"#g"+g.ix,()=>gImg(g),(ar?"Armor":"Weapon")+", "+actL(g.a),ar?"Armor":"Weapon",1.2,null,"g"+g.ix)});
-  GS.forEach(s=>add(s.n+" set","#gs"+s.ix,()=>gImg(s),s.ps.length+(s.ps.length>1?" pieces, ":" piece, ")+actL(s.a),"Armor set",1.3,null,"s"+s.ix))}
+  GE.forEach(g=>{if(/creative only/i.test(g.n))return;const ar=g.k==="armor";add(g.n,"#g"+g.ix,()=>gImg(g),(ar?T("Armor, {act}",{act:actL(g.a)}):T("Weapon, {act}",{act:actL(g.a)})),ar?"Armor":"Weapon",1.2,null,"g"+g.ix)});
+  GS.forEach(s=>add(s.n+" set","#gs"+s.ix,()=>gImg(s),TN(s.ps.length,"{n} piece, {act}","{n} pieces, {act}",{act:actL(s.a)}),"Armor set",1.3,null,"s"+s.ix,T("{set} set",{set:TD(s.n)})))}
  return QS.idx=o}
+const KL={Page:N("Pages"),Boss:N("Bosses"),Curio:N("Curios"),Weapon:N("Weapons"),"Armor set":N("Armor sets"),Armor:N("Armor pieces")};
 const GROUPS=[["Page",3],["Boss",5],["Curio",6],["Weapon",5],["Armor set",4],["Armor",4]];
-function search(q){q=q.toLowerCase().trim();if(!q)return[];const ws=q.split(/\s+/);
- const hits=[];for(const e of index()){const l=e.l;let s=0;
-  if(l===q)s=100;else if(l.startsWith(q))s=80;else{const i=l.indexOf(q);if(i>0&&!/[a-z0-9]/.test(l[i-1]))s=60;else if(i>0)s=40;else if(ws.length>1&&ws.every(w=>l.includes(w)))s=30}
+function search(q){q=fold(q).trim();if(!q)return[];const ws=q.split(/\s+/);
+ const sc=l=>{let s=0;if(l===q)s=100;else if(l.startsWith(q))s=80;else{const i=l.indexOf(q);if(i>0&&!/[a-z0-9]/.test(l[i-1]))s=60;else if(i>0)s=40;else if(ws.length>1&&ws.every(w=>l.includes(w)))s=30}return s};
+ const hits=[];for(const e of index()){const l=e.l;let s=sc(l);if(e.l2){const s2=sc(e.l2)-1;if(s2>s)s=s2}   // a match on the English name ranks a hair below the same match on the shown name
   if(s)hits.push([s+e.w-l.length/100,e])}
  hits.sort((a,b)=>b[0]-a[0]);
  const by={};hits.forEach(([s,e])=>{(by[e.kind]=by[e.kind]||{s,xs:[]}).xs.push(e)});
  return GROUPS.filter(([k])=>by[k]).sort((a,b)=>by[b[0]].s-by[a[0]].s).map(([k,n])=>[k,by[k].xs.slice(0,n),by[k].xs.length])}
-const hl=(n,q)=>{const i=n.toLowerCase().indexOf(q.toLowerCase().trim());return i<0||!q.trim()?esc(n):esc(n.slice(0,i))+"<mark>"+esc(n.slice(i,i+q.trim().length))+"</mark>"+esc(n.slice(i+q.trim().length))};
+const hl=(n,q)=>{const fn=fold(n),i=fn.length===n.length?fn.indexOf(fold(q).trim()):-1;return i<0||!q.trim()?esc(n):esc(n.slice(0,i))+"<mark>"+esc(n.slice(i,i+q.trim().length))+"</mark>"+esc(n.slice(i+q.trim().length))};
 /* recently opened pages: shown when the search box is focused empty (this browser only) */
 const RKEY="lgw-recent";let recent=[];try{recent=JSON.parse(localStorage.getItem(RKEY)||"[]")}catch(e){}if(!Array.isArray(recent))recent=[];recent=recent.filter(x=>typeof x==="string");
 function remember(){const h=decodeURIComponent(location.hash);if(!/^#(i\d|gs?\d|boss\/|side\/)/.test(h))return;
  recent=[h,...recent.filter(x=>x!==h)].slice(0,8);try{localStorage.setItem(RKEY,JSON.stringify(recent))}catch(e){}}
 function drawRecent(){const by=new Map(index().map(e=>[decodeURIComponent(e.h),e]));const xs=recent.map(h=>by.get(h)).filter(Boolean);if(!xs.length)return false;
- QS.items=xs;box.innerHTML=`<div class="qg" role="presentation"><span>Recently opened</span></div>`+xs.map((e,i)=>row(e,i,"")).join("")+KEYS;QS.sel=0;mark();return true}
-const KEYS=`<p class="qkeys" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>Enter</kbd> open</span><span><kbd>Esc</kbd> close</span></p>`;
+ QS.items=xs;box.innerHTML=`<div class="qg" role="presentation"><span>${T("Recently opened")}</span></div>`+xs.map((e,i)=>row(e,i,"")).join("")+KEYS();QS.sel=0;mark();return true}
+const KEYS=()=>`<p class="qkeys" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> ${T("move")}</span><span><kbd>Enter</kbd> ${T("open")}</span><span><kbd>Esc</kbd> ${T("close")}</span></p>`;
 const row=(e,i,q)=>`<a class="qr" role="option" id="qr${i}" href="${e.h}"${e.t?` data-t="${e.t}"`:""} data-i="${i}"><span class="qic">${e.ic()}</span><span class="qtx"><b${e.c?` style="color:${e.c}"`:""}>${hl(e.n,q)}</b><small>${esc(e.meta)}</small></span></a>`;
 function draw(q){const gs=search(q);QS.items=[];let html="";
- gs.forEach(([k,xs,all])=>{html+=`<div class="qg" role="presentation"><span>${k==="Boss"?"Bosses":k==="Curio"?"Curios":k==="Armor"?"Armor pieces":k+"s"}</span>${all>xs.length?`<em>${xs.length} of ${all}</em>`:""}</div>`;
+ gs.forEach(([k,xs,all])=>{html+=`<div class="qg" role="presentation"><span>${T(KL[k])}</span>${all>xs.length?`<em>${T("{a} of {b}",{a:xs.length,b:all})}</em>`:""}</div>`;
   xs.forEach(e=>{const i=QS.items.length;QS.items.push(e);html+=row(e,i,q)})});
  // two counts under the query as Curios will apply it: every curio it matches, and those that also pass the sidebar filters
  // (Power, Role … are saved between visits), so the number on the row is the number Curios shows
  const s0=st.q;st.q=q.trim();let nc=0,np=0;D.forEach(d=>{if(qMatch(d)){nc++;if(pass(d))np++}});st.q=s0;
- const cu=n=>n===1?"curio":"curios",qt=`“${esc(q.trim())}”`;
+ const qe=esc(q.trim());
  const i=QS.items.length;QS.items.push({h:"#home",path:true});
- html+=`<a class="qr qall" role="option" id="qr${i}" href="#home" data-i="${i}"><span class="qic"><span class="qpg" aria-hidden="true">⌕</span></span><span class="qtx"><b>${!nc?`Filter Curios by ${qt}`:np===nc?`Show the ${nc} ${cu(nc)} that ${nc===1?"mentions":"mention"} ${qt} in Curios`:`Show the ${np} of ${nc} ${cu(nc)} that ${nc===1?"mentions":"mention"} ${qt} that match your filters`}</b><small>Keeps the search as a filter you can refine</small></span></a>`;
- if(gs.length===0)html=`<p class="qnone">Nothing is called “${esc(q.trim())}”. Try part of a name, a mod, or a stat.</p>`+html;
- html+=KEYS;
+ html+=`<a class="qr qall" role="option" id="qr${i}" href="#home" data-i="${i}"><span class="qic"><span class="qpg" aria-hidden="true">⌕</span></span><span class="qtx"><b>${!nc?T("Filter Curios by “{q}”",{q:qe}):np===nc?TN(nc,"Show the {n} curio that mentions “{q}” in Curios","Show the {n} curios that mention “{q}” in Curios",{q:qe}):TN(nc,"Show the {np} of {n} curio that mentions “{q}” that match your filters","Show the {np} of {n} curios that mention “{q}” that match your filters",{np,q:qe})}</b><small>${T("Keeps the search as a filter you can refine")}</small></span></a>`;
+ if(gs.length===0)html=`<p class="qnone">${T("Nothing is called “{q}”. Try part of a name, a mod, or a stat.",{q:qe})}</p>`+html;
+ html+=KEYS();
  box.innerHTML=html;QS.sel=0;mark()}
 function mark(){box.querySelectorAll(".qr").forEach(r=>r.classList.toggle("on",+r.dataset.i===QS.sel));const r=el("qr"+QS.sel);
  if(QS.inp)QS.inp.setAttribute("aria-activedescendant",r?r.id:"");if(r)r.scrollIntoView({block:"nearest"})}

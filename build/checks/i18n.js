@@ -141,3 +141,9 @@
     if (!t || !new RegExp('^<p class="ip-alt" lang="en">').test(enAlt(t)) || !enAlt(t).includes(esc(t)) || !enTip(t).includes('class="tnen"')) bad.push('i18n ' + c + ': the English alias line is missing for a translated name');
     if (u && (enAlt(u) !== '' || enTip(u) !== '')) bad.push('i18n ' + c + ': the English alias line shows for a name that is not translated: ' + u); }
   useLang('en'); if (all.some(n => enAlt(n) !== '' || enTip(n) !== '')) bad.push('i18n: the English alias line shows in English'); }
+// A–Z lists (the index of Curios, the Curio and Effect columns of the table) are ordered by the name the reader sees: in every language, sorting with nameCmp gives names that never go backwards by the language's own collation; English orders by the English name as before.
+{ for (const c of ['vi', 'ru', 'pt', 'es']) { useLang(c); const ns = [...D].sort((a, b) => nameCmp(a.n, b.n)).map(d => TD(d.n)); let bad1 = 0;
+    for (let i = 1; i < ns.length; i++) if (ns[i - 1].localeCompare(ns[i], c) > 0) bad1++;
+    if (bad1) bad.push('i18n ' + c + ': nameCmp leaves ' + bad1 + ' translated names out of order'); }
+  useLang('en'); const en = [...D].sort((a, b) => nameCmp(a.n, b.n)).map(d => d.n), en2 = [...D].sort((a, b) => a.n.localeCompare(b.n)).map(d => d.n);
+  if (en.join('|') !== en2.join('|')) bad.push('i18n: English A–Z order changed'); }

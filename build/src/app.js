@@ -673,7 +673,9 @@ var QK={mod:"m",slot:"s",stat:"st",stats:"st",effect:"fx",fx:"fx",source:"src",s
 var QOR={m:1,s:1,p:1,r:1,ro:1,g:1,x:1};
 var QFIELDS=[["mod","Mod"],["slot","Slot"],["stat","Stat"],["effect","Effect"],["source","Source"],["path","Act"],["rarity","Power"],["role","Role"],["type","Craft or loot"],["tag","Element or mechanic"],["name","Name"]];
 var QNAME={m:"Mod",s:"Slot",st:"Stat",fx:"Effect",src:"Source",p:"Act",r:"Power",ro:"Role",g:"Type",x:"Tag",n:"Name"};
-function qNorm(s){return String(s||"").toLowerCase().replace(/[–—]/g,"-")}
+/* lower case; in the translated languages also without accents (vi "ao choang" finds "Áo Choàng"): each non-ASCII letter becomes one letter, so positions in the text stay the same */
+const fold=s=>{s=String(s).toLowerCase();return LANG==="en"?s:s.replace(/[^\x00-\x7f]/g,c=>c.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d"))};
+function qNorm(s){return fold(String(s||"").replace(/[–—]/g,"-"))}
 const QTOK=/-?[a-z]+:"[^"]*"?|-?"[^"]*"?|\S+/gi;
 function parseQ(q){const o={raw:q,t:[],k:{}};
  (q.match(QTOK)||[]).forEach(w=>{const raw=w;let neg=false;if(w[0]==="-"&&w.length>1){neg=true;w=w.slice(1)}
@@ -914,7 +916,7 @@ function refreshSide(){
  nb.setAttribute("aria-pressed",st.nw);
  const xs=D.filter(d=>pass(d));el("cnt").textContent=T("{n} / {total} curios",{n:count(xs),total:TOTAL});
  const cur=location.hash.startsWith("#i")?+location.hash.slice(2):-9;
- const sig=xs.map(d=>d.ix).join();if(sig!==IDXSIG){IDXSIG=sig;el("idx").innerHTML=[...xs].sort((a,b)=>a.n.localeCompare(b.n)).slice(0,600).map(d=>`<li><a href="#i${d.ix}" data-t="${d.ix}">${img(d.id)}<span>${esc(TD(d.n))}</span><span class="act">${ACT[d.t][0]}</span></a></li>`).join("")
+ const sig=xs.map(d=>d.ix).join();if(sig!==IDXSIG){IDXSIG=sig;el("idx").innerHTML=[...xs].sort((a,b)=>nameCmp(a.n,b.n)).slice(0,600).map(d=>`<li><a href="#i${d.ix}" data-t="${d.ix}">${img(d.id)}<span>${esc(TD(d.n))}</span><span class="act">${ACT[d.t][0]}</span></a></li>`).join("")
   +(xs.length>600?`<li class="meta">${T("… {n} more, narrow the filters to see them",{n:xs.length-600})}</li>`:"")}
  el("idx").querySelectorAll("[aria-current]").forEach(a=>a.removeAttribute("aria-current"));const ca=el("idx").querySelector(`a[href="#i${cur}"]`);if(ca)ca.setAttribute("aria-current","page");
  return xs}
@@ -926,7 +928,7 @@ function relabelSide(){
  nb.textContent=T("New in 6.6.6");
  for(const o of el("fs").options)if(o.value)o.textContent=T(o.value);
  for(const o of el("fa").options)if(o.value!=="")o.textContent=T("Up to {act}",{act:actL(+o.value)});
- IDXSIG="";TIPC.clear();D.forEach(d=>{d._q=null})}
+ IDXSIG="";TIPC.clear();D.forEach(d=>{d._q=null});if(typeof QSRESET==="function")QSRESET()}
 
 /* ---------- shared bits ---------- */
 /* Curios slot icons: the empty-slot silhouette each mod registers for that slot */
@@ -955,6 +957,7 @@ const crumb=(...p)=>`<div class="crumb"><a href="#">${T("Home")}</a> / ${p.join(
      nav      navbox html (navbox() / wikiNav())
    wireArticle() runs after the html is in the page (copy button, the table of contents following the scroll). */
 const PACKV="V6.6.6hf";
+const nameCmp=(a,b)=>LANG==="en"?a.localeCompare(b):TD(a).localeCompare(TD(b),LANG);   // A–Z by the name the reader sees
 const enAlt=n=>LANG!=="en"&&TD(n)!==n?`<p class="ip-alt" lang="en">${esc(n)}</p>`:"",enTip=n=>LANG!=="en"&&TD(n)!==n?`<div class="tnen" lang="en">${esc(n)}</div>`:"";
 function article(o){const secs=(o.secs||[]).filter(Boolean),here=location.hash||"#",b=o.box||{};
  return `<div class="ip art ${o.cls||"r0"}"${o.style?` style="${o.style}"`:""}${o.data||""}>
@@ -1202,7 +1205,7 @@ function home(xs,asTable){pathXs=xs;
  }else{
   const COLS=[["n",T("Curio")],["r",T("Power")],["c",T("Role")],["t",T("Tier")],["a",T("Usable from")],["g",T("Source")],["m",T("Mod")],["fx",T("Effect")]];
   const CO=Object.keys(ROLE);
-  const ys=[...xs].sort((p,q)=>{const k=st.sort;const r=k==="a"?p.a-q.a:k==="t"?p.t-q.t:k==="r"?(p.r-q.r||p.sc-q.sc):k==="c"?CO.indexOf(p.c)-CO.indexOf(q.c):String(p[k]).localeCompare(String(q[k]));return r*st.dir});
+  const ys=[...xs].sort((p,q)=>{const k=st.sort;const r=k==="a"?p.a-q.a:k==="t"?p.t-q.t:k==="r"?(p.r-q.r||p.sc-q.sc):k==="c"?CO.indexOf(p.c)-CO.indexOf(q.c):k==="n"||k==="fx"?nameCmp(String(p[k]),String(q[k])):String(p[k]).localeCompare(String(q[k]));return r*st.dir});
   h+=`<div class="tw"><table><thead><tr><th></th>${COLS.map(([k,t])=>`<th><button class="ghost" data-s="${k}">${t}${st.sort===k?(st.dir>0?" ▲":" ▼"):""}</button></th>`).join("")}</tr></thead><tbody>${ys.map(d=>`<tr><td data-t="${d.ix}">${img(d.id)}</td><td><a href="#i${d.ix}" data-t="${d.ix}">${esc(TD(d.n))}</a></td><td class="r${d.r}"><i class="rdot"></i>${RN[d.r]}</td><td>${d.ro.map(k=>T(ROLE[k])).join(", ")}</td><td class="num">${ACT[d.t][0]}</td><td class="num">${ACT[d.a][0]}</td><td>${T(d.g)}</td><td>${esc(d.m)}</td><td>${esc(fxT(d))}</td></tr>`).join("")}</tbody></table></div>`}
  el("main").innerHTML=h;decorate();fbind();
  el("main").querySelectorAll("th button").forEach(b=>b.onclick=()=>{const k=b.dataset.s;st.dir=st.sort===k?-st.dir:1;st.sort=k;render()});

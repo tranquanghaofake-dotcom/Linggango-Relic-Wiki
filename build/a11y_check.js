@@ -134,6 +134,17 @@ const { chromium } = require('playwright'), path = require('path');
     await p.goto(URL + '#home'); await p.goto(URL + h); await p.reload(); await drawn(p); await p.waitForTimeout(300);
     if (await p.evaluate(() => [...document.querySelectorAll('.bpane .note')].some(x => /could not be placed|different wiki version/.test(x.textContent)))) bad.push('preset share link shows a dropped/stale note');
     await c.close(); }
+  // translated search: the header box finds a curio by the name the reader sees, by its English name and (vi, ru, pt, es) typed without accents; the overlay speaks the language, and English keeps its own words
+  { const [c, p] = await open('#');
+    for (const lang of ['vi', 'ru', 'pt', 'es']) {
+      const r = await p.evaluate(async lang => { useLang(lang); const d = D.find(x => TD(x.n) !== x.n && /\s/.test(x.n) && x.n.length > 10), box = document.getElementById('hq'), out = {};
+        const ask = async q => { box.focus(); box.value = q; box.dispatchEvent(new Event('input', { bubbles: true })); await new Promise(r => setTimeout(r, 120)); return [...document.querySelectorAll('#qs .qr')].map(a => a.getAttribute('href')) };
+        out.hrefs = [await ask(TD(d.n)), await ask(d.n), await ask(fold(TD(d.n)))]; out.href = '#i' + d.ix; await ask('zzzzqq'); out.none = document.getElementById('qs').textContent; box.value = ''; useLang('en'); return out }, lang);
+      r.hrefs.forEach((h, i) => { if (!h.includes(r.href)) bad.push(`${lang} search: query ${['shown name', 'English name', 'name without accents'][i]} does not list ${r.href}`) });
+      if (/Nothing is called|Try part of a name/.test(r.none)) bad.push(`${lang} search: "nothing found" text is still English`) }
+    const e = await p.evaluate(async () => { const box = document.getElementById('hq'); box.focus(); box.value = 'zzzzqq'; box.dispatchEvent(new Event('input', { bubbles: true })); await new Promise(r => setTimeout(r, 120)); const t = document.getElementById('qs').textContent; box.value = ''; return t });
+    if (!/Nothing is called “zzzzqq”/.test(e)) bad.push('English search: "nothing found" text changed: ' + e.slice(0, 80));
+    await c.close(); }
   step('search keys, saved state, share links', t); t = Date.now();
 
   // phone-04: the room heads are painted, wide enough and inside their room at 375, 768, 1024 and 1440 px
