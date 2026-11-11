@@ -255,25 +255,66 @@ const gHidden=g=>(g.ob&&g.ob[0]==="!")||(g.ps&&g.ps.length&&g.ps.every(p=>p.ob&&
 function gPool(a,r,w){const ia=oiA(+a);
  // curios: those a measured change makes better for the role, by how much they add (score - 1)
  if(w==="c")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)).map(d=>[d,gCurioScore(d,r,+a)-1]).filter(x=>x[1]>.005).sort((p,q)=>q[1]-p[1]);
+ // "o": the curios that raise the playstyle's own output (GOWN or more), ranked by how much (the Equipment page's own view; the
+ // curios' Power tiers stay those of "c")
+ if(w==="o")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)).map(d=>[d,gCurioGain(d,r,+a)]).filter(x=>x[1]>=GOWN).sort((p,q)=>q[1]-p[1]);
  const xs=(w==="a"?GS:GE.filter(g=>g.k!=="armor")).filter(g=>g.sc[r]!=null&&oiA(g.a)<=ia&&!gHidden(g));
  return xs.map(g=>[g,gScore(g,r,+a)]).sort((p,q)=>q[1]-p[1])}
 /* Finer groups inside a playstyle (the row of buttons under the playstyles). They only choose which of the tiered items are
    shown: the tiers themselves stay those of the whole playstyle, so a group reads against everything the playstyle can use.
-   Weapons: Ranged by what the weapon is (the item's class in its mod and, for guns, its name: no gun in the pack shares a
-   class), Summon by the mod family its minions come from. A weapon that fits no group shows under "All kinds" only.
-   Curios: "own" are the curios that raise the playstyle's own output by at least GOWN (its attack, spell or minion bonuses);
-   "any" are the rest of the tiered curios: armor, health, dodge and the like, which serve every playstyle alike. */
+   gSubOf(g, r) lists the groups a weapon is in (one or several: Flames Of Eldritch is both a Fire and an Eldritch staff); a
+   weapon that fits none shows under "All kinds" only. What decides each:
+   - Melee: the shape of the weapon, by the words of its name and, where the name is only a title (Carver, Thalassar), by the
+     class of the item in its mod (SwordItem, AxeItem...). Staffs and guns are in the melee list because their melee hit is
+     read, so they have a group (staffs) or fall to Other.
+   - Ranged: what the weapon is (class, and for guns the name: no gun in the pack shares a class).
+   - Mage: the spell attributes the weapon carries: a school of Iron's (fire_spell_power...: a mage builds around one, as the
+     score assumes), Goety or Ars Nouveau by mod and attributes, "any school" for a weapon with only generic spell power, Other
+     for the rest (nothing read from it).
+   - Summon: the mod its minions come from, and whips against staffs and the rest.
+   Curios: "own" are the curios that raise the playstyle's own output by at least GOWN (its attack, spell or minion bonuses),
+   ranked by how much they raise it; "any" are the rest of the tiered curios (armor, health, dodge and the like, which serve
+   every playstyle alike), ranked as before by the combined score. */
 const GGUN=/(^|[\s-])(gun|rifle|pistol|shotgun|blunderbuss|cannon|launcher|blaster)\b|raygun|railgun|shotgun/i;
 const GSUBX={"soulsweapons:galeforce":"bow","mowziesmobs:blowgun":"thrown"};   // Galeforce is a bow with no class read; a blowgun is a dart pipe
-const GSUB={RA:[["bow",()=>T("Bows")],["xbow",()=>T("Crossbows")],["gun",()=>T("Guns")],["thrown",()=>T("Thrown and other")]],
- SU:[["summonity",()=>"Summonity"],["goety",()=>"Goety"]]};
+const GSCH=["fire","ice","lightning","ender","eldritch","holy","nature","blood","evocation","aqua","geo"];
+const GSCHN={fire:"Fire",ice:"Ice",lightning:"Lightning",ender:"Ender",eldritch:"Eldritch",holy:"Holy",nature:"Nature",blood:"Blood",evocation:"Evocation"};
+const GSUB={
+ ME:[["sword",()=>T("Swords")],["great",()=>T("Greatswords")],["axe",()=>T("Axes")],["polearm",()=>T("Spears and polearms")],["dagger",()=>T("Daggers and knives")],["scythe",()=>T("Scythes")],["hammer",()=>T("Hammers and maces")],["staff",()=>T("Staffs and wands")],["other",()=>T("Other")]],
+ RA:[["bow",()=>T("Bows")],["xbow",()=>T("Crossbows")],["gun",()=>T("Guns")],["thrown",()=>T("Thrown and other")]],
+ MA:[["any",()=>T("Any school")],...GSCH.map(k=>[k,()=>GSCHN[k]?T(GSCHN[k]):k[0].toUpperCase()+k.slice(1)]),["goety",()=>"Goety"],["ars",()=>"Ars Nouveau"],["other",()=>T("Other")]],
+ SU:[["summonity",()=>"Summonity"],["goety",()=>"Goety"],["whip",()=>T("Whips")],["staff",()=>T("Staffs and other")]]};
 const GSUBC=r=>[["own",()=>T("For {role}",{role:GROLE[r]})],["any",()=>T("Survival, any playstyle")]];
-function gSubOf(g,r){if(g.ps)return null;
- if(r==="RA"){const c=g.cls||[],n=g.n;return GSUBX[g.id]||(GGUN.test(n)?"gun":c.includes("CrossbowItem")||/crossbow|crankbow/i.test(n)?"xbow":c.includes("BowItem")||/bow\b/i.test(n)?"bow":"thrown")}
- if(r==="SU")return g.ns==="summonity"?"summonity":/^goety/.test(g.ns)?"goety":null;
- return null}
+/* melee shapes: the first rule whose words are in the name wins (so a Greataxe is an axe and a Warhammer a hammer), then the item class */
+const GMEL=[["other",/chakram|\bwhip\b|gauntlet|\bfists?\b|\bclaws?\b|greatclaw|\bgun\b|cannon|launcher|\bdrill\b/i],
+ ["staff",/\b(staff|staves|wand|scepter|sceptre|cane|rod|grimoire|tome|stick)\b|quarterstaff|greatstaff/i],
+ ["scythe",/scythe|sickle|\bboline\b/i],["axe",/\b(great|battle|war|hand|double)?axes?\b|hatchet|tomahawk/i],
+ ["hammer",/hammer|\bmace\b|\bmaul\b|\bclub\b|pernach|flail|morning ?star|\bpan\b|mallet|masher|spatula|\bwhisk\b/i],
+ ["polearm",/spear|\bpike\b|\blance\b|ortholance|halberd|(?<!war)glaive|trident|bident|javelin|harpoon|naginata|gungnir|bardiche|pitchfork/i],
+ ["dagger",/dagger|knife|\bdirk\b|\bkris\b|\bshiv\b|\bsai\b|cleaver|stiletto|kunai|\bfang\b/i],
+ ["great",/greatsword|claymore|zweihander|flamberge|grandsword|great sword/i],
+ ["sword",/sword|blade|rapier|katana|\btana\b|saber|sabre|cutlass|khopesh|scimitar|\bedge\b|warglaive|twinblade|excalibur|libur\b|lichblade|frostmourne|nightfall|splitter|slayer/i]];
+const GMELC=[["staff",/Staff|Wand|Scepter|Cane/],["hammer",/Hammer|Mace|Mallet/],["scythe",/Scythe|Sickle/],["axe",/Axe/],["dagger",/Knife|Cleaver|Dagger/],["polearm",/Spear|Trident|Lance|Pike|Halberd/],["sword",/Sword/]];
+const GSM=new Map();
+function gSubOf(g,r){if(g.ps)return [];const key=g.id+r;let v=GSM.get(key);if(v)return v;v=[];
+ if(r==="ME"){const n=g.n.replace(/\s*\([^)]*\)\s*$/,""),c=(g.cls||[]).join(" ");let k=null;
+  for(const [x,re] of GMEL)if(re.test(n)){k=x;break}
+  if(!k)for(const [x,re] of GMELC)if(re.test(c)){k=x;break}
+  v=[k||"other"]}
+ else if(r==="RA"){const c=g.cls||[],n=g.n;v=[GSUBX[g.id]||(GGUN.test(n)?"gun":c.includes("CrossbowItem")||/crossbow|crankbow/i.test(n)?"xbow":c.includes("BowItem")||/bow\b/i.test(n)?"bow":"thrown")]}
+ else if(r==="MA"){const at=gAt(g),ks=Object.keys(at);
+  if(GCNS.test(g.ns)||ks.some(k=>/^goety/.test(k)))v.push("goety");
+  if(/^ars_/.test(g.ns)||ks.some(k=>/^ars_/.test(k)))v.push("ars");
+  for(const k of GSCH)if(at[k+"_spell_power"])v.push(k);
+  if(!v.length)v.push(at.spell_power||ks.some(k=>/^(cooldown_reduction|cast_time_reduction|mana_regen|max_mana|spell_crit)/.test(k))?"any":"other")}
+ else if(r==="SU"){if(g.ns==="summonity")v.push("summonity");else if(/^goety/.test(g.ns))v.push("goety");
+  v.push(/whip/i.test(g.n)||(g.cls||[]).some(c=>/Whip/.test(c))?"whip":"staff")}
+ GSM.set(key,v);return v}
 const GOWN=.02;
-const gOwn=(d,r,a)=>{const m=typeof CM!=="undefined"&&CM[d.id];return !!m&&GOFF[r](gCurioAt(m),+a)-1>=GOWN};
+/* how much a curio raises a playstyle's own output: GOFF on its measured changes, minus 1 (the own view ranks by this) */
+const GOG=new Map();
+function gCurioGain(c,r,a){const key=c.id+r+a;let v=GOG.get(key);if(v!=null)return v;const m=typeof CM!=="undefined"&&CM[c.id];v=m?gRound(GOFF[r](gCurioAt(m),+a)*1000)/1000-1:0;GOG.set(key,v);return v}
+const gOwn=(d,r,a)=>gCurioGain(d,r,a)>=GOWN;
 const GTC=new Map();
 function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const xs=gPool(a,r,w);let out=[];
  if(xs.length){const b=GTIER.map(()=>[]);
@@ -304,8 +345,11 @@ function gearPage(h,miss){
  const roles=Object.keys(GROLE);
  // the group shown (s): one of the playstyle's groups, else all weapons; curios always show one of their two groups
  const subs=w==="w"?GSUB[r]||null:w==="c"?GSUBC(r):null,s=subs&&subs.some(x=>x[0]===GSTATE.s)?GSTATE.s:w==="c"?"own":"";
- const inSub=w==="c"?d=>(s==="any")!==gOwn(d,r,a):s?g=>gSubOf(g,r)===s:null,all=gTiers(a,r,w);
+ // curios: the own view is its own pool (ranked by how much each raises the playstyle's output), the other view is the tiered
+ // rest; weapons are filtered by group out of the whole playstyle's tiers
+ const all=gTiers(a,r,w==="c"?(s==="any"?"c":"o"):w),inSub=w==="c"?(s==="any"?d=>!gOwn(d,r,a):null):s?g=>gSubOf(g,r).includes(s):null;
  const tiers=inSub?Object.assign(all.map(([t,xs])=>[t,xs.filter(inSub)]),{top:all.top}):all,pool=tiers.reduce((n,x)=>n+x[1].length,0);
+ const subN=k=>w==="c"?(k==="any"?gTiers(a,r,"c").reduce((n,x)=>n+x[1].filter(d=>!gOwn(d,r,a)).length,0):gTiers(a,r,"o").reduce((n,x)=>n+x[1].length,0)):all.reduce((n,x)=>n+x[1].filter(g=>k===""||gSubOf(g,r).includes(k)).length,0);
  const go=(A,R,W,S)=>`#gear/${A}/${R}/${W}${S?"/"+S:""}`;
  const q=GSTATE.q.trim().toLowerCase();
  const hits=q?gMatch(q,a):null;
@@ -316,16 +360,17 @@ function gearPage(h,miss){
  <div class="gbar"><div class="gseg" role="tablist" aria-label="${T("Weapons or armor")}">${[["w",ui("sword")+" "+T("Weapons")],["a",ui("chest")+" "+T("Armor sets")],["c",ui("star")+" "+T("Curios")]].map(([k,t])=>`<a role="tab" href="${go(a,r,k)}"${k===w?' aria-selected="true"':""}>${t}</a>`).join("")}</div>
  <div class="gseg roles" role="tablist" aria-label="${T("Playstyle")}">${roles.map(k=>`<a role="tab" href="${go(a,k,w)}" style="--rc:${ROLE_C[k]||"#8a8f99"}"${k===r?' aria-selected="true"':""}>${GROLE[k]}</a>`).join("")}</div>
  <input id="gq" type="search" autocomplete="off" name="gearq" placeholder="${T("Find a weapon or set…")}" value="${esc(GSTATE.q)}" aria-label="${T("Find gear")}"></div>
- ${subs?`<div class="gseg subs" role="tablist" aria-label="${T("All kinds")}">${(w==="c"?[]:[["",()=>T("All kinds")]]).concat(subs).map(([k,t])=>{const n=k===""?all.reduce((n,x)=>n+x[1].length,0):all.reduce((n,x)=>n+x[1].filter(w==="c"?d=>(k==="any")!==gOwn(d,r,a):g=>gSubOf(g,r)===k).length,0);
+ ${subs?`<div class="gseg subs" role="tablist" aria-label="${T("All kinds")}">${(w==="c"?[]:[["",()=>T("All kinds")]]).concat(subs).map(([k,t])=>{const n=subN(k);
   return n||k===s?`<a role="tab" href="${go(a,r,w,k==="own"?"":k)}"${k===s?' aria-selected="true"':""}>${t()} <span class="n">${n}</span></a>`:""}).join("")}</div>`:""}
  ${q?gSearch(hits,a,r):`<div class="gtl-list">${tiers.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>${T("Show {n} more",{n:xs.length-48})}</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join(""):`<p class="note">${w==="a"?T("No armor for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):w==="c"?T("No curios measured to help {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):T("No weapons for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))})}</p>`}</div>`}
- <div class="gfoot"><p>${hits?TN(hits.length,"{n} match for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.","{n} matches for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.",{n:`<b>${hits.length}</b>`,q:esc(GSTATE.q.trim()),k:hits.n,act:esc(actL(a))}):w==="a"?TN(pool,"{n} set usable at {act}.","{n} sets usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))}):w==="c"?TN(pool,"{n} curio usable at {act} measured to help {role}.","{n} curios usable at {act} measured to help {role}.",{n:`<b>${pool}</b>`,act:esc(actL(a)),role:GROLE[r]}):TN(pool,"{n} weapon usable at {act}.","{n} weapons usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))})}${w==="c"?" "+T("Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page."):""}${+a!==ORDER[0]?` <i class="gnew">${T("NEW")}</i> ${T("unlocks at this Act.")}`:""} ${T("Faded tiles are <b>estimated</b>: their damage is computed in code the wiki could not read, so they are ranked by when and how you get them (see below).")}</p>
+ <div class="gfoot"><p>${hits?TN(hits.length,"{n} match for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.","{n} matches for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.",{n:`<b>${hits.length}</b>`,q:esc(GSTATE.q.trim()),k:hits.n,act:esc(actL(a))}):w==="a"?TN(pool,"{n} set usable at {act}.","{n} sets usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))}):w==="c"?TN(pool,"{n} curio usable at {act} measured to help {role}.","{n} curios usable at {act} measured to help {role}.",{n:`<b>${pool}</b>`,act:esc(actL(a)),role:GROLE[r]}):TN(pool,"{n} weapon usable at {act}.","{n} weapons usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))})}${w==="c"?" "+(s==="any"?T("Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page."):T("Each was worn alone in game on a bare test player; its tier is how much it raises the output of a {role} build (its attack, spell or minion bonuses) next to the fifth best curio in this list. Armor, health and dodge do not count here: those curios are under “Survival, any playstyle”. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page.",{role:GROLE[r]})):""}${+a!==ORDER[0]?` <i class="gnew">${T("NEW")}</i> ${T("unlocks at this Act.")}`:""} ${T("Faded tiles are <b>estimated</b>: their damage is computed in code the wiki could not read, so they are ranked by when and how you get them (see below).")}</p>
  <details class="ghow"><summary>${T("How the tiers are worked out")}</summary><ul>
  <li>${T("<b>Act</b>: the Keeper gate from Linggango's own progression tags (<code>forge:iron_tools</code> … <code>forge:helionite_armor</code>): gear tagged Diamond is locked until Eldorath falls, and so on. Gear with no tag sits at the Act of its hardest ingredient or drop (Nether materials need Act V, a Nether Star the Wither, End loot the Ender Dragon).")}</li>
  <li>${T("<b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does. Better Combat clears the target's hurt cooldown on every hit, so fast weapons are not capped at two hits a second. Staves, spears and gunblades whose melee damage is readable are ranked here too.")}</li>
  <li>${T("<b>Ranged, Mage, Summon weapons</b>: bow, gun and spell damage is set in each mod's code at shot time, so it cannot be read. They sit on the pack's power curve at the Act they unlock: the ten best melee weapons get about {step}% stronger per Act (fitted over all Acts), so an item one Act behind the frontier is at {one}%, three behind at {three}%. Then up to +10% for how hard it is to get (a boss drop or a many-part recipe over a one-ingredient craft), times its readable bonuses for the role (below).",{step:Math.round((GSTEP-1)*100),one:Math.round(100/GSTEP),three:Math.round(100/GSTEP**3)})}</li>
  <li>${T("<b>Armor sets</b>: score = output bonus × effective health<sup>k</sup>, the damage you deal times how long you last. Effective health uses Apothic Attributes' armor rule (damage × a/(a + armor), a = 10 for hits under 20, 10 + (hit − 20)/2 above) against the attack damage of the Keeper that ends the Act (10 at Act 0, 30 at Act VI, 50 at Act XII), on top of 20 + 4 HP per Act from your other gear, × damage-taken reduction and dodge. Toughness only blunts armor shred in this pack, so it counts little. k = 1 for Melee, 0.7 Ranged, 0.6 Mage and Summon (fighting at range, you take fewer hits). Output bonus: Melee attack damage (flat bonus against the Act's typical weapon hit), attack speed, crit, lifesteal; Ranged arrow damage, draw speed, crit; Mage: the better of Iron's (spell power + the best single school, × cast rate from cooldown reduction, × mana: +300 mana = +25%) and Ars Nouveau (flat spell damage against the Act's typical hit, × mana); Summon summon damage and +25% per extra minion slot. A plain set is the fallback in every list; a set built for the role beats it. Sets whose armor is computed in code get the median of their Act.")}</li>
- <li>${T("Tiers compare each item with the fifth best usable at that Act (not the very best, so one item far ahead does not push all the others down): S is at 85% of it or more, A 70%, B 55%, C 40%, the rest D; under 25% it is left off the list (search still finds it). When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.")}</li></ul></details></div></div>`;
+ <li>${T("Tiers compare each item with the fifth best usable at that Act (not the very best, so one item far ahead does not push all the others down): S is at 85% of it or more, A 70%, B 55%, C 40%, the rest D; under 25% it is left off the list (search still finds it). When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.")}</li>
+ <li>${T("<b>Groups</b>: the buttons under the playstyles only choose which of these items to show; every tier is still against the whole playstyle. Weapons are grouped by what they are (shape, bow or gun, spell school, whip or staff); one weapon can be in several groups, and one that fits none is under All kinds. On the Curios tab the first button lists the curios that raise that playstyle's own output by 2% or more, best first; the other, “Survival, any playstyle”, holds the armor, health and dodge curios.")}</li></ul></details></div></div>`;
  const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;GALL=false;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};
  seedBg("gear"+a,[]);decorate();
 }
