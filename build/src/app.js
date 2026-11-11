@@ -1111,8 +1111,8 @@ function pPanelInner(a){const xs=D.filter(d=>d.t===a),m=xs.filter(isMust).length
   <div class="pbtn"><a class="mcb" href="#act/${a}">${TN(xs.length,"See {n} curio","See {n} curios")}</a><a class="mcb" href="#gear/${a}/ME/w">${T("See gear")}</a><button class="mcb phere" type="button" data-here="${a}" aria-pressed="false">${T("I'm here")}</button></div>
  </div><div class="pside">${envFx(a)}${sides||`<p class="pnone">${T("No side bosses at this Act. Gear up for the Keeper.")}</p>`}</div></div>
  ${xs.length?`<div class="chest"><p class="cht">${esc(actL(a))}: ${T("Curios")}</p>${slotRow(byRank(xs).slice(0,CHESTN).map(d=>({...rCurio(d,"",1),c:" r"+d.r})),actL(a)+": "+T("Curios"))}</div>`:""}`}
-/* how many curios an Act's chest shows on the home page (two rows of a wide screen) */
-const CHESTN=36;
+/* how many curios an Act's chest shows on the home page (two rows of a wide screen), and how many a shelf of the rack shows (one row) */
+const CHESTN=36,SHELFN=18;
 /* the dusk sky behind The Path: stars and two far ridges, the same on every load (a seeded generator, no data), and what
    moves in it: clouds that drift across, a few birds, gusts of wind (CSS; the sun's light too). The layers shift a little
    with the pointer (pathMapWire: --mx, --my). */
@@ -1178,8 +1178,8 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
    st.op=null;save();paint();const tb=document.querySelector(".tbtns");if(tb)tb.innerHTML=hereBtns()}});
  map.querySelector(".ptrack").addEventListener("keydown",e=>{const k={ArrowRight:1,ArrowLeft:-1,Home:-99,End:99}[e.key];if(!k)return;e.preventDefault();sel(Math.max(0,Math.min(path.length-1,k===-99?0:k===99?path.length-1:cur+k)),true)});
  const h=pHere(),hi=h===null?-1:path.indexOf(h);paint();if(hi>0){pans[0].hidden=true;tabs[0].setAttribute("aria-selected","false");tabs[0].tabIndex=-1;if(!pans[hi].firstElementChild){pans[hi].innerHTML=pPanelInner(path[hi]);paint()}pans[hi].hidden=false;tabs[hi].setAttribute("aria-selected","true");tabs[hi].tabIndex=0;cur=hi}ctr(cur)}
-/* a shelf of the home page: a panel with a title, one line under it, and a tray of slots */
-const chest=(title,sub,slots,label)=>`<section class="gui"><h2 class="gt">${title}</h2><p class="gs">${sub}</p><div class="chest">${slotRow(slots,label)}</div></section>`;
+/* a shelf of the home page's rack: its title and one line beside it, then one row of slots across the panel (more = links at the row's end) */
+const shelf=(title,sub,slots,label,more="")=>`<div class="shelf"><div class="shh"><h2 class="gt">${title}</h2><p class="gs">${sub}</p></div><div class="chest">${slotRow(slots,label)}${more}</div></div>`;
 function hubHome(){
  document.title="Linggango Wiki";document.body.classList.add("hub");
  const path=ORDER.filter(a=>a>=0&&D.some(d=>d.t===a)),news=D.filter(d=>d.nw),rc=d=>({...rCurio(d,esc(ACT[d.t][0]),1),c:" r"+d.r});
@@ -1188,14 +1188,15 @@ function hubHome(){
  <nav class="tbtns" aria-label="${T("Start")}">${hereBtns()}</nav>
  <div class="tcs"><p class="tcorner l">Linggango ${PACKV}<br>Linggango Wiki</p><p class="tcorner r">${TN(TOTAL,"{n} curio","{n} curios")} · ${TN(MODS.length,"{n} mod","{n} mods")}<br>${T("{n} Keeper-gated",{n:D.filter(d=>d.gk).length})}</p></div>`;
  el("main").innerHTML=`${pathMap(path,lead)}
- <div class="shelves">
- ${chest(ui("star")+" "+T("Must-Have"),T("Looting Charms and every curio that adds curio slots. Get each one the moment its Act opens."),D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).map(rc),T("Must-Have curios"))}
- ${chest(T("Mythic"),T("The rarest curios in the pack."),byRank(D.filter(d=>d.r===5)).slice(0,18).map(rc),T("Mythic"))}
- ${news.length?chest(T("New in 6.6.6"),T("{n} curios the pack added in 6.6.6, from {mods}. {link}",{n:news.length,mods:(m=>Object.keys(m).sort((x,y)=>m[y]-m[x]).map(esc).join(", "))(news.reduce((m,d)=>(m[d.m]=(m[d.m]||0)+1,m),{})),link:`<a href="#home" id="seenew">${T("See them all →")}</a>`}),byRank(news).slice(0,18).map(rc),T("New in 6.6.6")):""}
- ${typeof GE!=="undefined"?chest(T("Equipment"),T("{w} weapons and {s} armor sets from the pack, ranked for each playstyle at every Act. Best melee weapon as you progress:",{w:GE.filter(g=>g.k!=="armor").length,s:GS.length}),
+ <section class="gui rack">
+ ${shelf(ui("star")+" "+T("Must-Have"),T("Looting Charms and every curio that adds curio slots. Get each one the moment its Act opens."),D.filter(isMust).sort((a,b)=>ORDER.indexOf(a.t)-ORDER.indexOf(b.t)).slice(0,SHELFN).map(rc),T("Must-Have curios"))}
+ ${shelf(T("Mythic"),T("The rarest curios in the pack."),byRank(D.filter(d=>d.r===5)).slice(0,SHELFN).map(rc),T("Mythic"))}
+ ${news.length?shelf(T("New in 6.6.6"),T("{n} curios the pack added in 6.6.6, from {mods}. {link}",{n:news.length,mods:(m=>Object.keys(m).sort((x,y)=>m[y]-m[x]).map(esc).join(", "))(news.reduce((m,d)=>(m[d.m]=(m[d.m]||0)+1,m),{})),link:`<a href="#home" id="seenew">${T("See them all →")}</a>`}),byRank(news).slice(0,SHELFN).map(rc),T("New in 6.6.6")):""}
+ ${typeof GE!=="undefined"?shelf(T("Equipment"),T("{w} weapons and {s} armor sets from the pack, ranked for each playstyle at every Act. Best melee weapon as you progress:",{w:GE.filter(g=>g.k!=="armor").length,s:GS.length}),
   (()=>{const runs=[];ORDER.filter(a=>a!=-1).forEach(a=>{const t=gTiers(a,"ME","w"),g=t.length&&t[0][1][0];if(!g)return;const l=runs[runs.length-1];if(l&&l.g===g)l.b=a;else runs.push({g,a,b:a})});
-   return runs.map(({g,a,b})=>({h:`#gear/${a}/ME/w`,i:gImg(g),t:"g"+g.ix,n:b!==a?T("{a} to {b}: {g}",{a:actL(a),b:actL(b),g:g.n}):T("{a}: {g}",{a:actL(a),g:g.n}),l:esc(ACT[a][0])+(b!==a?"+":"")}))})(),T("Best melee weapon by Act")):""}
- </div>
+   return runs.map(({g,a,b})=>({h:`#gear/${a}/ME/w`,i:gImg(g),t:"g"+g.ix,n:b!==a?T("{a} to {b}: {g}",{a:actL(a),b:actL(b),g:g.n}):T("{a}: {g}",{a:actL(a),g:g.n}),l:esc(ACT[a][0])+(b!==a?"+":"")}))})(),T("Best melee weapon by Act"),
+  `<nav class="shmore" aria-label="${T("Playstyle")}">${[["ME",T("Melee")],["RA",T("Ranged")],["MA",T("Mage")],["SU",T("Summon")]].map(([r,t])=>`<a class="mcb" href="#gear/${hereOn()??ORDER[0]}/${r}/w">${t}</a>`).join("")}</nav>`):""}
+ </section>
  <section class="gui"><h2 class="gt">${T("Curio slots")}</h2><p class="gs">${T("The pack's Curios menu, slot by slot.")}</p>
  <div class="slotlist">${BIGSLOTS.map(([s,xs])=>`<a href="#slot/${enc(s)}"><span class="slot sm">${(()=>{const u=slotIcon(s);return u?`<img alt="" src="${u}">`:byRank(xs).filter(d=>IC[d.id]).slice(0,1).map(d=>img(d.id)).join("")})()}</span><b>${esc(T(s))}</b><em>${xs.length}</em>${rbar(xs)}</a>`).join("")}</div></section>`;
  pathMapWire(path);{const sn=el("seenew");if(sn)sn.onclick=()=>{st.nw=true;save()}}el("hs").onsubmit=e=>{e.preventDefault();const v=el("hq").value.trim();if(!v)return;el("q").value=v;st.q=v.toLowerCase();location.hash="#home"};

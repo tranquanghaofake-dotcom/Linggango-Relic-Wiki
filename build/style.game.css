@@ -2026,18 +2026,28 @@ body.hub #cave .og::after{background-image:var(--kb);animation-delay:calc(var(--
 @keyframes oreTwinkle{0%,90%{opacity:0}93%{opacity:1}95%{opacity:.4}97%{opacity:.9}100%{opacity:0}}
 body.hub #pmap>.ppanel{margin-top:var(--s4)}
 
-/* a chest: a tray of slots, one per item, each tinted from below by the item's power. On the home page the shelves are
-   ordinary panels (.gui) with a tray in them, and an Act's chest is a sunken tray inside its panel: the same dark
-   container as the rest of the wiki (a light vanilla chest stood out against it). */
+/* a chest: a tray of slots, one per item. A slot is the wiki's own dark slot with a bar of the item's power colour along
+   its foot (no enchant glint: at this size it blurred into a smear) and, where the item carries a label (its Act), the
+   label under the slot. On the home page an Act's chest is a sunken tray inside the Act's panel, and the rack is one
+   panel of shelves: title and one line on the left of a row, one row of slots across the rest. */
+.chest .srow{display:grid;grid-template-columns:repeat(18,minmax(0,1fr));gap:var(--s1);margin:0}
+.chest .sslot{width:auto;height:auto;aspect-ratio:1;border:0;border-image:none;background:var(--slot);box-shadow:inset 0 -4px 0 var(--rc,transparent),inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi)}
+.chest .sslot:hover,.chest .sslot:focus-visible{outline:2px solid #fff;outline-offset:-2px;background:var(--gui-hover)}
+*:not(#_) .chest .sslot>img,*:not(#_) .chest .sslot .aimg{width:48px!important;height:48px!important;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.45))}
+.chest .glint{display:none}
+.chest .sslot small{inset:100% 0 auto 0;margin-top:var(--s1);text-align:center;font:600 11px/1 var(--body);color:var(--gui-mute);text-shadow:none}
 .ppanel .chest{margin:var(--s5) 0 0;padding:var(--s3) var(--s4) var(--s4);background:rgba(0,0,0,.3);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
 .chest .cht{margin:0 0 var(--s2);font:400 22px/1 var(--title);color:var(--gui-mute);text-transform:uppercase}
-.chest .srow{display:grid;grid-template-columns:repeat(18,minmax(0,1fr));margin:0}
-.chest .sslot{width:auto;height:auto;aspect-ratio:1;border:0;border-image:none;background:linear-gradient(transparent 52%,color-mix(in srgb,var(--rc,#55555c) 46%,transparent)),var(--slot);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi)}
-.chest .sslot:hover,.chest .sslot:focus-visible{outline:2px solid #fff;outline-offset:-2px;background:linear-gradient(transparent 40%,color-mix(in srgb,var(--rc,#55555c) 70%,transparent)),var(--gui-hover)}
-*:not(#_) .chest .sslot>img,*:not(#_) .chest .sslot .aimg{width:48px!important;height:48px!important;filter:drop-shadow(3px 3px 0 rgba(0,0,0,.45))}
-.shelves{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s5);margin:var(--s5) 0}
-.shelves>.gui{margin:0}
-.shelves .chest .srow{grid-template-columns:repeat(9,minmax(0,1fr))}
+.rack{display:grid;gap:var(--s5);margin:var(--s5) 0}
+.shelf{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);align-items:center;gap:var(--s5);padding-bottom:var(--s5);border-bottom:2px solid var(--gui-line)}
+.shelf:last-child{padding-bottom:0;border-bottom:0}
+.shelf .gt{margin:0 0 var(--s1)}
+.shelf .gs{margin:0;font-size:13.5px;line-height:1.45}
+.shelf .chest{display:flex;align-items:center;gap:var(--s4);min-width:0;padding-bottom:var(--s4)}
+.shelf .srow{flex:1 1 auto;min-width:0}
+.shmore{flex:none;display:grid;grid-template-columns:repeat(2,auto);gap:var(--s2)}
+.shmore .mcb{min-height:32px;padding:var(--s1) var(--s3);font-size:13.5px}
+.shelf:has(.shmore) .srow{flex:0 1 auto;grid-template-columns:repeat(6,48px)}
 
 /* footer: three even columns, and the art and font credits as one block of three columns under them */
 .sfoot{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -2065,12 +2075,14 @@ body.hub .sfoot{background:#0f0e14}
  #pmap .pn::after{inset-block-start:var(--s7)}
  #pmap .pn.here .pfr::before{height:480px}
  .chest .srow{grid-template-columns:repeat(12,minmax(0,1fr))}
- .shelves{grid-template-columns:minmax(0,1fr)}
+ .shelf{grid-template-columns:minmax(0,1fr);gap:var(--s3)}
+ .shelf .chest{flex-wrap:wrap}
  .sfoot>div:nth-child(3)>p{columns:2}
 }
 @media (max-width:760px){
  body.hub #main{--gut:var(--s3)}
- .chest .srow,.shelves .chest .srow{grid-template-columns:repeat(6,minmax(0,1fr))}
+ .chest .srow{grid-template-columns:repeat(6,minmax(0,1fr))}
+ .shelf .srow{row-gap:var(--s5)}
  .sfoot{grid-template-columns:minmax(0,1fr)}
  .sfoot>div:nth-child(3){grid-row:auto}
  .sfoot>div:nth-child(3)>p{columns:1}
@@ -2119,4 +2131,9 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
 
 /* Curios: an open Act's curios lie in a sunken tray, as the home page's shelves do */
 *:not(#_):not(#__) .tier:not(.closed)>.tiles{margin:var(--s2);background:rgba(0,0,0,.3)!important;box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
+
+/* Equipment: the row of finer groups under the playstyles (gear.js GSUB): the same segmented buttons, a size smaller, with counts */
+.gseg.subs{flex-wrap:wrap;margin:0 0 var(--s4)}
+.gseg.subs a{min-height:32px;font-size:13.5px}
+.gseg.subs .n{margin-left:var(--s1);font:500 12px var(--body);color:var(--gui-mute);font-variant-numeric:tabular-nums}
 

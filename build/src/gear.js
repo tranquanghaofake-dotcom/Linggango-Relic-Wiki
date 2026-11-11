@@ -257,6 +257,23 @@ function gPool(a,r,w){const ia=oiA(+a);
  if(w==="c")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)).map(d=>[d,gCurioScore(d,r,+a)-1]).filter(x=>x[1]>.005).sort((p,q)=>q[1]-p[1]);
  const xs=(w==="a"?GS:GE.filter(g=>g.k!=="armor")).filter(g=>g.sc[r]!=null&&oiA(g.a)<=ia&&!gHidden(g));
  return xs.map(g=>[g,gScore(g,r,+a)]).sort((p,q)=>q[1]-p[1])}
+/* Finer groups inside a playstyle (the row of buttons under the playstyles). They only choose which of the tiered items are
+   shown: the tiers themselves stay those of the whole playstyle, so a group reads against everything the playstyle can use.
+   Weapons: Ranged by what the weapon is (the item's class in its mod and, for guns, its name: no gun in the pack shares a
+   class), Summon by the mod family its minions come from. A weapon that fits no group shows under "All kinds" only.
+   Curios: "own" are the curios that raise the playstyle's own output by at least GOWN (its attack, spell or minion bonuses);
+   "any" are the rest of the tiered curios: armor, health, dodge and the like, which serve every playstyle alike. */
+const GGUN=/(^|[\s-])(gun|rifle|pistol|shotgun|blunderbuss|cannon|launcher|blaster)\b|raygun|railgun|shotgun/i;
+const GSUBX={"soulsweapons:galeforce":"bow","mowziesmobs:blowgun":"thrown"};   // Galeforce is a bow with no class read; a blowgun is a dart pipe
+const GSUB={RA:[["bow",()=>T("Bows")],["xbow",()=>T("Crossbows")],["gun",()=>T("Guns")],["thrown",()=>T("Thrown and other")]],
+ SU:[["summonity",()=>"Summonity"],["goety",()=>"Goety"]]};
+const GSUBC=r=>[["own",()=>T("For {role}",{role:GROLE[r]})],["any",()=>T("Survival, any playstyle")]];
+function gSubOf(g,r){if(g.ps)return null;
+ if(r==="RA"){const c=g.cls||[],n=g.n;return GSUBX[g.id]||(GGUN.test(n)?"gun":c.includes("CrossbowItem")||/crossbow|crankbow/i.test(n)?"xbow":c.includes("BowItem")||/bow\b/i.test(n)?"bow":"thrown")}
+ if(r==="SU")return g.ns==="summonity"?"summonity":/^goety/.test(g.ns)?"goety":null;
+ return null}
+const GOWN=.02;
+const gOwn=(d,r,a)=>{const m=typeof CM!=="undefined"&&CM[d.id];return !!m&&GOFF[r](gCurioAt(m),+a)-1>=GOWN};
 const GTC=new Map();
 function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const xs=gPool(a,r,w);let out=[];
  if(xs.length){const b=GTIER.map(()=>[]);
@@ -279,23 +296,28 @@ try{Object.assign(GSTATE,JSON.parse(localStorage.getItem("lgw-gear")||"{}"))}cat
 GSTATE.q="";
 /* miss: the hash asked for a page that does not exist (an old #g/#gs id, an Act number the wiki has not got); the list says so */
 function gearPage(h,miss){
- const m=h.match(/^#gear(?:\/([\d.]+))?(?:\/(\w\w))?(?:\/([wac]))?/);if(m){if(m[1]!=null)GSTATE.a=+m[1];if(m[2])GSTATE.r=m[2];if(m[3])GSTATE.w=m[3]}
+ const m=h.match(/^#gear(?:\/([\d.]+))?(?:\/(\w\w))?(?:\/([wac]))?(?:\/([a-z]+))?/);if(m){if(m[1]!=null)GSTATE.a=+m[1];if(m[2])GSTATE.r=m[2];if(m[3])GSTATE.w=m[3];GSTATE.s=m[4]||""}
  if(GSTATE.a===6.1||GSTATE.a===6.2)GSTATE.a=6;   // the Warden and Wither Acts are Act VI in the data (app.js remap)
  if(!ORDER.includes(+GSTATE.a)){if(m&&m[1]!=null&&!miss)miss=h;GSTATE.a=0}if(!GROLE[GSTATE.r])GSTATE.r="ME";   // old links and saved state can still say TA (Tank, retired)
  try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){}
  const {a,r,w}=GSTATE;document.title=`${T("Equipment tier list")} · ${actL(a)} · Linggango Wiki`;
  const roles=Object.keys(GROLE);
- const tiers=gTiers(a,r,w),pool=tiers.reduce((n,x)=>n+x[1].length,0);
- const go=(A,R,W)=>`#gear/${A}/${R}/${W}`;
+ // the group shown (s): one of the playstyle's groups, else all weapons; curios always show one of their two groups
+ const subs=w==="w"?GSUB[r]||null:w==="c"?GSUBC(r):null,s=subs&&subs.some(x=>x[0]===GSTATE.s)?GSTATE.s:w==="c"?"own":"";
+ const inSub=w==="c"?d=>(s==="any")!==gOwn(d,r,a):s?g=>gSubOf(g,r)===s:null,all=gTiers(a,r,w);
+ const tiers=inSub?Object.assign(all.map(([t,xs])=>[t,xs.filter(inSub)]),{top:all.top}):all,pool=tiers.reduce((n,x)=>n+x[1].length,0);
+ const go=(A,R,W,S)=>`#gear/${A}/${R}/${W}${S?"/"+S:""}`;
  const q=GSTATE.q.trim().toLowerCase();
  const hits=q?gMatch(q,a):null;
  el("main").innerHTML=`${crumb(T("Equipment"))}${miss?`<p class="note gmiss">${T("No page called “{name}”: here is the Equipment list.",{name:esc(miss)})}</p>`:""}<div class="gear">
  ${room("forge",tiers.flatMap(([t,xs])=>xs.map(g=>({h:gHref(g),i:gImg(g),t:(g.ps?"s":"g")+g.ix,n:g.n,l:esc(t)}))).slice(0,10),{head:`<span class="gem">${emblem(a,"lg")}</span><div><h1>${T("Equipment tier list")}</h1>
  <p class="lede">${a==0?T("The best weapons and armor sets for each playstyle at {act}: everything you can use once you start, ranked against the best you have at that point.",{act:`<b>${esc(actL(a))}</b>`}):T("The best weapons and armor sets for each playstyle at {act}: everything you can use once {boss} is beaten, ranked against the best you have at that point.",{act:`<b>${esc(actL(a))}</b>`,boss:esc(TD(UNL[a]||""))})}</p></div>`,min:5,cols:5,label:T("Best at this Act")})}
- <nav class="gacts" aria-label="${T("Act")}">${ORDER.filter(x=>x!=-1).map(x=>`<a href="${go(x,r,w)}" style="--tc:${ACT[x][2]}"${x===+a?' aria-current="page"':""} title="${esc(actF(x))}"><span class="gx">${emblem(x,"xs")}</span><b>${esc(ACT[x][0])}</b></a>`).join("")}</nav>
+ <nav class="gacts" aria-label="${T("Act")}">${ORDER.filter(x=>x!=-1).map(x=>`<a href="${go(x,r,w,s==="own"?"":s)}" style="--tc:${ACT[x][2]}"${x===+a?' aria-current="page"':""} title="${esc(actF(x))}"><span class="gx">${emblem(x,"xs")}</span><b>${esc(ACT[x][0])}</b></a>`).join("")}</nav>
  <div class="gbar"><div class="gseg" role="tablist" aria-label="${T("Weapons or armor")}">${[["w",ui("sword")+" "+T("Weapons")],["a",ui("chest")+" "+T("Armor sets")],["c",ui("star")+" "+T("Curios")]].map(([k,t])=>`<a role="tab" href="${go(a,r,k)}"${k===w?' aria-selected="true"':""}>${t}</a>`).join("")}</div>
  <div class="gseg roles" role="tablist" aria-label="${T("Playstyle")}">${roles.map(k=>`<a role="tab" href="${go(a,k,w)}" style="--rc:${ROLE_C[k]||"#8a8f99"}"${k===r?' aria-selected="true"':""}>${GROLE[k]}</a>`).join("")}</div>
  <input id="gq" type="search" autocomplete="off" name="gearq" placeholder="${T("Find a weapon or set…")}" value="${esc(GSTATE.q)}" aria-label="${T("Find gear")}"></div>
+ ${subs?`<div class="gseg subs" role="tablist" aria-label="${T("All kinds")}">${(w==="c"?[]:[["",()=>T("All kinds")]]).concat(subs).map(([k,t])=>{const n=k===""?all.reduce((n,x)=>n+x[1].length,0):all.reduce((n,x)=>n+x[1].filter(w==="c"?d=>(k==="any")!==gOwn(d,r,a):g=>gSubOf(g,r)===k).length,0);
+  return n||k===s?`<a role="tab" href="${go(a,r,w,k==="own"?"":k)}"${k===s?' aria-selected="true"':""}>${t()} <span class="n">${n}</span></a>`:""}).join("")}</div>`:""}
  ${q?gSearch(hits,a,r):`<div class="gtl-list">${tiers.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>${T("Show {n} more",{n:xs.length-48})}</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join(""):`<p class="note">${w==="a"?T("No armor for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):w==="c"?T("No curios measured to help {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):T("No weapons for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))})}</p>`}</div>`}
  <div class="gfoot"><p>${hits?TN(hits.length,"{n} match for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.","{n} matches for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.",{n:`<b>${hits.length}</b>`,q:esc(GSTATE.q.trim()),k:hits.n,act:esc(actL(a))}):w==="a"?TN(pool,"{n} set usable at {act}.","{n} sets usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))}):w==="c"?TN(pool,"{n} curio usable at {act} measured to help {role}.","{n} curios usable at {act} measured to help {role}.",{n:`<b>${pool}</b>`,act:esc(actL(a)),role:GROLE[r]}):TN(pool,"{n} weapon usable at {act}.","{n} weapons usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))})}${w==="c"?" "+T("Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page."):""}${+a!==ORDER[0]?` <i class="gnew">${T("NEW")}</i> ${T("unlocks at this Act.")}`:""} ${T("Faded tiles are <b>estimated</b>: their damage is computed in code the wiki could not read, so they are ranked by when and how you get them (see below).")}</p>
  <details class="ghow"><summary>${T("How the tiers are worked out")}</summary><ul>

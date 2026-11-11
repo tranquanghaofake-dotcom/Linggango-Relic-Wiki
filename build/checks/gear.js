@@ -100,3 +100,24 @@ for (const g of GE) if ((g.fx || []).some(r => r.when === 'release' && r.fire !=
 for (const g of ALL) for (const t of g.tip || []) if (/%\d*\$?[sd]\b|%%/.test(t)) bad.push('gear tooltip with a raw format token: ' + nm(g) + ': ' + t);
 // copy-docs-12: no attribute label shows a raw namespace (Goety's keys keep theirs since the audit; gAttr strips it)
 for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(k))) bad.push('attribute label with a dot: ' + gAttr(k) + ' on ' + (g.id || g.k));
+// equip-groups: the finer groups of Equipment (gear.js GSUB, gSubOf, gOwn). Every ranged weapon is in exactly one of the four
+// ranged groups (a gun by its name, never the blowgun or Gungnir; crossbows and bows by class) and a summon weapon is Summonity
+// or Goety by its mod; a group's page shows only its own items, each under the tier the whole playstyle gives it, and the
+// counts on the buttons add up; the Curios tab shows the playstyle's own curios unless asked for the others, the two views
+// split the tiered curios in two, and a curio is "own" exactly when it raises the playstyle's output by GOWN or more
+{ const ra = GE.filter(g => g.k !== 'armor' && g.sc.RA != null && !gHidden(g)), keys = GSUB.RA.map(x => x[0]), of = n => ra.filter(g => g.n === n).map(g => gSubOf(g, 'RA'));
+  for (const g of ra) if (!keys.includes(gSubOf(g, 'RA'))) bad.push('equip-groups: ' + g.n + ' is in no ranged group');
+  if (!of('Railgun').length || of('Railgun').some(k => k !== 'gun') || of('Blowgun').includes('gun') || of('Gungnir').includes('gun') || of('Crossbow')[0] !== 'xbow' || of('Bow')[0] !== 'bow')
+    bad.push('equip-groups: Railgun, Blowgun, Gungnir, Crossbow or Bow is in the wrong ranged group');
+  for (const g of GE.filter(g => g.k === 'summon')) if (gSubOf(g, 'SU') !== (g.ns === 'summonity' ? 'summonity' : /^goety/.test(g.ns) ? 'goety' : null)) bad.push('equip-groups: ' + g.n + ' is in the wrong summon group');
+  const a = acts[acts.length - 1], go = async h => { location.hash = h; await new Promise(r => setTimeout(r, 80)); render(); }, rows = () => [...document.querySelectorAll('#main .gtl-list .grow')];
+  await go(`#gear/${a}/RA/w/gun`); let n = 0;
+  for (const row of rows()) for (const t of row.querySelectorAll('a.gtl')) { const g = GE[+t.getAttribute('href').slice(2)]; n++;
+    if (gSubOf(g, 'RA') !== 'gun' || gTierOf(g, a, 'RA', 'w') !== row.querySelector('.glet').textContent.trim()) bad.push('equip-groups: ' + g.n + ' on the Guns page is not a gun, or stands under another tier than the playstyle gives it'); }
+  const cs = [...document.querySelectorAll('#main .gseg.subs a .n')].map(x => +x.textContent);
+  if (!n || cs.length !== 5 || cs[0] !== cs.slice(1).reduce((x, y) => x + y, 0)) bad.push(`equip-groups: ${n} guns shown; the ranged group counts are ${cs.join(', ')}`);
+  const cur = async h => { await go(h); return rows().flatMap(r => [...r.querySelectorAll('a.gtl')]).map(t => D[+t.dataset.t]); };
+  const own = await cur(`#gear/${a}/MA/c`), any = await cur(`#gear/${a}/MA/c/any`), all = gTiers(a, 'MA', 'c').flatMap(x => x[1]);
+  if (!own.length || !any.length || own.length + any.length !== all.length || own.some(d => !gOwn(d, 'MA', a)) || any.some(d => gOwn(d, 'MA', a)))
+    bad.push(`equip-groups: Mage curios: ${own.length} own + ${any.length} others of ${all.length} tiered, or one on the wrong side`);
+  await go('#gear'); }
