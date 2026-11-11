@@ -532,7 +532,7 @@
 "2963o8ksc69": {"en": "Counts kills per mob type", "t": "Cuenta las bajas por tipo de mob", "s": "llm"},
 "casc2944ir": {"en": "Crafting ingredient for cursed scrolls; has no effect on its own", "t": "Ingrediente de fabricación para pergaminos malditos; no tiene efecto por sí solo", "s": "llm"},
 "61aut77ihi": {"en": "Creepers avoid and don't target the wearer", "t": "Los Creepers evitan a quien lo lleva y no lo atacan", "s": "llm"},
-"1myfs0wufib": {"en": "Creepers avoid the wearer", "t": "Los Creepers evitan a quien lo lleva", "s": "llm"},
+"1myfs0wufib": {"en": "Creepers avoid the wearer", "t": "Los Creepers evitan al portador", "s": "official"},
 "20agz8u9uhn": {"en": "Crouch and hold Space to launch upward", "t": "Agáchate y mantén pulsado Espacio para lanzarte hacia arriba", "s": "llm"},
 "17kbj2m8cle": {"en": "Crouch mid-air to rise; slightly reduced fall damage", "t": "Agacharte en el aire te hace subir; reduce un poco el daño por caída", "s": "llm"},
 "1uo5vkmogr4": {"en": "Crouch then jump in place to slam the ground, sending a damaging shockwave around you (costs Aura)", "t": "Agáchate y salta en el sitio para golpear el suelo, enviando una onda de choque que daña a tu alrededor (cuesta Aura)", "s": "llm"},

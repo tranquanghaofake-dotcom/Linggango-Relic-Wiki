@@ -1342,7 +1342,36 @@ const STATH=[[/\barmor penetration\b/i,N("Percent: the target counts with that m
  [/\broll count\b/i,N("Roll charges; only whole numbers count.")],[/\broll recharge\b/i,N("Charges come back faster: cooldown × 20 / Roll Recharge.")],[/\bdodge window\b/i,N("Extra invulnerable ticks on rolls and dashes, rounded, at most +4.")],[/\bcooldown reduction\b/i,N("Spell cooldown × (2 − value), softened past +50%.")]];
 function statHint(h){for(const [re,tip] of STATH){const m=h.match(re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/stats" title="${esc(T(tip))}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
 /* a raw tooltip line of a curio (the game's or the mod's own text): a whole-line entry in the pack, else "+8% Max Health" with the attribute name translated (gAL), else as it is. English never goes through here. */
-const stT=x=>{if(LANG==="en")return x;const w=TD(x);return w!==x?w:gAL(x)};
+// "Name: value" lines of the tooltip (the pack's config, relic abilities): the label through TD part by part ("A — B", "A › B"), the value by shape (cfgV); a clause, unit or word without an entry stays English
+const RLUc={},rlU=()=>RLUc[LANG]||(RLUc[LANG]=(()=>{const m=[],seen=new Set(),un=f=>f.replace("%1$s","").replace(/%%/g,"%").replace(/\.$/,"").replace(/^\s*\+\s*/,"").trim();   // "seconds" => "с": the units of the relic value formats, read from the formats rlStat already says through TD
+ for(const id in RL)for(const a of RL[id].ab)for(const t of a.st){if(seen.has(t.f))continue;seen.add(t.f);const ue=un(t.f);if(!ue||/^[%xX]$/.test(ue))continue;const ut=un(TD(t.f));if(ut!==ue)m.push([ue,ut])}
+ return m.sort((p,q)=>q[0].length-p[0].length)})());
+const relUnits=v=>{for(const [e,t] of rlU())v=v.replace(new RegExp("(?<=[\\d?])"+(e[0]==="%"?"":" ")+e.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"(?![A-Za-z])","g"),(t[0]==="%"?"":" ")+t);return v};
+const relV=v=>{let tail="",ex="",pk="",m;   // "Cooldown 16 seconds ~ 12 seconds; Duration … (at relic level 0; grows as the relic levels up) · max level 5 (…) ⚙ pack tweak: …"; null = a shape this does not read
+ if(m=v.match(/^([\s\S]*?) ⚙ pack tweak: ([\s\S]*)$/))v=m[1],pk=" ⚙ "+T("pack tweak:")+" "+dec(m[2]).replace(/max level/g,T("max level")).replace(/pts\/level/g,T("pts/level"));   // the code names in it stay as written
+ if(m=v.match(/^([\s\S]*?) · max level (\d+) \(relic lv(\d+), (\d+) pts\/level, shared with other abilities\)$/))v=m[1],ex=" · "+T("max level {a} (relic lv{b}, {c} pts/level, shared with other abilities)",{a:m[2],b:m[3],c:m[4]});
+ if(m=v.match(/^(.*) \(at relic level (\d+); grows as the relic levels up\)$/)){v=m[1];tail=" "+T("(at relic level {n}; grows as the relic levels up)",{n:m[2]})}
+ if(/ [·⚙] /.test(v))return null;
+ const o=v.split("; ").map(c=>{const k=c.match(/^(.+?) ([+\-−]?\d[\s\S]*)$/);return k&&TD(k[1])+" "+dec(relUnits(k[2])).replace(/\(lv (\d+):/g,(_,n)=>"("+T("lv {n}",{n})+":")});
+ return o.includes(null)||o.includes(undefined)||o.some(x=>!x)?null:o.join("; ")+tail+ex+pk};
+const cfgV=v=>{let m;
+ if(/^[\d.,+\-−×x%~ ()\/?…]+$/.test(v))return dec(v);
+ if(m=v.match(/^(.*) \(game-rule default\)$/))return cfgV(m[1])+" ("+T("game-rule default")+")";
+ if(m=v.match(/^(.*) \(code default\)$/))return cfgV(m[1])+" ("+T("code default")+")";
+ if(m=v.match(/^([\d.,?]+)s$/))return T("{n}s",{n:dec(m[1])});
+ if(m=v.match(/^(\d+) seconds$/))return T("{n} seconds",{n:m[1]});
+ if(m=v.match(/^([…?]) s$/))return T("{n} s",{n:m[1]});
+ if(m=v.match(/^([…?]) m\/s$/))return T("{n} m/s",{n:m[1]});
+ const r=relV(v);return r!=null?r:TD(v)};
+const cfgS=t=>{let m,u,par="",suf="";   // one part of a label: "Name [active] (unlocks at relic lv7)", "Chest chance in Igloo Chest", "Drop chance from Warden"
+ if(m=t.match(/^(.*?)( \([^)]*\))$/)){t=m[1];par=(u=m[2].match(/^ \(unlocks at relic lv(\d+)\)$/))?" "+T("(unlocks at relic lv{n})",{n:u[1]}):m[2]}
+ if(m=t.match(/^(.*) \[active\]$/)){t=m[1];suf=" ["+T("active")+"]"}
+ if(m=t.match(/^Chest chance in (.+)$/))return T("Chest chance in {x}",{x:TD(m[1])})+suf+par;   // the loot tables of the pack's config
+ if(m=t.match(/^Drop chance from (.+)$/))return T("Drop chance from {x}",{x:TD(m[1])})+suf+par;
+ return TD(t)+suf+par};
+const cfgT=x=>{const i=x.indexOf(": ");if(i<1||i>90||!/[A-Za-z]{2}/.test(x.slice(0,i)))return x;
+ return x.slice(0,i).split(/( — | › )/).map((t,j)=>j%2?t:cfgS(t)).join("")+": "+cfgV(x.slice(i+2))};
+const stT=x=>{if(LANG==="en")return x;const w=TD(x);if(w!==x)return w;const g=gAL(x);return g!==x?g:cfgT(x)};
 function statLine(t){const h=fmt(t).replace(/(^|[\s(])([+\-−]\s?\d[\d.,]*\s?%?|x\s?\d[\d.]*|×\s?\d[\d.]*|\d[\d.,]*\s?%)/g,(m,a,n)=>`${a}<b class="${/^[\-−]/.test(n)?"neg":"pos"}">${n}</b>`);return effHint(statHint(h))}
 function joinTip(xs){const out=[];xs.forEach(x=>{x=String(x).trim();if(!x)return;const p=out[out.length-1];
  if(p&&!/[.!?:)]$/.test(p)&&/^[a-z(…]/.test(x))out[out.length-1]=p+" "+x;else out.push(x)});return out}

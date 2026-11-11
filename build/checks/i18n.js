@@ -108,12 +108,16 @@
   for (const c of ['vi', 'ru', 'pt', 'es']) { let n = 0; for (const l of L) if (I18N[c].tr[hsh(l)] === undefined && l.trim().split(/\s+/).length >= 3) { if (n++ < 3) bad.push('i18n ' + c + ': a guide book text has no translation: ' + l.slice(0, 80)); }
     if (n > 3) bad.push('i18n ' + c + ': ' + n + ' guide book texts in all have no translation'); } }
 // Curio tooltip lines (Phase 3): the raw stat lines of the in-game tooltip (d.st) are said in every language. A whole sentence has a pack entry (stT -> TD); a "+8% Name" line keeps its number and
-// translates the name (gAL). Left English on purpose: "Name: value" config lines, titles (every word capitalised), tags, symbol-only lines, the names Spell Power / Cast / Luck / Lethality / Omnivamp / Tenacity.
+// translates the name (gAL); a "Name: value" config line translates its label and its value (cfgT). Left English on purpose: titles (every word capitalised), tags, symbol-only lines, the names Spell Power / Cast / Luck / Lethality / Omnivamp / Tenacity.
 { const L = new Set(); for (const d of D) for (const x of d.st || []) if (typeof x === 'string') L.add(x);
-  const skip = l => /^[^:]{1,60}: /.test(l) || / — /.test(l) || !/[a-z]{3}/.test(l) || /^[a-z ]+$/.test(l) || /_/.test(l) || /^([A-Z][\w'’\-!?]*|of|the|to|and|in|a|an|from|for|is|[IVX]+|\?+)( |$)/.test(l) && l.split(/\s+/).every(w => /^([A-Z][\w'’\-!?]*|of|the|to|and|in|a|an|from|for|is|[IVX]+|\?+)$/.test(w))
+  const skip = l => !/[a-z]{3}/.test(l) || /^[a-z ]+$/.test(l) || /_/.test(l) || /^([A-Z][\w'’\-!?]*|of|the|to|and|in|a|an|from|for|is|[IVX]+|\?+)( |$)/.test(l) && l.split(/\s+/).every(w => /^([A-Z][\w'’\-!?]*|of|the|to|and|in|a|an|from|for|is|[IVX]+|\?+)$/.test(w))
     || / Spell Power$| Cast( \d)?$|^[+\-−]?\d[\d.,]*x? ?%? ?(Luck|Lethality|Omnivamp|Tenacity|Brimwielder School Level|Robes Iron Resist|Effect Geomancy Break)$/.test(l);
   for (const c of ['vi', 'ru', 'pt', 'es']) { useLang(c); let n = 0;
-    for (const l of L) if (!skip(l) && stT(l) === l && I18N[c].tr[hsh(l)] === undefined) { if (n++ < 3) bad.push('i18n ' + c + ': a tooltip line is still English: ' + l.slice(0, 90)); }
+    const keep = new Set(I18N[c].keep || []), cfg = l => /^[^:]{1,90}: /.test(l);
+    for (const l of L) if (!skip(l) && !cfg(l) && stT(l) === l && I18N[c].tr[hsh(l)] === undefined) { if (n++ < 3) bad.push('i18n ' + c + ': a tooltip line is still English: ' + l.slice(0, 90)); }
+    // a "Label: value" line: every part of the label ("A — B › C", without "[active]", "(…)", "Chest chance in …") has a pack entry; a part that is a short title or an acronym can stay
+    for (const l of L) if (cfg(l) && !skip(l) && I18N[c].tr[hsh(l)] === undefined) { const lab = l.slice(0, l.indexOf(': '));
+      for (const seg of lab.split(/ — | › /)) { const b = seg.replace(/ \([^)]*\)$/, '').replace(/ \[active\]$/, '').replace(/^(Chest chance in|Drop chance from) .*$/, ''); if (b && !/^[A-Z0-9 ]{1,4}$/.test(b) && !keep.has(b) && I18N[c].tr[hsh(b)] === undefined) { if (n++ < 3) bad.push('i18n ' + c + ': the label of a tooltip line has no translation: ' + b); break; } } }
     if (n > 3) bad.push('i18n ' + c + ': ' + n + ' tooltip lines in all are still English'); }
   useLang('ru'); if (stT('+2.5% Life Steal') !== '+2,5% ' + TD('Life Steal') || gAL('+1.5x Damage dealt') === '+1.5x Damage dealt' || !/^\+1,5x /.test(gAL('+1.5x Damage dealt')) || gAL('30 second cooldown') === '30 second cooldown') bad.push('i18n ru: stT/gAL do not translate a multiplier or cooldown line');
   useLang('en'); if (D.some(d => (d.st || []).some(x => typeof x === 'string' && stT(x) !== x))) bad.push('i18n: stT changes an English tooltip line'); }

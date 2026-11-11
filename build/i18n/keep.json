@@ -1,6 +1,55 @@
 {
-"all": ["Arion", "Eldorath", "Iron Colossus", "Nyxaris", "Sanghor", "Vaedric", "Zoranth Newborn", "Zoranth the Forgotten", "The Discord", "L2 Artifacts", "Must-Have", "Mythic", "{a}: {g}", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Must-Have ★", "Anklet", "Binding Key", "Blasphemy", "Elytra", "Focus", "Glove", "Heart", "Hostility Curse", "Living Armour", "Magnetizer", "Sacrament", "Scroll", "Spellbook", "Talent", "Seven Curses", "Seven Virtues", "Trait L2", "Brutality seasoning", "Aqua", "Geo", "Annihilation"],
-"vi": ["Accessory", "Back", "Belt", "Body", "Bracelet", "Bundle", "Charm", "Feet", "Hands", "Head", "Necklace", "Ring", "Spellstone", "Fire", "Ice", "Lightning", "Holy", "Ender", "Blood", "Evocation", "Nature", "Eldritch"],
-"es": ["Spellstone", "Bundle"],
-"pt": ["Bundle"]
+ "all": [
+  "Arion",
+  "Eldorath",
+  "Iron Colossus",
+  "Nyxaris",
+  "Sanghor",
+  "Vaedric",
+  "Zoranth Newborn",
+  "Zoranth the Forgotten",
+  "The Discord",
+  "L2 Artifacts",
+  "Must-Have",
+  "Mythic",
+  "{a}: {g}",
+  "Common",
+  "Uncommon",
+  "Rare",
+  "Epic",
+  "Legendary",
+  "Must-Have ★",
+  "Anklet",
+  "Binding Key",
+  "Blasphemy",
+  "Elytra",
+  "Focus",
+  "Glove",
+  "Heart",
+  "Hostility Curse",
+  "Living Armour",
+  "Magnetizer",
+  "Sacrament",
+  "Scroll",
+  "Spellbook",
+  "Talent",
+  "Seven Curses",
+  "Seven Virtues",
+  "Trait L2",
+  "Brutality seasoning",
+  "Aqua",
+  "Geo",
+  "Annihilation"
+ ],
+ "vi": [
+  "Bundle",
+  "Spellstone"
+ ],
+ "es": [
+  "Spellstone",
+  "Bundle"
+ ],
+ "pt": [
+  "Bundle"
+ ]
 }
