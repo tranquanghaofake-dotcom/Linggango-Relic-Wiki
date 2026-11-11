@@ -12,10 +12,10 @@ out = {}
 for pre in PRE:
     for k, en in L['en'].items():
         if not k.startswith(pre) or not isinstance(en, str) or k.count('.') > pre.count('.') or len(en) > 40 or '%' in en: continue
-        row = out.setdefault(en, {})
+        row = out.setdefault(en, {'_c': pre.split('.')[0] if pre != 'attribute.name.' else 'attribute'})   # _c: effect, attribute, entity, enchantment, biome, dimension, block, item
         for lg, src in (('vi', 'vi'), ('ru', 'ru'), ('pt', 'pt'), ('es', 'es'), ('es', 'es2')):
             t = L[src].get(k)
             if lg not in row and isinstance(t, str) and t.strip() and t != en: row[lg] = t
-out = {k: v for k, v in sorted(out.items()) if v}
+out = {k: v for k, v in sorted(out.items()) if len(v) > 1}
 json.dump(out, open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'official', 'vanilla_terms.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0, sort_keys=True)
 print(len(out), 'terms;', {l: sum(1 for v in out.values() if l in v) for l in ('vi', 'ru', 'pt', 'es')})
