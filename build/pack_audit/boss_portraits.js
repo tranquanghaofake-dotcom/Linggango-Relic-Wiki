@@ -12,7 +12,7 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
   const M = JSON.parse(fs.readFileSync(inF || path.join(P, 'boss_models.json'))), F = outF || path.join(P, 'boss_portraits.json');
   const out = fs.existsSync(F) ? JSON.parse(fs.readFileSync(F)) : {};
   const { page, close } = await open('boss_portraits.html');
-  // --figs: the figures of The climb (the home page's staircase) -> build/patches/boss_figs.json {key: {src, w, h, bw, n, ms, z, tx, fly?}}
+  // --figs: the figures of The climb (the home page's staircase) -> build/patches/boss_figs.json {key: {src, w, h, bw, n, ms, z, tx, perch?}}
   // and build/patches/boss_walks.json {key: {src, w, h, n, ms}}: per Keeper of The Path (app.js NEXTB) a strip of its idle loop
   // and one of its walk loop (boss_portraits.html figure: same centre line and ground, each cut to its own pixels), drawn at
   // twice the size it is shown (z = shown px per strip px). Each is drawn at whole texels (tx strip px to a texel of the skin, even: the
@@ -23,19 +23,18 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
   // over their own step). Idle loops are FR.idle frames and walk loops FR.walk (an idle barely moves).
   // Size rule: a boss of MED blocks is CSSH px tall on the page; the others follow the square root of their in-game height
   // (so Arion at 3.1 blocks and Sanghor at 6.8 differ, but not by 2.2 times), within LO..HI, and no frame is wider than MAXW.
-  // OPT: the Ender Dragon flies (the page lifts it behind its neighbours; no ground, its frame is its lowest pixel) and is seen from
-  // its own side (yaw -30, pitch 20: three-quarters from the front and above, head to the right as if climbing the stairs, its eyes
-  // showing; from the side or the front it is a flat black wedge); it is wings,
-  // not a body, so its size follows its width (free: no whole texels, outline 2 px).
+  // OPT: the Ender Dragon perches on its step (the End's obsidian pillar) seen head on, wings beating, its feet on the stone; no ground row to cut
+  // at (its origin is its body's middle: the frame ends at its lowest pixel, the feet), behind its neighbours. It is wings, not a body, so its
+  // size follows its width (free: no whole texels, outline 2 px).
   // The last Act has no Keeper: its step shows the Act's end-game boss from STILL (a finished side-boss picture, no loop).
   if (a.includes('--figs')) {
     const PATH = ['iron_colossus', 'goblin_lord', 'arion', 'eldorath', 'zoranth_forgotten', 'ender_dragon', 'elvenite_paladin', 'vaedric', 'discord', 'sanghor', 'zoranth_newborn', 'nyxaris'];
-    const OPT = { ender_dragon: { fly: 1, size: 1.2, maxw: 350, yaw: -30, pitch: 20, free: 1, frames: 12 } };
+    const OPT = { ender_dragon: { perch: 1, size: 1.7, maxw: 520, yaw: 0, pitch: 8, free: 1, frames: 12 } };
     const STILL = { apollyon: ['side_imgs.json', 'Apollyon', { outline: 5, texel: 5, clean: 34, z: 0.4 }] },   // drawn at twice its size (5 px a texel -> 10), z 0.4: 4 whole shown px to a texel
       SRC = 2, CSSH = 176, MED = 4.8, LO = 0.95, HI = 1.2, MAXW = 520, PPU = 40, YAW = 18, YAWS = [18, 14, 10, 6, 0], PROT = 100, FR = { idle: 6, walk: 8 }, ANIMS = ['idle', 'walk'], figs = {}, walks = {};
     const fig = (rec, o) => page.evaluate(([r, o]) => figure(r, o), [rec, { ppu: PPU, yaw: YAW, anims: ANIMS, type: 'image/webp', ...o }]);
     for (const k of PATH) { const rec = M[k], o = OPT[k] || {}; if (!rec) { console.log(k, 'has no model'); process.exitCode = 1; continue; }
-      const v = { fly: !!o.fly, ...(o.yaw != null && { yaw: o.yaw }), ...(o.pitch != null && { pitch: o.pitch }) }, m = await fig(rec, { ...v, frames: 6, measure: true }), mw = o.maxw || MAXW;
+      const v = { perch: !!o.perch, ...(o.yaw != null && { yaw: o.yaw }), ...(o.pitch != null && { pitch: o.pitch }) }, m = await fig(rec, { ...v, frames: 6, measure: true }), mw = o.maxw || MAXW;
       // whole texels: the strip pixels per texel of the skin (even, so that the page, which shows a strip at half size, shows whole
       // pixels too) nearest to the size the rule gives, and the largest one whose frame is not wider than MAXW
       const want = (o.size || 1) * SRC * CSSH * Math.min(HI, Math.max(LO, Math.sqrt(m.blocks / MED))), tall = m.blocks * 16 / (rec.scale || 1);
@@ -50,7 +49,7 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
           if (prot <= PROT) break; }
         r = await fig(rec, { ...dr, texel: tx, outline: tx, frames: FR }); }
       const i = r.strips.idle, w = r.strips.walk;
-      figs[k] = { src: 'data:image/webp;base64,' + i.png, w: i.w, h: i.h, bw: i.bw, n: i.n, ms: i.ms, z: 1 / SRC, tx }; if (o.fly) figs[k].fly = 1;
+      figs[k] = { src: 'data:image/webp;base64,' + i.png, w: i.w, h: i.h, bw: i.bw, n: i.n, ms: i.ms, z: 1 / SRC, tx }; if (o.perch) figs[k].perch = 1;
       if (w) walks[k] = { src: 'data:image/webp;base64,' + w.png, w: w.w, h: w.h, n: w.n, ms: w.ms };
       console.log(k.padEnd(18), `idle ${i.w}x${i.h} body ${i.bw} yaw ${dr.yaw} texel ${tx} ${(i.png.length / 1024).toFixed(0)} kB`, w ? `walk ${w.w}x${w.h} ${(w.png.length / 1024).toFixed(0)} kB` : 'no walk', `${m.blocks} blocks`); }
     for (const [k, [f, name, so]] of Object.entries(STILL)) { const r = await page.evaluate(([u, o]) => still(u, o), [JSON.parse(fs.readFileSync(path.join(P, f)))[name], so]);

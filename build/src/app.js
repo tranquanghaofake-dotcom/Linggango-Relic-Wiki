@@ -818,6 +818,10 @@ const PENV={b_dirt:"meadow",b_stone:"cave",b_deepslate:"cave",b_gilded_blackston
 // a boss brings its own air where its arena is plainer than the Act's block
 const BENV={warden:"sculk",wither:"soul",ender_dragon:"end"},BTEX={warden:"b_sculk",wither:"b_soul_sand",ender_dragon:"b_end_stone"};
 const btex=(a,k)=>BTEX[k]?`--tex:var(--v-${BTEX[k]})`:tex(a);
+/* a column of The Path is built, not painted: courses of stone (.bk), a frieze in the Act's colour (.fr), the sun's grade over it (.gr), and three points of light in the stone that
+   catch now and then (.gl, the colour of the Act; where they sit is the step's own, drawn from its number) */
+const colFx=i=>{const h=n=>{const x=Math.sin(i*127.1+n*311.7)*43758.5453;return x-Math.floor(x)};
+ return `<i class="bk"></i><i class="gr"></i><i class="fr"></i><span class="gl" aria-hidden="true">${[0,1,2].map(n=>`<b style="left:${(14+h(n)*66).toFixed(0)}%;top:${(16+n*26+h(n+5)*14).toFixed(0)}%;--d:${(11+h(n+9)*9).toFixed(1)}s;--w:-${(h(n+13)*20).toFixed(1)}s"></b>`).join("")}</span>`};
 const envFx=(a,k)=>{const e=BENV[k]||PENV[PTEX[a]];return e?`<span class="envfx" data-env="${e}" aria-hidden="true">${[0,1,2,3,4,5,6,7].map(k=>`<i style="--k:${k}"></i>`).join("")}</span>`:""};
 const SPR=["p_glint","p_sga_a","p_sga_e","p_sga_k","p_sga_r","p_sga_x","p_sga_z","p_glitter_0","p_glitter_3","p_spark_3"];
 const MFSP={terra:"p_glitter_3",brut:"p_critical_hit",leth:"p_critical_hit",summ:"p_glitter_0",enigma:"p_sga_k",armag:"p_flame",celest:"p_glint",goety:"p_soul_5",l2:"p_sga_x",spell:"p_sga_e",blood:"p_drip_hang",tech:"p_spark_3",calam:"p_soul_fire_flame",relic:"p_glitter_6"};
@@ -1123,37 +1127,37 @@ function skyArt(w,h,PX){
  const W=Math.ceil(w/PX),H=Math.ceil(h/PX);let q=11;const R=()=>(q=q*16807%2147483647)/2147483647;
  const hex=s=>[1,3,5].map(i=>parseInt(s.slice(i,i+2),16)),mix=(a,c,t)=>a.map((v,i)=>v+(c[i]-v)*t);
  const BAY=(x,y)=>([0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5][(y&3)*4+(x&3)]+.5)/16;
- const buf=()=>{const c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d"),im=x.createImageData(W,H),d=im.data;
+ const buf=(Hb=H)=>{const c=document.createElement("canvas");c.width=W;c.height=Hb;const x=c.getContext("2d"),im=x.createImageData(W,Hb),d=im.data;
   // put: a pixel over what is there (a < 1 blends)
-  const put=(X,Y,c,a=1)=>{if(X<0||Y<0||X>=W||Y>=H)return;const i=(Y*W+X)*4,da=d[i+3]/255,oa=a+da*(1-a);if(a>=1||!da){d[i]=c[0];d[i+1]=c[1];d[i+2]=c[2];d[i+3]=a*255;return}
+  const put=(X,Y,c,a=1)=>{if(X<0||Y<0||X>=W||Y>=Hb)return;const i=(Y*W+X)*4,da=d[i+3]/255,oa=a+da*(1-a);if(a>=1||!da){d[i]=c[0];d[i+1]=c[1];d[i+2]=c[2];d[i+3]=a*255;return}
    for(let k=0;k<3;k++)d[i+k]=(c[k]*a+d[i+k]*da*(1-a))/oa;d[i+3]=oa*255};
   const rect=(X,Y,w,h,c,a)=>{for(let j=0;j<h;j++)for(let i=0;i<w;i++)put(X+i,Y+j,c,a)};
   return {c,x,im,put,rect,done:()=>{x.putImageData(im,0,0);return c}}};
  // 1 the sky
  const B=buf(),ST=[[0,"#141038"],[.24,"#2e1d62"],[.46,"#6d2f7c"],[.64,"#c8506d"],[.80,"#f58a54"],[.93,"#ffc66e"],[1,"#ffe3a0"]].map(([t,c])=>[t,hex(c)]);
  const at=t=>{for(let i=1;i<ST.length;i++)if(t<=ST[i][0]){const [t0,c0]=ST[i-1],[t1,c1]=ST[i];return mix(c0,c1,(t-t0)/(t1-t0))}return ST.at(-1)[1]};
- const N=24,bands=[...Array(N)].map((_,i)=>at(i/(N-1))),sunX=.175*W+15,sunY=H*.7-15;
+ const N=24,bands=[...Array(N)].map((_,i)=>at(i/(N-1))),sunX=.175*W+15,sunY=H-Math.min(H*.3,300/PX)-15;
  for(let y=0;y<H;y++)for(let x=0;x<W;x++){const t=y/H*(N-1),i=Math.min(N-2,Math.floor(t));let c=bands[i+(t-i>BAY(x,y)?1:0)];
   const d=Math.hypot((x-sunX)/1.8,y-sunY),g=Math.max(0,1-d/(H*.5)),l=Math.floor(g*g*4+BAY(x,y)-.25);if(l>0)c=mix(c,[255,196,110],Math.min(.4,l*.1));B.put(x,y,c)}
  for(let k=0;k<70;k++){const x=Math.floor(R()*W),y=Math.floor(Math.pow(R(),1.7)*H*.5);B.put(x,y,[255,244,230],.3+R()*.5);if(R()<.07){B.put(x-1,y,[255,244,230],.7);B.put(x+1,y,[255,244,230],.7);B.put(x,y-1,[255,244,230],.7);B.put(x,y+1,[255,244,230],.7)}}
  // 2 the land
- const F=buf(),noise=sc=>{const p=[...Array(48)].map(R);return x=>{const u=x/sc,i=Math.floor(u),t=u-i,s=t*t*(3-2*t);return p[i%48]*(1-s)+p[(i+1)%48]*s}};
+ const Hh=Math.min(H,220),O=H-Hh,F=buf(Hh),noise=sc=>{const p=[...Array(48)].map(R);return x=>{const u=x/sc,i=Math.floor(u),t=u-i,s=t*t*(3-2*t);return p[i%48]*(1-s)+p[(i+1)%48]*s}};
  const ridge=(base,amp,sc,oct)=>{const ns=oct.map(o=>noise(sc/o));return x=>{let v=0,a=1,s=0;oct.forEach((o,i)=>{v+=ns[i](x)*a;s+=a;a*=.5});return base-amp*v/s}};
- const hz=H*.72,R1=ridge(hz-H*.08,H*.16,70,[1,2,4]),R2=ridge(hz+H*.02,H*.13,46,[1,2.5,5]),R3=ridge(hz+H*.14,H*.12,36,[1,2,4]);
- const layer=(fn,col,haze,lit,deco)=>{for(let x=0;x<W;x++){const top=Math.round(fn(x));for(let y=top;y<H;y++){let c=mix(col,at(y/H),haze);if(y-top<2&&fn(x+2)>fn(x-2)+.5)c=mix(c,lit,y===top?.5:.28);F.put(x,y,c)}}if(deco)deco()};
+ const hz=Hh*.72,R1=ridge(hz-Hh*.08,Hh*.16,70,[1,2,4]),R2=ridge(hz+Hh*.02,Hh*.13,46,[1,2.5,5]),R3=ridge(hz+Hh*.14,Hh*.12,36,[1,2,4]);
+ const layer=(fn,col,haze,lit,deco)=>{for(let x=0;x<W;x++){const top=Math.round(fn(x));for(let y=top;y<Hh;y++){let c=mix(col,at((y+O)/H),haze);if(y-top<2&&fn(x+2)>fn(x-2)+.5)c=mix(c,lit,y===top?.5:.28);F.put(x,y,c)}}if(deco)deco()};
  const mist=(y0,hh,a)=>{for(let y=y0;y<y0+hh;y++)for(let x=0;x<W;x++)if((1-(y-y0)/hh)*a>BAY(x,y)*.9)F.put(x,y,[255,176,120],.3)};
- layer(R1,hex("#7a3a86"),.45,[255,190,130]);mist(Math.round(hz-H*.02),Math.round(H*.07),.9);
- layer(R2,hex("#4a2368"),.2,[255,170,110],()=>{   // a castle on the middle ridge
-  const cx=Math.round(W*.66),by=Math.round(R2(cx))+2,c=hex("#3d1d5a"),r=(x,y,w,h)=>F.rect(cx+x,by-y-h,w,h,c);
+ const castle=()=>{   // a castle on the far ridge, above the Keepers' heads and in the sun's glow
+  const cx=Math.round(W*.42),by=Math.round(R1(cx))+2,c=hex("#4d2468"),r=(x,y,w,h)=>F.rect(cx+x,by-y-h,w,h,c);
   r(-14,0,28,7);[-14,-8,-2,4,10].forEach((x,i)=>r(x,7,i%2?2:4,i%2?2:3));r(-5,7,10,10);r(-5,17,3,2);r(-1,17,3,2);r(3,17,2,2);r(-1,19,2,5);r(-22,0,7,15);r(-23,15,9,2);r(-22,17,3,2);r(-18,17,3,2);r(15,0,7,12);r(14,12,9,2);r(15,14,3,2);r(19,14,3,2);
-  [[-1,11],[-20,9],[18,7],[1,3]].forEach(([x,y])=>F.rect(cx+x,by-y-2,1,2,[255,196,120]));F.rect(cx-22,by-15,1,15,[255,190,130],.55);F.rect(cx-14,by-7,1,7,[255,190,130],.55)});
- mist(Math.round(hz+H*.06),Math.round(H*.06),.6);
+  [[-1,11],[-20,9],[18,7],[1,3]].forEach(([x,y])=>F.rect(cx+x,by-y-2,1,2,[255,196,120]));F.rect(cx-22,by-15,1,15,[255,190,130],.55);F.rect(cx-14,by-7,1,7,[255,190,130],.55)};
+ layer(R1,hex("#7a3a86"),.5,[255,190,130],castle);mist(Math.round(hz-Hh*.02),Math.round(Hh*.05),.55);
+ layer(R2,hex("#4a2368"),.2,[255,170,110]);
  const island=(cx,cy,w,hh,s)=>{const c=hex("#3a1a58"),top=hex("#5a3478"),lit=[255,184,120];
   for(let x=-w;x<=w;x++){const e=1-Math.pow(Math.abs(x)/w,1.6),yt=cy-Math.round(1+e*2),yb=cy+Math.round(hh*e*e*(.6+.4*Math.sin(x*.7+s)));
    for(let y=yt;y<=yb;y++){let col=y<=cy?top:mix(c,[20,8,36],(y-cy)/hh*.7);if(y===yt)col=mix(top,lit,x<w*.2?.55:.22);F.put(cx+x,y,col)}}
   const tx=cx-Math.round(w*.3),dk=hex("#2b1445");F.rect(tx,cy-3,1,3,dk);F.rect(tx-1,cy-6,3,3,dk);F.rect(tx,cy-8,1,2,dk);F.rect(cx+Math.round(w*.35),cy-3,1,2,[255,200,130]);
   const wx=cx+Math.round(w*.55);for(let y=cy;y<cy+hh*1.6;y++)F.put(wx,y,[255,210,170],.35)};
- island(Math.round(W*.64),Math.round(H*.43),11,9,1);island(Math.round(W*.79),Math.round(H*.35),8,7,2.4);island(Math.round(W*.52),Math.round(H*.5),6,5,4);
+ island(Math.round(W*.64),Math.round(Hh*.43),11,9,1);island(Math.round(W*.79),Math.round(Hh*.35),8,7,2.4);island(Math.round(W*.52),Math.round(Hh*.5),6,5,4);
  layer(R3,hex("#2c1648"),.05,[255,150,100],()=>{for(let k=0;k<26;k++){const x=Math.floor(R()*W);if(x>W*.2&&x<W*.3&&R()<.8)continue;const y=Math.round(R3(x)),h=4+Math.floor(R()*6);for(let j=0;j<h;j++){const wj=Math.ceil((j+1)/2);F.rect(x-Math.floor(wj/2),y-h+j,wj,1,hex("#1f0f36"))}}});
  // 3 clouds: 44 x 17 art pixels, a flat underside and a top made of puffs; violet on top, the sun's colour underneath, the left edge (the sun's side) lit
  const clouds=[3,7,12].map(s=>{const cw=44,ch=17,C=document.createElement("canvas");C.width=cw;C.height=ch;const x=C.getContext("2d");let z=s*977;const r=()=>(z=z*16807%2147483647)/2147483647;
@@ -1162,7 +1166,9 @@ function skyArt(w,h,PX){
    for(let j=top;j<=base;j++){const t=(j-top)/Math.max(1,base-top),lit=!inC(i-1,j)||!inC(i-2,j),c=mix([112,66,146],[255,172,124],Math.pow(t,1.3)),k=lit?mix(c,[255,214,170],.45):c;
     x.fillStyle=`rgba(${k.map(Math.round)},${.7-.12*(1-t)})`;x.fillRect(i,j,1,1)}}
   return C.toDataURL()});
- return {back:B.done(),front:F.done(),clouds}}
+ // the land stands on the foot of the scene, at most 220 art pixels (880) tall: on a phone, where the hero is a column of sky, it does not climb to the text
+ const FC=document.createElement("canvas");FC.width=W;FC.height=H;FC.getContext("2d").drawImage(F.done(),0,O);
+ return {back:B.done(),front:FC,clouds}}
 
 /* the hero's sky and land painted into its two canvases, and the cloud sprites into --cl0..2; one painting per size is kept (a second visit paints nothing) */
 const SKYC={};
@@ -1197,7 +1203,7 @@ function pathMap(path,lead){
  <div class="pcap"><h2 class="gt">${T("The Path")}</h2><p class="gs">${T("Pick an Act to see what it opens and who guards it. Press “I'm here” on the Act you reached and the map follows your run.")}</p><p class="prun" id="prun" aria-live="polite"></p></div>
  <div class="ptrack" role="tablist" aria-label="${T("Acts of The Path")}" style="--n:${path.length}"><div class="pxp" aria-hidden="true"><i id="pxpf"></i></div>
  ${path.map((a,i)=>{const k=NEXTB[a],e=!k&&ENDB[a],f=typeof BFIG!=="undefined"&&BFIG[k||(e&&e[0])];
-  return `<button type="button" role="tab" class="pn${VBOSS[a]?" ch":""}" id="pn-${i}" data-i="${i}" aria-controls="pp-${i}" aria-selected="${!i}" tabindex="${i?-1:0}" style="--tc:${ACT[a][2]};--i:${i};${tex(a)}" title="${esc(actF(a))}" data-k="${k?esc(kShort(k)):e?esc(TD(e[1])):""}" data-fk="${k||(e?e[0]:"")}"><i class="sw"></i>${envFx(a)}<span class="pfr${f&&f.fly?" fly":""}" data-h="${esc(T("You are here"))}">${f?`<i class="au"></i>${figHtml(k||e[0],null,` data-bw="${(f.bw/f.w).toFixed(3)}"`)}${SPARKS}`:emblem(a,"lg")}</span><b>${esc(ACT[a][0])}</b></button>`}).join("")}</div></section>
+  return `<button type="button" role="tab" class="pn${VBOSS[a]?" ch":""}" id="pn-${i}" data-i="${i}" aria-controls="pp-${i}" aria-selected="${!i}" tabindex="${i?-1:0}" style="--tc:${ACT[a][2]};--i:${i};${tex(a)}" title="${esc(actF(a))}" data-k="${k?esc(kShort(k)):e?esc(TD(e[1])):""}" data-fk="${k||(e?e[0]:"")}">${colFx(i)}<i class="sw"></i>${envFx(a)}<span class="pfr${f&&f.perch?" perch":""}" data-h="${esc(T("You are here"))}">${f?`<i class="au"></i>${figHtml(k||e[0],null,` data-bw="${(f.bw/f.w).toFixed(3)}"`)}${SPARKS}`:emblem(a,"lg")}</span><b>${esc(ACT[a][0])}</b></button>`}).join("")}</div></section>
  ${path.map((a,i)=>pPanel(a,i,!i)).join("")}
  ${D.some(d=>d.t===-1)?`<p class="gs side">${T("Side Act: {link}, dropped by L2 Hostility mobs by level, outside the Keeper order.",{link:`<a href="#act/-1">${T("L2 Artifacts")}</a>`})}</p>`:""}</div>`}
 function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...map.querySelectorAll(".pn")],pans=[...map.querySelectorAll(".ppanel")];let cur=0;
@@ -1208,7 +1214,7 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
  // past it): a broad one is drawn smaller. The dragon flies behind the others and is left as it is.
  /* a step's full width: the grid cell it sits in (at rest the step itself is narrower, with sky beside it), or the step on a phone */
  const cell=t=>getComputedStyle(t.parentNode).display==="grid"?t.parentNode.clientWidth/tabs.length:t.offsetWidth;
- const fit=()=>tabs.forEach(t=>{const k=t.querySelector(".pk:not(.wk)");if(k&&k.offsetWidth&&!k.parentNode.classList.contains("fly"))k.parentNode.style.setProperty("--fit",Math.min(1,1.25*cell(t)/(k.offsetWidth*(+k.dataset.bw||1))).toFixed(3))});
+ const fit=()=>tabs.forEach(t=>{const k=t.querySelector(".pk:not(.wk)");if(k&&k.offsetWidth&&!k.parentNode.classList.contains("perch"))k.parentNode.style.setProperty("--fit",Math.min(1,1.25*cell(t)/(k.offsetWidth*(+k.dataset.bw||1))).toFixed(3))});
  // the sky's layers shift a little with the pointer
  if(!RM){const cl=map.querySelector(".climb");let pq=0;cl.addEventListener("pointermove",e=>{if(pq)return;pq=requestAnimationFrame(()=>{pq=0;const r=cl.getBoundingClientRect();cl.style.setProperty("--mx",((e.clientX-r.left)/r.width*2-1).toFixed(3));cl.style.setProperty("--my",((e.clientY-r.top)/r.height*2-1).toFixed(3))})},{passive:true})}
  const sky=()=>skyPaint(map.querySelector(".climb"));
