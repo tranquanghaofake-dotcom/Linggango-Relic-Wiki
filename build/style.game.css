@@ -1927,22 +1927,32 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 .climb::after{content:"";position:absolute;inset:auto 0 0 0;z-index:3;height:40px;pointer-events:none;
  background:linear-gradient(rgba(38,20,64,.66),rgba(38,20,64,.66)),var(--cave) 0 0/2048px 1280px fixed;image-rendering:pixelated;box-shadow:inset 0 4px 0 rgba(255,190,140,.3),0 -4px 0 #160b2a}
 
-/* the title: the pack's line, search, the reader's own buttons, and what the staircase is */
-.climb .lg{grid-area:1/1/2/3;margin:0;font-size:clamp(40px,6.1vw,88px);line-height:.84;color:#fff8ec;text-shadow:0 5px 0 var(--dusk);white-space:nowrap}
-*:not(#_):not(#__) .climb h1.lg{font-family:"Jersey 15",var(--title)!important;letter-spacing:0;text-transform:none}
-.climb .hsearch{grid-area:2/1;display:block;max-width:none;margin:var(--s2) 0 0}
+/* the title block: one left column on one edge. A line of facts about the pack, the pack's line lettered like the game's own logo (a dark ring, a stepped
+   amber extrusion, no blur), what the staircase is on a plate of its own (the sky and its stars run behind it, so the words never fight them), then search and
+   the reader's own buttons side by side. The right of the sky is left to the moon and the castle. */
+.climb{grid-template-columns:minmax(0,1fr);grid-template-rows:none;grid-auto-rows:auto;gap:var(--s3)}
+.climb .tcs{grid-area:1/1;justify-self:start;display:flex;flex-wrap:wrap;gap:var(--s2);text-align:left}
+.climb .tcorner{margin:0;padding:var(--s1) var(--s3);font:600 12.5px/1.3 var(--body);letter-spacing:.04em;color:#f1e9ff;background:rgba(24,12,52,.62);box-shadow:0 0 0 2px #160b2a;font-variant-numeric:tabular-nums}
+.climb .tcorner:first-child{color:var(--sun)}
+.climb .lg{grid-area:2/1;margin:var(--s1) 0 var(--s2);font-size:clamp(44px,6.5vw,96px);line-height:.9;color:#fff3d8;white-space:nowrap;--o:.04em;--d:#1a0d36;
+ text-shadow:calc(-1*var(--o)) calc(-1*var(--o)) 0 var(--d),0 calc(-1*var(--o)) 0 var(--d),var(--o) calc(-1*var(--o)) 0 var(--d),calc(-1*var(--o)) 0 0 var(--d),var(--o) 0 0 var(--d),
+  0 var(--o) 0 #f2a652,0 calc(2*var(--o)) 0 #c4602f,
+  calc(-1*var(--o)) var(--o) 0 var(--d),var(--o) var(--o) 0 var(--d),calc(-1*var(--o)) calc(2*var(--o)) 0 var(--d),var(--o) calc(2*var(--o)) 0 var(--d),
+  calc(-1*var(--o)) calc(3*var(--o)) 0 var(--d),0 calc(3*var(--o)) 0 var(--d),var(--o) calc(3*var(--o)) 0 var(--d),0 calc(5*var(--o)) 0 rgba(20,8,48,.38)}
+*:not(#_):not(#__) .climb h1.lg{font-family:"Jersey 15",var(--title)!important;letter-spacing:.01em;text-transform:none}
+.climb .pcap{grid-area:3/1;justify-self:start;margin:0;max-width:min(560px,100%);padding:var(--s2) var(--s4) var(--s2) var(--s4);background:rgba(24,12,52,.64);box-shadow:inset 4px 0 0 var(--sun),0 0 0 2px #160b2a,0 6px 0 2px rgba(20,10,50,.4)}
+.climb .pcap .gt{margin:0 0 2px;font-size:19px;line-height:1;color:var(--sun);text-shadow:none}
+*:not(#_):not(#__):not(#___) #pmap .climb .pcap .gs{margin:0!important;font-size:14.5px!important;line-height:1.45;color:#fff3e2!important;text-shadow:none}
+.climb .prun{margin:var(--s1) 0 0;font:600 13px var(--body);color:var(--sun);font-variant-numeric:tabular-nums}
+.climb .prun:empty{display:none}
+.climb .tact{grid-area:4/1;display:flex;flex-wrap:wrap;gap:var(--s3);align-items:stretch}
+.climb .hsearch{flex:0 1 380px;min-width:min(100%,240px);display:block;max-width:none;margin:0}
 #pmap #hq{display:block;width:100%;max-width:none;height:52px;border-radius:0;padding:0 var(--s4)!important;border:0!important;border-image:none!important;background:rgba(10,6,26,.78)!important;color:#fff8ec;font:500 16px var(--body);
  box-shadow:0 0 0 2px #fff8ec,0 6px 0 2px rgba(20,10,50,.5)!important;filter:none}
 #pmap #hq::placeholder{color:#cfc6e6}
 #pmap #hq:focus{box-shadow:0 0 0 2px var(--sun),0 6px 0 2px rgba(20,10,50,.5)!important}
-.climb .tbtns{grid-area:3/1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2);margin-top:var(--s1)}
-.climb .tbtns .mcb{min-width:0;min-height:40px;padding:var(--s1) var(--s2);font-size:14px;white-space:normal;line-height:1.15;text-align:center}
-.climb .pcap{grid-area:2/2/4/3;margin-top:var(--s2);max-width:46ch}
-.climb .pcap .gt{margin:0 0 var(--s1);font-size:26px;line-height:1;color:#fff8ec;text-shadow:0 3px 0 var(--dusk)}
-.climb .pcap .gs{margin:0;font-size:15px;line-height:1.45;color:#fff8ec;text-shadow:0 2px 0 var(--dusk)}
-.climb .prun{margin:var(--s1) 0 0;font:600 13px var(--body);color:var(--sun);text-shadow:0 2px 0 var(--dusk);font-variant-numeric:tabular-nums}
-.climb .tcs{grid-area:1/3/3/4;justify-self:end;text-align:right}
-.climb .tcorner{margin:0;font:500 13.5px/1.45 var(--body);color:#f1e9ff;text-shadow:0 2px 0 var(--dusk)}
+.climb .tbtns{flex:none;display:flex;flex-wrap:wrap;gap:var(--s2);margin:0}
+.climb .tbtns .mcb{min-width:0;min-height:52px;padding:var(--s1) var(--s4);font-size:14px;white-space:normal;line-height:1.15;text-align:center;display:flex;align-items:center;justify-content:center}
 
 /* the staircase: a tablist laid over the whole sky, so a beacon can rise from a step to the top */
 #pmap .ptrack{position:absolute;inset:0;z-index:1;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));align-items:end;pointer-events:none}
@@ -1955,8 +1965,10 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 #pmap .ptrack .pn[aria-selected=true]{--lift:12px}
 #pmap .ptrack .pn:hover{--r:1;--u:4px;--lift:24px}
 #pmap .ptrack:hover .pn[aria-selected=true]:not(:hover){--lift:0px}
-#pmap .sw{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.14) 50%,transparent 58%) 220% 0/320% 100% no-repeat;animation:stairLight 6.5s linear calc(var(--i)*.45s - 6.5s) infinite}
-@keyframes stairLight{0%{background-position:220% 0}28%,100%{background-position:-120% 0}}
+/* the band slides by translate (the compositor's job): animating background-position repainted all thirteen steps every frame */
+#pmap .sw{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+#pmap .sw::before{content:"";position:absolute;inset:0 auto 0 0;width:320%;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.14) 50%,transparent 58%);translate:-151.25% 0;animation:stairLight 6.5s linear calc(var(--i)*.45s - 6.5s) infinite}
+@keyframes stairLight{0%{translate:-151.25% 0}28%,100%{translate:82.5% 0}}
 /* the Act's air stirs only over the open step and the pointed one (thirteen steps of particles at once were too many) */
 #pmap .ptrack .envfx{display:none}
 #pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx{display:block;inset:auto 0 100% 0;height:240px;overflow:visible}
@@ -1972,14 +1984,14 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 #pmap .bk::before{content:"";position:absolute;inset:0 0 auto;height:calc(7*var(--u));background:linear-gradient(rgba(255,240,210,.34) var(--u),rgba(255,236,200,.12) var(--u) calc(6*var(--u)),rgba(8,3,26,.55) calc(6*var(--u)));box-shadow:inset var(--u) 0 0 rgba(255,236,200,.2),inset calc(-1*var(--u)) 0 0 rgba(8,3,26,.3)}
 #pmap .fr{inset:calc(7*var(--u)) 0 auto;height:calc(6*var(--u));image-rendering:pixelated;background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%226%22 shape-rendering=%22crispEdges%22%3E%3Crect x=%223%22 y=%220%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3Crect x=%224%22 y=%220%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3Crect x=%222%22 y=%221%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3Crect x=%225%22 y=%221%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3Crect x=%221%22 y=%222%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3Crect x=%226%22 y=%222%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3Crect x=%221%22 y=%223%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3Crect x=%226%22 y=%223%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3Crect x=%222%22 y=%224%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3Crect x=%225%22 y=%224%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3Crect x=%223%22 y=%225%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3Crect x=%224%22 y=%225%22 width=%221%22 height=%221%22 fill=%22rgb(255,244,214)%22 fill-opacity=%220.8%22/%3E%3C/svg%3E") 0 0/calc(8*var(--u)) calc(6*var(--u)) repeat-x,color-mix(in srgb,var(--tc) 86%,#2a1448);
  box-shadow:inset 0 var(--u) 0 rgba(255,255,255,.22),inset 0 calc(-1*var(--u)) 0 rgba(8,3,26,.5),0 var(--u) 0 rgba(8,3,26,.45);transition:background-size .22s var(--ease-out)}
-#pmap .gr{inset:0;mix-blend-mode:soft-light;background:linear-gradient(90deg,rgba(255,170,100,.42),rgba(255,190,140,.14) 30%,rgba(130,92,220,.26) 72%,rgba(96,62,196,.5)) fixed 0 0/100vw 100vh}
+#pmap .gr{inset:0;--k:calc(var(--i)/12);background:color-mix(in srgb,rgba(255,170,100,.2) calc((1 - var(--k))*100%),rgba(104,70,206,.3))}
 #pmap .gl{inset:calc(14*var(--u)) 0 0 0}
 #pmap .gl b{position:absolute;width:calc(2*var(--u));height:calc(2*var(--u));background:color-mix(in srgb,var(--tc) 35%,#fff);opacity:0;animation:colGlint var(--d) ease-in-out var(--w) infinite;
  box-shadow:0 0 calc(5*var(--u)) var(--u) color-mix(in srgb,var(--tc) 70%,transparent)}
 @keyframes colGlint{0%,78%,100%{opacity:0;scale:.5}84%{opacity:1;scale:1}91%{opacity:.5;scale:.8}}
 #pmap .ptrack .pn:hover .fr{filter:brightness(1.25) saturate(1.2)}
 /* under the pointer a light runs along the frieze, once */
-#pmap .fr::after{content:"";position:absolute;inset:0;opacity:0;background:linear-gradient(100deg,transparent 38%,rgba(255,255,255,.7) 50%,transparent 62%) -160% 0/260% 100% no-repeat;mix-blend-mode:overlay}
+#pmap .fr::after{content:"";position:absolute;inset:0;opacity:0;background:linear-gradient(100deg,transparent 38%,rgba(255,255,255,.45) 50%,transparent 62%) -160% 0/260% 100% no-repeat}
 #pmap .ptrack .pn:hover .fr::after{opacity:1;animation:friezeRun .9s var(--ease-out) 1 both}
 @keyframes friezeRun{to{background-position:160% 0}}
 #pmap .pn b{position:absolute;inset:var(--bt) var(--s1) auto;text-align:center;font:400 calc(34px*(.55 + .45*var(--r)))/1 "Jersey 15",var(--title);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.7);white-space:nowrap}
@@ -2051,16 +2063,29 @@ body.hub #pmap>.ppanel{margin-top:var(--s4)}
 .chest .sslot small{inset:100% 0 auto 0;margin-top:var(--s1);text-align:center;font:600 11px/1 var(--body);color:var(--gui-mute);text-shadow:none}
 .ppanel .chest{margin:var(--s5) 0 0;padding:var(--s3) var(--s4) var(--s4);background:rgba(0,0,0,.3);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
 .chest .cht{margin:0 0 var(--s2);font:400 22px/1 var(--title);color:var(--gui-mute);text-transform:uppercase}
-.rack{display:grid;gap:var(--s5);margin:var(--s5) 0}
-.shelf{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);align-items:center;gap:var(--s5);padding-bottom:var(--s5);border-bottom:2px solid var(--gui-line)}
-.shelf:last-child{padding-bottom:0;border-bottom:0}
-.shelf .gt{margin:0 0 var(--s1)}
-.shelf .gs{margin:0;font-size:13.5px;line-height:1.45}
-.shelf .chest{display:flex;align-items:center;gap:var(--s4);min-width:0;padding-bottom:var(--s4)}
-.shelf .srow{flex:1 1 auto;min-width:0}
-.shmore{flex:none;display:grid;grid-template-columns:repeat(2,auto);gap:var(--s2)}
-.shmore .mcb{min-height:32px;padding:var(--s1) var(--s3);font-size:13.5px}
-.shelf:has(.shmore) .srow{flex:0 1 auto;grid-template-columns:repeat(6,48px)}
+/* the rack: four display cases. A case is a header (title, count, one line, a link to all of it or the playstyle buttons) over one tray of slots in the case's colour (--ac);
+   the slots are big (a 16-pixel icon at 4x), their Act in the corner like a stack count, and the tray shows whole rows of the width it has (JS draws SHELFN, CSS hides what does not fit) */
+.rack{display:grid;gap:var(--s6);margin:var(--s5) 0}
+.shelf{--cols:16;--ic:64px;display:grid;gap:var(--s3);min-width:0}
+.shelf .shh{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s2) var(--s4)}
+.shelf .shh .gt{display:flex;align-items:center;gap:var(--s2);color:#fff}
+*:not(#_):not(#__):not(#___) .shelf .shh .gt{margin:0!important}
+*:not(#_):not(#__):not(#___) .shelf .shh .gt::before{content:"";display:block!important;flex:none;width:8px;height:.85em;background:var(--ac);box-shadow:0 0 0 2px #0e0d12}
+.shelf .shn{padding:2px var(--s3);font:600 12.5px/1.5 var(--body);color:var(--ac);background:rgba(0,0,0,.35);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--ac) 55%,transparent);font-variant-numeric:tabular-nums}
+.shelf .shh .gs{flex:1 1 320px;margin:0;font-size:13.5px;line-height:1.45}
+.shelf .shall{flex:none;margin-left:auto;font:600 14px var(--body);color:var(--ac);text-decoration:none}
+.shelf .shall:hover,.shelf .shall:focus-visible{color:#fff;text-decoration:underline}
+.shelf .chest{display:block;padding:var(--s3);background:rgba(0,0,0,.34);box-shadow:inset 0 3px 0 var(--ac),inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
+.shelf .chest .srow{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--s1)}
+*:not(#_) .shelf .chest .sslot>img,*:not(#_) .shelf .chest .sslot .aimg{width:var(--ic)!important;height:var(--ic)!important}
+.shelf .chest .sslot small{position:absolute;inset:auto 6px 9px auto;margin:0;text-align:right;font:700 11px/1 var(--body);color:#fff;text-shadow:1px 1px 0 #000,-1px 0 0 #000,0 -1px 0 #000}
+.shelf .shmore{flex:none;margin-left:auto;display:flex;flex-wrap:wrap;gap:var(--s2)}
+.shelf .shmore .mcb{min-height:36px;padding:var(--s1) var(--s4);font-size:14px}
+/* the equipment case is a path, not a row of the best: one slot a step of the weapon's life, an arrow between them */
+.shelf.eq .chest .srow{display:flex;flex-wrap:wrap;gap:var(--s6)}
+.shelf.eq .chest .sslot{flex:none;width:calc(var(--ic) + var(--s5))}
+.shelf.eq .chest .sslot:not(:last-child)::after{content:"";position:absolute;left:calc(100% + var(--s2));top:50%;width:0;height:0;translate:0 -50%;border:7px solid transparent;border-left:10px solid var(--ac);border-right:0;pointer-events:none}
+@media (max-width:1299px){.shelf .chest .sslot:nth-child(n+15){display:none}.shelf:not(.eq){--cols:14}}
 
 /* footer: three even columns, and the art and font credits as one block of three columns under them */
 .sfoot{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -2076,10 +2101,14 @@ body.hub .sfoot{background:#0f0e14}
 @media (max-width:1100px){
  .climb{--rest:1;--base:108px;--step:12px;--fs:.75;display:flex;flex-direction:column;align-items:stretch;height:auto;min-height:calc(100svh - var(--toph,64px));padding:var(--s4) var(--s4) 0}
  .climb .dcl,.climb .dwind{display:none}
- .climb .lg{white-space:normal;font-size:clamp(40px,11vw,72px)}
- .climb .hsearch,.climb .tbtns,.climb .pcap{margin-top:var(--s3)}
- .climb .tcs{display:flex;justify-content:space-between;gap:var(--s3);margin-top:var(--s3);text-align:left}
- .climb .tcorner.r{text-align:right}
+ .climb .tcs{order:1}
+ #pmap .ptrack{order:5}
+ .climb .lg{order:2;white-space:normal;font-size:clamp(40px,11vw,72px);margin:var(--s2) 0 var(--s1)}
+ .climb .pcap{order:3;max-width:none;justify-self:stretch}
+ .climb .tact{order:4;flex-direction:column;flex-wrap:nowrap}
+ .climb .hsearch{flex:none}
+ .climb .tbtns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+ .climb .tbtns .mcb{min-height:44px;padding:var(--s1) var(--s2)}
  #pmap .ptrack{position:relative;inset:auto;flex:1 0 auto;display:flex;align-items:flex-end;height:calc(var(--base) + 12*var(--step) + 330px);margin:var(--s3) calc(-1*var(--s4)) 0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;pointer-events:auto}
  #pmap .ptrack::-webkit-scrollbar{display:none}
  #pmap .pn{--u:4px;flex:none;width:96px}
@@ -2090,19 +2119,23 @@ body.hub .sfoot{background:#0f0e14}
  #pmap .pn::after{inset-block-start:calc(var(--bt) + 36px)}
  #pmap .pn.here .pfr::before{height:480px}
  .chest .srow{grid-template-columns:repeat(12,minmax(0,1fr))}
- .shelf{grid-template-columns:minmax(0,1fr);gap:var(--s3)}
- .shelf .chest{flex-wrap:wrap}
+ .shelf:not(.eq){--cols:12;--ic:48px}
+ .shelf:not(.eq) .chest .sslot:nth-child(n+13){display:none}
+ .shelf .shall,.shelf .shmore{margin-left:0}
+ .shelf .shmore{flex:1 1 100%}
+ .shelf .shmore .mcb{flex:1 1 0;padding-inline:var(--s2)}
  .sfoot>div:nth-child(3)>p{columns:2}
 }
 @media (max-width:760px){
  body.hub #main{--gut:var(--s3)}
  .chest .srow{grid-template-columns:repeat(6,minmax(0,1fr))}
- .shelf .srow{row-gap:var(--s5)}
+ .shelf:not(.eq){--cols:6}
+ .shelf.eq{--ic:48px}
  .sfoot{grid-template-columns:minmax(0,1fr)}
  .sfoot>div:nth-child(3){grid-row:auto}
  .sfoot>div:nth-child(3)>p{columns:1}
 }
-@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw,#pmap .pn,#pmap .gl b,#pmap .fr::after,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.bcardl .pk img,.ip-stage .pk img{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
+@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw::before,#pmap .pn,#pmap .gl b,#pmap .fr::after,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.bcardl .pk img,.ip-stage .pk img{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
 
 /* ================= The room spreads over the page =================
    On a page that opens with a room (Curios: the library; Equipment: the forge; Bosses: the crypt; Build planner: the
@@ -2152,3 +2185,21 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
 .gseg.subs a{min-height:32px;font-size:13.5px}
 .gseg.subs .n{margin-left:var(--s1);font:500 12px var(--body);color:var(--gui-mute);font-variant-numeric:tabular-nums}
 
+/* the Equipment page. The forge is a strip, not a hall, so the tier list starts on the first screen (it began 700 px down); and the controls read as three tiers instead of
+   four rows of the same grey button: the Act rail (small), what to look at and for whom (the big buttons, a role colour on each playstyle), then the groups (flat chips) */
+.gear .room3{margin:0 0 var(--s3)}
+@media (min-width:1181px){.gear .room3{height:176px}.gear .room3 .rhead{top:26px}.gear .room3 .rhead h1{margin:0 0 var(--s1);font-size:30px}.gear .room3 .rhead .lede{margin:0;font-size:13.5px;line-height:1.4}}
+.gear .gacts{flex-wrap:wrap;gap:var(--s1) var(--s2);margin:0 0 var(--s2);padding:0}
+*:not(#_):not(#__) .gear .gacts a{min-height:0;padding:0 var(--s2) 0!important;font-size:12.5px;line-height:26px}
+.gear .gbar{margin:0 0 var(--s2);gap:var(--s3) var(--s5);padding:var(--s1) 0}
+.gear .gseg.roles{position:relative;padding-left:var(--s5)}
+.gear .gseg.roles::before{content:"";position:absolute;left:0;top:4px;bottom:4px;width:2px;background:var(--gui-line)}
+.gear .gseg.roles a::before{content:"";display:inline-block;width:8px;height:8px;margin-right:var(--s2);background:var(--rc);box-shadow:0 0 0 2px #0e0d12;vertical-align:1px}
+*:not(#_):not(#__) .gear .gseg.subs a{border:0!important;border-image:none!important;border-radius:0!important;min-height:28px;padding:0 var(--s2)!important;font-size:12.5px;line-height:28px;color:#e8e6ee;text-shadow:none;
+ background:rgba(255,255,255,.07)!important;box-shadow:inset 0 0 0 2px rgba(255,255,255,.16)!important}
+*:not(#_):not(#__) .gear .gseg.subs a:hover{background:rgba(255,255,255,.14)!important;color:#fff}
+*:not(#_):not(#__) .gear .gseg.subs a[aria-selected="true"]{background:#3c7d1e!important;box-shadow:inset 0 0 0 2px #79c84a!important;color:#fff}
+.gear .gseg.subs{gap:var(--s1) var(--s2);margin:0 0 var(--s3)}
+
+@media (max-width:760px){.gear .gseg.roles{padding-left:0}.gear .gseg.roles::before{display:none}}
+@media (max-width:480px){.shelf:not(.eq){--cols:4}}

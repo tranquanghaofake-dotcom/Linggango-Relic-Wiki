@@ -73,3 +73,31 @@
     if (cls !== 'd'.repeat(i) + 'h' + '-'.repeat(path.length - i - 1)) bad.push(`climb: "I'm here" at ${ACT[a][0]} marks the steps ${cls}`);
     if (pn()[i].getAttribute('aria-selected') !== 'true') bad.push(`climb: the reader's own step is not the open one`);
   } finally { try { localStorage.removeItem(PHKEY); } catch (e) {} render(); } }
+// the second round of the hero (docs/plans/2026-11-11-the-climb.md section 22): the loops are smooth (idle 24 frames at most 130 ms a frame, walk 16), the step layers cost no blend
+// (thirteen blend groups across the sky were the lag when a step was pointed at; the stair light slides by translate, not by background-position), the text of the hero
+// stands on one left edge and is legible, and the shelves are display cases of whole rows
+{ location.hash = '#'; await new Promise(r => setTimeout(r, 80)); render(); await new Promise(r => setTimeout(r, 120));
+  const px = [...document.querySelectorAll('#pmap .pn')];
+  for (const a of ORDER.filter(a => a >= 0 && NEXTB[a])) { const k = NEXTB[a], f = BFIG[k], w = (window.BWALK || {})[k];
+    if (f.n < 24 || f.ms / f.n > 130) bad.push(`climb: the idle loop of ${k} is ${f.n} frames in ${f.ms} ms (needs 24 frames, at most 130 ms a frame)`);
+    if (w && w.n < 16) bad.push(`climb: the walk loop of ${k} is ${w.n} frames (needs 16)`); }
+  px.forEach((b, i) => { const gr = getComputedStyle(b.querySelector('.gr')), fa = getComputedStyle(b.querySelector('.fr'), '::after'), sw = getComputedStyle(b.querySelector('.sw'), '::before');
+    if (gr.mixBlendMode !== 'normal' || fa.mixBlendMode !== 'normal') bad.push(`climb: column ${i} blends its layers (grade ${gr.mixBlendMode}, frieze light ${fa.mixBlendMode}): that made pointing at a step lag`);
+    if (gr.backgroundAttachment.includes('fixed')) bad.push(`climb: the grade of column ${i} is a fixed background (repainted on every scroll)`);
+    if (sw.animationName !== 'stairLight' || sw.translate === 'none' || getComputedStyle(b.querySelector('.sw')).animationName !== 'none') bad.push(`climb: the stair light of column ${i} is not a sliding layer (animation ${sw.animationName}, translate ${sw.translate})`); });
+  const cl = document.querySelector('#pmap .climb'), L = e => Math.round(cl.querySelector(e).getBoundingClientRect().left), lum = c => { const m = c.match(/\d+/g).map(Number); return Math.min(m[0], m[1], m[2]) };
+  if (innerWidth > 1100) { const ls = ['.tcs', 'h1.lg', '.pcap', '.hsearch'].map(L); if (Math.max(...ls) - Math.min(...ls) > 1) bad.push(`climb: the hero's text is not on one left edge (${ls.join(', ')})`);
+    const hs = cl.querySelector('.tact').getBoundingClientRect(), top = Math.min(...px.map(b => b.getBoundingClientRect().top - 330));
+    if (hs.bottom > cl.getBoundingClientRect().top + cl.clientHeight * .58) bad.push(`climb: the hero's text runs down to ${Math.round(hs.bottom)} px, into the sun and the staircase`); }
+  if (lum(getComputedStyle(cl.querySelector('.pcap .gs')).color) < 200) bad.push(`climb: the caption of The Path is ${getComputedStyle(cl.querySelector('.pcap .gs')).color}, too dim on its plate`);
+  if (!cl.querySelectorAll('.tcs .tcorner').length || cl.querySelectorAll('.tcs .tcorner').length !== 4) bad.push('climb: the line of facts about the pack is not four chips');
+  // the shelves of the rack: a title bar in the case's colour, a count that is the real count, a link to all of it, a tray of slots in whole rows
+  const sh = [...document.querySelectorAll('.rack .shelf')], want = { 0: D.filter(isMust).length, 1: D.filter(d => d.r === 5).length, 2: D.filter(d => d.nw).length };
+  if (sh.length < 3) bad.push(`climb: the rack has ${sh.length} shelves`);
+  sh.forEach((e, i) => { const slots = [...e.querySelectorAll('.srow .sslot')], vis = slots.filter(x => getComputedStyle(x).display !== 'none'), cols = getComputedStyle(e.querySelector('.srow')).gridTemplateColumns.split(' ').length;
+    if (!e.querySelector('.shh .gt') || !getComputedStyle(e.querySelector('.shh .gt'), '::before').display.includes('block')) bad.push(`climb: shelf ${i} has no title bar`);
+    if (e.classList.contains('eq')) { if (!e.querySelector('.shmore .mcb')) bad.push('climb: the equipment shelf has no playstyle buttons'); return }
+    if (!e.querySelector('.shall[data-f]')) bad.push(`climb: shelf ${i} has no link to all of it`);
+    const n = +(e.querySelector('.shn') || { textContent: '' }).textContent.match(/\d+/); if (n !== want[i]) bad.push(`climb: shelf ${i} counts ${n}, the pack has ${want[i]}`);
+    if (!vis.length || vis.length % cols || cols < 4) bad.push(`climb: shelf ${i} shows ${vis.length} slots in ${cols} columns: not whole rows`);
+    if (vis.some(x => x.getBoundingClientRect().width < 48)) bad.push(`climb: shelf ${i} has a slot narrower than its 48 px icon`); }); }

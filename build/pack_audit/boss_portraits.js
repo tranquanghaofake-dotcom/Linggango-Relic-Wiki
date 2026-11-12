@@ -20,7 +20,7 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
   // (figure's texel, lit, outline). Every boss is turned from the front by YAWS[0] = 18° (the lit side shows); one whose weapon or antlers
   // reach further than PROT strip px beyond its body (it would lie over the neighbour) takes the next, straighter turn. A boss turned
   // further looks askew beside the others, one seen straight on is flat. bw is the body's width (the page keeps bodies, not sword tips,
-  // over their own step). Idle loops are FR.idle frames and walk loops FR.walk (an idle barely moves).
+  // over their own step). Idle loops are FR.idle frames and walk loops FR.walk: 24 and 16, 8 to 12 frames a second (6 and 8, 2 to 4 a second, read as stop motion).
   // Size rule: a boss of MED blocks is CSSH px tall on the page; the others follow the square root of their in-game height
   // (so Arion at 3.1 blocks and Sanghor at 6.8 differ, but not by 2.2 times), within LO..HI, and no frame is wider than MAXW.
   // OPT: the Ender Dragon perches on its step (the End's obsidian pillar) seen head on, wings beating, its feet on the stone; no ground row to cut
@@ -29,9 +29,9 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
   // The last Act has no Keeper: its step shows the Act's end-game boss from STILL (a finished side-boss picture, no loop).
   if (a.includes('--figs')) {
     const PATH = ['iron_colossus', 'goblin_lord', 'arion', 'eldorath', 'zoranth_forgotten', 'ender_dragon', 'elvenite_paladin', 'vaedric', 'discord', 'sanghor', 'zoranth_newborn', 'nyxaris'];
-    const OPT = { ender_dragon: { perch: 1, size: 1.7, maxw: 520, yaw: 0, pitch: 8, free: 1, frames: 12 } };
+    const OPT = { ender_dragon: { perch: 1, size: 1.7, maxw: 520, yaw: 0, pitch: 8, free: 1, frames: 24 } };
     const STILL = { apollyon: ['side_imgs.json', 'Apollyon', { outline: 5, texel: 5, clean: 34, z: 0.4 }] },   // drawn at twice its size (5 px a texel -> 10), z 0.4: 4 whole shown px to a texel
-      SRC = 2, CSSH = 176, MED = 4.8, LO = 0.95, HI = 1.2, MAXW = 520, PPU = 40, YAW = 18, YAWS = [18, 14, 10, 6, 0], PROT = 100, FR = { idle: 6, walk: 8 }, ANIMS = ['idle', 'walk'], figs = {}, walks = {};
+      SRC = 2, CSSH = 176, MED = 4.8, LO = 0.95, HI = 1.2, MAXW = 520, PPU = 40, YAW = 18, YAWS = [18, 14, 10, 6, 0], PROT = 100, FR = { idle: 24, walk: 16 }, ANIMS = ['idle', 'walk'], figs = {}, walks = {};
     const fig = (rec, o) => page.evaluate(([r, o]) => figure(r, o), [rec, { ppu: PPU, yaw: YAW, anims: ANIMS, type: 'image/webp', ...o }]);
     for (const k of PATH) { const rec = M[k], o = OPT[k] || {}; if (!rec) { console.log(k, 'has no model'); process.exitCode = 1; continue; }
       const v = { perch: !!o.perch, ...(o.yaw != null && { yaw: o.yaw }), ...(o.pitch != null && { pitch: o.pitch }) }, m = await fig(rec, { ...v, frames: 6, measure: true }), mw = o.maxw || MAXW;

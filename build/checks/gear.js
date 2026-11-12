@@ -132,4 +132,9 @@ for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(
     await go(`#gear/${a}/${r}/c`); const shown = tiles().map(([, t]) => D[+t.dataset.t]);
     if (!shown.length || shown.some((d, i) => d !== own[i])) bad.push(`equip-groups: the own view of ${r} does not show the ranked own curios in order`);
     await go(`#gear/${a}/${r}/c/any`); if (tiles().some(([, t]) => gOwn(D[+t.dataset.t], r, a))) bad.push(`equip-groups: the "any playstyle" view of ${r} shows a curio of the playstyle's own`); }
+  // the Equipment page: the forge is a strip and the controls three tiers, so the first tier of the list begins on the first screen (it began 700 px down of 900)
+  await go(`#gear/${a}/ME/w`); { const row = document.querySelector('.gear .grow'), top = row && row.getBoundingClientRect().top;
+    if (!row || top > innerHeight * .66) bad.push(`equip-layout: the first tier of the list begins ${Math.round(top)} px down a ${innerHeight} px screen`);
+    const roles = [...document.querySelectorAll('.gear .gseg.roles a')]; if (roles.length !== 4 || roles.some(x => getComputedStyle(x, '::before').backgroundColor === 'rgba(0, 0, 0, 0)')) bad.push('equip-layout: a playstyle button has no role colour');
+    const sub = document.querySelector('.gear .gseg.subs a'); if (sub && getComputedStyle(sub).borderImageSource !== 'none') bad.push('equip-layout: the group chips wear the big button texture, not the flat chip'); }
   await go('#gear'); }
