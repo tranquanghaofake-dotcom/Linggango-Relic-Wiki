@@ -1371,3 +1371,15 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Một lỗi của tôi trong lúc làm**: lần đầu tôi tạo một tệp tạm `poses.js` trong thư mục repo (lỡ lệnh `cat >` chạy trước khi `cd`); tôi chuyển nó ra ngoài trước khi commit, `git status` sạch.
 - **Phát hiện, chưa sửa**: (1) tay Iron Colossus và Nyxaris hơi ngả hồng do skin sáng, màu ánh sáng cần chủ wiki duyệt; (2) Discord và Sanghor vẫn lạ vì model; (3) cỡ texel giữa các boss khác nhau (2 đến 4 px trên màn hình); (4) bậc Elvenite Paladin ghi "Dragon" thay vì số La Mã (có từ trước); (5) các mục chưa sửa của những đợt trước giữ nguyên.
 - **Open**: chủ wiki duyệt hình mới và chọn hướng cho phần hoàng hôn (hướng 1 hay 2); rồi `bash build/check.sh`, đưa vào `main`, xác nhận run `site` xanh; mục Changes khi chủ wiki nói "cập nhật Changes".
+
+## 2026-11-12: diện mạo mới, đợt 10: cột bậc thang là khối đá, bỏ dải mờ ở chân, rồng và Apollyon làm lại
+- **Bối cảnh**: chủ wiki: rồng và Apollyon còn khá xấu; ý tưởng tốt, chỉnh layout hay cột cho đẹp và wow hơn; bỏ hẳn phần mờ ở chân trang (tôi hiểu là dải mờ ở đáy phần hoàng hôn). Chi tiết: `docs/plans/2026-11-11-the-climb.md` mục 17.
+- **Đã làm** (nhánh `claude/amazing-wozniak-jflbuy`, commit `4a3ac93`, chưa vào `main`; trực tiếp, không dùng agent):
+  1. Rồng: góc nhìn mới (`yaw -30, pitch 20`), 12 khung. Apollyon: `still()` bỏ vạch lạ trên mũ, nâng phần đen, viền sáng phía mặt trời, viền tối, tối chân, vẽ gấp đôi, `pixelated`. `boss_figs.json` tạo lại (1,19 MB).
+  2. `style.game.css`: bậc = mặt trên sáng + đường cắt cứng + thân tối, mép trên mang màu Act; dải mờ 56 px ở đáy phần hoàng hôn thay bằng mặt đất đá cứng cao 40 px.
+  3. `checks/climb.js`: ảnh tĩnh của boss cuối cũng phải `pixelated` (trước: không được).
+- **Số đo từ bản build** (1440 px): thân đè nhau 0 cặp; khung đè 5/12 cặp (phần trong suốt); chân mọi hình cách mặt bậc 6 px. Ảnh đã xem: trang chủ 1440 và 1920, chỉ vào bậc VIII, ba bậc cuối ở 375 px, Apollyon cắt 3 lần. Chưa xem: `#bosses`, trang Keeper, tiếng Nga và tiếng Việt sau đợt này.
+- **Kiểm**: `bash build/check.sh` đầy đủ **xanh** (patches idempotent và build lặp lại được, curio_tiers unchanged, qa 0 hard findings, invariants 0 broken, page text 0 problems, style, a11y và timing 0 broken, site_check 0 missing files và 0 script errors), chạy trên đúng bản đã commit.
+- **Lỗi của tôi trong lúc làm**: (1) Apollyon bị nhỏ một nửa và lơ lửng do `ux.js` ép tỉ lệ nguyên cho ảnh `pixelated` ≤ 256 px (xem plan mục 17.2); thấy ở ảnh chụp, tìm bằng đo kích thước thật của phần tử, sửa trước khi commit. (2) Lệnh Python sửa CSS đầu tiên hỏng giữa chừng vì một chuỗi trùng hai chỗ; lệnh chạy theo kiểu "tất cả hoặc không", nên không có thay đổi dở.
+- **Phát hiện, chưa sửa**: (1) tôi bỏ vài điểm ảnh của model Apollyon (mặt phẳng mỏng nhìn nghiêng): nếu chủ wiki muốn giữ thì cần dựng lại từ jar của mod; (2) các mục chưa sửa của những đợt trước giữ nguyên.
+- **Open**: chủ wiki duyệt; ba mục còn lại của "hướng 2" (hạ thấp hoàng hôn, rương Act cạnh thẻ Keeper, gập credit chân trang) chờ chọn; đưa vào `main` khi chủ wiki nói; mục Changes khi chủ wiki nói "cập nhật Changes".
