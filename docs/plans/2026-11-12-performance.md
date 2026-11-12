@@ -136,3 +136,33 @@ Mục tiêu số **đề xuất** (chờ duyệt, sau khi có số gốc 5 lư�
 | – | **Đã loại bằng đo**: base64→nhị phân (không bớt byte), `JSON.parse` (eval 15 ms), ghi biến lên `.dsky` (−38 ms nhiễu), Service Worker (chủ wiki). **Để sau**: tách CSS theo trang (13% dùng nhưng chưa có bằng chứng lợi), tự lưu phông chữ. | | | |
 
 **Mục tiêu số đề xuất, chỉnh theo số đo**: làm 1+2+3+4 dự kiến đưa LCP laptop CPU 2× từ 4,35 s xuống khoảng 2,2–2,6 s (chưa thử đồng thời; ước, không hứa), mạng 10 Mbps từ 8,6 s xuống khoảng 4–5 s; mục tiêu "≤ 2 s / ≤ 3 s" ở mục 6 là mục tiêu kéo dài, chỉ đạt được nếu mục 5 và việc tải trước dải Keeper cũng chạy. Cần chủ wiki duyệt (i) danh sách và thứ tự, (ii) việc nền hiện sau chữ một nhịp (mục 1, nhánh Worker).
+
+## 10. Thực hiện (2026-11-12, sau khi chủ wiki duyệt: "làm")
+Quyết định mặc định (chủ wiki không trả lời riêng): **không dùng Worker** để vẽ nền, tức nền không bao giờ hiện sau chữ; ảnh Keeper vẫn nhúng trong dữ liệu (không tách tệp, vì tách không bớt byte); bản offline giữ nguyên. Mỗi đợt: sửa nguồn, `apply_all.sh`, so ảnh `shot.js --diff` (0 điểm ảnh khác ở trang chủ, Equipment, trang Act và Bosses ở 1440; trang chủ ở 375 và 1920), so DOM của 15 tuyến mở trực tiếp (trang chủ, 3 Act, các trang boss phụ, boss, mechanics, curios, gear, build planner, trang slot) giữa bản cũ và bản mới, rồi commit.
+
+| Đợt | Việc | Bằng chứng không đổi hình |
+|---|---|---|
+| 1 | `skyArt` ghi thẳng vào dạng 32 bit (hàng đất, dãy núi, nền trời), bỏ quầng sáng ngoài tầm, dựng mặt nạ mây từng đĩa trong hộp riêng và độ sâu theo hàng, `mix` không qua `map`, ba sprite mây vẽ và mã hoá một lần; `fit()` đọc hết 13 kích thước rồi mới ghi `--fit` | 36 tổ hợp (9 kích thước × 4 bộ hộp chữ): ảnh sau, ảnh trước, sprite, layout **giống hệt từng byte**; 109 → 50 ms mỗi lần vẽ khi đã nóng |
+| 2 | `pack_audit/recode_webp.py` ghi lại các dải WebP của `boss_figs.json` và `boss_walks.json` ở mức nỗ lực cao nhất (lossless, giữ màu dưới điểm trong suốt và hồ sơ màu); chạy tự động sau `boss_portraits.js --figs` | 24 dải giải mã trong Chromium giống hệt từng byte RGBA, mọi trường giữ nguyên; 2,25 → 1,37 MB và 2,25 → 1,56 MB; `wiki_data.js` 6,68 → 5,45 MB, `wiki_pics.js` 4,34 → 3,38 MB |
+| 3a | `PIMG` (ảnh tiêu đề Act, cảnh boss phụ, 1,2 MB gzip) chuyển sang `wiki_pics.js`; trang chủ điền lại panel Act đang mở tại chỗ khi ảnh về (`pathRefill`), trang Act và trang boss phụ gọi `needPics()` | DOM 15 tuyến giống hệt sau khi ảnh về; hero không bị dựng lại |
+| 4 | trang chủ không dựng chỉ mục thanh bên 600 curio (3.000 nút, 600 ảnh) khi thanh bên đang ẩn; `--toph` đo và ghi một lần trước khi dựng trang chủ | DOM 15 tuyến giống hệt (hai chỗ lệch thứ tự class `seen seen2` do thời điểm IntersectionObserver); tính lại style 871 → 736 ms, bộ xử lý DOMContentLoaded 628 → 314 ms (CPU 2×) |
+
+**Số sau cùng so với số gốc** (trung vị 5 lượt, cùng cách đo):
+
+| Hồ sơ | LCP | TBT | long task dài nhất | script | byte truyền |
+|---|---|---|---|---|---|
+| Laptop 50 Mbps, CPU 1× | 3,16 → **2,52 s** | 0,93 → 0,49 s | 323 → 186 ms | 918 → 529 ms | 11,07 → 9,65 MB |
+| Laptop 50 Mbps, CPU 2× | 4,35 → **3,18 s** | 1,97 → 1,20 s | 793 → 398 ms | 1445 → 971 ms | 11,07 → 9,65 MB |
+| Mạng nhà 10 Mbps, CPU 1× | 8,57 → **6,41 s** | 0,92 → 0,47 s | 312 → 185 ms | 893 → 589 ms | 11,07 → 9,65 MB |
+| Điện thoại 1,6 Mbps, CPU 4× | chưa đo lại | | | | |
+
+Mục tiêu đề xuất ở mục 6 (laptop CPU 2× ≤ 2 s, mạng 10 Mbps ≤ 3 s, không long task quá 200 ms) **chưa đạt**: CPU 2× còn 3,18 s và long task 398 ms; 10 Mbps còn 6,41 s. Ước ở mục 9 cho 1+2+3+4 (2,2–2,6 s) hóa ra quá lạc quan vì hướng 3 chỉ làm một nửa (xem dưới).
+
+**Đã sửa giữa chừng (lỗi của chính thay đổi, chưa từng lên nhánh)**: bản đầu chuyển cả `SIMG` sang `wiki_pics.js`; so DOM phát hiện trang `#act/3` thiếu ảnh tiêu đề (trang Act đọc `PIMG` mà không gọi `needPics()`) và `SIDEB[].img` (do `SIMG` gộp vào) bị đọc ở nhiều chỗ không vẽ lại được; giữ `SIMG` (0,2 MB gzip) ở `wiki_data.js`, thêm `needPics()` cho trang Act. Invariant mới trong `build/site_check.js`: giữ `wiki_pics.js` lại 1,2 s rồi mở thẳng Act 3, trang boss phụ có cảnh (Frostmaw) và trang chủ; yêu cầu ảnh xuất hiện khi chúng về, và trên trang chủ yêu cầu hero không bị dựng lại (một dấu đặt lên hero trước đó còn nguyên). Thử đỏ bốn lần: bỏ `needPics()` của trang Act; bỏ `pathRefill` khỏi `picsLoaded`; để trang chủ dựng lại cả trang khi ảnh về; bỏ `needPics()` của trang boss phụ (lần đầu dùng boss không có cảnh nên không đỏ: đổi sang Frostmaw).
+
+**Chưa làm, theo bảng xếp hạng ở mục 9**
+- Hướng 3 phần còn lại: `gear_data.js` (1,94 MB gzip) vẫn trên đường tới trang chủ. Nó bị buộc chặt: `gear.js` đọc `GE` ở cấp cao nhất (`GBY`, `GME`...), `ux.js` dựng chỉ mục tìm kiếm từ `GE`/`GS` lúc nạp, panel Act của trang chủ gọi `gTiers`; nạp muộn nghĩa là sửa khởi tạo của gear.js, chỉ mục tìm kiếm (tìm sớm sẽ thiếu gear) và vẽ lại panel. Ước lợi: −0,3 s LCP ở 50 Mbps, −1,5 s ở 10 Mbps; rủi ro chức năng cao hơn các đợt trên. **Cần chủ wiki quyết định có làm không.**
+- Hướng 5: tính lại style còn 736 ms (CPU 2×) và ~10% CPU lúc trang đứng yên do animation trên luồng chính; chưa đụng vì chạm animation.
+- Hướng 6: `wiki_pics.js` (nay 3,5 MB gzip: vòng đi của Keeper, ảnh armour, guide, ritual) vẫn nạp ngay sau DOMContentLoaded và nằm trong sự kiện `load`.
+- Nền hoàng hôn vẫn vẽ 3 lần khi tải lần đầu (bố cục chữ còn đổi sau lần vẽ đầu: lần 1 và lần 2 cho layout khác nhau); mỗi lần nay rẻ gần gấp đôi, nhưng chỉ vẽ một lần cần chờ bố cục ổn định (nền hiện chậm hơn chữ một nhịp) hoặc Worker: chủ wiki chưa quyết.
+- Chưa đo trên máy thật; hồ sơ điện thoại chưa đo lại; chưa quét ảnh base64 trần (`IC`, `UI`, `BPORT`).
