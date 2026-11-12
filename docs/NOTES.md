@@ -1412,3 +1412,11 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Lỗi của tôi trong lúc làm**: lần đầu viết lại `skyArt` bằng một lệnh Python tìm chuỗi theo thụt lề sai (hai khoảng trắng thay vì một), lệnh báo lỗi trước khi ghi nên không có thay đổi dở; làm lại với thụt lề đúng. Lần đầu mặt trời nằm sai chỗ (đĩa vẽ cao hơn tia sáng CSS) vì tia vẫn đặt theo `bottom: 30%`: thấy ở ảnh chụp, sửa bằng biến `--sunb`.
 - **Phát hiện, chưa sửa**: (1) mỏm đá ở 1920 hơi như khối chữ nhật; (2) trên điện thoại mặt trời bị núi che gần hết; (3) rương Act cạnh thẻ Keeper, gập credit chân trang, dải rune, độ sáng Keeper so với cột; (4) bậc Elvenite Paladin ghi "Dragon" thay vì số La Mã (có từ trước); (5) các mục chưa sửa của những đợt trước giữ nguyên.
 - **Open**: chủ wiki duyệt ảnh; đưa vào `main` khi chủ wiki nói; mục Changes khi chủ wiki nói "cập nhật Changes".
+
+## 2026-11-12: diện mạo mới, đợt 15: sửa mỏm đá lâu đài (một lỗi vẽ thật), mặt trời trên điện thoại, vệt sáng ở dải cột
+- **Bối cảnh**: chủ wiki: "tiếp tục nâng cấp". Chi tiết: `docs/plans/2026-11-11-the-climb.md` mục 21.
+- **Đã làm** (nhánh `claude/amazing-wozniak-jflbuy`, commit `6127517`, chưa vào `main`; trực tiếp, không dùng agent): `app.js` (`skyArt`: dãy núi xa vẽ sau mỏm đá, đỉnh mỏm theo đỉnh dãy núi, sườn, ánh sáng, mỏm nhỏ; mặt trời đặt theo đỉnh dãy núi); `style.game.css` (vệt sáng `friezeRun`, tắt khi giảm chuyển động).
+- **Kiểm**: `bash build/check.sh` đầy đủ **xanh** trên `6127517` (chi tiết ở plan 21.5). Không thêm invariant.
+- **Lỗi của tôi trong lúc làm**: (1) mỏm đá ở bản `efb3528` có lỗi vẽ (hộp tối thẳng đứng dưới đỉnh dãy núi, plan 21.1) mà tôi đã gửi ảnh và nói "hơi giống khối chữ nhật vì mặt tối ở sườn phải": chẩn đoán sai, chỉ đúng sau khi cắt 2× ảnh và thấy cạnh thẳng đứng; (2) tôi chèn một chú thích `//` ở giữa một dòng `const ... , nz=noise(9)`, làm mất `nz`; thấy ở lượt chụp đầu ("nz is not defined" trong cả ba ảnh), sửa trước khi commit.
+- **Phát hiện, chưa sửa**: (1) độ sáng Keeper so với cột; (2) rương Act cạnh thẻ Keeper, gập credit chân trang, dải rune; (3) bậc Elvenite Paladin ghi "Dragon" thay vì số La Mã (có từ trước); (4) các mục chưa sửa của những đợt trước giữ nguyên.
+- **Open**: chủ wiki duyệt ảnh; đưa vào `main` khi chủ wiki nói; mục Changes khi chủ wiki nói "cập nhật Changes".
