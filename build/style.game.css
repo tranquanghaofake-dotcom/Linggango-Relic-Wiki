@@ -1973,9 +1973,12 @@ body.hub:not(.scrolled) .top::after{opacity:0}
  animation:stepUp .5s var(--ease-out) both;animation-delay:calc(var(--i)*45ms)}
 /* a boss's figure (app.js figHtml): a box one frame wide over the strip of its loop; --z strip px to shown px, --fs the place's own scale */
 .pk{display:block;overflow:hidden;width:calc(var(--w)*var(--z)*var(--fs,1)*1px);height:calc(var(--h)*var(--z)*var(--fs,1)*1px)}
-.pk img{display:block;width:calc(var(--n)*100%);max-width:none;height:100%;image-rendering:auto}
+/* the strips are drawn at whole texels (boss_portraits.html figure): shown as such, never smoothed; a finished picture (.st) is not pixel art */
+.pk img{display:block;width:calc(var(--n)*100%);max-width:none;height:100%;image-rendering:pixelated}
+.pk.st img{image-rendering:auto}
 #pmap .pk{transform-origin:50% 100%;scale:calc(var(--sc)*var(--fit,1));
- filter:drop-shadow(6px 0 0 rgba(30,10,50,.22));transition:scale .22s var(--ease-out),filter .22s}
+ background:radial-gradient(ellipse 38% 9px at 50% 100%,rgba(22,10,42,.5),rgba(22,10,42,0));filter:brightness(1);transition:scale .22s var(--ease-out),filter .22s}
+#pmap .pfr.fly .pk{background:none}
 #pmap .pk:not(.st) img{animation:figLoop calc(var(--ms)*1ms) steps(var(--n)) infinite}
 /* a boss with no loop (the last Act's end boss is a still picture) at least breathes */
 #pmap .pk.st img{animation:stillBob 3.6s ease-in-out infinite}
@@ -2126,7 +2129,8 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
 .bcardl>.bfig{grid-row:span 3;display:grid;place-items:end center;width:112px;height:116px;filter:drop-shadow(4px 0 0 rgba(0,0,0,.3))}
 .bcardl .bst{width:112px;height:112px;image-rendering:auto}
 .bcardl:is(:hover,:focus-visible) .pk:not(.st) img,.ip-stage .stage .pk:not(.st) img{animation:figLoop calc(var(--ms)*1ms) steps(var(--n)) infinite}
-.ip-stage .stage .pk img{width:calc(var(--n)*100%);height:100%;max-width:none;max-height:none;object-fit:fill;image-rendering:auto}
+.ip-stage .stage .pk img{width:calc(var(--n)*100%);height:100%;max-width:none;max-height:none;object-fit:fill;image-rendering:pixelated}
+.ip-stage .stage .pk.st img{image-rendering:auto}
 @media (max-width:640px){.ip-stage .stage .pk{--fs:.75}}
 
 /* Curios: an open Act's curios lie in a sunken tray, as the home page's shelves do */
