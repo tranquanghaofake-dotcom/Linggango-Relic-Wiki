@@ -33,8 +33,9 @@
   // side by side, at rest: every figure's body stands over the middle of its step (the strips are framed on the body, not on a
   // sword or a wing), and no two bodies overlap (the perched dragon is behind the others); the ground is the frame's bottom
   { const at = pn().map((b, i) => { const a = path[i], k = NEXTB[a] || (ENDB[a] || [])[0], f = BFIG[k], r = b.querySelector('.pfr'), pr = r.getBoundingClientRect(), br = b.getBoundingClientRect(), fit = +getComputedStyle(r).getPropertyValue('--fit') || 1;
-      return { k, perch: !!f.perch, c: pr.left + pr.width / 2, off: pr.left + pr.width / 2 - (br.left + br.width / 2), bw: pr.width * f.bw / f.w * fit }; });
-    at.forEach((x, i) => { if (i && i < at.length - 1 && Math.abs(x.off) > 6) bad.push(`climb: the body of ${x.k} is ${x.off.toFixed(0)}px off the middle of its step`);
+      const pk = r.querySelector('.pk:not(.wk)').getBoundingClientRect();   // the figure as drawn (its scale included), not the box it is scaled from: the end steps once pushed theirs 15 px aside
+      return { k, perch: !!f.perch, c: pr.left + pr.width / 2, off: pk.left + pk.width / 2 - (br.left + br.width / 2), bw: pr.width * f.bw / f.w * fit }; });
+    at.forEach((x, i) => { if (Math.abs(x.off) > 6) bad.push(`climb: the body of ${x.k} is ${x.off.toFixed(0)}px off the middle of its step`);
       const y = at[i + 1]; if (y && !x.perch && !y.perch && y.c - x.c < (x.bw + y.bw) / 2 - 2) bad.push(`climb: the bodies of ${x.k} and ${y.k} overlap by ${((x.bw + y.bw) / 2 - (y.c - x.c)).toFixed(0)}px`); }); }
   // at rest the staircase is small, with sky between its steps (--rest in style.game.css; the pointed step grows to full size, which needs a pointer to test): on a wide
   // screen no step fills more than 80% of its cell, and no figure is drawn at more than three quarters of its full size
@@ -96,13 +97,13 @@
   if (sh.length < 3) bad.push(`climb: the rack has ${sh.length} shelves`);
   sh.forEach((e, i) => { const slots = [...e.querySelectorAll('.srow .sslot')], vis = slots.filter(x => getComputedStyle(x).display !== 'none'), cols = getComputedStyle(e.querySelector('.srow')).gridTemplateColumns.split(' ').length;
     if (!e.querySelector('.shh .gt') || !getComputedStyle(e.querySelector('.shh .gt'), '::before').display.includes('block')) bad.push(`climb: shelf ${i} has no title bar`);
-    if (e.classList.contains('eq')) { if (!e.querySelector('.shmore .mcb')) bad.push('climb: the equipment shelf has no playstyle buttons'); return }
     if (!e.querySelector('.shall[data-f]')) bad.push(`climb: shelf ${i} has no link to all of it`);
     const n = +(e.querySelector('.shn') || { textContent: '' }).textContent.match(/\d+/); if (n !== want[i]) bad.push(`climb: shelf ${i} counts ${n}, the pack has ${want[i]}`);
     if (!vis.length || vis.length % cols || cols < 4) bad.push(`climb: shelf ${i} shows ${vis.length} slots in ${cols} columns: not whole rows`);
-    if (vis.some(x => x.getBoundingClientRect().width < 48)) bad.push(`climb: shelf ${i} has a slot narrower than its 48 px icon`);
-    const ic = e.querySelector('.sslot:not(.e) img, .sslot:not(.e) .aimg'), ch = document.querySelector('#pmap .ppanel:not([hidden]) .chest .sslot img, #pmap .ppanel:not([hidden]) .chest .sslot .aimg');
-    if (ic && ch && Math.round(ic.getBoundingClientRect().width) !== Math.round(ch.getBoundingClientRect().width)) bad.push(`climb: shelf ${i} draws its icons ${Math.round(ic.getBoundingClientRect().width)} px wide, the Act's chest ${Math.round(ch.getBoundingClientRect().width)}`); }); }
+    if (e.querySelector('.sslot small')) bad.push(`climb: shelf ${i} labels its slots (the Act is in the tooltip, not on the slot)`);
+    const ic = vis.find(x => !x.classList.contains('e')), im = ic && ic.querySelector('img, .aimg'), q = im && im.getBoundingClientRect().width / ic.getBoundingClientRect().width;
+    if (im && !(q > .45 && q < .66)) bad.push(`climb: shelf ${i} draws its icon ${Math.round(im.getBoundingClientRect().width)} px in a ${Math.round(ic.getBoundingClientRect().width)} px slot (${q.toFixed(2)}: it should be a little over half)`);
+    if (vis.length < Math.min(cols, 8)) bad.push(`climb: shelf ${i} shows ${vis.length} slots of ${cols} columns`); }); }
 // the wave (app.js pathMapWire): the step under the pointer grows to full size, its neighbours shrink, the nearer the more, and everything settles back when the pointer leaves;
 // the pointer parallax is written on the sky, never on the whole hero (every node under a written custom property works out its style again: 10 ms a move)
 { location.hash = '#'; await new Promise(r => setTimeout(r, 80)); render(); await new Promise(r => setTimeout(r, 200));

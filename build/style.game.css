@@ -2010,8 +2010,6 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 /* a boss with no loop (the last Act's end boss is a still picture) at least breathes */
 #pmap .pk.st img{animation:stillBob 3.6s ease-in-out infinite}
 @keyframes stillBob{50%{translate:0 -5px}}
-#pmap .pn:first-child .pk{transform-origin:12% 100%}
-#pmap .pn:last-child .pk{transform-origin:88% 100%}
 #pmap .pk.wk,#pmap .pn[data-wk="1"]:is(:hover,.hov,:focus-visible) .pk:not(.wk){display:none}
 #pmap .pn[data-wk="1"]:is(:hover,.hov,:focus-visible) .pk.wk{display:block}
 #pmap .pfr .emb{--s:96px;margin-bottom:var(--s5)}
@@ -2069,10 +2067,11 @@ body.hub #pmap>.ppanel{margin-top:var(--s4)}
 .chest .sslot small{inset:100% 0 auto 0;margin-top:var(--s1);text-align:center;font:600 11px/1 var(--body);color:var(--gui-mute);text-shadow:none}
 .ppanel .chest{margin:var(--s5) 0 0;padding:var(--s3) var(--s4) var(--s4);background:rgba(0,0,0,.3);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
 .chest .cht{margin:0 0 var(--s2);font:400 22px/1 var(--title);color:var(--gui-mute);text-transform:uppercase}
-/* the rack: four display cases. A case is a header (title, count, one line, a link to all of it or the playstyle buttons) over one tray of slots in the case's colour (--ac);
-   the slots are the size of the Act chest's (a 16-pixel icon at 3x, 18 to a row), their Act in the corner like a stack count; JS draws SHELFN of them, empty slots make up the last row, CSS shows whole rows of the width it has */
+/* the rack: display cases. A case is a header (title, count, one line, a link to all of it) over one tray of slots in the case's colour (--ac). A slot is 56 px with a 32 px icon (a 16-pixel
+   texture at 2x: a little over half the slot, the rest is the bevel and the room around it), no label; the tray holds as many slots as fit its width, spread edge to edge, one row (two on a phone):
+   JS draws SHELFN of them and hides what does not fit (app.js shelfFit) */
 .rack{display:grid;gap:var(--s6);margin:var(--s5) 0}
-.shelf{--cols:18;--ic:48px;display:grid;gap:var(--s3);min-width:0}
+.shelf{--ic:32px;--cell:56px;display:grid;gap:var(--s3);min-width:0}
 .shelf .shh{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s2) var(--s4)}
 .shelf .shh .gt{display:flex;align-items:center;gap:var(--s2);color:#fff}
 *:not(#_):not(#__):not(#___) .shelf .shh .gt{margin:0!important}
@@ -2082,16 +2081,10 @@ body.hub #pmap>.ppanel{margin-top:var(--s4)}
 .shelf .shall{flex:none;margin-left:auto;font:600 14px var(--body);color:var(--ac);text-decoration:none}
 .shelf .shall:hover,.shelf .shall:focus-visible{color:#fff;text-decoration:underline}
 .shelf .chest{display:block;padding:var(--s3);background:rgba(0,0,0,.34);box-shadow:inset 0 3px 0 var(--ac),inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
-.shelf .chest .srow{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--s1)}
-*:not(#_) .shelf .chest .sslot>img,*:not(#_) .shelf .chest .sslot .aimg{width:var(--ic)!important;height:var(--ic)!important}
-.shelf .chest .sslot small{position:absolute;inset:auto 4px 7px auto;margin:0;text-align:right;font:700 11px/1 var(--body);color:#fff;text-shadow:1px 1px 0 #000,-1px 0 0 #000,0 -1px 0 #000}
+.shelf .chest .srow{display:grid;grid-template-columns:repeat(auto-fill,var(--cell));justify-content:space-between;gap:var(--s1)}
+.shelf .chest .sslot{width:var(--cell);height:var(--cell);aspect-ratio:auto}
+*:not(#_) .shelf .chest .sslot>img,*:not(#_) .shelf .chest .sslot .aimg{width:var(--ic)!important;height:var(--ic)!important;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.45))}
 .shelf .chest .sslot.e{pointer-events:none;box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi);opacity:.55}
-.shelf .shmore{flex:none;margin-left:auto;display:flex;flex-wrap:wrap;gap:var(--s2)}
-.shelf .shmore .mcb{min-height:36px;padding:var(--s1) var(--s4);font-size:14px}
-/* the equipment case is a path, not a row of the best: one slot a step of the weapon's life, an arrow between them */
-.shelf.eq .chest .srow{display:flex;flex-wrap:wrap;gap:var(--s6)}
-.shelf.eq .chest .sslot{flex:none;width:calc(var(--ic) + var(--s5))}
-.shelf.eq .chest .sslot:not(:last-child)::after{content:"";position:absolute;left:calc(100% + var(--s2));top:50%;width:0;height:0;translate:0 -50%;border:7px solid transparent;border-left:10px solid var(--ac);border-right:0;pointer-events:none}
 
 /* footer: three even columns, and the art and font credits as one block of three columns under them */
 .sfoot{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -2125,17 +2118,12 @@ body.hub .sfoot{background:#0f0e14}
  #pmap .pn::after{inset-block-start:calc(var(--bt) + 36px)}
  #pmap .pn.here .pfr::before{height:480px}
  .chest .srow{grid-template-columns:repeat(12,minmax(0,1fr))}
- .shelf:not(.eq){--cols:12}
- .shelf:not(.eq) .chest .sslot:nth-child(n+13){display:none}
- .shelf .shall,.shelf .shmore{margin-left:0}
- .shelf .shmore{flex:1 1 100%}
- .shelf .shmore .mcb{flex:1 1 0;padding-inline:var(--s2)}
+ .shelf .shall{margin-left:0}
  .sfoot>div:nth-child(3)>p{columns:2}
 }
 @media (max-width:760px){
  body.hub #main{--gut:var(--s3)}
  .chest .srow{grid-template-columns:repeat(6,minmax(0,1fr))}
- .shelf:not(.eq){--cols:6}
  .sfoot{grid-template-columns:minmax(0,1fr)}
  .sfoot>div:nth-child(3){grid-row:auto}
  .sfoot>div:nth-child(3)>p{columns:1}
@@ -2230,4 +2218,3 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
 }
 
 @media (max-width:760px){.gear .gseg.roles{padding-left:0}.gear .gseg.roles::before{display:none}}
-@media (max-width:480px){.shelf:not(.eq){--cols:4}}

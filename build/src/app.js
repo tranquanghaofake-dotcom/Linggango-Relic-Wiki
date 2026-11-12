@@ -1116,7 +1116,7 @@ function pPanelInner(a){const xs=D.filter(d=>d.t===a),m=xs.filter(isMust).length
  </div><div class="pside">${envFx(a)}${sides||`<p class="pnone">${T("No side bosses at this Act. Gear up for the Keeper.")}</p>`}</div></div>
  ${xs.length?`<div class="chest"><p class="cht">${esc(actL(a))}: ${T("Curios")}</p>${slotRow(byRank(xs).slice(0,CHESTN).map(d=>({...rCurio(d,"",1),c:" r"+d.r})),actL(a)+": "+T("Curios"))}</div>`:""}`}
 /* how many curios an Act's chest shows on the home page (two rows of a wide screen), and how many a shelf of the rack shows (one row) */
-const CHESTN=36,SHELFN=18;
+const CHESTN=36,SHELFN=30;
 /* the dusk sky behind The Path: stars and two far ridges, the same on every load (a seeded generator, no data), and what
    moves in it: clouds that drift across, a few birds, gusts of wind (CSS; the sun's light too). The layers shift a little
    with the pointer (pathMapWire: --mx, --my). */
@@ -1141,11 +1141,11 @@ function skyArt(w,h,PX){
  const hz=Hh*.72,R0=ridge(hz-Hh*.14,Hh*.15,84,[1,2,5]),R1=ridge(hz-Hh*.08,Hh*.16,70,[1,2,4]),R2=ridge(hz+Hh*.02,Hh*.13,46,[1,2.5,5]),R3=ridge(hz+Hh*.14,Hh*.12,36,[1,2,4]);
  const N=24,bands=[...Array(N)].map((_,i)=>at(i/(N-1))),sunX=.175*W+15,sunY=O+Math.round(R0(sunX))-3;   // the sun sits just above the far range's crest: half of its disc shows
  for(let y=0;y<H;y++)for(let x=0;x<W;x++){const t=y/H*(N-1),i=Math.min(N-2,Math.floor(t));let c=bands[i+(t-i>BAY(x,y)?1:0)];
-  const d=Math.hypot((x-sunX)/1.8,y-sunY),g=Math.max(0,1-d/(H*.5)),l=Math.floor(g*g*4+BAY(x,y)-.25);if(l>0)c=mix(c,[255,196,110],Math.min(.4,l*.1));B.put(x,y,c)}
+  const d=Math.hypot((x-sunX)/1.8,y-sunY),g=Math.max(0,1-d/(H*.5)),l=Math.floor(g*g*5+BAY(x,y)-.25);if(l>0)c=mix(c,[255,196,110],Math.min(.46,l*.1));B.put(x,y,c)}
  // the sun: a disc of four bands of light, dithered into each other (its lower half is behind the far range); the rays (CSS .dsun::before) turn round its middle
  const SC=[[255,249,218],[255,234,156],[255,208,112],[255,176,88]];
- for(let y=Math.floor(sunY-17);y<=sunY+17;y++)for(let x=Math.floor(sunX-17);x<=sunX+17;x++){const d=Math.hypot(x-sunX,y-sunY);if(d>15.2)continue;B.put(x,y,SC[Math.max(0,Math.min(3,Math.floor(Math.pow(d/15.2,1.5)*4+(BAY(x,y)-.5)*.7)))])}
- for(let k=0;k<70;k++){const x=Math.floor(R()*W),y=Math.floor(Math.pow(R(),1.7)*H*.5);if(Math.hypot((x-sunX)/1.8,y-sunY)<H*.3)continue;B.put(x,y,[255,244,230],.3+R()*.5);if(R()<.07){B.put(x-1,y,[255,244,230],.7);B.put(x+1,y,[255,244,230],.7);B.put(x,y-1,[255,244,230],.7);B.put(x,y+1,[255,244,230],.7)}}
+ for(let y=Math.floor(sunY-24);y<=sunY+24;y++)for(let x=Math.floor(sunX-24);x<=sunX+24;x++){const d=Math.hypot(x-sunX,y-sunY);if(d>17.2){if(d<24&&(1-(d-17.2)/6.8)*.36>BAY(x,y)*.5)B.put(x,y,[255,206,140],.2);continue}B.put(x,y,SC[Math.max(0,Math.min(3,Math.floor(Math.pow(d/17.2,1.5)*4+(BAY(x,y)-.5)*.7)))])}
+ for(let k=0;k<120;k++){const x=Math.floor(R()*W),y=Math.floor(Math.pow(R(),1.7)*H*.5),sc=[[255,244,230],[255,244,230],[198,214,255],[255,204,226]][Math.floor(R()*4)];if(Math.hypot((x-sunX)/1.8,y-sunY)<H*.3)continue;B.put(x,y,sc,.3+R()*.5);if(R()<.07){B.put(x-1,y,sc,.7);B.put(x+1,y,sc,.7);B.put(x,y-1,sc,.7);B.put(x,y+1,sc,.7)}}
  // the moon, opposite the sun: a crescent, its dark part just there, a halo of dither
  {const mx=Math.round(W*.78),my=Math.round(H*.1);
   for(let y=-11;y<=11;y++)for(let x=-11;x<=11;x++){const d=Math.hypot(x,y),e=Math.hypot(x-3,y+1.5);
@@ -1153,6 +1153,19 @@ function skyArt(w,h,PX){
  // high cloud: thin streaks warmed from below, tapering at both ends
  for(let k=0;k<8;k++){const y=Math.floor(H*(.14+R()*.34)),x0=Math.floor(R()*W*.9),len=22+Math.floor(R()*44),base=at(y/H);
   for(let i=0;i<len;i++){const a=.5*Math.pow(Math.sin(Math.PI*i/len),1.3);if(a>BAY(x0+i,y)*.55)B.put(x0+i,y,mix(base,[255,176,128],.5),Math.min(.8,a+.2));if(i>4&&i<len-4&&R()<.7)B.put(x0+i+3,y+1,mix(base,[255,150,110],.4),a*.5)}}
+ // cloud banks: heaps of discs with a flat underside and puffs on top. The shape comes first (a mask), then the light, in bands of depth from the top edge: a rim of pale pink-gold, a lilac upper body (the
+ // sky's colour), a violet core, and the sun's orange along the underside (the sun is below the cloud), each band dithered into the next; the core is a little darker away from the sun
+ const bank=(cx,cy,w,hg,seed)=>{let z=seed*7919;const rz=()=>(z=z*16807%2147483647)/2147483647,n=4+Math.floor(w/7),D=[],pf=t=>Math.pow(Math.sin(Math.PI*(.08+.84*t)),1.2);
+  for(let i=0;i<n;i++){const t=(i+.5)/n,r=hg*(.32+.68*pf(t))*(.72+.45*rz());D.push([cx+(t-.5)*w+(rz()-.5)*4,cy-r*.28,r])}
+  for(let i=0;i<Math.floor(n*.8);i++){const t=.1+.8*rz(),r=hg*(.26+.22*rz());D.push([cx+(t-.5)*w,cy-hg*(.5+.6*pf(t))+r*.3,r])}
+  const x0=Math.floor(cx-w/2-hg),x1=Math.ceil(cx+w/2+hg),y0=Math.floor(cy-hg*1.8),base=Math.round(cy+hg*.3),gw=x1-x0+1,m=new Uint8Array(gw*(base-y0+1)),
+   cov=(x,y)=>x>=x0&&x<=x1&&y>=y0&&y<=base&&m[(y-y0)*gw+x-x0];
+  for(let y=y0;y<=base;y++)for(let x=x0;x<=x1;x++)for(const [dx,dy,r] of D){const u=(x-dx)/r,v=(y-dy)/(r*.85);if(u*u+v*v<1){m[(y-y0)*gw+x-x0]=1;break}}
+  for(let y=y0;y<=base;y++)for(let x=x0;x<=x1;x++){if(!cov(x,y))continue;
+   let up=0,lf=0;while(cov(x,y-up-1))up++;while(cov(x-lf-1,y))lf++;
+   const dn=base-y,rim=Math.max((2.2-up)/2.2,(1.8-lf)/1.8*(up<hg*.8?1:0)),und=1-dn/(hg*.42),top=1-up/(hg*.62),sk=at(y/H),bay=BAY(x,y),away=Math.max(0,Math.min(1,(x-cx)/(w*.6)+.4)),wm=Math.max(0,1-Math.hypot((x-sunX)/1.8,y-sunY)/(H*.85)),wr=c=>mix(c,[255,166,132],wm*.55);
+   B.put(x,y,rim>bay*.9?mix(sk,[255,222,176],.85):und>bay?wr(mix(sk,[246,146,128],.65)):top>bay?wr(mix(sk,[196,122,172],.6)):wr(mix(mix(sk,[100,54,134],.7),[58,28,94],away*.4)),.96)}};
+ (W<200?[[.74,.64,.34,8,4],[.22,.70,.30,7,5]]:[[.41,.49,.18,19,1],[.57,.36,.12,14,2],[.11,.35,.13,15,3],[.88,.40,.13,17,4],[.66,.57,.10,10,5]]).forEach(([fx,fy,fw,fh,sd])=>bank(Math.round(W*fx),Math.round(H*fy),Math.round(W*fw),fh,sd));
  // 2 the land: the far range (hazy), a crag of dark rock on it with a castle, mist, the far ridge, the middle ridge, floating islands, the near ridge with pines
  const layer=(fn,col,haze,lit,deco)=>{for(let x=0;x<W;x++){const top=Math.round(fn(x));for(let y=top;y<Hh;y++){let c=mix(col,at((y+O)/H),haze);if(y-top<2&&fn(x+2)>fn(x-2)+.5)c=mix(c,lit,y===top?.5:.28);F.put(x,y,c)}}if(deco)deco()};
  const mist=(y0,hh,a)=>{for(let y=y0;y<y0+hh;y++)for(let x=0;x<W;x++)if((1-(y-y0)/hh)*a>BAY(x,y)*.9)F.put(x,y,[255,176,120],.3)};
@@ -1163,6 +1176,7 @@ function skyArt(w,h,PX){
   crag=x=>{const ax=Math.abs(x-cx0);if(ax<=hw)return top+(nz2(x)-.5)*2+(ax>hw-4?(ax-hw+4)*.5:0);const o=ax-hw;return top+2+Math.floor(o/5)*3.5+(o%5)*.5+o*.34+(nz(x*1.7)-.5)*7},
   bx=cx0-hw-(nar?14:26),bt=top+(nar?10:18),butte=x=>{const dx=Math.abs(x-bx);return dx<=(nar?3:5)?bt+dx*dx*.14:bt+3+(dx-(nar?3:5))*2.6},
   rock=x=>Math.min(crag(x),butte(x)),cragFn=x=>{const c=rock(x);return c<R0(x)-1?c:Infinity};
+ layer(ridge(hz-Hh*.1,Hh*.07,150,[1,3]),hex("#a05aa4"),.8,[255,206,156]);   // a pale, far range that shows only in the valleys of the next
  layer(cragFn,hex("#552a72"),.18,[255,184,124],()=>{
   for(let x=cx0-hw-70;x<=cx0+hw+60;x++){const c=Math.round(rock(x)),f=Math.round(R0(x));if(c>=f-1)continue;for(let y=c+1;y<f;y++){   // light from the left across the whole rock, strata that tilt, grain
    const sh=Math.max(0,Math.min(1,(x-(cx0-hw*.5))/(hw*2.4)));if(sh>0)F.put(x,y,[22,8,42],.46*sh);if(x<cx0)F.put(x,y,[255,190,130],Math.max(0,.2*(1-(x-(cx0-hw-10))/(hw+10))));
@@ -1183,7 +1197,9 @@ function skyArt(w,h,PX){
  layer(R0,hex("#8a4a98"),.6,[255,196,140]);   // the far range comes after the crag, so only the rock above its crest shows (a crag laid over it stood in it like a box)
  mist(Math.round(hz-Hh*.02),Math.round(Hh*.05),.55);
  layer(R1,hex("#7a3a86"),.5,[255,190,130]);
- layer(R2,hex("#4a2368"),.2,[255,170,110]);
+ mist(Math.round(hz+Hh*.04),Math.round(Hh*.05),.4);
+ layer(R2,hex("#4a2368"),.2,[255,170,110],()=>{for(let k=0;k<22;k++){const x=Math.floor(R()*W),y=Math.round(R2(x)),h=3+Math.floor(R()*4);for(let j=0;j<h;j++){const wj=Math.ceil((j+1)/2);F.rect(x-Math.floor(wj/2),y-h+j,wj,1,hex("#3a1c5c"))}}});
+ mist(Math.round(hz+Hh*.12),Math.round(Hh*.05),.36);
  const island=(cx,cy,w,hh,s)=>{const c=hex("#3a1a58"),top=hex("#5a3478"),lit=[255,184,120];
   for(let x=-w;x<=w;x++){const e=1-Math.pow(Math.abs(x)/w,1.6),yt=cy-Math.round(1+e*2),yb=cy+Math.round(hh*e*e*(.6+.4*Math.sin(x*.7+s)));
    for(let y=yt;y<=yb;y++){let col=y<=cy?top:mix(c,[20,8,36],(y-cy)/hh*.7);if(y===yt)col=mix(top,lit,x<w*.2?.55:.22);F.put(cx+x,y,col)}}
@@ -1317,10 +1333,12 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
  const h=pHere(),hi=h===null?-1:path.indexOf(h);paint();if(hi>0){pans[0].hidden=true;tabs[0].setAttribute("aria-selected","false");tabs[0].tabIndex=-1;if(!pans[hi].firstElementChild){pans[hi].innerHTML=pPanelInner(path[hi]);paint()}pans[hi].hidden=false;tabs[hi].setAttribute("aria-selected","true");tabs[hi].tabIndex=0;cur=hi}ctr(cur)}
 /* a shelf of the home page's rack, a display case: its title with the count and one line, then a link to all of it (or the playstyle buttons), over one tray
    of slots (SHELFN of them; CSS shows whole rows of the room it has) */
-const shelf=(title,sub,slots,label,{ac="#7aa7ff",n=null,all="",more="",cls=""}={})=>`<div class="shelf${cls}" style="--ac:${ac}"><header class="shh"><h2 class="gt">${title}</h2>${n!=null?`<span class="shn">${TN(n,"{n} curio","{n} curios")}</span>`:""}<p class="gs">${sub}</p>${all}${more}</header><div class="chest">${slotRow(slots,label,SHELFN)}</div></div>`;
+const shelf=(title,sub,slots,label,{ac="#7aa7ff",n=null,all=""}={})=>`<div class="shelf" style="--ac:${ac}"><header class="shh"><h2 class="gt">${title}</h2>${n!=null?`<span class="shn">${TN(n,"{n} curio","{n} curios")}</span>`:""}<p class="gs">${sub}</p>${all}</header><div class="chest">${slotRow(slots,label,SHELFN)}</div></div>`;
+/* a shelf shows one row of its slots (two on a phone): as many as fit at the cell size; the others stay hidden until the window is wider */
+function shelfFit(){const rows=innerWidth<=760?2:1;document.querySelectorAll(".rack .srow").forEach(r=>{const n=getComputedStyle(r).gridTemplateColumns.split(" ").length*rows;[...r.children].forEach((x,i)=>{x.hidden=i>=n})})}
 function hubHome(){
  document.title="Linggango Wiki";document.body.classList.add("hub");
- const path=ORDER.filter(a=>a>=0&&D.some(d=>d.t===a)),news=D.filter(d=>d.nw),rc=d=>({...rCurio(d,esc(ACT[d.t][0]),1),c:" r"+d.r});
+ const path=ORDER.filter(a=>a>=0&&D.some(d=>d.t===a)),news=D.filter(d=>d.nw),rc=d=>({...rCurio(d,"",1),c:" r"+d.r});
  const lead=`<h1 class="lg"><span class="vh">Linggango Wiki: </span>The Keepers are watching!</h1>
  <div class="tact"><form class="hsearch" id="hs" role="search"><input id="hq" type="search" name="hubq" spellcheck="false" placeholder="${T("Search curios, gear, bosses…")}" aria-label="${T("Search curios")}" autocomplete="off"></form>
  <nav class="tbtns" aria-label="${T("Start")}">${hereBtns()}</nav></div>
@@ -1331,14 +1349,10 @@ function hubHome(){
   return shelf(ui("star")+" "+T("Must-Have"),T("Looting Charms and every curio that adds curio slots. Get each one the moment its Act opens."),must.slice(0,SHELFN).map(rc),T("Must-Have curios"),{ac:RC[6],n:must.length,all:all("r6")})
   +shelf(T("Mythic"),T("The rarest curios in the pack."),myth.slice(0,SHELFN).map(rc),T("Mythic"),{ac:RC[5],n:myth.length,all:all("r5")})
   +(news.length?shelf(T("New in 6.6.6"),T("{n} curios the pack added in 6.6.6, from {mods}. {link}",{n:news.length,mods:(m=>Object.keys(m).sort((x,y)=>m[y]-m[x]).map(esc).join(", "))(news.reduce((m,d)=>(m[d.m]=(m[d.m]||0)+1,m),{})),link:""}),byRank(news).slice(0,SHELFN).map(rc),T("New in 6.6.6"),{ac:"#7ad65a",n:news.length,all:all("nw")}):"")})()}
- ${typeof GE!=="undefined"?shelf(T("Equipment"),T("{w} weapons and {s} armor sets from the pack, ranked for each playstyle at every Act. Best melee weapon as you progress:",{w:GE.filter(g=>g.k!=="armor").length,s:GS.length}),
-  (()=>{const runs=[];ORDER.filter(a=>a!=-1).forEach(a=>{const t=gTiers(a,"ME","w"),g=t.length&&t[0][1][0];if(!g)return;const l=runs[runs.length-1];if(l&&l.g===g)l.b=a;else runs.push({g,a,b:a})});
-   return runs.map(({g,a,b})=>({h:`#gear/${a}/ME/w`,i:gImg(g),t:"g"+g.ix,n:b!==a?T("{a} to {b}: {g}",{a:actL(a),b:actL(b),g:g.n}):T("{a}: {g}",{a:actL(a),g:g.n}),l:esc(ACT[a][0])+(b!==a?"+":"")}))})(),T("Best melee weapon by Act"),
-  {ac:"#7aa7ff",cls:" eq",more:`<nav class="shmore" aria-label="${T("Playstyle")}">${[["ME",T("Melee")],["RA",T("Ranged")],["MA",T("Mage")],["SU",T("Summon")]].map(([r,t])=>`<a class="mcb" href="#gear/${hereOn()??ORDER[0]}/${r}/w">${t}</a>`).join("")}</nav>`}):""}
  </section>
  <section class="gui"><h2 class="gt">${T("Curio slots")}</h2><p class="gs">${T("The pack's Curios menu, slot by slot.")}</p>
  <div class="slotlist">${BIGSLOTS.map(([s,xs])=>`<a href="#slot/${enc(s)}"><span class="slot sm">${(()=>{const u=slotIcon(s);return u?`<img alt="" src="${u}">`:byRank(xs).filter(d=>IC[d.id]).slice(0,1).map(d=>img(d.id)).join("")})()}</span><b>${esc(T(s))}</b><em>${xs.length}</em>${rbar(xs)}</a>`).join("")}</div></section>`;
- pathMapWire(path);document.querySelectorAll(".shall[data-f]").forEach(a=>a.onclick=()=>{const f=a.dataset.f;st.nw=f==="nw";st.r=f==="nw"?[]:[f.slice(1)];save()});el("hs").onsubmit=e=>{e.preventDefault();const v=el("hq").value.trim();if(!v)return;el("q").value=v;st.q=v.toLowerCase();location.hash="#home"};
+ pathMapWire(path);shelfFit();{const rk=document.querySelector(".rack");if(rk&&window.ResizeObserver){let w0=0;const ro=new ResizeObserver(()=>{if(!rk.isConnected){ro.disconnect();return}if(rk.clientWidth!==w0){w0=rk.clientWidth;shelfFit()}});ro.observe(rk)}}document.querySelectorAll(".shall[data-f]").forEach(a=>a.onclick=()=>{const f=a.dataset.f;st.nw=f==="nw";st.r=f==="nw"?[]:[f.slice(1)];save()});el("hs").onsubmit=e=>{e.preventDefault();const v=el("hq").value.trim();if(!v)return;el("q").value=v;st.q=v.toLowerCase();location.hash="#home"};
 }
 
 
