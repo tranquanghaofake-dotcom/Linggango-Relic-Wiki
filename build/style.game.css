@@ -1902,7 +1902,7 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 .climb .dsky i{position:absolute}
 .climb .dsky>i{transition:translate .5s ease-out}
 .climb .dstars{left:0;top:0;width:2px;height:2px;translate:calc(var(--mx,0)*-4px) calc(var(--my,0)*-3px)}
-.climb .dsun{left:17.5%;bottom:var(--sunb,30%);width:120px;height:120px}   /* the sun's disc is painted into the sky (skyArt); this box only holds its rays */
+.climb .dsun{left:calc(var(--sunx,calc(17.5% + 60px)) - 60px);bottom:var(--sunb,30%);width:120px;height:120px}   /* the sun's disc is painted into the sky (skyArt); this box only holds its rays */
 /* the sun's light: long rays that turn slowly behind it, and a halo that breathes */
 .climb .dsun::before{content:"";position:absolute;left:50%;top:50%;width:980px;height:980px;translate:-50% -50%;border-radius:50%;
  background:repeating-conic-gradient(rgba(255,214,140,.16) 0 5deg,transparent 5deg 18deg);-webkit-mask-image:radial-gradient(closest-side,#000 14%,transparent 72%);mask-image:radial-gradient(closest-side,#000 14%,transparent 72%);animation:sunRays 150s linear infinite}
@@ -1913,11 +1913,17 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 .climb .dcl{left:0;width:176px;height:68px;background:no-repeat 0 0/100% 100%;image-rendering:pixelated;transform-origin:0 0;margin-left:calc(var(--mx,0)*-22px);animation:cloudDrift var(--cd) linear var(--cdl) infinite}
 @keyframes cloudDrift{from{translate:-240px 0}to{translate:calc(100vw + 60px) 0}}
 /* birds: three in a loose V cross the sky now and then (a two-frame flap; the wiki's own 7x4 drawing) */
-/* the castle's chimney smoke: two square puffs a step apart that rise, drift with the wind, widen and fade; the position (--smx, --smy) comes from the painter */
+/* the castle's chimney smoke: two puffs of dither (a checker of 2 px cells, as the sky is drawn) a step apart that rise, drift with the wind (to the right, as the clouds and the birds do), widen and fade; the place (--smx, --smy) comes from the painter */
 .climb .dsmoke{left:var(--smx,-99px);top:var(--smy,-99px);width:0;height:0}
-.climb .dsmoke::before,.climb .dsmoke::after{content:"";position:absolute;left:-3px;top:-6px;width:6px;height:6px;background:#cfa4c8;opacity:0;animation:smokeUp 7s steps(16,end) infinite}
-.climb .dsmoke::after{animation-delay:-3.5s}
-@keyframes smokeUp{0%{transform:translate(0,0) scale(.7);opacity:0}12%{opacity:.5}100%{transform:translate(26px,-64px) scale(2.2);opacity:0}}
+.climb .dsmoke::before,.climb .dsmoke::after{content:"";position:absolute;left:-3px;top:-8px;width:8px;height:8px;background:repeating-conic-gradient(#e4bccb 0 25%,transparent 0 50%) 0 0/4px 4px;image-rendering:pixelated;opacity:0;animation:smokeUp 8s steps(20,end) infinite}
+.climb .dsmoke::after{animation-delay:-4s}
+@keyframes smokeUp{0%{transform:translate(0,0) scale(.6);opacity:0}10%{opacity:.7}100%{transform:translate(30px,-58px) scale(1.7);opacity:0}}
+/* the lamps of the castle (torches, windows) flicker: a glow over each painted one, its brightness jumping between a few steps, the windows slower and fainter; a shooting star crosses the top of the sky now and then, once in half a minute, going left and down */
+.climb .dfl{left:var(--x);top:var(--y);width:2px;height:2px;margin:-1px 0 0 -1px;background:#ffe6b0;box-shadow:0 0 0 2px rgba(255,200,120,.32),0 0 0 5px rgba(255,170,90,.12);animation:flick var(--d,3s) steps(1) infinite}
+.climb .dfl.w{width:4px;height:4px;margin:-2px 0 0 -2px;background:transparent;box-shadow:0 0 0 3px rgba(255,200,120,.16),0 0 0 7px rgba(255,170,90,.07);animation-duration:calc(var(--d)*2.2)}
+@keyframes flick{0%{opacity:1}14%{opacity:.5}22%{opacity:1}46%{opacity:.78}52%{opacity:.42}60%{opacity:1}84%{opacity:.7}100%{opacity:1}}
+.climb .dshoot{left:0;top:7%;width:72px;height:2px;background:linear-gradient(90deg,#fff,rgba(255,255,255,0));opacity:0;rotate:-20deg;animation:shoot 31s linear 9s infinite}
+@keyframes shoot{0%{opacity:0;translate:76vw 0}.7%{opacity:.9}3.2%{opacity:0;translate:calc(76vw - 310px) 113px}100%{opacity:0;translate:calc(76vw - 310px) 113px}}
 .climb .dbirds{left:0;width:96px;height:48px;animation:birdFly var(--bd) linear var(--bdl) infinite}
 .climb .dbirds b{position:absolute;left:0;top:0;width:21px;height:12px;overflow:hidden;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='4' shape-rendering='crispEdges' fill='%231b1030'%3E%3Cpath d='M0 0h1v1H0zM6 0h1v1H6zM1 1h1v1H1zM5 1h1v1H5zM2 2h3v1H2zM3 3h1v1H3zM9 1h3v1H9zM8 2h1v1H8zM12 2h1v1h-1zM7 3h1v1H7zM13 3h1v1h-1z'/%3E%3C/svg%3E") 0 0/42px 12px;image-rendering:pixelated;animation:birdFlap .56s steps(2) infinite}
 .climb .dbirds b:nth-child(2){left:34px;top:16px;animation-delay:-.2s}
@@ -2134,7 +2140,7 @@ body.hub .sfoot{background:#0f0e14}
  .sfoot>div:nth-child(3){grid-row:auto}
  .sfoot>div:nth-child(3)>p{columns:1}
 }
-@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw::before,#pmap .pn,#pmap .gl b,#pmap .fr::after,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dsmoke::before,.climb .dsmoke::after,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.bcardl .pk img,.ip-stage .pk img{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,.hov,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
+@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw::before,#pmap .pn,#pmap .gl b,#pmap .fr::after,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dsmoke::before,.climb .dsmoke::after,.climb .dfl,.climb .dshoot,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.bcardl .pk img,.ip-stage .pk img{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,.hov,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind,.climb .dshoot{display:none}.climb .dcl{translate:var(--cx) 0}}
 
 /* ================= The room spreads over the page =================
    On a page that opens with a room (Curios: the library; Equipment: the forge; Bosses: the crypt; Build planner: the

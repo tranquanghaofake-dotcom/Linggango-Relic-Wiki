@@ -1140,17 +1140,31 @@ function skyArt(w,h,PX,avoid=[]){
  const Hh=Math.min(H,k(220)),O=H-Hh,F=buf(Hh),noise=sc=>{const p=[...Array(48)].map(R);return x=>{const u=x/sc,i=Math.floor(u),t=u-i,s=t*t*(3-2*t);return p[((i%48)+48)%48]*(1-s)+p[(((i+1)%48)+48)%48]*s}};
  const ridge=(base,amp,sc,oct)=>{const ns=oct.map(o=>noise(sc*K/o));return x=>{let v=0,a=1,s=0;oct.forEach((o,i)=>{v+=ns[i](x)*a;s+=a;a*=.5});return base-amp*v/s}};
  const hz=Hh*.72,R0=ridge(hz-Hh*.14,Hh*.15,84,[1,2,5]),R1=ridge(hz-Hh*.08,Hh*.16,70,[1,2,4]),R2=ridge(hz+Hh*.02,Hh*.13,46,[1,2.5,5]),R3=ridge(hz+Hh*.14,Hh*.12,36,[1,2,4]),R15=ridge(hz-Hh*.02,Hh*.15,58,[1,2,4]),R25=ridge(hz+Hh*.08,Hh*.14,40,[1,2.5,5]);
- const N=48,bands=[...Array(N)].map((_,i)=>at(i/(N-1))),sunX=.175*W+k(15),sunY=O+Math.round(R0(sunX))-k(3);   // the sun sits just above the far range's crest: half of its disc shows
+ // the castle's place (x of its middle, half the width of its flat top, the row of its foot in the land) is fixed here, before the clouds, so no cloud bank is put behind its towers
+ const nar=W<200*K,cx0=Math.round(W*(nar?.66:.70)),hw=k(nar?15:34),top=Math.round(Math.min(R0(cx0),R0(cx0-hw),R0(cx0+hw)))-k(nar?16:22);
+ const N=48,bands=[...Array(N)].map((_,i)=>at(i/(N-1)));
+ // the sun sits just above the far range's crest: half of its disc shows. It keeps to its place (a sixth of the way across) unless the words of the hero are there (a short screen puts the card and the search over it):
+ // then it slides along the horizon to where the least of its disc is behind them (see-through words count three times an opaque button), as near its place as it can
+ const sunY0=x=>O+Math.round(R0(x))-k(3),sunCost=x=>{const y=sunY0(x),r=17.2*K;return avoid.reduce((a,[x0,y0,x1,y1,tr])=>a+(tr?3:1)*Math.max(0,Math.min(x1+4*K,x+r)-Math.max(x0-4*K,x-r))*Math.max(0,Math.min(y1+4*K,y+r)-Math.max(y0-4*K,y-r)),0)};
+ let sunX=.175*W+k(15);{const x0=sunX;let best=sunCost(x0);for(let d=2*K;d<=.4*W;d+=2*K)for(const sg of [1,-1]){const x=x0+sg*d;if(x<.08*W||x>.5*W)continue;const c=sunCost(x)+d*2;if(c<best-1e-6){best=c;sunX=x}}}
+ const sunY=sunY0(sunX);
+ // the moon, opposite the sun, high in the dark: at its place (78% across, a tenth down) unless words are there (on a tablet the title is), then at the spot nearest its place that has the least of them behind it. The sun and the moon are then boxes
+ // that the clouds and the islands keep clear of (a cloud over the sun read as a pale cloud-shaped hole with rays coming out of it)
+ let moonX=Math.round(W*.78),moonY=Math.round(H*.1);{const mc=(x,y)=>avoid.reduce((a,[x0,y0,x1,y1,tr])=>a+(tr?3:1)*Math.max(0,Math.min(x1+3*K,x+9*K)-Math.max(x0-3*K,x-9*K))*Math.max(0,Math.min(y1+3*K,y+9*K)-Math.max(y0-3*K,y-9*K)),0);
+  let best=mc(moonX,moonY),bx=moonX,by=moonY;if(best>0)for(let y=Math.round(H*.04);y<=H*.3;y+=4*K)for(let x=Math.round(W*.06);x<=W*.94;x+=3*K){const c=mc(x,y)+Math.hypot(x-moonX,(y-moonY)*1.5)*3;if(c<best-1e-6){best=c;bx=x;by=y}}moonX=bx;moonY=by}
+ avoid=[...avoid,[sunX-27*K,sunY-27*K,sunX+27*K,sunY+27*K,1],[moonX-12*K,moonY-12*K,moonX+12*K,moonY+12*K,1]];
  const glowT=bands.map(b=>[b,...[1,2,3,4,5,6].map(l=>mix(b,[255,196,110],Math.min(.46,l*.1)))]);   // a band, and the band warmed by the glow at each of six levels
  for(let y=0;y<H;y++)for(let x=0;x<W;x++){const t=y/H*(N-1),i=Math.min(N-2,Math.floor(t)),bi=i+(t-i>BAY(x,y)?1:0);
   const d=Math.hypot((x-sunX)/1.8,y-sunY),g=Math.max(0,1-d/(H*.5)),l=Math.floor(g*g*5+BAY(x,y)-.25);B.put(x,y,l>0?glowT[bi][Math.min(6,l)]:bands[bi])}
  // the sun: a disc of four bands of light, dithered into each other (its lower half is behind the far range), a ring of dither round it; the rays (CSS .dsun::before) turn round its middle
  const SC=[[255,249,218],[255,234,156],[255,208,112],[255,176,88]],sr=17.2*K,sh=24*K;
  for(let y=Math.floor(sunY-sh);y<=sunY+sh;y++)for(let x=Math.floor(sunX-sh);x<=sunX+sh;x++){const d=Math.hypot(x-sunX,y-sunY);if(d>sr){if(d<sh&&(1-(d-sr)/(sh-sr))*.36>BAY(x,y)*.5)B.put(x,y,[255,206,140],.2);continue}B.put(x,y,SC[Math.max(0,Math.min(3,Math.floor(Math.pow(d/sr,1.5)*4+(BAY(x,y)-.5)*.7)))])}
- for(let n=0;n<Math.round(120*K*1.4);n++){const x=Math.floor(R()*W),y=Math.floor(Math.pow(R(),1.7)*H*.5),sc=[[255,244,230],[255,244,230],[198,214,255],[255,204,226]][Math.floor(R()*4)];if(Math.hypot((x-sunX)/1.8,y-sunY)<H*.3)continue;B.put(x,y,sc,.3+R()*.5);
-  if(R()<.05){for(let d=1;d<=K+1;d++){const a=.75-d*.12;B.put(x-d,y,sc,a);B.put(x+d,y,sc,a);B.put(x,y-d,sc,a);B.put(x,y+d,sc,a)}}}
+  let starLow=0;
+ for(let n=0;n<Math.round(120*K*1.4);n++){const x=Math.floor(R()*W),y=Math.floor(Math.pow(R(),1.7)*H*.5),sc=[[255,244,230],[255,244,230],[198,214,255],[255,204,226]][Math.floor(R()*4)],fd=1-Math.max(0,Math.min(1,(y/H-.16)/.2));if(Math.hypot((x-sunX)/1.8,y-sunY)<H*.3||fd<.12)continue;B.put(x,y,sc,(.3+R()*.5)*fd);starLow=Math.max(starLow,y);   // a star is seen less the nearer the bright horizon: none below a fifth of the way down, none in the glow
+
+  if(R()<.05){for(let d=1;d<=K+1;d++){const a=(.75-d*.12)*fd;B.put(x-d,y,sc,a);B.put(x+d,y,sc,a);B.put(x,y-d,sc,a);B.put(x,y+d,sc,a)}}}
  // the moon, opposite the sun: a crescent, its dark part just there, a halo of dither
- {const mx=Math.round(W*.78),my=Math.round(H*.1),m=11*K;
+ {const mx=moonX,my=moonY,m=11*K;
   for(let y=-m;y<=m;y++)for(let x=-m;x<=m;x++){const d=Math.hypot(x,y),e=Math.hypot(x-3*K,y+1.5*K);
    if(d<=6.2*K)B.put(mx+x,my+y,e>5.4*K?[238,238,254]:[120,104,176],e>5.4*K?1:.35);else if(d<m&&(1-(d-6.2*K)/(4.8*K))*.5>BAY(mx+x,my+y)*.55)B.put(mx+x,my+y,[196,190,255],.16)}}
  // the glare: the sun's light lying along the horizon behind the far ranges, widest at the sun and fading to both sides, a few pixels thick
@@ -1168,23 +1182,29 @@ function skyArt(w,h,PX,avoid=[]){
    let up=0,lf=0;while(cov(x,y-up-1))up++;while(cov(x-lf-1,y))lf++;
    const dn=base-y,rim=Math.max((rt-up)/rt,(rt*.8-lf)/(rt*.8)*(up<hg*.8?1:0)),und=1-dn/(hg*.42),top=1-up/(hg*.62),sk=at(y/H),bay=BAY(x,y),away=Math.max(0,Math.min(1,(x-cx)/(w*.6)+.4)),wm=Math.max(0,1-Math.hypot((x-sunX)/1.8,y-sunY)/(H*.85)),wr=c=>mix(c,[255,166,132],wm*.55);
    B.put(x,y,rim>bay*.9?mix(sk,[255,222,176],.85):und>bay?wr(mix(sk,[246,146,128],.65)):top>bay?wr(mix(sk,[196,122,172],.6)):wr(mix(mix(sk,[100,54,134],.7),[58,28,94],away*.4)),.96)}};
- (W<200*K?[[.76,.64,.32,8,4],[.22,.70,.28,7,5]]:[[.40,.50,.17,18,1],[.12,.37,.12,13,3],[.90,.41,.12,16,4],[.53,.31,.08,8,2]]).forEach(([fx,fy,fw,fh,sd])=>bank(Math.round(W*fx),Math.round(H*fy),Math.round(W*fw),k(fh),sd));
+ {const bbox=(cx,cy,w,hg)=>[Math.floor(cx-w/2-hg),Math.ceil(cx+w/2+hg),Math.floor(cy-hg*1.8),Math.round(cy+hg*.3)],
+   bfree=b=>!avoid.some(([x0,y0,x1,y1,tr])=>tr&&b[1]+2*K>x0&&b[0]-2*K<x1&&b[3]+2*K>y0&&b[2]-2*K<y1)&&!(b[1]>cx0-hw-18*K&&b[0]<cx0+hw+18*K&&b[3]>top+O-84*K&&b[2]<top+O+8*K)&&(nar||b[3]<=H*.535)&&!BK.some(([x0,x1,y0,y1])=>b[1]+10*K>x0&&b[0]-10*K<x1&&b[3]+4*K>y0&&b[2]-4*K<y1),
+   sp=[];for(let dy=-.1;dy<=.101;dy+=.05)for(let dx=-.3;dx<=.301;dx+=.02)sp.push([dx,dy,Math.hypot(dx*1.4,dy*2)]);sp.sort((p,q)=>p[2]-q[2]);
+  (W<200*K?[[.76,.64,.32,8,4],[.22,.70,.28,7,5]]:[[.40,.50,.17,18,1],[.12,.37,.12,13,3],[.90,.41,.12,16,4],[.53,.31,.08,8,2]]).forEach(([fx,fy,fw,fh,sd])=>{for(const [dx,dy] of sp){const cx=Math.round(W*(fx+dx)),cy=Math.round(H*(fy+dy)),w=Math.round(W*fw);if(bfree(bbox(cx,cy,w,k(fh)))){bank(cx,cy,w,k(fh),sd);return}}})}
  // 2 the land: a far hazy range, the far range with a crag of dark rock and a castle on it, mist, the far ridge, the middle ridge, floating islands, the near ridge with pines
- const layer=(fn,col,haze,lit,deco)=>{const rows=[],rim0=[],rim1=[];for(let y=0;y<Hh;y++){const c=mix(col,at((y+O)/H),haze);rows.push(c);rim0.push(mix(c,lit,.5));rim1.push(mix(c,lit,.28))}
-  for(let x=0;x<W;x++){const top=Math.max(0,Math.round(fn(x))),facing=fn(x+2*K)>fn(x-2*K)+.5*K;for(let y=top;y<Hh;y++)F.put(x,y,y-top<2&&facing?(y===top?rim0[y]:rim1[y]):rows[y])}if(deco)deco()};
+ // a ridge: its body takes the sky's colour at each row (more of it the farther the ridge is), its crest is dithered at a fraction of a pixel (a smoother line than a step), and the sun, which is behind the far range,
+ // rims the crest: brightest near the sun, on slopes facing it (to the left) more than on those turned away, and hardly at all far from it
+ const layer=(fn,col,haze,lit,deco)=>{const rows=[],rim=[[],[],[],[]];for(let y=0;y<Hh;y++){const c=mix(col,at((y+O)/H),haze);rows.push(c);for(let l=0;l<4;l++)rim[l].push(mix(c,lit,.14+.13*l))}
+  for(let x=0;x<W;x++){const t=Math.max(0,fn(x)),y0=Math.floor(t),top=y0+((1-(t-y0))>BAY(x,y0)?0:1),face=fn(x+2*K)<fn(x-2*K)-.4*K?1:.55,near=Math.exp(-(((x-sunX)/(W*.3))**2)),s=face*(.22+.78*near),lv=s<.2?-1:Math.min(3,Math.floor(s*3.6));
+   for(let y=top;y<Hh;y++)F.put(x,y,lv>=0&&y-top<2?rim[lv][y]:rows[y])}if(deco)deco()};
  const mist=(y0,hh,a)=>{for(let y=y0;y<y0+hh;y++)for(let x=0;x<W;x++)if((1-(y-y0)/hh)*a>BAY(x,y)*.9)F.put(x,y,[255,176,120],.3)};
  const pine=(x,y,h,col)=>{for(let j=0;j<h;j++){const wj=Math.ceil((j+1)/2);F.rect(x-Math.floor(wj/2),y-h+j+1,wj,1,col)}};
  layer(ridge(hz-Hh*.1,Hh*.07,150,[1,3]),hex("#a05aa4"),.8,[255,206,156]);   // a pale, far range that shows only in the valleys of the next
  // the peak: the far range rises to a peak with a flat top wide enough for the castle and its towers, in the range's own colour a shade nearer. Its form comes from facets (patches a step lighter or darker, joined by dither),
  // the sun's side (left) lit and the far side in shade, a dark rock face under the castle with vertical streaks, a path that switches back up the sun's side to the gate, pines in groups on the flanks,
  // and a mist at its foot that thins out to nothing at both ends (a crag laid over the range stood in it like a box)
- let smoke=[0,0];const LAY={banks:BK,isl:[],castle:[0,0,0],sun:[sunX,sunY]},hs0=(x,y)=>(Math.imul(x+101,73856093)^Math.imul(y+57,19349663))>>>0,nar=W<200*K,cx0=Math.round(W*(nar?.66:.70)),hw=k(nar?15:34),top=Math.round(Math.min(R0(cx0),R0(cx0-hw),R0(cx0+hw)))-k(nar?16:22),nz=noise(9*K),nz2=noise(5*K),nz3=noise(23*K),
+ let smoke=[0,0];const LAY={banks:BK,isl:[],castle:[0,0,0],sun:[sunX,sunY],moon:[moonX,moonY],starLow,H,lights:[],peak:[0,0]},hs0=(x,y)=>(Math.imul(x+101,73856093)^Math.imul(y+57,19349663))>>>0,nz=noise(9*K),nz2=noise(5*K),nz3=noise(23*K),
   peak=x=>{const ax=Math.abs(x-cx0);if(ax<=hw)return top+(nz2(x)-.5)*K+(ax>hw-5*K?Math.pow((ax-hw+5*K)/(5*K),2)*2.5*K:0);const o=ax-hw,sl=x<cx0?.26:.4;return top+2.5*K+9*K*(1-Math.exp(-o/(7*K)))+o*sl+(nz(x*1.7)-.5)*3*K+(nz2(x*2.3)-.5)*K*Math.min(1,o/(10*K))};
  layer(R0,hex("#8a4a98"),.6,[255,196,140]);
  mist(Math.round(hz-Hh*.02),Math.round(Hh*.05),.55);
  {const pc=hex("#7a3e8c"),rows=[],rim=[],X0=Math.max(0,cx0-hw-100*K),X1=Math.min(W-1,cx0+hw+100*K),face=k(nar?7:11);for(let y=0;y<Hh+k(8);y++){const c=mix(pc,at((Math.min(y,Hh-1)+O)/H),.46);rows.push(c);rim.push(mix(c,[255,196,140],.5))}
   for(let x=X0;x<=X1;x++){const t=Math.round(peak(x)),f=Math.round(R0(x));if(t>=f-1)continue;const sh=Math.max(0,Math.min(1,(x-(cx0-hw*.4))/(hw*2.2))),wm=x<cx0?Math.max(0,1-(x-(cx0-hw-14*K))/(hw+14*K)):0,foot=6*K,fc=Math.abs(x-cx0)<=hw+2*K;
-   for(let y=t;y<=f+foot;y++){const a=y<=f?1:1-(y-f)/foot;if(a<BAY(x,y)&&y>f)continue;let c=rows[Math.min(y,rows.length-1)];if(y-t<2&&peak(x+2*K)>peak(x-2*K)+.5*K)c=rim[y];
+   for(let y=t;y<=f+foot;y++){const a=y<=f?1:1-(y-f)/foot;if(a<BAY(x,y)&&y>f)continue;let c=rows[Math.min(y,rows.length-1)];if(y-t<2&&peak(x+2*K)<peak(x-2*K)-.4*K)c=rim[y];
     if(y<=f+k(2)){const fa=nz3(x*.9+y*1.6)*3,fq=Math.floor(fa),ff=fa-fq;let ft=(fq+(ff>BAY(x,y)?1:0))/3-.5;   // facets: a step of light or shade, the edge between two dithered
      c=mix(c,ft>0?[255,176,128]:[24,8,44],Math.abs(ft)*.34);
      if(sh>0)c=mix(c,[22,8,42],.4*sh*(y>f?a:1));if(wm>0)c=mix(c,[255,190,130],.18*wm);
@@ -1196,7 +1216,7 @@ function skyArt(w,h,PX,avoid=[]){
    castle()}
  // the castle, in K-pixels (x across from its middle, y up from its foot): stone laid in courses with the joints staggered, the sun's side (left) lit, the far side in shade, every roof of shingles,
  // an arched gate with a portcullis and a torch on each side, arched windows lit from inside with a halo, a banner on the keep, a flag on the tall tower
- function castle(){const by=top;LAY.castle=[cx0-hw-18*K,cx0+hw+18*K,top+O-84*K,top+O+8*K,cx0-(nar?13:23)*K,cx0+(nar?13:23)*K,top+O];   // the box it keeps clear of islands, and its foot (x0, x1, y of the wall's base) for the checks
+ function castle(){const by=top;LAY.peak=[cx0,hw];LAY.castle=[cx0-hw-18*K,cx0+hw+18*K,top+O-84*K,top+O+8*K,cx0-(nar?13:23)*K,cx0+(nar?13:23)*K,top+O];   // the box it keeps clear of islands, and its foot (x0, x1, y of the wall's base) for the checks
   const ST0=hex("#2d1450"),LIT=mix(ST0,[255,190,130],.5),SHD=hex("#1f0e3a"),MORT=hex("#231040"),RF=hex("#2a1246"),RFL=mix(RF,[255,176,120],.42),WN=[255,200,122],GATE=[255,168,98],TORCH=[255,228,160],RED=[255,118,108];
   const P=(x,y,c,a=1)=>F.put(cx0+x,by-1-y,c,a),hs=(x,y)=>(Math.imul(x+101,73856093)^Math.imul(y+57,19349663))>>>0;
   // a wall of stone: courses 3 px high, joints every 5 px staggered by course, a few paler blocks; the left 2 px lit, the right 2 px and the foot in shade
@@ -1205,14 +1225,14 @@ function skyArt(w,h,PX,avoid=[]){
   const crenel=(x,y,w)=>{for(let i=0;i<w;i+=5)for(let j=0;j<3;j++)for(let d=0;d<3&&i+d<w;d++)P(x+i+d,y+j,(i+d===0||d===0)?LIT:(d===2?SHD:ST0))};
   // a conical roof of shingle courses (alternate courses a shade apart), the left half lit, a finial on top
   const roof=(xc,y,hw2,hg)=>{for(let j=0;j<hg;j++){const half=Math.max(1,Math.round(hw2*(1-j/hg)));for(let i=-half;i<=half;i++)P(xc+i,y+j,(j%3===2)?mix(RF,[10,4,24],.4):(i<-half*.2?RFL:RF))}P(xc,y+hg,RF);P(xc,y+hg+1,RF)};
-  const win=(x,y,glow=true)=>{if(glow)for(let j=-3;j<10;j++)for(let i=-4;i<8;i++){const d=Math.hypot((i-1)/2,(j-3)/4);if(d<1.4&&d*.9>BAY(cx0+x+i,by+y+j)*.9+.1)P(x+i,y+j,WN,.1)}
+  const win=(x,y,glow=true)=>{if(glow)LAY.lights.push([cx0+x+1,by-1-(y+2)+O,1]);if(glow)for(let j=-3;j<10;j++)for(let i=-4;i<8;i++){const d=Math.hypot((i-1)/2,(j-3)/4);if(d<1.4&&d*.9>BAY(cx0+x+i,by+y+j)*.9+.1)P(x+i,y+j,WN,.1)}
    for(let j=0;j<5;j++)for(let i=0;i<(j===4?1:3);i++)P(x+i+(j===4?1:0),y+j,j<4&&i===0&&j>1?mix(WN,[255,226,160],.5):WN);P(x+1,y-1,SHD)};
   const ww=k(nar?13:23),WH=k(6),GH=k(12),KH=k(15),TH=k(24);
   for(let x=-ww-k(3);x<=ww+k(3);x++){const dp=k(2)+Math.round((nz2(cx0+x*1.7)*k(2.2))*(Math.abs(x)>ww?1.4:1));for(let j=1;j<=dp;j++){const c=mix(mix(ST0,[42,20,70],.5),[26,10,46],j/dp*.5);P(x,-j,x<-ww+1?mix(c,LIT,.25):c)}}   // the footing: rock the wall stands on, ragged at the foot
   blk(-ww,0,2*ww,WH);crenel(-ww,WH,2*ww);for(let x=-ww+k(3);x<ww-k(3);x+=k(6)){P(x,k(3),[10,4,22]);P(x,k(3)+1,[10,4,22])}   // the curtain wall, its merlons, its arrow slits
   blk(-k(5),0,k(10),GH);crenel(-k(5),GH,k(10));                                                                      // the gatehouse
   {const gx=-Math.round(k(2)),gw=k(4),gh=k(6);for(let j=0;j<gh;j++)for(let i=0;i<gw;i++){const e=j>gh-gw/2?Math.round(gw/2-Math.sqrt(Math.max(0,(gw/2)**2-(j-(gh-gw/2))**2))):0;if(i<e||i>=gw-e)continue;P(gx+i,j,(i%2===1&&j>1)?mix(GATE,[40,16,48],.55):GATE)}   // the gate: an arch, lit, a portcullis of bars
-   for(const tx of [-k(3)-1,k(3)]){P(tx,gh+1,TORCH);P(tx,gh+2,TORCH);P(tx,gh,[220,120,60]);for(let j=-3;j<5;j++)for(let i=-3;i<5;i++)if(Math.hypot(i,j)<3.2&&Math.hypot(i,j)*.2>BAY(cx0+tx+i,by+gh+j)*.5)P(tx+i,gh+j,[255,190,110],.2)}}   // two torches
+   const ty=k(4);for(const tx of [-k(3)-1,k(3)]){LAY.lights.push([cx0+tx,by-1-(ty+2)+O,0]);P(tx,ty+1,TORCH);P(tx,ty+2,TORCH);P(tx,ty,[220,120,60]);for(let j=-3;j<5;j++)for(let i=-3;i<5;i++)if(Math.hypot(i,j)<3.2&&Math.hypot(i,j)*.2>BAY(cx0+tx+i,by+ty+j)*.5)P(tx+i,ty+j,[255,190,110],.2)}}   // two torches
   blk(-k(9),WH,k(18),KH-WH);crenel(-k(9),KH,k(18));                                                                  // the keep
   blk(k(5),KH+3,k(2),k(4));F.rect(cx0+k(5)-1,by-1-KH-3-k(4)-1,k(2)+2,2,mix(ST0,LIT,.3));smoke=[cx0+k(5)+k(1),by-1-KH-3-k(4)-2];   // its chimney
   for(const wx of [-k(6),-1,k(5)])win(wx,WH+k(3));                                                                   // its windows
@@ -1222,11 +1242,11 @@ function skyArt(w,h,PX,avoid=[]){
   if(!nar){for(const [sx,sh2,rh] of [[-k(30),k(16),k(7)],[k(22),k(12),k(6)]]){blk(sx,0,k(8),sh2);blk(sx-1,sh2,k(10),k(2));roof(sx+k(4),sh2+k(2),k(5.2),rh+k(3));win(sx+k(3),sh2-k(8))}}   // two side towers with roofs and a window each
   // the sun's light on the left edge of the roofs and walls, one more pixel, warm
   }
- layer(R1,hex("#7a3a86"),.5,[255,190,130]);
- layer(R15,hex("#6a3480"),.38,[255,184,126]);
+ layer(R1,hex("#6a3280"),.5,[255,190,130]);
+ layer(R15,hex("#58287a"),.4,[255,184,126]);
  mist(Math.round(hz+Hh*.04),Math.round(Hh*.05),.4);
- layer(R2,hex("#4a2368"),.2,[255,170,110],()=>{for(let n=0;n<22*K;n++){const x=Math.floor(R()*W);pine(x,Math.round(R2(x)),k(3)+Math.floor(R()*k(4)),hex("#3a1c5c"))}});
- layer(R25,hex("#3a1c5a"),.1,[255,160,110]);
+ layer(R2,hex("#43205f"),.26,[255,170,110],()=>{for(let n=0;n<22*K;n++){const x=Math.floor(R()*W);pine(x,Math.round(R2(x)),k(3)+Math.floor(R()*k(4)),hex("#3a1c5c"))}});
+ layer(R25,hex("#331852"),.14,[255,160,110]);
  mist(Math.round(hz+Hh*.12),Math.round(Hh*.05),.36);
  // floating islands: a flat top with trees and a lamp, a rocky underside with roots hanging, a fall of water. They hang in open sky: never over a cloud bank (the banks' boxes are kept in BK) nor over the peak,
  // and the far ones are hazed towards the sky's colour, so a bigger island reads nearer
@@ -1236,8 +1256,9 @@ function skyArt(w,h,PX,avoid=[]){
   const dk=hzc(hex("#2b1445"));pine(cx-Math.round(w*.34),cy-k(1),k(6),dk);pine(cx-Math.round(w*.12),cy-k(1),k(4),dk);pine(cx-Math.round(w*.5),cy-k(1),k(3),dk);
   F.rect(cx+Math.round(w*.38),cy-k(3),1,k(3),dk);F.rect(cx+Math.round(w*.38)-1,cy-k(4),3,2,[255,200,130]);
   for(let n=-w+2;n<w-2;n+=Math.max(2,k(3))){const len=Math.round(hh*(.4+.5*Math.abs(Math.sin(n*.9+s))));for(let j=0;j<len;j++)F.put(cx+n,cy+Math.round(hh*.5)+j,dk,.7*(1-j/len))}   // roots
-  const wx=cx+Math.round(w*.55);for(let y=cy;y<cy+hh*1.6;y++)F.put(wx,y,[255,210,170],.35*(1-(y-cy)/(hh*1.7)))};
- {const IS=[],ibox=(cx,cy,w,hh)=>[cx-w,cx+w,cy+O-8*K,cy+O+hh*1.7],free=(cx,cy,w,hh)=>{const m=5*K,[b0,b1,c0,c1]=ibox(cx,cy,w,hh),bx0=b0-m,bx1=b1+m,by0=c0-m,by1=c1+m;
+  const wx=cx+Math.round(w*.55);for(let y=cy;y<cy+hh*1.6;y++)F.put(wx,y,[255,210,170],.35*(1-(y-cy)/(hh*1.7)));
+  for(const [fx,fy,z] of [[-.4,1.25,2],[.05,1.62,1.4],[.45,1.3,1]]){const rx=cx+Math.round(w*fx),ry=cy+Math.round(hh*fy),zz=Math.max(2,Math.round(z*K));F.rect(rx,ry,zz,Math.max(2,zz-1),dk);F.put(rx,ry,hzc(mix(c,lit,.45)))}};   // rocks that broke off, hanging beneath
+ {const IS=[],ibox=(cx,cy,w,hh)=>[cx-w,cx+w,cy+O-8*K,cy+O+hh*1.7+3*K],free=(cx,cy,w,hh)=>{const m=5*K,[b0,b1,c0,c1]=ibox(cx,cy,w,hh),bx0=b0-m,bx1=b1+m,by0=c0-m,by1=c1+m;
    if(BK.some(([x0,x1,y0,b])=>bx1>x0&&bx0<x1&&by1>y0&&by0<b))return false;                                       // not over a cloud bank
    if(bx1>cx0-hw-18*K&&bx0<cx0+hw+18*K&&by1>top+O-84*K&&by0<top+O+8*K)return false;                           // not over the castle
    if(Math.hypot(cx-sunX,cy+O-sunY)<30*K)return false;                                                              // not on the sun
@@ -1259,21 +1280,22 @@ function skyArt(w,h,PX,avoid=[]){
   return C.toDataURL()});
  // the land stands on the foot of the scene, at most 220 old art pixels (880) tall: on a phone, where the hero is a column of sky, it does not climb to the text
  const FD=new ImageData(W,H);FD.data.set(F.im.data,O*W*4);
- return {back:B.im,front:FD,clouds,sunb:Math.round((H-sunY)*PX-60),smoke:[Math.round(smoke[0]*PX)-24,Math.round((smoke[1]+O)*PX)],layout:LAY}}   // pixel data, not canvases: a canvas kept in the cache can come back empty (it did, after thousands of page draws in check.js)
+ return {back:B.im,front:FD,clouds,sunb:Math.round((H-sunY)*PX-60),sunx:Math.round(sunX*PX)-24,smoke:[Math.round(smoke[0]*PX)-24,Math.round((smoke[1]+O)*PX)],layout:LAY}}   // pixel data, not canvases: a canvas kept in the cache can come back empty (it did, after thousands of page draws in check.js)
 
 /* the hero's sky and land painted into its two canvases, and the cloud sprites into --cl0..2; one painting per size is kept (a second visit paints nothing) */
 const SKYC={};
 function skyPaint(cl){const a=cl.querySelector(".dart0"),b=cl.querySelector(".dart1"),d=cl.querySelector(".dsky");if(!a||!b||!d)return;
  const w=cl.clientWidth+48,h=cl.clientHeight;if(!w||!h)return;
  // the words on the sky (title, card, search, chips) as boxes in art pixels: an island is not put behind them
- const o=cl.getBoundingClientRect(),av=[...cl.querySelectorAll(".lg,.pcap,.tcs,.tact>*")].map(e=>{if(e.matches(".lg")){const g=document.createRange();g.selectNodeContents(e);return g.getBoundingClientRect()}return e.getBoundingClientRect()}).filter(r=>r.width).map(r=>[Math.round((r.left-o.left+24)/2),Math.round((r.top-o.top)/2),Math.round((r.right-o.left+24)/2),Math.round((r.bottom-o.top)/2)]),
+ const o=cl.getBoundingClientRect(),av=[...cl.querySelectorAll(".lg,.pcap,.tcs,.tact>*")].map(e=>{const r=e.matches(".lg")?(g=>(g.selectNodeContents(e),g.getBoundingClientRect()))(document.createRange()):e.getBoundingClientRect();return r.width?[Math.round((r.left-o.left+24)/2),Math.round((r.top-o.top)/2),Math.round((r.right-o.left+24)/2),Math.round((r.bottom-o.top)/2),+!e.matches("a,button")]:null}).filter(Boolean),
   k=w+"x"+h+"|"+av.map(r=>r.map(v=>v>>3)).join(";");let c=SKYC[k];if(!c){const ks=Object.keys(SKYC);if(ks.length>3)delete SKYC[ks[0]];c=SKYC[k]=skyArt(w,h,2,av)}
  for(const [cv,src] of [[a,c.back],[b,c.front]]){cv.width=src.width;cv.height=src.height;cv.getContext("2d").putImageData(src,0,0)}
- c.clouds.forEach((u,i)=>d.style.setProperty("--cl"+i,`url(${u})`));cl.style.setProperty("--sunb",c.sunb+"px");d.style.setProperty("--smx",c.smoke[0]+"px");d.style.setProperty("--smy",c.smoke[1]+"px")}
+ c.clouds.forEach((u,i)=>d.style.setProperty("--cl"+i,`url(${u})`));d.style.setProperty("--tb",Math.round(Math.max(0,...av.filter(r=>r[4]).map(r=>r[3]*2)))+"px");d.querySelectorAll(".dfl").forEach(e=>e.remove());
+ c.layout.lights.forEach(([x,y,wn],i)=>{const e=document.createElement("i");e.className="dfl"+(wn?" w":"");e.style.cssText=`--x:${x*2-24}px;--y:${y*2}px;--d:${(2.3+(i*7%5)*.55).toFixed(2)}s;animation-delay:-${(i*.9).toFixed(1)}s`;d.appendChild(e)});cl.style.setProperty("--sunb",c.sunb+"px");cl.style.setProperty("--sunx",c.sunx+"px");d.style.setProperty("--smx",c.smoke[0]+"px");d.style.setProperty("--smy",c.smoke[1]+"px")}
 const SKY=(()=>{let q=7;const r=()=>(q=q*16807%2147483647)/2147483647;
- const stars=Array.from({length:90},()=>{const big=r()<.18;return `${(r()*100).toFixed(2)}vw ${r()*300|0}px 0 ${big?1:0}px rgba(255,255,255,${(.35+r()*.6).toFixed(2)})`}).join(",");
+ const stars=Array.from({length:90},()=>{const big=r()<.18;return `${(r()*100).toFixed(2)}vw ${(r()*24).toFixed(1)}vh 0 ${big?1:0}px rgba(255,255,255,${(.35+r()*.6).toFixed(2)})`}).join(",");
  /* the sky and the land are two canvases (skyPaint): the sky behind the sun and the clouds, the land in front of them */
- return `<div class="dsky" aria-hidden="true"><canvas class="dart0"></canvas><i class="dstars" style="box-shadow:${stars}"></i><i class="dsun"></i>${[[56,.55,300,.22],[59,.45,360,.47],[57.5,.5,330,.85]].map(([y,z,d,o],k)=>`<i class="dcl" style="top:${y}%;scale:${z};--cd:${d}s;--cdl:-${(d*o).toFixed(0)}s;--cx:${(o*100).toFixed(0)}vw;background-image:var(--cl${k%3})"></i>`).join("")}<canvas class="dart1"></canvas><i class="dsmoke"></i>${[[22,64,0],[31,78,-23],[14,92,-47]].map(([y,d,l])=>`<i class="dbirds" style="top:${y}%;--bd:${d}s;--bdl:${l}s"><b></b><b></b><b></b></i>`).join("")}</div>`})();
+ return `<div class="dsky" aria-hidden="true"><canvas class="dart0"></canvas><i class="dstars" style="box-shadow:${stars}"></i><i class="dshoot"></i><i class="dsun"></i>${[[56,.55,300,.22],[59,.45,360,.47],[57.5,.5,330,.85]].map(([y,z,d,o],k)=>`<i class="dcl" style="top:${y}%;scale:${z};--cd:${d}s;--cdl:-${(d*o).toFixed(0)}s;--cx:${(o*100).toFixed(0)}vw;background-image:var(--cl${k%3})"></i>`).join("")}<canvas class="dart1"></canvas><i class="dsmoke"></i>${[[47,64,0],[50,78,-23],[53,92,-47]].map(([y,d,l],i)=>`<i class="dbirds" style="top:max(${y}%,calc(var(--tb,0px) + ${14+i*20}px));--bd:${d}s;--bdl:${l}s"><b></b><b></b><b></b></i>`).join("")}</div>`})();
 /* a boss's figure: the strip of its idle loop (BFIG) in a box one frame wide; z = shown px per strip px (the strip's own when
    left out); "" when the boss has no figure. cardFig: the picture on a boss's card in the Bosses list, fitted to a 112x116 box:
    its figure, else its portrait (the Warden and the Wither), else nothing (the caller puts the Act's emblem). */

@@ -65,9 +65,11 @@
   // the sky's layout (skyArt returns where it put things; boxes are [x0, x1, y0, y1] in art pixels, 2 px each). A floating island hangs in open sky: not over a cloud bank, the sun, the castle or a box the page asks to keep free
   // (the words of the hero: the painter is given them). The drifting cloud sprites fly in the bands between the banks, so a small cloud never crosses a big one. The castle's wall has rock under its whole width
   // (it stands on the peak, not on a box laid over it) and its smoke rises from its chimney.
-  { const cl = document.querySelector('#pmap .climb'), hit = (a, b) => a[0] < b[1] && a[1] > b[0] && a[2] < b[3] && a[3] > b[2], keep = [120, 560, 30, 130];
+  { const cl = document.querySelector('#pmap .climb'), hit = (a, b) => a[0] < b[1] && a[1] > b[0] && a[2] < b[3] && a[3] > b[2], keep = [40, 300, 40, 100];
     for (const [w, h] of [[cl.clientWidth + 48, cl.clientHeight], [1968, 940], [1328, 656], [816, 995]]) {
-      const L = skyArt(w, h, 2, [[keep[0], keep[2], keep[1], keep[3]]]).layout, tag = `${w}x${h}`;   // skyArt takes a box as [x0, y0, x1, y1]
+      const L = skyArt(w, h, 2, [[keep[0], keep[2], keep[1], keep[3], 1]]).layout, tag = `${w}x${h}`;   // skyArt takes a box as [x0, y0, x1, y1, 1 if the words are see-through]
+      L.banks.forEach((b, n) => { if (hit(b, keep)) bad.push(`climb: at ${tag} cloud bank ${n} is behind see-through words (it shows as a dark smudge in the search field)`); });
+      if (L.starLow > L.H * .34) bad.push(`climb: at ${tag} a star is painted ${Math.round(L.starLow / L.H * 100)}% of the way down, where the sky is the bright pink of the horizon`);
       if (w > 1100 && !L.isl.length) bad.push(`climb: no floating island in the sky at ${tag}`);
       L.isl.forEach((b, n) => {
         if (L.banks.some(k => hit(b, k))) bad.push(`climb: at ${tag} island ${n} hangs over a cloud bank (the island is in front of the cloud and reads as sunk in it)`);
@@ -78,6 +80,28 @@
     cl.querySelectorAll('.dcl').forEach((c, n) => { if (getComputedStyle(c).display === 'none') return;
       const t = parseFloat(c.style.top) / 100 * H, hh = 68 * (parseFloat(getComputedStyle(c).scale) || 1);
       L0.banks.forEach(k => { if (t < k[3] * 2 + 4 && t + hh > k[2] * 2 - 4) bad.push(`climb: drifting cloud ${n} (${Math.round(t)}-${Math.round(t + hh)} px down) crosses a cloud bank (${k[2] * 2}-${k[3] * 2} px)`); }); });
+    // the birds fly below the see-through words (the card, the title, the chips, the search), not across them; the stars of the page's own layer stay in the top of the sky
+    if (!matchMedia('(max-width:1100px)').matches) { const ct = cl.getBoundingClientRect().top, txt = [...cl.querySelectorAll('.lg, .pcap, .tcs, .hsearch')].map(e => { const r = e.matches('.lg') ? (g => (g.selectNodeContents(e), g.getBoundingClientRect()))(document.createRange()) : e.getBoundingClientRect(); return r.width ? r.bottom - ct : 0; });
+      cl.querySelectorAll('.dbirds').forEach((b, n) => { const t = parseFloat(getComputedStyle(b).top); if (t < Math.max(...txt)) bad.push(`climb: birds ${n} fly ${Math.round(t)} px down, over the words that end ${Math.round(Math.max(...txt))} px down`); }); }
+    { const y = [...getComputedStyle(cl.querySelector('.dstars')).boxShadow.matchAll(/\) (-?[\d.]+)px (-?[\d.]+)px/g)].map(m => +m[2]); if (!y.length || Math.max(...y) > innerHeight * .26) bad.push(`climb: the page's stars reach ${Math.round(Math.max(...y))} px down (more than a quarter of the screen: they show on the bright sky)`); }
+    // the sun is behind the far range, so the slope that faces it (the left one) is rimmed with light and the one turned away is not: on the peak, the crest is brighter than the rock 5 rows below it on the left flank, and the same as it on the right
+    { const A = skyArt(cl.clientWidth + 48, cl.clientHeight, 2), fd = A.front, [pcx, phw] = A.layout.peak, px = (x, y) => { const i = (y * fd.width + x) * 4, d = fd.data; return [d[i], d[i + 1], d[i + 2], d[i + 3]]; },
+        gain = x => { let y = 0; while (y < fd.height && px(x, y)[3] < 250) y++; const l = c => c[0] * .3 + c[1] * .59 + c[2] * .11; return l(px(x, y)) - l(px(x, y + 5)); };
+      const gL = gain(Math.round(pcx - phw - 24)), gR = gain(Math.round(pcx + phw + 24)); if (!(gL > 25 && gR < 12)) bad.push(`climb: the peak's crest is ${Math.round(gL)} brighter than its rock on the sun's side and ${Math.round(gR)} on the far side (the sun's side should be rimmed with light, the far side not)`);
+    // the sun: it moves along the horizon out from behind a box of see-through words put over its place (as on a short screen), its disc clear of the box; and the rays (the .dsun box) turn round its middle, not a few pixels off
+    { const S0 = skyArt(cl.clientWidth + 48, cl.clientHeight, 2).layout.sun, bx = [S0[0] - 40, S0[1] - 40, S0[0] + 40, S0[1] + 40, 1], S1 = skyArt(cl.clientWidth + 48, cl.clientHeight, 2, [bx]).layout.sun, r = 17.2 * 2;
+      if (S1[0] === S0[0]) bad.push('climb: the sun stays behind a card put over it');
+      else if (S1[0] + r > bx[0] - 8 && S1[0] - r < bx[2] + 8 && S1[1] + r > bx[1] - 8 && S1[1] - r < bx[3] + 8) bad.push('climb: the sun moved but its disc is still behind the card');
+      const M0 = skyArt(cl.clientWidth + 48, cl.clientHeight, 2).layout.moon, mb = [M0[0] - 30, M0[1] - 30, M0[0] + 30, M0[1] + 30, 1], M1 = skyArt(cl.clientWidth + 48, cl.clientHeight, 2, [mb]).layout.moon;   // the moon: the same, with a box over its place (the title, on a tablet)
+      if (M1[0] === M0[0] && M1[1] === M0[1]) bad.push('climb: the moon stays behind a card put over it');
+      else if (M1[0] + 18 > mb[0] && M1[0] - 18 < mb[2] && M1[1] + 18 > mb[1] && M1[1] - 18 < mb[3]) bad.push('climb: the moon moved but its disc is still behind the card');
+      const ds = cl.querySelector('.dsun').getBoundingClientRect(), co = cl.getBoundingClientRect(), last = Object.values(SKYC).at(-1), mid = ds.left - co.left + ds.width / 2;
+      if (Math.abs(mid - (last.layout.sun[0] * 2 - 24)) > 2) bad.push(`climb: the rays turn round x ${Math.round(mid)} px but the sun is at ${Math.round(last.layout.sun[0] * 2 - 24)} px`); }
+    // the lamps: one glow for every painted torch and window, each on a lit pixel of the castle
+    { const gl = [...cl.querySelectorAll('.dfl')];
+      if (gl.length !== L0.lights.length || !gl.length) bad.push(`climb: ${gl.length} lamp glows for ${L0.lights.length} lamps of the castle`);
+      L0.lights.forEach(([x, y], n) => { const d = px(Math.round(x), Math.round(y)); if (d[0] < 230 || d[1] < 170) bad.push(`climb: lamp ${n} is not on a lit pixel (${[...d].join(',')})`);
+        const e = gl[n]; if (e && (parseFloat(e.style.getPropertyValue('--x')) !== Math.round(x) * 2 - 24 || parseFloat(e.style.getPropertyValue('--y')) !== Math.round(y) * 2)) bad.push(`climb: the glow of lamp ${n} is not over the lamp`); }); } }   // (the lamps are read from the same fresh picture as the rim, so they sit inside its block)
     const g = cl.querySelector('.dart1').getContext('2d'), row = L0.castle[6] + 2; let gaps = 0;
     for (let x = L0.castle[4]; x <= L0.castle[5]; x += 2) if (g.getImageData(x, row, 1, 1).data[3] < 250) gaps++;
     if (gaps) bad.push(`climb: the castle's wall has ${gaps} gaps of sky under it (it should stand on rock)`);
