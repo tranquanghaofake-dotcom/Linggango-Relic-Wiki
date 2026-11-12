@@ -1339,3 +1339,12 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   4. 10 món của Mage và 21 trong 22 món của Summon nằm ở nhiều nhóm nên số trên các nút không cộng lại bằng "All kinds" (Melee và Ranged thì cộng đủ, và được kiểm).
   5. Các mục chưa sửa của những đợt trước giữ nguyên.
 - **Open**: chủ wiki chọn tiếp trong mục 14.6 của plan nếu muốn; đưa nhánh vào `main` khi chủ wiki đồng ý. Các mục open của đợt multilingual giữ nguyên.
+
+## 2026-11-12: nhánh `claude/amazing-wozniak-jflbuy` vào `main` (`64e0a55`), site đã chạy bản mới
+- Chủ wiki bảo "merge lên main". `main` đang ở `8c0a917`, là tổ tiên trực tiếp của nhánh, nên đây là fast-forward 7 commit (`4d27957` … `64e0a55`): không có merge commit, không ghi đè lịch sử.
+- **Kiểm sau khi đẩy**: workflow `site` run #14 (commit `64e0a55`) `success`, 5 phút 26 giây. `/build.txt` trên site ghi `64e0a55d766f914910270e711cd92e35145a458c 2026-11-12T00:55:18Z`. Các script đang chạy trên site chứa mã mới (`gCurioGain` ở `gear.js`, `ENDB` ở `app.js`). Mở trang thật bằng trình duyệt: trang chủ 13 bậc và 13 hình boss; `#gear/12/MA/w` có nhóm "All kinds 58 | Any school 4 | Fire 10 | Ice 2 | Lightning 6 | Ender 10 …"; `#changes` có 8 chip; 0 lỗi script, 0 request lỗi.
+- Các dòng "chưa vào `main`" trong các mục ngày 2026-11-11 (đợt 1 đến 7) đúng vào lúc viết; từ nay không còn đúng.
+- **Hai việc không làm khi merge** (nói rõ để khỏi hiểu nhầm là đã làm):
+  1. Quy tắc "Review before merge" của `CLAUDE.md` cho việc kiến trúc: tôi không chạy `/code-review` riêng trên nhánh trước khi vào `main` (nó khởi động nhiều agent, trái với yêu cầu không dùng agent nếu chủ wiki không bảo). Có `bash build/check.sh` xanh ở mỗi đợt, nhưng đó là kiểm tra tự động, không thay cho một người đọc lại mã.
+  2. Mục trên trang Changes nói về diện mạo mới: `build/checks/text.js` buộc ngày "Last checked" ở chân trang không cũ hơn mục Changes mới nhất. Thêm mục ngày 12/11 nghĩa là phải đổi "Last checked 31 Oct 2026", tức khẳng định dữ liệu được kiểm lại, mà tôi chưa kiểm lại. Chờ chủ wiki quyết (và cần dịch 4 ngôn ngữ).
+- **Open**: mục Changes về diện mạo mới (trên); `/code-review` nếu chủ wiki muốn; các ý nhỏ ở `docs/plans/2026-11-11-the-climb.md` mục 14.6; các mục chưa sửa của những đợt trước giữ nguyên (51 selector `.hero` chết trong `v5.css`; tên Keeper tiếng Nga dài; "Evocation" và "Summon" cùng là "Призыв" ở tiếng Nga). Các mục open của đợt multilingual giữ nguyên.
