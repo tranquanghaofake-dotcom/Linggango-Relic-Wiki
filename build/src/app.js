@@ -1122,7 +1122,7 @@ const CHESTN=36,SHELFN=18;
    with the pointer (pathMapWire: --mx, --my). */
 /* The Path's sky as pixel art, drawn once per size (PX css px to an art pixel): behind the sun, the sky (the page's gradient as dithered colour bands, a warm glow round the sun, stars);
    in front of it, the land (three ridges with a castle and pines, mist between them, three floating islands); and three cloud sprites (violet tops, undersides the sun still lights).
-   Seeded, so every visit draws the same sky. Returns {back, front, clouds: [data URLs]}. */
+   Seeded, so every visit draws the same sky. Returns {back, front (ImageData), clouds: [data URLs]}. */
 function skyArt(w,h,PX){
  const W=Math.ceil(w/PX),H=Math.ceil(h/PX);let q=11;const R=()=>(q=q*16807%2147483647)/2147483647;
  const hex=s=>[1,3,5].map(i=>parseInt(s.slice(i,i+2),16)),mix=(a,c,t)=>a.map((v,i)=>v+(c[i]-v)*t);
@@ -1132,7 +1132,7 @@ function skyArt(w,h,PX){
   const put=(X,Y,c,a=1)=>{if(X<0||Y<0||X>=W||Y>=Hb)return;const i=(Y*W+X)*4,da=d[i+3]/255,oa=a+da*(1-a);if(a>=1||!da){d[i]=c[0];d[i+1]=c[1];d[i+2]=c[2];d[i+3]=a*255;return}
    for(let k=0;k<3;k++)d[i+k]=(c[k]*a+d[i+k]*da*(1-a))/oa;d[i+3]=oa*255};
   const rect=(X,Y,w,h,c,a)=>{for(let j=0;j<h;j++)for(let i=0;i<w;i++)put(X+i,Y+j,c,a)};
-  return {c,x,im,put,rect,done:()=>{x.putImageData(im,0,0);return c}}};
+  return {c,x,im,put,rect}};
  // 1 the sky
  const B=buf(),ST=[[0,"#141038"],[.24,"#2e1d62"],[.46,"#6d2f7c"],[.64,"#c8506d"],[.80,"#f58a54"],[.93,"#ffc66e"],[1,"#ffe3a0"]].map(([t,c])=>[t,hex(c)]);
  const at=t=>{for(let i=1;i<ST.length;i++)if(t<=ST[i][0]){const [t0,c0]=ST[i-1],[t1,c1]=ST[i];return mix(c0,c1,(t-t0)/(t1-t0))}return ST.at(-1)[1]};
@@ -1167,14 +1167,14 @@ function skyArt(w,h,PX){
     x.fillStyle=`rgba(${k.map(Math.round)},${.7-.12*(1-t)})`;x.fillRect(i,j,1,1)}}
   return C.toDataURL()});
  // the land stands on the foot of the scene, at most 220 art pixels (880) tall: on a phone, where the hero is a column of sky, it does not climb to the text
- const FC=document.createElement("canvas");FC.width=W;FC.height=H;FC.getContext("2d").drawImage(F.done(),0,O);
- return {back:B.done(),front:FC,clouds}}
+ const FD=new ImageData(W,H);FD.data.set(F.im.data,O*W*4);
+ return {back:B.im,front:FD,clouds}}   // pixel data, not canvases: a canvas kept in the cache can come back empty (it did, after thousands of page draws in check.js)
 
 /* the hero's sky and land painted into its two canvases, and the cloud sprites into --cl0..2; one painting per size is kept (a second visit paints nothing) */
 const SKYC={};
 function skyPaint(cl){const a=cl.querySelector(".dart0"),b=cl.querySelector(".dart1"),d=cl.querySelector(".dsky");if(!a||!b||!d)return;
  const w=cl.clientWidth+48,h=cl.clientHeight,k=w+"x"+h;if(!w||!h)return;let c=SKYC[k];if(!c){const ks=Object.keys(SKYC);if(ks.length>3)delete SKYC[ks[0]];c=SKYC[k]=skyArt(w,h,4)}
- for(const [cv,src] of [[a,c.back],[b,c.front]]){cv.width=src.width;cv.height=src.height;cv.getContext("2d").drawImage(src,0,0)}
+ for(const [cv,src] of [[a,c.back],[b,c.front]]){cv.width=src.width;cv.height=src.height;cv.getContext("2d").putImageData(src,0,0)}
  c.clouds.forEach((u,i)=>d.style.setProperty("--cl"+i,`url(${u})`))}
 const SKY=(()=>{let q=7;const r=()=>(q=q*16807%2147483647)/2147483647;
  const stars=Array.from({length:90},()=>{const big=r()<.18;return `${(r()*100).toFixed(2)}vw ${r()*300|0}px 0 ${big?1:0}px rgba(255,255,255,${(.35+r()*.6).toFixed(2)})`}).join(",");

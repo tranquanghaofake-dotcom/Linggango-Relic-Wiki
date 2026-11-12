@@ -51,12 +51,13 @@
     if (/gradient/.test(cs.backgroundImage) && /rgba\(0, 0, 0, 0?\.[5-9]/.test(cs.backgroundImage)) bad.push(`climb: column ${i} has a dark shade over its stone`);
     if (getComputedStyle(b.querySelector('.gl b')).animationIterationCount !== 'infinite' && !matchMedia('(prefers-reduced-motion:reduce)').matches) bad.push(`climb: the lights of column ${i} do not twinkle`); });
   // the sky is painted (app.js skyPaint): both canvases have a picture, the sky's top is not the land and the land's foot is opaque rock, the clouds are sprites, and the old CSS hills and cloud shapes are gone
-  { const cl = document.querySelector('#pmap .climb'), a0 = cl.querySelector('.dart0'), a1 = cl.querySelector('.dart1');
+  { await new Promise(r => requestAnimationFrame(() => setTimeout(r, 250)));   // skyPaint runs in the frame after the page is drawn
+    const cl = document.querySelector('#pmap .climb'), a0 = cl.querySelector('.dart0'), a1 = cl.querySelector('.dart1');
     if (!a0 || !a1 || !a0.width || !a1.width || a0.width !== a1.width || a0.height !== a1.height) bad.push('climb: the sky canvases are missing, empty or of different sizes');
     else { const px = (c, x, y) => c.getContext('2d').getImageData(x, y, 1, 1).data[3];
       if (px(a0, a0.width >> 1, 2) < 250) bad.push('climb: the top of the sky is not painted');
       if (px(a1, a1.width >> 1, a1.height - 2) < 250) bad.push('climb: the foot of the land is not painted');
-      if (px(a1, a1.width >> 1, 2) < 1) bad.push('climb: the land fills the whole scene'); }
+      if (px(a1, a1.width >> 1, 2) > 0) bad.push('climb: the land fills the whole scene'); }
     if (cl.querySelector('.dr1, .dr2')) bad.push('climb: the CSS hills are still there beside the painted land');
     if (!/url\(/.test(getComputedStyle(cl.querySelector('.dcl')).backgroundImage)) bad.push('climb: a cloud has no sprite'); }
   // the walk loops (BWALK, with the late pictures): each belongs to a figure, shares its scale and its ground, and its picture is as wide as its frames say
