@@ -83,10 +83,31 @@ window.figure=async(rec,{ppu=40,fit=1,frames=12,anims=['idle'],yaw=30,pitch=10,f
   if(outline&&!fly){q.globalCompositeOperation='source-atop';const gr=q.createLinearGradient(0,H*.86,0,H);gr.addColorStop(0,'rgba(22,10,42,0)');gr.addColorStop(1,'rgba(22,10,42,.34)');q.fillStyle=gr;q.fillRect(0,0,W*l.n,H);q.globalCompositeOperation='source-over'}
   st.png=c.toDataURL(type,1).split(',')[1]}
  return out};
-// A boss with no model record (a side boss drawn by another tool): its finished picture, cut to the pixels it covers.
-window.still=async(uri,outline=0)=>{const im=new Image();im.src=uri;await im.decode();const t=outline,c=document.createElement('canvas');c.width=im.width+2*t;c.height=im.height+2*t;
- const q=c.getContext('2d',{willReadFrequently:true});q.drawImage(im,t,t);if(t)outlined(q,c,t);const d=q.getImageData(0,0,c.width,c.height).data;let x0=c.width,x1=-1,y0=c.height,y1=-1;
- for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++)if(d[(y*c.width+x)*4+3]>8){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}
- const o=document.createElement('canvas');o.width=x1-x0+1;o.height=y1-y0+1;o.getContext('2d').drawImage(c,x0,y0,o.width,o.height,0,0,o.width,o.height);
- return {w:o.width,h:o.height,png:o.toDataURL('image/png').split(',')[1]}};
+// A boss with no model record (a side boss drawn by another tool): its finished picture, cut to the pixels it covers, and dressed
+// like the figures: the blacks lifted to a violet floor (a black cloak shows its folds against the sky), the edges that face the sun
+// (left, top) lit warm, a one-texel outline, the feet shaded. `texel` is the picture's own pixels to a skin texel (measured: the most
+// common run of equal pixels), the rim and the outline are one texel wide. `clean` clears the rows above its first `clean` rows
+// from the top (and warm-tinted pixels in the next `clean`): a thin plane seen edge-on that the renderer drew as stray lines.
+window.still=async(uri,{outline=0,texel=5,clean=0}={})=>{const im=new Image();im.src=uri;await im.decode();
+ const c=document.createElement('canvas');c.width=im.width;c.height=im.height;const q=c.getContext('2d',{willReadFrequently:true});q.drawImage(im,0,0);
+ const W0=c.width,H0=c.height,id=q.getImageData(0,0,W0,H0),d=id.data,bbox=()=>{let x0=W0,x1=-1,y0=H0,y1=-1;
+  for(let y=0;y<H0;y++)for(let x=0;x<W0;x++)if(d[(y*W0+x)*4+3]>8){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}return [x0,y0,x1,y1]};
+ if(clean){const top=bbox()[1];for(let y=top;y<top+2*clean&&y<H0;y++)for(let x=0;x<W0;x++){const i=(y*W0+x)*4;
+   if(d[i+3]&&(y<top+clean||(d[i]-d[i+2]>=12&&d[i]>=40)))d[i+3]=0}}
+ const [x0,y0,x1,y1]=bbox(),w=x1-x0+1,h=y1-y0+1,t=outline,K=texel,A=new Uint8Array(w*h),px=new Uint8ClampedArray(w*h*4);
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++){const si=((y+y0)*W0+x+x0)*4,di=(y*w+x)*4;for(let k=0;k<4;k++)px[di+k]=d[si+k];A[y*w+x]=px[di+3]>8?1:0}
+ const scr=(v,t,k)=>255-(255-v)*(255-t*k)/255,LIFT=[46,34,66],RIM=[150,92,44],TOP=[110,70,40];
+ for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4;if(!A[y*w+x])continue;let c3=[px[i],px[i+1],px[i+2]];
+  c3=c3.map((v,k)=>scr(v,LIFT[k],1));
+  if(x-K<0||!A[y*w+x-K])c3=c3.map((v,k)=>scr(v,RIM[k],1));
+  if(y-K<0||!A[(y-K)*w+x])c3=c3.map((v,k)=>scr(v,TOP[k],.8));
+  px[i]=c3[0];px[i+1]=c3[1];px[i+2]=c3[2]}
+ const o=document.createElement('canvas');o.width=w+2*t;o.height=h+2*t;const oq=o.getContext('2d');
+ const tmp=document.createElement('canvas');tmp.width=w;tmp.height=h;tmp.getContext('2d').putImageData(new ImageData(px,w,h),0,0);oq.drawImage(tmp,t,t);
+ if(t)outlined(oq,o,t);
+ oq.globalCompositeOperation='source-atop';const gr=oq.createLinearGradient(0,o.height*.86,0,o.height);gr.addColorStop(0,'rgba(22,10,42,0)');gr.addColorStop(1,'rgba(22,10,42,.34)');oq.fillStyle=gr;oq.fillRect(0,0,o.width,o.height);
+ // twice the size, nearest: like the strips (drawn at twice the shown size). A pixelated picture of 256 px or less is snapped by ux.js to a whole
+ // scale of its own size (here 1/2 instead of 0.8: a half-size, off-centre Apollyon); a strip wider than that is left alone.
+ const u=document.createElement('canvas');u.width=o.width*2;u.height=o.height*2;const uq=u.getContext('2d');uq.imageSmoothingEnabled=false;uq.drawImage(o,0,0,u.width,u.height);
+ return {w:u.width,h:u.height,png:u.toDataURL('image/png').split(',')[1]}};
 </script></body></html>

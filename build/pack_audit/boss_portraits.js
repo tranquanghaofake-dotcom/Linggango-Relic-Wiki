@@ -24,13 +24,15 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
   // Size rule: a boss of MED blocks is CSSH px tall on the page; the others follow the square root of their in-game height
   // (so Arion at 3.1 blocks and Sanghor at 6.8 differ, but not by 2.2 times), within LO..HI, and no frame is wider than MAXW.
   // OPT: the Ender Dragon flies (the page lifts it behind its neighbours; no ground, its frame is its lowest pixel) and is seen from
-  // its own side (yaw 210: head to the right, as if climbing the stairs; seen from the front it is a flat black wedge); it is wings,
+  // its own side (yaw -30, pitch 20: three-quarters from the front and above, head to the right as if climbing the stairs, its eyes
+  // showing; from the side or the front it is a flat black wedge); it is wings,
   // not a body, so its size follows its width (free: no whole texels, outline 2 px).
   // The last Act has no Keeper: its step shows the Act's end-game boss from STILL (a finished side-boss picture, no loop).
   if (a.includes('--figs')) {
     const PATH = ['iron_colossus', 'goblin_lord', 'arion', 'eldorath', 'zoranth_forgotten', 'ender_dragon', 'elvenite_paladin', 'vaedric', 'discord', 'sanghor', 'zoranth_newborn', 'nyxaris'];
-    const OPT = { ender_dragon: { fly: 1, size: 1.2, maxw: 350, yaw: 210, pitch: 15, free: 1 } };
-    const STILL = { apollyon: ['side_imgs.json', 'Apollyon'] }, SRC = 2, CSSH = 176, MED = 4.8, LO = 0.95, HI = 1.2, MAXW = 520, PPU = 40, YAW = 14, YAWS = [14, 10, 6, 0], PROT = 52, FR = { idle: 6, walk: 8 }, ANIMS = ['idle', 'walk'], figs = {}, walks = {};
+    const OPT = { ender_dragon: { fly: 1, size: 1.2, maxw: 350, yaw: -30, pitch: 20, free: 1, frames: 12 } };
+    const STILL = { apollyon: ['side_imgs.json', 'Apollyon', { outline: 5, texel: 5, clean: 34, z: 0.4 }] },   // drawn at twice its size (5 px a texel -> 10), z 0.4: 4 whole shown px to a texel
+      SRC = 2, CSSH = 176, MED = 4.8, LO = 0.95, HI = 1.2, MAXW = 520, PPU = 40, YAW = 14, YAWS = [14, 10, 6, 0], PROT = 52, FR = { idle: 6, walk: 8 }, ANIMS = ['idle', 'walk'], figs = {}, walks = {};
     const fig = (rec, o) => page.evaluate(([r, o]) => figure(r, o), [rec, { ppu: PPU, yaw: YAW, anims: ANIMS, type: 'image/webp', ...o }]);
     for (const k of PATH) { const rec = M[k], o = OPT[k] || {}; if (!rec) { console.log(k, 'has no model'); process.exitCode = 1; continue; }
       const v = { fly: !!o.fly, ...(o.yaw != null && { yaw: o.yaw }), ...(o.pitch != null && { pitch: o.pitch }) }, m = await fig(rec, { ...v, frames: 6, measure: true }), mw = o.maxw || MAXW;
@@ -40,7 +42,7 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
       let tx = Math.max(2, 2 * Math.round(want / tall / 2)), dr = { ...v, lit: 'sun', ...(o.yaw == null && { yaw: YAWS[0] }) }, r, prot = 0;
       if (o.free) {   // the dragon is wings, not a body: its size follows its width, not whole texels (a 2 px texel is already too wide)
         let fit = want / (m.blocks * PPU); if (m.strips.idle.w * fit > mw) fit = mw / m.strips.idle.w; tx = 0;
-        r = await fig(rec, { ...dr, fit, outline: 2, frames: FR }); }
+        r = await fig(rec, { ...dr, fit, outline: 2, frames: o.frames || FR }); }
       else {   // the turn: YAWS from the most turned; a weapon or an antler that reaches further than PROT beyond the body (it would lie over the
         // neighbour's body: steps are about 26 shown px wider than a body) takes the next, straighter turn
         for (const y of YAWS) { dr.yaw = y; tx = Math.max(2, 2 * Math.round(want / tall / 2));
@@ -51,8 +53,8 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
       figs[k] = { src: 'data:image/webp;base64,' + i.png, w: i.w, h: i.h, bw: i.bw, n: i.n, ms: i.ms, z: 1 / SRC, tx }; if (o.fly) figs[k].fly = 1;
       if (w) walks[k] = { src: 'data:image/webp;base64,' + w.png, w: w.w, h: w.h, n: w.n, ms: w.ms };
       console.log(k.padEnd(18), `idle ${i.w}x${i.h} body ${i.bw} yaw ${dr.yaw} texel ${tx} ${(i.png.length / 1024).toFixed(0)} kB`, w ? `walk ${w.w}x${w.h} ${(w.png.length / 1024).toFixed(0)} kB` : 'no walk', `${m.blocks} blocks`); }
-    for (const [k, [f, name]] of Object.entries(STILL)) { const r = await page.evaluate(u => still(u, 3), JSON.parse(fs.readFileSync(path.join(P, f)))[name]);
-      figs[k] = { src: 'data:image/png;base64,' + r.png, w: r.w, h: r.h, bw: r.w, n: 1, ms: 0, z: +(CSSH / r.h).toFixed(3) }; console.log(k.padEnd(18), `${r.w}x${r.h} still`); }
+    for (const [k, [f, name, so]] of Object.entries(STILL)) { const r = await page.evaluate(([u, o]) => still(u, o), [JSON.parse(fs.readFileSync(path.join(P, f)))[name], so]);
+      figs[k] = { src: 'data:image/png;base64,' + r.png, w: r.w, h: r.h, bw: r.w, n: 1, ms: 0, z: so.z }; console.log(k.padEnd(18), `${r.w}x${r.h} still`); }
     for (const [f, o] of [['boss_figs.json', figs], ['boss_walks.json', walks]]) { fs.writeFileSync(path.join(P, f), JSON.stringify(o)); console.log(f, Object.keys(o).length, 'records,', (fs.statSync(path.join(P, f)).size / 1e6).toFixed(2), 'MB'); }
     await close(); return;
   }

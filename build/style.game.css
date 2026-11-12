@@ -1893,7 +1893,7 @@ body.hub #pmap>.climb{grid-column:1/-1}
 body.hub:not(.scrolled) .top{background:#141038;box-shadow:none}
 body.hub:not(.scrolled) .top::after{opacity:0}
 
-.climb{--base:clamp(118px,17svh,196px);--step:clamp(14px,2.3svh,24px);--fs:1;--sun:#ffd35e;--dusk:rgba(30,14,70,.7);position:relative;isolation:isolate;overflow:hidden;
+.climb{--blk:104px;--base:clamp(118px,17svh,196px);--step:clamp(14px,2.3svh,24px);--fs:1;--sun:#ffd35e;--dusk:rgba(30,14,70,.7);position:relative;isolation:isolate;overflow:hidden;
  display:grid;grid-template-columns:minmax(0,440px) minmax(0,420px) minmax(0,1fr);grid-template-rows:auto auto auto;align-content:start;align-items:start;gap:var(--s3) var(--s5);
  height:calc(100vh - var(--toph,64px));height:calc(100svh - var(--toph,64px));min-height:640px;margin:0;padding:var(--s5) var(--s6) 0;color:#fff8ec;
  background:linear-gradient(180deg,#141038 0%,#2e1d62 24%,#6d2f7c 46%,#c8506d 64%,#f58a54 80%,#ffc66e 93%,#ffe3a0 100%)}
@@ -1929,9 +1929,9 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 .climb .dcl::after{left:-28px;top:28px;width:224px;height:28px}
 .climb .dsky::after{content:"";position:absolute;inset:auto 0 0 0;height:58%;background:radial-gradient(ellipse 46% 80% at 21% 78%,rgba(255,196,110,.55),transparent 70%),linear-gradient(transparent,rgba(255,150,90,.22))}
 /* the foot of the staircase sinks into the cave rock the rest of the page is cut from */
-.climb::after{content:"";position:absolute;inset:auto 0 0 0;z-index:3;height:56px;pointer-events:none;
- background:linear-gradient(rgba(14,14,16,.74),rgba(14,14,16,.74)),var(--cave) 0 0/2048px 1280px fixed;image-rendering:pixelated;
- -webkit-mask-image:linear-gradient(transparent,#000 82%);mask-image:linear-gradient(transparent,#000 82%)}
+/* the foot of the scene is the ground: a hard edge of the cave's own stone, not a fade */
+.climb::after{content:"";position:absolute;inset:auto 0 0 0;z-index:3;height:40px;pointer-events:none;
+ background:linear-gradient(rgba(16,14,22,.5),rgba(16,14,22,.5)),var(--cave) 0 0/2048px 1280px fixed;image-rendering:pixelated;box-shadow:inset 0 4px 0 rgba(255,255,255,.16),0 -4px 0 rgba(0,0,0,.45)}
 
 /* the title: the pack's line, search, the reader's own buttons, and what the staircase is */
 .climb .lg{grid-area:1/1/2/3;margin:0;font-size:clamp(40px,6.1vw,88px);line-height:.84;color:#fff8ec;text-shadow:0 5px 0 var(--dusk);white-space:nowrap}
@@ -1953,9 +1953,10 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 /* the staircase: a tablist laid over the whole sky, so a beacon can rise from a step to the top */
 #pmap .ptrack{position:absolute;inset:0;z-index:1;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));align-items:end;pointer-events:none}
 #pmap .pxp{display:none}
-#pmap .pn{--shade:linear-gradient(rgba(20,10,40,.18),rgba(20,10,40,.62));--bt:22px;position:relative;display:block;min-width:0;height:calc(var(--base) + var(--i)*var(--step) + 16px);padding:0;border:0;cursor:pointer;pointer-events:auto;color:#fff;font:inherit;
+/* a step is a block of stone: a lit tread (the sun is low on the left: warm at the top edge) over a shaded mass, split by a hard seam, no fade */
+#pmap .pn{--shade:linear-gradient(rgba(255,214,150,.16),rgba(20,10,40,.08) 40px,rgba(20,10,40,.3) var(--blk),rgba(0,0,0,.6) var(--blk),rgba(0,0,0,.6) calc(var(--blk) + 3px),rgba(14,9,26,.66) calc(var(--blk) + 3px),rgba(14,9,26,.88));--bt:22px;position:relative;display:block;min-width:0;height:calc(var(--base) + var(--i)*var(--step) + 16px);padding:0;border:0;cursor:pointer;pointer-events:auto;color:#fff;font:inherit;
  background:var(--shade),var(--tex) 0 0/64px 64px;image-rendering:pixelated;
- box-shadow:inset 3px 0 0 rgba(255,255,255,.1),inset 0 4px 0 rgba(255,255,255,.22),inset -3px 0 0 rgba(0,0,0,.28);transition:height .22s var(--ease-out)}
+ box-shadow:inset 0 6px 0 color-mix(in srgb,var(--tc) 38%,rgba(255,236,200,.4)),inset 4px 0 0 rgba(255,190,120,.16),inset -4px 0 0 rgba(0,0,0,.3);transition:height .22s var(--ease-out)}
 #pmap .ptrack .pn[aria-selected=true]{height:calc(var(--base) + var(--i)*var(--step) + 28px)}
 #pmap .ptrack .pn:hover{height:calc(var(--base) + var(--i)*var(--step) + 40px)}
 #pmap .sw{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.14) 50%,transparent 58%) 220% 0/320% 100% no-repeat;animation:stairLight 6.5s linear calc(var(--i)*.45s - 6.5s) infinite}
@@ -1973,9 +1974,8 @@ body.hub:not(.scrolled) .top::after{opacity:0}
  animation:stepUp .5s var(--ease-out) both;animation-delay:calc(var(--i)*45ms)}
 /* a boss's figure (app.js figHtml): a box one frame wide over the strip of its loop; --z strip px to shown px, --fs the place's own scale */
 .pk{display:block;overflow:hidden;width:calc(var(--w)*var(--z)*var(--fs,1)*1px);height:calc(var(--h)*var(--z)*var(--fs,1)*1px)}
-/* the strips are drawn at whole texels (boss_portraits.html figure): shown as such, never smoothed; a finished picture (.st) is not pixel art */
+/* the strips are drawn at whole texels (boss_portraits.html figure; the end boss's picture at 5 px a texel shown at x0.8 = 4): shown as such, never smoothed */
 .pk img{display:block;width:calc(var(--n)*100%);max-width:none;height:100%;image-rendering:pixelated}
-.pk.st img{image-rendering:auto}
 #pmap .pk{transform-origin:50% 100%;scale:calc(var(--sc)*var(--fit,1));
  background:radial-gradient(ellipse 38% 9px at 50% 100%,rgba(22,10,42,.5),rgba(22,10,42,0));filter:brightness(1);transition:scale .22s var(--ease-out),filter .22s}
 #pmap .pfr.fly .pk{background:none}
@@ -2130,7 +2130,6 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
 .bcardl .bst{width:112px;height:112px;image-rendering:auto}
 .bcardl:is(:hover,:focus-visible) .pk:not(.st) img,.ip-stage .stage .pk:not(.st) img{animation:figLoop calc(var(--ms)*1ms) steps(var(--n)) infinite}
 .ip-stage .stage .pk img{width:calc(var(--n)*100%);height:100%;max-width:none;max-height:none;object-fit:fill;image-rendering:pixelated}
-.ip-stage .stage .pk.st img{image-rendering:auto}
 @media (max-width:640px){.ip-stage .stage .pk{--fs:.75}}
 
 /* Curios: an open Act's curios lie in a sunken tray, as the home page's shelves do */

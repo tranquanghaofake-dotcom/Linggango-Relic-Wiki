@@ -24,11 +24,11 @@
     // the body's width is known and inside the frame (the page keeps bodies over their own step); only a flying figure is lifted off its step
     if (!(f.bw > 0 && f.bw <= f.w)) bad.push(`climb: the figure of ${k} has no body width`);
     // the strip is pixel art drawn at whole texels (an even number of strip pixels to a skin texel, so the half-size page shows whole pixels) and shown unsmoothed;
-    // a flying figure (wings) is sized by its width and a finished picture (the end boss) is not pixel art: shown smoothed
+    // a flying figure (wings) is sized by its width, not by whole texels; the end boss's picture is a nearest-texel render shown at a whole number of pixels a texel
     const ir = getComputedStyle(im).imageRendering, art = NEXTB[a] && !f.fly;
     if (art && !(Number.isInteger(f.tx) && f.tx >= 2 && f.tx % 2 === 0)) bad.push(`climb: the strip of ${k} is not drawn at whole texels (tx ${f.tx})`);
     if (art && ir !== 'pixelated') bad.push(`climb: the figure of ${k} is shown ${ir}, not pixelated`);
-    if (!NEXTB[a] && ir === 'pixelated') bad.push(`climb: the finished picture of ${k} is shown pixelated`);
+    if (!NEXTB[a] && ir !== 'pixelated') bad.push(`climb: the end boss ${k} is shown ${ir}, not pixelated`);
     if (!!f.fly !== b.querySelector('.pfr').classList.contains('fly')) bad.push(`climb: ${k} ${f.fly ? 'should fly and does not' : 'flies and should not'}`); }
   // side by side, at rest: every figure's body stands over the middle of its step (the strips are framed on the body, not on a
   // sword or a wing), and no two bodies overlap (a flying figure is behind the others and left out); the ground is the frame's bottom
