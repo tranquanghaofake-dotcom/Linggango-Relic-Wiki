@@ -1152,7 +1152,9 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
  const top=document.querySelector(".top"),toph=()=>document.documentElement.style.setProperty("--toph",top.offsetHeight+"px");
  // a Keeper that is not the open or the pointed one keeps its body over its own step (a sword or a wing tip may reach
  // past it): a broad one is drawn smaller. The dragon flies behind the others and is left as it is.
- const fit=()=>tabs.forEach(t=>{const k=t.querySelector(".pk:not(.wk)");if(k&&k.offsetWidth&&!k.parentNode.classList.contains("fly"))k.parentNode.style.setProperty("--fit",Math.min(1,1.25*t.offsetWidth/(k.offsetWidth*(+k.dataset.bw||1))).toFixed(3))});
+ /* a step's full width: the grid cell it sits in (at rest the step itself is narrower, with sky beside it), or the step on a phone */
+ const cell=t=>getComputedStyle(t.parentNode).display==="grid"?t.parentNode.clientWidth/tabs.length:t.offsetWidth;
+ const fit=()=>tabs.forEach(t=>{const k=t.querySelector(".pk:not(.wk)");if(k&&k.offsetWidth&&!k.parentNode.classList.contains("fly"))k.parentNode.style.setProperty("--fit",Math.min(1,1.25*cell(t)/(k.offsetWidth*(+k.dataset.bw||1))).toFixed(3))});
  // the sky's layers shift a little with the pointer
  if(!RM){const cl=map.querySelector(".climb");let pq=0;cl.addEventListener("pointermove",e=>{if(pq)return;pq=requestAnimationFrame(()=>{pq=0;const r=cl.getBoundingClientRect();cl.style.setProperty("--mx",((e.clientX-r.left)/r.width*2-1).toFixed(3));cl.style.setProperty("--my",((e.clientY-r.top)/r.height*2-1).toFixed(3))})},{passive:true})}
  toph();fit();if(window.ResizeObserver){const ro=new ResizeObserver(()=>{if(!map.isConnected){ro.disconnect();return}toph();fit()});ro.observe(top);ro.observe(tr)}

@@ -1893,7 +1893,7 @@ body.hub #pmap>.climb{grid-column:1/-1}
 body.hub:not(.scrolled) .top{background:#141038;box-shadow:none}
 body.hub:not(.scrolled) .top::after{opacity:0}
 
-.climb{--blk:104px;--base:clamp(118px,17svh,196px);--step:clamp(14px,2.3svh,24px);--fs:1;--sun:#ffd35e;--dusk:rgba(30,14,70,.7);position:relative;isolation:isolate;overflow:hidden;
+.climb{--rest:.66;--base:clamp(118px,17svh,196px);--step:clamp(14px,2.3svh,24px);--fs:1;--sun:#ffd35e;--dusk:rgba(30,14,70,.7);position:relative;isolation:isolate;overflow:hidden;
  display:grid;grid-template-columns:minmax(0,440px) minmax(0,420px) minmax(0,1fr);grid-template-rows:auto auto auto;align-content:start;align-items:start;gap:var(--s3) var(--s5);
  height:calc(100vh - var(--toph,64px));height:calc(100svh - var(--toph,64px));min-height:640px;margin:0;padding:var(--s5) var(--s6) 0;color:#fff8ec;
  background:linear-gradient(180deg,#141038 0%,#2e1d62 24%,#6d2f7c 46%,#c8506d 64%,#f58a54 80%,#ffc66e 93%,#ffe3a0 100%)}
@@ -1954,11 +1954,13 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 #pmap .ptrack{position:absolute;inset:0;z-index:1;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));align-items:end;pointer-events:none}
 #pmap .pxp{display:none}
 /* a step is a block of stone: a lit tread (the sun is low on the left: warm at the top edge) over a shaded mass, split by a hard seam, no fade */
-#pmap .pn{--shade:linear-gradient(rgba(255,214,150,.16),rgba(20,10,40,.08) 40px,rgba(20,10,40,.3) var(--blk),rgba(0,0,0,.6) var(--blk),rgba(0,0,0,.6) calc(var(--blk) + 3px),rgba(14,9,26,.66) calc(var(--blk) + 3px),rgba(14,9,26,.88));--bt:22px;position:relative;display:block;min-width:0;height:calc(var(--base) + var(--i)*var(--step) + 16px);padding:0;border:0;cursor:pointer;pointer-events:auto;color:#fff;font:inherit;
+/* the staircase at rest is small, with sky between the steps: a step and its Keeper are --rest of their full size (--r), and the pointed step is full size (the Keeper, the air, the walk loop and the name come with it); the open step stays small and is marked by its glow and its aura; on a phone the strip scrolls and nothing shrinks */
+#pmap .pn{--r:var(--rest);--blk:calc(104px*var(--r));--shade:linear-gradient(rgba(255,214,150,.16),rgba(20,10,40,.08) 40px,rgba(20,10,40,.3) var(--blk),rgba(0,0,0,.6) var(--blk),rgba(0,0,0,.6) calc(var(--blk) + 3px),rgba(14,9,26,.66) calc(var(--blk) + 3px),rgba(14,9,26,.88));--bt:calc(22px*var(--r));position:relative;display:block;min-width:0;height:calc((var(--base) + var(--i)*var(--step) + 16px)*var(--r) + var(--lift,0px));margin-inline:calc((1 - var(--r))*50%);padding:0;border:0;cursor:pointer;pointer-events:auto;color:#fff;font:inherit;
  background:var(--shade),var(--tex) 0 0/64px 64px;image-rendering:pixelated;
- box-shadow:inset 0 6px 0 color-mix(in srgb,var(--tc) 38%,rgba(255,236,200,.4)),inset 4px 0 0 rgba(255,190,120,.16),inset -4px 0 0 rgba(0,0,0,.3);transition:height .22s var(--ease-out)}
-#pmap .ptrack .pn[aria-selected=true]{height:calc(var(--base) + var(--i)*var(--step) + 28px)}
-#pmap .ptrack .pn:hover{height:calc(var(--base) + var(--i)*var(--step) + 40px)}
+ box-shadow:inset 0 6px 0 color-mix(in srgb,var(--tc) 38%,rgba(255,236,200,.4)),inset 4px 0 0 rgba(255,190,120,.16),inset -4px 0 0 rgba(0,0,0,.3);transition:height .22s var(--ease-out),margin .22s var(--ease-out)}
+#pmap .ptrack .pn[aria-selected=true]{--lift:12px}
+#pmap .ptrack .pn:hover{--r:1;--lift:24px}
+#pmap .ptrack:hover .pn[aria-selected=true]:not(:hover){--lift:0px}
 #pmap .sw{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.14) 50%,transparent 58%) 220% 0/320% 100% no-repeat;animation:stairLight 6.5s linear calc(var(--i)*.45s - 6.5s) infinite}
 @keyframes stairLight{0%{background-position:220% 0}28%,100%{background-position:-120% 0}}
 /* the Act's air stirs only over the open step and the pointed one (thirteen steps of particles at once were too many) */
@@ -1968,9 +1970,10 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 #pmap #pn-0 b::before{content:"";position:absolute;inset:calc(-1*var(--bt)) calc(-1*var(--s1)) auto;height:14px;background:linear-gradient(#7fd04a,#4f9a2e);box-shadow:0 4px 0 rgba(0,0,0,.25)}
 /* the air above a step belongs to the step: pointing at the Keeper is pointing at its Act (the figure itself takes no pointer, a wide one would cover its neighbours) */
 #pmap .pn::before{content:"";position:absolute;inset:auto 0 100% 0;height:330px}
-#pmap .pn b{position:absolute;inset:var(--bt) var(--s1) auto;text-align:center;font:400 34px/1 "Jersey 15",var(--title);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.7);white-space:nowrap}
-#pmap .pn::after{content:attr(data-k);position:absolute;inset:58px var(--s1) auto;text-align:center;font:600 12.5px/1.2 var(--body);color:#f1e9ff;text-shadow:0 2px 0 rgba(0,0,0,.7);overflow-wrap:anywhere}
-#pmap .pfr{--kc:color-mix(in srgb,var(--tc) 62%,#fff);--sc:.94;position:absolute;left:50%;bottom:100%;display:block;translate:-50% 6px;isolation:isolate;pointer-events:none;
+#pmap .pn b{position:absolute;inset:var(--bt) var(--s1) auto;text-align:center;font:400 calc(34px*(.55 + .45*var(--r)))/1 "Jersey 15",var(--title);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.7);white-space:nowrap}
+#pmap .pn::after{content:attr(data-k);position:absolute;inset:58px var(--s1) auto;text-align:center;font:600 12.5px/1.2 var(--body);color:#f1e9ff;text-shadow:0 2px 0 rgba(0,0,0,.7);overflow-wrap:anywhere;transition:opacity .2s}
+#pmap .pn:not(:hover)::after{opacity:0}
+#pmap .pfr{--kc:color-mix(in srgb,var(--tc) 62%,#fff);--sc:calc(.94*var(--r));position:absolute;left:50%;bottom:100%;display:block;translate:-50% 6px;isolation:isolate;pointer-events:none;
  animation:stepUp .5s var(--ease-out) both;animation-delay:calc(var(--i)*45ms)}
 /* a boss's figure (app.js figHtml): a box one frame wide over the strip of its loop; --z strip px to shown px, --fs the place's own scale */
 .pk{display:block;overflow:hidden;width:calc(var(--w)*var(--z)*var(--fs,1)*1px);height:calc(var(--h)*var(--z)*var(--fs,1)*1px)}
@@ -1995,16 +1998,13 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 #pmap .sp{position:absolute;left:calc(50% + var(--x));bottom:12%;width:6px;height:6px;background:var(--kc);opacity:0}
 @keyframes stepUp{from{opacity:0;translate:-50% 48px}}
 @keyframes figLoop{to{transform:translateX(-100%)}}
-@keyframes figPop{0%{scale:.94}55%{scale:calc(var(--sc)*1.07)}}
+@keyframes figPop{0%{scale:calc(var(--sc)*.94)}55%{scale:calc(var(--sc)*1.07)}}
 @keyframes auraPulse{50%{opacity:.34;scale:1.08}}
 @keyframes sparkUp{0%{opacity:0;translate:0 0}14%{opacity:1}100%{opacity:0;translate:var(--dx) -170px}}
-/* the open step and the pointed step: their Keeper grows, glows and moves; the others step back */
-#pmap .ptrack:hover .pn .pfr{--sc:.8}
+/* the pointed step: its Keeper grows to full size, glows and moves, the others stay small and dim; the open step glows too */
 #pmap .ptrack:hover .pn .pk{filter:brightness(.6) saturate(.75)}
-#pmap .ptrack .pn[aria-selected=true] .pfr{--sc:1.14;z-index:1}
-#pmap .ptrack .pn[aria-selected=true] .pfr.fly,#pmap .ptrack .pn:hover .pfr.fly{--sc:1}
-#pmap .ptrack:hover .pn[aria-selected=true] .pfr{--sc:1}
-#pmap .ptrack .pn:hover .pfr{--sc:1.26;z-index:2}
+#pmap .ptrack .pn[aria-selected=true] .pfr{z-index:1}
+#pmap .ptrack .pn:hover .pfr{z-index:2}
 #pmap .ptrack .pn:is(:hover,[aria-selected=true]) .pfr{--fit:1!important}
 #pmap .ptrack .pn:is(:hover,[aria-selected=true]) .pk{filter:drop-shadow(0 0 14px var(--kc))}
 #pmap .pn[aria-selected=true] .pk{animation:figPop .45s var(--ease-pop)}
@@ -2064,7 +2064,7 @@ body.hub .sfoot{background:#0f0e14}
 @media (min-width:1401px) and (min-height:1000px){.climb{--fs:1.12}}
 /* tablets and phones: the title stacks, and the staircase becomes a strip that scrolls sideways (the open step is kept in view) */
 @media (max-width:1100px){
- .climb{--base:108px;--step:12px;--fs:.75;display:flex;flex-direction:column;align-items:stretch;height:auto;min-height:calc(100svh - var(--toph,64px));padding:var(--s4) var(--s4) 0}
+ .climb{--rest:1;--base:108px;--step:12px;--fs:.75;display:flex;flex-direction:column;align-items:stretch;height:auto;min-height:calc(100svh - var(--toph,64px));padding:var(--s4) var(--s4) 0}
  .climb .dcl,.climb .dwind{display:none}
  .climb .lg{white-space:normal;font-size:clamp(40px,11vw,72px)}
  .climb .hsearch,.climb .tbtns,.climb .pcap{margin-top:var(--s3)}
@@ -2073,6 +2073,8 @@ body.hub .sfoot{background:#0f0e14}
  #pmap .ptrack{position:relative;inset:auto;flex:1 0 auto;display:flex;align-items:flex-end;height:calc(var(--base) + 12*var(--step) + 330px);margin:var(--s3) calc(-1*var(--s4)) 0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;pointer-events:auto}
  #pmap .ptrack::-webkit-scrollbar{display:none}
  #pmap .pn{--bt:var(--s4);flex:none;width:96px}
+ #pmap .ptrack .pn:is(:hover,[aria-selected=true]){--lift:0px}
+ #pmap .pn::after{opacity:1!important}
  #pmap .pn::before{height:230px}
  #pmap .pn b{font-size:28px}
  #pmap .pn::after{inset-block-start:var(--s7)}

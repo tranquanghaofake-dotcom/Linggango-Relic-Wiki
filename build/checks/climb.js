@@ -36,6 +36,12 @@
       return { k, fly: !!f.fly, c: pr.left + pr.width / 2, off: pr.left + pr.width / 2 - (br.left + br.width / 2), bw: pr.width * f.bw / f.w * fit }; });
     at.forEach((x, i) => { if (i && i < at.length - 1 && Math.abs(x.off) > 6) bad.push(`climb: the body of ${x.k} is ${x.off.toFixed(0)}px off the middle of its step`);
       const y = at[i + 1]; if (y && !x.fly && !y.fly && y.c - x.c < (x.bw + y.bw) / 2 - 2) bad.push(`climb: the bodies of ${x.k} and ${y.k} overlap by ${((x.bw + y.bw) / 2 - (y.c - x.c)).toFixed(0)}px`); }); }
+  // at rest the staircase is small, with sky between its steps (--rest in style.game.css; the pointed step grows to full size, which needs a pointer to test): on a wide
+  // screen no step fills more than 80% of its cell, and no figure is drawn at more than three quarters of its full size
+  { const tr = document.querySelector('#pmap .ptrack');
+    if (getComputedStyle(tr).display === 'grid') { const cell = tr.clientWidth / pn().length;
+      pn().forEach((b, i) => { if (b.offsetWidth > cell * .8) bad.push(`climb: step ${i} fills ${(b.offsetWidth / cell * 100).toFixed(0)}% of its cell: no sky between the steps`);
+        const sc = parseFloat(getComputedStyle(b.querySelector('.pk')).scale); if (sc > .75) bad.push(`climb: the figure on step ${i} is drawn at ${sc.toFixed(2)} of its size at rest, not small`); }); } }
   // the walk loops (BWALK, with the late pictures): each belongs to a figure, shares its scale and its ground, and its picture is as wide as its frames say
   for (const [k, w] of Object.entries(window.BWALK || {})) { const f = BFIG[k], im = new Image(); im.src = w.src; await im.decode().catch(() => {});
     if (!f || f.n < 2) bad.push(`climb: a walk loop for ${k}, which has no animated figure`);
