@@ -55,6 +55,9 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
     for (const [k, [f, name, so]] of Object.entries(STILL)) { const r = await page.evaluate(([u, o]) => still(u, o), [JSON.parse(fs.readFileSync(path.join(P, f)))[name], so]);
       figs[k] = { src: 'data:image/png;base64,' + r.png, w: r.w, h: r.h, bw: r.w, n: 1, ms: 0, z: so.z }; console.log(k.padEnd(18), `${r.w}x${r.h} still`); }
     for (const [f, o] of [['boss_figs.json', figs], ['boss_walks.json', walks]]) { fs.writeFileSync(path.join(P, f), JSON.stringify(o)); console.log(f, Object.keys(o).length, 'records,', (fs.statSync(path.join(P, f)).size / 1e6).toFixed(2), 'MB'); }
+    // Chromium's WebP encoder works at a low effort: write the strips again at the highest, pixel for pixel the same (2.25 MB -> 1.37 MB and 2.25 MB -> 1.56 MB)
+    try { require('child_process').execFileSync('python3', [path.join(__dirname, 'recode_webp.py'), ...['boss_figs.json', 'boss_walks.json'].map(f => path.join(P, f))], { stdio: 'inherit' }); }
+    catch (e) { console.log('recode_webp.py did not run (it needs python3 with Pillow): the strips stay as Chromium wrote them, about 40% larger'); }
     await close(); return;
   }
   for (const [k, rec] of Object.entries(M)) {
