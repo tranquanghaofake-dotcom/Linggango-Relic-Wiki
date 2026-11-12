@@ -33,7 +33,7 @@ Cách đo: máy chủ http cục bộ nén gzip mức 6 như GitHub Pages, Chrom
 | Total blocking time | 0,94 s | 1,64 s |
 | Thời gian script / tính lại style | 884 ms / 344 ms | 1190 ms / 697 ms |
 
-Đọc bảng: trên mạng tốt, thời gian chia khoảng nửa mạng (≈1,6 s chờ `wiki_data.js` về) nửa CPU (khoảng 1 s việc của app sau khi nhận dữ liệu, gồm 6 long task), và **phần CPU tăng gần gấp đôi khi CPU yếu hơn một nửa**, còn mạng thì không. Vì vậy với laptop, hướng B (CPU) và A3 (vẽ màn đầu trước, dữ liệu sau) lên đầu cùng A1/A2; A5 (Service Worker) và A6 (phông chữ) xuống thấp. LCP (3,18 s) trùng gần đúng lúc `wiki_pics.js` về xong (3,0 s) và sự kiện load: có thể phần tử lớn nhất đang đợi `wiki_pics.js`; đây là điều phải xác minh trước (mục "chưa biết").
+Đọc bảng: trên mạng tốt, thời gian chia khoảng nửa mạng (≈1,6 s chờ `wiki_data.js` về) nửa CPU (khoảng 1 s việc của app sau khi nhận dữ liệu, gồm 6 long task), và **phần CPU tăng gần gấp đôi khi CPU yếu hơn một nửa**, còn mạng thì không. Vì vậy với laptop, hướng B (CPU) và A3 (vẽ màn đầu trước, dữ liệu sau) lên đầu cùng A1/A2; A6 (phông chữ) xuống thấp (A5, Service Worker, đã loại). LCP (3,18 s) trùng gần đúng lúc `wiki_pics.js` về xong (3,0 s) và sự kiện load: có thể phần tử lớn nhất đang đợi `wiki_pics.js`; đây là điều phải xác minh trước (mục "chưa biết").
 
 Những điều đã chắc (đo hoặc đọc được):
 1. **Màn đầu đợi toàn bộ dữ liệu.** `index.html` nạp `data.js`, `gear_data.js`, `wiki_data.js` bằng `<script defer>`; script defer chạy theo thứ tự sau khi tải xong, nên `app.js` đợi cả ba (7,7 MB gzip: wiki_data 4,39 MB, gear_data 1,93 MB, data 1,35 MB). Ngoài nền inline, không có gì được vẽ trước đó.
@@ -46,13 +46,13 @@ Những điều đã chắc (đo hoặc đọc được):
 Chưa biết (phải trả lời bằng đo, không đoán): **phần tử nào là LCP và có đợi `wiki_pics.js` không**; trang chủ thật sự cần dữ liệu nào lúc vẽ đầu; vì sao `gear_data` 4,33 MB mà `GE` chỉ 1,39 MB (phần còn lại là gì); `BFIG` có tách ra tệp ảnh riêng thì tiết kiệm bao nhiêu sau gzip; chi phí phân tích (parse) 20 MB JS trên điện thoại thật; hàm nào gây long task 360 ms; selector nào làm tính lại style 464 ms; bộ nhớ GPU của các dải hình (đợt 16 đã ghi là chưa đo).
 
 ## 3. Các hướng cần nghiên cứu
-**Thứ tự ưu tiên cho laptop** (sau câu trả lời 1): 1) B2 và A3 (việc CPU của lần vẽ đầu); 2) A1 và A2 (bớt byte và bớt thứ phải phân tích trước khi vẽ); 3) B1 (tính lại style); 4) A4, B3, B4; 5) A7; 6) A5 và A6 (chỉ khi còn lợi sau khi xong các mục trên). Danh sách dưới đây giữ nguyên nhóm A/B/C cho dễ tra, không phải thứ tự làm.
+**Thứ tự ưu tiên cho laptop** (sau câu trả lời 1): 1) B2 và A3 (việc CPU của lần vẽ đầu); 2) A1 và A2 (bớt byte và bớt thứ phải phân tích trước khi vẽ); 3) B1 (tính lại style); 4) A4, B3, B4; 5) A7; 6) A6 (chỉ khi còn lợi sau khi xong các mục trên). Danh sách dưới đây giữ nguyên nhóm A/B/C cho dễ tra, không phải thứ tự làm.
 **A. Tải ít hơn trước khi vẽ màn đầu** (lợi nhất: thời gian chờ nằm ở mạng)
 - A1 Tách dữ liệu theo trang: `gear_data` (Equipment, Build planner, trang gear) và phần lớn `wiki_data` (trang chi tiết) không cần cho trang chủ. Mẫu có sẵn: `loadPics()` và gói ngôn ngữ nạp theo `data-lang-*`. Nghiên cứu: bản đồ "trang nào dùng biến nào" (`D, IC, UI, BFIG, PIMG, SIDEB…`), điểm cắt, cách nạp đồng bộ khi vào thẳng một đường dẫn chia sẻ. Rủi ro nhìn: thấp; rủi ro chức năng: trung bình (trang chờ dữ liệu).
 - A2 Dải hình Keeper: hiện là base64 trong JS (cộng thêm khoảng 33% so với nhị phân). Thử xuất thành tệp WebP lossless riêng, nạp song song, `decode()` trước khi dùng. Chứng minh bằng băm điểm ảnh. Rủi ro nhìn: thấp nếu lossless.
 - A3 Nạp hai pha: vẽ trang chủ chỉ với dữ liệu tối thiểu, phần còn lại khi rảnh (`requestIdleCallback`). Rủi ro: các chỗ đọc `D`, `IC` toàn cục.
 - A4 Hình dạng dữ liệu: `JSON.parse` so với literal JS (V8 khuyên cho đối tượng lớn), mã hoá cột, bỏ trường không dùng, bỏ trùng lặp chuỗi, xem `IC`/`UI`/`PIMG` có bị lặp không. Đo cả byte gzip và thời gian parse.
-- A5 Bộ nhớ đệm cho lượt vào lại: Service Worker (cache-first cho tệp tên băm, kiểm bản mới qua `/build.txt`), để vượt giới hạn `max-age=600`. Lợi lớn cho người quay lại và dùng offline; rủi ro: bản cũ bị kẹt, khó gỡ; phải có cách tự cập nhật và tự gỡ.
+- ~~A5~~ **Đã loại (chủ wiki: "chưa cần Service Worker")**; chỉ ghi lại để khỏi bàn lại. Ý cũ: Service Worker (cache-first cho tệp tên băm, kiểm bản mới qua `/build.txt`), để vượt giới hạn `max-age=600`. Lợi lớn cho người quay lại và dùng offline; rủi ro: bản cũ bị kẹt, khó gỡ; phải có cách tự cập nhật và tự gỡ.
 - A6 Tự lưu phông chữ (Silkscreen, Pixelify Sans, Be Vietnam Pro là OFL): bỏ vòng hỏi tên miền thứ ba. Chặn: container không với tới Google Fonts; cần nguồn tệp hợp pháp (repo `google/fonts` hay gói phông), và phải giữ nguyên tập con ký tự (đã có Cyrillic, Vietnamese). Rủi ro nhìn: **cao nếu sai tập con hay `font-display`**; chỉ làm nếu A–B xong mà vẫn cần.
 - A7 Thứ tự và độ ưu tiên nạp: `preload`, `fetchpriority`, bỏ chờ nhau giữa các script.
 
@@ -73,7 +73,7 @@ Sẽ đọc và ghi vào mục "Kết quả nghiên cứu" của tệp này, m�
 Quy tắc nguồn của CLAUDE.md giữ nguyên: trang đọc qua Firecrawl/Parallel chỉ là tham khảo; số liệu của chúng tôi lấy từ đo trên chính wiki.
 
 ## 5. Phương pháp đo (làm trước, để mọi so sánh sau đó có nghĩa)
-- Mở rộng `build/perf.js` (không tạo tệp mới) thêm chế độ `--load`: máy chủ cục bộ nén gzip + `cache-control: max-age=600` như GitHub Pages, bốn hồ sơ (laptop 50 Mbps CPU 1× và 2×, mạng nhà chậm 10 Mbps CPU 1×, điện thoại 1,6 Mbps CPU 4× chỉ để canh không tệ đi), **5 lượt lấy trung vị**, đo lượt đầu và lượt vào lại (bộ nhớ đệm ấm), ghi FCP, LCP, DCL, load, tổng byte, TBT, long task, tính lại style, heap. Tham số mạng/CPU giống bảng ở mục 2.
+- Mở rộng `build/perf.js` (không tạo tệp mới) thêm chế độ `--load`: máy chủ cục bộ nén gzip + `cache-control: max-age=600` như GitHub Pages, bốn hồ sơ (laptop 50 Mbps CPU 1× và 2×, mạng nhà chậm 10 Mbps CPU 1×, điện thoại 1,6 Mbps CPU 4× chỉ để canh không tệ đi), **5 lượt lấy trung vị**, đo lượt đầu và lượt vào lại (bộ nhớ đệm ấm, chỉ để biết, không đặt mục tiêu), ghi FCP, LCP, DCL, load, tổng byte, TBT, long task, tính lại style, heap. Tham số mạng/CPU giống bảng ở mục 2.
 - Hồ sơ CPU và ghi vết (`Profiler`, `Tracing`) cho B1, B2.
 - Thử từng giả thuyết trên bản sao (spike), không cam kết: mỗi spike trả lời bằng một con số trước/sau và kết quả `--diff`.
 
@@ -86,17 +86,16 @@ Quy tắc nguồn của CLAUDE.md giữ nguyên: trang đọc qua Firecrawl/Para
 
 Tiêu chí xong của **giai đoạn nghiên cứu**: số gốc 5 lượt trong tệp này; mỗi mục "chưa biết" có câu trả lời hoặc ghi rõ vì sao chưa; bảng xếp hạng có số đo của spike; không có thay đổi nào trong `build/src`.
 
-Mục tiêu số **đề xuất** (chờ duyệt, sau khi có số gốc 5 lượt): trang chủ vẽ xong (LCP) ≤ 2 s ở laptop 50 Mbps CPU 2× (hiện 4,0 s) và ≤ 3 s ở mạng 10 Mbps CPU 1× (hiện 8,6 s); không long task nào quá 200 ms ở laptop CPU 2× (hiện dài nhất 704 ms); lượt vào lại ≤ 1 s; heap không tăng quá 10%; hồ sơ điện thoại không tệ hơn số gốc.
+Mục tiêu số **đề xuất** (chờ duyệt, sau khi có số gốc 5 lượt): trang chủ vẽ xong (LCP) ≤ 2 s ở laptop 50 Mbps CPU 2× (hiện 4,0 s) và ≤ 3 s ở mạng 10 Mbps CPU 1× (hiện 8,6 s); không long task nào quá 200 ms ở laptop CPU 2× (hiện dài nhất 704 ms); heap không tăng quá 10%; hồ sơ điện thoại không tệ hơn số gốc.
 
 ## 7. Rủi ro
 - Tách dữ liệu có thể làm một trang đọc biến chưa nạp: cần bảng "trang dùng biến nào" và invariant `build/checks/` (mọi đường dẫn mở trực tiếp, mọi ngôn ngữ).
-- Service Worker giữ bản cũ: chỉ làm khi có cách tự cập nhật và tự gỡ, và chủ wiki đồng ý.
 - Số đo trong container dựng hình bằng phần mềm không phải số của máy thật: dùng để so sánh, không để hứa con số cho người đọc; nếu có điện thoại thật thì đo thêm một lượt.
 - Việc nhỏ về byte nhưng đổi pixel (nén ảnh): chỉ chấp nhận khi băm điểm ảnh sau giải mã trùng.
 
 ## 8. Câu hỏi cho chủ wiki (trả lời ngắn là đủ)
 1. ~~Người đọc chính: điện thoại hay laptop?~~ **Đã trả lời: laptop là chính** (đã đổi hồ sơ đo, thứ tự ưu tiên và mục tiêu ở trên).
-2. Có đồng ý Service Worker (vào lại gần như tức thì, dùng được khi mất mạng, nhưng khó gỡ nếu sai) không?
+2. ~~Có đồng ý Service Worker không?~~ **Đã trả lời: chưa cần** (A5 loại khỏi phạm vi; lượt vào lại vẫn theo `max-age=600` của GitHub Pages).
 3. Có đồng ý ảnh Keeper tách thành tệp `.webp` riêng trong `static/` (thêm tệp, ít byte hơn) thay vì nhúng trong JS không?
 4. Bản offline một tệp (`dist/`) giữ nguyên cách đóng gói?
 
