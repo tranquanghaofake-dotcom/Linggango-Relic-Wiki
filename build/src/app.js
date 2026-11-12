@@ -1001,7 +1001,7 @@ const idBox=id=>`<div class="ip-id"><code id="ipid">${esc(id)}</code><button typ
 function navbox(title,groups){groups=(groups||[]).filter(g=>g&&g[1]&&g[1].length);if(!groups.length)return "";
  return `<details class="navbox" open><summary>${title}</summary><dl>${groups.map(([l,xs])=>`<dt>${l}</dt><dd>${xs.map(([h,t,on])=>on?`<b aria-current="page">${t}</b>`:`<a href="${h}">${t}</a>`).join('<i aria-hidden="true"> · </i>')}</dd>`).join("")}</dl></details>`}
 /* rooms: rooms.js. A row of inventory slots holding a list of items (links with tooltips), with a small label under each */
-const slotRow=(xs,label)=>`<nav class="srow" aria-label="${esc(label)}">${xs.map(x=>`<a class="sslot${x.c||""}" href="${x.h}"${x.t!=null?` data-t="${x.t}"`:` title="${esc(TD(x.n))}"`} aria-label="${esc(TD(x.n))}">${x.i}${x.l?`<small>${x.l}</small>`:""}</a>`).join("")}</nav>`;
+const slotRow=(xs,label,pad=0)=>`<nav class="srow" aria-label="${esc(label)}">${xs.map((x,k)=>`<a class="sslot${x.c||""}" style="--k:${k}" href="${x.h}"${x.t!=null?` data-t="${x.t}"`:` title="${esc(TD(x.n))}"`} aria-label="${esc(TD(x.n))}">${x.i}${x.l?`<small>${x.l}</small>`:""}</a>`).join("")}${"<span class=\"sslot e\" aria-hidden=\"true\"></span>".repeat(Math.max(0,pad-xs.length))}</nav>`;
 const rCurio=(d,l,g)=>({h:"#i"+d.ix,i:img(d.id)+glint(d),t:d.ix,n:d.n,l,g});
 const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.indexOf("zoranth_forgotten");if(i>=0)ks.splice(i+1,0,"warden","wither");return ks};
 /* update log, newest first */
@@ -1116,7 +1116,7 @@ function pPanelInner(a){const xs=D.filter(d=>d.t===a),m=xs.filter(isMust).length
  </div><div class="pside">${envFx(a)}${sides||`<p class="pnone">${T("No side bosses at this Act. Gear up for the Keeper.")}</p>`}</div></div>
  ${xs.length?`<div class="chest"><p class="cht">${esc(actL(a))}: ${T("Curios")}</p>${slotRow(byRank(xs).slice(0,CHESTN).map(d=>({...rCurio(d,"",1),c:" r"+d.r})),actL(a)+": "+T("Curios"))}</div>`:""}`}
 /* how many curios an Act's chest shows on the home page (two rows of a wide screen), and how many a shelf of the rack shows (one row) */
-const CHESTN=36,SHELFN=16;
+const CHESTN=36,SHELFN=18;
 /* the dusk sky behind The Path: stars and two far ridges, the same on every load (a seeded generator, no data), and what
    moves in it: clouds that drift across, a few birds, gusts of wind (CSS; the sun's light too). The layers shift a little
    with the pointer (pathMapWire: --mx, --my). */
@@ -1248,10 +1248,9 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
  /* a step's full width: the grid cell it sits in (at rest the step itself is narrower, with sky beside it), or the step on a phone */
  const cell=t=>getComputedStyle(t.parentNode).display==="grid"?t.parentNode.clientWidth/tabs.length:t.offsetWidth;
  const fit=()=>tabs.forEach(t=>{const k=t.querySelector(".pk:not(.wk)");if(k&&k.offsetWidth&&!k.parentNode.classList.contains("perch"))k.parentNode.style.setProperty("--fit",Math.min(1,1.25*cell(t)/(k.offsetWidth*(+k.dataset.bw||1))).toFixed(3))});
- // the sky's layers shift a little with the pointer
- if(!RM){const cl=map.querySelector(".climb");let pq=0;cl.addEventListener("pointermove",e=>{if(pq)return;pq=requestAnimationFrame(()=>{pq=0;const r=cl.getBoundingClientRect();cl.style.setProperty("--mx",((e.clientX-r.left)/r.width*2-1).toFixed(3));cl.style.setProperty("--my",((e.clientY-r.top)/r.height*2-1).toFixed(3))})},{passive:true})}
+ let wv=null;
  const sky=()=>skyPaint(map.querySelector(".climb"));
- toph();fit();requestAnimationFrame(sky);if(window.ResizeObserver){let st=0;const ro=new ResizeObserver(()=>{if(!map.isConnected){ro.disconnect();return}toph();fit();clearTimeout(st);st=setTimeout(sky,120)});ro.observe(top);ro.observe(tr);ro.observe(map.querySelector(".climb"))}
+ toph();fit();requestAnimationFrame(sky);if(window.ResizeObserver){let st=0;const ro=new ResizeObserver(()=>{if(!map.isConnected){ro.disconnect();return}toph();fit();wv&&wv.resize();clearTimeout(st);st=setTimeout(sky,120)});ro.observe(top);ro.observe(tr);ro.observe(map.querySelector(".climb"))}
  // the walk loop of the Keeper under the pointer (or the keyboard): put in the first time, once its picture is ready
  const walk=t=>{const w=t&&!t.dataset.wk&&window.BWALK&&BWALK[t.dataset.fk],f=w&&BFIG[t.dataset.fk];if(!w)return;t.dataset.wk=0;const im=new Image();im.alt="";im.src=w.src;
   im.decode().then(()=>{const k=document.createElement("span");k.className="pk wk";k.style.cssText=`--w:${w.w};--h:${w.h};--n:${w.n};--z:${f.z};--ms:${w.ms}`;k.appendChild(im);t.querySelector(".pfr").appendChild(k);t.dataset.wk=1}).catch(()=>{})};
@@ -1272,11 +1271,53 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
   const b=e.target.closest(".phere");if(b){const a=+b.dataset.here;try{pHere()===a?localStorage.removeItem(PHKEY):localStorage.setItem(PHKEY,a)}catch(e){}
    // a new run position drops the Acts opened by hand, so Continue lands on that Act; the title buttons follow at once
    st.op=null;save();paint();const tb=document.querySelector(".tbtns");if(tb)tb.innerHTML=hereBtns()}});
+ /* The pointer over the hero. The sky's layers shift a little with it (--mx and --my on the sky, not on the whole hero: a custom property written on the hero makes every node under
+    it, the thirteen steps included, work out its style again on every move: 10 ms each time, measured). On a desktop with a mouse the steps are a wave too: the one under the pointer
+    grows to full size and its neighbours shrink, the nearer the more, and the sizes follow the pointer on springs, a frame at a time, so a step never jumps from one size to another as
+    the pointer goes along the stairs. A frame writes only what moves (a step's height and sides, its numeral, its Keeper's scale), never a custom property on a step; the CSS (#pmap.wave)
+    hands those over, and the pointer's own :hover goes to .hov (the step whose cell the pointer is in: cells do not move, steps do) so that nothing flickers as they change size. */
+ {const cl=map.querySelector(".climb"),sk=cl.querySelector(".dsky"),mq=matchMedia("(min-width:1101px) and (hover:hover) and (pointer:fine)"),n=tabs.length,
+   REST=parseFloat(getComputedStyle(cl).getPropertyValue("--rest"))||.66,pf=tabs.map(t=>t.querySelector(".pfr")),nb=tabs.map(t=>t.querySelector(":scope>b")),
+   X=new Float64Array(n).fill(REST),V=new Float64Array(n),L=new Float64Array(n),LV=new Float64Array(n),TX=new Float64Array(n),TL=new Float64Array(n),F=new Float64Array(n).fill(1),B=new Float64Array(n),
+   wx=new Float64Array(n).fill(-1),wl=new Float64Array(n).fill(-1),
+   G=d=>Math.exp(-((d/.55)**2)),NB=d=>Math.exp(-(((d-1)/.8)**2))*(1-Math.exp(-((d/.5)**2))),SHRINK=.12,K=380,C=32,LIFT=24,LIFT_OPEN=12;
+  let on=false,hov=-1,mx=NaN,my=NaN,tg=null,fr=0,last=0;
+  const sel0=()=>tabs.findIndex(t=>t.getAttribute("aria-selected")==="true"),wake=()=>{if(!fr)fr=requestAnimationFrame(tick)};
+  // a step's full height and its Keeper's fit, read with the CSS in charge; every step then holds its resting size inline (the Keeper's fit is folded into --sc, the CSS's --fit is 1 in the wave)
+  const measure=()=>{tabs.forEach((t,i)=>{t.style.height=t.style.marginInline="";nb[i].style.fontSize="";pf[i].style.removeProperty("--sc")});
+   const s0=sel0();tabs.forEach((t,i)=>{B[i]=(t.getBoundingClientRect().height-(i===s0?LIFT_OPEN:0))/REST;const f=parseFloat(pf[i].style.getPropertyValue("--fit"));F[i]=f>0?f:1;wx[i]=wl[i]=-1;X[i]=REST;V[i]=LV[i]=0;L[i]=i===s0?LIFT_OPEN:0});
+   tabs.forEach((t,i)=>pf[i].style.setProperty("--sc",(.94*REST*(i===s0?1:F[i])).toFixed(4)))};
+  const setHov=k=>{if(hov>=0)tabs[hov].classList.remove("hov");hov=k;if(k>=0){tabs[k].classList.add("hov");walk(tabs[k])}tr.classList.toggle("hv",k>=0)};
+  const enable=()=>{if(on)return;on=true;map.classList.add("wave");measure()},
+   disable=()=>{if(!on)return;on=false;map.classList.remove("wave");setHov(-1);tabs.forEach((t,i)=>{t.style.height=t.style.marginInline="";nb[i].style.fontSize="";pf[i].style.removeProperty("--sc")})};
+  function tick(t){fr=0;const R=cl.getBoundingClientRect(),T=tr.getBoundingClientRect(),w=T.width/n,s0=sel0();
+   if(!RM&&mx===mx){sk.style.setProperty("--mx",((mx-R.left)/R.width*2-1).toFixed(3));sk.style.setProperty("--my",((my-R.top)/R.height*2-1).toFixed(3))}
+   if(!on){last=0;return}
+   // the step under the pointer, by its cell and the air above it (not over the text of the hero), and the wave round it
+   let k=-1;if(mx===mx&&tg&&!tg.closest(".pcap,.tact,.tcs,.lg")){const c=Math.floor((mx-T.left)/w);if(c>=0&&c<n&&my>=T.bottom-(B[c]+LIFT+330)&&my<=T.bottom)k=c}
+   if(k!==hov)setHov(k);
+   const pos=k>=0?(mx-T.left)/w-.5:0,dt=last?Math.min(.05,(t-last)/1000):.016,sub=Math.max(1,Math.ceil(dt*120)),h=dt/sub;last=t;let moving=false;
+   for(let i=0;i<n;i++){const d=k>=0?Math.abs(pos-i):9,g=k>=0?G(d):0;TX[i]=k>=0?REST+(1-REST)*g-SHRINK*NB(d):REST;TL[i]=k>=0?LIFT*g:(i===s0?LIFT_OPEN:0);
+    for(let q=0;q<sub;q++){V[i]+=(K*(TX[i]-X[i])-C*V[i])*h;X[i]+=V[i]*h;LV[i]+=(K*(TL[i]-L[i])-C*LV[i])*h;L[i]+=LV[i]*h}
+    if(Math.abs(X[i]-TX[i])>.0015||Math.abs(V[i])>.01||Math.abs(L[i]-TL[i])>.05||Math.abs(LV[i])>.5)moving=true;else{X[i]=TX[i];V[i]=0;L[i]=TL[i];LV[i]=0}}
+   for(let i=0;i<n;i++){const r=X[i],l=L[i];if(Math.abs(r-wx[i])<.0003&&Math.abs(l-wl[i])<.03)continue;wx[i]=r;wl[i]=l;
+    const b=i===s0?1:F[i],gn=Math.max(0,Math.min(1,(r-REST)/(1-REST)));
+    tabs[i].style.height=(B[i]*r+l).toFixed(2)+"px";tabs[i].style.marginInline=((1-r)*50).toFixed(3)+"%";nb[i].style.fontSize=(34*(.55+.45*r)).toFixed(2)+"px";pf[i].style.setProperty("--sc",(.94*r*(b+(1-b)*gn)).toFixed(4))}
+   if(moving)fr=requestAnimationFrame(tick);else last=0}
+  cl.addEventListener("pointermove",e=>{mx=e.clientX;my=e.clientY;tg=e.target;wake()},{passive:true});
+  cl.addEventListener("pointerleave",()=>{mx=my=NaN;tg=null;wake()});
+  // a click in the air above a step opens that step (the steps themselves take no pointer in the wave)
+  cl.addEventListener("click",e=>{if(!on||hov<0||e.target.closest("a,button,input,select,label,.pcap,.tact,.tcs,.lg,.pn"))return;tabs[hov].click()});
+  // the open step changes (a click, the arrow keys): its lift follows
+  if(window.MutationObserver)new MutationObserver(()=>{if(on)wake()}).observe(tr,{attributes:true,attributeFilter:["aria-selected"],subtree:true});
+  const sync=()=>{if(!RM&&mq.matches&&REST<1)enable();else disable()};
+  sync();if(mq.addEventListener)mq.addEventListener("change",sync);
+  wv={resize(){if(on){const was=hov;measure();wake();hov=was}else sync()}}}
  map.querySelector(".ptrack").addEventListener("keydown",e=>{const k={ArrowRight:1,ArrowLeft:-1,Home:-99,End:99}[e.key];if(!k)return;e.preventDefault();sel(Math.max(0,Math.min(path.length-1,k===-99?0:k===99?path.length-1:cur+k)),true)});
  const h=pHere(),hi=h===null?-1:path.indexOf(h);paint();if(hi>0){pans[0].hidden=true;tabs[0].setAttribute("aria-selected","false");tabs[0].tabIndex=-1;if(!pans[hi].firstElementChild){pans[hi].innerHTML=pPanelInner(path[hi]);paint()}pans[hi].hidden=false;tabs[hi].setAttribute("aria-selected","true");tabs[hi].tabIndex=0;cur=hi}ctr(cur)}
 /* a shelf of the home page's rack, a display case: its title with the count and one line, then a link to all of it (or the playstyle buttons), over one tray
    of slots (SHELFN of them; CSS shows whole rows of the room it has) */
-const shelf=(title,sub,slots,label,{ac="#7aa7ff",n=null,all="",more="",cls=""}={})=>`<div class="shelf${cls}" style="--ac:${ac}"><header class="shh"><h2 class="gt">${title}</h2>${n!=null?`<span class="shn">${TN(n,"{n} curio","{n} curios")}</span>`:""}<p class="gs">${sub}</p>${all}${more}</header><div class="chest">${slotRow(slots,label)}</div></div>`;
+const shelf=(title,sub,slots,label,{ac="#7aa7ff",n=null,all="",more="",cls=""}={})=>`<div class="shelf${cls}" style="--ac:${ac}"><header class="shh"><h2 class="gt">${title}</h2>${n!=null?`<span class="shn">${TN(n,"{n} curio","{n} curios")}</span>`:""}<p class="gs">${sub}</p>${all}${more}</header><div class="chest">${slotRow(slots,label,SHELFN)}</div></div>`;
 function hubHome(){
  document.title="Linggango Wiki";document.body.classList.add("hub");
  const path=ORDER.filter(a=>a>=0&&D.some(d=>d.t===a)),news=D.filter(d=>d.nw),rc=d=>({...rCurio(d,esc(ACT[d.t][0]),1),c:" r"+d.r});

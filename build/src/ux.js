@@ -21,7 +21,7 @@ function dealGear(){const h=location.hash;if(!/^#gear/.test(h)){lastGear="";retu
  const was=lastGear;lastGear=h;if(!was||RMQ.matches)return;
  const L=document.querySelector(".gtl-list,.gtiles.gsr");if(!L)return;
  let n=0;L.querySelectorAll(".gtiles>a").forEach(t=>t.style.setProperty("--n",Math.min(n++,28)));
- L.classList.add("deal");setTimeout(()=>L.classList.remove("deal"),900)}
+ L.classList.add("deal");const g=document.querySelector("#main .gear");if(g)g.classList.add("swap");setTimeout(()=>{L.classList.remove("deal");if(g)g.classList.remove("swap")},900)}
 
 /* ---------- quick search ---------- */
 const QS={open:false,inp:null,items:[],sel:0,idx:null};
@@ -132,8 +132,12 @@ document.addEventListener("DOMContentLoaded",()=>{markNav();remember();lastGear=
  const vis=new IntersectionObserver(es=>es.forEach(e=>{const t=e.target;t.classList.toggle("zz",!e.isIntersecting);if(e.isIntersecting&&t.classList.contains("tier"))t.classList.add("seen2")}),{rootMargin:"200px 0px"});
  const rv=new IntersectionObserver(es=>{let k=0;es.forEach(e=>{if(!e.isIntersecting)return;e.target.style.setProperty("--rvi",k++);e.target.classList.add("in");rv.unobserve(e.target)})},{rootMargin:"0px 0px -40px 0px"});
  const watch=r=>{if(!r.querySelectorAll)return;
-  r.querySelectorAll(".tier:not([data-zo]),.room3:not([data-zo]),.ip-art:not([data-zo]),.bcard:not([data-zo])").forEach(x=>{x.dataset.zo=1;vis.observe(x)});
-  if(!RMo)r.querySelectorAll(".ip-sec:not(.rv),.gc:not(.rv),.lcard:not(.rv),.mcwin:not(.rv),.bcard:not(.rv),.navbox:not(.rv)").forEach(x=>{x.classList.add("rv");rv.observe(x)})};
+  r.querySelectorAll(".tier:not([data-zo]),.room3:not([data-zo]),.ip-art:not([data-zo]),.bcard:not([data-zo]),.climb:not([data-zo])").forEach(x=>{x.dataset.zo=1;vis.observe(x)});
+  if(!RMo){r.querySelectorAll(".ip-sec:not(.rv),.gc:not(.rv),.lcard:not(.rv),.mcwin:not(.rv),.bcard:not(.rv),.navbox:not(.rv)").forEach(x=>{x.classList.add("rv");rv.observe(x)});
+   // the main pages' own blocks arrive once per visit: a page that draws itself again on the same address (a filter, a language) does not replay it
+   const nw=r.querySelectorAll(".rack .shelf:not(.rv),#main>section.gui:not(.rack):not(.rv),.blist>:not(.rv),.sbact:not(.rv),#main>section.s:not(.rv)");
+   if(nw.length&&!rvDone){rvDone=true;nw.forEach(x=>{x.classList.add("rv");rv.observe(x)})}}};
+ let rvDone=false;addEventListener("hashchange",()=>{rvDone=false});
  new MutationObserver(ms=>{for(const m of ms)if(m.addedNodes.length){watch(document);return}}).observe(document.documentElement,{childList:true,subtree:true});watch(document);
  const xb=document.createElement("div");xb.id="xpb";xb.setAttribute("aria-hidden","true");xb.innerHTML="<i></i>";document.body.appendChild(xb);let full=false,q=0;
  const xp=()=>{q=0;const art=document.querySelector(".ip.art"),H=document.documentElement.scrollHeight-innerHeight;

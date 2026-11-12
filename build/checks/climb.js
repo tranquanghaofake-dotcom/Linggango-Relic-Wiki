@@ -100,4 +100,28 @@
     if (!e.querySelector('.shall[data-f]')) bad.push(`climb: shelf ${i} has no link to all of it`);
     const n = +(e.querySelector('.shn') || { textContent: '' }).textContent.match(/\d+/); if (n !== want[i]) bad.push(`climb: shelf ${i} counts ${n}, the pack has ${want[i]}`);
     if (!vis.length || vis.length % cols || cols < 4) bad.push(`climb: shelf ${i} shows ${vis.length} slots in ${cols} columns: not whole rows`);
-    if (vis.some(x => x.getBoundingClientRect().width < 48)) bad.push(`climb: shelf ${i} has a slot narrower than its 48 px icon`); }); }
+    if (vis.some(x => x.getBoundingClientRect().width < 48)) bad.push(`climb: shelf ${i} has a slot narrower than its 48 px icon`);
+    const ic = e.querySelector('.sslot:not(.e) img, .sslot:not(.e) .aimg'), ch = document.querySelector('#pmap .ppanel:not([hidden]) .chest .sslot img, #pmap .ppanel:not([hidden]) .chest .sslot .aimg');
+    if (ic && ch && Math.round(ic.getBoundingClientRect().width) !== Math.round(ch.getBoundingClientRect().width)) bad.push(`climb: shelf ${i} draws its icons ${Math.round(ic.getBoundingClientRect().width)} px wide, the Act's chest ${Math.round(ch.getBoundingClientRect().width)}`); }); }
+// the wave (app.js pathMapWire): the step under the pointer grows to full size, its neighbours shrink, the nearer the more, and everything settles back when the pointer leaves;
+// the pointer parallax is written on the sky, never on the whole hero (every node under a written custom property works out its style again: 10 ms a move)
+{ location.hash = '#'; await new Promise(r => setTimeout(r, 80)); render(); await new Promise(r => setTimeout(r, 200));
+  const map = document.getElementById('pmap'), cl = map.querySelector('.climb'), tabs = [...map.querySelectorAll('.pn')], tr = map.querySelector('.ptrack'), sk = cl.querySelector('.dsky'),
+    rest = parseFloat(getComputedStyle(cl).getPropertyValue('--rest')), sleep = ms => new Promise(r => setTimeout(r, ms)),
+    ratio = () => tabs.map(t => t.getBoundingClientRect().width / (tr.clientWidth / tabs.length)), T = tr.getBoundingClientRect(), w = T.width / tabs.length,
+    move = (k, dx = 0) => sk.dispatchEvent(new PointerEvent('pointermove', { bubbles: true, clientX: T.left + w * (k + .5) + dx, clientY: T.bottom - 40 }));
+  if (innerWidth > 1100 && matchMedia('(hover:hover) and (pointer:fine)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
+    if (!map.classList.contains('wave')) bad.push('climb: the wave is not on at a desktop width');
+    else { const k = 6, h0 = tabs.map(t => t.getBoundingClientRect().height); move(k); await sleep(900); const r = ratio();
+      if (r[k] < .97) bad.push(`climb: the step under the pointer is ${r[k].toFixed(2)} of its cell, not full size`);
+      if (!(r[k - 1] < rest - .05 && r[k + 1] < rest - .05)) bad.push(`climb: the neighbours of the pointed step are ${r[k - 1].toFixed(2)} and ${r[k + 1].toFixed(2)}, not smaller than rest (${rest})`);
+      if (!(r[k - 1] < r[k - 2] && r[k - 2] <= r[k - 3] + .001 && r[k + 1] < r[k + 2] && r[k + 2] <= r[k + 3] + .001)) bad.push(`climb: the wave does not fade with distance (${r.map(x => x.toFixed(2)).join(' ')})`);
+      if (Math.abs(r[0] - rest) > .01 || Math.abs(r[12] - rest) > .01) bad.push('climb: the far steps move with the pointer');
+      if (tabs.filter(t => t.classList.contains('hov')).length !== 1 || !tabs[k].classList.contains('hov')) bad.push('climb: the pointed step is not the one marked .hov');
+      if (cl.style.getPropertyValue('--mx') !== '' || sk.style.getPropertyValue('--mx') === '') bad.push('climb: the pointer parallax is not written on the sky alone');
+      const hr = tabs.map((t, i) => t.getBoundingClientRect().height / h0[i]);
+      if (!(hr[k] > 1.4 && hr[k - 1] < .95 && hr[k + 1] < .95)) bad.push(`climb: the heights do not follow the wave (pointed ${hr[k].toFixed(2)}, neighbours ${hr[k - 1].toFixed(2)} and ${hr[k + 1].toFixed(2)} of rest)`);
+      move(k, w * .5); await sleep(900); const b = ratio();
+      if (!(b[k] > rest + .05 && b[k] < .97 && b[k + 1] > rest + .05 && b[k + 1] < .97)) bad.push(`climb: between two steps both should be part grown (${b[k].toFixed(2)}, ${b[k + 1].toFixed(2)})`);
+      sk.dispatchEvent(new PointerEvent('pointerleave')); cl.dispatchEvent(new PointerEvent('pointerleave')); await sleep(900); const z = ratio();
+      if (z.some(x => Math.abs(x - rest) > .01) || tabs.some(t => t.classList.contains('hov'))) bad.push(`climb: the steps do not settle back to rest when the pointer leaves (${z.map(x => x.toFixed(2)).join(' ')})`); } } }

@@ -1963,7 +1963,8 @@ body.hub:not(.scrolled) .top::after{opacity:0}
  background:var(--shade),var(--tex) 0 0/calc(16*var(--u)) calc(16*var(--u));image-rendering:pixelated;
  box-shadow:inset 0 6px 0 color-mix(in srgb,var(--tc) 38%,rgba(255,236,200,.4)),inset 4px 0 0 rgba(255,190,120,.16),inset -4px 0 0 rgba(0,0,0,.3),0 0 0 2px #160b2a;transition:height .22s var(--ease-out),margin .22s var(--ease-out),background-size .22s var(--ease-out)}
 #pmap .ptrack .pn[aria-selected=true]{--lift:12px}
-#pmap .ptrack .pn:hover{--r:1;--u:4px;--lift:24px}
+#pmap:not(.wave) .ptrack .pn:hover{--r:1;--lift:24px}
+#pmap .ptrack .pn:is(:hover,.hov){--u:4px}
 #pmap .ptrack:hover .pn[aria-selected=true]:not(:hover){--lift:0px}
 /* the band slides by translate (the compositor's job): animating background-position repainted all thirteen steps every frame */
 #pmap .sw{position:absolute;inset:0;overflow:hidden;pointer-events:none}
@@ -1971,7 +1972,7 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 @keyframes stairLight{0%{translate:-151.25% 0}28%,100%{translate:82.5% 0}}
 /* the Act's air stirs only over the open step and the pointed one (thirteen steps of particles at once were too many) */
 #pmap .ptrack .envfx{display:none}
-#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx{display:block;inset:auto 0 100% 0;height:240px;overflow:visible}
+#pmap .ptrack .pn:is(:hover,.hov,[aria-selected=true]) .envfx{display:block;inset:auto 0 100% 0;height:240px;overflow:visible}
 #pmap .ptrack .envfx i:nth-child(n+6){display:none}
 #pmap #pn-0 b::before{content:"";position:absolute;inset:calc(-1*var(--bt)) calc(-1*var(--s1)) auto;height:14px;background:linear-gradient(#7fd04a,#4f9a2e);box-shadow:0 4px 0 rgba(0,0,0,.25)}
 /* the air above a step belongs to the step: pointing at the Keeper is pointing at its Act (the figure itself takes no pointer, a wide one would cover its neighbours) */
@@ -1989,14 +1990,14 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 #pmap .gl b{position:absolute;width:calc(2*var(--u));height:calc(2*var(--u));background:color-mix(in srgb,var(--tc) 35%,#fff);opacity:0;animation:colGlint var(--d) ease-in-out var(--w) infinite;
  box-shadow:0 0 calc(5*var(--u)) var(--u) color-mix(in srgb,var(--tc) 70%,transparent)}
 @keyframes colGlint{0%,78%,100%{opacity:0;scale:.5}84%{opacity:1;scale:1}91%{opacity:.5;scale:.8}}
-#pmap .ptrack .pn:hover .fr{filter:brightness(1.25) saturate(1.2)}
+#pmap .ptrack .pn:is(:hover,.hov) .fr{filter:brightness(1.25) saturate(1.2)}
 /* under the pointer a light runs along the frieze, once */
 #pmap .fr::after{content:"";position:absolute;inset:0;opacity:0;background:linear-gradient(100deg,transparent 38%,rgba(255,255,255,.45) 50%,transparent 62%) -160% 0/260% 100% no-repeat}
-#pmap .ptrack .pn:hover .fr::after{opacity:1;animation:friezeRun .9s var(--ease-out) 1 both}
+#pmap .ptrack .pn:is(:hover,.hov) .fr::after{opacity:1;animation:friezeRun .9s var(--ease-out) 1 both}
 @keyframes friezeRun{to{background-position:160% 0}}
 #pmap .pn b{position:absolute;inset:var(--bt) var(--s1) auto;text-align:center;font:400 calc(34px*(.55 + .45*var(--r)))/1 "Jersey 15",var(--title);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.7);white-space:nowrap}
 #pmap .pn::after{content:attr(data-k);position:absolute;inset:calc(var(--bt) + 44px) var(--s1) auto;text-align:center;font:600 12.5px/1.2 var(--body);color:#f1e9ff;text-shadow:0 2px 0 rgba(0,0,0,.7);overflow-wrap:anywhere;transition:opacity .2s}
-#pmap .pn:not(:hover)::after{opacity:0}
+#pmap .pn:not(:hover):not(.hov)::after{opacity:0}
 #pmap .pfr{--kc:color-mix(in srgb,var(--tc) 62%,#fff);--sc:calc(.94*var(--r));position:absolute;left:50%;bottom:100%;display:block;translate:-50% 6px;isolation:isolate;pointer-events:none;
  animation:stepUp .5s var(--ease-out) both;animation-delay:calc(var(--i)*45ms)}
 /* a boss's figure (app.js figHtml): a box one frame wide over the strip of its loop; --z strip px to shown px, --fs the place's own scale */
@@ -2011,8 +2012,8 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 @keyframes stillBob{50%{translate:0 -5px}}
 #pmap .pn:first-child .pk{transform-origin:12% 100%}
 #pmap .pn:last-child .pk{transform-origin:88% 100%}
-#pmap .pk.wk,#pmap .pn[data-wk="1"]:is(:hover,:focus-visible) .pk:not(.wk){display:none}
-#pmap .pn[data-wk="1"]:is(:hover,:focus-visible) .pk.wk{display:block}
+#pmap .pk.wk,#pmap .pn[data-wk="1"]:is(:hover,.hov,:focus-visible) .pk:not(.wk){display:none}
+#pmap .pn[data-wk="1"]:is(:hover,.hov,:focus-visible) .pk.wk{display:block}
 #pmap .pfr .emb{--s:96px;margin-bottom:var(--s5)}
 /* the Ender Dragon perches on its step, behind its neighbours (in front when pointed at or open) */
 #pmap .pfr.perch{z-index:-1}
@@ -2024,14 +2025,19 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 @keyframes auraPulse{50%{opacity:.34;scale:1.08}}
 @keyframes sparkUp{0%{opacity:0;translate:0 0}14%{opacity:1}100%{opacity:0;translate:var(--dx) -170px}}
 /* the pointed step: its Keeper grows to full size, glows and moves, the others stay small and dim; the open step glows too */
-#pmap .ptrack:hover .pn .pk{filter:brightness(.6) saturate(.75)}
+#pmap .ptrack:is(:hover,.hv) .pn .pk{filter:brightness(.6) saturate(.75)}
 #pmap .ptrack .pn[aria-selected=true] .pfr{z-index:1}
-#pmap .ptrack .pn:hover .pfr{z-index:2}
-#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .pfr{--fit:1!important}
-#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .pk{filter:drop-shadow(0 0 14px var(--kc))}
+#pmap .ptrack .pn:is(:hover,.hov) .pfr{z-index:2}
+#pmap .ptrack .pn:is(:hover,.hov,[aria-selected=true]) .pfr{--fit:1!important}
+#pmap .ptrack .pn:is(:hover,.hov,[aria-selected=true]) .pk{filter:drop-shadow(0 0 14px var(--kc))}
 #pmap .pn[aria-selected=true] .pk{animation:figPop .45s var(--ease-pop)}
-#pmap .pn:is(:hover,[aria-selected=true]) .au{opacity:.5;animation:auraPulse 2.4s ease-in-out infinite}
-#pmap .pn:is(:hover,[aria-selected=true]) .sp{animation:sparkUp 1.7s linear var(--d) infinite}
+/* the wave (app.js, pathMapWire): on a desktop with a mouse the step under the pointer grows and its neighbours shrink, the nearer the more; JS writes the size of a step, its numeral and its
+   Keeper every frame (springs), so the CSS eases none of them, and the pointer's own :hover is replaced by .hov (the step whose cell the pointer is in) and .hv (the track is pointed at) */
+#pmap.wave .pn{pointer-events:none;transition:background-size .22s var(--ease-out)}
+#pmap.wave .pk{transition:filter .22s}
+#pmap.wave .pfr{--fit:1!important}
+#pmap .pn:is(:hover,.hov,[aria-selected=true]) .au{opacity:.5;animation:auraPulse 2.4s ease-in-out infinite}
+#pmap .pn:is(:hover,.hov,[aria-selected=true]) .sp{animation:sparkUp 1.7s linear var(--d) infinite}
 #pmap .pn[aria-selected=true]{--shade:linear-gradient(rgba(255,236,190,.2),transparent 56px);box-shadow:inset 0 0 0 3px var(--sun),inset 0 4px 0 3px rgba(255,255,255,.22),0 0 0 2px #160b2a}
 #pmap .pn[aria-selected=true] b{color:var(--sun)}
 #pmap .pn.done b::after{content:" ✓";font:700 16px var(--body);color:#9dff7a}
@@ -2064,9 +2070,9 @@ body.hub #pmap>.ppanel{margin-top:var(--s4)}
 .ppanel .chest{margin:var(--s5) 0 0;padding:var(--s3) var(--s4) var(--s4);background:rgba(0,0,0,.3);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
 .chest .cht{margin:0 0 var(--s2);font:400 22px/1 var(--title);color:var(--gui-mute);text-transform:uppercase}
 /* the rack: four display cases. A case is a header (title, count, one line, a link to all of it or the playstyle buttons) over one tray of slots in the case's colour (--ac);
-   the slots are big (a 16-pixel icon at 4x), their Act in the corner like a stack count, and the tray shows whole rows of the width it has (JS draws SHELFN, CSS hides what does not fit) */
+   the slots are the size of the Act chest's (a 16-pixel icon at 3x, 18 to a row), their Act in the corner like a stack count; JS draws SHELFN of them, empty slots make up the last row, CSS shows whole rows of the width it has */
 .rack{display:grid;gap:var(--s6);margin:var(--s5) 0}
-.shelf{--cols:16;--ic:64px;display:grid;gap:var(--s3);min-width:0}
+.shelf{--cols:18;--ic:48px;display:grid;gap:var(--s3);min-width:0}
 .shelf .shh{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s2) var(--s4)}
 .shelf .shh .gt{display:flex;align-items:center;gap:var(--s2);color:#fff}
 *:not(#_):not(#__):not(#___) .shelf .shh .gt{margin:0!important}
@@ -2078,14 +2084,14 @@ body.hub #pmap>.ppanel{margin-top:var(--s4)}
 .shelf .chest{display:block;padding:var(--s3);background:rgba(0,0,0,.34);box-shadow:inset 0 3px 0 var(--ac),inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--gui-hi)}
 .shelf .chest .srow{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--s1)}
 *:not(#_) .shelf .chest .sslot>img,*:not(#_) .shelf .chest .sslot .aimg{width:var(--ic)!important;height:var(--ic)!important}
-.shelf .chest .sslot small{position:absolute;inset:auto 6px 9px auto;margin:0;text-align:right;font:700 11px/1 var(--body);color:#fff;text-shadow:1px 1px 0 #000,-1px 0 0 #000,0 -1px 0 #000}
+.shelf .chest .sslot small{position:absolute;inset:auto 4px 7px auto;margin:0;text-align:right;font:700 11px/1 var(--body);color:#fff;text-shadow:1px 1px 0 #000,-1px 0 0 #000,0 -1px 0 #000}
+.shelf .chest .sslot.e{pointer-events:none;box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi);opacity:.55}
 .shelf .shmore{flex:none;margin-left:auto;display:flex;flex-wrap:wrap;gap:var(--s2)}
 .shelf .shmore .mcb{min-height:36px;padding:var(--s1) var(--s4);font-size:14px}
 /* the equipment case is a path, not a row of the best: one slot a step of the weapon's life, an arrow between them */
 .shelf.eq .chest .srow{display:flex;flex-wrap:wrap;gap:var(--s6)}
 .shelf.eq .chest .sslot{flex:none;width:calc(var(--ic) + var(--s5))}
 .shelf.eq .chest .sslot:not(:last-child)::after{content:"";position:absolute;left:calc(100% + var(--s2));top:50%;width:0;height:0;translate:0 -50%;border:7px solid transparent;border-left:10px solid var(--ac);border-right:0;pointer-events:none}
-@media (max-width:1299px){.shelf .chest .sslot:nth-child(n+15){display:none}.shelf:not(.eq){--cols:14}}
 
 /* footer: three even columns, and the art and font credits as one block of three columns under them */
 .sfoot{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -2112,14 +2118,14 @@ body.hub .sfoot{background:#0f0e14}
  #pmap .ptrack{position:relative;inset:auto;flex:1 0 auto;display:flex;align-items:flex-end;height:calc(var(--base) + 12*var(--step) + 330px);margin:var(--s3) calc(-1*var(--s4)) 0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;pointer-events:auto}
  #pmap .ptrack::-webkit-scrollbar{display:none}
  #pmap .pn{--u:4px;flex:none;width:96px}
- #pmap .ptrack .pn:is(:hover,[aria-selected=true]){--lift:0px}
+ #pmap .ptrack .pn:is(:hover,.hov,[aria-selected=true]){--lift:0px}
  #pmap .pn::after{opacity:1!important}
  #pmap .pn::before{height:230px}
  #pmap .pn b{font-size:28px}
  #pmap .pn::after{inset-block-start:calc(var(--bt) + 36px)}
  #pmap .pn.here .pfr::before{height:480px}
  .chest .srow{grid-template-columns:repeat(12,minmax(0,1fr))}
- .shelf:not(.eq){--cols:12;--ic:48px}
+ .shelf:not(.eq){--cols:12}
  .shelf:not(.eq) .chest .sslot:nth-child(n+13){display:none}
  .shelf .shall,.shelf .shmore{margin-left:0}
  .shelf .shmore{flex:1 1 100%}
@@ -2130,12 +2136,11 @@ body.hub .sfoot{background:#0f0e14}
  body.hub #main{--gut:var(--s3)}
  .chest .srow{grid-template-columns:repeat(6,minmax(0,1fr))}
  .shelf:not(.eq){--cols:6}
- .shelf.eq{--ic:48px}
  .sfoot{grid-template-columns:minmax(0,1fr)}
  .sfoot>div:nth-child(3){grid-row:auto}
  .sfoot>div:nth-child(3)>p{columns:1}
 }
-@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw::before,#pmap .pn,#pmap .gl b,#pmap .fr::after,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.bcardl .pk img,.ip-stage .pk img{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
+@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw::before,#pmap .pn,#pmap .gl b,#pmap .fr::after,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.bcardl .pk img,.ip-stage .pk img{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,.hov,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
 
 /* ================= The room spreads over the page =================
    On a page that opens with a room (Curios: the library; Equipment: the forge; Bosses: the crypt; Build planner: the
@@ -2200,6 +2205,29 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
 *:not(#_):not(#__) .gear .gseg.subs a:hover{background:rgba(255,255,255,.14)!important;color:#fff}
 *:not(#_):not(#__) .gear .gseg.subs a[aria-selected="true"]{background:#3c7d1e!important;box-shadow:inset 0 0 0 2px #79c84a!important;color:#fff}
 .gear .gseg.subs{gap:var(--s1) var(--s2);margin:0 0 var(--s3)}
+
+/* ===== motion, round 17. What is added here shares one set of timings and one curve: 120 ms for a hover, 200 ms for a state, 400 ms or more for something arriving. Only transform and opacity
+   move, so nothing is laid out again; it all sits in no-preference, ends at rest, and starts only when it can be seen (the hero's own loops pause off screen: ux.js .zz). */
+:root{--mo-1:.12s;--mo-2:.2s;--mo-3:.4s;--mo-ease:cubic-bezier(.2,.7,.2,1)}
+@keyframes heroIn{from{opacity:0;transform:translateY(12px)}}
+@keyframes slotIn{from{opacity:0;transform:translateY(8px) scale(.92)}}
+@keyframes selPop{40%{transform:scale(1.06)}}
+@media (prefers-reduced-motion:no-preference){
+ /* the home page opens line by line: the facts, the title, what the stairs are, then the ways in */
+ .climb .tcs,.climb .lg,.climb .pcap,.climb .tact{animation:heroIn .5s var(--mo-ease) backwards}
+ .climb .tcs{animation-delay:0s}.climb .lg{animation-delay:.05s}.climb .pcap{animation-delay:.11s}.climb .tact{animation-delay:.17s}
+ /* a shelf's slots rise in one after the other once the shelf has arrived; a slot lifts under the pointer */
+ .shelf.rv.in .sslot{animation:slotIn .42s var(--mo-ease) backwards;animation-delay:calc(.12s + var(--k,0)*18ms)}
+ .sslot{transition:transform var(--mo-1) var(--mo-ease)}
+ .sslot:is(:hover,:focus-visible):not(.e){transform:translateY(-2px)}
+ .sslot:active{transform:none}
+ .shelf .shall{transition:transform var(--mo-2) var(--mo-ease),color var(--mo-1)}
+ .shelf .shall:is(:hover,:focus-visible){transform:translateX(4px)}
+ /* Equipment: the chosen Act, group or playstyle presses in when it changes (not while typing in the search) */
+ .gear.swap .gseg a[aria-selected="true"],.gear.swap .gacts a[aria-current="page"]{animation:selPop .3s var(--mo-ease)}
+ /* the cave wall's ores sit behind the hero: they twinkle only once the page has scrolled to them */
+ body.hub:not(.scrolled) #cave .og,body.hub:not(.scrolled) #cave .og::before,body.hub:not(.scrolled) #cave .og::after{animation-play-state:paused}
+}
 
 @media (max-width:760px){.gear .gseg.roles{padding-left:0}.gear .gseg.roles::before{display:none}}
 @media (max-width:480px){.shelf:not(.eq){--cols:4}}
