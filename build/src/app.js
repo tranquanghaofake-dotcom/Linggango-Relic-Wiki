@@ -1136,7 +1136,10 @@ function skyArt(w,h,PX){
  // 1 the sky: the page's gradient in 24 dithered bands, a warm glow round the sun, the sun itself, stars, a moon, long streaks of high cloud
  const B=buf(),ST=[[0,"#141038"],[.24,"#2e1d62"],[.46,"#6d2f7c"],[.64,"#c8506d"],[.80,"#f58a54"],[.93,"#ffc66e"],[1,"#ffe3a0"]].map(([t,c])=>[t,hex(c)]);
  const at=t=>{for(let i=1;i<ST.length;i++)if(t<=ST[i][0]){const [t0,c0]=ST[i-1],[t1,c1]=ST[i];return mix(c0,c1,(t-t0)/(t1-t0))}return ST.at(-1)[1]};
- const N=24,bands=[...Array(N)].map((_,i)=>at(i/(N-1))),sunX=.175*W+15,sunY=Math.round((H-Math.min(H,220))+Math.min(H,220)*(.72-.19));   // the sun sits just above the far range's crest: half of its disc shows
+ const Hh=Math.min(H,220),O=H-Hh,F=buf(Hh),noise=sc=>{const p=[...Array(48)].map(R);return x=>{const u=x/sc,i=Math.floor(u),t=u-i,s=t*t*(3-2*t);return p[i%48]*(1-s)+p[(i+1)%48]*s}};
+ const ridge=(base,amp,sc,oct)=>{const ns=oct.map(o=>noise(sc/o));return x=>{let v=0,a=1,s=0;oct.forEach((o,i)=>{v+=ns[i](x)*a;s+=a;a*=.5});return base-amp*v/s}};
+ const hz=Hh*.72,R0=ridge(hz-Hh*.14,Hh*.15,84,[1,2,5]),R1=ridge(hz-Hh*.08,Hh*.16,70,[1,2,4]),R2=ridge(hz+Hh*.02,Hh*.13,46,[1,2.5,5]),R3=ridge(hz+Hh*.14,Hh*.12,36,[1,2,4]);
+ const N=24,bands=[...Array(N)].map((_,i)=>at(i/(N-1))),sunX=.175*W+15,sunY=O+Math.round(R0(sunX))-3;   // the sun sits just above the far range's crest: half of its disc shows
  for(let y=0;y<H;y++)for(let x=0;x<W;x++){const t=y/H*(N-1),i=Math.min(N-2,Math.floor(t));let c=bands[i+(t-i>BAY(x,y)?1:0)];
   const d=Math.hypot((x-sunX)/1.8,y-sunY),g=Math.max(0,1-d/(H*.5)),l=Math.floor(g*g*4+BAY(x,y)-.25);if(l>0)c=mix(c,[255,196,110],Math.min(.4,l*.1));B.put(x,y,c)}
  // the sun: a disc of four bands of light, dithered into each other (its lower half is behind the far range); the rays (CSS .dsun::before) turn round its middle
@@ -1151,21 +1154,21 @@ function skyArt(w,h,PX){
  for(let k=0;k<8;k++){const y=Math.floor(H*(.14+R()*.34)),x0=Math.floor(R()*W*.9),len=22+Math.floor(R()*44),base=at(y/H);
   for(let i=0;i<len;i++){const a=.5*Math.pow(Math.sin(Math.PI*i/len),1.3);if(a>BAY(x0+i,y)*.55)B.put(x0+i,y,mix(base,[255,176,128],.5),Math.min(.8,a+.2));if(i>4&&i<len-4&&R()<.7)B.put(x0+i+3,y+1,mix(base,[255,150,110],.4),a*.5)}}
  // 2 the land: the far range (hazy), a crag of dark rock on it with a castle, mist, the far ridge, the middle ridge, floating islands, the near ridge with pines
- const Hh=Math.min(H,220),O=H-Hh,F=buf(Hh),noise=sc=>{const p=[...Array(48)].map(R);return x=>{const u=x/sc,i=Math.floor(u),t=u-i,s=t*t*(3-2*t);return p[i%48]*(1-s)+p[(i+1)%48]*s}};
- const ridge=(base,amp,sc,oct)=>{const ns=oct.map(o=>noise(sc/o));return x=>{let v=0,a=1,s=0;oct.forEach((o,i)=>{v+=ns[i](x)*a;s+=a;a*=.5});return base-amp*v/s}};
- const hz=Hh*.72,R0=ridge(hz-Hh*.14,Hh*.15,84,[1,2,5]),R1=ridge(hz-Hh*.08,Hh*.16,70,[1,2,4]),R2=ridge(hz+Hh*.02,Hh*.13,46,[1,2.5,5]),R3=ridge(hz+Hh*.14,Hh*.12,36,[1,2,4]);
  const layer=(fn,col,haze,lit,deco)=>{for(let x=0;x<W;x++){const top=Math.round(fn(x));for(let y=top;y<Hh;y++){let c=mix(col,at((y+O)/H),haze);if(y-top<2&&fn(x+2)>fn(x-2)+.5)c=mix(c,lit,y===top?.5:.28);F.put(x,y,c)}}if(deco)deco()};
  const mist=(y0,hh,a)=>{for(let y=y0;y<y0+hh;y++)for(let x=0;x<W;x++)if((1-(y-y0)/hh)*a>BAY(x,y)*.9)F.put(x,y,[255,176,120],.3)};
- layer(R0,hex("#8a4a98"),.6,[255,196,140]);
+ // (the crag's flat top stands 16 art px, 64, over the lowest point of the range's crest under it, so rock shows all round)
  // the crag: a flat top 52 wide, steep sides that run down into the range; the castle stands on the flat, wall to wall, with a gate, a keep, a tall tower and two more,
  // the sun's side (left) lit, a few windows lit
- const nar=W<200,cx0=Math.round(W*(nar?.66:.70)),hw=nar?15:26,top=Math.round(hz-Hh*.27),nz=noise(9),crag=x=>{const dx=Math.abs(x-cx0);return dx<=hw?top+(dx>hw-3?(dx-hw+3)*.7:0):top+2+(dx-hw)*1.9+(nz(x)-.5)*5},
-  cragFn=x=>{const c=crag(x);return c<R0(x)-1?c:Infinity};
+ const nar=W<200,cx0=Math.round(W*(nar?.66:.70)),hw=nar?15:26,top=Math.round(Math.min(R0(cx0),R0(cx0-hw),R0(cx0+hw)))-(nar?15:16),nz=noise(9),nz2=noise(5),
+  crag=x=>{const ax=Math.abs(x-cx0);if(ax<=hw)return top+(nz2(x)-.5)*2+(ax>hw-4?(ax-hw+4)*.5:0);const o=ax-hw;return top+2+Math.floor(o/5)*3.5+(o%5)*.5+o*.34+(nz(x*1.7)-.5)*7},
+  bx=cx0-hw-(nar?14:26),bt=top+(nar?10:18),butte=x=>{const dx=Math.abs(x-bx);return dx<=(nar?3:5)?bt+dx*dx*.14:bt+3+(dx-(nar?3:5))*2.6},
+  rock=x=>Math.min(crag(x),butte(x)),cragFn=x=>{const c=rock(x);return c<R0(x)-1?c:Infinity};
  layer(cragFn,hex("#552a72"),.18,[255,184,124],()=>{
-  for(let x=cx0-hw-40;x<=cx0+hw+40;x++){const c=Math.round(crag(x)),f=Math.round(R0(x));if(c>=f-1)continue;for(let y=c+1;y<f;y++){   // the far side in shade, strata, grain
-   if(x>cx0+hw*.35)F.put(x,y,[22,8,42],Math.min(.4,.14+(x-cx0-hw*.35)*.004));if((y-top)%7===0&&(x+y)%5!==0)F.put(x,y,[28,12,48],.22);if(R()<.025)F.put(x,y,[255,190,130],.14)}}
+  for(let x=cx0-hw-70;x<=cx0+hw+60;x++){const c=Math.round(rock(x)),f=Math.round(R0(x));if(c>=f-1)continue;for(let y=c+1;y<f;y++){   // light from the left across the whole rock, strata that tilt, grain
+   const sh=Math.max(0,Math.min(1,(x-(cx0-hw*.5))/(hw*2.4)));if(sh>0)F.put(x,y,[22,8,42],.46*sh);if(x<cx0)F.put(x,y,[255,190,130],Math.max(0,.2*(1-(x-(cx0-hw-10))/(hw+10))));
+   if((y+(x>>2))%8===0&&(x+y)%5!==0)F.put(x,y,[28,12,48],.24);if(R()<.025)F.put(x,y,[255,190,130],.14)}}
   {let px=cx0-hw*.6,py=Math.round(R0(cx0-hw*.6))-1;while(py>top+1){px+=(py%4<2?1:-.5);py-=1;if(Math.round(px)<=cx0+3&&py%2===0)F.put(Math.round(px),py,[255,210,150],.55)}}   // a path up to the gate
-  for(let k=0;k<(nar?3:7);k++){const x=cx0-hw-14+Math.floor(R()*(2*hw+28)),y=Math.round(crag(x));if(y<R0(x)-4&&Math.abs(x-cx0)>hw-2){const h=4+Math.floor(R()*4);for(let j=0;j<h;j++){const wj=Math.ceil((j+1)/2);F.rect(x-Math.floor(wj/2),y-h+j+1,wj,1,[26,10,44])}}}
+  for(let k=0;k<(nar?3:7);k++){const x=cx0-hw-14+Math.floor(R()*(2*hw+28)),y=Math.round(rock(x));if(y<R0(x)-4&&Math.abs(x-cx0)>hw-2&&Math.abs(x-bx)>(nar?4:6)){const h=4+Math.floor(R()*4);for(let j=0;j<h;j++){const wj=Math.ceil((j+1)/2);F.rect(x-Math.floor(wj/2),y-h+j+1,wj,1,[26,10,44])}}}
   const cl=hex("#2d1450"),rf=hex("#240f3e"),lt=mix(cl,[255,190,130],.5),wn=[255,200,122],by=top,r=(x,y,w,h,c=cl,a=1)=>F.rect(cx0+x,by-y-h,w,h,c,a),
    roof=(xc,baseY,hw2,hg)=>{for(let j=0;j<hg;j++){const w=Math.max(1,Math.round(hw2*2*(1-j/hg)));F.rect(cx0+xc-Math.floor(w/2),by-baseY-j-1,w,1,rf)}};
   const ww=nar?13:23;r(-ww,0,2*ww,6);for(let x=-ww;x<ww;x+=4)r(x,6,2,2);                       // the wall and its merlons
@@ -1177,6 +1180,7 @@ function skyArt(w,h,PX){
    r(-30,0,1,16,lt,.85);r(22,0,1,12,lt,.7);[[-27,9],[-27,4],[25,6]].forEach(([x,y])=>r(x,y,1,2,wn))}
   r(-ww,0,1,6,lt,.85);r(-9,6,1,9,lt,.8);r(-3,15,1,9,lt,.8);
   [[0,19],[-6,10],[5,10]].forEach(([x,y])=>r(x,y,1,2,wn));r(-3,0,1,6,[255,168,98],.4)});
+ layer(R0,hex("#8a4a98"),.6,[255,196,140]);   // the far range comes after the crag, so only the rock above its crest shows (a crag laid over it stood in it like a box)
  mist(Math.round(hz-Hh*.02),Math.round(Hh*.05),.55);
  layer(R1,hex("#7a3a86"),.5,[255,190,130]);
  layer(R2,hex("#4a2368"),.2,[255,170,110]);

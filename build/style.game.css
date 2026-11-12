@@ -1978,6 +1978,10 @@ body.hub:not(.scrolled) .top::after{opacity:0}
  box-shadow:0 0 calc(5*var(--u)) var(--u) color-mix(in srgb,var(--tc) 70%,transparent)}
 @keyframes colGlint{0%,78%,100%{opacity:0;scale:.5}84%{opacity:1;scale:1}91%{opacity:.5;scale:.8}}
 #pmap .ptrack .pn:hover .fr{filter:brightness(1.25) saturate(1.2)}
+/* under the pointer a light runs along the frieze, once */
+#pmap .fr::after{content:"";position:absolute;inset:0;opacity:0;background:linear-gradient(100deg,transparent 38%,rgba(255,255,255,.7) 50%,transparent 62%) -160% 0/260% 100% no-repeat;mix-blend-mode:overlay}
+#pmap .ptrack .pn:hover .fr::after{opacity:1;animation:friezeRun .9s var(--ease-out) 1 both}
+@keyframes friezeRun{to{background-position:160% 0}}
 #pmap .pn b{position:absolute;inset:var(--bt) var(--s1) auto;text-align:center;font:400 calc(34px*(.55 + .45*var(--r)))/1 "Jersey 15",var(--title);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.7);white-space:nowrap}
 #pmap .pn::after{content:attr(data-k);position:absolute;inset:calc(var(--bt) + 44px) var(--s1) auto;text-align:center;font:600 12.5px/1.2 var(--body);color:#f1e9ff;text-shadow:0 2px 0 rgba(0,0,0,.7);overflow-wrap:anywhere;transition:opacity .2s}
 #pmap .pn:not(:hover)::after{opacity:0}
@@ -2098,7 +2102,7 @@ body.hub .sfoot{background:#0f0e14}
  .sfoot>div:nth-child(3){grid-row:auto}
  .sfoot>div:nth-child(3)>p{columns:1}
 }
-@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw,#pmap .pn,#pmap .gl b,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.bcardl .pk img,.ip-stage .pk img{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
+@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw,#pmap .pn,#pmap .gl b,#pmap .fr::after,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.bcardl .pk img,.ip-stage .pk img{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
 
 /* ================= The room spreads over the page =================
    On a page that opens with a room (Curios: the library; Equipment: the forge; Bosses: the crypt; Build planner: the
