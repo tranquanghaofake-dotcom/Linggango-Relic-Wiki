@@ -30,9 +30,9 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
   if (a.includes('--figs')) {
     const PATH = ['iron_colossus', 'goblin_lord', 'arion', 'eldorath', 'zoranth_forgotten', 'ender_dragon', 'elvenite_paladin', 'vaedric', 'discord', 'sanghor', 'zoranth_newborn', 'nyxaris'];
     const OPT = { ender_dragon: { perch: 1, size: 1.7, maxw: 520, yaw: 0, pitch: 8, free: 1, frames: 24 } };
-    const STILL = { apollyon: ['side_imgs.json', 'Apollyon', { outline: 5, texel: 5, clean: 34, z: 0.4 }] },   // drawn at twice its size (5 px a texel -> 10), z 0.4: 4 whole shown px to a texel
+    const STILL = { apollyon: ['side_imgs.json', 'Apollyon', { outline: 5, texel: 5, clean: 34, grade: true, z: 0.4 }] },   // drawn at twice its size (5 px a texel -> 10), z 0.4: 4 whole shown px to a texel
       SRC = 2, CSSH = 176, MED = 4.8, LO = 0.95, HI = 1.2, MAXW = 520, PPU = 40, YAW = 18, YAWS = [18, 14, 10, 6, 0], PROT = 100, FR = { idle: 24, walk: 16 }, ANIMS = ['idle', 'walk'], figs = {}, walks = {};
-    const fig = (rec, o) => page.evaluate(([r, o]) => figure(r, o), [rec, { ppu: PPU, yaw: YAW, anims: ANIMS, type: 'image/webp', ...o }]);
+    const fig = (rec, o) => page.evaluate(([r, o]) => figure(r, o), [rec, { ppu: PPU, yaw: YAW, anims: ANIMS, type: 'image/webp', grade: true, ...o }]);
     for (const k of PATH) { const rec = M[k], o = OPT[k] || {}; if (!rec) { console.log(k, 'has no model'); process.exitCode = 1; continue; }
       const v = { perch: !!o.perch, ...(o.yaw != null && { yaw: o.yaw }), ...(o.pitch != null && { pitch: o.pitch }) }, m = await fig(rec, { ...v, frames: 6, measure: true }), mw = o.maxw || MAXW;
       // whole texels: the strip pixels per texel of the skin (even, so that the page, which shows a strip at half size, shows whole

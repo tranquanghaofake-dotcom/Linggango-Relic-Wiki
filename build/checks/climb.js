@@ -55,6 +55,7 @@
   { await new Promise(r => requestAnimationFrame(() => setTimeout(r, 250)));   // skyPaint runs in the frame after the page is drawn
     const cl = document.querySelector('#pmap .climb'), a0 = cl.querySelector('.dart0'), a1 = cl.querySelector('.dart1');
     if (!a0 || !a1 || !a0.width || !a1.width || a0.width !== a1.width || a0.height !== a1.height) bad.push('climb: the sky canvases are missing, empty or of different sizes');
+    else if (Math.abs(a0.width * 2 - a0.getBoundingClientRect().width) > 3) bad.push(`climb: the sky is drawn at ${(a0.getBoundingClientRect().width / a0.width).toFixed(1)} px an art pixel, not 2 (the castle, the clouds and the ridges are drawn for that)`);
     else { const px = (c, x, y) => c.getContext('2d').getImageData(x, y, 1, 1).data[3];
       if (px(a0, a0.width >> 1, 2) < 250) bad.push('climb: the top of the sky is not painted');
       if (px(a1, a1.width >> 1, a1.height - 2) < 250) bad.push('climb: the foot of the land is not painted');

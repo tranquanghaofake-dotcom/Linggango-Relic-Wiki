@@ -1458,3 +1458,10 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Đã làm** (nhánh `claude/fervent-volta-4697s9`, không phải `main`): (1) hình boss dùng làm mịn của trình duyệt thay cho lấy mẫu gần nhất (texel không nguyên ở 0,31 và 0,47 cỡ dải hình làm cạnh lởm chởm); đảo ngược lựa chọn "pixelated" của đợt 9, trả lại bằng một dòng CSS; (2) nền: bỏ vệt mây cao, vệt gió, hai mây trôi và một khối mây tĩnh; thêm quầng sáng dọc chân trời.
 - **Kiểm**: `bash build/check.sh` xanh ngay lượt đầu; thử đỏ invariant `auto`. Ảnh đã xem: bảng so sánh A/B ở 125%, nền ở 1920, 1440, 375.
 - **Open**: chủ wiki chọn giữ làm mịn hay trả về pixelated; chọn hàng boss (2, 3, 4) hoặc nói "nâng cấp model" là gì khác; thẻ "gear cho Act của bạn"; đưa vào `main` khi chủ wiki nói; mục Changes khi chủ wiki nói "cập nhật Changes".
+
+## 2026-11-12: diện mạo mới, đợt 20: boss theo hàng 3, nền mịn gấp đôi, lâu đài chi tiết
+- **Bối cảnh**: chủ wiki bảo áp hàng 3 của bảng boss và tiếp tục nâng cấp nền (độ pixel, chi tiết lâu đài). Chi tiết: `docs/plans/2026-11-11-the-climb.md` mục 26. Làm trực tiếp, không dùng agent.
+- **Đã làm** (nhánh `claude/fervent-volta-4697s9`, không phải `main`): (1) boss: `gradeCanvas` (màu theo hoàng hôn và đổ bóng mềm ở chân) áp lên mọi dải hình và ảnh Apollyon, `boss_figs.json` và `boss_walks.json` tạo lại (3,17 và 3,15 MB); (2) nền vẽ ở 2 px một điểm ảnh (`skyArt(w,h,2)`, hệ số K), cùng bố cục, gấp đôi chi tiết, thời gian vẽ giữ như cũ (58, 96, 37 ms) nhờ bỏ cấp phát theo từng điểm ảnh; (3) lâu đài vẽ lại: gạch xếp lớp, mái ngói, cổng vòm có song chắn và đuốc, cửa sổ vòm sáng, cờ hiệu, hai tháp bên; (4) invariant "nền vẽ ở 2 px".
+- **Kiểm**: `bash build/check.sh` xanh ngay lượt đầu; thử đỏ invariant mới. Ảnh đã xem: nền ở 1920 (phóng 2×), 1440, 375; hàng boss ở 1440.
+- **Phát hiện, chưa sửa**: ở màn 125% điểm ảnh 2 px thành 2,5 px thiết bị (không nguyên), chưa xem ảnh ở 125%; các mục chưa sửa của những đợt trước giữ nguyên.
+- **Open**: chủ wiki xem lại nền và boss trên bản xem thử; thẻ "gear cho Act của bạn"; đưa vào `main` khi chủ wiki nói; mục Changes khi chủ wiki nói "cập nhật Changes".
