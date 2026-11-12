@@ -24,15 +24,17 @@ window.portrait=async(rec,size=256,yaw=30,pitch=10)=>{
  Object.assign(cam,{left:mx-h,right:mx+h,top:my+h,bottom:my-h});cam.updateProjectionMatrix();
  R.setSize(size,size,false);R.render(S,cam);return R.domElement.toDataURL('image/png')};
 // The figures of The climb (the home page's staircase): strips of a boss's loops, the frames side by side.
-// Unlike a portrait, a figure is framed on the entity's own origin (the point on the ground between its feet): that point is
-// on the centre line of every frame, and each loop's frame is cut to the pixels that loop really covers, so a held weapon
-// or a wing does not push the body off its step. The loops in `anims` share the centre line and the bottom edge (the lowest
-// pixel of all of them), so the page can swap one strip for another in place even though a walk is wider than an idle. `ppu` is pixels per block after the model's in-game scale; pass the same
-// value for every boss and their sizes compare as in the game (`fit` shrinks a boss by that factor, for the caller's own
-// size rule). `measure` returns the frame size without the pictures (to choose a view).
-// Returns {blocks (height in game), strips: {name: {w, h (one frame), bw (the body's width: the middle of the frame that
-// holds 86% of the loop's pixels, so a sword or a wing tip does not count), n (frames), ms (loop length), png (base64)}}}.
-window.figure=async(rec,{ppu=40,fit=1,frames=12,anims=['idle'],yaw=30,pitch=10,type='image/png',measure:only=false}={})=>{
+// A figure is framed on the boss itself, not on its model: horizontally on the middle of its body (the column that splits its
+// opaque pixels in two halves of equal mass, so a sword or a wing tip does not drag it sideways) and vertically on the ground
+// (the entity's origin, between its feet): the frame ends at the ground, and what a loop puts below it (a weapon swung low, a
+// hem) is cropped, so the feet stand on the step whatever the loops do. The loops in `anims` share that one centre line and
+// that ground line, each loop's frame being as wide as it needs, so the page can swap one strip for another in place.
+// A flying boss (`fly`) has no ground: its frame is its lowest pixel, as before.
+// `ppu` is pixels per block after the model's in-game scale; pass the same value for every boss and their sizes compare as in
+// the game (`fit` shrinks a boss by that factor, for the caller's own size rule). `measure` skips the pictures.
+// Returns {blocks (height in game), strips: {name: {w, h (one frame), bw (the body's width: the middle 86% of its mass), n (frames),
+// ms (loop length), cut (share of the opaque pixels that were below the ground and cropped), png (base64)}}}.
+window.figure=async(rec,{ppu=40,fit=1,frames=12,anims=['idle'],yaw=30,pitch=10,fly=false,type='image/png',measure:only=false}={})=>{
  const map=await tex(rec.texture,true),glow=rec.glow?await tex(rec.glow):null,layers=[];
  for(const l of rec.layers||[])layers.push({...l,texture:await tex(l.texture)});
  const g=buildGeo(rec.geo,map,{glow,layers,texW:rec.texW,texH:rec.texH,material:vanillaMaterial(map,{transparent:rec.alpha==='blend'})});
@@ -46,15 +48,19 @@ window.figure=async(rec,{ppu=40,fit=1,frames=12,anims=['idle'],yaw=30,pitch=10,t
  for(const l of L)for(let i=0;i<l.n;i++){if(l.A)l.A.update(i*l.dur/l.n);const box=measure(g);if(!blocks)blocks=(box.max.y-Math.min(0,box.min.y))*(rec.scale||1);
   for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z]){const v=new THREE.Vector3(x,y,z).applyMatrix4(inv);lo.min(v);hi.max(v)}}
  const k=ppu*fit*(rec.scale||1),hx=Math.max(-lo.x,hi.x),W0=2*Math.ceil(hx*k)+4,H0=Math.ceil((hi.y-lo.y)*k)+4;
- Object.assign(cam,{left:-W0/2/k,right:W0/2/k,bottom:lo.y-2/k,top:lo.y-2/k+H0/k});cam.updateProjectionMatrix();R.setSize(W0,H0,false);
- let y1=-1;
- for(const l of L){l.fr=[];let x0=W0,x1=-1,y0=H0;const col=new Float64Array(W0);for(let i=0;i<l.n;i++){if(l.A)l.A.update(i*l.dur/l.n);R.render(S,cam);const c=document.createElement('canvas');c.width=W0;c.height=H0;const q=c.getContext('2d',{willReadFrequently:true});q.drawImage(R.domElement,0,0);l.fr.push(c);
-  const d=q.getImageData(0,0,W0,H0).data;for(let y=0;y<H0;y++)for(let x=0;x<W0;x++)if(d[(y*W0+x)*4+3]>8){col[x]++;if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}}
-  l.W=2*Math.ceil(Math.max(W0/2-x0,x1+1-W0/2));l.y0=y0;
-  let tot=0,acc=0,h=0;for(const v of col)tot+=v;const c=W0/2;while(h<l.W/2&&acc<.86*tot){acc+=col[c-1-h]+col[c+h];h++}l.bw=2*h}
- const out={blocks:+blocks.toFixed(2),strips:{}};
- for(const l of L){const W=l.W,H=y1-l.y0+1,st=out.strips[l.name]={w:W,h:H,bw:l.bw,n:l.n,ms:Math.round(l.dur*1000)};if(only)continue;
-  const c=document.createElement('canvas');c.width=W*l.n;c.height=H;const q=c.getContext('2d');l.fr.forEach((f,i)=>q.drawImage(f,W0/2-W/2,l.y0,W,H,i*W,0,W,H));
+ const top=lo.y-2/k+H0/k;Object.assign(cam,{left:-W0/2/k,right:W0/2/k,bottom:lo.y-2/k,top});cam.updateProjectionMatrix();R.setSize(W0,H0,false);
+ const gy=Math.min(H0,Math.max(0,Math.round((top-new THREE.Vector3(0,0,0).applyMatrix4(inv).y)*k)));   // the ground's row in the loose frame
+ let y0all=H0,y1all=0,x0all=W0,x1all=-1,C=null;
+ for(const l of L){l.fr=[];l.col=new Float64Array(W0);let below=0,all=0,y0=H0,x0=W0,x1=-1;
+  for(let i=0;i<l.n;i++){if(l.A)l.A.update(i*l.dur/l.n);R.render(S,cam);const c=document.createElement('canvas');c.width=W0;c.height=H0;const q=c.getContext('2d',{willReadFrequently:true});q.drawImage(R.domElement,0,0);l.fr.push(c);
+   const d=q.getImageData(0,0,W0,H0).data;for(let y=0;y<H0;y++)for(let x=0;x<W0;x++)if(d[(y*W0+x)*4+3]>8){all++;if(y>y1all)y1all=y;if(!fly&&y>=gy)below++;else{l.col[x]++;if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y}}}
+  l.cut=all?below/all:0;l.x0=x0;l.x1=x1;l.y0=y0;if(y0<y0all)y0all=y0;if(x0<x0all)x0all=x0;if(x1>x1all)x1all=x1;
+  const mass=(lo_,hi_)=>{let t=0;for(let x=0;x<W0;x++)t+=l.col[x];let acc=0,xl=0,xr=W0-1;for(let x=0;x<W0;x++){acc+=l.col[x];if(acc>=lo_*t){xl=x;break}}acc=0;for(let x=W0-1;x>=0;x--){acc+=l.col[x];if(acc>=lo_*t){xr=x;break}}return [xl,xr]};
+  l.mid=mass(.5,0);l.body=mass(.07,0);if(C===null)C=(l.mid[0]+l.mid[1]+1)/2}
+ // the centre line is the first loop's body middle; every loop's frame reaches as far as its pixels do on either side of it
+ const out={blocks:+blocks.toFixed(2),strips:{}},H=Math.max(1,(fly?y1all+1:gy)-y0all);
+ for(const l of L){const half=Math.max(C-l.x0,l.x1+1-C,1),W=2*Math.ceil(half),st=out.strips[l.name]={w:W,h:H,bw:Math.max(1,l.body[1]+1-l.body[0]),n:l.n,ms:Math.round(l.dur*1000),cut:+l.cut.toFixed(3)};if(only)continue;
+  const c=document.createElement('canvas');c.width=W*l.n;c.height=H;const q=c.getContext('2d');l.fr.forEach((f,i)=>q.drawImage(f,C-W/2,y0all,W,H,i*W,0,W,H));
   st.png=c.toDataURL(type,1).split(',')[1]}
  return out};
 // A boss with no model record (a side boss drawn by another tool): its finished picture, cut to the pixels it covers.

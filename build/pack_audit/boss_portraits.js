@@ -19,17 +19,18 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
   // askew beside the others). bw is the body's width (the page keeps bodies, not sword tips, over their own step).
   // Size rule: a boss of MED blocks is CSSH px tall on the page; the others follow the square root of their in-game height
   // (so Arion at 3.1 blocks and Sanghor at 6.8 differ, but not by 2.2 times), within LO..HI, and no frame is wider than MAXW.
-  // OPT: the Ender Dragon flies (the page lifts it behind its neighbours) and is drawn larger, as the biggest thing on The Path.
+  // OPT: the Ender Dragon flies (the page lifts it behind its neighbours; no ground, its frame is its lowest pixel) and is seen from
+  // its own side (yaw 210: head to the right, as if climbing the stairs; seen from the front it is a flat black wedge).
   // The last Act has no Keeper: its step shows the Act's end-game boss from STILL (a finished side-boss picture, no loop).
   if (a.includes('--figs')) {
     const PATH = ['iron_colossus', 'goblin_lord', 'arion', 'eldorath', 'zoranth_forgotten', 'ender_dragon', 'elvenite_paladin', 'vaedric', 'discord', 'sanghor', 'zoranth_newborn', 'nyxaris'];
-    const OPT = { ender_dragon: { fly: 1, size: 1.45, maxw: 700 } };
-    const STILL = { apollyon: ['side_imgs.json', 'Apollyon'] }, SRC = 2, CSSH = 176, MED = 4.8, LO = 0.95, HI = 1.2, MAXW = 520, PPU = 40, YAW = 30, ANIMS = ['idle', 'walk'], figs = {}, walks = {};
+    const OPT = { ender_dragon: { fly: 1, size: 1.2, maxw: 350, yaw: 210, pitch: 15 } };
+    const STILL = { apollyon: ['side_imgs.json', 'Apollyon'] }, SRC = 2, CSSH = 176, MED = 4.8, LO = 0.95, HI = 1.2, MAXW = 520, PPU = 40, YAW = 0, ANIMS = ['idle', 'walk'], figs = {}, walks = {};
     const fig = (rec, o) => page.evaluate(([r, o]) => figure(r, o), [rec, { ppu: PPU, yaw: YAW, anims: ANIMS, type: 'image/webp', ...o }]);
     for (const k of PATH) { const rec = M[k], o = OPT[k] || {}; if (!rec) { console.log(k, 'has no model'); process.exitCode = 1; continue; }
-      const m = await fig(rec, { frames: 6, measure: true }), mw = o.maxw || MAXW;
+      const v = { fly: !!o.fly, ...(o.yaw != null && { yaw: o.yaw }), ...(o.pitch != null && { pitch: o.pitch }) }, m = await fig(rec, { ...v, frames: 6, measure: true }), mw = o.maxw || MAXW;
       let fit = (o.size || 1) * SRC * CSSH * Math.min(HI, Math.max(LO, Math.sqrt(m.blocks / MED))) / (m.blocks * PPU); if (m.strips.idle.w * fit > mw) fit = mw / m.strips.idle.w;
-      const r = await fig(rec, { fit }), i = r.strips.idle, w = r.strips.walk;
+      const r = await fig(rec, { ...v, fit }), i = r.strips.idle, w = r.strips.walk;
       figs[k] = { src: 'data:image/webp;base64,' + i.png, w: i.w, h: i.h, bw: i.bw, n: i.n, ms: i.ms, z: 1 / SRC }; if (o.fly) figs[k].fly = 1;
       if (w) walks[k] = { src: 'data:image/webp;base64,' + w.png, w: w.w, h: w.h, n: w.n, ms: w.ms };
       console.log(k.padEnd(18), `idle ${i.w}x${i.h} body ${i.bw} ${(i.png.length / 1024).toFixed(0)} kB`, w ? `walk ${w.w}x${w.h} ${(w.png.length / 1024).toFixed(0)} kB` : 'no walk', `${m.blocks} blocks`); }

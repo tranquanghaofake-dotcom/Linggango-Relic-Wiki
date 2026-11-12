@@ -1986,8 +1986,8 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 #pmap .pn[data-wk="1"]:is(:hover,:focus-visible) .pk.wk{display:block}
 #pmap .pfr .emb{--s:96px;margin-bottom:var(--s5)}
 /* the Ender Dragon flies: it hangs in the air over its step, behind its neighbours (in front when open or pointed at), and bobs */
-#pmap .pfr.fly{z-index:-1;margin-bottom:var(--s6);animation:stepUp .5s var(--ease-out) both,flyBob 5s ease-in-out infinite;animation-delay:calc(var(--i)*45ms),0s}
-@keyframes flyBob{50%{margin-bottom:var(--s7)}}
+#pmap .pfr.fly{z-index:-1;margin-bottom:var(--s8);animation:stepUp .5s var(--ease-out) both,flyBob 5s ease-in-out infinite;animation-delay:calc(var(--i)*45ms),0s}
+@keyframes flyBob{50%{margin-bottom:calc(var(--s8) + var(--s2))}}
 #pmap .au{position:absolute;left:50%;bottom:0;z-index:-1;width:300px;height:300px;translate:-50% 30%;background:radial-gradient(closest-side,var(--kc),transparent);opacity:0;transition:opacity .25s}
 #pmap .sp{position:absolute;left:calc(50% + var(--x));bottom:12%;width:6px;height:6px;background:var(--kc);opacity:0}
 @keyframes stepUp{from{opacity:0;translate:-50% 48px}}

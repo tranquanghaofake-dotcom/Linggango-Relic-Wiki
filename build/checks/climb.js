@@ -24,6 +24,12 @@
     // the body's width is known and inside the frame (the page keeps bodies over their own step); only a flying figure is lifted off its step
     if (!(f.bw > 0 && f.bw <= f.w)) bad.push(`climb: the figure of ${k} has no body width`);
     if (!!f.fly !== b.querySelector('.pfr').classList.contains('fly')) bad.push(`climb: ${k} ${f.fly ? 'should fly and does not' : 'flies and should not'}`); }
+  // side by side, at rest: every figure's body stands over the middle of its step (the strips are framed on the body, not on a
+  // sword or a wing), and no two bodies overlap (a flying figure is behind the others and left out); the ground is the frame's bottom
+  { const at = pn().map((b, i) => { const a = path[i], k = NEXTB[a] || (ENDB[a] || [])[0], f = BFIG[k], r = b.querySelector('.pfr'), pr = r.getBoundingClientRect(), br = b.getBoundingClientRect(), fit = +getComputedStyle(r).getPropertyValue('--fit') || 1;
+      return { k, fly: !!f.fly, c: pr.left + pr.width / 2, off: pr.left + pr.width / 2 - (br.left + br.width / 2), bw: pr.width * f.bw / f.w * fit }; });
+    at.forEach((x, i) => { if (i && i < at.length - 1 && Math.abs(x.off) > 6) bad.push(`climb: the body of ${x.k} is ${x.off.toFixed(0)}px off the middle of its step`);
+      const y = at[i + 1]; if (y && !x.fly && !y.fly && y.c - x.c < (x.bw + y.bw) / 2 - 2) bad.push(`climb: the bodies of ${x.k} and ${y.k} overlap by ${((x.bw + y.bw) / 2 - (y.c - x.c)).toFixed(0)}px`); }); }
   // the walk loops (BWALK, with the late pictures): each belongs to a figure, shares its scale and its ground, and its picture is as wide as its frames say
   for (const [k, w] of Object.entries(window.BWALK || {})) { const f = BFIG[k], im = new Image(); im.src = w.src; await im.decode().catch(() => {});
     if (!f || f.n < 2) bad.push(`climb: a walk loop for ${k}, which has no animated figure`);
