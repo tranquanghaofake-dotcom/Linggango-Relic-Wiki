@@ -27,8 +27,8 @@
     // the perched dragon (wings) is sized by its width, not by whole texels; the end boss's picture is a nearest-texel render shown at a whole number of pixels a texel
     const ir = getComputedStyle(im).imageRendering, art = NEXTB[a] && !f.perch;
     if (art && !(Number.isInteger(f.tx) && f.tx >= 2 && f.tx % 2 === 0)) bad.push(`climb: the strip of ${k} is not drawn at whole texels (tx ${f.tx})`);
-    if (art && ir !== 'pixelated') bad.push(`climb: the figure of ${k} is shown ${ir}, not pixelated`);
-    if (!NEXTB[a] && ir !== 'pixelated') bad.push(`climb: the end boss ${k} is shown ${ir}, not pixelated`);
+    if (art && ir !== 'auto') bad.push(`climb: the figure of ${k} is shown ${ir}, not smoothly downscaled (nearest-neighbour at 0.31 to 0.47 makes its texels uneven)`);
+    if (!NEXTB[a] && ir !== 'auto') bad.push(`climb: the end boss ${k} is shown ${ir}, not smoothly downscaled`);
     if (!!f.perch !== b.querySelector('.pfr').classList.contains('perch')) bad.push(`climb: ${k} ${f.perch ? 'should perch and does not' : 'perches and should not'}`); }
   // side by side, at rest: every figure's body stands over the middle of its step (the strips are framed on the body, not on a
   // sword or a wing), and no two bodies overlap (the perched dragon is behind the others); the ground is the frame's bottom

@@ -1150,9 +1150,8 @@ function skyArt(w,h,PX){
  {const mx=Math.round(W*.78),my=Math.round(H*.1);
   for(let y=-11;y<=11;y++)for(let x=-11;x<=11;x++){const d=Math.hypot(x,y),e=Math.hypot(x-3,y+1.5);
    if(d<=6.2)B.put(mx+x,my+y,e>5.4?[238,238,254]:[120,104,176],e>5.4?1:.35);else if(d<11&&(1-(d-6.2)/4.8)*.5>BAY(mx+x,my+y)*.55)B.put(mx+x,my+y,[196,190,255],.16)}}
- // high cloud: thin streaks warmed from below, tapering at both ends
- for(let k=0;k<8;k++){const y=Math.floor(H*(.14+R()*.34)),x0=Math.floor(R()*W*.9),len=22+Math.floor(R()*44),base=at(y/H);
-  for(let i=0;i<len;i++){const a=.5*Math.pow(Math.sin(Math.PI*i/len),1.3);if(a>BAY(x0+i,y)*.55)B.put(x0+i,y,mix(base,[255,176,128],.5),Math.min(.8,a+.2));if(i>4&&i<len-4&&R()<.7)B.put(x0+i+3,y+1,mix(base,[255,150,110],.4),a*.5)}}
+ // the glare: the sun's light lying along the horizon behind the far ranges, widest at the sun and fading to both sides, a few pixels thick
+ for(let x=0;x<W;x++){const f=Math.exp(-(((x-sunX)/(W*.38))**2));if(f<.04)continue;for(let y=Math.round(sunY-9);y<=Math.round(sunY+3);y++){const t=1-Math.abs(y-(sunY-3))/7;if(t>0&&f*t*.9>BAY(x,y)*.8)B.put(x,y,[255,206,146],.22+.18*f)}}
  // cloud banks: heaps of discs with a flat underside and puffs on top. The shape comes first (a mask), then the light, in bands of depth from the top edge: a rim of pale pink-gold, a lilac upper body (the
  // sky's colour), a violet core, and the sun's orange along the underside (the sun is below the cloud), each band dithered into the next; the core is a little darker away from the sun
  const bank=(cx,cy,w,hg,seed)=>{let z=seed*7919;const rz=()=>(z=z*16807%2147483647)/2147483647,n=4+Math.floor(w/7),D=[],pf=t=>Math.pow(Math.sin(Math.PI*(.08+.84*t)),1.2);
@@ -1165,7 +1164,7 @@ function skyArt(w,h,PX){
    let up=0,lf=0;while(cov(x,y-up-1))up++;while(cov(x-lf-1,y))lf++;
    const dn=base-y,rim=Math.max((2.2-up)/2.2,(1.8-lf)/1.8*(up<hg*.8?1:0)),und=1-dn/(hg*.42),top=1-up/(hg*.62),sk=at(y/H),bay=BAY(x,y),away=Math.max(0,Math.min(1,(x-cx)/(w*.6)+.4)),wm=Math.max(0,1-Math.hypot((x-sunX)/1.8,y-sunY)/(H*.85)),wr=c=>mix(c,[255,166,132],wm*.55);
    B.put(x,y,rim>bay*.9?mix(sk,[255,222,176],.85):und>bay?wr(mix(sk,[246,146,128],.65)):top>bay?wr(mix(sk,[196,122,172],.6)):wr(mix(mix(sk,[100,54,134],.7),[58,28,94],away*.4)),.96)}};
- (W<200?[[.74,.64,.34,8,4],[.22,.70,.30,7,5]]:[[.41,.49,.18,19,1],[.57,.36,.12,14,2],[.11,.35,.13,15,3],[.88,.40,.13,17,4],[.66,.57,.10,10,5]]).forEach(([fx,fy,fw,fh,sd])=>bank(Math.round(W*fx),Math.round(H*fy),Math.round(W*fw),fh,sd));
+ (W<200?[[.76,.64,.32,8,4],[.22,.70,.28,7,5]]:[[.40,.50,.17,18,1],[.12,.37,.12,13,3],[.90,.41,.12,16,4],[.53,.31,.08,8,2]]).forEach(([fx,fy,fw,fh,sd])=>bank(Math.round(W*fx),Math.round(H*fy),Math.round(W*fw),fh,sd));
  // 2 the land: the far range (hazy), a crag of dark rock on it with a castle, mist, the far ridge, the middle ridge, floating islands, the near ridge with pines
  const layer=(fn,col,haze,lit,deco)=>{for(let x=0;x<W;x++){const top=Math.round(fn(x));for(let y=top;y<Hh;y++){let c=mix(col,at((y+O)/H),haze);if(y-top<2&&fn(x+2)>fn(x-2)+.5)c=mix(c,lit,y===top?.5:.28);F.put(x,y,c)}}if(deco)deco()};
  const mist=(y0,hh,a)=>{for(let y=y0;y<y0+hh;y++)for(let x=0;x<W;x++)if((1-(y-y0)/hh)*a>BAY(x,y)*.9)F.put(x,y,[255,176,120],.3)};
@@ -1228,7 +1227,7 @@ function skyPaint(cl){const a=cl.querySelector(".dart0"),b=cl.querySelector(".da
 const SKY=(()=>{let q=7;const r=()=>(q=q*16807%2147483647)/2147483647;
  const stars=Array.from({length:90},()=>{const big=r()<.18;return `${(r()*100).toFixed(2)}vw ${r()*300|0}px 0 ${big?1:0}px rgba(255,255,255,${(.35+r()*.6).toFixed(2)})`}).join(",");
  /* the sky and the land are two canvases (skyPaint): the sky behind the sun and the clouds, the land in front of them */
- return `<div class="dsky" aria-hidden="true"><canvas class="dart0"></canvas><i class="dstars" style="box-shadow:${stars}"></i><i class="dsun"></i>${[[37,.8,230,0],[44,.55,300,.22],[40,.45,360,.47],[49,.7,260,.63],[35,.5,330,.85]].map(([y,z,d,o],k)=>`<i class="dcl" style="top:${y}%;scale:${z};--cd:${d}s;--cdl:-${(d*o).toFixed(0)}s;--cx:${(o*100).toFixed(0)}vw;background-image:var(--cl${k%3})"></i>`).join("")}<canvas class="dart1"></canvas>${[[22,64,0],[31,78,-23],[14,92,-47]].map(([y,d,l])=>`<i class="dbirds" style="top:${y}%;--bd:${d}s;--bdl:${l}s"><b></b><b></b><b></b></i>`).join("")}${[[38,0],[52,-4],[27,-8]].map(([y,l])=>`<i class="dwind" style="top:${y}%;--wl:${l}s"></i>`).join("")}</div>`})();
+ return `<div class="dsky" aria-hidden="true"><canvas class="dart0"></canvas><i class="dstars" style="box-shadow:${stars}"></i><i class="dsun"></i>${[[44,.55,300,.22],[40,.45,360,.47],[35,.5,330,.85]].map(([y,z,d,o],k)=>`<i class="dcl" style="top:${y}%;scale:${z};--cd:${d}s;--cdl:-${(d*o).toFixed(0)}s;--cx:${(o*100).toFixed(0)}vw;background-image:var(--cl${k%3})"></i>`).join("")}<canvas class="dart1"></canvas>${[[22,64,0],[31,78,-23],[14,92,-47]].map(([y,d,l])=>`<i class="dbirds" style="top:${y}%;--bd:${d}s;--bdl:${l}s"><b></b><b></b><b></b></i>`).join("")}</div>`})();
 /* a boss's figure: the strip of its idle loop (BFIG) in a box one frame wide; z = shown px per strip px (the strip's own when
    left out); "" when the boss has no figure. cardFig: the picture on a boss's card in the Bosses list, fitted to a 112x116 box:
    its figure, else its portrait (the Warden and the Wither), else nothing (the caller puts the Act's emblem). */

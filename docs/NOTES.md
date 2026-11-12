@@ -1452,3 +1452,9 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Kiểm**: `bash build/check.sh` xanh ngay lượt đầu. Thử đỏ: Apollyon (trả luật cũ: 13 px), tỉ lệ icon (ép 52 px: 3 lỗi). Ảnh đã xem như plan 24.6.
 - **Lỗi của tôi trong lúc làm**: kệ Equipment đệm ô trống (đợt 17); mây làm lại hai lần trước khi đọc ra là mây.
 - **Open**: chủ wiki chọn hàng 2, 3 hoặc 4 ở bảng boss (hoặc nói rõ "nâng cấp model" là gì khác); có muốn thẻ "gear cho Act của bạn" thay kệ Equipment không; xem nền và kệ trên bản xem thử; đưa vào `main` khi chủ wiki nói; mục Changes khi chủ wiki nói "cập nhật Changes".
+
+## 2026-11-12: diện mạo mới, đợt 19: hình boss nét hơn, nền gọn và đẹp hơn
+- **Bối cảnh**: chủ wiki hỏi có cách nâng cấp boss nào "nét hơn" không, và muốn nền nâng cấp tiếp một cách toàn diện nhưng clean, không rối. Chi tiết: `docs/plans/2026-11-11-the-climb.md` mục 25. Làm trực tiếp, không dùng agent.
+- **Đã làm** (nhánh `claude/fervent-volta-4697s9`, không phải `main`): (1) hình boss dùng làm mịn của trình duyệt thay cho lấy mẫu gần nhất (texel không nguyên ở 0,31 và 0,47 cỡ dải hình làm cạnh lởm chởm); đảo ngược lựa chọn "pixelated" của đợt 9, trả lại bằng một dòng CSS; (2) nền: bỏ vệt mây cao, vệt gió, hai mây trôi và một khối mây tĩnh; thêm quầng sáng dọc chân trời.
+- **Kiểm**: `bash build/check.sh` xanh ngay lượt đầu; thử đỏ invariant `auto`. Ảnh đã xem: bảng so sánh A/B ở 125%, nền ở 1920, 1440, 375.
+- **Open**: chủ wiki chọn giữ làm mịn hay trả về pixelated; chọn hàng boss (2, 3, 4) hoặc nói "nâng cấp model" là gì khác; thẻ "gear cho Act của bạn"; đưa vào `main` khi chủ wiki nói; mục Changes khi chủ wiki nói "cập nhật Changes".
