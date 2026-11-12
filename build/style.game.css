@@ -1909,10 +1909,10 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 .climb .dsun::after{content:"";position:absolute;inset:-44px;background:rgba(255,190,110,.2);animation:sunHalo 7s ease-in-out infinite}
 @keyframes sunRays{to{rotate:360deg}}
 @keyframes sunHalo{50%{opacity:.25;scale:1.12}}
-.climb .dr1,.climb .dr2{inset:auto -24px 0 -24px}
-.climb .dr1{height:46%;background:#5b2a72;opacity:.75;translate:calc(var(--mx,0)*-9px) 0}
-.climb .dr2{height:42%;background:#3a1b55;translate:calc(var(--mx,0)*-16px) 0}
-.climb .dcl{left:0;width:168px;height:28px;background:rgba(255,206,178,.4);transform-origin:0 0;margin-left:calc(var(--mx,0)*-22px);animation:cloudDrift var(--cd) linear var(--cdl) infinite}
+/* the sky behind the sun and the land in front of it are pixel art painted by skyPaint (app.js); the land shifts a little with the pointer */
+.climb .dart0,.climb .dart1{position:absolute;inset:0 -24px;width:calc(100% + 48px);height:100%;image-rendering:pixelated;pointer-events:none}
+.climb .dart1{translate:calc(var(--mx,0)*-10px) 0;transition:translate .5s ease-out}
+.climb .dcl{left:0;width:176px;height:68px;background:no-repeat 0 0/100% 100%;image-rendering:pixelated;transform-origin:0 0;margin-left:calc(var(--mx,0)*-22px);animation:cloudDrift var(--cd) linear var(--cdl) infinite}
 @keyframes cloudDrift{from{translate:-240px 0}to{translate:calc(100vw + 60px) 0}}
 /* birds: three in a loose V cross the sky now and then (a two-frame flap; the wiki's own 7x4 drawing) */
 .climb .dbirds{left:0;width:96px;height:48px;animation:birdFly var(--bd) linear var(--bdl) infinite}
@@ -1924,10 +1924,6 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 /* wind: a thin gust slides across and fades */
 .climb .dwind{left:0;width:180px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,244,224,.45),transparent);opacity:0;animation:windGust 12s ease-in var(--wl) infinite}
 @keyframes windGust{0%{opacity:0;translate:10vw 0}6%{opacity:1}22%{opacity:0;translate:72vw -10px}100%{opacity:0;translate:72vw -10px}}
-.climb .dcl::before,.climb .dcl::after{content:"";position:absolute;background:inherit}
-.climb .dcl::before{left:42px;top:-28px;width:84px;height:28px}
-.climb .dcl::after{left:-28px;top:28px;width:224px;height:28px}
-.climb .dsky::after{content:"";position:absolute;inset:auto 0 0 0;height:58%;background:radial-gradient(ellipse 46% 80% at 21% 78%,rgba(255,196,110,.55),transparent 70%),linear-gradient(transparent,rgba(255,150,90,.22))}
 /* the foot of the staircase sinks into the cave rock the rest of the page is cut from */
 /* the foot of the scene is the ground: a hard edge of the cave's own stone, not a fade */
 .climb::after{content:"";position:absolute;inset:auto 0 0 0;z-index:3;height:40px;pointer-events:none;
@@ -1953,9 +1949,9 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 /* the staircase: a tablist laid over the whole sky, so a beacon can rise from a step to the top */
 #pmap .ptrack{position:absolute;inset:0;z-index:1;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));align-items:end;pointer-events:none}
 #pmap .pxp{display:none}
-/* a step is a block of stone: a lit tread (the sun is low on the left: warm at the top edge) over a shaded mass, split by a hard seam, no fade */
+/* a step is a block of stone: its own texture, a warm top edge (the sun is low on the left) and crisp bevel lines; nothing dark or faded over it */
 /* the staircase at rest is small, with sky between the steps: a step and its Keeper are --rest of their full size (--r), and the pointed step is full size (the Keeper, the air, the walk loop and the name come with it); the open step stays small and is marked by its glow and its aura; on a phone the strip scrolls and nothing shrinks */
-#pmap .pn{--r:var(--rest);--blk:calc(104px*var(--r));--shade:linear-gradient(rgba(255,214,150,.16),rgba(20,10,40,.08) 40px,rgba(20,10,40,.3) var(--blk),rgba(0,0,0,.6) var(--blk),rgba(0,0,0,.6) calc(var(--blk) + 3px),rgba(14,9,26,.66) calc(var(--blk) + 3px),rgba(14,9,26,.88));--bt:calc(22px*var(--r));position:relative;display:block;min-width:0;height:calc((var(--base) + var(--i)*var(--step) + 16px)*var(--r) + var(--lift,0px));margin-inline:calc((1 - var(--r))*50%);padding:0;border:0;cursor:pointer;pointer-events:auto;color:#fff;font:inherit;
+#pmap .pn{--r:var(--rest);--shade:linear-gradient(rgba(255,214,150,.14),transparent 56px);--bt:calc(22px*var(--r));position:relative;display:block;min-width:0;height:calc((var(--base) + var(--i)*var(--step) + 16px)*var(--r) + var(--lift,0px));margin-inline:calc((1 - var(--r))*50%);padding:0;border:0;cursor:pointer;pointer-events:auto;color:#fff;font:inherit;
  background:var(--shade),var(--tex) 0 0/64px 64px;image-rendering:pixelated;
  box-shadow:inset 0 6px 0 color-mix(in srgb,var(--tc) 38%,rgba(255,236,200,.4)),inset 4px 0 0 rgba(255,190,120,.16),inset -4px 0 0 rgba(0,0,0,.3);transition:height .22s var(--ease-out),margin .22s var(--ease-out)}
 #pmap .ptrack .pn[aria-selected=true]{--lift:12px}

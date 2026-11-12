@@ -1116,10 +1116,64 @@ const CHESTN=36,SHELFN=18;
 /* the dusk sky behind The Path: stars and two far ridges, the same on every load (a seeded generator, no data), and what
    moves in it: clouds that drift across, a few birds, gusts of wind (CSS; the sun's light too). The layers shift a little
    with the pointer (pathMapWire: --mx, --my). */
+/* The Path's sky as pixel art, drawn once per size (PX css px to an art pixel): behind the sun, the sky (the page's gradient as dithered colour bands, a warm glow round the sun, stars);
+   in front of it, the land (three ridges with a castle and pines, mist between them, three floating islands); and three cloud sprites (violet tops, undersides the sun still lights).
+   Seeded, so every visit draws the same sky. Returns {back, front, clouds: [data URLs]}. */
+function skyArt(w,h,PX){
+ const W=Math.ceil(w/PX),H=Math.ceil(h/PX);let q=11;const R=()=>(q=q*16807%2147483647)/2147483647;
+ const hex=s=>[1,3,5].map(i=>parseInt(s.slice(i,i+2),16)),mix=(a,c,t)=>a.map((v,i)=>v+(c[i]-v)*t);
+ const BAY=(x,y)=>([0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5][(y&3)*4+(x&3)]+.5)/16;
+ const buf=()=>{const c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d"),im=x.createImageData(W,H),d=im.data;
+  // put: a pixel over what is there (a < 1 blends)
+  const put=(X,Y,c,a=1)=>{if(X<0||Y<0||X>=W||Y>=H)return;const i=(Y*W+X)*4,da=d[i+3]/255,oa=a+da*(1-a);if(a>=1||!da){d[i]=c[0];d[i+1]=c[1];d[i+2]=c[2];d[i+3]=a*255;return}
+   for(let k=0;k<3;k++)d[i+k]=(c[k]*a+d[i+k]*da*(1-a))/oa;d[i+3]=oa*255};
+  const rect=(X,Y,w,h,c,a)=>{for(let j=0;j<h;j++)for(let i=0;i<w;i++)put(X+i,Y+j,c,a)};
+  return {c,x,im,put,rect,done:()=>{x.putImageData(im,0,0);return c}}};
+ // 1 the sky
+ const B=buf(),ST=[[0,"#141038"],[.24,"#2e1d62"],[.46,"#6d2f7c"],[.64,"#c8506d"],[.80,"#f58a54"],[.93,"#ffc66e"],[1,"#ffe3a0"]].map(([t,c])=>[t,hex(c)]);
+ const at=t=>{for(let i=1;i<ST.length;i++)if(t<=ST[i][0]){const [t0,c0]=ST[i-1],[t1,c1]=ST[i];return mix(c0,c1,(t-t0)/(t1-t0))}return ST.at(-1)[1]};
+ const N=24,bands=[...Array(N)].map((_,i)=>at(i/(N-1))),sunX=.175*W+15,sunY=H*.7-15;
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){const t=y/H*(N-1),i=Math.min(N-2,Math.floor(t));let c=bands[i+(t-i>BAY(x,y)?1:0)];
+  const d=Math.hypot((x-sunX)/1.8,y-sunY),g=Math.max(0,1-d/(H*.5)),l=Math.floor(g*g*4+BAY(x,y)-.25);if(l>0)c=mix(c,[255,196,110],Math.min(.4,l*.1));B.put(x,y,c)}
+ for(let k=0;k<70;k++){const x=Math.floor(R()*W),y=Math.floor(Math.pow(R(),1.7)*H*.5);B.put(x,y,[255,244,230],.3+R()*.5);if(R()<.07){B.put(x-1,y,[255,244,230],.7);B.put(x+1,y,[255,244,230],.7);B.put(x,y-1,[255,244,230],.7);B.put(x,y+1,[255,244,230],.7)}}
+ // 2 the land
+ const F=buf(),noise=sc=>{const p=[...Array(48)].map(R);return x=>{const u=x/sc,i=Math.floor(u),t=u-i,s=t*t*(3-2*t);return p[i%48]*(1-s)+p[(i+1)%48]*s}};
+ const ridge=(base,amp,sc,oct)=>{const ns=oct.map(o=>noise(sc/o));return x=>{let v=0,a=1,s=0;oct.forEach((o,i)=>{v+=ns[i](x)*a;s+=a;a*=.5});return base-amp*v/s}};
+ const hz=H*.72,R1=ridge(hz-H*.08,H*.16,70,[1,2,4]),R2=ridge(hz+H*.02,H*.13,46,[1,2.5,5]),R3=ridge(hz+H*.14,H*.12,36,[1,2,4]);
+ const layer=(fn,col,haze,lit,deco)=>{for(let x=0;x<W;x++){const top=Math.round(fn(x));for(let y=top;y<H;y++){let c=mix(col,at(y/H),haze);if(y-top<2&&fn(x+2)>fn(x-2)+.5)c=mix(c,lit,y===top?.5:.28);F.put(x,y,c)}}if(deco)deco()};
+ const mist=(y0,hh,a)=>{for(let y=y0;y<y0+hh;y++)for(let x=0;x<W;x++)if((1-(y-y0)/hh)*a>BAY(x,y)*.9)F.put(x,y,[255,176,120],.3)};
+ layer(R1,hex("#7a3a86"),.45,[255,190,130]);mist(Math.round(hz-H*.02),Math.round(H*.07),.9);
+ layer(R2,hex("#4a2368"),.2,[255,170,110],()=>{   // a castle on the middle ridge
+  const cx=Math.round(W*.66),by=Math.round(R2(cx))+2,c=hex("#3d1d5a"),r=(x,y,w,h)=>F.rect(cx+x,by-y-h,w,h,c);
+  r(-14,0,28,7);[-14,-8,-2,4,10].forEach((x,i)=>r(x,7,i%2?2:4,i%2?2:3));r(-5,7,10,10);r(-5,17,3,2);r(-1,17,3,2);r(3,17,2,2);r(-1,19,2,5);r(-22,0,7,15);r(-23,15,9,2);r(-22,17,3,2);r(-18,17,3,2);r(15,0,7,12);r(14,12,9,2);r(15,14,3,2);r(19,14,3,2);
+  [[-1,11],[-20,9],[18,7],[1,3]].forEach(([x,y])=>F.rect(cx+x,by-y-2,1,2,[255,196,120]));F.rect(cx-22,by-15,1,15,[255,190,130],.55);F.rect(cx-14,by-7,1,7,[255,190,130],.55)});
+ mist(Math.round(hz+H*.06),Math.round(H*.06),.6);
+ const island=(cx,cy,w,hh,s)=>{const c=hex("#3a1a58"),top=hex("#5a3478"),lit=[255,184,120];
+  for(let x=-w;x<=w;x++){const e=1-Math.pow(Math.abs(x)/w,1.6),yt=cy-Math.round(1+e*2),yb=cy+Math.round(hh*e*e*(.6+.4*Math.sin(x*.7+s)));
+   for(let y=yt;y<=yb;y++){let col=y<=cy?top:mix(c,[20,8,36],(y-cy)/hh*.7);if(y===yt)col=mix(top,lit,x<w*.2?.55:.22);F.put(cx+x,y,col)}}
+  const tx=cx-Math.round(w*.3),dk=hex("#2b1445");F.rect(tx,cy-3,1,3,dk);F.rect(tx-1,cy-6,3,3,dk);F.rect(tx,cy-8,1,2,dk);F.rect(cx+Math.round(w*.35),cy-3,1,2,[255,200,130]);
+  const wx=cx+Math.round(w*.55);for(let y=cy;y<cy+hh*1.6;y++)F.put(wx,y,[255,210,170],.35)};
+ island(Math.round(W*.64),Math.round(H*.43),11,9,1);island(Math.round(W*.79),Math.round(H*.35),8,7,2.4);island(Math.round(W*.52),Math.round(H*.5),6,5,4);
+ layer(R3,hex("#2c1648"),.05,[255,150,100],()=>{for(let k=0;k<26;k++){const x=Math.floor(R()*W);if(x>W*.2&&x<W*.3&&R()<.8)continue;const y=Math.round(R3(x)),h=4+Math.floor(R()*6);for(let j=0;j<h;j++){const wj=Math.ceil((j+1)/2);F.rect(x-Math.floor(wj/2),y-h+j,wj,1,hex("#1f0f36"))}}});
+ // 3 clouds: 44 x 17 art pixels, a flat underside and a top made of puffs; violet on top, the sun's colour underneath, the left edge (the sun's side) lit
+ const clouds=[3,7,12].map(s=>{const cw=44,ch=17,C=document.createElement("canvas");C.width=cw;C.height=ch;const x=C.getContext("2d");let z=s*977;const r=()=>(z=z*16807%2147483647)/2147483647;
+  const base=ch-2,puffs=[...Array(6)].map((_,k)=>({cx:4+k*7+Math.round(r()*3),rx:4.5+r()*3.5,ry:(3+r()*5)*(.55+.9*Math.sin(Math.PI*(k+.5)/6))})),inC=(i,j)=>j<=base&&puffs.some(p=>((i-p.cx)/p.rx)**2+((j-base)/p.ry)**2<=1);
+  for(let i=0;i<cw;i++){let top=-1;for(let j=0;j<=base;j++)if(inC(i,j)){top=j;break}if(top<0)continue;
+   for(let j=top;j<=base;j++){const t=(j-top)/Math.max(1,base-top),lit=!inC(i-1,j)||!inC(i-2,j),c=mix([112,66,146],[255,172,124],Math.pow(t,1.3)),k=lit?mix(c,[255,214,170],.45):c;
+    x.fillStyle=`rgba(${k.map(Math.round)},${.7-.12*(1-t)})`;x.fillRect(i,j,1,1)}}
+  return C.toDataURL()});
+ return {back:B.done(),front:F.done(),clouds}}
+
+/* the hero's sky and land painted into its two canvases, and the cloud sprites into --cl0..2; one painting per size is kept (a second visit paints nothing) */
+const SKYC={};
+function skyPaint(cl){const a=cl.querySelector(".dart0"),b=cl.querySelector(".dart1"),d=cl.querySelector(".dsky");if(!a||!b||!d)return;
+ const w=cl.clientWidth+48,h=cl.clientHeight,k=w+"x"+h;if(!w||!h)return;let c=SKYC[k];if(!c){const ks=Object.keys(SKYC);if(ks.length>3)delete SKYC[ks[0]];c=SKYC[k]=skyArt(w,h,4)}
+ for(const [cv,src] of [[a,c.back],[b,c.front]]){cv.width=src.width;cv.height=src.height;cv.getContext("2d").drawImage(src,0,0)}
+ c.clouds.forEach((u,i)=>d.style.setProperty("--cl"+i,`url(${u})`))}
 const SKY=(()=>{let q=7;const r=()=>(q=q*16807%2147483647)/2147483647;
  const stars=Array.from({length:90},()=>{const big=r()<.18;return `${(r()*100).toFixed(2)}vw ${r()*300|0}px 0 ${big?1:0}px rgba(255,255,255,${(.35+r()*.6).toFixed(2)})`}).join(",");
- const ridge=(n,lo,hi,st)=>{let h=(lo+hi)/2;const p=["0% 100%"];for(let i=0;i<n;i++){h=Math.max(lo,Math.min(hi,h+Math.round(r()*4-2)*st));p.push(`${(i*100/n).toFixed(2)}% ${100-h}%`,`${((i+1)*100/n).toFixed(2)}% ${100-h}%`)}p.push("100% 100%");return `polygon(${p.join(",")})`};
- return `<div class="dsky" aria-hidden="true"><i class="dstars" style="box-shadow:${stars}"></i><i class="dsun"></i>${[[37,.8,230,0],[44,.55,300,.22],[40,.45,360,.47],[49,.7,260,.63],[35,.5,330,.85]].map(([y,z,d,o])=>`<i class="dcl" style="top:${y}%;scale:${z};--cd:${d}s;--cdl:-${(d*o).toFixed(0)}s;--cx:${(o*100).toFixed(0)}vw"></i>`).join("")}${[[22,64,0],[31,78,-23],[14,92,-47]].map(([y,d,l])=>`<i class="dbirds" style="top:${y}%;--bd:${d}s;--bdl:${l}s"><b></b><b></b><b></b></i>`).join("")}${[[38,0],[52,-4],[27,-8]].map(([y,l])=>`<i class="dwind" style="top:${y}%;--wl:${l}s"></i>`).join("")}<i class="dr1" style="clip-path:${ridge(30,34,78,6)}"></i><i class="dr2" style="clip-path:${ridge(22,22,60,7)}"></i></div>`})();
+ /* the sky and the land are two canvases (skyPaint): the sky behind the sun and the clouds, the land in front of them */
+ return `<div class="dsky" aria-hidden="true"><canvas class="dart0"></canvas><i class="dstars" style="box-shadow:${stars}"></i><i class="dsun"></i>${[[37,.8,230,0],[44,.55,300,.22],[40,.45,360,.47],[49,.7,260,.63],[35,.5,330,.85]].map(([y,z,d,o],k)=>`<i class="dcl" style="top:${y}%;scale:${z};--cd:${d}s;--cdl:-${(d*o).toFixed(0)}s;--cx:${(o*100).toFixed(0)}vw;background-image:var(--cl${k%3})"></i>`).join("")}<canvas class="dart1"></canvas>${[[22,64,0],[31,78,-23],[14,92,-47]].map(([y,d,l])=>`<i class="dbirds" style="top:${y}%;--bd:${d}s;--bdl:${l}s"><b></b><b></b><b></b></i>`).join("")}${[[38,0],[52,-4],[27,-8]].map(([y,l])=>`<i class="dwind" style="top:${y}%;--wl:${l}s"></i>`).join("")}</div>`})();
 /* a boss's figure: the strip of its idle loop (BFIG) in a box one frame wide; z = shown px per strip px (the strip's own when
    left out); "" when the boss has no figure. cardFig: the picture on a boss's card in the Bosses list, fitted to a 112x116 box:
    its figure, else its portrait (the Warden and the Wither), else nothing (the caller puts the Act's emblem). */
@@ -1157,7 +1211,8 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
  const fit=()=>tabs.forEach(t=>{const k=t.querySelector(".pk:not(.wk)");if(k&&k.offsetWidth&&!k.parentNode.classList.contains("fly"))k.parentNode.style.setProperty("--fit",Math.min(1,1.25*cell(t)/(k.offsetWidth*(+k.dataset.bw||1))).toFixed(3))});
  // the sky's layers shift a little with the pointer
  if(!RM){const cl=map.querySelector(".climb");let pq=0;cl.addEventListener("pointermove",e=>{if(pq)return;pq=requestAnimationFrame(()=>{pq=0;const r=cl.getBoundingClientRect();cl.style.setProperty("--mx",((e.clientX-r.left)/r.width*2-1).toFixed(3));cl.style.setProperty("--my",((e.clientY-r.top)/r.height*2-1).toFixed(3))})},{passive:true})}
- toph();fit();if(window.ResizeObserver){const ro=new ResizeObserver(()=>{if(!map.isConnected){ro.disconnect();return}toph();fit()});ro.observe(top);ro.observe(tr)}
+ const sky=()=>skyPaint(map.querySelector(".climb"));
+ toph();fit();requestAnimationFrame(sky);if(window.ResizeObserver){let st=0;const ro=new ResizeObserver(()=>{if(!map.isConnected){ro.disconnect();return}toph();fit();clearTimeout(st);st=setTimeout(sky,120)});ro.observe(top);ro.observe(tr);ro.observe(map.querySelector(".climb"))}
  // the walk loop of the Keeper under the pointer (or the keyboard): put in the first time, once its picture is ready
  const walk=t=>{const w=t&&!t.dataset.wk&&window.BWALK&&BWALK[t.dataset.fk],f=w&&BFIG[t.dataset.fk];if(!w)return;t.dataset.wk=0;const im=new Image();im.alt="";im.src=w.src;
   im.decode().then(()=>{const k=document.createElement("span");k.className="pk wk";k.style.cssText=`--w:${w.w};--h:${w.h};--n:${w.n};--z:${f.z};--ms:${w.ms}`;k.appendChild(im);t.querySelector(".pfr").appendChild(k);t.dataset.wk=1}).catch(()=>{})};

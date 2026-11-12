@@ -17,7 +17,7 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
   // and one of its walk loop (boss_portraits.html figure: same centre line and ground, each cut to its own pixels), drawn at
   // twice the size it is shown (z = shown px per strip px). Each is drawn at whole texels (tx strip px to a texel of the skin, even: the
   // page shows the strip at half size and unsmoothed), in the home page's sunset light, with a one-texel dark outline and the feet shaded
-  // (figure's texel, lit, outline). Every boss is turned from the front by YAWS[0] = 14° (the lit side shows); one whose weapon or antlers
+  // (figure's texel, lit, outline). Every boss is turned from the front by YAWS[0] = 18° (the lit side shows); one whose weapon or antlers
   // reach further than PROT strip px beyond its body (it would lie over the neighbour) takes the next, straighter turn. A boss turned
   // further looks askew beside the others, one seen straight on is flat. bw is the body's width (the page keeps bodies, not sword tips,
   // over their own step). Idle loops are FR.idle frames and walk loops FR.walk (an idle barely moves).
@@ -32,7 +32,7 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
     const PATH = ['iron_colossus', 'goblin_lord', 'arion', 'eldorath', 'zoranth_forgotten', 'ender_dragon', 'elvenite_paladin', 'vaedric', 'discord', 'sanghor', 'zoranth_newborn', 'nyxaris'];
     const OPT = { ender_dragon: { fly: 1, size: 1.2, maxw: 350, yaw: -30, pitch: 20, free: 1, frames: 12 } };
     const STILL = { apollyon: ['side_imgs.json', 'Apollyon', { outline: 5, texel: 5, clean: 34, z: 0.4 }] },   // drawn at twice its size (5 px a texel -> 10), z 0.4: 4 whole shown px to a texel
-      SRC = 2, CSSH = 176, MED = 4.8, LO = 0.95, HI = 1.2, MAXW = 520, PPU = 40, YAW = 14, YAWS = [14, 10, 6, 0], PROT = 52, FR = { idle: 6, walk: 8 }, ANIMS = ['idle', 'walk'], figs = {}, walks = {};
+      SRC = 2, CSSH = 176, MED = 4.8, LO = 0.95, HI = 1.2, MAXW = 520, PPU = 40, YAW = 18, YAWS = [18, 14, 10, 6, 0], PROT = 100, FR = { idle: 6, walk: 8 }, ANIMS = ['idle', 'walk'], figs = {}, walks = {};
     const fig = (rec, o) => page.evaluate(([r, o]) => figure(r, o), [rec, { ppu: PPU, yaw: YAW, anims: ANIMS, type: 'image/webp', ...o }]);
     for (const k of PATH) { const rec = M[k], o = OPT[k] || {}; if (!rec) { console.log(k, 'has no model'); process.exitCode = 1; continue; }
       const v = { fly: !!o.fly, ...(o.yaw != null && { yaw: o.yaw }), ...(o.pitch != null && { pitch: o.pitch }) }, m = await fig(rec, { ...v, frames: 6, measure: true }), mw = o.maxw || MAXW;
@@ -44,7 +44,7 @@ const fs = require('fs'), path = require('path'), open = require('./render_page'
         let fit = want / (m.blocks * PPU); if (m.strips.idle.w * fit > mw) fit = mw / m.strips.idle.w; tx = 0;
         r = await fig(rec, { ...dr, fit, outline: 2, frames: o.frames || FR }); }
       else {   // the turn: YAWS from the most turned; a weapon or an antler that reaches further than PROT beyond the body (it would lie over the
-        // neighbour's body: steps are about 26 shown px wider than a body) takes the next, straighter turn
+        // neighbour's body: at rest a body is about 60 shown px narrower than its cell) takes the next, straighter turn
         for (const y of YAWS) { dr.yaw = y; tx = Math.max(2, 2 * Math.round(want / tall / 2));
           for (;;) { const t = await fig(rec, { ...dr, texel: tx, outline: tx, frames: 6, measure: true }); if (t.strips.idle.w <= mw || tx <= 2) { prot = (t.strips.idle.w - t.strips.idle.bw) / 2; break; } tx -= 2; }
           if (prot <= PROT) break; }
