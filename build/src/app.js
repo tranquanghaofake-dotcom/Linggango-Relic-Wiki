@@ -240,7 +240,7 @@ const BE=k=>typeof BST!=="undefined"&&BST[k]&&BST[k].effective||null;
 const keeperHp=k=>{const b=typeof BST!=="undefined"&&BST[k];return b&&b.effective&&b.effective.hp?fnum(b.effective.hp)+(b.phases.length>1?" "+T("per phase"):""):""};
 const sideHp=(n,a)=>{const s=typeof SSTAT!=="undefined"&&SSTAT[n];return s&&s.length===1&&s[0].hp!=null?fnum(s[0].hp*(hmAfter(a)&&!s[0].pinned?HMX:1)):""};
 function sidePage(n){const b=typeof SIDEB!=="undefined"&&SIDEB[n],r=(typeof BOSSR!=="undefined"?BOSSR:[]).find(x=>x[0]===n);if(!b){location.replace("#bosses");return}
- document.title=TD(n)+" · Linggango Wiki";const a=r?r[1]:0,pi=typeof PIMG!=="undefined"?PIMG.side[n]:null,sl=typeof BGRAPH!=="undefined"&&BGRAPH.soul&&BGRAPH.soul[n];
+ document.title=TD(n)+" · Linggango Wiki";const a=r?r[1]:0,pi=typeof PIMG!=="undefined"?PIMG.side[n]:(needPics(),null),sl=typeof BGRAPH!=="undefined"&&BGRAPH.soul&&BGRAPH.soul[n];
  const di=id=>IC[id]?img(id):(typeof BIMG!=="undefined"&&BIMG[id]?`<img alt="" src="${BIMG[id]}">`:"");
  const same=(typeof BOSSR!=="undefined"?BOSSR:[]).filter(x=>x[1]===a&&SIDEB[x[0]]).map(x=>["#side/"+enc(x[0]),esc(TD(x[0])),x[0]===n]);
  const src=`${b.src_note?`<p class="note">${T("Source: {x}",{x:esc(TD(b.src_note))})}</p>`:""}${b.sources&&b.sources.length?`<p class="note">${T("Sources: {list}",{list:b.sources.map(u=>/^https?:/.test(u)?`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(u.replace(/^https?:\/\/(www\.)?/,"").split("/")[0])}</a>`:`<span>${esc(TD(u))}</span>`).join(" · ")})}</p>`:""}`;
@@ -1352,6 +1352,7 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
   el("pxpf").style.transform=`scaleX(${hi<0?0:(hi+.5)/path.length})`;
   map.querySelectorAll(".phere").forEach(b=>{const on=+b.dataset.here===h;b.setAttribute("aria-pressed",on);b.innerHTML=on?ui("check")+" "+T("You are here"):T("I'm here")});
   el("prun").textContent=hi<0?"":T("Your run: {act} ({i} of {n} on The Path)",{act:actL(h),i:hi+1,n:path.length})};
+ window.pathRefill=()=>{if(!map.isConnected)return;pans.forEach(p=>{if(!p.firstElementChild)return;p.innerHTML=pPanelInner(path[pans.indexOf(p)]);if(!p.hidden)decorate(p)});paint()};   // called when the late pictures arrive (picsLoaded)
  const sel=(i,focus)=>{if(i===cur){if(focus)tabs[i].focus();return}const was=cur,dir=i>was?"next":"prev";cur=i;if(!pans[i].firstElementChild){pans[i].innerHTML=pPanelInner(path[i]);paint()}const swap=()=>{tabs.forEach((t,k)=>{t.setAttribute("aria-selected",k===i);t.tabIndex=k===i?0:-1});pans.forEach((p,k)=>p.hidden=k!==i);decorate(pans[i]);ctr(i)};
   if(focus)tabs[i].focus();
   if(RM||!document.startViewTransition){swap();return}
@@ -1441,7 +1442,7 @@ function hubList(kind,key){
   // the Warden and Wither Acts were folded into Act VI (ORDER); an old link to them opens Act VI
   if(a===6.1||a===6.2){location.replace("#act/6");return}
   if(!/^-?\d+(\.\d+)?$/.test(key)||!ACT[a]||!(ORDER.includes(a)||a===-1)){document.title=T("Not found")+" · Linggango Wiki";el("main").innerHTML=`${crumb(T("Curios"))}<h1>${T("No Act called “{key}”",{key:esc(key)})}</h1><p class="lede">${T("That Act is not on The Path. See every Act on {path} or every curio on {home}.",{path:`<a href="#">${T("The Path")}</a>`,home:`<a href="#home">${T("Curios")}</a>`})}</p>`;return}
-  xs=D.filter(d=>d.t===a);title=actL(a);cr=T("Curios");lede=`${(x=>x.charAt(0).toUpperCase()+x.slice(1))(T(ACT[a][1]))}.${a!=-1?ACTN[a]?" "+T("Next boss: {boss}.",{boss:T(ACTN[a])}):" "+T("This is the last Act."):""} ${T("Must-Have items first, then rarest first.")}`;const bk=PB[a],nb=NEXTB[a],ti=typeof PIMG!=="undefined"&&PIMG.act[String(a)];
+  xs=D.filter(d=>d.t===a);title=actL(a);cr=T("Curios");lede=`${(x=>x.charAt(0).toUpperCase()+x.slice(1))(T(ACT[a][1]))}.${a!=-1?ACTN[a]?" "+T("Next boss: {boss}.",{boss:T(ACTN[a])}):" "+T("This is the last Act."):""} ${T("Must-Have items first, then rarest first.")}`;const bk=PB[a],nb=NEXTB[a],ti=typeof PIMG!=="undefined"?PIMG.act[String(a)]:(needPics(),false);
   const bl=(k,l)=>k?`<a class="actb" href="#boss/${k}">${emblem(bossPath(k),"sm")}<span><small>${l}</small><b>${esc(bossName(k))}</b></span><i>${T("Guide →")}</i></a>`:"";
   hero=`<div class="actban" style="--tc:${ACT[a][2]}">${ti?`<img class="ptitle big" alt="" src="${ti}"><h3 class="ptxt">${esc(actL(a))}</h3>`:""}<div class="actbs">${bl(bk,T("Opened by beating"))}${bl(nb,T("Next boss"))}</div></div>`;
   bar=`<div class="brw-bar">${ORDER.filter(a=>D.some(d=>d.t===a)).map(b=>`<a href="#act/${b}"${b===a?' aria-current="page"':""}>${actL(b)}</a>`).join("")}</div>`}
@@ -1548,7 +1549,7 @@ const SRCX={mob:/[Dd]ropped by ([^(;]+?)\s*\(([^)]*)\)/g,bag:/[Cc]omes from (?:t
 /* a modded mob that is one of the side bosses: its picture is the side boss's own (the pack's screenshot the wiki already shows) */
 const SIDEAL={"archmage gundalf":"Gundalf, Circe, Merlin (Shadow Wizards)","echo of tyros, first flamebearer":"Tyros (fire boss)","the dead king":"Dead King","enraged dead king":"Dead King","leviathan":"The Leviathan"};
 const sideByName=n=>{if(typeof SIDEB==="undefined")return null;const l=n.toLowerCase();if(SIDEAL[l])return SIDEAL[l];return Object.keys(SIDEB).find(k=>{const x=k.toLowerCase();return x===l||x.replace(/^the /,"")===l.replace(/^the /,"")})||null};
-const sidePic=k=>{const pi=typeof PIMG!=="undefined"?PIMG:{};return (pi.side&&pi.side[k])||(SIDEB[k]&&SIDEB[k].img&&pi.scene&&pi.scene[k])||null};
+const sidePic=k=>{const pi=typeof PIMG!=="undefined"?PIMG:(needPics(),{});return (pi.side&&pi.side[k])||(SIDEB[k]&&SIDEB[k].img&&pi.scene&&pi.scene[k])||null};
 const bossByName=n=>{n=n.replace(/^the /i,"").toLowerCase();return [...KEEPERS(),...Object.keys(SIDEV||{})].find(k=>{const b=bossName(k).toLowerCase();return b===n||b.startsWith(n)||b.replace(/^the /,"").startsWith(n)})};
 function lootCards(d){const out=[],used=new Set();
  const card=(pic,title,sub,chance,href)=>`<${href?`a href="${href}"`:"div"} class="lcard"><span class="lpic">${pic}</span><span class="ltx"><b>${title}</b>${sub?`<small>${sub}</small>`:""}</span>${chance?`<span class="lch">${esc(chance)}</span>`:""}</${href?"a":"div"}>`;
@@ -1760,6 +1761,8 @@ if(typeof BEXTRA!=="undefined"){const have=new Set(BOSSR.map(r=>r[0]));BEXTRA.fo
 if(typeof SDROP!=="undefined"&&typeof SIDEB!=="undefined")for(const n in SDROP){const b=SIDEB[n];if(!b)continue;const L=SDROP[n].drops,by=Object.fromEntries(L.map(x=>[x.id,x]));
  if(!(b.drops||[]).length)b.drops=L.filter(x=>x.id!=="goety:treasure_pouch").slice(0,6);else b.drops.forEach(x=>{const y=by[x.id];if(y&&!x.chance){x.chance=y.chance;x.count=y.count}});b.drops_src=SDROP[n].src}
 if(typeof SIMG!=="undefined"&&typeof SIDEB!=="undefined")for(const n in SIMG)if(SIDEB[n]&&!SIDEB[n].img){SIDEB[n].img=SIMG[n];SIDEB[n].img_src="render"}
+
+
 // 6.6.6: no quest chapter is locked any more ([progression_gates] chapters = []); the mods with the most items in each linggango_tweaks:gated/<tier> tag
 const CHAP=[[2,"only 6 items: Ars Nouveau's shaper foci, Enigmatic Legacy's Golem Heart and Magnet Ring, Animus's Hellforged Bow, a Blood Magic teleposer focus"],[3,"Goety (121 items: most foci and ritual gear), Goety Awaken, Ars Nouveau, Blood Magic, Mahou Tsukai, Nature's Aura"],[4,"Goety, Goety Awaken, Ars Nouveau, Goety Cataclysm, Animus, Blood Magic, Hexerei, Mahou Tsukai"],[5,"Nature's Aura, Goety, Blood Magic, Enigmatic Legacy, Mahou Tsukai, Enigmatic Addons"],[6,"Mystical Agriculture, Mekanism (+ Generators), Industrial Foregoing, Applied Flux, ExtendedAE, AE2, Nature's Aura"],[7,"Mekanism, Ad Astra (all of it), Mystical Agriculture, Just Dire Things, Blood Magic, ExtendedAE"],[8,"Evolved Mekanism, Mystical Agriculture, Sanctified Legacy, MEGA Cells, Mekanism"],[9,"Evolved Mekanism, MEGA Cells, SomakeSpells, Mahou Tsukai"],[10,"Evolved Mekanism, MEGA Cells"],[11,"Evolved Mekanism, Mekanism, MEGA Cells"]];
 const sec=(id,t,body)=>`<section class="s" id="${id}"><h2>${t}</h2>${body}</section>`;
@@ -1874,7 +1877,7 @@ function showTip(n){if(!EXT.tip.some(f=>f(n)))showTipBase(n)}
 /* the site fetches the detail pages' pictures (wiki_pics.js: armour stands, guide pages, ritual layouts) once the first page
    is drawn; a page drawn before they came is drawn again when they arrive. The offline file has them inline (PICS=1). */
 function loadPics(){const u=document.documentElement.dataset.pics;if(!u||window.PICS)return;const s=document.createElement("script");s.src=u;document.head.appendChild(s)}
-function picsLoaded(){if(!window.PICS_MISS)return;window.PICS_MISS=0;const y=scrollY;render();decorate();scrollTo(0,y)}
+function picsLoaded(){if(window.pathRefill)window.pathRefill();if(!window.PICS_MISS)return;window.PICS_MISS=0;const y=scrollY;render();decorate();scrollTo(0,y)}
 const needPics=()=>{if(!window.PICS)window.PICS_MISS=1};
 document.addEventListener("DOMContentLoaded",()=>{const go=()=>{langBoot();render();decorate();loadPics()};I18N_READY?I18N_READY.then(go):go()});
 function refresh(){const h=decodeURIComponent(location.hash);if(h==="#home"||/^#(slot|act|mod)\//.test(h)){SOFT=true;render()}else location.hash="#home"}

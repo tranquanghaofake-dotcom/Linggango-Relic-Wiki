@@ -3,7 +3,7 @@
 Goety rituals (goety.json, from build/pack_audit/goety.py), AE2 storage facts (ae2.json) and side-boss stats
 (side_stats.json, from build/pack_audit/side_bosses/stats.py, with the pack's soul_bosses.json pins laid over it) and portraits (side_imgs.json, from renders.py + jrender.js + pack.py),
 Keeper portraits (boss_portraits.json, from build/pack_audit/boss_portraits.js).
-Pictures that only detail pages show (armour stands, guide-book pages, Goety ritual layouts) go to build/src/wiki_pics.js
+Pictures that only detail pages show (armour stands, guide-book pages, Goety ritual layouts, Act titles and side-boss landscapes, the walk loops) go to build/src/wiki_pics.js
 instead: the offline file inlines it, the site loads it after the first page is drawn (build.py, app.js picsLoaded)."""
 import json, pathlib
 H = pathlib.Path(__file__).resolve().parent
@@ -14,7 +14,6 @@ _gu = J("guides.json"); _ui = {k: g.pop("i") for k, g in _gu.items() if g.get("i
 out = "const SUM=" + json.dumps(J("summons.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const GOETY=" + json.dumps(_g, ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const AE2=" + json.dumps(a, ensure_ascii=False, separators=(",", ":")) + ";\n"
-out += "const PIMG=" + json.dumps(J("pack_imgs.json"), separators=(",", ":")) + ";\n"
 out += "const BINFO=" + json.dumps(J("boss_info.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const BIMG=" + json.dumps(J("boss_imgs.json"), separators=(",", ":")) + ";\n"
 out += "const ARMR={};\n"
@@ -50,6 +49,7 @@ out += "const BEXTRA=" + json.dumps(J("boss_extra.json"), ensure_ascii=False, se
 pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(",", ":")) + ");\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_ui, separators=(",", ":")) + "))if(GUIDE[k])GUIDE[k].i=v;\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_gi, separators=(",", ":")) + "))if(GOETY.types[k])GOETY.types[k].img=v;\n"
+        + "window.PIMG=" + json.dumps(J("pack_imgs.json"), separators=(",", ":")) + ";\n"   # Act titles and side-boss landscapes (the hub's open Act panel redraws when they arrive: app.js pathRefill)
         + "window.BWALK=" + json.dumps(J("boss_walks.json"), separators=(",", ":")) + ";\n"   # the walk loops of the home page's figures (boss_portraits.js --figs)
         + "window.PICS=1;if(typeof picsLoaded==='function')picsLoaded();\n")
 (H.parent / "src" / "wiki_pics.js").write_text(pics, encoding="utf-8")
