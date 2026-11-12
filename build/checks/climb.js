@@ -62,6 +62,30 @@
       if (px(a1, a1.width >> 1, 2) > 0) bad.push('climb: the land fills the whole scene'); }
     if (cl.querySelector('.dr1, .dr2')) bad.push('climb: the CSS hills are still there beside the painted land');
     if (!/url\(/.test(getComputedStyle(cl.querySelector('.dcl')).backgroundImage)) bad.push('climb: a cloud has no sprite'); }
+  // the sky's layout (skyArt returns where it put things; boxes are [x0, x1, y0, y1] in art pixels, 2 px each). A floating island hangs in open sky: not over a cloud bank, the sun, the castle or a box the page asks to keep free
+  // (the words of the hero: the painter is given them). The drifting cloud sprites fly in the bands between the banks, so a small cloud never crosses a big one. The castle's wall has rock under its whole width
+  // (it stands on the peak, not on a box laid over it) and its smoke rises from its chimney.
+  { const cl = document.querySelector('#pmap .climb'), hit = (a, b) => a[0] < b[1] && a[1] > b[0] && a[2] < b[3] && a[3] > b[2], keep = [120, 560, 30, 130];
+    for (const [w, h] of [[cl.clientWidth + 48, cl.clientHeight], [1968, 940], [1328, 656], [816, 995]]) {
+      const L = skyArt(w, h, 2, [[keep[0], keep[2], keep[1], keep[3]]]).layout, tag = `${w}x${h}`;   // skyArt takes a box as [x0, y0, x1, y1]
+      if (w > 1100 && !L.isl.length) bad.push(`climb: no floating island in the sky at ${tag}`);
+      L.isl.forEach((b, n) => {
+        if (L.banks.some(k => hit(b, k))) bad.push(`climb: at ${tag} island ${n} hangs over a cloud bank (the island is in front of the cloud and reads as sunk in it)`);
+        if (hit(b, keep)) bad.push(`climb: at ${tag} island ${n} is behind the words of the hero`);
+        if (hit(b, L.castle)) bad.push(`climb: at ${tag} island ${n} is over the castle`);
+        if (Math.hypot((b[0] + b[1]) / 2 - L.sun[0], b[2] + 16 - L.sun[1]) < 60) bad.push(`climb: at ${tag} island ${n} hangs on the sun`); }); }
+    const L0 = skyArt(cl.clientWidth + 48, cl.clientHeight, 2).layout, H = cl.clientHeight;
+    cl.querySelectorAll('.dcl').forEach((c, n) => { if (getComputedStyle(c).display === 'none') return;
+      const t = parseFloat(c.style.top) / 100 * H, hh = 68 * (parseFloat(getComputedStyle(c).scale) || 1);
+      L0.banks.forEach(k => { if (t < k[3] * 2 + 4 && t + hh > k[2] * 2 - 4) bad.push(`climb: drifting cloud ${n} (${Math.round(t)}-${Math.round(t + hh)} px down) crosses a cloud bank (${k[2] * 2}-${k[3] * 2} px)`); }); });
+    const g = cl.querySelector('.dart1').getContext('2d'), row = L0.castle[6] + 2; let gaps = 0;
+    for (let x = L0.castle[4]; x <= L0.castle[5]; x += 2) if (g.getImageData(x, row, 1, 1).data[3] < 250) gaps++;
+    if (gaps) bad.push(`climb: the castle's wall has ${gaps} gaps of sky under it (it should stand on rock)`);
+    const sm = cl.querySelector('.dsmoke'), dk = cl.querySelector('.dsky'), sx = parseFloat(dk.style.getPropertyValue('--smx')), sy = parseFloat(dk.style.getPropertyValue('--smy'));
+    if (!sm) bad.push('climb: the castle has no chimney smoke');
+    else { const ax = Math.round((sx + 24) / 2), ay = Math.round(sy / 2), al = (x, y) => g.getImageData(x, y, 1, 1).data[3];   // the smoke starts on the chimney's cap: stone just below its start, sky four rows above
+      if (al(ax, ay + 3) < 250 || al(ax, ay - 4) > 0) bad.push(`climb: the chimney smoke starts at ${sx},${sy} px, which is not on top of the chimney`);
+      if (!/smokeUp/.test(getComputedStyle(sm, '::before').animationName) && !matchMedia('(prefers-reduced-motion:reduce)').matches) bad.push('climb: the chimney smoke does not move'); } }
   // the walk loops (BWALK, with the late pictures): each belongs to a figure, shares its scale and its ground, and its picture is as wide as its frames say
   for (const [k, w] of Object.entries(window.BWALK || {})) { const f = BFIG[k], im = new Image(); im.src = w.src; await im.decode().catch(() => {});
     if (!f || f.n < 2) bad.push(`climb: a walk loop for ${k}, which has no animated figure`);
