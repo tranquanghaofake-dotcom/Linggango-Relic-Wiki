@@ -1479,3 +1479,9 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Kiểm**: `bash build/check.sh` xanh ngay lượt đầu. 15 lần thử đỏ cho các invariant mới trong `build/checks/climb.js` (một lần thử viền sáng và một lần ép 45% cho mây trôi không đỏ ngay: đã sửa cách đo / đổi độ cao thử). Ảnh đã xem ở 1920, 1536, 1440, 1366, 1280, 768, 375. Thời gian vẽ 74 / 121 / 54 ms.
 - **Phát hiện, chưa sửa**: cột Act sáng đều, chưa theo hướng mặt trời (bên trái); chuyển động (nhấp nháy, sao băng, khói, chim) chưa thấy chạy thật; điện thoại 375 không có đảo; chưa xem ở 125% và các ngôn ngữ khác.
 - **Open**: chủ wiki xem lại nền trên bản xem thử; thẻ "gear cho Act của bạn"; đưa vào `main` khi chủ wiki nói; mục Changes khi chủ wiki nói "cập nhật Changes".
+
+## 2026-11-12: kế hoạch nghiên cứu hiệu năng (chưa sửa mã)
+- **Bối cảnh**: chủ wiki muốn kế hoạch tìm hiểu, nghiên cứu và tham khảo cách tăng hiệu năng toàn wiki mà không đổi phần nhìn. Kế hoạch: `docs/plans/2026-11-12-performance.md` (kiến trúc, nên chỉ có nghiên cứu trước; chờ chủ wiki duyệt rồi mới thực hiện).
+- **Đã làm**: đo số gốc sơ bộ (một lượt mỗi hồ sơ, máy chủ cục bộ gzip, giả lập mạng và CPU bằng CDP, Chromium dựng hình bằng phần mềm của container), phân tích thành phần các tệp dữ liệu, đọc header thật của site đang chạy (`curl`: GitHub Pages chỉ gzip, `cache-control: max-age=600`). Không đổi tệp nguồn nào.
+- **Phát hiện** (chi tiết và số ở mục 2 của kế hoạch): màn đầu đợi cả ba tệp dữ liệu (7,7 MB gzip) vì script `defer` chạy theo thứ tự; `wiki_data.js` của nhánh này nặng hơn bản đang live khoảng 1,3 MB gzip (dải hình Keeper 24 khung); LCP 8,6 s ở hồ sơ máy tính 10 Mbps và 45,9 s ở hồ sơ điện thoại 1,6 Mbps (sơ bộ, chưa lặp).
+- **Open**: chủ wiki trả lời bốn câu ở mục 8 và duyệt kế hoạch; mọi số đo cần lặp 5 lượt trước khi dùng làm số gốc; các mục "chưa biết" ở mục 2.
