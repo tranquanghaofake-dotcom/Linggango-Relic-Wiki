@@ -1123,17 +1123,20 @@ const CHESTN=36,SHELFN=30;
 /* The Path's sky as pixel art, drawn once per size (PX css px to an art pixel): behind the sun, the sky (the page's gradient as dithered colour bands, a warm glow round the sun, stars);
    in front of it, the land (three ridges with a castle and pines, mist between them, three floating islands); and three cloud sprites (violet tops, undersides the sun still lights).
    Seeded, so every visit draws the same sky. Returns {back, front (ImageData), clouds: [data URLs]}. */
+const CLOUDSPR={};
 function skyArt(w,h,PX,avoid=[]){
  // K: how many art pixels make one of the old ones (PX 2 draws at twice the old resolution): every size below is written in the old unit and scaled by K, so the picture is the same composition with twice the detail
  const K=4/PX,W=Math.ceil(w/PX),H=Math.ceil(h/PX),k=n=>Math.round(n*K);let q=11;const R=()=>(q=q*16807%2147483647)/2147483647;
- const hex=s=>[1,3,5].map(i=>parseInt(s.slice(i,i+2),16)),mix=(a,c,t)=>a.map((v,i)=>v+(c[i]-v)*t);
+ const hex=s=>[1,3,5].map(i=>parseInt(s.slice(i,i+2),16)),mix=(a,c,t)=>[a[0]+(c[0]-a[0])*t,a[1]+(c[1]-a[1])*t,a[2]+(c[2]-a[2])*t];
  const bayer=n=>n===1?[[0]]:(m=>{const s=m.length,o=[];for(let y=0;y<2*s;y++){o.push([]);for(let x=0;x<2*s;x++)o[y].push(4*m[y%s][x%s]+[[0,2],[3,1]][Math.floor(y/s)][Math.floor(x/s)])}return o})(bayer(n/2)),M8=bayer(8).flat(),BAY=(x,y)=>(M8[(y&7)*8+(x&7)]+.5)/64;   // 64 levels of dither: gradients and soft edges break up in finer steps
- const buf=(Hb=H)=>{const c=document.createElement("canvas");c.width=W;c.height=Hb;const x=c.getContext("2d"),im=x.createImageData(W,Hb),d=im.data;
+ const PK8=new Uint8ClampedArray(4),PK32=new Uint32Array(PK8.buffer),pack=c=>{PK8[0]=c[0];PK8[1]=c[1];PK8[2]=c[2];PK8[3]=255;return PK32[0]};   // an opaque colour as one 32-bit word, rounded exactly as a write into the picture's byte array rounds it
+ const buf=(Hb=H)=>{const c=document.createElement("canvas");c.width=W;c.height=Hb;const x=c.getContext("2d"),im=x.createImageData(W,Hb),d=im.data,d32=new Uint32Array(d.buffer);
   // put: a pixel over what is there (a < 1 blends)
-  const put=(X,Y,c,a=1)=>{X=Math.round(X);Y=Math.round(Y);if(X<0||Y<0||X>=W||Y>=Hb)return;const i=(Y*W+X)*4,da=d[i+3]/255,oa=a+da*(1-a);if(a>=1||!da){d[i]=c[0];d[i+1]=c[1];d[i+2]=c[2];d[i+3]=a*255;return}
+  const put=(X,Y,c,a=1)=>{X=Math.round(X);Y=Math.round(Y);if(X<0||Y<0||X>=W||Y>=Hb)return;const i=(Y*W+X)*4;if(a>=1){d[i]=c[0];d[i+1]=c[1];d[i+2]=c[2];d[i+3]=a*255;return}
+   const da=d[i+3]/255,oa=a+da*(1-a);if(!da){d[i]=c[0];d[i+1]=c[1];d[i+2]=c[2];d[i+3]=a*255;return}
    for(let k=0;k<3;k++)d[i+k]=(c[k]*a+d[i+k]*da*(1-a))/oa;d[i+3]=oa*255};
   const rect=(X,Y,w,h,c,a)=>{X=Math.round(X);Y=Math.round(Y);w=Math.round(w);h=Math.round(h);for(let j=0;j<h;j++)for(let i=0;i<w;i++)put(X+i,Y+j,c,a)};
-  return {c,x,im,put,rect}};
+  return {c,x,im,put,rect,d32}};
  // 1 the sky: the page's gradient in 24 dithered bands, a warm glow round the sun, the sun itself, stars, a moon, the glare along the horizon, banks of cloud
  const B=buf(),ST=[[0,"#141038"],[.24,"#2e1d62"],[.46,"#6d2f7c"],[.64,"#c8506d"],[.80,"#f58a54"],[.93,"#ffc66e"],[1,"#ffe3a0"]].map(([t,c])=>[t,hex(c)]);
  const at=t=>{for(let i=1;i<ST.length;i++)if(t<=ST[i][0]){const [t0,c0]=ST[i-1],[t1,c1]=ST[i];return mix(c0,c1,(t-t0)/(t1-t0))}return ST.at(-1)[1]};
@@ -1154,8 +1157,11 @@ function skyArt(w,h,PX,avoid=[]){
   let best=mc(moonX,moonY),bx=moonX,by=moonY;if(best>0)for(let y=Math.round(H*.04);y<=H*.3;y+=4*K)for(let x=Math.round(W*.06);x<=W*.94;x+=3*K){const c=mc(x,y)+Math.hypot(x-moonX,(y-moonY)*1.5)*3;if(c<best-1e-6){best=c;bx=x;by=y}}moonX=bx;moonY=by}
  avoid=[...avoid,[sunX-27*K,sunY-27*K,sunX+27*K,sunY+27*K,1],[moonX-12*K,moonY-12*K,moonX+12*K,moonY+12*K,1]];
  const glowT=bands.map(b=>[b,...[1,2,3,4,5,6].map(l=>mix(b,[255,196,110],Math.min(.46,l*.1)))]);   // a band, and the band warmed by the glow at each of six levels
- for(let y=0;y<H;y++)for(let x=0;x<W;x++){const t=y/H*(N-1),i=Math.min(N-2,Math.floor(t)),bi=i+(t-i>BAY(x,y)?1:0);
-  const d=Math.hypot((x-sunX)/1.8,y-sunY),g=Math.max(0,1-d/(H*.5)),l=Math.floor(g*g*5+BAY(x,y)-.25);B.put(x,y,l>0?glowT[bi][Math.min(6,l)]:bands[bi])}
+ {const bandsP=bands.map(pack),glowP=glowT.map(r=>r.map(pack)),B32=B.d32,GR=H*.5,GX=GR*1.8;   // outside the glow's reach (|dy| >= H/2 or |dx| >= 1.8 H/2) its level is 0 whatever the dither, so only the band is written
+  for(let y=0;y<H;y++){const t=y/H*(N-1),i=Math.min(N-2,Math.floor(t)),fr=t-i,dy=y-sunY,row=y*W,near=Math.abs(dy)<GR;
+   for(let x=0;x<W;x++){const bay=BAY(x,y),bi=i+(fr>bay?1:0);let l=0;
+    if(near&&Math.abs(x-sunX)<GX){const d=Math.hypot((x-sunX)/1.8,dy),g=Math.max(0,1-d/GR);l=Math.floor(g*g*5+bay-.25)}
+    B32[row+x]=l>0?glowP[bi][Math.min(6,l)]:bandsP[bi]}}}
  // the sun: a disc of four bands of light, dithered into each other (its lower half is behind the far range), a ring of dither round it; the rays (CSS .dsun::before) turn round its middle
  const SC=[[255,249,218],[255,234,156],[255,208,112],[255,176,88]],sr=17.2*K,sh=24*K;
  for(let y=Math.floor(sunY-sh);y<=sunY+sh;y++)for(let x=Math.floor(sunX-sh);x<=sunX+sh;x++){const d=Math.hypot(x-sunX,y-sunY);if(d>sr){if(d<sh&&(1-(d-sr)/(sh-sr))*.36>BAY(x,y)*.5)B.put(x,y,[255,206,140],.2);continue}B.put(x,y,SC[Math.max(0,Math.min(3,Math.floor(Math.pow(d/sr,1.5)*4+(BAY(x,y)-.5)*.7)))])}
@@ -1176,10 +1182,11 @@ function skyArt(w,h,PX,avoid=[]){
   for(let i=0;i<Math.floor(n*.8);i++){const t=.1+.8*rz(),r=hg*(.26+.22*rz());D.push([cx+(t-.5)*w,cy-hg*(.5+.6*pf(t))+r*.3,r])}
   const x0=Math.floor(cx-w/2-hg),x1=Math.ceil(cx+w/2+hg),y0=Math.floor(cy-hg*1.8),base=Math.round(cy+hg*.3),gw=x1-x0+1,m=new Uint8Array(gw*(base-y0+1)),
    cov=(x,y)=>x>=x0&&x<=x1&&y>=y0&&y<=base&&m[(y-y0)*gw+x-x0];
-  for(let y=y0;y<=base;y++)for(let x=x0;x<=x1;x++)for(const [dx,dy,r] of D){const u=(x-dx)/r,v=(y-dy)/(r*.85);if(u*u+v*v<1){m[(y-y0)*gw+x-x0]=1;break}}
+  for(const [dx,dy,r] of D)for(let y=Math.max(y0,Math.floor(dy-r*.85)-1);y<=Math.min(base,Math.ceil(dy+r*.85)+1);y++)for(let x=Math.max(x0,Math.floor(dx-r)-1);x<=Math.min(x1,Math.ceil(dx+r)+1);x++){const u=(x-dx)/r,v=(y-dy)/(r*.85);if(u*u+v*v<1)m[(y-y0)*gw+x-x0]=1}   // the union of the discs, each tried only in its own box
+  const UP=new Int16Array(m.length),LF=new Int16Array(m.length);for(let y=y0;y<=base;y++)for(let x=x0;x<=x1;x++){const j=(y-y0)*gw+x-x0;if(!m[j])continue;UP[j]=y>y0&&m[j-gw]?UP[j-gw]+1:0;LF[j]=x>x0&&m[j-1]?LF[j-1]+1:0}   // how many covered cells lie above, and to the left, of each
   const rt=1.7*K;BK.push([x0,x1,y0,base]);
   for(let y=y0;y<=base;y++)for(let x=x0;x<=x1;x++){if(!cov(x,y))continue;
-   let up=0,lf=0;while(cov(x,y-up-1))up++;while(cov(x-lf-1,y))lf++;
+   const up=UP[(y-y0)*gw+x-x0],lf=LF[(y-y0)*gw+x-x0];
    const dn=base-y,rim=Math.max((rt-up)/rt,(rt*.8-lf)/(rt*.8)*(up<hg*.8?1:0)),und=1-dn/(hg*.42),top=1-up/(hg*.62),sk=at(y/H),bay=BAY(x,y),away=Math.max(0,Math.min(1,(x-cx)/(w*.6)+.4)),wm=Math.max(0,1-Math.hypot((x-sunX)/1.8,y-sunY)/(H*.85)),wr=c=>mix(c,[255,166,132],wm*.55);
    B.put(x,y,rim>bay*.9?mix(sk,[255,222,176],.85):und>bay?wr(mix(sk,[246,146,128],.65)):top>bay?wr(mix(sk,[196,122,172],.6)):wr(mix(mix(sk,[100,54,134],.7),[58,28,94],away*.4)),.96)}};
  {const bbox=(cx,cy,w,hg)=>[Math.floor(cx-w/2-hg),Math.ceil(cx+w/2+hg),Math.floor(cy-hg*1.8),Math.round(cy+hg*.3)],
@@ -1190,9 +1197,10 @@ function skyArt(w,h,PX,avoid=[]){
  // a ridge: its body takes the sky's colour at each row (more of it the farther the ridge is), its crest is dithered at a fraction of a pixel (a smoother line than a step), and the sun, which is behind the far range,
  // rims the crest: brightest near the sun, on slopes facing it (to the left) more than on those turned away, and hardly at all far from it
  const layer=(fn,col,haze,lit,deco)=>{const rows=[],rim=[[],[],[],[]];for(let y=0;y<Hh;y++){const c=mix(col,at((y+O)/H),haze);rows.push(c);for(let l=0;l<4;l++)rim[l].push(mix(c,lit,.14+.13*l))}
+  const rowsP=rows.map(pack),rimP=rim.map(a=>a.map(pack)),F32=F.d32;
   for(let x=0;x<W;x++){const t=Math.max(0,fn(x)),y0=Math.floor(t),top=y0+((1-(t-y0))>BAY(x,y0)?0:1),face=fn(x+2*K)<fn(x-2*K)-.4*K?1:.55,near=Math.exp(-(((x-sunX)/(W*.3))**2)),s=face*(.22+.78*near),lv=s<.2?-1:Math.min(3,Math.floor(s*3.6));
-   for(let y=top;y<Hh;y++)F.put(x,y,lv>=0&&y-top<2?rim[lv][y]:rows[y])}if(deco)deco()};
- const mist=(y0,hh,a)=>{for(let y=y0;y<y0+hh;y++)for(let x=0;x<W;x++)if((1-(y-y0)/hh)*a>BAY(x,y)*.9)F.put(x,y,[255,176,120],.3)};
+   for(let y=top;y<Hh;y++)F32[y*W+x]=lv>=0&&y-top<2?rimP[lv][y]:rowsP[y]}if(deco)deco()};
+ const MISTC=[255,176,120],mist=(y0,hh,a)=>{for(let y=y0;y<y0+hh;y++)for(let x=0;x<W;x++)if((1-(y-y0)/hh)*a>BAY(x,y)*.9)F.put(x,y,MISTC,.3)};
  const pine=(x,y,h,col)=>{for(let j=0;j<h;j++){const wj=Math.ceil((j+1)/2);F.rect(x-Math.floor(wj/2),y-h+j+1,wj,1,col)}};
  layer(ridge(hz-Hh*.1,Hh*.07,150,[1,3]),hex("#a05aa4"),.8,[255,206,156]);   // a pale, far range that shows only in the valleys of the next
  // the peak: the far range rises to a peak with a flat top wide enough for the castle and its towers, in the range's own colour a shade nearer. Its form comes from facets (patches a step lighter or darker, joined by dither),
@@ -1272,12 +1280,12 @@ function skyArt(w,h,PX,avoid=[]){
   else{put(.89,.14,k(10),k(8),1,.1);put(.10,.45,k(8),k(7),2.4,.22);put(.30,.54,k(6),k(5),4,.34);put(.55,.12,k(5),k(4),6,.44)}}
  layer(R3,hex("#2c1648"),.05,[255,150,100],()=>{for(let n=0;n<26*K;n++){const x=Math.floor(R()*W);if(x>W*.2&&x<W*.3&&R()<.8)continue;pine(x,Math.round(R3(x)),k(4)+Math.floor(R()*k(6)),hex("#1f0f36"))}});
  // 3 clouds that drift: sprites of 44 x 17 old art pixels, a flat underside and a top made of puffs; violet on top, the sun's colour underneath, the left edge (the sun's side) lit
- const clouds=[3,7,12].map(s=>{const cw=k(44),ch=k(17),C=document.createElement("canvas");C.width=cw;C.height=ch;const x=C.getContext("2d");let z=s*977;const r=()=>(z=z*16807%2147483647)/2147483647;
+ const clouds=CLOUDSPR[K]||(CLOUDSPR[K]=[3,7,12].map(s=>{const cw=k(44),ch=k(17),C=document.createElement("canvas");C.width=cw;C.height=ch;const x=C.getContext("2d");let z=s*977;const r=()=>(z=z*16807%2147483647)/2147483647;
   const base=ch-2*K,puffs=[...Array(6)].map((_,n)=>({cx:K*(4+n*7+Math.round(r()*3)),rx:K*(4.5+r()*3.5),ry:K*(3+r()*5)*(.55+.9*Math.sin(Math.PI*(n+.5)/6))})),inC=(i,j)=>j<=base&&puffs.some(p=>((i-p.cx)/p.rx)**2+((j-base)/p.ry)**2<=1);
   for(let i=0;i<cw;i++){let top=-1;for(let j=0;j<=base;j++)if(inC(i,j)){top=j;break}if(top<0)continue;
    for(let j=top;j<=base;j++){const t=(j-top)/Math.max(1,base-top),lit=!inC(i-1,j)||!inC(i-2,j),c=mix([112,66,146],[255,172,124],Math.pow(t,1.3)),kk=lit?mix(c,[255,214,170],.45):c;
     x.fillStyle=`rgba(${kk.map(Math.round)},${.7-.12*(1-t)})`;x.fillRect(i,j,1,1)}}
-  return C.toDataURL()});
+  return C.toDataURL()}));   // the sprites depend on K alone (their own seeds): drawn and encoded once, not at every painting
  // the land stands on the foot of the scene, at most 220 old art pixels (880) tall: on a phone, where the hero is a column of sky, it does not climb to the text
  const FD=new ImageData(W,H);FD.data.set(F.im.data,O*W*4);
  return {back:B.im,front:FD,clouds,sunb:Math.round((H-sunY)*PX-60),sunx:Math.round(sunX*PX)-24,smoke:[Math.round(smoke[0]*PX)-24,Math.round((smoke[1]+O)*PX)],layout:LAY}}   // pixel data, not canvases: a canvas kept in the cache can come back empty (it did, after thousands of page draws in check.js)
@@ -1330,7 +1338,8 @@ function pathMapWire(path){const map=el("pmap");if(!map)return;const tabs=[...ma
  // past it): a broad one is drawn smaller. The dragon flies behind the others and is left as it is.
  /* a step's full width: the grid cell it sits in (at rest the step itself is narrower, with sky beside it), or the step on a phone */
  const cell=t=>getComputedStyle(t.parentNode).display==="grid"?t.parentNode.clientWidth/tabs.length:t.offsetWidth;
- const fit=()=>tabs.forEach(t=>{const k=t.querySelector(".pk:not(.wk)");if(k&&k.offsetWidth&&!k.parentNode.classList.contains("perch"))k.parentNode.style.setProperty("--fit",Math.min(1,1.25*cell(t)/(k.offsetWidth*(+k.dataset.bw||1))).toFixed(3))});
+ // all the sizes are read first and then all the --fit values written: a write between two reads made the browser lay the page out again for each of the 13 steps (--fit only scales, it moves nothing that is read)
+ const fit=()=>tabs.map(t=>{const k=t.querySelector(".pk:not(.wk)");return k&&k.offsetWidth&&!k.parentNode.classList.contains("perch")?[k.parentNode,Math.min(1,1.25*cell(t)/(k.offsetWidth*(+k.dataset.bw||1))).toFixed(3)]:null}).forEach(x=>x&&x[0].style.setProperty("--fit",x[1]));
  let wv=null;
  const sky=()=>skyPaint(map.querySelector(".climb"));
  toph();fit();requestAnimationFrame(sky);if(document.fonts)document.fonts.ready.then(()=>requestAnimationFrame(sky));if(window.ResizeObserver){let st=0;const ro=new ResizeObserver(()=>{if(!map.isConnected){ro.disconnect();return}toph();fit();wv&&wv.resize();clearTimeout(st);st=setTimeout(sky,120)});ro.observe(top);ro.observe(tr);ro.observe(map.querySelector(".climb"))}
