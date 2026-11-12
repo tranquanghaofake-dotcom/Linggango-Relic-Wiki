@@ -1009,15 +1009,67 @@ const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.index
 function changesPage(){
  document.title=T("Changes")+" · Linggango Wiki";
  el("main").innerHTML=`${crumb(T("Changes"))}${room("vault",[],{head:`<h1>${T("Changes")}</h1><p class="lede">${T("What's new on the wiki, newest first.")}</p>`})}
+<section class="s" id="c-2026-11-12"><h2>${T("November 12, 2026")}</h2>
+<h3 class="ck add">${T("Added")}</h3><ul>
+<li>${T("<b>New home page, The Climb:</b> The Path at dusk. One brick column for each Act, with its Keeper on top. Point at a column and it grows while its neighbours shrink like a wave, and the Keeper walks. A sky with a sun, a moon, a castle on a peak, floating islands, clouds and birds fills the screen.")}</li>
+<li>${T("<b>Home page shelves:</b> Must-Have, Mythic and New in 6.6.6 curios in display-case trays, each with a link to see them all.")}</li>
+<li>${T("<b>Keepers on the Bosses page:</b> each Keeper's card and its own page show the Keeper's animated figure.")}</li>
+<li>${T("<b>Equipment groups:</b> under each playstyle the weapons are grouped. Melee by shape (swords, axes, spears, daggers and more), Ranged (bows, crossbows, guns, thrown), Mage by spell school, Summon by mod, whips and staffs. A weapon can sit in more than one group.")}</li>
+<li>${T("<b>Curios for your playstyle:</b> the curio tray on Equipment lists the curios that raise that playstyle's damage by 2% or more, ranked by how much they raise it. Curios for staying alive are under Survival, any playstyle.")}</li>
+</ul>
+<h3 class="ck chg">${T("Changed")}</h3><ul>
+<li>${T("<b>Changes</b> has a bar: show one kind of change (Added, Changed, Fixed) or jump to a day. Each day folds at its date, and the two newest start open.")}</li>
+<li>${T("<b>Best loadout</b> was removed from Equipment.")}</li>
+<li>${T("<b>Room walls</b> spread behind the whole page on Curios, Equipment, the Build planner, Bosses and Mechanics.")}</li>
+<li>${T("<b>Loading:</b> the home page appears sooner. In lab tests it took about a fifth less time to draw (3.2 s down to 2.5 s on a fast connection), with 1.4 MB less to download.")}</li>
+</ul>
+<h3 class="ck fix">${T("Fixed")}</h3><ul>
+<li>${T("<b>Home page:</b> pointing at a column no longer lags, and the Keepers' idle motion is smoother (24 frames).")}</li>
+</ul></section>
+<section class="s" id="c-2026-11-11"><h2>${T("November 11, 2026")}</h2>
+<h3 class="ck add">${T("Added")}</h3><ul>
+<li>${T("<b>Languages:</b> the wiki can be read in Vietnamese, Russian, Brazilian Portuguese and Spanish. Pick one from the menu in the search box; the choice is remembered. English stays the default. The translations are not yet checked by native speakers.")}</li>
+<li>${T("<b>Item names</b> use the game's own translations wherever the game has them. Under the title of a curio, weapon or armor set, and in its tooltip, a small line gives the English name.")}</li>
+<li>${T("<b>A note at the foot of the page</b>, shown only in the other languages, says how much of the translation is the game's own wording and how much is machine translation waiting for a native speaker, with a link to report a mistake.")}</li>
+</ul>
+<h3 class="ck chg">${T("Changed")}</h3><ul>
+<li>${T("<b>Search</b> finds items by their translated names as well as their English names, and the A–Z lists and tables sort by the translated name.")}</li>
+<li>${T("<b>Numbers</b> are written the way each language writes them: 2 100 000 in Russian, 2.100.000 in Portuguese and Spanish.")}</li>
+<li>${T("<b>Fonts:</b> Russian and Vietnamese use pixel fonts that have their letters.")}</li>
+</ul>
+<h3 class="ck fix">${T("Fixed")}</h3><ul>
+<li>${T("Some of the game's own translations were out of date: a number sat in the wrong place, so “+0.1% Attack Speed” showed as +10% Knockback Resistance. Those are no longer used.")}</li>
+<li>${T("The title screen, the Equipment title, the search box and the footer no longer spill out of their frames in the longer languages on phones.")}</li>
+</ul></section>
+<section class="s" id="c-2026-11-01"><h2>${T("November 1, 2026")}</h2>
+<h3 class="ck add">${T("Added")}</h3><ul>
+<li>${T("<b>Icons</b> for items the game draws in code: chests, the ender chest, the archwood chest, the shield, the red banner, two plushies and the Pyrium Staff.")}</li>
+</ul>
+<h3 class="ck chg">${T("Changed")}</h3><ul>
+<li>${T("<b>Room headers</b> grow by whole blocks when the title does not fit.")}</li>
+<li>${T("<b>Mechanics › AE2 gates</b> lists 12 parts per Act and puts the rest behind “N more”.")}</li>
+</ul>
+<h3 class="ck fix">${T("Fixed")}</h3><ul>
+<li>${T("<b>Goety attributes</b> read “Soul Discount (Goety)”, not “Goety.Soul Discount”.")}</li>
+<li>${T("15 Unique Accessories curios now list the vanilla chests and mobs the pack's config gives them.")}</li>
+<li>${T("Redstone and Redstone Dust are one name, and in the build planner pressing Enter on a slot's × keeps the keyboard focus.")}</li>
+</ul></section>
 <section class="s" id="c-2026-10-31"><h2>${T("October 31, 2026")}</h2>
 <h3 class="ck chg">${T("Changed")}</h3><ul>
 <li>${T("<b>Boss pictures</b> are drawn from each mod's own model with the game's light, for the Keepers and the side bosses. Crone, Ice Hermit and Mutant Enderman have a picture for the first time, and none is taken from another wiki.")}</li>
 <li>${T("<b>Drop chances and gear effects</b> are re-read from the pack's official server files. For example, the Crone drops glowstone dust 37% of the time, not 55%.")}</li>
 <li>${T("<b>Obsidian armor</b> (Composite Material) moved from Act V to Act VI: the pack's own recipe upgrades a netherite piece.")}</li>
 <li>${T("<b>Icons</b> come from the mods' own and vanilla textures, tinted the way the game tints them. None are drawn from All Rights Reserved resource packs.")}</li>
+<li>${T("<b>Gear scores</b> follow the pack's rules more closely: Goety spell power no longer counts as Iron's, Summon Power is a flat bonus, and Resistance follows the pack's curve. The Mage lists at Acts IV to XII moved.")}</li>
+<li>${T("<b>Gear locks</b> come only from the pack's own gate tags, and every lock names its boss. Armor pieces the pack disables are hidden, and pieces of the same family are joined, so there are 313 armor sets, not 328.")}</li>
+<li>${T("<b>Curios:</b> 1,321 now. Sweetheart Necklace, Vanir Mask and Pocket Universe are in, and the War Horn that does not exist is out. Recipes follow the pack's KubeJS scripts and datapack order, and Unique Accessories drop chances come from the pack's config. Cradle of Rebirth is Must-Have.")}</li>
+<li>${T("<b>Bosses:</b> the Armageddon Keepers, the Wither and the Ender Dragon are exempt from Hardmode, and the Dragon has 600 health and 30 armor. 33 side bosses take the pack's own soul boss values (Ignis has 3,200 health). Six side bosses show their in-game name beside the wiki's.")}</li>
 </ul>
 <h3 class="ck fix">${T("Fixed")}</h3><ul>
 <li>${T("A pass over search, filters, The Path, the build planner, Mechanics and the boss pages. For example, quick search calls the Ender Dragon a required boss, not a Keeper; \"What can I get now?\" says it lists the curios that open at your Act; on phones the pages say tap, not hover.")}</li>
+<li>${T("<b>Phones and narrow screens:</b> detail pages are one column below 1181 px, and room headers, the footer, the Equipment bars and the home page lists fit from 375 to 1024 px.")}</li>
+<li>${T("<b>Accessibility:</b> reduced motion is honoured, keyboard focus shows on The Path, touch targets are at least 24 px, and the tier letters and the ingredient panel use dark ink for contrast.")}</li>
+<li>${T("<b>Build planner:</b> the picker scrolls into view on phones, keyboard focus stays where it was when the planner redraws, and a share link says when some items could not be placed.")}</li>
 </ul></section>
 <section class="s" id="c-2026-10-30"><h2>${T("October 30, 2026")}</h2>
 <h3 class="ck chg">${T("Changed")}</h3><ul>
