@@ -1902,13 +1902,11 @@ body.hub:not(.scrolled) .top::after{opacity:0}
 .climb .dsky i{position:absolute}
 .climb .dsky>i{transition:translate .5s ease-out}
 .climb .dstars{left:0;top:0;width:2px;height:2px;translate:calc(var(--mx,0)*-4px) calc(var(--my,0)*-3px)}
-.climb .dsun{left:17.5%;bottom:30%;width:120px;height:120px;background:#fff6c8;box-shadow:0 0 0 14px rgba(255,214,120,.55),0 0 0 30px rgba(255,170,90,.22),0 0 120px 60px rgba(255,170,90,.45);translate:calc(var(--mx,0)*-7px) calc(var(--my,0)*-4px)}
+.climb .dsun{left:17.5%;bottom:var(--sunb,30%);width:120px;height:120px}   /* the sun's disc is painted into the sky (skyArt); this box only holds its rays */
 /* the sun's light: long rays that turn slowly behind it, and a halo that breathes */
 .climb .dsun::before{content:"";position:absolute;left:50%;top:50%;width:980px;height:980px;translate:-50% -50%;border-radius:50%;
  background:repeating-conic-gradient(rgba(255,214,140,.16) 0 5deg,transparent 5deg 18deg);-webkit-mask-image:radial-gradient(closest-side,#000 14%,transparent 72%);mask-image:radial-gradient(closest-side,#000 14%,transparent 72%);animation:sunRays 150s linear infinite}
-.climb .dsun::after{content:"";position:absolute;inset:-44px;background:rgba(255,190,110,.2);animation:sunHalo 7s ease-in-out infinite}
 @keyframes sunRays{to{rotate:360deg}}
-@keyframes sunHalo{50%{opacity:.25;scale:1.12}}
 /* the sky behind the sun and the land in front of it are pixel art painted by skyPaint (app.js); the land shifts a little with the pointer */
 .climb .dart0,.climb .dart1{position:absolute;inset:0 -24px;width:calc(100% + 48px);height:100%;image-rendering:pixelated;pointer-events:none}
 .climb .dart1{translate:calc(var(--mx,0)*-10px) 0;transition:translate .5s ease-out}
@@ -2074,7 +2072,6 @@ body.hub .sfoot{background:#0f0e14}
 @media (max-width:1100px){
  .climb{--rest:1;--base:108px;--step:12px;--fs:.75;display:flex;flex-direction:column;align-items:stretch;height:auto;min-height:calc(100svh - var(--toph,64px));padding:var(--s4) var(--s4) 0}
  .climb .dcl,.climb .dwind{display:none}
- .climb .dsun{bottom:300px}
  .climb .lg{white-space:normal;font-size:clamp(40px,11vw,72px)}
  .climb .hsearch,.climb .tbtns,.climb .pcap{margin-top:var(--s3)}
  .climb .tcs{display:flex;justify-content:space-between;gap:var(--s3);margin-top:var(--s3);text-align:left}
@@ -2101,7 +2098,7 @@ body.hub .sfoot{background:#0f0e14}
  .sfoot>div:nth-child(3){grid-row:auto}
  .sfoot>div:nth-child(3)>p{columns:1}
 }
-@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw,#pmap .pn,#pmap .gl b,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.climb .dsun::after,.bcardl .pk img,.ip-stage .pk img{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
+@media (prefers-reduced-motion:reduce){#pmap .pfr,#pmap .pk,#pmap .pk img,#pmap .au,#pmap .sp,#pmap .sw,#pmap .pn,#pmap .gl b,#cave .og::before,#cave .og::after,.climb .dcl,.climb .dbirds,.climb .dbirds b,.climb .dwind,.climb .dsun::before,.bcardl .pk img,.ip-stage .pk img{animation:none!important;transition:none}#pmap .ptrack .pn:is(:hover,[aria-selected=true]) .envfx,.climb .dbirds,.climb .dwind{display:none}.climb .dcl{translate:var(--cx) 0}}
 
 /* ================= The room spreads over the page =================
    On a page that opens with a room (Curios: the library; Equipment: the forge; Bosses: the crypt; Build planner: the
