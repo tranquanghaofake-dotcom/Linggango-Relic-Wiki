@@ -931,13 +931,14 @@ el("reset").onclick=resetFilters;
 el("fold").onclick=()=>{const s=el("side");s.classList.toggle("closed");el("fold").setAttribute("aria-expanded",!s.classList.contains("closed"))};
 if(matchMedia("(max-width:760px)").matches)el("side").classList.add("closed");
 
-function refreshSide(){
+// hub: the sidebar is not shown on the hub, so its index of up to 600 curios (3,000 nodes, 600 pictures) is not built there; the first page that shows it builds it
+function refreshSide(hub){
  for(const key in chipEls)chipEls[key].forEach(b=>{const k=b.dataset.k;b.setAttribute("aria-pressed",st[key].includes(k));
   b.querySelector(".n").textContent=count(D.filter(d=>(key==="c"?(d.ro.includes(k)||isMust(d)):key==="x"?d.mt.includes(k):String(d[key])===k)&&pass(d,key)))});
  nb.setAttribute("aria-pressed",st.nw);
  const xs=D.filter(d=>pass(d));el("cnt").textContent=T("{n} / {total} curios",{n:count(xs),total:TOTAL});
  const cur=location.hash.startsWith("#i")?+location.hash.slice(2):-9;
- const sig=xs.map(d=>d.ix).join();if(sig!==IDXSIG){IDXSIG=sig;el("idx").innerHTML=[...xs].sort((a,b)=>nameCmp(a.n,b.n)).slice(0,600).map(d=>`<li><a href="#i${d.ix}" data-t="${d.ix}">${img(d.id)}<span>${esc(TD(d.n))}</span><span class="act">${ACT[d.t][0]}</span></a></li>`).join("")
+ const sig=xs.map(d=>d.ix).join();if(sig!==IDXSIG&&!hub){IDXSIG=sig;el("idx").innerHTML=[...xs].sort((a,b)=>nameCmp(a.n,b.n)).slice(0,600).map(d=>`<li><a href="#i${d.ix}" data-t="${d.ix}">${img(d.id)}<span>${esc(TD(d.n))}</span><span class="act">${ACT[d.t][0]}</span></a></li>`).join("")
   +(xs.length>600?`<li class="meta">${T("… {n} more, narrow the filters to see them",{n:xs.length-600})}</li>`:"")}
  el("idx").querySelectorAll("[aria-current]").forEach(a=>a.removeAttribute("aria-current"));const ca=el("idx").querySelector(`a[href="#i${cur}"]`);if(ca)ca.setAttribute("aria-current","page");
  return xs}
@@ -1838,7 +1839,7 @@ function decorate(r=document){
  r.querySelectorAll("[data-an]:not([data-done])").forEach(el=>{el.dataset.done=1;const a=AN[el.dataset.an];if(!a)return;el.style.setProperty("--n",a[1]);el.style.setProperty("--ms",(a[1]*a[2])+"ms");el.insertAdjacentHTML("beforeend",`<img class="strip" alt="" src="data:image/png;base64,${a[0]}">`);el.classList.add("anim")});
 }
 function renderBase(){
- save();const xs=refreshSide();const h=decodeURIComponent(location.hash);
+ save();const h=decodeURIComponent(location.hash),xs=refreshSide(h===""||h==="#");
  if(["#bang","#ngoai","#table","#unobtainable","#guide"].includes(h)){location.replace("#home");return}
  // the mod and slot pages are gone: their links open Curios filtered to that mod or slot (the Act pages remain: hubList("act"))
  {const mm=h.match(/^#(mod|slot)\/(.+)$/);if(h==="#mods"||h==="#slot/*"){location.replace("#home");return}
@@ -1879,7 +1880,9 @@ function showTip(n){if(!EXT.tip.some(f=>f(n)))showTipBase(n)}
 function loadPics(){const u=document.documentElement.dataset.pics;if(!u||window.PICS)return;const s=document.createElement("script");s.src=u;document.head.appendChild(s)}
 function picsLoaded(){if(window.pathRefill)window.pathRefill();if(!window.PICS_MISS)return;window.PICS_MISS=0;const y=scrollY;render();decorate();scrollTo(0,y)}
 const needPics=()=>{if(!window.PICS)window.PICS_MISS=1};
-document.addEventListener("DOMContentLoaded",()=>{const go=()=>{langBoot();render();decorate();loadPics()};I18N_READY?I18N_READY.then(go):go()});
+// --toph (the header's height, which sizes the hero) is a custom property on <html>: writing a new value restyles the whole document, so it is measured and written here, while the page is only the
+// header and the footer, and pathMapWire's own toph() then finds the same value and writes nothing (it used to restyle the finished hub, 4,400 nodes, a second time)
+document.addEventListener("DOMContentLoaded",()=>{const go=()=>{langBoot();{const t=document.querySelector(".top");if(t)document.documentElement.style.setProperty("--toph",t.offsetHeight+"px")}render();decorate();loadPics()};I18N_READY?I18N_READY.then(go):go()});
 function refresh(){const h=decodeURIComponent(location.hash);if(h==="#home"||/^#(slot|act|mod)\//.test(h)){SOFT=true;render()}else location.hash="#home"}
 /* page change: a cross-fade between sections (View Transitions, where the browser has them); switches inside one page
    (an Equipment Act, a Path filter) redraw in place so the controls you just pressed do not blink */
