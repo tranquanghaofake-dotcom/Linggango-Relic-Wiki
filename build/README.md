@@ -105,11 +105,13 @@ Four playstyles: Melee, Ranged, Mage, Summon (Tank was retired in v22.11; defens
 Better Combat `allow_fast_attacks` (default on) clears hurt cooldowns, so melee DPS = hit × speed with no cap; Apothic Attributes armor is
 damage × a/(a+armor), a = 10 under 20 damage, 10+(dmg−20)/2 above, and toughness only weakens armor shred/pierce.
 Base stats: `patches/gear_runtime.py` lays the pack's in-game dump (`gear_runtime.json`, from `kubejs/server_scripts/dump_gear.js`) over the jar reading. The file holds 2,587 items (2,472 from the dump, 115 more read in game by the wiki's own `pack_audit/kubejs/server_scripts/lgw_measure.js`); the build prints how many are gear in the table. Re-run `/kubejs custom_command dump_gear` and convert `kubejs/gear_dump.json` when the pack updates.
-Melee weapons: DPS (`gMelee`); any weapon with readable melee damage (staves, spears) is also a Melee candidate. Ranged / Mage / Summon weapons
-have no readable damage, so `gEstScore` puts them on the power curve `GSTEP^rung` (`GSTEP`, fitted at load time on the top-10 melee DPS per Act:
-1.24 on 6.6.6hf), + up to 10% for how hard they are to get, × their role bonus (`GOFF`). Armor sets: score(set, role, Act) = `GOFF[role]` × EHP^k
+The Act only decides which lists an item is in (usable at or before it), never its score. Melee weapons: DPS (`gMelee`); any weapon with
+readable melee damage (staves, spears) is also a Melee candidate. Mage weapons: what their bonuses multiply your spells by (`GOFF.MA`: spell
+power and best school, cooldown, cast time, mana; Ars spell damage). Ranged and Summon weapons have no readable shot or minion damage and
+are not ranked until it is measured in game: `sc[role]` is null and they stand, by name and with the reason (`gWhy`), in the "?" row under the
+tiers (`gUnranked`); so do a melee weapon whose damage is computed in code, a staff with no spell bonus and a set never measured. Armor sets: score(set, role, Act) = `GOFF[role]` × EHP^k
 (k: Melee 1, Ranged .7, Mage .6, Summon .6), EHP against the Act's Keeper hit (`GHIT`, from entitybalance.json) on top of 20 + 4 HP per Act;
-so set scores depend on the Act (`gScore`). Sets with unreadable armor get the median armor/toughness/HP of their Act. Tiers are the ratio to
+so set scores depend on the Act (`gScore`). Tiers are the ratio to
 the fifth best usable item at that Act (so one runaway item does not push the rest to D; S ≥85%, A ≥70%, B ≥55%, C ≥40%); under 25% is not listed; creative-only items are hidden.
 `patches/gear_extra.json` (made by `gear/extra.py` from `gear/extra_ids.json`) adds plain-Item weapons the extraction skips; Iron's armor material
 attributes come from `pack_audit/iss_armor.py ISS_JAR --gear-stats SRG_JAR` (`ExtendedArmorMaterials.<clinit>` read through `gear/classlib.py`), which rewrites `iss_materials` of `gear_stats.json`; icons that need a 3D render come from `pack_audit/weapon_icons/`.

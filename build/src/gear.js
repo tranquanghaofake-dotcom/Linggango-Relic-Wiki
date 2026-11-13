@@ -99,10 +99,6 @@ const GFR={};
 function gFront(a){const k=oiA(a);if(GFR[k])return GFR[k];
  const xs=GME.filter(g=>oiA(g.a)<=k).map(g=>[gMelee(g),gHit(g)]).sort((p,q)=>q[0]-p[0]).slice(0,10);
  return GFR[k]={dps:xs.reduce((s,x)=>s+x[0],0)/xs.length,hit:xs.reduce((s,x)=>s+x[1],0)/xs.length}}
-/* how much stronger the pack's weapons get per Act, fitted on the melee frontier (log-linear least squares over every Act): fitted at load (1.24 on 6.6.6hf) */
-const GSTEP=(()=>{const p=ORDER.filter(x=>x>=0).map(a=>[gLad(a),Math.log(gFront(a).dps)]),n=p.length,
- sx=p.reduce((s,q)=>s+q[0],0),sy=p.reduce((s,q)=>s+q[1],0),sxx=p.reduce((s,q)=>s+q[0]*q[0],0),sxy=p.reduce((s,q)=>s+q[0]*q[1],0);
- return Math.min(1.3,Math.max(1.05,Math.exp((n*sxy-sx*sy)/(n*sxx-sx*sx))))})();
 /* what a set of attributes {attr: [add, mul]} multiplies a role's output by (1 = nothing) */
 const GOFF={
  /* flat attack damage counts against the frontier's hit at that Act: +2 is a lot at Act 0 and little at Act XII */
@@ -136,47 +132,39 @@ function gEHP(f,a){const D=GHIT[a]!=null?GHIT[a]:50,A=D<20?10:10+(D-20)/2,at=f.a
  const dr=Math.min(.8,Math.max(-2,f.dtk+gS(at,/^resistance$/,1))),dg=Math.min(.5,gS(at,/^dodge_chance$/,0));
  const hp=Math.max(1,gBaseHP(a)+f.hp),frac=Math.max(GFLOORHIT,A/(A+arm)*(1-dr)*(f.ms&&f.ms.evr||1));
  return D*hp/Math.min(D*frac,GHITCAP*hp)/(1-dg)*(1+.1*Math.min(1,f.kbr))}
-/* how hard an item is to get, 0..1: boss and mob drops 1, crafted from many parts up to 1, chest or unknown loot lower */
+/* recipe stations and ingredients that say nothing about an item (the crafting table, a plain ritual) */
 const GNOISE=/^(minecraft:crafting_|goety:(craft|ritual)$|ars_nouveau:enchanting_apparatus$)/;
-function gSrc(g){const lt=g.lt||[],rc=g.rc||[];
- if(lt.some(t=>/:entities\//.test(t)))return 1;
- if(rc.length){const n=new Set((rc[0].i||[]).filter(x=>x!==rc[0].t&&!GNOISE.test(x))).size;return Math.min(1,Math.max(0,(n-1)/8))}
- return lt.length?.5:.3}
-/* Ranged, Mage, Summon weapons: their shot or spell damage lives in code, so they sit on the fitted power curve at their unlock rung,
-   + up to 10% for how hard they are to get, x their readable bonuses for the role */
-function gEstScore(g,r){const rung=gLad(oiA(g.a)>oiA(g.ga||0)?g.a:g.ga);return Math.pow(GSTEP,rung)*(1+.1*gSrc(g))*gOff(g,r,g.a)}
 const gR3=v=>Math.round(v*1000)/1000;
 /* roles a weapon is listed for: its kind first; a staff that also buffs minions is listed for Summon too,
    and any weapon whose melee damage is readable (staves, spears, gunblades) is a Melee candidate at its real DPS */
 const gKindRoles=g=>{const k=g.k==="melee"?["ME"]:g.k==="ranged"?["RA"]:g.k==="summon"?["SU"]:["MA"].concat(gOff(g,"SU",g.a)>1.001?["SU"]:[]);
  return g.dmg!=null&&!k.includes("ME")&&!gNoMelee(g)?k.concat("ME"):k};
-GE.forEach(g=>{g.sc={};if(g.k!=="armor")gKindRoles(g).forEach(r=>g.sc[r]=null);if(g.dmg!=null&&g.sc.ME!==undefined)g.sc.ME=gR3(gMelee(g))});
-/* melee weapons whose base damage lives in code we could not read: estimated from same-gate weapons */
-const GEST={};
-{const by={};GME.forEach(g=>(by[g.ga]=by[g.ga]||[]).push(g.sc.ME));
- for(const k in by){const v=by[k].sort((a,b)=>a-b);GEST[k]=v[Math.floor(v.length*.6)]}
- const all=Object.values(by).flat().sort((a,b)=>a-b),med=all[Math.floor(all.length/2)]||1;
- GE.forEach(g=>{if(g.k==="melee"&&g.sc.ME==null){g.sc.ME=GEST[g.ga]||med;g.est=1}
-  if(g.k==="ranged"||g.k==="magic"||g.k==="summon"){g.est=1;for(const r in g.sc)if(r!=="ME")g.sc[r]=gRound(gEstScore(g,r)*100)}})}
+/* a weapon's score for a role is a number read from the game, never its Act or how hard it is to get: the Act only decides
+   which lists it is in (gPool). Melee: damage per second (gMelee). Mage: what it multiplies your spells by (GOFF.MA on its
+   bonuses: spell power and school, cooldown, cast time, mana, Ars spell damage); its own shot or built-in spell is set in its
+   mod's code and is not counted. Ranged and Summon: the damage of a shot or a minion is set in code when it fires or attacks
+   and has not been measured in game, so those weapons are not ranked yet; nor is a melee weapon whose damage is computed in
+   code, or a staff with no spell bonus. Unranked = listed for the role with sc[r] null (gUnr): gPool leaves them out and
+   gUnranked lists them in their own row */
+GE.forEach(g=>{g.sc={};if(g.k==="armor")return;gKindRoles(g).forEach(r=>g.sc[r]=null);
+ if(g.dmg!=null&&g.sc.ME!==undefined)g.sc.ME=gR3(gMelee(g));
+ if(g.sc.MA!==undefined){const v=gOff(g,"MA",g.a);if(v>1.001)g.sc.MA=gR3(v)}});
 /* armor sets: score = output multiplier for the role x effective health ^ the role's weight, so a set has to earn its place in a list
    by what it adds (spell power, crit, summon damage) or by how much longer it keeps you alive; a plain set is the fallback everywhere.
-   Sets whose base armor is computed in code get the median armor, toughness and health of known sets of their Act (robes x0.7, others x0.8),
-   unless they were worn in game (pack_audit/measure): then the measured numbers stand, 0 armor included */
-const GROBE=/robe|crown|hat|hood|cowl|mask/;
+   A set whose base armor is computed in code and that was not worn in game (pack_audit/measure) has no numbers to judge: s.f is
+   null and it is not ranked (a measured set keeps its numbers, 0 armor included) */
 /* the median armor, toughness and health of known sets at an Act (also the typical set a curio is judged on) */
 let gMedAt;
 {const kn=GS.filter(s=>s.kn&&s.arm>0),med={};
  const medAt=a=>{const k=oiA(a);if(!med[k]){let v=kn.filter(s=>oiA(s.a)<=k&&oiA(s.a)>=k-1);if(!v.length)v=kn;
   const m=f=>v.map(s=>s[f]).sort((x,y)=>x-y)[v.length>>1];med[k]={arm:m("arm"),tough:m("tough"),hp:m("hp")}}return med[k]};
  gMedAt=medAt;
- GS.forEach(s=>{if(s.kn&&(s.arm>0||s.ms)){s.f=s;return}
-  const m=medAt(s.a),x=s.p.some(id=>GROBE.test(id.split(":")[1]))?.7:.8;s.est=1;
-  s.f={arm:m.arm*x,tough:m.tough*x,hp:Math.max(s.hp,m.hp*x),kbr:s.kbr||0,dtk:s.dtk||0,at:s.at}})
+ GS.forEach(s=>{s.f=s.kn&&(s.arm>0||s.ms)?s:null})
  /* worn effects of the pieces count in the survival formula: Resistance as damage taken, Health Boost and Absorption as health */
- GS.forEach(s=>{if(!s.fx)return;const f=gFxAt(s);if(!Object.keys(f).length)return;s.f={...s.f,at:gAt(s),hp:(s.f.hp||0)+((f.max_health||[0])[0])}})}
+ GS.forEach(s=>{if(!s.fx||!s.f)return;const f=gFxAt(s);if(!Object.keys(f).length)return;s.f={...s.f,at:gAt(s),hp:(s.f.hp||0)+((f.max_health||[0])[0])}})}
 const GSC=new Map();
-function gSetScore(s,r,a){const key=s.ix+r+a;let v=GSC.get(key);
- if(v==null){v=gRound(gOff(s,r,a)*Math.pow(gEHP(s.f,a),GSURV[r]));GSC.set(key,v)}return v}
+function gSetScore(s,r,a){const key=s.ix+r+a;if(GSC.has(key))return GSC.get(key);
+ const v=s.f?gRound(gOff(s,r,a)*Math.pow(gEHP(s.f,a),GSURV[r])):null;GSC.set(key,v);return v}
 GS.forEach(s=>{s.sc={};for(const r of ["ME","RA","MA","SU"])s.sc[r]=gSetScore(s,r,s.a)});
 /* ---------- curios, measured in game (pack_audit/measure/import_curios.py → CM) ----------
    A curio's score for a role at an Act is what it multiplies a typical build by when worn on top of it, on the sets' scale:
@@ -260,6 +248,16 @@ function gPool(a,r,w){const ia=oiA(+a);
  if(w==="o")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)).map(d=>[d,gCurioGain(d,r,+a)]).filter(x=>x[1]>=GOWN).sort((p,q)=>q[1]-p[1]);
  const xs=(w==="a"?GS:GE.filter(g=>g.k!=="armor")).filter(g=>g.sc[r]!=null&&oiA(g.a)<=ia&&!gHidden(g));
  return xs.map(g=>[g,gScore(g,r,+a)]).sort((p,q)=>q[1]-p[1])}
+/* not ranked: listed for role r but with no number from the game to rank it by (see the scoring notes above). They stand in
+   their own row under the tiers, by name, with the reason; their pages say it instead of a tier */
+const gUnr=(g,r)=>!!g.sc&&r in g.sc&&g.sc[r]==null;
+function gUnranked(a,r,w){const ia=oiA(+a);
+ return w==="c"?[]:(w==="a"?GS:GE.filter(g=>g.k!=="armor")).filter(g=>gUnr(g,r)&&oiA(g.a)<=ia&&!gHidden(g)).sort((x,y)=>TD(x.n).localeCompare(TD(y.n)))}
+const gWhy=(g,r)=>g.ps||g.k==="armor"?T("Not ranked: its base armor is computed in its mod's code; the wiki could not read it, and the set has not been worn in game.")
+ :r==="RA"?T("Not ranked yet: the damage of a shot is set in each mod's code when it fires, and it has not been measured in game.")
+ :r==="SU"?T("Not ranked yet: the damage of a minion is set in each mod's code, and it has not been measured in game.")
+ :r==="MA"?T("Not ranked: it gives no spell bonus the wiki can read (spell power, school power, cooldown, cast time, mana); its own shot or spell is set in its mod's code and has not been measured.")
+ :T("Not ranked: its damage is computed in its mod's code at run time; the wiki could not read it, and it has not been measured in game.");
 /* Finer groups inside a playstyle (the row of buttons under the playstyles). They only choose which of the tiered items are
    shown: the tiers themselves stay those of the whole playstyle, so a group reads against everything the playstyle can use.
    gSubOf(g, r) lists the groups a weapon is in (one or several: Flames Of Eldritch is both a Fire and an Eldritch staff); a
@@ -324,12 +322,11 @@ function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const
   out=GTIER.map(([t],i)=>[t,b[i]]);out.top=top}
  GTC.set(key,out);return out}
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
-/* a pick is an estimate when the wiki could not read its damage or armor (a staff's Melee DPS is read, its Mage score is not) */
-const gEst=(g,r)=>!!g.est&&!(r==="ME"&&g.dmg!=null);
 const gHref=g=>g.ps?"#gs"+g.ix:"#g"+g.ix;
-/* a tile is faded when its score in this list is an estimate (a staff's Melee DPS is read, its Mage score is not) */
+/* the row under the tiers for the items that are not ranked yet: the reason, then the items by name */
+const gUnrRow=(xs,a,r,w)=>xs.length?`<section class="grow gunr" style="--gc:#8a8f99"><h2 class="glet" aria-label="${T("Not ranked yet")}">?</h2><div class="gunrb"><p class="note">${gWhy(w==="a"?{ps:1}:{},r)}</p><div class="gtiles">${(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")}${!GALL&&xs.length>48?`<button class="gmore" data-gall>${T("Show {n} more",{n:xs.length-48})}</button>`:""}</div></div></section>`:"";
 /* later: the tile is a search hit that unlocks after Act a, marked with its Act in the NEW badge's place */
-const gTile=(g,a,r,later)=>gIsCurio(g)?`<a class="gtl" href="#i${g.ix}" data-t="${g.ix}">${img(g.id)}${g.t===+a&&+a!==ORDER[0]?`<i class="gnew">${T("NEW")}</i>`:""}<span>${esc(TD(g.n))}</span></a>`:`<a class="gtl${gEst(g,r)?" est":""}${!g.ps&&g.k!=="armor"?" wpn":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}"${later?` title="${T("Unlocks at {act}",{act:esc(actL(g.a))})}"`:""}>${gImg(g)}${later?`<i class="gnew glater">${esc(ACT[g.a][3]?TD(ACT[g.a][0]):T("Act {n}",{n:ACT[g.a][0]}))}</i>`:g.a===+a&&+a!==ORDER[0]?`<i class="gnew">${T("NEW")}</i>`:""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(TD(g.n)).replace(/ \((Lv|Tier|Mk) /g," ($1&nbsp;")}</span></a>`;
+const gTile=(g,a,r,later)=>gIsCurio(g)?`<a class="gtl" href="#i${g.ix}" data-t="${g.ix}">${img(g.id)}${g.t===+a&&+a!==ORDER[0]?`<i class="gnew">${T("NEW")}</i>`:""}<span>${esc(TD(g.n))}</span></a>`:`<a class="gtl${!g.ps&&g.k!=="armor"?" wpn":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}"${later?` title="${T("Unlocks at {act}",{act:esc(actL(g.a))})}"`:""}>${gImg(g)}${later?`<i class="gnew glater">${esc(ACT[g.a][3]?TD(ACT[g.a][0]):T("Act {n}",{n:ACT[g.a][0]}))}</i>`:g.a===+a&&+a!==ORDER[0]?`<i class="gnew">${T("NEW")}</i>`:""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(TD(g.n)).replace(/ \((Lv|Tier|Mk) /g," ($1&nbsp;")}</span></a>`;
 const GSTATE={a:0,r:"ME",w:"w",q:""};let GALL=false;
 document.addEventListener("click",e=>{if(e.target.closest("[data-gall]")){GALL=true;const y=scrollY;gearPage(location.hash);scrollTo(0,y)}});
 let GLASTH="";
@@ -348,8 +345,10 @@ function gearPage(h,miss){
  // curios: the own view is its own pool (ranked by how much each raises the playstyle's output), the other view is the tiered
  // rest; weapons are filtered by group out of the whole playstyle's tiers
  const all=gTiers(a,r,w==="c"?(s==="any"?"c":"o"):w),inSub=w==="c"?(s==="any"?d=>!gOwn(d,r,a):null):s?g=>gSubOf(g,r).includes(s):null;
- const tiers=inSub?Object.assign(all.map(([t,xs])=>[t,xs.filter(inSub)]),{top:all.top}):all,pool=tiers.reduce((n,x)=>n+x[1].length,0);
- const subN=k=>w==="c"?(k==="any"?gTiers(a,r,"c").reduce((n,x)=>n+x[1].filter(d=>!gOwn(d,r,a)).length,0):gTiers(a,r,"o").reduce((n,x)=>n+x[1].length,0)):all.reduce((n,x)=>n+x[1].filter(g=>k===""||gSubOf(g,r).includes(k)).length,0);
+ // the items with no number to rank them by are listed under the tiers (gUnranked), filtered by the same group
+ const unrAll=gUnranked(a,r,w),unr=inSub?unrAll.filter(inSub):unrAll;
+ const tiers=inSub?Object.assign(all.map(([t,xs])=>[t,xs.filter(inSub)]),{top:all.top}):all,pool=tiers.reduce((n,x)=>n+x[1].length,0)+unr.length;
+ const subN=k=>w==="c"?(k==="any"?gTiers(a,r,"c").reduce((n,x)=>n+x[1].filter(d=>!gOwn(d,r,a)).length,0):gTiers(a,r,"o").reduce((n,x)=>n+x[1].length,0)):all.reduce((n,x)=>n+x[1].filter(g=>k===""||gSubOf(g,r).includes(k)).length,0)+unrAll.filter(g=>k===""||gSubOf(g,r).includes(k)).length;
  const go=(A,R,W,S)=>`#gear/${A}/${R}/${W}${S?"/"+S:""}`;
  const q=GSTATE.q.trim().toLowerCase();
  const hits=q?gMatch(q,a):null;
@@ -362,12 +361,12 @@ function gearPage(h,miss){
  <input id="gq" type="search" autocomplete="off" name="gearq" placeholder="${T("Find a weapon or set…")}" value="${esc(GSTATE.q)}" aria-label="${T("Find gear")}"></div>
  ${subs?`<div class="gseg subs" role="tablist" aria-label="${T("All kinds")}">${(w==="c"?[]:[["",()=>T("All kinds")]]).concat(subs).map(([k,t])=>{const n=subN(k);
   return n||k===s?`<a role="tab" href="${go(a,r,w,k==="own"?"":k)}"${k===s?' aria-selected="true"':""}>${t()} <span class="n">${n}</span></a>`:""}).join("")}</div>`:""}
- ${q?gSearch(hits,a,r):`<div class="gtl-list">${tiers.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>${T("Show {n} more",{n:xs.length-48})}</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join(""):`<p class="note">${w==="a"?T("No armor for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):w==="c"?T("No curios measured to help {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):T("No weapons for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))})}</p>`}</div>`}
- <div class="gfoot"><p>${hits?TN(hits.length,"{n} match for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.","{n} matches for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.",{n:`<b>${hits.length}</b>`,q:esc(GSTATE.q.trim()),k:hits.n,act:esc(actL(a))}):w==="a"?TN(pool,"{n} set usable at {act}.","{n} sets usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))}):w==="c"?TN(pool,"{n} curio usable at {act} measured to help {role}.","{n} curios usable at {act} measured to help {role}.",{n:`<b>${pool}</b>`,act:esc(actL(a)),role:GROLE[r]}):TN(pool,"{n} weapon usable at {act}.","{n} weapons usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))})}${w==="c"?" "+(s==="any"?T("Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page."):T("Each was worn alone in game on a bare test player; its tier is how much it raises the output of a {role} build (its attack, spell or minion bonuses) next to the fifth best curio in this list. Armor, health and dodge do not count here: those curios are under “Survival, any playstyle”. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page.",{role:GROLE[r]})):""}${+a!==ORDER[0]?` <i class="gnew">${T("NEW")}</i> ${T("unlocks at this Act.")}`:""} ${T("Faded tiles are <b>estimated</b>: their damage is computed in code the wiki could not read, so they are ranked by when and how you get them (see below).")}</p>
+ ${q?gSearch(hits,a,r):`<div class="gtl-list">${tiers.length||unr.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>${T("Show {n} more",{n:xs.length-48})}</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join("")+gUnrRow(unr,a,r,w):`<p class="note">${w==="a"?T("No armor for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):w==="c"?T("No curios measured to help {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):T("No weapons for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))})}</p>`}</div>`}
+ <div class="gfoot"><p>${hits?TN(hits.length,"{n} match for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.","{n} matches for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.",{n:`<b>${hits.length}</b>`,q:esc(GSTATE.q.trim()),k:hits.n,act:esc(actL(a))}):w==="a"?TN(pool,"{n} set usable at {act}.","{n} sets usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))}):w==="c"?TN(pool,"{n} curio usable at {act} measured to help {role}.","{n} curios usable at {act} measured to help {role}.",{n:`<b>${pool}</b>`,act:esc(actL(a)),role:GROLE[r]}):TN(pool,"{n} weapon usable at {act}.","{n} weapons usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))})}${w==="c"?" "+(s==="any"?T("Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page."):T("Each was worn alone in game on a bare test player; its tier is how much it raises the output of a {role} build (its attack, spell or minion bonuses) next to the fifth best curio in this list. Armor, health and dodge do not count here: those curios are under “Survival, any playstyle”. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page.",{role:GROLE[r]})):""}${+a!==ORDER[0]?` <i class="gnew">${T("NEW")}</i> ${T("unlocks at this Act.")}`:""}</p>
  <details class="ghow"><summary>${T("How the tiers are worked out")}</summary><ul>
  <li>${T("<b>Act</b>: the Keeper gate from Linggango's own progression tags (<code>forge:iron_tools</code> … <code>forge:helionite_armor</code>): gear tagged Diamond is locked until Eldorath falls, and so on. Gear with no tag sits at the Act of its hardest ingredient or drop (Nether materials need Act V, a Nether Star the Wither, End loot the Ender Dragon).")}</li>
  <li>${T("<b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does. Better Combat clears the target's hurt cooldown on every hit, so fast weapons are not capped at two hits a second. Staves, spears and gunblades whose melee damage is readable are ranked here too.")}</li>
- <li>${T("<b>Ranged, Mage, Summon weapons</b>: bow, gun and spell damage is set in each mod's code at shot time, so it cannot be read. They sit on the pack's power curve at the Act they unlock: the ten best melee weapons get about {step}% stronger per Act (fitted over all Acts), so an item one Act behind the frontier is at {one}%, three behind at {three}%. Then up to +10% for how hard it is to get (a boss drop or a many-part recipe over a one-ingredient craft), times its readable bonuses for the role (below).",{step:Math.round((GSTEP-1)*100),one:Math.round(100/GSTEP),three:Math.round(100/GSTEP**3)})}</li>
+ <li>${T("<b>Mage weapons</b>: ranked by what they add to your spells: spell power plus the best single school, cooldown and cast time, mana and mana regen (Iron's Spells), or Ars Nouveau spell damage. A weapon's own shot or built-in spell is set in its mod's code and is not counted. <b>Ranged and Summon weapons are not ranked yet</b>: the damage of a shot or a minion is set in each mod's code when it fires or attacks and has not been measured in game, so they are listed by name under the tiers. The Act an item unlocks at only decides which lists it is in, never its place in them.")}</li>
  <li>${T("<b>Armor sets</b>: score = output bonus × effective health<sup>k</sup>, the damage you deal times how long you last. Effective health uses Apothic Attributes' armor rule (damage × a/(a + armor), a = 10 for hits under 20, 10 + (hit − 20)/2 above) against the attack damage of the Keeper that ends the Act (10 at Act 0, 30 at Act VI, 50 at Act XII), on top of 20 + 4 HP per Act from your other gear, × damage-taken reduction and dodge. Toughness only blunts armor shred in this pack, so it counts little. k = 1 for Melee, 0.7 Ranged, 0.6 Mage and Summon (fighting at range, you take fewer hits). Output bonus: Melee attack damage (flat bonus against the Act's typical weapon hit), attack speed, crit, lifesteal; Ranged arrow damage, draw speed, crit; Mage: the better of Iron's (spell power + the best single school, × cast rate from cooldown reduction, × mana: +300 mana = +25%) and Ars Nouveau (flat spell damage against the Act's typical hit, × mana); Summon summon damage and +25% per extra minion slot. A plain set is the fallback in every list; a set built for the role beats it. Sets whose armor is computed in code get the median of their Act.")}</li>
  <li>${T("Tiers compare each item with the fifth best usable at that Act (not the very best, so one item far ahead does not push all the others down): S is at 85% of it or more, A 70%, B 55%, C 40%, the rest D; under 25% it is left off the list (search still finds it). When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.")}</li>
  <li>${T("<b>Groups</b>: the buttons under the playstyles only choose which of these items to show; every tier is still against the whole playstyle. Weapons are grouped by what they are (shape, bow or gun, spell school, whip or staff); one weapon can be in several groups, and one that fits none is under All kinds. On the Curios tab the first button lists the curios that raise that playstyle's own output by 2% or more, best first; the other, “Survival, any playstyle”, holds the armor, health and dodge curios.")}</li></ul></details></div></div>`;
@@ -380,9 +379,8 @@ function gMatch(q,a){const ia=oiA(+a),xs=[...GE.filter(g=>g.k!=="armor"),...GS].
  const now=xs.filter(g=>oiA(g.a)<=ia),out=now.concat(xs.filter(g=>oiA(g.a)>ia));out.n=now.length;return out}
 function gSearch(xs,a,r){const ia=oiA(+a),cut=GALL?xs:xs.slice(0,80);
  return `<p class="note gsn">${xs.length&&xs.n<xs.length?TN(xs.length,"{n} match, {k} usable at {act} first.","{n} matches, {k} usable at {act} first.",{n:`<b>${xs.length}</b>`,k:xs.n,act:esc(actL(a))}):TN(xs.length,"{n} match.","{n} matches.",{n:`<b>${xs.length}</b>`})}</p><div class="gtiles gsr">${xs.length?cut.map(g=>gTile(g,a,r,oiA(g.a)>ia)).join("")+(cut.length<xs.length?`<button class="gmore" data-gall>${T("Show {n} more",{n:xs.length-cut.length})}</button>`:""):`<p class="note">${T("Nothing matches.")}</p>`}</div>`}
-/* main role of an item: the one it scores in, preferring the role named by its kind */
-/* main role of an item: a weapon's kind; a set's is, among the roles it has a bonus for (all roles if none), the one where it ranks highest at its own Act */
-const gMain=g=>{const k=Object.keys(g.sc);if(!g.ps)return k[0]||"ME";const own=gRoles(g);let b="ME",bq=-1;
+/* main role of an item: a weapon's kind, or the first role it is ranked in (a staff with no spell bonus but a readable hit: Melee); a set's is, among the roles it has a bonus for (all roles if none), the one where it ranks highest at its own Act */
+const gMain=g=>{const k=Object.keys(g.sc);if(!g.ps)return k.find(r=>g.sc[r]!=null)||k[0]||"ME";const own=gRoles(g);let b="ME",bq=-1;
  for(const r of own.length?own:k){const q=gSetScore(g,r,g.a)/(gTiers(g.a,r,"a").top||1);if(q>bq){bq=q;b=r}}return b};
 /* roles an item is worth listing for: a set with no bonus for a role is only a fallback there, so it is not advertised */
 const gRoles=g=>g.ps?Object.keys(GROLE).filter(r=>gOff(g,r,g.a)>1.02):Object.keys(g.sc);
@@ -436,14 +434,16 @@ function gTimeline(g){const r=gMain(g),w=g.ps?"a":"w";let acts=ORDER.filter(x=>x
  const mg=g.mg?`<p class="note">${T("Needs {item}, which the pack only opens at {act}, so it is listed from there.",{item:ilink(g.mg[1]),act:esc(actL(g.mg[0]))})}</p>`:"";
  return mg+`<div class="gtime">${acts.map(x=>{const t=gTierOf(g,x,r,w);const i=GTIER.findIndex(z=>z[0]===t);return `<a href="#gear/${x}/${r}/${w}" style="--tc:${ACT[x][2]};--gc:${i>=0?GTIER[i][2]:"#555"}" title="${T("{act}: {tier} for {role}",{act:esc(actL(x)),tier:t||T("below D"),role:GROLE[r]})}"><b>${t||"–"}</b><small>${esc(ACT[x][0])}</small></a>`}).join("")}${tail}</div>`}
 /* the verdict reads the same Acts as the Tier-by-Act strip: up to the first Act it drops to D (gTimeline cuts there) */
-function gVerdict(g){const r=gMain(g),w=g.ps?"a":"w",all=ORDER.filter(x=>x!=-1&&oiA(x)>=oiA(g.a)),tsAll=all.map(x=>gTierOf(g,x,r,w));
+/* an item ranked in no list of its own kind says why instead (a staff with no spell bonus whose hit is too weak for Melee too) */
+const gUnrLine=(g,r)=>`<p class="gverd gunr" style="--gc:#8a8f99"><b>?</b><span>${gWhy(g,r)}</span></p>`;
+function gVerdict(g){const r=gMain(g),w=g.ps?"a":"w",kind=g.ps?r:Object.keys(g.sc)[0];if(gUnr(g,r))return gUnrLine(g,r);const all=ORDER.filter(x=>x!=-1&&oiA(x)>=oiA(g.a)),tsAll=all.map(x=>gTierOf(g,x,r,w));
  const k=tsAll.findIndex((t,i)=>i>0&&(!t||t==="D")),acts=k>0?all.slice(0,k):all,ts=k>0?tsAll.slice(0,k):tsAll;
- const rank=t=>t?GTIER.findIndex(z=>z[0]===t):9,best=Math.min(...ts.map(rank));if(best>=9)return "";
+ const rank=t=>t?GTIER.findIndex(z=>z[0]===t):9,best=Math.min(...ts.map(rank));if(best>=9)return kind!==r&&gUnr(g,kind)?gUnrLine(g,kind):"";
  const on=acts.filter((x,i)=>rank(ts[i])===best),bt=GTIER[best];
  const span=on.length>1?T("from {a} to {b}",{a:esc(actL(on[0])),b:esc(actL(on[on.length-1]))}):T("at {act}",{act:esc(actL(on[0]))});
- return `<p class="gverd" style="--gc:${bt[2]}"><b>${bt[0]}</b><span>${T(best<=1?N("<strong>Worth using</strong> as {role} gear: {tier} tier {span}{est}."):best<=2?N("<strong>Usable</strong> as {role} gear: {tier} tier {span}{est}."):N("<strong>Weak</strong> as {role} gear: {tier} tier {span}{est}."),{role:GROLE[r],tier:bt[0],span,est:gEst(g,r)?" "+T("(estimate)"):""})}${k>0?" "+T("Replace it by {act}.",{act:esc(actL(all[k]))}):""}</span></p>`}
+ return `<p class="gverd" style="--gc:${bt[2]}"><b>${bt[0]}</b><span>${T(best<=1?N("<strong>Worth using</strong> as {role} gear: {tier} tier {span}."):best<=2?N("<strong>Usable</strong> as {role} gear: {tier} tier {span}."):N("<strong>Weak</strong> as {role} gear: {tier} tier {span}."),{role:GROLE[r],tier:bt[0],span})}${k>0?" "+T("Replace it by {act}.",{act:esc(actL(all[k]))}):""}</span></p>`}
 /* gear pages use the shared article layout (app.js): sections, infobox, "On this page", navbox */
-const gStatTable=(g,rows)=>rows.length?`${gKinds(g)}<table class="gst">${rows.map(([ic,n,v])=>`<tr><td>${ic?`<i class="ai" style="--ai:var(--v-${ic})"></i>`:""}${T(n)}</td><td class="num">${v}</td></tr>`).join("")}${g.sc.ME!=null&&g.dmg!=null?`<tr class="dps"><td>${T("Damage per second")} <span class="kest">${gMsUse(g)?T("from the measured hit"):T("estimate")}</span></td><td class="num">${gRound(g.sc.ME)}</td></tr>`:""}</table>${g.ms&&g.ms.dumpad!=null?`<p class="note">${T("The pack's dump lists {n} Attack Damage; only one of its same-UUID modifiers applies in game, so the table shows what the held weapon has.",{n:gRound(g.ms.dumpad)})}</p>`:""}`:`<p class="note">${g.k==="armor"?T("Base armor is computed in this mod's code at run time; the wiki could not read it, so this item is ranked by its gate."):T("Base damage is computed in this mod's code at run time; the wiki could not read it, so this item is ranked by its gate.")}</p>`;
+const gStatTable=(g,rows)=>rows.length?`${gKinds(g)}<table class="gst">${rows.map(([ic,n,v])=>`<tr><td>${ic?`<i class="ai" style="--ai:var(--v-${ic})"></i>`:""}${T(n)}</td><td class="num">${v}</td></tr>`).join("")}${g.sc.ME!=null&&g.dmg!=null?`<tr class="dps"><td>${T("Damage per second")} <span class="kest">${gMsUse(g)?T("from the measured hit"):T("estimate")}</span></td><td class="num">${gRound(g.sc.ME)}</td></tr>`:""}</table>${g.ms&&g.ms.dumpad!=null?`<p class="note">${T("The pack's dump lists {n} Attack Damage; only one of its same-UUID modifiers applies in game, so the table shows what the held weapon has.",{n:gRound(g.ms.dumpad)})}</p>`:""}`:`<p class="note">${g.k==="armor"?T("Base armor is computed in this mod's code at run time; the wiki could not read it."):T("Base damage is computed in this mod's code at run time; the wiki could not read it.")}</p>`;
 /* the best tier of a playstyle at an Act, for the navbox */
 const gTop=(a,r,w,not)=>{const t=gTiers(a,r,w)[0];return t?t[1].filter(x=>x!==not).slice(0,10).map(x=>[gHref(x),esc(TD(x.n))]):[]};
 const gArtBox=(g,set)=>(set&&needPics(),"")+`<div class="ip-art${!g.ps&&g.k!=="armor"?" wpn":""}"><div class="ip-stage" style="${tex(g.a)}">${envFx(g.a)}<div class="ip-icon${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?"":" framed"}">${set&&typeof ARMR!=="undefined"&&ARMR[set.k]?`<img class="garm" alt="${esc(T("{name} worn",{name:TD(set.n)}))}" src="${ARMR[set.k]}">`:`<span class="gbig">${img(g.ps?gIcon(g).id:g.id)}</span>`}</div></div></div>`;
@@ -456,7 +456,7 @@ function gearItemPage(g){document.title=TD(g.n)+" · Linggango Wiki";seedBg("g"+
    ["stats",T("Stats"),gStatTable(g,rows)+(bon.length?`<h3>${T("Bonuses")}</h3><ul class="gbon attr">${bon.map(x=>`<li>${statLine(gAL(x))}</li>`).join("")}</ul><p class="note">${T("From the mod's own modifiers, the Linggango <i>attributesetter</i> rebalance and the pack's runtime tweaks (linggango_tweaks: per-mod damage buffs and the tier damage floor), added on top of the base stats.")}</p>`:"")],
    (h=>h&&["fx",T("Effects"),h])(gFxHtml(g)),
    (h=>h&&["ms",T("Measured in game"),h])(gMsHtml(g)),
-   ["tier",T("Tier by Act"),set?`<p class="note">${T("The {set} set as {role} armor, compared with every set usable at each Act.",{set:esc(TD(set.n)),role:GROLE[gMain(set)]})}</p>${gTimeline(set)}<h3>${T("Set")}</h3><a class="gsetl" href="#gs${set.ix}" data-t="s${set.ix}">${gImg(set)}<span>${esc(TD(set.n))} · ${TN(set.ps.length,"{n} piece","{n} pieces")}</span></a>`:`<p class="note">${T("{role} weapons, compared with everything usable at each Act.",{role:GROLE[r]})}</p>${gTimeline(g)}`],
+   !gUnr(set||g,set?gMain(set):r)&&["tier",T("Tier by Act"),set?`<p class="note">${T("The {set} set as {role} armor, compared with every set usable at each Act.",{set:esc(TD(set.n)),role:GROLE[gMain(set)]})}</p>${gTimeline(set)}<h3>${T("Set")}</h3><a class="gsetl" href="#gs${set.ix}" data-t="s${set.ix}">${gImg(set)}<span>${esc(TD(set.n))} · ${TN(set.ps.length,"{n} piece","{n} pieces")}</span></a>`:`<p class="note">${T("{role} weapons, compared with everything usable at each Act.",{role:GROLE[r]})}</p>${gTimeline(g)}`],
    typeof GUIDE!=="undefined"&&GUIDE[g.id]&&["guide",T("From the guide book"),guideHtml(GUIDE[g.id])],
    g.lv&&g.lv.length&&["forms",T("Other levels and forms"),`<p class="note">${T("This page shows the strongest version. The same weapon also exists as: {list}.",{list:g.lv.map(x=>`<code>${esc(x)}</code>`).join(", ")})}</p>`]],
   art:gArtBox(g,set),
@@ -504,7 +504,7 @@ function gearSetPage(s){document.title=T("{set} set",{set:TD(s.n)})+" · Linggan
    (h=>h&&["fx",T("Effects"),h])(gFxHtml({fx:s.fx,tip:[]})),
    (h=>h&&["ms",T("Measured in game"),h])(gMsHtml(s)),
    ["pieces",T("Pieces"),`<div class="gpcs">${s.ps.map(p=>`<a href="#g${p.ix}" data-t="g${p.ix}">${img(p.id)}<span>${esc(TD(p.n))}</span><small>${p.arm!=null?T("{n} armor",{n:gRound(p.arm)}):""}${gBonus(p).length?" · "+gBonus(p).slice(0,2).map(gAL).join(", "):""}</small></a>`).join("")}</div>`],
-   ["tier",T("Tier by Act"),`<p class="note">${T("As a {role} set.",{role:GROLE[r]})}</p>${gTimeline(s)}<p class="note">${gRoles(s).length?T("Its bonuses raise {roles} output; every set is also in each other playstyle's list, scored on its defense and whatever bonus it has for that playstyle.",{roles:gRoles(s).map(k=>GROLE[k]).join(", ")}):T("It has no playstyle bonus, so it is ranked on how long it keeps you alive; every set is also in each other playstyle's list, scored on its defense and whatever bonus it has for that playstyle.")}</p>`]],
+   !gUnr(s,r)&&["tier",T("Tier by Act"),`<p class="note">${T("As a {role} set.",{role:GROLE[r]})}</p>${gTimeline(s)}<p class="note">${gRoles(s).length?T("Its bonuses raise {roles} output; every set is also in each other playstyle's list, scored on its defense and whatever bonus it has for that playstyle.",{roles:gRoles(s).map(k=>GROLE[k]).join(", ")}):T("It has no playstyle bonus, so it is ranked on how long it keeps you alive; every set is also in each other playstyle's list, scored on its defense and whatever bonus it has for that playstyle.")}</p>`]],
   art:gArtBox(s,s),
   box:{head:`<span class="ip-slot">${gImg(s)}</span><div><b>${esc(T("{set} set",{set:TD(s.n)}))}</b><span>${esc(mod)}</span></div>`,
    rows:[[T("Pieces"),String(s.ps.length)],[T("Mod"),gModLink(mod)],[T("Act"),`<a href="#gear/${s.a}/${r}/a">${esc(actL(s.a))}</a>`],s.kn&&[T("Armor"),String(gRound(s.arm))],s.kn&&[T("Toughness"),String(gRound(s.tough))],s.hp&&[T("Max Health"),(s.hp>0?"+":"")+gRound(s.hp)],[T("Playstyle"),esc(GROLE[r])]]},
@@ -521,7 +521,7 @@ function gearTip(n){const k=n.dataset.t,isSet=k[0]==="s",g=isSet?GS[+k.slice(1)]
  const rows=isSet?(g.kn?[`${gRound(g.arm)} Armor`,`${gRound(g.tough)} Armor Toughness`]:[]).concat(g.hp?[`+${gRound(g.hp)} Max Health`]:[]).concat(gSetKbr(g)?[`${gRound(gSetKbr(g))} Knockback Resistance`]:[]):gStats(g).map(([,n,v])=>`${v} ${n}`);
  const bon=isSet?Object.keys(GROLE).map(r=>[r,gOff(g,r,g.a)-1]).filter(x=>x[1]>.005).map(([r,v])=>T("+{n}% {role} output",{n:Math.round(v*100),role:GROLE[r]})):gBonus(g).slice(0,6);
  tip.innerHTML=`<div class="tbox"><div class="tfr"></div><div class="thd"><span class="tslot"><span class="aimg">${gImg(g)}</span></span><div class="tht"><div class="tnm">${isSet?esc(T("{set} set",{set:TD(g.n)})):esc(TD(g.n))}</div>${enTip(g.n)}<div class="tsub">${isSet?TN(g.ps.length,"{n} piece","{n} pieces"):esc(GKIND[g.k])+(g.sl?" · "+GSLOT[g.sl]:"")}</div></div></div>
- <div class="tbd">${rows.length?`<ul class="tst">${rows.map(x=>`<li>${fmt(gAL(x))}</li>`).join("")}</ul>`:""}${bon.length?`<ul class="tst">${bon.map(x=>`<li>${fmt(gAL(x))}</li>`).join("")}</ul>`:""}${g.est?`<p class="tsrc">≈ ${isSet?T("base armor not readable: scored on the median set of its Act"):g.k==="armor"?T("base armor not readable: ranked by when you get it"):g.dmg!=null&&g.k!=="melee"?T("{role} score ranked by when you get it; Melee DPS read from the game",{role:GROLE[{ranged:"RA",magic:"MA",summon:"SU"}[g.k]]}):T("ranked by when you get it (base damage not readable)")}</p>`:""}${g.ga?`<p class="tlock">${ui("lock")} ${T("Locked until {boss} falls",{boss:esc(TD(GATEN[g.ga]))})}</p>`:""}<p class="twhere">${esc(actL(g.a))}</p></div>
+ <div class="tbd">${rows.length?`<ul class="tst">${rows.map(x=>`<li>${fmt(gAL(x))}</li>`).join("")}</ul>`:""}${bon.length?`<ul class="tst">${bon.map(x=>`<li>${fmt(gAL(x))}</li>`).join("")}</ul>`:""}${gUnr(g,gMain(g))?`<p class="tsrc">${gWhy(g,gMain(g))}</p>`:""}${g.ga?`<p class="tlock">${ui("lock")} ${T("Locked until {boss} falls",{boss:esc(TD(GATEN[g.ga]))})}</p>`:""}<p class="twhere">${esc(actL(g.a))}</p></div>
  <div class="tft"><span class="tmod">${esc(MODN((g.id||g.k).split(":")[0]))}</span><span class="trt">${gRoles(g).map(r=>GROLE[r]).join(" · ")}</span></div></div>`;
  if(lastAct)lastAct.classList.remove("act");lastAct=null;const first=!tip.classList.contains("on");place(n);tip.classList.add("on");if(first)tip.classList.add("in")}
 /* ---------- hooks into the wiki's router, tooltip and pages (app.js EXT) ---------- */

@@ -73,18 +73,19 @@ const { chromium } = require('playwright'), path = require('path'), fs = require
       const id = g.id || g.k;
       if (!A.has(g.a)) bad.push('act ' + id + ' ' + g.a);              // 6.1 sat at index -1: a battleaxe showed at Act 0
       if (g.ga && !A.has(g.ga)) bad.push('gate ' + id + ' ' + g.ga);
-      for (const r in g.sc) if (!Number.isFinite(g.sc[r])) bad.push('score ' + id + ' ' + r);
+      for (const r in g.sc) if (g.sc[r] !== null && !Number.isFinite(g.sc[r])) bad.push('score ' + id + ' ' + r);   // null: not ranked (gUnr)
     }
     // a melee weapon has a damage score, unless the game showed it deals none (gNoMelee: Create's cardboard sword cancels its own hit)
     for (const g of GE) if (g.k === 'melee' && g.dmg != null && !(g.sc.ME > 0) && !gNoMelee(g)) bad.push('dps ' + g.id);
     if ('TA' in GROLE) bad.push('Tank role is back');                   // retired: four playstyles only
-    // a set's score is a function of the Act it is judged at: finite and positive for every role and Act
-    for (const s of GS) for (const r in GROLE) for (const a of acts) if (!(gScore(s, r, a) > 0)) bad.push(`set score ${s.k} ${r} ${a}`);
-    if (!(GSTEP > 1.05 && GSTEP < 1.3)) bad.push('power curve ' + GSTEP);
-    // every playstyle keeps real options at every Act (Ranged armor once stopped at Act V, Mage weapons had one pick at Act 0)
-    const need = {w: {ME: 3, RA: 3, MA: 3, SU: 0}, a: {ME: 5, RA: 5, MA: 5, SU: 5}};
+    // a set's score is a function of the Act it is judged at: finite and positive for every role and Act (a set with no numbers, s.f
+    // null, is not ranked: null everywhere)
+    for (const s of GS) for (const r in GROLE) for (const a of acts) { const v = gScore(s, r, a); if (s.f ? !(v > 0) : v !== null) bad.push(`set score ${s.k} ${r} ${a}`); }
+    // every playstyle keeps real options at every Act (Ranged armor once stopped at Act V, Mage weapons had one pick at Act 0).
+    // Ranged and Summon weapons are not ranked until their shots and minions are measured in game (checks/gear.js: tier-act)
+    const need = {w: {ME: 3, RA: 0, MA: 3, SU: 0}, a: {ME: 5, RA: 5, MA: 5, SU: 5}};
     for (const w in need) for (const r in need[w]) for (const a of acts) {
-      const n = gTiers(a, r, w).reduce((s, t) => s + t[1].length, 0), min = r === 'SU' && a >= 2 ? 2 : need[w][r];
+      const n = gTiers(a, r, w).reduce((s, t) => s + t[1].length, 0), min = w === 'a' && r === 'SU' && a >= 2 ? 2 : need[w][r];
       if (n < min) bad.push(`list ${w}/${r}/Act ${a}: ${n}`);
     }
     // an effect level over 10 or a duration under half a second read from code is a misread argument (Frostmourne's
