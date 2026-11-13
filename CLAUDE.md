@@ -39,13 +39,26 @@ How the pieces fit: `build/README.md`; why they are shaped that way: `build/ARCH
 - **Done means evidence:** steps 3–4 ran in this session (superpowers `verification-before-completion`); "live" means the `site` run went green, read with the GitHub connector (`actions_list` on this repo) or on the Actions page.
 - **Review before merge** for architectural work: `requesting-code-review` or `/code-review` on the branch, before `main`.
 - **Value first:** before work that takes more than about an hour, say in one line what a reader of the wiki will see change. Tool refactors whose only proof is "the output stays byte-identical" wait until a reader-visible fix needs them (the classlib chunks 1B/1C cost hours for nothing on the pages and were dropped). When the visible gain is small, ask the owner before starting.
-- **Who does it:** a task under about 30 minutes is done directly, without an agent. An agent's brief asks for the proof the change needs, not more; a stopped agent (usage limit) is resumed, not restarted. Integrate agent work the same day, then delete its worktree and branch.
 - **Checks during work:** `node build/check.js` (about 5 min) while working; `bash build/check.sh` once per wave, before pushing to `main`.
 - **Docs say only what was checked:** before writing "done", "retired", "stale" or a count into a doc or NOTES, verify it (grep, run, count). A claim found wrong later is corrected in NOTES in the open.
 - **Big passes (audits, many fixes):** high-severity first, then ship (steps 2–6) before medium and low; low ones may wait for another session. One finding belongs to one group of files, never split in halves; each group adds its own invariant file and gets one review at the end, not one per chunk.
-- **Budget:** the account has a five-hour usage limit. Fable (max) only for planning and rating; Sonnet for simple fixes and for verifying low/medium findings; Opus for complex ones. At most two heavy agents at once and at most two parallel builds (the machine has 4 CPUs; more makes `check.js` 10x slower). Estimate the tokens of a workflow before launching it; a workflow script runs once with a dry-run flag (no agents) before it runs for real.
 - **Generated files:** commit what `apply_all.sh` rewrites (`data.js`, `curio_tiers.json`) in the same commit as the change that caused it; a conflict in them is solved by taking either side and running `apply_all.sh`.
 - Which skills, connectors and open-source tools this repo uses, where each lives and what was left out: `docs/AGENT_TOOLS.md`. These rules win over any skill. Account plugins reach cloud sessions and the owner's machine; `~/.claude/agents` on a machine reaches that machine only.
+
+## Models, agents and replies (the account has a five-hour usage limit)
+- **One main model per session, chosen when it starts** (Fable by default: it plans, decides, rates and integrates). Never switch it mid-session: each model has its own prompt cache, so a switch re-reads the whole conversation uncached; a skill or command whose frontmatter names another `model` is a switch too. To spend less mid-session, lower the effort, not the model (`high` for normal work, `max` only for a planning or rating turn); on a subscription an effort change keeps the cache on Fable 5.1+, Opus 5.5, Sonnet 5.5 and Haiku 5.5.
+- **An agent does not reuse the main session's cache.** A fresh agent starts with only its brief, `CLAUDE.md` and the files it opens, on its own model; only a fork reads the parent's cache, and a fork always runs on the parent's model. An agent saves tokens by being cheaper and by keeping file dumps out of the main context, so brief it fully once and ask for the proof the change needs and a report of a few lines.
+- **Always pass `model` and `effort` when spawning an agent.** Left out, it runs on the main model (Fable), and Explore on Opus.
+
+  | Work | Agent `model`, `effort` |
+  |---|---|
+  | Reading or searching many files, listing, digesting logs | `haiku`, `low` |
+  | Writing code from a clear brief, simple fixes, verifying low/medium findings | `sonnet`, `medium` |
+  | Review, bug hunts, complex fixes | `opus`, `high` |
+  | Plan, decide, rate, integrate, the final check | the main session |
+- **No agent for small work:** a task under about 30 minutes, a handful of tool calls or a file you already know is done directly. A number that goes into the wiki is read from its source line by the main session, never taken from an agent's summary (Facts). Several different, independent tasks: suggest `/dieuphoi` to the owner where it is installed (only the owner can start it; its `dp-*` agents already pin Haiku, Sonnet and Opus as above).
+- **Limits:** at most two heavy agents at once and at most two parallel builds (the machine has 4 CPUs; more makes `check.js` 10x slower). Estimate a workflow's tokens before launching it; its script runs once with a dry-run flag (no agents) first. A stopped agent (usage limit) is resumed, not restarted. Integrate agent work the same day, then delete its worktree and branch.
+- **Little on screen:** long command output goes to a log in the scratchpad and only its tail or its failures are shown; no whole files pasted. Each reply is a few lines: what was done (with its evidence), what comes next, and what the owner must do, if anything.
 
 ## Facts
 - Numbers come from the game export first, then the pack's files, then the jar reading. External wikis are reference only. Estimates are labelled as estimates.
