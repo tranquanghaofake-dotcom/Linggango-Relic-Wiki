@@ -30,7 +30,7 @@ function spacingOffScale() {
   await p.goto('file://' + path.resolve(process.argv[2] || 'dist/Linggango_Relic_Wiki.html'), { waitUntil: 'load' });
   await p.waitForTimeout(2500);
   const sample = await p.evaluate(() => ['#i' + D[0].ix, '#i' + D[Math.floor(D.length / 2)].ix, '#g0', '#gs0', '#boss/' + KEEPERS()[3], '#side/' + encodeURIComponent(Object.keys(SIDEB)[0])]);
-  const routes = ['#', '#home', '#gear', '#bosses', '#build', '#mechanics', '#changes', ...sample];
+  const routes = ['#', '#home', '#gear', '#bosses', '#build', '#mechanics', '#mechanics/ae2', '#mechanics/effects', '#mechanics/stats', '#changes', ...sample];
   const fails = spacingOffScale().map(x => 'spacing ' + x), warn = [];
   for (const r of routes) {
     await p.evaluate(h => { location.hash = h }, r); await p.waitForTimeout(1800);
@@ -74,7 +74,7 @@ function spacingOffScale() {
       for (const h of document.querySelectorAll('#main h2')) { if (!vis(h) || h.closest('.grow')) continue; const c = getComputedStyle(h), fs = parseFloat(c.fontSize), t = '"' + h.textContent.trim().slice(0, 30) + '"';
         const sub = Math.max(0, ...[...(h.closest('section') || h.parentElement).querySelectorAll('h3,h4')].filter(vis).map(e => parseFloat(getComputedStyle(e).fontSize)));
         if (h.classList.contains('glet')) o.push('h2.glet ' + t); else if (!/Jersey 15/.test(c.fontFamily) || fs < 30 || fs < sub) o.push(`h2 ${t} ${fs}px ${c.fontFamily.split(',')[0]} (sub-heading ${sub}px)`) }
-      if (/^#(mechanics|changes)$/.test(location.hash)) for (const h of document.querySelectorAll('#main section.s>h3')) if (vis(h) && h.previousElementSibling && gap(h) < 16) o.push(`h3 "${h.textContent.trim().slice(0, 30)}" ${Math.round(gap(h))}px under the block above`);
+      if (/^#(mechanics(\/\w+)?|changes)$/.test(location.hash)) for (const h of document.querySelectorAll('#main section.s>h3')) if (vis(h) && h.previousElementSibling && gap(h) < 16) o.push(`h3 "${h.textContent.trim().slice(0, 30)}" ${Math.round(gap(h))}px under the block above`);
       for (const h of document.querySelectorAll('#main h2.bsec')) if (vis(h) && h.previousElementSibling && gap(h) < 16) o.push(`h2.bsec "${h.textContent.trim()}" ${Math.round(gap(h))}px under the block above`);
       const cv = document.createElement('canvas').getContext('2d');
       for (const e of document.querySelectorAll('#main select')) { if (!vis(e)) continue; const c = getComputedStyle(e), t = (e.options[e.selectedIndex] || {}).text || ''; cv.font = c.font;
@@ -120,7 +120,7 @@ function spacingOffScale() {
   }
   // Phone details at 375 (phone-11/12/14/15): article sections never scroll sideways, the filter hint ends in an ellipsis,
   // the Mechanics flow arrows point down at the step under them, and controls are at least 24x24 (WCAG 2.5.8).
-  // At 768 (phone-21) a Mechanics tab jump lands below the sticky header.
+  // At 768 (phone-21) a jump inside Mechanics › Stats (its mini tabs scroll within the page) lands below the sticky header.
   await p.setViewportSize({ width: 375, height: 900 });
   for (const r of ['#side/Moonknight', '#g2078', '#g2000', sample[0], sample[2], sample[4], '#home', '#build', '#mechanics', '#']) {
     await p.evaluate(h => { location.hash = h }, r); await p.waitForTimeout(r === '#' || r === '#home' ? 1500 : 800);
@@ -155,11 +155,11 @@ function spacingOffScale() {
   }
   await p.evaluate(() => useLang('en'));
   await p.setViewportSize({ width: 768, height: 900 });
-  await p.evaluate(() => { location.hash = '#mechanics' }); await p.waitForTimeout(1000);
-  const tab = await p.$('.mtabs [data-go=m-ae2]');
-  if (!tab) fails.push('768px #mechanics: no AE2 tab'); else { await tab.click(); await p.waitForTimeout(1200);
-    const g = await p.evaluate(() => { const h = document.getElementById('m-ae2'), t = document.querySelector('.top'); return h && t ? h.getBoundingClientRect().top - t.getBoundingClientRect().bottom : null });
-    if (g === null || g < 0) fails.push('768px #mechanics: the AE2 heading lands under the header (' + g + ' px)') }
+  await p.evaluate(() => { location.hash = '#mechanics/stats' }); await p.waitForTimeout(1000);
+  const tab = await p.$('.mtabs [data-go=m-st-armor]');
+  if (!tab) fails.push('768px #mechanics/stats: no Armor tab'); else { await tab.click(); await p.waitForTimeout(1200);
+    const g = await p.evaluate(() => { const h = document.getElementById('m-st-armor'), t = document.querySelector('.top'); return h && t ? h.getBoundingClientRect().top - t.getBoundingClientRect().bottom : null });
+    if (g === null || g < 0) fails.push('768px #mechanics/stats: the Armor heading lands under the header (' + g + ' px)') }
   console.log('style: ' + (fails.length ? fails.length + ' problems' : 'square corners, whole-number pixel scales, sprite icons, spacing on the scale, narrow widths hold') + (warn.length ? '; frames inside frames to look at: ' + warn.length : ''));
   fails.slice(0, 40).forEach(x => console.log('  FAIL ' + x)); warn.slice(0, 15).forEach(x => console.log('  look ' + x));
   if (errs.length) console.log('  script errors: ' + errs.slice(0, 3).join(' | '));

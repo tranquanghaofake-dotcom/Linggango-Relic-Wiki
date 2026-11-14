@@ -76,7 +76,7 @@ const { chromium } = require('playwright'), path = require('path');
       if (!await P.evaluate(() => document.activeElement !== document.body && document.getElementById('main').contains(document.activeElement))) bad.push('#build: Enter on ' + s + ' drops focus to body'); } }
   // Mechanics stays light (under 5,000 nodes, no task over 200 ms) and its ritual filter finds what the data has (a11y-perf)
   { await P.evaluate(() => { window.__lt = []; new PerformanceObserver(l => l.getEntries().forEach(e => window.__lt.push(e.duration))).observe({ type: 'longtask' }); });
-    for (const h of ['#mechanics', '#mechanics/stats']) { await nav(P, h, 1200);
+    for (const h of ['#mechanics', '#mechanics/ae2', '#mechanics/effects', '#mechanics/stats']) { await nav(P, h, 1200);
       const r = await P.evaluate(() => { const r = { n: document.querySelectorAll("#main *").length, lt: Math.max(0, ...window.__lt) }; window.__lt = []; return r; });
       if (r.n >= 5000) bad.push(`${h}: #main has ${r.n} nodes (limit 5000)`); if (r.lt > 200) bad.push(`${h}: long task ${Math.round(r.lt)} ms`); }
     await nav(P, '#mechanics', 800); await P.fill('#rq', 'soul'); await P.waitForTimeout(300);

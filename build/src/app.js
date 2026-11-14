@@ -315,7 +315,8 @@ const EFFECTS=[
 // effect names in an item's text link to the Effects list
 function effHint(h){for(const e of EFFECTS){const m=h.match(e.re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/effects" title="${esc(TD(e.n))}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
 function mechPage(){
- document.title=T("Mechanics")+" · Linggango Wiki";
+ const MSEC=[["goety",N("Goety rituals")],["ae2",N("AE2 storage")],["effects",N("Effects")],["stats",N("Stats")]],sub=MSEC.find(x=>x[0]===decodeURIComponent(location.hash).split("/")[1])||MSEC[0],sk=sub[0];   // one page per section; #mechanics is the first
+ document.title=T("Mechanics")+" · "+T(sub[1])+" · Linggango Wiki";
  needPics();const G=GOETY,A=AE2,TY=Object.entries(G.types),cnt=G.counts;
  const tName=t=>(G.types[t]||{name:t}).name.replace(/ Rituals?$/,"");
  const act=a=>a?esc(actL(a)):"—";
@@ -324,14 +325,11 @@ function mechPage(){
  const rowH=r=>`<tr data-ty="${esc(r.type||"")}" data-k="${esc(kindL[r.kind]||r.kind)}"><td>${r.out_id&&IC[r.out_id]?islot(r.out_id)+" ":""}<b>${r.out_id&&BYID[r.out_id]?ilink(r.out_id,r.out):esc(r.out)}</b>${r.xp?` <small>· ${T("{n} XP levels",{n:r.xp})}</small>`:""}</td><td>${esc(TD(tName(r.type)))}</td><td>${r.act_id&&IC[r.act_id]?`<img class="nic" alt="" loading="lazy" src="${icu(r.act_id)}">`:""}${esc(r.act)}</td><td class="nchs">${r.ings.map(x=>nchip(x)).join("")}</td><td class="num">${r.soul??"—"}</td><td>${[r.research?T("Research: {x}",{x:esc(G.research[r.research]||r.research)}):"",r.sacrifice?T("Sacrifice: {x}",{x:esc(r.sacrifice)}):"",r.gate?T("Locked until {act}",{act:act(r.gate)}):""].filter(Boolean).join("<br>")||"—"}</td></tr>`;
  // 711 rituals: drawn from the data, 60 at a time (a full table is ~40k nodes); the filter redraws instead of hiding rows
  const RMAX=60,rOk=(r,v,ty,k)=>(!ty||(r.type||"")===ty)&&(!k||(kindL[r.kind]||r.kind)===k)&&(!v||(r.out+" "+r.act+" "+r.ings.join(" ")).toLowerCase().includes(v));
- const cells=A.cells.map(c=>`<tr><td><b>${c.t}</b></td><td class="num">${nL(c.bytes)}</td><td class="num">${c.bpt}</td><td class="num">${nL((c.bytes-c.bpt)*A.per_byte_item)}</td><td class="num">${nL((c.bytes-63*c.bpt)*A.per_byte_item)}</td><td class="num">${nL((c.bytes-c.bpt)*A.per_byte_fluid_mb/1000)} B</td><td class="num">${c.drain}</td></tr>`).join("");
- const gates=Object.entries(A.gates).sort((a,b)=>a[0]-b[0]).map(([a,xs])=>`<tr><td><b>${act(+a)}</b><br><small>${T("after {boss}",{boss:esc(TD(GK[a]||""))})}</small></td><td class="nchs">${xs.slice(0,12).map(x=>nchip(x)).join("")}${xs.length>12?`<details class="nmore"><summary>${T("{n} more",{n:xs.length-12})}</summary><div class="nchs">${xs.slice(12).map(x=>nchip(x)).join("")}</div></details>`:""}</td></tr>`).join("");
+ const cells=()=>A.cells.map(c=>`<tr><td><b>${c.t}</b></td><td class="num">${nL(c.bytes)}</td><td class="num">${c.bpt}</td><td class="num">${nL((c.bytes-c.bpt)*A.per_byte_item)}</td><td class="num">${nL((c.bytes-63*c.bpt)*A.per_byte_item)}</td><td class="num">${nL((c.bytes-c.bpt)*A.per_byte_fluid_mb/1000)} B</td><td class="num">${c.drain}</td></tr>`).join("");
+ const gates=()=>Object.entries(A.gates).sort((a,b)=>a[0]-b[0]).map(([a,xs])=>`<tr><td><b>${act(+a)}</b><br><small>${T("after {boss}",{boss:esc(TD(GK[a]||""))})}</small></td><td class="nchs">${xs.slice(0,12).map(x=>nchip(x)).join("")}${xs.length>12?`<details class="nmore"><summary>${T("{n} more",{n:xs.length-12})}</summary><div class="nchs">${xs.slice(12).map(x=>nchip(x)).join("")}</div></details>`:""}</td></tr>`).join("");
  const made=[...new Map(G.rituals.filter(r=>r.out_id&&BYID[r.out_id]).map(r=>[r.out_id,BYID[r.out_id]])).values()].slice(0,8);
- const EFX_ROWS=EFFECTS.map(e=>({...e,items:D.filter(d=>e.re.test(d.fx))})).filter(e=>e.items.length||e.k!=="Vanilla").map(e=>`<tr id="eff-${esc(e.n.toLowerCase().replace(/ /g,"-"))}"><td><b>${esc(TD(e.n))}</b><br><small>${esc(T(e.k))}</small></td><td>${e.d?esc(TD(e.d)):"—"}</td><td class="nchs">${e.note?esc(TD(e.note)):e.items.map(d=>ilink(d.id,d.n)).join(" ")||"—"}</td></tr>`).join("");
- el("main").innerHTML=`${crumb(T("Mechanics"))}${room("ritual",made.map(d=>rCurio(d)),{head:`<h1>${T("Mechanics")}</h1><p class="lede">${T("How the pack's bigger systems work: Goety's dark rituals, AE2 storage and how the combat stats work, with Linggango's own changes.")}</p>`,cols:4,label:T("Curios made by rituals")})}
-
-<nav class="mtabs"><a href="#mechanics" data-go="m-goety">${T("Goety rituals")}</a><a href="#mechanics" data-go="m-ae2">${T("AE2 storage")}</a><a href="#mechanics" data-go="m-effects">${T("Effects")}</a><a href="#mechanics" data-go="m-stats">${T("Stats")}</a></nav>
-<section class="s" id="m-goety"><h2>${T("Goety: Dark Rituals")}</h2>
+ const EFX_ROWS=()=>EFFECTS.map(e=>({...e,items:D.filter(d=>e.re.test(d.fx))})).filter(e=>e.items.length||e.k!=="Vanilla").map(e=>`<tr id="eff-${esc(e.n.toLowerCase().replace(/ /g,"-"))}"><td><b>${esc(TD(e.n))}</b><br><small>${esc(T(e.k))}</small></td><td>${e.d?esc(TD(e.d)):"—"}</td><td class="nchs">${e.note?esc(TD(e.note)):e.items.map(d=>ilink(d.id,d.n)).join(" ")||"—"}</td></tr>`).join("");
+ const S={goety:()=>`<section class="s" id="m-goety"><h2>${T("Goety: Dark Rituals")}</h2>
 <div class="flow">
 <div class="fst">${islot("goety:totem_of_souls",1)}<b>${T("1. Fill a totem")}</b><span>${T("Kill mobs with a Totem of Roots / Souls in your hotbar")}</span></div><i class="far">→</i>
 <div class="fst">${islot("goety:cursed_cage",1)}${islot("goety:dark_altar",1)}<b>${T("2. Cage + Altar")}</b><span>${T("Totem in the Cursed Cage, Dark Altar on top")}</span></div><i class="far">→</i>
@@ -345,10 +343,10 @@ function mechPage(){
 <p class="note">${T("From Goety {a}, plus the pack's own datapack recipes; rituals the pack removes are left out. Soul = Soul Energy drained over the ritual.",{a:"and its addons (Goety Revelation, Goety Delight, Goety Cataclysm, Goety Hostility, Goety Awaken)"})}</p>
 <div class="rflt"><input id="rq" type="search" aria-label="${T("Find a ritual, item or ingredient")}" placeholder="${T("Find a ritual, item or ingredient…")}"><select id="rt" aria-label="${T("Ritual type")}"><option value="">${T("All types")}</option>${TY.map(([k,t])=>`<option value="${esc(k)}">${esc(TD(t.name))}</option>`).join("")}</select><select id="rk" aria-label="${T("Ritual kind")}"><option value="">${T("All kinds")}</option>${[N("Craft"),N("Enchant"),N("Summon"),N("Convert"),N("Locate"),N("Teleport")].map(k=>`<option value="${k}">${T(k)}</option>`).join("")}</select><span id="rn"></span></div>
 <div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Result")}</th><th>${T("Type")}</th><th>${T("Activation item")}</th><th>${T("Ingredients (on pedestals)")}</th><th>${T("Soul")}</th><th>${T("Also needs")}</th></tr></thead><tbody id="rtb">${G.rituals.slice(0,RMAX).map(rowH).join("")}</tbody></table></div><div id="rmore"></div>
-</section>
-<section class="s" id="m-ae2"><h2>${T("AE2 storage")}</h2>
+</section>`,
+ ae2:()=>`<section class="s" id="m-ae2"><h2>${T("AE2 storage")}</h2>
 <p>${T("Applied Energistics 2 (15.4.11) with AE2 Things, AE2 Wireless Terminals and Insert/Export Card, plus the add-ons MEGA Cells (2.4.6), ExtendedAE (1.4.21) and Applied Flux (1.3.7). In Linggango its later parts open with the Keepers:")}</p>
-<div class="tw"><table><tr><th>${T("Opens at")}</th><th>${T("AE2 parts that unlock")}</th></tr>${gates}</table></div>
+<div class="tw"><table><tr><th>${T("Opens at")}</th><th>${T("AE2 parts that unlock")}</th></tr>${gates()}</table></div>
 <p class="note">${T("Since 6.6.6 (boss locks loosened) the ME Controller, Drive, Chest, 1k–16k cells, crafting and wireless terminals are open from the start; of AE2's own parts only 64k cells, the ME DISK line, spatial and quantum parts wait for {a}, and 256k for {b}. The add-ons are gated too: most ExtendedAE and Applied Flux parts at {a}, MEGA Cells from its 1M cells at {c} up to 64M and 256M at {d} (its Cell Dock at {e}).",{a:act(6),b:act(7),c:act(8),d:act(11),e:act(4)})}</p>
 ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],["4k",0],["16k",0],["64k",6],["256k",7]].map(([c,a])=>({h:"#mechanics",i:`<img alt="" src="data:image/png;base64,${ROOMT["ae2_item_storage_cell_"+c]}">`,n:a?T("{c} ME Storage Cell: from {act}",{c,act:actL(a)}):T("{c} ME Storage Cell: open from the start",{c}),l:c+(a?" · "+esc(ACT[a][0]):"")})),T("ME storage cells")):""}
 <h3>${T("Getting started")}</h3>
@@ -361,17 +359,17 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 </div>
 <h3>${T("How much a cell holds")}</h3>
 <p>${T("A cell has a byte budget. Every <b>item type</b> stored costs a fixed number of bytes before any items go in, then each byte holds {a} items (or {b} mB of fluid). Item cells take up to {c} types, fluid cells {d}. So one type fills a cell best; many types eat the budget.",{a:A.per_byte_item,b:nL(A.per_byte_fluid_mb),c:A.types_item,d:A.types_fluid})}</p>
-<div class="tw"><table><tr><th>${T("Cell")}</th><th>${T("Bytes")}</th><th>${T("Bytes per type")}</th><th>${T("Items, 1 type")}</th><th>${T("Items, 63 types")}</th><th>${T("Fluid, 1 type")}</th><th>${T("Idle drain (AE/t)")}</th></tr>${cells}</table></div>
+<div class="tw"><table><tr><th>${T("Cell")}</th><th>${T("Bytes")}</th><th>${T("Bytes per type")}</th><th>${T("Items, 1 type")}</th><th>${T("Items, 63 types")}</th><th>${T("Fluid, 1 type")}</th><th>${T("Idle drain (AE/t)")}</th></tr>${cells()}</table></div>
 <h3>${T("ME DISK Drives (AE2 Things)")}</h3>
 <p>${T("A DISK drive counts items one by one with <b>no type limit and no per-type cost</b>: a {a} DISK holds {b} items of any mix, a 256k DISK {c}. Items only, no fluids. The contents are saved with the world under the drive's ID, so a full drive stays light to carry. Use them for messy mixed storage, normal cells for bulk single items.",{a:A.disk.tiers[0],b:nL(A.disk.per_k),c:nL(256*A.disk.per_k)})}</p>
 <p class="note">${T("Linggango makes them expensive: each DISK drive needs 2 Quartz Glass, 3 Quantum Entangled Singularities, 2 Netherite Ingots, a Nether Star and the matching AE2 storage component (pack recipe; the DISK Housing swaps the component for an empty slot), and they open at {a} (256k at {b}).",{a:act(6),b:act(7)})}</p>
 <h3>${T("Wireless and curios")}</h3>
 <p>${T("The wireless range is {a} blocks around a Wireless Access Point before boosters. These terminals can be worn in the Curio slot, so you can use them without holding them: {b}. The plain Wireless Terminal can't.",{a:A.wireless_range,b:A.curio.map(esc).join(", ")})}</p>
-</section>
-<section class="s" id="m-effects"><h2>${T("Effects")}</h2>
+</section>`,
+ effects:()=>`<section class="s" id="m-effects"><h2>${T("Effects")}</h2>
 <p>${T("Status effects in the pack, what each one does, and the items whose own text names it. Food buffs are not an item: eating a meal that scores high enough gives them, as set in <code>linggango_tweaks-common.toml</code>.")}</p>
-<div class="tw"><table><tr><th>${T("Effect")}</th><th>${T("What it does")}</th><th>${T("Given by")}</th></tr>${EFX_ROWS}</table></div></section>
-<section class="s" id="m-stats"><h2>${T("Stats explained")}</h2>
+<div class="tw"><table><tr><th>${T("Effect")}</th><th>${T("What it does")}</th><th>${T("Given by")}</th></tr>${EFX_ROWS()}</table></div></section>`,
+ stats:()=>`<section class="s" id="m-stats"><h2>${T("Stats explained")}</h2>
 <p>${T("About a dozen mods in the pack add combat stats, often with the same name and a different rule. This section follows one hit from your swing to the target's health bar and says at which step each stat counts. It is read from the code of the V6.6.6hf jars and the pack's own config files (the stat caps in <code>attributefix.json</code>, the Linggango Tweaks combat rules). Two warnings up front: several stats on the wiki do nothing in this pack, and some caps are much lower than the mods' own tooltips say.")}</p>
 <nav class="mtabs" aria-label="${T("Stats explained")}"><a href="#mechanics" data-go="m-st-hit">${T("One hit")}</a><a href="#mechanics" data-go="m-st-armor">${T("Armor")}</a><a href="#mechanics" data-go="m-st-crit">${T("Crits")}</a><a href="#mechanics" data-go="m-st-dodge">${T("Dodge")}</a><a href="#mechanics" data-go="m-st-def">${T("Taking damage")}</a><a href="#mechanics" data-go="m-st-heal">${T("Healing")}</a><a href="#mechanics" data-go="m-st-roll">${T("Roll and parry")}</a><a href="#mechanics" data-go="m-st-type">${T("Damage types")}</a><a href="#mechanics" data-go="m-st-combo">${T("Status and combos")}</a><a href="#mechanics" data-go="m-st-magic">${T("Magic")}</a><a href="#mechanics" data-go="m-st-summon">${T("Summons")}</a></nav>
 
@@ -555,15 +553,17 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 </table></div>
 <p class="note">${T("Your summons' hits skip the ×3 soft cap, and your crit and lifesteal stats do not apply to them. When a mob hurts you, idle Summonity minions turn on it.")}</p>
 <p class="note">${T("Read from the V6.6.6hf jars (Brutality 0.8.5, Apothic Attributes 1.3.7, Lethality Guard 1.0.0, Iron's Lib 1.1.0, Iron's Spells 3.15.6, TerraCurio 0.1.13, Summonity 0.1.7, L2 Damage Tracker 0.3.8, Linggango Tweaks 7.47, Linggango Fixes 2.16) and the pack's config. Not yet measured in game. Where two mods act at the same step with no fixed order, the text says so. Stat names on curio pages have a dotted underline: {a}.",{a:NOHOVER?T("tap one to come back here"):T("hover one for the short version, or click it to come back here")})}</p>
-</section>${wikiNav()}`;
- const q=el("rq"),t=el("rt"),kk=el("rk");let lim=RMAX;
+</section>`};
+ el("main").innerHTML=`${crumb(`<a href="#mechanics">${T("Mechanics")}</a>`,esc(T(sub[1])))}${room("ritual",made.map(d=>rCurio(d)),{head:`<h1>${T("Mechanics")}</h1><p class="lede">${T("How the pack's bigger systems work: Goety's dark rituals, AE2 storage and how the combat stats work, with Linggango's own changes.")}</p>`,cols:4,label:T("Curios made by rituals")})}
+<nav class="mtabs" aria-label="${T("Mechanics")}">${MSEC.map(([k,l])=>`<a href="#mechanics/${k}"${k===sk?' aria-current="page"':""}>${T(l)}</a>`).join("")}</nav>
+${S[sk]()}${wikiNav()}`;
+ if(sk==="goety"){const q=el("rq"),t=el("rt"),kk=el("rk");let lim=RMAX;
  const f=more=>{if(more!==true)lim=RMAX;const v=q.value.trim().toLowerCase(),hit=G.rituals.filter(r=>rOk(r,v,t.value,kk.value));
   el("rtb").innerHTML=hit.slice(0,lim).map(rowH).join("");el("rn").textContent=T("{a} of {b}",{a:hit.length,b:G.rituals.length});
   el("rmore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(RMAX*5,hit.length-lim)})}</button>`:"";
   const b=el("rmore").firstChild;if(b)b.onclick=()=>{lim+=RMAX*5;f(true)}};
- [q,t,kk].forEach(x=>x.addEventListener("input",f));f();
+ [q,t,kk].forEach(x=>x.addEventListener("input",f));f();}
  el("main").querySelectorAll(".mtabs [data-go]").forEach(a=>a.onclick=e=>{e.preventDefault();el(a.dataset.go).scrollIntoView({behavior:"smooth"})});
- {const sec=decodeURIComponent(location.hash).split("/")[1];if(sec)setTimeout(()=>{const n=el("m-"+sec);if(n)n.scrollIntoView()})}
 }
 
 const rIngr=x=>{const c={};x.gr.c.forEach(e=>{if(e&&e[0])c[e[0]]=(c[e[0]]||0)+1});return Object.entries(c)};

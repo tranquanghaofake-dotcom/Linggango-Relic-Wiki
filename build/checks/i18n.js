@@ -56,6 +56,9 @@
     location.hash = '#mechanics'; render(); await new Promise(r => setTimeout(r, 300));
     for (const [id, v] of [['rq', 'sword'], ['rq', 'zzzzqq'], ['rq', ''], ['rk', 'Summon']]) { const e = document.getElementById(id); if (!e) { bad.push('i18n ' + c + ': Mechanics has no #' + id); continue; } e.value = v; e.dispatchEvent(new Event('input', { bubbles: true })); await new Promise(r => setTimeout(r, 150));
       const t = document.getElementById('main').innerText; if (/\{\w+\}|\$\{|undefined|NaN|\[object/.test(t)) bad.push('i18n ' + c + ' Mechanics filter: a placeholder or "undefined" shows'); }
+    // the other three Mechanics pages (AE2 storage, Effects, Stats), each drawn in this language
+    for (const h of ['#mechanics/ae2', '#mechanics/effects', '#mechanics/stats']) { location.hash = h; render(); await new Promise(r => setTimeout(r, 200));
+      const t = document.getElementById('main').innerText; if (/\{\w+\}|\$\{|undefined|NaN|\[object/.test(t)) bad.push('i18n ' + c + ' ' + h + ': a placeholder or "undefined" shows on the page'); }
     // the Build planner: a starter build, the picker with and without a hit, the inspector, a second panel, a consumable
     location.hash = '#build/12'; render(); await new Promise(r => setTimeout(r, 300));   // the hashchange redraw lands after this render
     for (const f of [() => document.querySelector('[data-preset]').click(), () => document.querySelector('[data-pick]').click(), () => { const q = document.getElementById('bq'); q.value = 'sword'; q.dispatchEvent(new Event('input', { bubbles: true })); }, () => { const q = document.getElementById('bq'); q.value = 'zzzzzz'; q.dispatchEvent(new Event('input', { bubbles: true })); }, () => document.getElementById('bpx').click(), () => document.querySelector('.bxi[data-insp]').click(), () => document.querySelector('[data-pgs="1"]').click(), () => document.querySelector('[data-cons]').click()]) {

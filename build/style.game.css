@@ -1103,7 +1103,7 @@ footer::before{content:"";position:absolute;left:0;right:0;top:-12px;height:12px
 .mcb:hover,.more:hover,#totop:hover,.mbtn:hover,.pnx a:hover,.bnav a:hover,.mtabs a:hover,#ipcopy:hover,.gseg a:hover,.gacts a:hover,
 .mcb:focus-visible,.pnx a:focus-visible,.gseg a:focus-visible,.gacts a:focus-visible{border-image-source:var(--rt-btn_hover)!important;color:#ffffa0}
 /* the chosen one keeps the pack's green, on the same button shape */
-.mcb[aria-current],.gseg a[aria-selected="true"],.gacts a[aria-current="page"],.mcb[aria-pressed="true"]{border-image:var(--rt-btn_hover) 2 2 3 2 / 4px 4px 6px stretch!important;
+.mcb[aria-current],.gseg a[aria-selected="true"],.gacts a[aria-current="page"],.mtabs a[aria-current="page"],.mcb[aria-pressed="true"]{border-image:var(--rt-btn_hover) 2 2 3 2 / 4px 4px 6px stretch!important;
  background:#3c7d1e padding-box!important;color:#fff;text-shadow:2px 2px 0 #1d4310}
 .pnx a{padding:var(--s2) var(--s3)}
 /* search fields: the slate-metal frame with rivets (Linggango Textures), black inside */
