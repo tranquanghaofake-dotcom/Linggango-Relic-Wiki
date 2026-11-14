@@ -592,6 +592,7 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .spc h3{margin:0;font:600 16px var(--body)}
 .spc small,.spc .spm{color:var(--gui-mute)}
 .spc .spg{margin:0}
+.spc .spv{display:block;width:100%;aspect-ratio:16/9;background:#000}
 .spc .spd{display:grid;grid-template-columns:auto 1fr;gap:var(--s1) var(--s3);margin:0}
 .spc .spd dt{color:var(--gui-mute)}
 .spc .spd dd{margin:0}

@@ -173,6 +173,9 @@ for name in NAMES:
         site = site.replace("<script>\n{{%s}}\n</script>\n" % name, "").replace("<html", '<html data-pics="%s"' % put(name, read(S / name)), 1)
         continue
     site = site.replace("<script>\n{{%s}}\n</script>" % name, '<script defer src="%s"></script>' % put(name, read(S / name)))
+clips = sorted((B / "clips").glob("*.mp4"))   # spell clips (pack_audit/spell_clips.py): only the site carries them, the offline file does not (the page shows a clip where <html data-clips> says where they are)
+for f in clips: (A / ("clip." + f.name)).write_bytes(f.read_bytes())
+if clips: site = site.replace("<html", '<html data-clips="static/clip."', 1)
 assert "{{" not in site, "template slot left unfilled"
 (ROOT / "index.html").write_text(site, encoding="utf-8")
 print("index.html", round(len(site.encode()) / 1e3, 1), "kB + static/;", dist, round(len(html.encode()) / 1e6, 2), "MB")

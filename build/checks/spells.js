@@ -19,6 +19,7 @@
     // the pack's per-spell config turns four spells off (config/irons_spellbooks_spell_config): the page says so
     const off = X.filter(s => s.x).length, offData = P.filter(s => s.enabled === false).length;
     if (off !== offData) bad.push(`spells: ${off} turned off on the page, ${offData} in the data`);
+    for (const id of window.SPCLIP || []) if (!ids.has(id)) bad.push('spells: a clip for the unknown ' + id);
     const ic = window.SPLI || {}; for (const k of Object.keys(ic)) if (!ids.has(k)) bad.push('spells: icon for unknown ' + k);
     // the page
     location.hash = '#spells'; await wait(80); render(); await wait(300);
@@ -33,6 +34,7 @@
     for (let i = 0; i < 20 && document.querySelector('#smore button'); i++) document.querySelector('#smore button').click();
     if (n() !== X.length) bad.push('spells: Show more ends at ' + n() + ' of ' + X.length);
     if (/undefined|NaN|\[object/.test(document.getElementById('main').innerText)) bad.push('spells: undefined, NaN or [object] on the page');
+    if (!document.documentElement.dataset.clips && document.querySelector('#spl video')) bad.push('spells: a <video> on the offline page, which has no clips')
     // a link from an effect (or from outside) opens the page filtered: #spells/<id>
     location.hash = '#spells/irons_spellbooks%3Afireball'; await wait(80); render(); await wait(300);
     if (n() !== 1 || !/^\s*Fireball/.test(document.querySelector('#spl .spc h3')?.textContent || '')) bad.push('spells: #spells/irons_spellbooks:fireball shows ' + n() + ' cards');

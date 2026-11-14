@@ -2,7 +2,7 @@
 // check.js walks every page of the offline single file; this makes sure the split build loads the same way:
 // every script and stylesheet is found, nothing throws, and the app starts and draws the home page.
 // Usage: node build/site_check.js [index.html]   (check.sh runs it)
-const path = require('path');
+const path = require('path'), fs = require('fs');
 const { chromium } = (() => { try { return require('playwright'); } catch { // global install, no NODE_PATH needed
   return require(path.join(require('child_process').execSync('npm root -g').toString().trim(), 'playwright')); } })();
 (async () => {
@@ -49,12 +49,21 @@ const { chromium } = (() => { try { return require('playwright'); } catch { // g
     if (!after.pimg || !after.n || (after.hub && !after.mark) || before < 0) late.push(`${h || 'hub'}: PIMG ${after.pimg ? 'arrived' : 'never arrived'}, ${before} matches before and ${after.n} after${after.hub && !after.mark ? ', the hero was drawn again' : ''}`);
     await lp.close();
   }
+  // spell clips (pack_audit/spell_clips.py, build/clips): the page draws a <video> for each spell the data says has one, and each file is in static/
+  const clipBad = [];
+  { const cp = await b.newPage({ viewport: { width: 1400, height: 900 } }); cp.on('pageerror', e => errs.push('clips: ' + e.message));
+    await cp.goto(url + '#spells', { waitUntil: 'load' }); await cp.waitForFunction(() => window.SPCLIP, null, { timeout: 15000 }).catch(() => {}); await cp.waitForTimeout(600);
+    const c = await cp.evaluate(() => { const q = document.getElementById('sq'); if (q) { q.value = ''; q.dispatchEvent(new Event('input', { bubbles: true })); } return { base: document.documentElement.dataset.clips, ids: window.SPCLIP || [], videos: document.querySelectorAll('#spl video').length }; });
+    if (!c.base || !c.ids.length || !c.videos) clipBad.push(`no clip drawn (base ${c.base}, ${c.ids.length} ids, ${c.videos} videos on the first page)`);
+    for (const id of c.ids) if (!fs.existsSync(path.join(path.dirname(path.resolve(process.argv[2] || 'index.html')), c.base + id.replace(':', '__') + '.mp4'))) clipBad.push('missing file for ' + id);
+    await cp.close(); }
   await b.close();
   const langOk = vi.lang === 'vi' && !!vi.want && vi.nav === vi.want && vi.font && ruFont && nopack.lang === 'en' && nopack.app && nopack.text > 40 && !rerr.length && !ruToast;
   console.log(`site: ${st.scripts} scripts, app ${st.app ? 'started' : 'NOT started'}, ${st.gear} gear items, ` +
     `home page ${st.text} chars, ${failed.length} missing files, ${errs.length} script errors; ` +
     `language pack ${langOk ? 'loads with its fonts, and a missing pack leaves English' : 'FAILED ' + JSON.stringify({ vi, ruFont, nopack, rerr, ruToast })}; ` +
-    `late pictures ${late.length ? 'FAILED ' + late.join(' | ') : 'redraw the Act page, the side-boss page and the hub panel in place'}`);
+    `late pictures ${late.length ? 'FAILED ' + late.join(' | ') : 'redraw the Act page, the side-boss page and the hub panel in place'}; ` +
+    `spell clips ${clipBad.length ? 'FAILED ' + clipBad.slice(0, 4).join(' | ') : 'drawn on the Spells page, every file in static/'}`);
   [...failed, ...errs].slice(0, 10).forEach(x => console.log('  ' + x));
-  process.exit(!errs.length && !failed.length && st.app && st.gear > 0 && st.text > 40 && langOk && !late.length ? 0 : 1);
+  process.exit(!errs.length && !failed.length && st.app && st.gear > 0 && st.text > 40 && langOk && !late.length && !clipBad.length ? 0 : 1);
 })();

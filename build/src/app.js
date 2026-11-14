@@ -321,11 +321,12 @@ function spellsPage(){
  const X=window.SPL||[],IC3=window.SPLI||{},EX=new Map((window.EFX||[]).map(e=>[e.i,e])),SM=40;
  const pretty=i=>i.split(":")[1].replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase()),cap=r=>r?r[0].toUpperCase()+r.slice(1):"";
  const rows=X.map(s=>({s,nm:s.n||pretty(s.i)})).sort((a,b)=>(a.s.s||"zzz").localeCompare(b.s.s||"zzz")||a.nm.localeCompare(b.nm));
+ const clipBase=document.documentElement.dataset.clips,clips=new Set(window.SPCLIP||[]),clip=(s,nm)=>clipBase&&clips.has(s.i)?`<video class="spv" controls muted loop playsinline preload="none" title="${esc(TD(nm))}" src="${clipBase}${s.i.replace(":","__")}.mp4"></video>`:"";   // the site only: the offline file has no clips
  const sec=n=>Math.round(n/2)/10,rn=v=>Math.round(v*10)/10,CAST={INSTANT:N("Instant"),LONG:N("Long"),CONTINUOUS:N("Continuous")};
  const card=({s,nm})=>{const m=s.mm||1,m1=rn((s.ma||0)*m),m2=rn(((s.ma||0)+(s.mp||0)*((s.L||1)-1))*m),
    cast=s.k?`${T(CAST[s.k]||s.k)}${s.k!=="INSTANT"&&s.t?` · ${sec(s.t)} s`:""}`:"—",fx=(s.f||[]).map(id=>`<a class="nch" href="#mechanics/effects/${enc(id)}">${esc(TD((EX.get(id)||{}).n||pretty(id)))}</a>`).join("");
   return `<article class="spc"${s.x?" data-off":""} style="--sc:${SCOL[s.s]||"#888"}" id="spell-${esc(s.i.replace(/[:_]/g,"-"))}"><header>${IC3[s.i]?`<img class="spi" alt="" loading="lazy" src="data:image/png;base64,${IC3[s.i]}">`:`<span class="spi"></span>`}<div><h3>${esc(TD(nm))}</h3><small>${[s.sn&&esc(TD(s.sn)),s.r&&esc(TD(cap(s.r)))].filter(Boolean).join(" · ")}</small></div></header>
-<p class="spg">${s.g?esc(TD(s.g)):""}</p>
+${clip(s,nm)}<p class="spg">${s.g?esc(TD(s.g)):""}</p>
 <dl class="spd"><dt>${T("Levels")}</dt><dd>${s.L>1?`1–${s.L}`:s.L||"—"}</dd><dt>${T("Mana")}</dt><dd>${s.ma==null?"—":m1===m2?m1:`${m1}–${m2}`}</dd><dt>${T("Cooldown")}</dt><dd>${s.c==null?"—":`${rn(s.c)} s`}</dd><dt>${T("Cast")}</dt><dd>${cast}</dd>${fx?`<dt>${T("Applies")}</dt><dd class="nchs">${fx}</dd>`:""}</dl>
 ${s.x?`<p class="note">${T("Turned off in this pack's spell config.")}</p>`:""}<small class="spm">${esc(s.m)} · ${esc(s.i)}</small></article>`};
  const opt=(v,l)=>`<option value="${esc(v)}">${l}</option>`,uniq=f=>[...new Set(X.map(f).filter(Boolean))];

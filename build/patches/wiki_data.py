@@ -71,6 +71,8 @@ def _sp(r):
     if r["craft"] is False: o["nc"] = 1
     return o
 _sl = J("spells.json")["spells"]; _si = J("spell_icons.json")
+_clips = sorted(p.stem.replace("__", ":", 1) for p in (H.parent / "clips").glob("*.mp4"))   # spell ids that have a clip in build/clips
+assert all(c in {r["id"] for r in _sl} for c in _clips), "a clip in build/clips for a spell that is not in spells.json"
 pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(",", ":")) + ");\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_ui, separators=(",", ":")) + "))if(GUIDE[k])GUIDE[k].i=v;\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_gi, separators=(",", ":")) + "))if(GOETY.types[k])GOETY.types[k].img=v;\n"
@@ -78,7 +80,7 @@ pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(
         + "window.BWALK=" + json.dumps(J("boss_walks.json"), separators=(",", ":")) + ";\n"   # the walk loops of the home page's figures (boss_portraits.js --figs)
         + "window.EFX=" + json.dumps([_slim(r) for r in _ef["effects"]], ensure_ascii=False, separators=(",", ":")) + ";window.EFXA=" + json.dumps(_ea, ensure_ascii=False, separators=(",", ":")) + ";window.EFXU=" + str(len(_ef["unconfirmed"])) + ";window.EFXG=" + json.dumps(_eg, separators=(",", ":")) + ";\n"
         + "window.EFXI=" + json.dumps(J("effect_icons.json"), separators=(",", ":")) + ";\n"
-        + "window.SPL=" + json.dumps([_sp(r) for r in _sl], ensure_ascii=False, separators=(",", ":")) + ";window.SPLI=" + json.dumps(_si, separators=(",", ":")) + ";\n"
+        + "window.SPL=" + json.dumps([_sp(r) for r in _sl], ensure_ascii=False, separators=(",", ":")) + ";window.SPLI=" + json.dumps(_si, separators=(",", ":")) + ";window.SPCLIP=" + json.dumps(_clips) + ";\n"
         + "window.PICS=1;if(typeof picsLoaded==='function')picsLoaded();\n")
 (H.parent / "src" / "wiki_pics.js").write_text(pics, encoding="utf-8")
 print("wiki_data.js", len(out) // 1024, "kB + wiki_pics.js", len(pics) // 1024, "kB")
