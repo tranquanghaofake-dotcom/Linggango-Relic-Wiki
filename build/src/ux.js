@@ -8,7 +8,7 @@
 const RMQ=matchMedia("(prefers-reduced-motion:reduce)");
 
 /* ---------- section marker in the header nav ---------- */
-const SEC=[[/^#(home|i\d|act\/|slot\/|mod)/,"#home"],[/^#(gear|gs?\d)/,"#gear"],[/^#build/,"#build"],[/^#(bosses|boss\/|side\/)/,"#bosses"],[/^#mechanics/,"#mechanics"],[/^#changes/,"#changes"]];
+const SEC=[[/^#(home|i\d|act\/|slot\/|mod)/,"#home"],[/^#(gear|gs?\d)/,"#gear"],[/^#build/,"#build"],[/^#(bosses|boss\/|side\/)/,"#bosses"],[/^#mechanics/,"#mechanics"],[/^#spells/,"#spells"],[/^#changes/,"#changes"]];
 function markNav(){const h=decodeURIComponent(location.hash),s=(SEC.find(x=>x[0].test(h))||[])[1];
  document.querySelectorAll(".top .nav a").forEach(a=>a.getAttribute("href")===s?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"))}
 
@@ -26,7 +26,7 @@ function dealGear(){const h=location.hash;if(!/^#gear/.test(h)){lastGear="";retu
 /* ---------- quick search ---------- */
 const QS={open:false,inp:null,items:[],sel:0,idx:null};
 const box=document.createElement("div");box.id="qs";box.setAttribute("role","listbox");box.setAttribute("aria-label",T("Search results"));box.hidden=true;document.body.appendChild(box);
-const PAGES=[[N("Curios"),"#home",N("Every curio by the Act you can get it in")],[N("Equipment"),"#gear",N("Weapon and armor tier lists")],[N("Build planner"),"#build",N("Plan curio slots and see stat totals")],[N("Bosses"),"#bosses",N("Keepers in fight order, with summon guides")],[N("Mechanics"),"#mechanics",N("Goety rituals, AE2 storage, how stats work")],[N("Changes"),"#changes",N("What's new on the wiki")]];
+const PAGES=[[N("Curios"),"#home",N("Every curio by the Act you can get it in")],[N("Equipment"),"#gear",N("Weapon and armor tier lists")],[N("Build planner"),"#build",N("Plan curio slots and see stat totals")],[N("Bosses"),"#bosses",N("Keepers in fight order, with summon guides")],[N("Mechanics"),"#mechanics",N("Goety rituals, AE2 storage, how stats work")],[N("Spells"),"#spells",N("Every spell in the pack: school, mana, cooldown, cast time")],[N("Changes"),"#changes",N("What's new on the wiki")]];
 /* the app calls this when the language changes: the index is built again in the new language */
 window.QSRESET=()=>{QS.idx=null;box.setAttribute("aria-label",T("Search results"));if(QS.open)close()};
 function index(){if(QS.idx)return QS.idx;const o=[];

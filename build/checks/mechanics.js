@@ -11,7 +11,7 @@
     if (!document.title.startsWith(document.querySelector('nav.nav a[href="#mechanics"]').textContent.trim())) bad.push(`mechanics ${h}: title ${document.title}`);
     if (document.querySelectorAll('nav.nav a[aria-current]').length !== 1 || document.querySelector('nav.nav a[aria-current]').getAttribute('href') !== '#mechanics') bad.push(`mechanics ${h}: the header marks ${[...document.querySelectorAll('nav.nav a[aria-current]')].map(a => a.getAttribute('href')).join() || 'no tab'}`);
     if (h !== '#mechanics/nonsense' && !m().querySelector('.crumb')?.textContent.includes(bar.find(a => a.getAttribute('href') === '#mechanics/' + want).textContent.trim())) bad.push(`mechanics ${h}: the breadcrumb does not name the page`); }
-  // the header does not grow a tab per section: the six main tabs stay (Spells joins them when that page lands, in its own change)
+  // the header does not grow a tab per section: Mechanics stays one tab
   const tabs = [...document.querySelectorAll('nav.nav a')].map(a => a.getAttribute('href'));
   if (tabs.filter(h => h.startsWith('#mechanics')).length !== 1) bad.push(`mechanics: the header has ${tabs.filter(h => h.startsWith('#mechanics')).length} Mechanics tabs`);
   // a page draws only its own section: the ritual table and the effects table never share a page

@@ -62,6 +62,15 @@ for _it, _v in J("gear_fx.json").items():
         if "effect" not in _f: continue   # fire, healing and the like are not status effects
         _row = [_it, _f["when"], _f.get("level"), _f.get("ticks")]
         if _row not in _eg.setdefault(_f["effect"], []): _eg[_f["effect"]].append(_row)
+# every spell (pack_audit/spells.py) and its icon: only the Spells page shows them, so they go to wiki_pics.js
+def _sp(r):
+    o = {"i": r["id"], "n": r["name"] or "", "m": r["mod"]}
+    for k, f in (("school", "s"), ("schoolName", "sn"), ("rarity", "r"), ("maxLevel", "L"), ("cooldown", "c"), ("mana", "ma"), ("manaPer", "mp"), ("manaMul", "mm"), ("castTime", "t"), ("cast", "k"), ("guide", "g"), ("fx", "f")):
+        if r[k] not in (None, [], ""): o[f] = r[k]
+    if not r["enabled"]: o["x"] = 1
+    if r["craft"] is False: o["nc"] = 1
+    return o
+_sl = J("spells.json")["spells"]; _si = J("spell_icons.json")
 pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(",", ":")) + ");\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_ui, separators=(",", ":")) + "))if(GUIDE[k])GUIDE[k].i=v;\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_gi, separators=(",", ":")) + "))if(GOETY.types[k])GOETY.types[k].img=v;\n"
@@ -69,6 +78,7 @@ pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(
         + "window.BWALK=" + json.dumps(J("boss_walks.json"), separators=(",", ":")) + ";\n"   # the walk loops of the home page's figures (boss_portraits.js --figs)
         + "window.EFX=" + json.dumps([_slim(r) for r in _ef["effects"]], ensure_ascii=False, separators=(",", ":")) + ";window.EFXA=" + json.dumps(_ea, ensure_ascii=False, separators=(",", ":")) + ";window.EFXU=" + str(len(_ef["unconfirmed"])) + ";window.EFXG=" + json.dumps(_eg, separators=(",", ":")) + ";\n"
         + "window.EFXI=" + json.dumps(J("effect_icons.json"), separators=(",", ":")) + ";\n"
+        + "window.SPL=" + json.dumps([_sp(r) for r in _sl], ensure_ascii=False, separators=(",", ":")) + ";window.SPLI=" + json.dumps(_si, separators=(",", ":")) + ";\n"
         + "window.PICS=1;if(typeof picsLoaded==='function')picsLoaded();\n")
 (H.parent / "src" / "wiki_pics.js").write_text(pics, encoding="utf-8")
 print("wiki_data.js", len(out) // 1024, "kB + wiki_pics.js", len(pics) // 1024, "kB")

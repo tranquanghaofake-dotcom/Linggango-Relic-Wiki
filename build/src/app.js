@@ -314,6 +314,32 @@ const EFFECTS=[
 ].map(e=>({...e,re:effRe(e.n)}));
 // effect names in an item's text link to the Effects list
 function effHint(h){for(const e of EFFECTS){const m=h.match(e.re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/effects" title="${esc(TD(e.n))}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
+/* ---------- Spells: every spell the jars register (pack_audit/spells.py); the rows and icons come with wiki_pics.js (SPL, SPLI) ---------- */
+const SCOL={fire:"#e8602c",ice:"#7fd0ff",lightning:"#ffe14a",holy:"#fff3b0",ender:"#b36bff",blood:"#c0262d",evocation:"#79c84a",nature:"#5fbf4a",eldritch:"#5aa5a0",geo:"#b08a5a",aqua:"#3f8fe0"};
+function spellsPage(){
+ document.title=T("Spells")+" · Linggango Wiki";needPics();
+ const X=window.SPL||[],IC3=window.SPLI||{},EX=new Map((window.EFX||[]).map(e=>[e.i,e])),SM=40;
+ const pretty=i=>i.split(":")[1].replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase()),cap=r=>r?r[0].toUpperCase()+r.slice(1):"";
+ const rows=X.map(s=>({s,nm:s.n||pretty(s.i)})).sort((a,b)=>(a.s.s||"zzz").localeCompare(b.s.s||"zzz")||a.nm.localeCompare(b.nm));
+ const sec=n=>Math.round(n/2)/10,rn=v=>Math.round(v*10)/10,CAST={INSTANT:N("Instant"),LONG:N("Long"),CONTINUOUS:N("Continuous")};
+ const card=({s,nm})=>{const m=s.mm||1,m1=rn((s.ma||0)*m),m2=rn(((s.ma||0)+(s.mp||0)*((s.L||1)-1))*m),
+   cast=s.k?`${T(CAST[s.k]||s.k)}${s.k!=="INSTANT"&&s.t?` · ${sec(s.t)} s`:""}`:"—",fx=(s.f||[]).map(id=>`<a class="nch" href="#mechanics/effects/${enc(id)}">${esc(TD((EX.get(id)||{}).n||pretty(id)))}</a>`).join("");
+  return `<article class="spc"${s.x?" data-off":""} style="--sc:${SCOL[s.s]||"#888"}" id="spell-${esc(s.i.replace(/[:_]/g,"-"))}"><header>${IC3[s.i]?`<img class="spi" alt="" loading="lazy" src="data:image/png;base64,${IC3[s.i]}">`:`<span class="spi"></span>`}<div><h3>${esc(TD(nm))}</h3><small>${[s.sn&&esc(TD(s.sn)),s.r&&esc(TD(cap(s.r)))].filter(Boolean).join(" · ")}</small></div></header>
+<p class="spg">${s.g?esc(TD(s.g)):""}</p>
+<dl class="spd"><dt>${T("Levels")}</dt><dd>${s.L>1?`1–${s.L}`:s.L||"—"}</dd><dt>${T("Mana")}</dt><dd>${s.ma==null?"—":m1===m2?m1:`${m1}–${m2}`}</dd><dt>${T("Cooldown")}</dt><dd>${s.c==null?"—":`${rn(s.c)} s`}</dd><dt>${T("Cast")}</dt><dd>${cast}</dd>${fx?`<dt>${T("Applies")}</dt><dd class="nchs">${fx}</dd>`:""}</dl>
+${s.x?`<p class="note">${T("Turned off in this pack's spell config.")}</p>`:""}<small class="spm">${esc(s.m)} · ${esc(s.i)}</small></article>`};
+ const opt=(v,l)=>`<option value="${esc(v)}">${l}</option>`,uniq=f=>[...new Set(X.map(f).filter(Boolean))];
+ const schools=uniq(x=>x.s).sort().map(k=>[k,(X.find(x=>x.s===k)||{}).sn||cap(k)]),rars=["common","uncommon","rare","epic","legendary"].filter(r=>X.some(x=>x.r===r)),mods=uniq(x=>x.m).sort((a,b)=>a.localeCompare(b));
+ el("main").innerHTML=`${crumb(T("Spells"))}${room("library",[],{head:`<h1>${T("Spells")}</h1><p class="lede">${T("Every spell the pack's jars add, with the numbers the mods and the pack's config give them.")}</p>`,cols:4,label:T("Spells")})}
+<section class="s" id="m-spells"><p class="note">${T("School, rarity, levels, mana, cooldown and cast time are read from each spell's code and from the pack's per-spell config. Damage depends on your Spell Power and on each spell's own formula, which the wiki does not read yet; cast times are each spell's base value.")}</p>
+<div class="rflt"><input id="sq" type="search" aria-label="${T("Find a spell, school or mod…")}" placeholder="${T("Find a spell, school or mod…")}"><select id="ss" aria-label="${T("All schools")}"><option value="">${T("All schools")}</option>${schools.map(([k,n])=>opt(k,esc(TD(n)))).join("")}</select><select id="sr" aria-label="${T("All rarities")}"><option value="">${T("All rarities")}</option>${rars.map(r=>opt(r,esc(TD(cap(r))))).join("")}</select><select id="sk" aria-label="${T("All cast types")}"><option value="">${T("All cast types")}</option>${["INSTANT","LONG","CONTINUOUS"].map(k=>opt(k,T(CAST[k]))).join("")}</select><select id="sm" aria-label="${T("All mods")}"><option value="">${T("All mods")}</option>${mods.map(m=>opt(m,esc(m))).join("")}</select><span id="sn"></span></div>
+<div class="spl" id="spl"></div><div id="smore"></div></section>${wikiNav()}`;
+ const q=el("sq"),ss=el("ss"),sr=el("sr"),sk=el("sk"),sm=el("sm");let lim=SM;{const pre=decodeURIComponent(location.hash).split("/").slice(1).join("/");if(pre)q.value=pre}
+ const f=more=>{if(more!==true)lim=SM;const v=q.value.trim().toLowerCase(),hit=rows.filter(({s,nm})=>(!ss.value||s.s===ss.value)&&(!sr.value||s.r===sr.value)&&(!sk.value||s.k===sk.value)&&(!sm.value||s.m===sm.value)&&(!v||(nm+" "+s.i+" "+s.m+" "+(s.sn||"")+" "+(s.g||"")).toLowerCase().includes(v)));
+  el("spl").innerHTML=hit.slice(0,lim).map(card).join("");el("sn").textContent=T("{a} of {b}",{a:hit.length,b:rows.length});
+  el("smore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(SM*3,hit.length-lim)})}</button>`:"";
+  const b=el("smore").firstChild;if(b)b.onclick=()=>{lim+=SM*3;f(true)}};
+ [q,ss,sr,sk,sm].forEach(x=>x.addEventListener("input",f));f()}
 function mechPage(){
  const MSEC=[["goety",N("Goety rituals")],["ae2",N("AE2 storage")],["effects",N("Effects")],["stats",N("Stats")]],sub=MSEC.find(x=>x[0]===decodeURIComponent(location.hash).split("/")[1])||MSEC[0],sk=sub[0];   // one page per section; #mechanics is the first
  document.title=T("Mechanics")+" · "+T(sub[1])+" · Linggango Wiki";
@@ -577,11 +603,12 @@ ${S[sk]()}${wikiNav()}`;
    const by=new Map();for(const [it,when] of GF[r.e.i]||[]){const x=by.get(it)||by.set(it,new Set()).get(it);x.add(when)}
    for(const [it,ws] of by){const lab=` <small>${[...ws].map(w=>T(WH[w]||w)).join(", ")}</small>`,ix=gix.get(it);
     if(ix!=null)o.push(`<span class="nch"><a data-t="g${ix}" href="#g${ix}">${esc(GE[ix].n)}</a>${lab}</span>`);else if(BYID[it])o.push(`<span class="nch">${ilink(it,BYID[it].n)}${lab}</span>`)}
+   for(const sp of window.SPL||[])if((sp.f||[]).includes(r.e.i))o.push(`<span class="nch"><a href="#spells/${enc(sp.i)}">${esc(TD(sp.n||pretty(sp.i)))}</a> <small>${T("spell")}</small></span>`);
    if(rk(r.e)<2||cnt[r.nm.toLowerCase()]===1){const re=effRe(r.nm.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"));for(const d of D)if(d.fx&&re.test(d.fx))o.push(`<span class="nch">${ilink(d.id,d.n)}</span>`)}
    return o.length>8?o.slice(0,8).join("")+`<details class="nmore"><summary>${T("{n} more",{n:o.length-8})}</summary><div class="nchs">${o.slice(8).join("")}</div></details>`:o.join("")||"—"};
   const row=r=>{const e=r.e,k=e.k==="b"?T("Beneficial"):e.k==="h"?T("Harmful"):e.k==="n"?T("Neutral"):"—",ms=(e.a||[]).map(mt).join(", ");
    return `<tr id="eff-${esc(e.i.replace(/[:_]/g,"-"))}"><td>${IC2[e.i]?`<img class="nic" alt="" loading="lazy" src="data:image/png;base64,${IC2[e.i]}"> `:""}<b>${esc(TD(r.nm))}</b>${e.u?` <sup>†</sup>`:""}<br><small>${esc(e.m)} · ${esc(e.i)}</small></td><td>${k}</td><td>${r.txt?esc(TD(r.txt)):""}${r.txt&&ms?"<br>":""}${ms?`${ms} <small>${T("per level")}</small>`:""}${r.txt||ms?"":"—"}</td><td class="nchs">${given(r)}</td></tr>`};
-  const eq=el("eq"),em=el("em"),ek=el("ek");let lim=EM;
+  const eq=el("eq"),em=el("em"),ek=el("ek");let lim=EM;{const pre=decodeURIComponent(location.hash).split("/").slice(2).join("/");if(pre)eq.value=pre}
   const fe=more=>{if(more!==true)lim=EM;const v=eq.value.trim().toLowerCase(),hit=rows.filter(r=>(!em.value||r.e.m===em.value)&&(!ek.value||r.e.k===ek.value)&&(!v||(r.nm+" "+r.e.i+" "+r.e.m+" "+r.txt).toLowerCase().includes(v)));
    el("etb").innerHTML=hit.slice(0,lim).map(row).join("");el("en").textContent=T("{a} of {b}",{a:hit.length,b:rows.length});
    el("emore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(EM*5,hit.length-lim)})}</button>`:"";
@@ -1161,7 +1188,7 @@ function wikiNav(cur,extra){cur=cur||{};const a=cur.act!=null&&ACT[cur.act]&&ORD
   [T("Bosses"),KEEPERS().map(k=>["#boss/"+k,esc(bossName(k)),k===cur.boss])],
   [T("The Path"),ORDER.filter(x=>x>=0).map(x=>["#act/"+x,esc(actL(x)),x===a])],
   [a!=null?T("Equipment at {act}",{act:esc(actL(a))}):T("Equipment"),[["ME",T("Melee")],["RA",T("Ranged")],["MA",T("Mage")],["SU",T("Summon")]].map(([r,t])=>[`#gear/${a!=null?a:ORDER[0]}/${r}/w`,t]).concat([[`#gear/${a!=null?a:ORDER[0]}/ME/a`,T("Armor sets")]])],
-  [T("Tools"),[["#build",T("Build planner")],["#bosses",T("Bosses")],["#mechanics",T("Mechanics")],["#changes",T("Changes")]]]])}
+  [T("Tools"),[["#build",T("Build planner")],["#bosses",T("Bosses")],["#mechanics",T("Mechanics")],["#spells",T("Spells")],["#changes",T("Changes")]]]])}
 function activeBar(){const P=[];
  st.c.forEach(k=>P.push(["c",k,ROLE[k]]));st.r.forEach(k=>P.push(["r",k,RN[k]]));st.x.forEach(k=>P.push(["x",k,k.slice(2)]));st.g.forEach(k=>P.push(["g",k,k]));
  if(st.nw)P.push(["nw","",T("New in 6.6.6")]);if(st.m)P.push(["m","",st.m]);if(st.s)P.push(["s","",T("Slot {s}",{s:T(st.s)})]);if(st.a!=="")P.push(["a","",T("Up to {act}",{act:actL(st.a)})]);if(st.q)qTokens().forEach(e=>P.push(["qt",e.raw,qLabel(e)]));
@@ -1926,7 +1953,7 @@ function renderBase(){
  // the quest-book background (Linggango FTB Quests Theme) behind every progression page
  document.body.classList.toggle("qbg",h==="#home"||/^#(act|boss|side)\//.test(h)||h==="#bosses");
  document.body.classList.toggle("qbook",h==="#bosses"||h.startsWith("#boss/")||h.startsWith("#side/"));
- document.body.classList.toggle("noside",/^#i\d/.test(h)||h.startsWith("#side/")||h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics"||h.startsWith("#mechanics/")||h==="#changes"||h.startsWith("#build"));
+ document.body.classList.toggle("noside",/^#i\d/.test(h)||h.startsWith("#side/")||h==="#bosses"||h.startsWith("#boss/")||h==="#mechanics"||h.startsWith("#mechanics/")||h==="#spells"||h.startsWith("#spells/")||h==="#changes"||h.startsWith("#build"));
  if(innerWidth<=760&&(h.startsWith("#i")||h==="#guide")){el("side").classList.add("closed");el("fold").setAttribute("aria-expanded","false")}
  const soft=SOFT;SOFT=false;const mn=el("main");if(!soft){mn.classList.remove("enter");void mn.offsetWidth;mn.classList.add("enter")}
  const m=h.match(/^#(slot|act|mod)\/(.+)$/);
@@ -1935,6 +1962,7 @@ function renderBase(){
  else if(h==="#bosses")bossList();
  else if(h.startsWith("#boss/"))bossPage(h.slice(6));
  else if(h==="#mechanics"||h.startsWith("#mechanics/"))mechPage();
+ else if(h==="#spells"||h.startsWith("#spells/"))spellsPage();
  else if(h==="#changes")changesPage();
  else if(h.startsWith("#side/"))sidePage(h.slice(6));
  else if(m)hubList(m[1],m[2]);
@@ -1962,7 +1990,7 @@ document.addEventListener("DOMContentLoaded",()=>{const go=()=>{langBoot();{cons
 function refresh(){const h=decodeURIComponent(location.hash);if(h==="#home"||/^#(slot|act|mod)\//.test(h)){SOFT=true;render()}else location.hash="#home"}
 /* page change: a cross-fade between sections (View Transitions, where the browser has them); switches inside one page
    (an Equipment Act, a Path filter) redraw in place so the controls you just pressed do not blink */
-const pageOf=h=>(decodeURIComponent(h).match(/^#(gear|gs|g|build|bosses|boss|side|mechanics|home|act|slot|mod|i)/)||[,"hub"])[1];
+const pageOf=h=>(decodeURIComponent(h).match(/^#(gear|gs|g|build|bosses|boss|side|mechanics|spells|home|act|slot|mod|i)/)||[,"hub"])[1];
 let lastHash=location.hash;
 /* the icon you click flies into the item page's big art (and back to its tile when you go back); Previous/Next slide sideways */
 const ART="#main .ip-icon .aimg img,#main .gbig img",DETAIL=/^#(i|gs|g)\d+$/;

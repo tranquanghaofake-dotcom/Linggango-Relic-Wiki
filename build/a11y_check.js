@@ -150,7 +150,7 @@ const { chromium } = require('playwright'), path = require('path');
   // phone-04: the room heads are painted, wide enough and inside their room at 375, 768, 1024 and 1440 px
   { const [c, p] = await open('#home');
     for (const vw of [375, 768, 1024, 1440]) { await p.setViewportSize({ width: vw, height: 900 });
-      for (const r of ['#home', '#gear', '#build', '#bosses', '#mechanics']) { await nav(p, r, 300);
+      for (const r of ['#home', '#gear', '#build', '#bosses', '#mechanics', '#spells']) { await nav(p, r, 300);
         await p.waitForFunction(() => [...document.querySelectorAll('.room3.rhd')].filter(e => e.offsetParent).every(e => e.dataset.p), null, { timeout: 10000 }).catch(() => {});
         const m = await p.evaluate(() => [...document.querySelectorAll('.room3.rhd')].filter(e => e.offsetParent).map(el => { const h = el.querySelector('.rhead'), R = el.getBoundingClientRect(), H = h.getBoundingClientRect(), w = parseFloat(h.style.width);
           return { painted: !!el.dataset.p, ok: w >= 240 || w >= el.clientWidth - 40, w: h.style.width, cw: el.clientWidth, over: Math.round(H.bottom - (R.bottom - parseFloat(getComputedStyle(el).borderBottomWidth))) }; }));

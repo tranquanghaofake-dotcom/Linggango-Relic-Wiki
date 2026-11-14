@@ -9,6 +9,7 @@
 "nav.build": {"en": "Build planner", "vi": "Lên build", "ru": "Планировщик билдов", "pt": "Planejador de build", "es": "Planificador de builds"},
 "nav.bosses": {"en": "Bosses", "vi": "Boss", "ru": "Боссы", "pt": "Chefes", "es": "Jefes"},
 "nav.mech": {"en": "Mechanics", "vi": "Cơ chế", "ru": "Механики", "pt": "Mecânicas", "es": "Mecánicas"},
+"nav.spells": {"en": "Spells", "vi": "Phép thuật", "ru": "Заклинания", "pt": "Magias", "es": "Hechizos"},
 "nav.changes": {"en": "Changes", "vi": "Thay đổi", "ru": "Изменения", "pt": "Alterações", "es": "Cambios"},
 "lang.aria": {"en": "Language", "vi": "Ngôn ngữ", "ru": "Язык", "pt": "Idioma", "es": "Idioma"},
 "side.fold": {"en": "Filters and index", "vi": "Bộ lọc và mục lục", "ru": "Фильтры и указатель", "pt": "Filtros e índice", "es": "Filtros e índice"},

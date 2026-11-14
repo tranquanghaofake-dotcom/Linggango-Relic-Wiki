@@ -30,7 +30,7 @@ function spacingOffScale() {
   await p.goto('file://' + path.resolve(process.argv[2] || 'dist/Linggango_Relic_Wiki.html'), { waitUntil: 'load' });
   await p.waitForTimeout(2500);
   const sample = await p.evaluate(() => ['#i' + D[0].ix, '#i' + D[Math.floor(D.length / 2)].ix, '#g0', '#gs0', '#boss/' + KEEPERS()[3], '#side/' + encodeURIComponent(Object.keys(SIDEB)[0])]);
-  const routes = ['#', '#home', '#gear', '#bosses', '#build', '#mechanics', '#mechanics/ae2', '#mechanics/effects', '#mechanics/stats', '#changes', ...sample];
+  const routes = ['#', '#home', '#gear', '#bosses', '#build', '#mechanics', '#mechanics/ae2', '#mechanics/effects', '#mechanics/stats', '#spells', '#changes', ...sample];
   const fails = spacingOffScale().map(x => 'spacing ' + x), warn = [];
   for (const r of routes) {
     await p.evaluate(h => { location.hash = h }, r); await p.waitForTimeout(1800);

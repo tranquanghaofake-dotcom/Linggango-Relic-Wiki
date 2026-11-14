@@ -3,7 +3,7 @@
 // it is there, it carries the painted tile, it is as wide as the window and reaches the top of the page, and it does not
 // make the page scroll sideways. The home page (its own sky) and a detail page have no wall.
 { const wait = ms => new Promise(r => setTimeout(r, ms)), go = async h => { location.hash = h; await wait(60); render(); await wait(350); };
-  for (const h of ['#home', '#gear', '#bosses', '#build', '#mechanics', '#changes']) { await go(h);
+  for (const h of ['#home', '#gear', '#bosses', '#build', '#mechanics', '#spells', '#changes']) { await go(h);
     const w = document.querySelector('#main>.rwall'), r = document.querySelector('#main .room3');
     if (!r) { bad.push(`rooms ${h}: the page has no room`); continue; }
     if (!w) { bad.push(`rooms ${h}: the room's wall does not go on behind the page`); continue; }

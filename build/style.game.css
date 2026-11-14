@@ -583,7 +583,20 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .mtabs{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0 0 var(--s4)}
 .mtabs a{padding:var(--s2) var(--s4);background:var(--btn);color:#fff;text-decoration:none;font:600 14px var(--body);box-shadow:0 0 0 2px #000,inset 2px 2px 0 var(--btn-hi),inset -2px -2px 0 var(--btn-lo)}
 .mtabs a:hover{background:var(--btn-hover)}
-#m-effects .rtab{min-width:760px}#m-effects .rtab td.nchs{min-width:340px}   /* four columns: on a phone the table scrolls inside its frame instead of squeezing Given by into a tall strip */
+#m-effects .rtab{min-width:760px}#m-effects .rtab td.nchs{min-width:340px}
+/* spells: one card per spell, a stripe in its school's colour */
+.spl{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:var(--s3);margin:var(--s3) 0}
+.spc{background:var(--gui2);box-shadow:inset 2px 2px 0 rgba(0,0,0,.45);padding:var(--s3) var(--s4);border-top:4px solid var(--sc,#888);display:flex;flex-direction:column;gap:var(--s2)}
+.spc header{display:flex;gap:var(--s3);align-items:center}
+.spc .spi{width:48px;height:48px;flex:none;image-rendering:pixelated;background:#000;box-shadow:0 0 0 2px #000;display:block}
+.spc h3{margin:0;font:600 16px var(--body)}
+.spc small,.spc .spm{color:var(--gui-mute)}
+.spc .spg{margin:0}
+.spc .spd{display:grid;grid-template-columns:auto 1fr;gap:var(--s1) var(--s3);margin:0}
+.spc .spd dt{color:var(--gui-mute)}
+.spc .spd dd{margin:0}
+.spc[data-off]{opacity:.65}
+.rflt #sn{color:var(--gui-mute);font-size:13px}   /* four columns: on a phone the table scrolls inside its frame instead of squeezing Given by into a tall strip */
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s3);margin:var(--s2) 0 var(--s4)}
 .steps>div{padding:var(--s3) var(--s4);background:var(--gui2);box-shadow:inset 2px 2px 0 rgba(0,0,0,.45)}
 .steps b{font:700 15px var(--body);color:#fff}
