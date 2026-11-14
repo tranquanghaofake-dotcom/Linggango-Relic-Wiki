@@ -17,7 +17,7 @@
   // a page draws only its own section: the ritual table and the effects table never share a page
   await go('#mechanics/effects'); if (m().querySelector('#rtb')) bad.push('mechanics /effects draws the ritual table');
   await go('#mechanics/goety'); if (!m().querySelector('#rtb tr')) bad.push('mechanics /goety: the ritual table is empty');
-  await go('#mechanics/effects'); if (!m().querySelector('#eff-bleeding')) bad.push('mechanics /effects: no Bleeding row (item pages link to it)');
+  await go('#mechanics/effects'); if (![...m().querySelectorAll('#etb tr')].some(t => /^\s*Bleeding/.test(t.cells[0].textContent))) bad.push('mechanics /effects: no Bleeding row (item pages link to it)');
   await go('#mechanics/stats'); for (const id of ['m-st-hit', 'm-st-armor', 'm-st-summon']) if (!document.getElementById(id)) bad.push('mechanics /stats: no #' + id);
   await go('#mechanics/stats'); for (const a of m().querySelectorAll('.mtabs [data-go]')) if (!document.getElementById(a.dataset.go)) bad.push('mechanics /stats: tab to a missing #' + a.dataset.go);
   await go('#mechanics'); }

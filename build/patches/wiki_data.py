@@ -5,7 +5,7 @@ Goety rituals (goety.json, from build/pack_audit/goety.py), AE2 storage facts (a
 Keeper portraits (boss_portraits.json, from build/pack_audit/boss_portraits.js).
 Pictures that only detail pages show (armour stands, guide-book pages, Goety ritual layouts, Act titles and side-boss landscapes, the walk loops) go to build/src/wiki_pics.js
 instead: the offline file inlines it, the site loads it after the first page is drawn (build.py, app.js picsLoaded)."""
-import json, pathlib
+import json, pathlib, re
 H = pathlib.Path(__file__).resolve().parent
 J = lambda f: json.loads((H / f).read_text(encoding="utf-8"))
 a = J("ae2.json"); a["gates"] = {k: sorted(set(v)) for k, v in a["gates"].items()}
@@ -46,11 +46,29 @@ out += "const CM=" + json.dumps(_cm["curios"], ensure_ascii=False, separators=("
 out += "const CTIER=" + json.dumps(J("curio_tiers.json"), separators=(",", ":")) + ";\n"
 out += "const BEXTRA=" + json.dumps(J("boss_extra.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 (H.parent / "src" / "wiki_data.js").write_text(out, encoding="utf-8")
+# every status effect in the pack (pack_audit/effects.py), the gear that gives each one (gear_fx.json) and the icons the licences allow: only the Effects page shows them, so they go to wiki_pics.js
+_ef = J("effects.json")
+_ea = {k: (re.sub(r"[^A-Za-z0-9 ]+", "", re.sub(r"§.", "", v or k)).strip() or k) for k, v in _ef["attrs"].items()}
+def _slim(r):
+    o = {"i": r["id"], "n": r["name"] or "", "m": r["mod"]}
+    for k, f in (("cat", "k"), ("color", "c"), ("desc", "d"), ("mods", "a")):
+        if r[k] not in (None, [], ""): o[f] = r[k][0] if k == "cat" else r[k]
+    if r["icon"]: o["p"] = 1
+    if not r["reg"]: o["u"] = 1
+    return o
+_eg = {}
+for _it, _v in J("gear_fx.json").items():
+    for _f in _v.get("fx", []):
+        if "effect" not in _f: continue   # fire, healing and the like are not status effects
+        _row = [_it, _f["when"], _f.get("level"), _f.get("ticks")]
+        if _row not in _eg.setdefault(_f["effect"], []): _eg[_f["effect"]].append(_row)
 pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(",", ":")) + ");\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_ui, separators=(",", ":")) + "))if(GUIDE[k])GUIDE[k].i=v;\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_gi, separators=(",", ":")) + "))if(GOETY.types[k])GOETY.types[k].img=v;\n"
         + "window.PIMG=" + json.dumps(J("pack_imgs.json"), separators=(",", ":")) + ";\n"   # Act titles and side-boss landscapes (the hub's open Act panel redraws when they arrive: app.js pathRefill)
         + "window.BWALK=" + json.dumps(J("boss_walks.json"), separators=(",", ":")) + ";\n"   # the walk loops of the home page's figures (boss_portraits.js --figs)
+        + "window.EFX=" + json.dumps([_slim(r) for r in _ef["effects"]], ensure_ascii=False, separators=(",", ":")) + ";window.EFXA=" + json.dumps(_ea, ensure_ascii=False, separators=(",", ":")) + ";window.EFXU=" + str(len(_ef["unconfirmed"])) + ";window.EFXG=" + json.dumps(_eg, separators=(",", ":")) + ";\n"
+        + "window.EFXI=" + json.dumps(J("effect_icons.json"), separators=(",", ":")) + ";\n"
         + "window.PICS=1;if(typeof picsLoaded==='function')picsLoaded();\n")
 (H.parent / "src" / "wiki_pics.js").write_text(pics, encoding="utf-8")
 print("wiki_data.js", len(out) // 1024, "kB + wiki_pics.js", len(pics) // 1024, "kB")

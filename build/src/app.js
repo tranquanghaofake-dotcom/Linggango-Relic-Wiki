@@ -328,7 +328,6 @@ function mechPage(){
  const cells=()=>A.cells.map(c=>`<tr><td><b>${c.t}</b></td><td class="num">${nL(c.bytes)}</td><td class="num">${c.bpt}</td><td class="num">${nL((c.bytes-c.bpt)*A.per_byte_item)}</td><td class="num">${nL((c.bytes-63*c.bpt)*A.per_byte_item)}</td><td class="num">${nL((c.bytes-c.bpt)*A.per_byte_fluid_mb/1000)} B</td><td class="num">${c.drain}</td></tr>`).join("");
  const gates=()=>Object.entries(A.gates).sort((a,b)=>a[0]-b[0]).map(([a,xs])=>`<tr><td><b>${act(+a)}</b><br><small>${T("after {boss}",{boss:esc(TD(GK[a]||""))})}</small></td><td class="nchs">${xs.slice(0,12).map(x=>nchip(x)).join("")}${xs.length>12?`<details class="nmore"><summary>${T("{n} more",{n:xs.length-12})}</summary><div class="nchs">${xs.slice(12).map(x=>nchip(x)).join("")}</div></details>`:""}</td></tr>`).join("");
  const made=[...new Map(G.rituals.filter(r=>r.out_id&&BYID[r.out_id]).map(r=>[r.out_id,BYID[r.out_id]])).values()].slice(0,8);
- const EFX_ROWS=()=>EFFECTS.map(e=>({...e,items:D.filter(d=>e.re.test(d.fx))})).filter(e=>e.items.length||e.k!=="Vanilla").map(e=>`<tr id="eff-${esc(e.n.toLowerCase().replace(/ /g,"-"))}"><td><b>${esc(TD(e.n))}</b><br><small>${esc(T(e.k))}</small></td><td>${e.d?esc(TD(e.d)):"—"}</td><td class="nchs">${e.note?esc(TD(e.note)):e.items.map(d=>ilink(d.id,d.n)).join(" ")||"—"}</td></tr>`).join("");
  const S={goety:()=>`<section class="s" id="m-goety"><h2>${T("Goety: Dark Rituals")}</h2>
 <div class="flow">
 <div class="fst">${islot("goety:totem_of_souls",1)}<b>${T("1. Fill a totem")}</b><span>${T("Kill mobs with a Totem of Roots / Souls in your hotbar")}</span></div><i class="far">→</i>
@@ -366,9 +365,11 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 <h3>${T("Wireless and curios")}</h3>
 <p>${T("The wireless range is {a} blocks around a Wireless Access Point before boosters. These terminals can be worn in the Curio slot, so you can use them without holding them: {b}. The plain Wireless Terminal can't.",{a:A.wireless_range,b:A.curio.map(esc).join(", ")})}</p>
 </section>`,
- effects:()=>`<section class="s" id="m-effects"><h2>${T("Effects")}</h2>
+ effects:()=>{needPics();const X=window.EFX||[];return `<section class="s" id="m-effects"><h2>${T("Effects")}</h2>
 <p>${T("Status effects in the pack, what each one does, and the items whose own text names it. Food buffs are not an item: eating a meal that scores high enough gives them, as set in <code>linggango_tweaks-common.toml</code>.")}</p>
-<div class="tw"><table><tr><th>${T("Effect")}</th><th>${T("What it does")}</th><th>${T("Given by")}</th></tr>${EFX_ROWS()}</table></div></section>`,
+<p class="note">${T("Every effect found in the pack's jars: {n} in {m} mods; {k} more names or icons the scan could not confirm as effects are left out. Category and attribute changes are read from each effect's code; a † marks an effect whose code the scan could not follow (its name and icon are in the jar). Descriptions are the mods' own text.",{n:X.length,m:new Set(X.map(e=>e.m)).size,k:window.EFXU||0})}</p>
+<div class="rflt"><input id="eq" type="search" aria-label="${T("Find an effect, mod or item…")}" placeholder="${T("Find an effect, mod or item…")}"><select id="em" aria-label="${T("All mods")}"><option value="">${T("All mods")}</option>${[...new Set(X.map(e=>e.m))].sort((a,b)=>(a==="Minecraft"?-1:b==="Minecraft"?1:a.localeCompare(b))).map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join("")}</select><select id="ek" aria-label="${T("All kinds")}"><option value="">${T("All kinds")}</option><option value="b">${T("Beneficial")}</option><option value="h">${T("Harmful")}</option><option value="n">${T("Neutral")}</option></select><span id="en"></span></div>
+<div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Effect")}</th><th>${T("Type")}</th><th>${T("What it does")}</th><th>${T("Given by")}</th></tr></thead><tbody id="etb"></tbody></table></div><div id="emore"></div></section>`},
  stats:()=>`<section class="s" id="m-stats"><h2>${T("Stats explained")}</h2>
 <p>${T("About a dozen mods in the pack add combat stats, often with the same name and a different rule. This section follows one hit from your swing to the target's health bar and says at which step each stat counts. It is read from the code of the V6.6.6hf jars and the pack's own config files (the stat caps in <code>attributefix.json</code>, the Linggango Tweaks combat rules). Two warnings up front: several stats on the wiki do nothing in this pack, and some caps are much lower than the mods' own tooltips say.")}</p>
 <nav class="mtabs" aria-label="${T("Stats explained")}"><a href="#mechanics" data-go="m-st-hit">${T("One hit")}</a><a href="#mechanics" data-go="m-st-armor">${T("Armor")}</a><a href="#mechanics" data-go="m-st-crit">${T("Crits")}</a><a href="#mechanics" data-go="m-st-dodge">${T("Dodge")}</a><a href="#mechanics" data-go="m-st-def">${T("Taking damage")}</a><a href="#mechanics" data-go="m-st-heal">${T("Healing")}</a><a href="#mechanics" data-go="m-st-roll">${T("Roll and parry")}</a><a href="#mechanics" data-go="m-st-type">${T("Damage types")}</a><a href="#mechanics" data-go="m-st-combo">${T("Status and combos")}</a><a href="#mechanics" data-go="m-st-magic">${T("Magic")}</a><a href="#mechanics" data-go="m-st-summon">${T("Summons")}</a></nav>
@@ -563,6 +564,29 @@ ${S[sk]()}${wikiNav()}`;
   el("rmore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(RMAX*5,hit.length-lim)})}</button>`:"";
   const b=el("rmore").firstChild;if(b)b.onclick=()=>{lim+=RMAX*5;f(true)}};
  [q,t,kk].forEach(x=>x.addEventListener("input",f));f();}
+ if(sk==="effects"&&window.EFX){
+  // every effect the jars register (wiki_pics.js: EFX rows, EFXA attribute names, EFXG gear that gives each, EFXI icons); drawn 60 at a time, the filter redraws
+  const X=window.EFX,A=window.EFXA||{},GF=window.EFXG||{},IC2=window.EFXI||{},EM=60,hand=new Map(EFFECTS.map(e=>[e.n.toLowerCase(),e]));
+  const gix=typeof GE!=="undefined"?new Map(GE.map((g,i)=>[g.id,i])):new Map(),cnt={};X.forEach(e=>{const k=e.n.toLowerCase();cnt[k]=(cnt[k]||0)+1});
+  const rk=e=>e.i.startsWith("minecraft:")?0:e.i.startsWith("linggango_tweaks:")?1:2,pretty=i=>i.split(":")[1].replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+  const WH={worn:N("worn"),hit:N("on hit"),carried:N("carried"),use:N("on use"),release:N("on release")};
+  const rows=X.map(e=>{const nm=e.n||pretty(e.i),h=rk(e)<2&&hand.get(nm.toLowerCase());return {e,nm,h,txt:((h&&h.d)||e.d||"").replace(/§./g,"").trim()}})
+   .sort((a,b)=>rk(a.e)-rk(b.e)||(rk(a.e)<2?0:a.e.m.localeCompare(b.e.m))||a.nm.localeCompare(b.nm));
+  const num=v=>Math.round(v*100)/100,mt=m=>{const n=esc(TD(A[m.attr]||m.attr||"?"));if(m.amount==null)return `<b>${n}</b>`;const pc=/MULTIPLY/.test(m.op),v=pc?Math.round(m.amount*1000)/10:num(m.amount);return `<b>${n}</b> ${v<0?"−":"+"}${Math.abs(v)}${pc?"%":""}`};
+  const given=r=>{const o=[];if(r.h&&r.h.note)o.push(`<span class="nch">${esc(TD(r.h.note))}</span>`);
+   const by=new Map();for(const [it,when] of GF[r.e.i]||[]){const x=by.get(it)||by.set(it,new Set()).get(it);x.add(when)}
+   for(const [it,ws] of by){const lab=` <small>${[...ws].map(w=>T(WH[w]||w)).join(", ")}</small>`,ix=gix.get(it);
+    if(ix!=null)o.push(`<span class="nch"><a data-t="g${ix}" href="#g${ix}">${esc(GE[ix].n)}</a>${lab}</span>`);else if(BYID[it])o.push(`<span class="nch">${ilink(it,BYID[it].n)}${lab}</span>`)}
+   if(rk(r.e)<2||cnt[r.nm.toLowerCase()]===1){const re=effRe(r.nm.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"));for(const d of D)if(d.fx&&re.test(d.fx))o.push(`<span class="nch">${ilink(d.id,d.n)}</span>`)}
+   return o.length>8?o.slice(0,8).join("")+`<details class="nmore"><summary>${T("{n} more",{n:o.length-8})}</summary><div class="nchs">${o.slice(8).join("")}</div></details>`:o.join("")||"—"};
+  const row=r=>{const e=r.e,k=e.k==="b"?T("Beneficial"):e.k==="h"?T("Harmful"):e.k==="n"?T("Neutral"):"—",ms=(e.a||[]).map(mt).join(", ");
+   return `<tr id="eff-${esc(e.i.replace(/[:_]/g,"-"))}"><td>${IC2[e.i]?`<img class="nic" alt="" loading="lazy" src="data:image/png;base64,${IC2[e.i]}"> `:""}<b>${esc(TD(r.nm))}</b>${e.u?` <sup>†</sup>`:""}<br><small>${esc(e.m)} · ${esc(e.i)}</small></td><td>${k}</td><td>${r.txt?esc(TD(r.txt)):""}${r.txt&&ms?"<br>":""}${ms?`${ms} <small>${T("per level")}</small>`:""}${r.txt||ms?"":"—"}</td><td class="nchs">${given(r)}</td></tr>`};
+  const eq=el("eq"),em=el("em"),ek=el("ek");let lim=EM;
+  const fe=more=>{if(more!==true)lim=EM;const v=eq.value.trim().toLowerCase(),hit=rows.filter(r=>(!em.value||r.e.m===em.value)&&(!ek.value||r.e.k===ek.value)&&(!v||(r.nm+" "+r.e.i+" "+r.e.m+" "+r.txt).toLowerCase().includes(v)));
+   el("etb").innerHTML=hit.slice(0,lim).map(row).join("");el("en").textContent=T("{a} of {b}",{a:hit.length,b:rows.length});
+   el("emore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(EM*5,hit.length-lim)})}</button>`:"";
+   const b=el("emore").firstChild;if(b)b.onclick=()=>{lim+=EM*5;fe(true)}};
+  [eq,em,ek].forEach(x=>x.addEventListener("input",fe));fe()}
  el("main").querySelectorAll(".mtabs [data-go]").forEach(a=>a.onclick=e=>{e.preventDefault();el(a.dataset.go).scrollIntoView({behavior:"smooth"})});
 }
 

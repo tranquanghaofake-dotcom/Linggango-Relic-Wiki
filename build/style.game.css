@@ -583,6 +583,7 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .mtabs{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0 0 var(--s4)}
 .mtabs a{padding:var(--s2) var(--s4);background:var(--btn);color:#fff;text-decoration:none;font:600 14px var(--body);box-shadow:0 0 0 2px #000,inset 2px 2px 0 var(--btn-hi),inset -2px -2px 0 var(--btn-lo)}
 .mtabs a:hover{background:var(--btn-hover)}
+#m-effects .rtab{min-width:760px}#m-effects .rtab td.nchs{min-width:340px}   /* four columns: on a phone the table scrolls inside its frame instead of squeezing Given by into a tall strip */
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s3);margin:var(--s2) 0 var(--s4)}
 .steps>div{padding:var(--s3) var(--s4);background:var(--gui2);box-shadow:inset 2px 2px 0 rgba(0,0,0,.45)}
 .steps b{font:700 15px var(--body);color:#fff}
