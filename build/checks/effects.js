@@ -6,6 +6,10 @@
   if (!X.length) bad.push('effects: window.EFX is empty (wiki_pics.js)');
   else {
     if (X.length !== rows.length) bad.push(`effects: the page has ${X.length} effects, patches/effects.json ${rows.length}`);
+    // the list is the game's own (patches/game_registry.json, KubeJS lgw_registry.js in the running server pack): no effect missing, none the game lacks
+    { const g = new Set((await patchJSON('game_registry.json')).effects.map(e => e.id)), have = new Set(X.map(e => e.i));
+      for (const id of g) if (!have.has(id)) bad.push('effects: the game registers ' + id + ', the page lacks it');
+      for (const id of have) if (!g.has(id)) bad.push('effects: ' + id + ' is on the page but the game does not register it'); }
     const ids = new Set(X.map(e => e.i));
     if (ids.size !== X.length) bad.push('effects: a registry id twice in the list');
     for (const v of VANILLA) if (!ids.has('minecraft:' + v)) bad.push('effects: no minecraft:' + v);

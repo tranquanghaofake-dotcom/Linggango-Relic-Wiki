@@ -54,7 +54,7 @@ const { chromium } = (() => { try { return require('playwright'); } catch { // g
   { const cp = await b.newPage({ viewport: { width: 1400, height: 900 } }); cp.on('pageerror', e => errs.push('clips: ' + e.message));
     await cp.goto(url + '#spells', { waitUntil: 'load' }); await cp.waitForFunction(() => window.SPCLIP, null, { timeout: 15000 }).catch(() => {}); await cp.waitForTimeout(600);
     const c = await cp.evaluate(() => { const q = document.getElementById('sq'); if (q) { q.value = ''; q.dispatchEvent(new Event('input', { bubbles: true })); } return { base: document.documentElement.dataset.clips, ids: window.SPCLIP || [], videos: document.querySelectorAll('#spl video').length }; });
-    if (!c.base || !c.ids.length || !c.videos) clipBad.push(`no clip drawn (base ${c.base}, ${c.ids.length} ids, ${c.videos} videos on the first page)`);
+    if (c.ids.length && (!c.base || !c.videos)) clipBad.push(`no clip drawn (base ${c.base}, ${c.ids.length} ids, ${c.videos} videos on the first page)`);   // no approved clip yet is fine; approved ones must show
     for (const id of c.ids) if (!fs.existsSync(path.join(path.dirname(path.resolve(process.argv[2] || 'index.html')), c.base + id.replace(':', '__') + '.mp4'))) clipBad.push('missing file for ' + id);
     await cp.close(); }
   await b.close();

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Every status effect in the pack, read from the jars -> build/patches/effects.json (+ effect_icons.json).
 Usage: python3 -I effects.py MODS_DIR SRG_SERVER_JAR VANILLA_CLIENT_JAR
+  The list itself is the game's: patches/game_registry.json (pack_audit/kubejs/server_scripts/lgw_registry.js run in the server pack) names every
+  registered effect with its category, colour and attribute modifiers; the jars add names, descriptions and icons. Without that file the list falls
+  back to the jar scan below.
   MODS_DIR            the server pack's mods/ (383 jars of 6.6.6hf, build/README.md "pack_audit")
   SRG_SERVER_JAR      libraries/net/minecraft/server/1.20.1-*/server-1.20.1-*-srg.jar of the same pack (vanilla MobEffects, SRG member names)
   VANILLA_CLIENT_JAR  Mojang's client.jar 1.20.1 (vanilla names and icons)
@@ -179,10 +182,13 @@ def main(mods_dir, srg_jar, client_jar):
     try: gear = {f['effect'] for v in json.load(open(os.path.join(OUT, 'gear_fx.json'), encoding='utf-8')).values() for f in v.get('fx', []) if 'effect' in f}
     except Exception: pass
     rows = []; icons = {}; unconf = []
+    try: game = {e['id']: e for e in json.load(open(os.path.join(OUT, 'game_registry.json'), encoding='utf-8'))['effects']}
+    except Exception: game = None
     keys = set(regs) | {tuple(i.split(':', 1)) for i in gear if ':' in i} | {(ns, kk.split('.', 2)[2]) for ns, d in lang.items() for kk in d if kk.count('.') == 2 and kk.startswith('effect.')} | set(tex)
+    if game: keys |= {tuple(i.split(':', 1)) for i in game}   # the game's registry decides which effects exist: game ids the scan missed are added, scan-only names the game lacks are dropped below
     for ns, name in sorted(keys):
-        r = regs.get((ns, name)); L = lang.get(ns, {})
-        if not r and '%s:%s' % (ns, name) not in gear:   # no MobEffect built next to this name: still an effect when it has an icon, a name and the name is written in the jar's code (registered by a pattern the scan does not follow); otherwise leftover assets or another kind of thing
+        r = regs.get((ns, name)); L = lang.get(ns, {}); g = game.get('%s:%s' % (ns, name)) if game else None
+        if not g and not r and '%s:%s' % (ns, name) not in gear:   # no MobEffect built next to this name: still an effect when it has an icon, a name and the name is written in the jar's code (registered by a pattern the scan does not follow); otherwise leftover assets or another kind of thing
             if not ((ns, name) in tex and 'effect.%s.%s' % (ns, name) in L and literal(tex[(ns, name)][0], name)): unconf.append('%s:%s' % (ns, name)); continue
         jar = r['jar'] if r else (tex[(ns, name)][0] if (ns, name) in tex else nsjar.get(ns))
         info = jarinfo.get(jar, {'ids': [], 'lic': '', 'disp': {}})
@@ -192,8 +198,9 @@ def main(mods_dir, srg_jar, client_jar):
         if ns == 'minecraft': mod = 'Minecraft'
         ico = (ns, name) in tex
         lic = info['lic']; allow = ns == 'minecraft' or (ns not in NO_ICON and bool(lic) and not BAD_LIC.search(lic) and bool(OK_LIC.search(lic)))
-        row = {'id': '%s:%s' % (ns, name), 'ns': ns, 'name': title, 'mod': mod, 'reg': bool(r), 'src': ('reg' if r else 'gear' if '%s:%s' % (ns, name) in gear else 'name-in-code') + ('+lang' if title else '') + ('+tex' if ico else ''),
-               'cat': r['cat'] if r else None, 'color': r['color'] if r else None, 'mods': r['mods'] if r else [], 'desc': desc, 'lic': lic, 'icon': bool(ico and allow)}
+        row = {'id': '%s:%s' % (ns, name), 'ns': ns, 'name': title, 'mod': mod, 'reg': bool(r) or bool(g), 'src': ('game' if g else 'reg' if r else 'gear' if '%s:%s' % (ns, name) in gear else 'name-in-code') + ('+lang' if title else '') + ('+tex' if ico else ''),
+               'cat': (g['cat'] if g else r['cat'] if r else None), 'color': (g['color'] if g else r['color'] if r else None), 'mods': ([{'attr': m['attr'], 'amount': m['amount'], 'op': m['op']} for m in g['mods']] if g else r['mods'] if r else []), 'desc': desc, 'lic': lic, 'icon': bool(ico and allow)}
+        if game and not g: unconf.append(row['id']); continue
         rows.append(row)
         if row['icon']: icons[row['id']] = base64.b64encode(tex[(ns, name)][1]).decode()
     used = sorted({m['attr'] for r in rows for m in r['mods'] if m['attr']})

@@ -106,12 +106,17 @@ def main(mods_dir, srg_jar, cfg_dir):
                         if o == owner and ls: fmap[owner][nm] = ls
         return fmap[owner].get(field)
     eff_ids = {r['id'] for r in json.load(open(os.path.join(OUT, 'effects.json'), encoding='utf-8'))['effects']}
+    # the list of spells is the game's own (patches/game_registry.json, KubeJS lgw_registry.js); the jars give the numbers, names and icons
+    try: game = {g['id']: g for g in json.load(open(os.path.join(OUT, 'game_registry.json'), encoding='utf-8'))['spells'] if g['id'] != 'irons_spellbooks:none'}
+    except Exception: game = None
+    want = {i.split(':')[0] for i in game} if game else None
     spells = {}
     for p in jars:
+        if want is not None and not (set(jarmods.get(p, [])) & want): continue   # only the jars of mods that register spells; every class there is looked at
         z = zipfile.ZipFile(p)
         for n in z.namelist():
-            if not n.endswith('.class') or '$' in n or n.startswith('META-INF'): continue
-            if b'AbstractSpell' not in z.read(n): continue
+            if not n.endswith('.class') or n.startswith('META-INF'): continue
+            if want is None and b'AbstractSpell' not in z.read(n): continue
             cn = n[:-6]; k = cp.cf(cn)
             if not k or k.access_flags.get('acc_abstract') or AS not in cp.supers(cn)[1:]: continue
             r = read_ctor(cp, k)
@@ -131,6 +136,8 @@ def main(mods_dir, srg_jar, cfg_dir):
             r['fx'] = sorted(fx); r['jar'] = os.path.basename(p); r['cls'] = cn
             spells.setdefault(r['id'], r)
     rows = []; icons = {}
+    if game:   # game ids the class scan did not read get a row from what the game says (cast type, mana and cast time at level 1); scan-only ids the game lacks are dropped
+        spells = {i: dict(spells.get(i) or {'ct': g.get('cast'), 'fx': [], 'mana': (g.get('mana') or [None])[0], 'castTime': (g.get('castTime') or [None])[0]}, gameEnabled=g.get('enabled')) for i, g in game.items()}
     for sid, r in sorted(spells.items()):
         ns, name = sid.split(':', 1)
         if (ns, name) in iconidx: icons[sid] = base64.b64encode(zipfile.ZipFile(iconidx[(ns, name)][0]).read(iconidx[(ns, name)][1])).decode()
@@ -144,7 +151,7 @@ def main(mods_dir, srg_jar, cfg_dir):
                'school': sch, 'schoolName': lang.get('school.%s.%s' % (ns if ('school.%s.%s' % (ns, sch)) in lang else 'irons_spellbooks', sch)) if sch else None,
                'rarity': ov.get('min_rarity', r.get('rarity')), 'maxLevel': ov.get('max_level', r.get('maxLevel')), 'cooldown': ov.get('cooldown_in_seconds', r.get('cooldown')),
                'mana': r.get('mana'), 'manaPer': r.get('manaPer'), 'manaMul': ov.get('mana_cost_multiplier'), 'power': r.get('power'), 'powerPer': r.get('powerPer'), 'powerMul': ov.get('power_multiplier'),
-               'castTime': r.get('castTime'), 'cast': r['ct'], 'craft': ov.get('allow_crafting', r.get('craft')), 'enabled': ov.get('enabled', True), 'fx': r['fx'], 'cfg': bool(ov)}
+               'castTime': r.get('castTime'), 'cast': r['ct'], 'craft': ov.get('allow_crafting', r.get('craft')), 'enabled': ov.get('enabled', r.get('gameEnabled') if r.get('gameEnabled') is not None else True), 'fx': r['fx'], 'cfg': bool(ov)}
         if sid == 'irons_spellbooks:none': continue   # NoneSpell: the empty slot, not a spell
         rows.append(row)
     json.dump({'spells': rows}, open(os.path.join(OUT, 'spells.json'), 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'), sort_keys=True)

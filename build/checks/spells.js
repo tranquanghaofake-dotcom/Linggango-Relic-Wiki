@@ -6,6 +6,10 @@
     if (X.length !== P.length) bad.push(`spells: the page has ${X.length} spells, patches/spells.json ${P.length}`);
     const ids = new Set(X.map(e => e.i)), eff = new Set((window.EFX || []).map(e => e.i));
     if (ids.size !== X.length) bad.push('spells: a spell id twice');
+    // the list is the game's own registry (patches/game_registry.json, KubeJS lgw_registry.js): none missing, none the game lacks
+    { const g = new Set((await patchJSON('game_registry.json')).spells.map(s => s.id).filter(i => i !== 'irons_spellbooks:none'));
+      for (const id of g) if (!ids.has(id)) bad.push('spells: the game registers ' + id + ', the page lacks it');
+      for (const id of ids) if (!g.has(id)) bad.push('spells: ' + id + ' is on the page but the game does not register it'); }
     if (ids.has('irons_spellbooks:none')) bad.push('spells: the empty NoneSpell is listed');
     for (const s of X) {
       if (!/^[a-z0-9_.-]+:[a-z0-9_./-]+$/.test(s.i)) bad.push('spells: odd id ' + s.i); if (!s.m) bad.push('spells: no mod on ' + s.i);

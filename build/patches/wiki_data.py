@@ -56,12 +56,21 @@ def _slim(r):
     if r["icon"]: o["p"] = 1
     if not r["reg"]: o["u"] = 1
     return o
+# gear_fx.py names an effect by the namespace of the item's own mod; for these mods the effect really belongs to the library mod they use
+# (14 ids the game does not register, found against patches/game_registry.json on 2026-11-14): goetyawaken:wane is goety:wane, and so on
+_EFNS = {"goetyawaken": "goety", "lethality": "terramity", "brutality": "terramity", "traveloptics": "cataclysm"}
+_gids = {e["id"] for e in _ef["effects"]}
+def _eid(i):
+    if i in _gids: return i
+    ns, path = i.split(":", 1)
+    j = _EFNS.get(ns, "") + ":" + path
+    return j if j in _gids else None
 _eg = {}
 for _it, _v in J("gear_fx.json").items():
     for _f in _v.get("fx", []):
-        if "effect" not in _f: continue   # fire, healing and the like are not status effects
+        if "effect" not in _f or not _eid(_f["effect"]): continue   # fire, healing and the like are not status effects
         _row = [_it, _f["when"], _f.get("level"), _f.get("ticks")]
-        if _row not in _eg.setdefault(_f["effect"], []): _eg[_f["effect"]].append(_row)
+        if _row not in _eg.setdefault(_eid(_f["effect"]), []): _eg[_eid(_f["effect"])].append(_row)
 # every spell (pack_audit/spells.py) and its icon: only the Spells page shows them, so they go to wiki_pics.js
 def _sp(r):
     o = {"i": r["id"], "n": r["name"] or "", "m": r["mod"]}
@@ -71,8 +80,8 @@ def _sp(r):
     if r["craft"] is False: o["nc"] = 1
     return o
 _sl = J("spells.json")["spells"]; _si = J("spell_icons.json")
-_clips = sorted(p.stem.replace("__", ":", 1) for p in (H.parent / "clips").glob("*.mp4"))   # spell ids that have a clip in build/clips
-assert all(c in {r["id"] for r in _sl} for c in _clips), "a clip in build/clips for a spell that is not in spells.json"
+_clips = sorted(json.loads((H.parent / "clips" / "approved.json").read_text()))   # spell ids whose clip in build/clips a person looked at and approved (the first recordings were not: docs/NOTES.md 2026-11-14)
+assert all(c in {r["id"] for r in _sl} and (H.parent / "clips" / (c.replace(":", "__") + ".mp4")).exists() for c in _clips), "an approved clip that is not a spell in spells.json or has no file"
 pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(",", ":")) + ");\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_ui, separators=(",", ":")) + "))if(GUIDE[k])GUIDE[k].i=v;\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_gi, separators=(",", ":")) + "))if(GOETY.types[k])GOETY.types[k].img=v;\n"
