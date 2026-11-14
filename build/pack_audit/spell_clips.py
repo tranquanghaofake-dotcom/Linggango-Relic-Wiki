@@ -70,7 +70,7 @@ def new_frames(path, fps):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('server'); ap.add_argument('out'); ap.add_argument('--log', required=True); ap.add_argument('--speed', type=float, required=True)
     ap.add_argument('--only', default=''); ap.add_argument('--ns', default='irons_spellbooks'); ap.add_argument('--limit', type=int, default=0)
-    ap.add_argument('--size', default='1920x1080'); ap.add_argument('--at', default=':99+0,0'); ap.add_argument('--fps', type=int, default=60); ap.add_argument('--time', default='12300'); ap.add_argument('--z0', type=int, default=1000); ap.add_argument('--display', default=':99'); ap.add_argument('--redo-below', type=float, default=0); ap.add_argument('--target', choices=sorted(TARGETS), default='dummy')
+    ap.add_argument('--size', default='1920x1080'); ap.add_argument('--at', default=':99+0,0'); ap.add_argument('--fps', type=int, default=60); ap.add_argument('--time', default='12300'); ap.add_argument('--z0', type=int, default=1000); ap.add_argument('--display', default=':99'); ap.add_argument('--redo-below', type=float, default=0); ap.add_argument('--target', choices=sorted(TARGETS), default='dummy'); ap.add_argument('--pitch', type=float)
     a = ap.parse_args(); os.makedirs(a.out, exist_ok=True)
     import numpy as np
     fifo = os.path.join(a.server, 'cmd.fifo'); raw = os.path.join(a.out, '_raw.mkv'); TICK = 0.05 / a.speed
@@ -125,7 +125,9 @@ def main():
         # aim from the eyes (1.62 above the feet) at the target's chest (1.1 above its feet). Not `tp ... facing`: run from the console it turns the body
         # from its feet, so the caster looked 8.9 degrees up (Rotation [-90, -8.93] read back), every spell that ray-casts for a target found none and cast
         # nothing, and projectiles flew over the target (2026-11-14)
-        pitch = math.degrees(math.atan2(1.62 - 1.1, 2 * g - 0.5))
+        # --pitch overrides it for spells that grow out of the first block the eye ray meets: at 4.6 degrees that is the barrier behind the dummy,
+        # so their crystals stood cut at the right edge; 14 degrees meets the floor under the dummy
+        pitch = a.pitch if a.pitch is not None else math.degrees(math.atan2(1.62 - 1.1, 2 * g - 0.5))
         c(['tp RenderBot %.1f -60 %.1f -90 %.2f' % (X - g + 0.5, Z + 0.5, pitch), 'cam-server remove clip', 'cam-server create clip', 'cam-server get clip mode outside',
            'cam-server get clip add %.2f %.2f %.2f 180 5 0 50' % (cx - 0.4, cy, cz), 'cam-server get clip add %.2f %.2f %.2f 180 5 0 50' % (cx + 0.4, cy - 0.05, cz - 0.5),
            'cam-server get clip interpolation hermite', 'cam-server get clip duration %ds' % int(dur + 3), 'cam-server start clip RenderBot'], 15)
