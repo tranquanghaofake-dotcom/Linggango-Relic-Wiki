@@ -18,13 +18,14 @@ empty AttributeModifiers tag); a camera that is not the player (CMDCam outside m
 Poster: poster_frame() (the most spell colour while the caster is still in sight), 960x540 WebP.
 QC: OUT_DIR/qc.jsonl, one line per clip (new frames a second by new_frames(), bytes, poster frame, robe); --redo-below N records again the clips under N fps; the run stops if the client is gone.
 Length in game time: instant 6 s; long and continuous = cast time + 6 s, at most 11 s."""
-import os, re, json, time, subprocess, argparse
+import os, re, json, math, time, subprocess, argparse
 H = os.path.dirname(os.path.abspath(__file__))
 SPELLS = os.path.join(H, '..', 'patches', 'spells.json')
 ROBE = {'fire': 'pyromancer', 'ice': 'cryomancer', 'lightning': 'electromancer', 'holy': 'priest', 'blood': 'cultist', 'ender': 'shadowwalker', 'evocation': 'archevoker', 'nature': 'plagued'}
-# what the spells are cast at: the Target Dummy (shows damage numbers), or a mob that stands still and does not burn, for spells that need a living target
-TARGETS = {'dummy': ('dummmmmmy:target_dummy', ''),
-           'husk': ('minecraft:husk', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Attributes:[{Name:"minecraft:generic.max_health",Base:1000d}],Health:1000f}')}
+# what the spells are cast at: the Target Dummy (shows damage numbers), or a mob that stands still and does not burn, for spells that need a living target;
+# the difficulty the stage needs (peaceful removes a hostile mob the tick it is summoned, so the husk needs easy; NoAI keeps it from attacking)
+TARGETS = {'dummy': ('dummmmmmy:target_dummy', '', 'peaceful'),
+           'husk': ('minecraft:husk', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Attributes:[{Name:"minecraft:generic.max_health",Base:1000d}],Health:1000f}', 'easy')}
 ATTR = ['spell_power', 'cast_time_reduction', 'cooldown_reduction'] + [k + '_spell_power' for k in ('fire', 'ice', 'lightning', 'holy', 'ender', 'blood', 'evocation', 'nature', 'eldritch')]
 
 
@@ -100,7 +101,7 @@ def main():
     if a.only: spells = [s for s in spells if s['id'] in a.only.split(',')]
     if a.limit: spells = spells[:a.limit]
     c(['gamerule %s false' % g for g in ('sendCommandFeedback', 'logAdminCommands', 'mobGriefing', 'doDaylightCycle', 'doWeatherCycle', 'doMobSpawning')]
-      + ['gamerule doImmediateRespawn true', 'gamerule keepInventory true', 'time set ' + a.time, 'op RenderBot'], 4)
+      + ['gamerule doImmediateRespawn true', 'gamerule keepInventory true', 'time set ' + a.time, 'difficulty ' + TARGETS[a.target][2], 'op RenderBot'], 4)
     qcp = os.path.join(a.out, 'qc.jsonl'); qc = {}
     if os.path.exists(qcp):
         for line in open(qcp, encoding='utf-8'): r = json.loads(line); qc[r['id']] = r
@@ -115,13 +116,17 @@ def main():
            'forceload remove all', 'forceload add %d %d %d %d' % (X - 24, Z - 24, X + 24, Z + 24)], 15)
         c(['tp RenderBot %.1f -60 %d' % (X - g, Z), 'fill %d -61 %d %d -61 %d minecraft:polished_deepslate' % (X - 24, Z - 24, X + 24, Z + 24),
            'fill %d -60 %d %d -56 %d minecraft:barrier' % (int(X + g + 1.5), Z - 1, int(X + g + 1.5), Z + 1), 'kill @e[type=!player]',
-           'summon %s %.1f -60 %.1f %s' % (TARGETS[a.target][0], X + g, Z + 0.5, TARGETS[a.target][1])], 10)
+           ('summon %s %.1f -60 %.1f %s' % (TARGETS[a.target][0], X + g, Z + 0.5, TARGETS[a.target][1])).rstrip()], 10)   # a trailing space fails the command
         robe = ROBE.get((s.get('school') or '').split(':')[-1], 'wandering_magician')
         c(['item replace entity RenderBot armor.%s with irons_spellbooks:%s_%s' % (slot, robe, part) for slot, part in (('head', 'helmet'), ('chest', 'chestplate'), ('legs', 'leggings'), ('feet', 'boots'))]
           + ['item replace entity RenderBot weapon.mainhand with irons_spellbooks:graybeard_staff'], 4)
         off = neutral(robe)
         cx, cy, cz = X + 0.5, -58.6, Z + 7.0   # side on, 6.5 blocks from the line between caster and dummy, looking north (yaw 180), 5 degrees down
-        c(['tp RenderBot %.1f -60 %.1f facing %.1f -58.9 %.1f' % (X - g + 0.5, Z + 0.5, X + g + 0.5, Z + 0.5), 'cam-server remove clip', 'cam-server create clip', 'cam-server get clip mode outside',
+        # aim from the eyes (1.62 above the feet) at the target's chest (1.1 above its feet). Not `tp ... facing`: run from the console it turns the body
+        # from its feet, so the caster looked 8.9 degrees up (Rotation [-90, -8.93] read back), every spell that ray-casts for a target found none and cast
+        # nothing, and projectiles flew over the target (2026-11-14)
+        pitch = math.degrees(math.atan2(1.62 - 1.1, 2 * g - 0.5))
+        c(['tp RenderBot %.1f -60 %.1f -90 %.2f' % (X - g + 0.5, Z + 0.5, pitch), 'cam-server remove clip', 'cam-server create clip', 'cam-server get clip mode outside',
            'cam-server get clip add %.2f %.2f %.2f 180 5 0 50' % (cx - 0.4, cy, cz), 'cam-server get clip add %.2f %.2f %.2f 180 5 0 50' % (cx + 0.4, cy - 0.05, cz - 0.5),
            'cam-server get clip interpolation hermite', 'cam-server get clip duration %ds' % int(dur + 3), 'cam-server start clip RenderBot'], 15)
         for _ in range(3):
