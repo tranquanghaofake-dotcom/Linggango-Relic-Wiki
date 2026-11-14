@@ -64,27 +64,25 @@ def main():
     xdisp = xd.Display(a.display)
     def press(name):   # no pointer move: the game grabs the cursor and a jump would turn the camera
         kc = xdisp.keysym_to_keycode(XK.string_to_keysym(name)); xtest.fake_input(xdisp, X.KeyPress, kc); xdisp.sync(); time.sleep(0.05); xtest.fake_input(xdisp, X.KeyRelease, kc); xdisp.sync()
-    cmd('tp RenderBot 64 -60 0 0 3', 2.5); cmd('summon %s 64 -60 %d %s' % (a.target, a.dist, a.target_nbt), 1.5)
-    if not shoulder(a.display, cmd, press): sys.exit('the camera never reached the over-the-shoulder view (client joined? GUI hidden with F1?)')
+    # the camera: Shoulder Surfing with every other perspective switched off in its config (first_person_enabled, third_person_front_enabled,
+    # third_person_back_enabled = false; remember_last_perspective = false), so it cannot leave the over-the-shoulder view; no F5 is pressed
+    face = 'tp RenderBot %d -60 0 facing entity @e[type=' + a.target + ',limit=1,sort=nearest] eyes'   # aim at the target's eyes: spells that need a target find it by a ray from the caster's eyes
     for i, s in enumerate(spells):
         name = s['id'].replace(':', '__'); dst = os.path.join(a.out, name + '.mp4')
         if os.path.exists(dst): continue
         x = 64 * (i + 1); lvl = s.get('maxLevel') or 1; t = (s.get('castTime') or 0) / 20
         dur = 5.5 if s.get('cast') == 'INSTANT' else min(10, t + 5.5) if s.get('cast') == 'LONG' else min(10, t + 4.5)
         cmd('kill @e[type=!player]', 0.2); cmd('effect clear RenderBot', 0.2)
-        cmd('tp RenderBot %d -60 0 0 3' % x, 0.2); cmd('summon %s %d -60 %d %s' % (a.target, x, a.dist, a.target_nbt), 2.5)   # the stage; the client loads its chunks
-        for attempt in (1, 2):   # a clip where nothing changes (the cast did not start, a screen covered the game) is recorded once more
-            for _ in range(3):
-                if not gui_open(a.display): break
-                press('Escape'); time.sleep(1.0)
-            if not shoulder(a.display, lambda c, w=0.3: cmd(c.replace('tp RenderBot 64 ', 'tp RenderBot %d ' % x), w), press): print('   camera lost', s['id'], flush=True)
-            rec = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'x11grab', '-framerate', '20', '-video_size', a.size, '-i', a.display, '-t', '%.1f' % dur, '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18', tmp])
-            time.sleep(0.5); cmd('cast RenderBot %s %d' % (s['id'], lvl), 0.1); rec.wait()
-            r = subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', tmp, '-vf', 'fps=%d,scale=%d:-2' % (a.fps, a.width), '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '30', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', dst])
-            mo = motion(dst)
-            if mo >= a.min_motion or attempt == 2: break
-            cmd('kill @e[type=!player]', 0.2); cmd('summon %s %d -60 %d %s' % (a.target, x, a.dist, a.target_nbt), 1.0)
-        print('%3d/%d %-48s level %d %.1fs %6d B motion %.2f%s%s' % (i + 1, len(spells), s['id'], lvl, dur, os.path.getsize(dst) if os.path.exists(dst) else 0, mo, '  LOW' if mo < a.min_motion else '', '' if r.returncode == 0 else '  FAILED'), flush=True)
+        cmd('tp RenderBot %d -60 0 0 0' % x, 0.2); cmd('summon %s %d -60 %d %s' % (a.target, x, a.dist, a.target_nbt), 1.5)   # a fresh stage 64 blocks on; the client loads its chunks
+        cmd(face % x, 1.5)
+        for _ in range(3):   # a container screen some spells open (Pocket Dimension's Ender Chest) is closed first
+            if not gui_open(a.display): break
+            press('Escape'); time.sleep(1.0)
+        rec = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'x11grab', '-framerate', '20', '-video_size', a.size, '-i', a.display, '-t', '%.1f' % dur, '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '18', tmp])
+        time.sleep(0.5); cmd('cast RenderBot %s %d' % (s['id'], lvl), 0.1); rec.wait()
+        r = subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', tmp, '-vf', 'fps=%d,scale=%d:-2' % (a.fps, a.width), '-an', '-c:v', 'libx264', '-preset', 'slow', '-crf', '26', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', dst])
+        time.sleep(max(0.0, t + 1.5 - dur))   # a /cast while the player is still casting cancels that cast instead of starting the next (AbstractSpell.attemptInitiateCast): wait until a long or continuous cast is over
+        print('%3d/%d %-48s level %d %.1fs %6d B%s' % (i + 1, len(spells), s['id'], lvl, dur, os.path.getsize(dst) if os.path.exists(dst) else 0, '' if r.returncode == 0 else '  FAILED'), flush=True)
     if os.path.exists(tmp): os.remove(tmp)
 
 
