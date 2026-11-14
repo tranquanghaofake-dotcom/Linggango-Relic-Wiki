@@ -16,22 +16,26 @@ the caster aimed at the dummy's chest, in his school's robes with a staff, every
 empty AttributeModifiers tag); a camera that is not the player (CMDCam outside mode): side on from 6.5 blocks, field of view 50, a slow dolly;
 `/cast RenderBot <spell> <max level>`; the 1080p recording is re-timed and scaled to 1280x720 (lanczos: the downscale also smooths the edges) at 60 fps, H.264 CRF 23 (preset medium).
 Poster: poster_frame() (the most spell colour while the caster is still in sight), 960x540 WebP.
-QC: OUT_DIR/qc.jsonl, one line per clip (new frames a second, bytes, poster frame, robe); --redo-below N records again the clips under N fps; the run stops if the client is gone.
+QC: OUT_DIR/qc.jsonl, one line per clip (new frames a second by new_frames(), bytes, poster frame, robe); --redo-below N records again the clips under N fps; the run stops if the client is gone.
 Length in game time: instant 6 s; long and continuous = cast time + 6 s, at most 11 s."""
 import os, re, json, time, subprocess, argparse
 H = os.path.dirname(os.path.abspath(__file__))
 SPELLS = os.path.join(H, '..', 'patches', 'spells.json')
 ROBE = {'fire': 'pyromancer', 'ice': 'cryomancer', 'lightning': 'electromancer', 'holy': 'priest', 'blood': 'cultist', 'ender': 'shadowwalker', 'evocation': 'archevoker', 'nature': 'plagued'}
+# what the spells are cast at: the Target Dummy (shows damage numbers), or a mob that stands still and does not burn, for spells that need a living target
+TARGETS = {'dummy': ('dummmmmmy:target_dummy', ''),
+           'husk': ('minecraft:husk', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Attributes:[{Name:"minecraft:generic.max_health",Base:1000d}],Health:1000f}')}
 ATTR = ['spell_power', 'cast_time_reduction', 'cooldown_reduction'] + [k + '_spell_power' for k in ('fire', 'ice', 'lightning', 'holy', 'ender', 'blood', 'evocation', 'nature', 'eldritch')]
 
 
 def gui_open(display):
-    """a container screen (the Pocket Dimension spell opens an Ender Chest and it stays) is mostly light grey (198,198,198)"""
+    """a screen is open (Pocket Dimension and Summon Ender Chest open an Ender Chest and it stays; Escape on no screen opens the pause menu): every screen
+    dims the world behind it, so the sky band at 30-40% of the height, pink at time 12300 (luminance 135 or more in every clip of 2026-11-14), falls to about 55"""
     import io
     from PIL import Image
-    im = Image.open(io.BytesIO(subprocess.run(['import', '-window', 'root', 'png:-'], env=dict(os.environ, DISPLAY=display), capture_output=True).stdout)).convert('RGB')
-    px = [im.getpixel((x, y)) for y in range(0, im.size[1], 6) for x in range(0, im.size[0], 6)]
-    return sum(1 for p in px if abs(p[0] - 198) < 8 and abs(p[1] - 198) < 8 and abs(p[2] - 198) < 8) / len(px) > 0.04
+    im = Image.open(io.BytesIO(subprocess.run(['import', '-window', 'root', 'png:-'], env=dict(os.environ, DISPLAY=display), capture_output=True).stdout)).convert('L')
+    w, h = im.size; band = im.crop((0, int(h * .3), w, int(h * .4))).resize((64, 8))
+    return sum(band.tobytes()) / 512 < 100
 
 
 def poster_frame(path):
@@ -47,10 +51,25 @@ def poster_frame(path):
     return int(c.argmax())
 
 
+def new_frames(path, fps):
+    """new frames a second of game time in an encoded clip: a frame within 0.02 grey levels (mean, 1280x720) of the one before is a copy x11grab took
+    while the game had not drawn yet; a still scene under the slow dolly still changes by 0.03 or more (Telekinesis, Teleport), a stalled one by under 0.01"""
+    import numpy as np
+    p = subprocess.Popen(['ffmpeg', '-v', 'error', '-i', path, '-f', 'rawvideo', '-pix_fmt', 'gray', '-'], stdout=subprocess.PIPE); n = copies = 0; prev = None
+    while True:
+        b = p.stdout.read(1280 * 720)
+        if len(b) < 1280 * 720: break
+        f = np.frombuffer(b, np.uint8).astype(np.int16)
+        if prev is not None: copies += np.abs(f - prev).mean() < 0.02
+        prev = f; n += 1
+    p.wait()
+    return fps * (1 - copies / max(1, n - 1))
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('server'); ap.add_argument('out'); ap.add_argument('--log', required=True); ap.add_argument('--speed', type=float, required=True)
     ap.add_argument('--only', default=''); ap.add_argument('--ns', default='irons_spellbooks'); ap.add_argument('--limit', type=int, default=0)
-    ap.add_argument('--size', default='1920x1080'); ap.add_argument('--at', default=':99+0,0'); ap.add_argument('--fps', type=int, default=60); ap.add_argument('--time', default='12300'); ap.add_argument('--z0', type=int, default=1000); ap.add_argument('--display', default=':99'); ap.add_argument('--redo-below', type=float, default=0)
+    ap.add_argument('--size', default='1920x1080'); ap.add_argument('--at', default=':99+0,0'); ap.add_argument('--fps', type=int, default=60); ap.add_argument('--time', default='12300'); ap.add_argument('--z0', type=int, default=1000); ap.add_argument('--display', default=':99'); ap.add_argument('--redo-below', type=float, default=0); ap.add_argument('--target', choices=sorted(TARGETS), default='dummy')
     a = ap.parse_args(); os.makedirs(a.out, exist_ok=True)
     import numpy as np
     fifo = os.path.join(a.server, 'cmd.fifo'); raw = os.path.join(a.out, '_raw.mkv'); TICK = 0.05 / a.speed
@@ -96,7 +115,7 @@ def main():
            'forceload remove all', 'forceload add %d %d %d %d' % (X - 24, Z - 24, X + 24, Z + 24)], 15)
         c(['tp RenderBot %.1f -60 %d' % (X - g, Z), 'fill %d -61 %d %d -61 %d minecraft:polished_deepslate' % (X - 24, Z - 24, X + 24, Z + 24),
            'fill %d -60 %d %d -56 %d minecraft:barrier' % (int(X + g + 1.5), Z - 1, int(X + g + 1.5), Z + 1), 'kill @e[type=!player]',
-           'summon dummmmmmy:target_dummy %.1f -60 %.1f' % (X + g, Z + 0.5)], 10)
+           'summon %s %.1f -60 %.1f %s' % (TARGETS[a.target][0], X + g, Z + 0.5, TARGETS[a.target][1])], 10)
         robe = ROBE.get((s.get('school') or '').split(':')[-1], 'wandering_magician')
         c(['item replace entity RenderBot armor.%s with irons_spellbooks:%s_%s' % (slot, robe, part) for slot, part in (('head', 'helmet'), ('chest', 'chestplate'), ('legs', 'leggings'), ('feet', 'boots'))]
           + ['item replace entity RenderBot weapon.mainhand with irons_spellbooks:graybeard_staff'], 4)
@@ -123,11 +142,10 @@ def main():
                             '-crf', '23', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', part])
         k = poster_frame(part)
         subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', part, '-vf', 'select=eq(n\\,%d),scale=960:540:flags=lanczos' % k, '-frames:v', '1', '-c:v', 'libwebp', '-quality', '80', dst[:-4] + '.webp'])
-        # smoothness: how many frames a second of game time are new (x11grab repeats a frame the game has not replaced yet); a clip under --redo-below is recorded again on the next run
-        out = subprocess.run(['ffmpeg', '-i', raw, '-vf', 'mpdecimate=hi=64*4:lo=64*2:frac=0.1', '-f', 'null', '-'], capture_output=True, text=True).stderr
+        # smoothness: new frames a second (new_frames); a clip under --redo-below is recorded again on the next run
+        fps = new_frames(part, a.fps) if r.returncode == 0 else 0
         if r.returncode == 0: os.replace(part, dst)
         renice(-5)
-        fr = [l for l in out.splitlines() if 'frame=' in l]; fps = int(fr[-1].split('frame=')[1].split()[0]) / dur if fr else 0
         qc[s['id']] = {'id': s['id'], 'fps': round(fps, 1), 'bytes': os.path.getsize(dst) if os.path.exists(dst) else 0, 'poster': k, 'robe': robe, 'level': lvl, 'secs': dur, 'off': off}
         with open(qcp, 'w', encoding='utf-8') as f: f.write(''.join(json.dumps(r) + '\n' for r in qc.values()))
         time.sleep(max(0.0, t + 1.5 - dur) / a.speed)   # a /cast while the player is still casting cancels that cast (AbstractSpell.attemptInitiateCast)
