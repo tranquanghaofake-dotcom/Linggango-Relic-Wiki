@@ -26,7 +26,12 @@ jobs:
         with: { node-version: '22' }
       - name: Playwright (Chromium), pinned so a new release cannot change the checks
         run: npm install -g playwright@1.63.0 && npx playwright install --with-deps chromium
+      - name: Spell clips (only clips/ of the workspace branch; build/clips_fetch.sh does the same by hand)
+        uses: actions/checkout@v7
+        with: { ref: workspace, path: ws, sparse-checkout: clips, filter: 'blob:none' }
       - name: Build and check (build/check.sh)
+        # the approved spell clips (build/clips/approved.json) must all be there, or the build stops
+        env: { LGW_CLIPS: '${{ github.workspace }}/ws/clips', LGW_CLIPS_REQUIRED: '1' }
         run: bash build/check.sh
       - name: Committed sources are up to date
         # apply_all.sh rewrites build/src/data.js and build/patches/curio_tiers.json in place;

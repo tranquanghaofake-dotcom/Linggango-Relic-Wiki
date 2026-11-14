@@ -13,3 +13,6 @@ __pycache__/
 
 # npm install in build/ (three.js for the render tools in pack_audit/)
 node_modules/
+
+# Spell clips fetched from the workspace branch (build/clips_fetch.sh)
+/build/clips3/

@@ -80,8 +80,13 @@ def _sp(r):
     if r["craft"] is False: o["nc"] = 1
     return o
 _sl = J("spells.json")["spells"]; _si = J("spell_icons.json")
-_clips = sorted(json.loads((H.parent / "clips" / "approved.json").read_text()))   # spell ids whose clip in build/clips a person looked at and approved (the first recordings were not: docs/NOTES.md 2026-11-14)
-assert all(c in {r["id"] for r in _sl} and (H.parent / "clips" / (c.replace(":", "__") + ".mp4")).exists() for c in _clips), "an approved clip that is not a spell in spells.json or has no file"
+# spell ids whose clip a person looked at and approved (build/clips/approved.json). The clips live on the workspace branch (clips/), fetched into
+# build/clips3 (or $LGW_CLIPS) by build/clips_fetch.sh; a build without them lists none (build.py applies the same rule and copies the files)
+import os as _os
+_cdir = pathlib.Path(_os.environ.get("LGW_CLIPS") or (H.parent / "clips3"))
+_appr = sorted(json.loads((H.parent / "clips" / "approved.json").read_text()))
+assert all(c in {r["id"] for r in _sl} for c in _appr), "an approved clip that is not a spell in spells.json"
+_clips = [c for c in _appr if (_cdir / (c.replace(":", "__") + ".mp4")).exists()]
 pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(",", ":")) + ");\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_ui, separators=(",", ":")) + "))if(GUIDE[k])GUIDE[k].i=v;\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_gi, separators=(",", ":")) + "))if(GOETY.types[k])GOETY.types[k].img=v;\n"

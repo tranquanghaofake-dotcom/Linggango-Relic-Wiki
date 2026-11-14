@@ -321,7 +321,7 @@ function spellsPage(){
  const X=window.SPL||[],IC3=window.SPLI||{},EX=new Map((window.EFX||[]).map(e=>[e.i,e])),SM=40;
  const pretty=i=>i.split(":")[1].replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase()),cap=r=>r?r[0].toUpperCase()+r.slice(1):"";
  const rows=X.map(s=>({s,nm:s.n||pretty(s.i)})).sort((a,b)=>(a.s.s||"zzz").localeCompare(b.s.s||"zzz")||a.nm.localeCompare(b.nm));
- const clipBase=document.documentElement.dataset.clips,clips=new Set(window.SPCLIP||[]),clip=(s,nm)=>clipBase&&clips.has(s.i)?`<video class="spv" controls muted loop playsinline preload="none" title="${esc(TD(nm))}" src="${clipBase}${s.i.replace(":","__")}.mp4"></video>`:"";   // the site only: the offline file has no clips
+ const clipBase=document.documentElement.dataset.clips,clips=new Set(window.SPCLIP||[]),clip=(s,nm)=>clipBase&&clips.has(s.i)?`<video class="spv" controls muted loop playsinline preload="none" title="${esc(TD(nm))}" poster="${clipBase}${s.i.replace(":","__")}.webp" src="${clipBase}${s.i.replace(":","__")}.mp4"></video>`:"";   // the site only: the offline file has no clips
  const sec=n=>Math.round(n/2)/10,rn=v=>Math.round(v*10)/10,CAST={INSTANT:N("Instant"),LONG:N("Long"),CONTINUOUS:N("Continuous")};
  const card=({s,nm})=>{const m=s.mm||1,m1=rn((s.ma||0)*m),m2=rn(((s.ma||0)+(s.mp||0)*((s.L||1)-1))*m),
    cast=s.k?`${T(CAST[s.k]||s.k)}${s.k!=="INSTANT"&&s.t?` · ${sec(s.t)} s`:""}`:"—",fx=(s.f||[]).map(id=>`<a class="nch" href="#mechanics/effects/${enc(id)}">${esc(TD((EX.get(id)||{}).n||pretty(id)))}</a>`).join("");
@@ -341,6 +341,56 @@ ${s.x?`<p class="note">${T("Turned off in this pack's spell config.")}</p>`:""}<
   el("smore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(SM*3,hit.length-lim)})}</button>`:"";
   const b=el("smore").firstChild;if(b)b.onclick=()=>{lim+=SM*3;f(true)}};
  [q,ss,sr,sk,sm].forEach(x=>x.addEventListener("input",f));f()}
+// Mechanics > Stats, "One hit": the nine steps as a track with the damage after each step, and a calculator (2026-11-14).
+// The rules are the pack's own: soft cap knee x sqrt(m / knee), knee 3.0 (Linggango Tweaks AccessoryLimitsMath.softened; config/linggango_tweaks-accessory_limits.toml);
+// floor 13% of the incoming hit and hit cap 1/2 max health, players only (linggango_tweaks-common.toml [damage_floor]); lifesteal at most 10% of max health a tick ([lifesteal_cap]);
+// armor keeps A / (A + armor), A = 10 under 20 damage and 10 + (hit - 20) / 2 above (Apothic Attributes); Resistance I-X as rescaled by Linggango Fixes (the "Taking damage" table).
+const HIT={knee:3,floor:.13,cap:.5,res:[0,.20,.24,.29,.33,.38,.42,.47,.51,.56,.60]};
+function hitCalc(b,m,a,r,h,pl){const s4=b*m,cm=m<=HIT.knee?m:HIT.knee*Math.sqrt(m/HIT.knee),s5=b*cm,A=s5<20?10:10+(s5-20)/2,s6=s5*A/(A+a),s7=s6*(1-HIT.res[r]),s8=pl?Math.min(Math.max(s7,HIT.floor*s5),h*HIT.cap):s7;return{s4,cm,s5,A,s6,s7,s8}}
+const HROWS=[[N("<b>1. Swing</b>"),N("Weapon damage, scaled by how charged the attack is (vanilla attack cooldown)."),N("Attack Damage, Brutality's weapon and damage-type stats (Sword Damage, Slash Damage…), Food buffs")],
+ [N("<b>2. Melee crit</b>"),N("Decided once per swing. Melee only."),N("Brutality Critical Strike Chance / Damage, plus small add-ons (see Crits)")],
+ [N("<b>3. Dodge</b>"),N("The target gets its chances to avoid the hit completely."),N("Dodge Chance (three different ones), roll and parry")],
+ [N("<b>4. Bonus stage</b>"),N("Multipliers on the hit before armor. Order between mods does not matter here: they multiply."),N("Apothic Critical Chance / Damage, damage affinity, Exposed, Perfect Hit, roll counters, Damage Taken, Summon Damage")],
+ [N("<b>5. Hit soft cap</b>"),N("How much step 4 grew your hit is measured. Up to ×3 it stays; past ×3 only the square root of the extra counts (×10 lands as ×5.5). Your summons' hits are exempt."),N("Everything in step 4")],
+ [N("<b>6. Armor</b>"),N("The target's armor takes its share (formula below)."),N("Armor, Armor Penetration, Armor Shred, Armor Pierce, Lethality")],
+ [N("<b>7. Resistance, Protection</b>"),N("The Resistance effect, then Protection enchantments."),N("Resistance levels, Protection, Protection Pierce / Shred")],
+ [N("<b>8. Floor and cap</b>"),N("Players only, and only for hits from something: at least 13% of the hit always lands, and no single hit takes more than half your max health."),N("Max Health (moves the cap)")],
+ [N("<b>9. Healing from the hit</b>"),N("Lifesteal-type stats heal the attacker. All of it together is capped at 10% of max health per tick."),N("Lifesteal, Omnivamp, Life Steal, Overheal, Healing Received")]];
+const HSTEP=[[N("Swing"),"ri_diamond_sword"],[N("Melee crit"),"minecraft:strength"],[N("Dodge"),"minecraft:invisibility"],[N("Bonus stage"),"minecraft:haste"],[N("Soft cap"),"minecraft:slowness"],
+ [N("Armor"),"ri_iron_chestplate"],[N("Resistance"),"minecraft:resistance"],[N("Floor and cap"),"sb_heart"],[N("Healing"),"minecraft:regeneration"]];
+const HSIDE=[[N("Your side: build the hit"),0,5,"a"],[N("The target's side: cut it down"),5,8,"b"],[N("After the hit"),8,9,"c"]];
+const hbIcon=k=>k.includes(":")?(window.EFXI&&EFXI[k]?`<img alt="" src="data:image/png;base64,${EFXI[k]}">`:""):`<i class="ui ui2" style="--ui:var(--rt-${k})" aria-hidden="true"></i>`;
+function hitBoard(){
+ const side=i=>HSIDE.find(g=>i>=g[1]&&i<g[2]);
+ return `<div class="hitb"><div class="hb-board"><div class="hb-sides" aria-hidden="true">${HSIDE.map(g=>`<div class="hb-g${g[3]}">${T(g[0])}</div>`).join("")}</div>
+<div class="hb-track">${HSTEP.map((s,i)=>{const g=side(i);return `<div class="hb-col hb-g${g[3]}"${g[1]===i?` data-gl="${esc(T(g[0]))}"`:""}><button class="hb-st" type="button" data-i="${i}" aria-pressed="false"><span class="hb-slot"><span class="hb-no">${i+1}</span>${hbIcon(s[1])}</span><b>${T(s[0])}</b></button><div class="hb-dmg" id="hbd${i}"></div></div>`}).join("")}</div></div>
+<div class="hb-lower"><div class="hb-panel" id="hbdet" aria-live="polite"></div><div class="hb-panel"><h4>${T("Try a hit")}</h4><div class="hb-ctl">
+<label for="hbb">${T("Weapon hit")}</label><input id="hbb" type="range" min="1" max="100" value="30"><output id="hbbo" for="hbb"></output>
+<label for="hbm">${T("Step 4 multiplier")}</label><input id="hbm" type="range" min="10" max="100" value="40"><output id="hbmo" for="hbm"></output>
+<label for="hba">${T("Target armor")}</label><input id="hba" type="range" min="0" max="100" value="20"><output id="hbao" for="hba"></output>
+<label for="hbr">${T("Resistance level")}</label><input id="hbr" type="range" min="0" max="10" value="0"><output id="hbro" for="hbr"></output>
+<label for="hbh">${T("Target max health")}</label><input id="hbh" type="range" min="20" max="200" step="2" value="40"><output id="hbho" for="hbh"></output></div>
+<label class="hb-tog"><input id="hbp" type="checkbox" checked> ${T("The target is a player (13% floor, half max health cap)")}</label>
+<div class="hb-res"><b id="hbout"></b><span id="hbouts"></span></div>
+<p class="note">${T("Rules from the pack: soft cap knee 3.0, damage floor 13%, hit cap half of max health, lifesteal cap 10% of max health a tick (Linggango Tweaks config). This example leaves out crits, dodges and Protection.")}</p></div></div></div>`}
+function hitInit(){
+ if(!el("hbb"))return;let cur=4;
+ const f=x=>nL(Math.round(x*10)/10),RN=["","I","II","III","IV","V","VI","VII","VIII","IX","X"];
+ const draw=()=>{const b=+el("hbb").value,m=el("hbm").value/10,a=+el("hba").value,r=+el("hbr").value,h=+el("hbh").value,pl=el("hbp").checked,c=hitCalc(b,m,a,r,h,pl);
+  el("hbbo").value=b;el("hbmo").value="×"+f(m);el("hbao").value=a;el("hbro").value=r?RN[r]:T("none");el("hbho").value=h;
+  const v=[b,b,b,c.s4,c.s5,c.s6,c.s7,c.s8,null],mx=Math.max(...v.filter(x=>x!=null),1);
+  const lab=[T("base"),T("not rolled here"),T("no dodge"),"×"+f(m),m>HIT.knee?T("counts as ×{c}",{c:f(c.cm)}):T("under ×3"),T("{p}% kept",{p:Math.round(100*c.A/(c.A+a))}),r?"−"+Math.round(HIT.res[r]*100)+"%":T("no Resistance"),
+   pl?(c.s8>c.s7?T("floor: 13%"):c.s8<c.s7?T("cap: half max health"):T("no change")):T("not a player"),T("at most 10% of your max health a tick")];
+  v.forEach((x,i)=>{const d=el("hbd"+i);d.className="hb-dmg"+(x==null?" hb-heal":i>=5&&i<=7?" hb-cut":"");d.innerHTML=x==null?`<span>♥</span><small>${lab[i]}</small>`:`<span>${f(x)}</span><i style="--p:${Math.max(.02,x/mx).toFixed(3)}"></i><small>${lab[i]}</small>`});
+  el("hbout").textContent=f(c.s8);el("hbouts").textContent=T("damage lands from a {b} hit ({p}% of the weapon hit)",{b,p:Math.round(100*c.s8/Math.max(b,1))});
+  const mth=[T("Weapon hit: {b}",{b}),T("Not rolled in this example: a melee crit multiplies the swing here."),T("If the target dodges, the hit is 0 and the steps below never happen."),
+   `${b} × ${f(m)} = ${f(c.s4)}`,m>HIT.knee?`3 × √(${f(m)} ÷ 3) = ×${f(c.cm)} → ${f(c.s5)}`:T("×{m} is ×3 or less: it stays.",{m:f(m)}),
+   `A = ${f(c.A)}: ${f(c.s5)} × ${f(c.A)} ÷ (${f(c.A)} + ${a}) = ${f(c.s6)}`,r?`${f(c.s6)} × (1 − ${nL(HIT.res[r])}) = ${f(c.s7)}`:T("No Resistance: unchanged."),
+   pl?`min(max(${f(c.s7)}, 13% × ${f(c.s5)}), ${h} ÷ 2) = ${f(c.s8)}`:T("Not a player: unchanged."),T("Healing from all lifesteal together: at most 10% of your own max health each tick.")];
+  el("hbdet").innerHTML=`<h4><span class="hb-slot">${hbIcon(HSTEP[cur][1])}</span>${cur+1}. ${T(HSTEP[cur][0])}</h4><p>${T(HROWS[cur][1])}</p><div class="hb-math">${mth[cur]}</div><p class="hb-stats"><b>${T("Stats that count here")}:</b> ${T(HROWS[cur][2])}</p>`;
+  el("main").querySelectorAll(".hb-st").forEach(e=>{const on=+e.dataset.i===cur;e.classList.toggle("on",on);e.setAttribute("aria-pressed",on)})};
+ el("main").querySelectorAll(".hb-st").forEach(e=>e.onclick=()=>{cur=+e.dataset.i;draw()});
+ ["hbb","hbm","hba","hbr","hbh","hbp"].forEach(id=>el(id).addEventListener("input",draw));draw()}
 function mechPage(){
  const MSEC=[["goety",N("Goety rituals")],["ae2",N("AE2 storage")],["effects",N("Effects")],["stats",N("Stats")]],sub=MSEC.find(x=>x[0]===decodeURIComponent(location.hash).split("/")[1])||MSEC[0],sk=sub[0];   // one page per section; #mechanics is the first
  document.title=T("Mechanics")+" · "+T(sub[1])+" · Linggango Wiki";
@@ -403,17 +453,9 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 
 <h3 id="m-st-hit">${T("One hit, step by step")}</h3>
 <p>${T("Every hit goes through these steps in order. A stat only changes the steps it belongs to, so the same \"+10%\" can be worth very different amounts.")}</p>
-<div class="tw"><table><tr><th>${T("Step")}</th><th>${T("What happens")}</th><th>${T("Stats that count here")}</th></tr>
-<tr><td>${T("<b>1. Swing</b>")}</td><td>${T("Weapon damage, scaled by how charged the attack is (vanilla attack cooldown).")}</td><td>${T("Attack Damage, Brutality's weapon and damage-type stats (Sword Damage, Slash Damage…), Food buffs")}</td></tr>
-<tr><td>${T("<b>2. Melee crit</b>")}</td><td>${T("Decided once per swing. Melee only.")}</td><td>${T("Brutality Critical Strike Chance / Damage, plus small add-ons (see Crits)")}</td></tr>
-<tr><td>${T("<b>3. Dodge</b>")}</td><td>${T("The target gets its chances to avoid the hit completely.")}</td><td>${T("Dodge Chance (three different ones), roll and parry")}</td></tr>
-<tr><td>${T("<b>4. Bonus stage</b>")}</td><td>${T("Multipliers on the hit before armor. Order between mods does not matter here: they multiply.")}</td><td>${T("Apothic Critical Chance / Damage, damage affinity, Exposed, Perfect Hit, roll counters, Damage Taken, Summon Damage")}</td></tr>
-<tr><td>${T("<b>5. Hit soft cap</b>")}</td><td>${T("How much step 4 grew your hit is measured. Up to ×3 it stays; past ×3 only the square root of the extra counts (×10 lands as ×5.5). Your summons' hits are exempt.")}</td><td>${T("Everything in step 4")}</td></tr>
-<tr><td>${T("<b>6. Armor</b>")}</td><td>${T("The target's armor takes its share (formula below).")}</td><td>${T("Armor, Armor Penetration, Armor Shred, Armor Pierce, Lethality")}</td></tr>
-<tr><td>${T("<b>7. Resistance, Protection</b>")}</td><td>${T("The Resistance effect, then Protection enchantments.")}</td><td>${T("Resistance levels, Protection, Protection Pierce / Shred")}</td></tr>
-<tr><td>${T("<b>8. Floor and cap</b>")}</td><td>${T("Players only, and only for hits from something: at least 13% of the hit always lands, and no single hit takes more than half your max health.")}</td><td>${T("Max Health (moves the cap)")}</td></tr>
-<tr><td>${T("<b>9. Healing from the hit</b>")}</td><td>${T("Lifesteal-type stats heal the attacker. All of it together is capped at 10% of max health per tick.")}</td><td>${T("Lifesteal, Omnivamp, Life Steal, Overheal, Healing Received")}</td></tr>
-</table></div>
+${hitBoard()}
+<details class="hb-tab"><summary>${T("All nine steps as a table")}</summary><div class="tw"><table><tr><th>${T("Step")}</th><th>${T("What happens")}</th><th>${T("Stats that count here")}</th></tr>
+${HROWS.map(r=>`<tr>${r.map(x=>`<td>${T(x)}</td>`).join("")}</tr>`).join("")}</table></div></details>
 <p class="note">${T("Bosses on the Nightmare Altar roster also have an intake ceiling: they lose at most 1/30 of their max health per second (40–50 s for Sanghor, Zoranth Newborn and Nyxaris), banked up to 3 s, until you have beaten them once. Past that point more damage buys nothing.")}</p>
 
 <h3 id="m-st-armor">${T("Armor: how much gets through")}</h3>
@@ -615,6 +657,7 @@ ${S[sk]()}${wikiNav()}`;
    el("emore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(EM*5,hit.length-lim)})}</button>`:"";
    const b=el("emore").firstChild;if(b)b.onclick=()=>{lim+=EM*5;fe(true)}};
   [eq,em,ek].forEach(x=>x.addEventListener("input",fe));fe()}
+ if(sk==="stats")hitInit();
  el("main").querySelectorAll(".mtabs [data-go]").forEach(a=>a.onclick=e=>{e.preventDefault();el(a.dataset.go).scrollIntoView({behavior:"smooth"})});
 }
 

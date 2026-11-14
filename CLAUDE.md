@@ -24,7 +24,7 @@ How the pieces fit: `build/README.md`; why they are shaped that way: `build/ARCH
 
 ## Branches and files
 - `main`: sources, build scripts, docs and notes. Pages serves only the workflow's artifact, never the branch itself.
-- `workspace`: orphan archive — the asset library (`assets/`, read by `pack_audit/uiicons.py`), `build/migrations/`, old prompts and screenshots. Never merge it; take one file with `git checkout origin/workspace -- <path>`.
+- `workspace`: orphan archive — the asset library (`assets/`, read by `pack_audit/uiicons.py`), the spell clips (`clips/`: `bash build/clips_fetch.sh` fetches only that folder into `build/clips3`; CI does the same, and the build lists only the clips named in `build/clips/approved.json`), `build/migrations/`, old prompts and screenshots. Never merge it; take one file with `git checkout origin/workspace -- <path>`.
 - No other branches and no pull requests unless the user asks.
 - One file per thing: update it in place. No `_v2`/`_final`/`_new` copies, no duplicate pages or scripts; git history keeps the old versions.
 

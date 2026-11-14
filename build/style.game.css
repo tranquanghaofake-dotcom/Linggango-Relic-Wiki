@@ -2245,3 +2245,53 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
 }
 
 @media (max-width:760px){.gear .gseg.roles{padding-left:0}.gear .gseg.roles::before{display:none}}
+
+/* Mechanics > Stats, "One hit" (app.js hitBoard): nine inset slots on a rail, grouped by side, the damage after each step as a bar under its
+   slot, then the chosen step's rule and a calculator. Phones: the steps stack, each a row with a horizontal bar. */
+.hitb{--hb-a:#3c7d1e;--hb-b:#2a5ea8;--hb-c:#6b3b8f;display:grid;gap:var(--s4);margin:var(--s3) 0 var(--s4)}
+.hb-board{background:var(--gui);box-shadow:0 0 0 2px var(--line),var(--bevel);padding:var(--s4) var(--s4) var(--s3)}
+.hb-sides{display:grid;grid-template-columns:5fr 3fr 1fr;gap:var(--s2);margin-bottom:var(--s2);font:12px var(--disp);letter-spacing:.04em;text-transform:uppercase}
+.hb-sides div{padding:var(--s1) var(--s2);color:#fff;box-shadow:0 0 0 2px var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb-sides .hb-ga,.hb-col.hb-ga{--g:var(--hb-a)}.hb-sides .hb-gb,.hb-col.hb-gb{--g:var(--hb-b)}.hb-sides .hb-gc,.hb-col.hb-gc{--g:var(--hb-c)}
+.hb-sides div{background:var(--g)}
+.hb-track{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:var(--s2);position:relative}
+.hb-track::before{content:"";position:absolute;left:4%;right:4%;top:28px;height:6px;background:repeating-linear-gradient(90deg,#7a5a2c 0 10px,#5c4220 10px 14px);box-shadow:0 0 0 2px var(--line)}
+.hb-col{position:relative;display:flex;flex-direction:column;align-items:center;min-width:0}
+.hb-st{display:flex;flex-direction:column;align-items:center;gap:var(--s1);background:none;border:0;padding:0;color:var(--gui-ink);font:inherit;cursor:pointer;min-width:0}
+.hb-st b{font-size:13px;line-height:1.25;text-align:center}
+.hb-slot{position:relative;width:60px;height:60px;flex:none;display:grid;place-items:center;background:var(--gui-hi);box-shadow:inset 2px 2px 0 var(--gui-lo),inset -2px -2px 0 var(--btn-hi),0 0 0 2px var(--line)}
+.hb-slot img{width:36px;height:36px;image-rendering:pixelated}
+.hb-no{position:absolute;left:-2px;top:-2px;min-width:20px;padding:0 var(--s1);background:var(--gui-lo);color:var(--yellow);font:11px/18px var(--disp);text-align:center;box-shadow:0 0 0 2px var(--line)}
+.hb-st:hover .hb-slot{background:var(--btn-hi)}
+.hb-st.on .hb-slot{background:var(--btn-hi);outline:3px solid var(--yellow);outline-offset:2px}
+.hb-st:focus-visible{outline:none}.hb-st:focus-visible .hb-slot{outline:3px solid var(--gui-link);outline-offset:2px}
+.hb-dmg{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:160px;width:100%;margin-top:var(--s3);padding-top:var(--s2);border-top:2px dashed var(--gui-line)}
+.hb-dmg span{font:13px var(--disp);color:var(--yellow);margin-bottom:var(--s1);font-variant-numeric:tabular-nums}
+.hb-dmg i{display:block;width:60%;height:calc(var(--p)*100px);min-height:2px;background:linear-gradient(#e0533d,#8e2414);box-shadow:0 0 0 2px var(--line),inset 2px 2px 0 rgba(255,255,255,.25);transition:height .25s var(--mo-ease,ease)}
+.hb-cut i{background:linear-gradient(#8792aa,#3b4254)}
+.hb-heal span{color:#ff6b9a}
+.hb-dmg small{font-size:11px;line-height:1.3;color:var(--gui-mute);margin-top:var(--s1);text-align:center;min-height:28px}
+.hb-lower{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,4fr);gap:var(--s4)}
+.hb-panel{background:var(--gui);box-shadow:0 0 0 2px var(--line),var(--bevel);padding:var(--s4);min-width:0}
+.hb-panel h4{margin:0 0 var(--s2);display:flex;gap:var(--s3);align-items:center;font:16px var(--disp);color:var(--gui-ink)}
+.hb-panel h4 .hb-slot{width:44px;height:44px}.hb-panel h4 .hb-slot img{width:36px;height:36px}
+.hb-panel p{margin:0 0 var(--s3);max-width:64ch}
+.hb-math{font:13px/1.5 ui-monospace,monospace;background:var(--slot);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi);padding:var(--s2) var(--s3);color:#bfe3a8;margin:0 0 var(--s3);overflow-wrap:anywhere}
+.hb-stats{font-size:13px;color:var(--gui-mute)}.hb-stats b{color:var(--gui-ink)}
+.hb-ctl{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr) auto;gap:var(--s2) var(--s3);align-items:center;font-size:13px}
+.hb-ctl input[type=range]{width:100%;min-width:0}
+.hb-ctl output{font:13px var(--disp);color:var(--yellow);min-width:5ch;text-align:right;font-variant-numeric:tabular-nums}
+.hb-tog{display:flex;gap:var(--s2);align-items:center;font-size:13px;margin-top:var(--s3)}
+.hb-res{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--s1) var(--s3);margin-top:var(--s3);padding-top:var(--s3);border-top:2px solid var(--gui-line)}
+.hb-res b{font:30px var(--disp);color:var(--yellow);font-variant-numeric:tabular-nums}.hb-res span{color:var(--gui-mute);font-size:13px;flex:1;min-width:14ch}
+.hb-tab{margin:0 0 var(--s4)}.hb-tab summary{cursor:pointer;color:var(--gui-link)}
+@media (max-width:760px){
+ .hb-board{padding:var(--s2)}.hb-sides{display:none}.hb-track{grid-template-columns:1fr;gap:var(--s2)}.hb-track::before{display:none}
+ .hb-col{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:var(--s2);padding:var(--s1) var(--s1) var(--s1) var(--s2);box-shadow:inset 4px 0 0 var(--g)}
+ .hb-col[data-gl]::before{content:attr(data-gl);grid-column:1/-1;font:11px var(--disp);text-transform:uppercase;letter-spacing:.04em;color:#fff;background:var(--g);margin:var(--s2) calc(-1*var(--s1)) 2px calc(-1*var(--s2));padding:2px var(--s2)}
+ .hb-st{flex-direction:row;gap:var(--s2);width:112px}.hb-st .hb-slot{width:44px;height:44px}.hb-st .hb-slot img{width:36px;height:36px}.hb-st b{text-align:left;font-size:12px}
+ .hb-dmg{height:auto;margin:0;padding:0;border:0;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;justify-items:start;gap:0 var(--s2)}
+ .hb-dmg span{grid-row:1/3;margin:0;min-width:4ch;text-align:right}.hb-dmg i{height:12px;width:calc(var(--p)*100%);transition:width .25s var(--mo-ease,ease)}.hb-dmg small{min-height:0;margin:2px 0 0;text-align:left}
+ .hb-lower{grid-template-columns:1fr}.hb-ctl{grid-template-columns:minmax(0,1fr) auto}.hb-ctl label{grid-column:1/-1;margin-bottom:-6px}
+}
+@media (prefers-reduced-motion:reduce){.hb-dmg i{transition:none}}

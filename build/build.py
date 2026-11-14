@@ -173,8 +173,19 @@ for name in NAMES:
         site = site.replace("<script>\n{{%s}}\n</script>\n" % name, "").replace("<html", '<html data-pics="%s"' % put(name, read(S / name)), 1)
         continue
     site = site.replace("<script>\n{{%s}}\n</script>" % name, '<script defer src="%s"></script>' % put(name, read(S / name)))
-clips = [B / "clips" / (i.replace(":", "__") + ".mp4") for i in sorted(json.loads((B / "clips" / "approved.json").read_text()))]   # approved spell clips (build/clips/approved.json): only the site carries them, the offline file does not (the page shows a clip where <html data-clips> says where they are)
-for f in clips: (A / ("clip." + f.name)).write_bytes(f.read_bytes())
+# approved spell clips (build/clips/approved.json): the files live on the workspace branch (clips/<ns>__<spell>.mp4 and .webp poster), fetched into
+# build/clips3 (or $LGW_CLIPS) by build/clips_fetch.sh. Only the site carries them, the offline file does not. A build without them lists none
+# (wiki_data.py applies the same rule to window.SPCLIP); CI sets LGW_CLIPS_REQUIRED so a deploy never ships without the approved clips.
+import os
+CL = pathlib.Path(os.environ.get("LGW_CLIPS") or (B / "clips3"))
+appr = sorted(json.loads((B / "clips" / "approved.json").read_text()))
+clips = [i.replace(":", "__") for i in appr if (CL / (i.replace(":", "__") + ".mp4")).exists()]
+if len(clips) < len(appr):
+    print("clips: %d of %d approved clips are not in %s (bash build/clips_fetch.sh)" % (len(appr) - len(clips), len(appr), CL))
+    if os.environ.get("LGW_CLIPS_REQUIRED"): raise SystemExit("clips: approved clips missing, and LGW_CLIPS_REQUIRED is set")
+for n in clips:
+    for ext in (".mp4", ".webp"):
+        if (CL / (n + ext)).exists(): (A / ("clip." + n + ext)).write_bytes((CL / (n + ext)).read_bytes())
 if clips: site = site.replace("<html", '<html data-clips="static/clip."', 1)
 assert "{{" not in site, "template slot left unfilled"
 (ROOT / "index.html").write_text(site, encoding="utf-8")

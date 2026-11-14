@@ -124,6 +124,8 @@ In-game measurement: `pack_audit/measure/prep.py` writes `kubejs/lgw_items.json`
 Run those scripts from a folder that has no file named like a stdlib module (`enum.py` used to shadow `enum` and break `import json`; it is now `boss_audit/enum_jars.py`).
 `original/` is the v5 wiki the first `data.js` came from; `gear/prep.py` still reads it. The one-off `transform.py` that did the conversion is on the `workspace` branch.
 
+Spell clips (`pack_audit/spell_clips.py`, recipe in `docs/plans/2026-11-14-mechanics-effects-spells.md`): recorded from the real game (server and client under libfaketime at a quarter speed, 1080p drawn, 1280×720 60 fps out), one `<ns>__<spell>.mp4` and its `.webp` poster per spell, stored on the `workspace` branch in `clips/` (about 500 MB, so not on `main`). `build/clips/approved.json` lists the ids a person looked at; `build.py` and `patches/wiki_data.py` put those whose files are in `build/clips3` (or `$LGW_CLIPS`) on the site, never in the offline file. `bash build/clips_fetch.sh` fetches them; CI checks them out and stops if an approved one is missing (`LGW_CLIPS_REQUIRED`).
+
 ## Known weak spots
 - `data.js` is source but three derived passes (`curio_recipes`, `boss_stats`, `boss_order` curio part) still edit it in place; moving those into overlay JSON like gear would finish the job. At 3.4 MB, 1.3 MB of it embedded base64 icons, its diffs are unreadable.
 - `app.js` is one ~1,500-line file with globals; `gear.js` now plugs in through `EXT` (route and tooltip hooks), so load order only needs `app.js` first.
