@@ -369,6 +369,7 @@ def main():
         if goety:   # cast ticks: 0 instant, 72000 held until let go, else a charge
             ct = s.get('cast') or 0; t = 5.0 if ct >= 72000 else ct / 20; lvl = 0
             if not st.get('nocast') and ct: st = dict(st, after=sorted(st.get('after', []) + [[100 if ct >= 72000 else ct + 10, 'btn:3:up']], key=lambda x: x[0]))
+            if s.get('kind') == 'SummonSpell' and 'secs' not in st: st = dict(st, secs=min(16.0, t + 10))   # the minion rises seconds after the cast (Blasting, cast 3 s, stood up at about 9 s in an 11 s clip)
         var = {'X': X, 'Z': Z, 'Xt': '%.1f' % (X + g), 'Zb': Z - 3, 'Xa': X + 1, 'Xb': X + 6, 'Za': Z - 2, 'Zc': Z + 3, 'Xn': '%.1f' % (X + g - 1.2), 'X4': X + 4,
                'Zm2': Z - 2, 'Xm3': X - 3, 'Xp3': X + 3, 'Zm3': Z - 3, 'Zp3': Z + 3, 'Xc': '%.1f' % (X - g + 0.5)}
         dur = st.get('secs') or (6.0 if s.get('cast') in ('INSTANT', 0) else min(11, t + 6.0))
