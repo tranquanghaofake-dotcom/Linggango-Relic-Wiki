@@ -43,6 +43,14 @@ WAND = ['setblock %(X)d -62 %(Z)d minecraft:barrel{Items:[{Slot:0b,id:"%(wand)s"
 # Goety stage by the spell's class (the export's `kind`); SETUP entries win: summons need a hostile mob for their minions to fight, block spells act on the
 # block the eye meets (35 degrees down meets the floor 2.3 blocks ahead), touch spells on a creature within reach
 GOETY_KIND = {'SummonSpell': {'target': 'husk'}, 'BlockSpell': {'pitch': 35}, 'TouchSpell': {'gap': 1.5}}
+# Goety focuses that need more than the class default (review of 2026-11-15): touch spells on a mob (the dummy takes the click itself), a teleport
+# and a ring of walls that leave the side camera's frame
+SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charge_focus': {'target': 'husk', 'gap': 1.5},
+              'goety:blink_focus': {'cam': 'far'}, 'goety:barricade_focus': {'cam': 'wide'},
+              # menus: the screen, enlarged (the menu is small at 1080p); the Ender Chest with something in it
+              'goety:crafting_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270'},
+              'goety:ender_chest_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270', 'pre': ['item replace entity RenderBot enderchest.%d with minecraft:%s' % (k, it) for k, it in
+                                          enumerate(('diamond 12', 'emerald 30', 'golden_apple 4', 'ender_pearl 16', 'iron_ingot 64', 'book 8'))]}})
 AN = 'ars_nouveau:glyph_'
 
 
