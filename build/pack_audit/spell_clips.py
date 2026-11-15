@@ -15,7 +15,8 @@ For each spell, on a fresh stage 100 blocks along z (forceloaded): a polished de
 Dummy at x+3.5 (its damage numbers), an invisible barrier column just behind the dummy (spells cast at the block the caster looks at land on the dummy);
 the caster aimed at the dummy's chest, in his school's robes with a staff, every spell power brought back to its base (the robes add spell power even with an
 empty AttributeModifiers tag); a camera that is not the player (CMDCam outside mode): side on from 6.5 blocks, field of view 50, a slow dolly;
-`/cast RenderBot <spell> <max level>` (every spell learned first; SETUP below changes the stage for spells that need more); the 1080p recording is re-timed and scaled to 1280x720 (lanczos: the downscale also smooths the edges) at 60 fps, H.264 CRF 23 (preset medium).
+`/cast RenderBot <spell> <max level>` (every spell learned first; SETUP below changes the stage for spells that need more); the 1080p recording is re-timed and scaled to 1280x720 (lanczos: the downscale also smooths the edges) at 60 fps, H.264 CRF 28, preset slow, tune animation
+(2026-11-15, to keep every system's clips under GitHub Pages' 1 GB: 52% of the size of CRF 23 medium, SSIM 0.98 against it on four sample clips).
 Poster: poster_frame() (the most spell colour while the caster is still in sight), 960x540 WebP.
 QC: OUT_DIR/qc.jsonl, one line per clip (new frames a second by new_frames(), bytes, poster frame, robe); --redo-below N records again the clips under N fps; the run stops if the client is gone.
 Length in game time: instant 6 s; long and continuous = cast time + 6 s, at most 11 s.
@@ -530,8 +531,8 @@ def main():
         renice = lambda n: [subprocess.run(['renice', '-n', str(n), '-p', t], capture_output=True) for p in cl if os.path.isdir('/proc/%s/task' % p) for t in os.listdir('/proc/%s/task' % p)]
         renice(19)
         part = dst[:-4] + '.part.mp4'   # written whole, then renamed: a run stopped half way leaves no clip that a resume would skip
-        r = subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-vf', 'setpts=PTS*%g,%sscale=1280:720:flags=lanczos' % (a.speed, (st['crop'] + ',') if st.get('crop') else ''), '-r', str(a.fps), '-an', '-c:v', 'libx264', '-preset', 'medium',
-                            '-crf', '23', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', part])
+        r = subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-vf', 'setpts=PTS*%g,%sscale=1280:720:flags=lanczos' % (a.speed, (st['crop'] + ',') if st.get('crop') else ''), '-r', str(a.fps), '-an', '-c:v', 'libx264', '-preset', 'slow',
+                            '-crf', '28', '-tune', 'animation', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', part])
         k = poster_frame(part)
         subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', part, '-vf', 'select=eq(n\\,%d),scale=960:540:flags=lanczos' % k, '-frames:v', '1', '-c:v', 'libwebp', '-quality', '80', dst[:-4] + '.webp'])
         # smoothness: new frames a second (new_frames); a clip under --redo-below is recorded again on the next run
