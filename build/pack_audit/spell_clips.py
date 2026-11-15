@@ -45,11 +45,13 @@ CAMS = {'side': ((0.1, -58.6, 7.0, 180, 5), (0.9, -58.65, 6.5, 180, 5)),        
         'behind': ((-11.0, -57.4, 1.6, -95, 8), (-10.4, -57.42, 1.2, -95, 8)),     # behind the caster, looking at the target: a wall built across the line
         'vfar': ((0.1, -52.0, 45.0, 180, 4), (0.9, -52.0, 44.0, 180, 4)),         # 45 blocks out: Supernova's black hole is 30 blocks across
         'top': ((0.1, -49.0, 9.0, 180, 50), (0.6, -49.0, 8.6, 180, 50)),           # high, looking down: marks on the floor (Bloodmark)
+        'jet': ((10.0, -38.0, 34.0, 180, -2), (11.0, -38.0, 33.0, 180, -2)),       # high and far: a flight above the stage
+        'jetc': ((2.0, -37.5, 17.0, 180, 0), (7.0, -37.5, 16.0, 180, 0)),        # beside the flight path, panning with it
         'eyes': (None, None)}                                                      # the player's own view (spells that change what the player sees)
 # what a spell needs that the plain stage lacks (2026-11-15: the 122 spells recipe 4 showed nothing for, sorted by cause; each was read from the spell's
 # checkPreCastConditions or found by trying). Keys: hold (main hand item instead of the staff), target, difficulty, pitch, cam, gap (caster to target, default
 # 3.5 each side of the centre), secs (clip length in game seconds), pre (commands after the stage is built), after ([ticks after the cast, command or 'cast' to
-# cast again, or 'key:<keysym>:down|up|tap' / 'click:<button>' for real input], in order), lead ([ticks before the cast, command]), before (commands in
+# (gear: commands after the robes and the held item; crop: an ffmpeg crop before the scale, a zoom on a small effect) cast again, or 'key:<keysym>:down|up|tap' / 'click:<button>' for real input], in order), lead ([ticks before the cast, command]), before (commands in
 # the same tick as the cast); these commands may use %(X)d, %(Z)d (stage centre), %(Xt)s (the target's x),
 # %(Zb)d (3 blocks behind the line, away from the camera), %(Xa)d..%(Xb)d and %(Za)d..%(Zc)d (a patch of floor around the target)
 DAMAGE_ME = 'execute at RenderBot run damage RenderBot 2 minecraft:mob_attack by @e[type=minecraft:husk,limit=1,sort=nearest]'   # an attack, to set off a buff that reacts to one
@@ -58,6 +60,7 @@ SECOND = 'summon minecraft:husk %(Xt)s -60 %(Zb)d.5 {NoAI:1b,Silent:1b,Persisten
 EXTINGUISH = 'execute at RenderBot run data merge entity @e[type=dummmmmmy:target_dummy,limit=1,sort=nearest] {Fire:0s}'   # a burning target takes less from the next hit
 # with a weapon just put in hand, the first /cast of its spell does nothing and the second works (2026-11-15 console probe, twice): 'prime' casts once and
 # waits that many ticks, more than the cast time, so the throwaway cast is over (a /cast during a cast cancels it) before the clip is recorded
+SECOND_SIDE = 'summon minecraft:husk %(X)d.5 -60 %(Zm2)d.5 {NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Tags:["t2"]}'   # beside the line, so a link between the two runs across the side camera's view (behind the target it ran away from the lens, end on)
 FACE_SECOND = 'execute as RenderBot at @s anchored eyes run tp @s ~ ~ ~ facing entity @e[tag=t2,limit=1] eyes'
 SETUP = {
     # Traveloptics weapon spells: checkPreCastConditions wants the weapon (any level) in the main hand
@@ -114,7 +117,7 @@ SETUP = {
     'traveloptics:vigor_siphon': {'pre': ['cast RenderBot irons_spellbooks:summon_vex 1'], 'cam': 'mid'},
     # fear and madness: a husk that moves (and a second creature for it to fight)
     # hostile targets
-    'somakespells:lightning_strike': {'target': 'husk'}, 'somakespells:ram_tchum': {'target': 'husk'},
+    'somakespells:lightning_strike': {'target': 'husk'}, 
     'traveloptics:flood_slash': {'target': 'husk'}, 'traveloptics:aqua_missiles': {'target': 'husk', 'cam': 'mid'}, 'peyroscythe:black_fireball': {'target': 'husk'},
     # a glow or a mark on the target
     'irons_spellbooks:blessing_of_life': {'cam': 'tclose'}, 'irons_spellbooks:blight': {'cam': 'tclose'},
@@ -124,8 +127,6 @@ SETUP = {
     'irons_spellbooks:planar_sight': {'cam': 'eyes', 'target': 'husk', 'pre': ['fill %(X)d -60 %(Za)d %(X)d -57 %(Zc)d minecraft:stone'], 'secs': 6},
     'irons_spellbooks:pocket_dimension': {'cam': 'eyes', 'secs': 8},
     'irons_spellbooks:recall': {'pre': ['spawnpoint RenderBot %(X)d -60 %(Zb)d'], 'cam': 'eyes', 'secs': 9},   # CMDCam loses the stage when Recall moves the player
-    'irons_spellbooks:summon_ender_chest': {'cam': 'eyes', 'secs': 5, 'pre': ['item replace entity RenderBot enderchest.%d with minecraft:%s' % (k, it) for k, it in
-                                            enumerate(('diamond 64', 'emerald 64', 'gold_ingot 64', 'ender_pearl 16', 'enchanted_golden_apple 8', 'netherite_ingot 4'))]},
     # spells that need the player to move: real key input
     'gtbcs_geomancy_plus:tremor_step': {'target': 'husk', 'after': [[5, 'key:w:down'], [7, 'key:Control_L:down'], [40, 'key:w:up'], [41, 'key:Control_L:up']], 'secs': 6},
     'irons_spellbooks:frost_step': {'after': [[2, 'data merge entity @e[type=irons_spellbooks:frozen_humanoid,limit=1,sort=nearest] {CustomNameVisible:0b}'],
@@ -140,25 +141,17 @@ SETUP = {
     'irons_spellbooks:throw': {'hold': 'minecraft:trident', 'cam': 'mid'},
     'irons_spellbooks:thunderstorm': {'target': 'husk', 'cam': 'farup', 'secs': 9},   # a strike every 40 ticks on each living non-ally in sight
     'irons_spellbooks:touch_dig': {'target': 'none', 'pitch': 14, 'cam': 'tclose', 'pre': ['fill %(X4)d -61 %(Za)d %(X4)d -61 %(Zc)d minecraft:diamond_ore']},
-    'irons_spellbooks:counterspell': {'target': 'pyromancer', 'after': [[40, 'cast'], [70, 'cast']], 'secs': 7},   # a casting mob to interrupt
     'irons_spellbooks:frostbite': {'target': 'husk_frozen', 'cam': 'mid', 'secs': 8,   # a fully frozen creature killed by the caster turns into an Ice Shadow
                                    'after': [[20, 'execute at RenderBot run damage @e[type=minecraft:husk,limit=1,sort=nearest] 5000 minecraft:player_attack by RenderBot']]},
     'irons_spellbooks:charge': {'lead': [[45, 'cast RenderBot irons_spellbooks:magic_missile 10']], 'after': [[45, 'cast RenderBot irons_spellbooks:magic_missile 10']], 'secs': 7},   # +15% spell power at level 3
-    'irons_spellbooks:spider_aspect': {'pre': ['effect give @e[type=dummmmmmy:target_dummy] minecraft:poison 60 0'],   # +40% against a poisoned target at level 8
-                                       'lead': [[45, 'cast RenderBot irons_spellbooks:magic_missile 10']], 'after': [[45, 'cast RenderBot irons_spellbooks:magic_missile 10']], 'secs': 7},
-    'legendary_spellbooks:ambush_thorns': {'target': 'husk_ai', 'gap': 1.6, 'cam': 'tclose', 'secs': 7, 'pre': ['effect give @e[type=minecraft:husk] minecraft:strength 60 1 true', 'effect give RenderBot minecraft:resistance 60 2 true']},   # thorns hurt the attacking husk
+    
     # only from a spellbook (canBeCastedBy refuses any other cast source): the book in the curio slot, the cast key (V) pressed
     'legendary_spellbooks:energy_beam': {'nocast': True, 'target': 'husk', 'cam': 'farup', 'secs': 9, 'after': [[0, 'key:v:tap']],
                                          'pre': ['curios replace spellbook 0 RenderBot with irons_spellbooks:netherite_spell_book{"irons_spellbooks:spell_container":{maxSpells:12,mustEquip:1b,spellWheel:1b,data:[{index:0,id:"legendary_spellbooks:energy_beam",locked:0b,level:1}]}}']},
     'legendary_spellbooks:annihilation_geyser': {'nocast': True, 'target': 'husk', 'cam': 'mid', 'secs': 14, 'after': [[0, 'key:v:tap']],   # and only from the Annihilator's Protocol
                                                  'pre': ['curios replace spellbook 0 RenderBot with legendary_spellbooks:annihilators_protocol{"irons_spellbooks:spell_container":{maxSpells:12,mustEquip:1b,spellWheel:1b,data:[{index:0,id:"legendary_spellbooks:annihilation_geyser",locked:0b,level:1}]}}']},
-    'legendary_spellbooks:fossilized_fury': {'difficulty': 'easy', 'target': 'husk', 'cam': 'wide', 'secs': 14,   # the raptors act once there is an enemy
-                                             'after': [[10, 'execute at RenderBot run damage @e[type=minecraft:husk,limit=1,sort=nearest] 1 minecraft:player_attack by RenderBot']]},
-    'legendary_spellbooks:annihilation_resonance': {'hold': 'minecraft:netherite_sword', 'gap': 1.8, 'target': 'husk', 'cam': 'tclose',   # a critical hit: jump, then strike falling
-                                                    'after': [[15, 'key:space:tap'], [22, 'click:1'], [50, 'key:space:tap'], [57, 'click:1']]},
+    
     'peyroscythe:illusion_crazy': {'target': 'husk_ai', 'cam': 'mid', 'secs': 10, 'pre': ['summon minecraft:sheep %(Xt)s -60 %(Zb)d.5 {PersistenceRequired:1b}']},   # the maddened husk turns on a sheep
-    'peyroscythe:illusion_fear': {'target': 'husk_ai', 'cam': 'mid', 'secs': 9, 'pre': ['fill %(Xb)d -60 %(Zm3)d %(Xb)d -58 %(Zp3)d minecraft:barrier', 'fill %(X)d -60 %(Zm3)d %(Xb)d -58 %(Zm3)d minecraft:barrier',
-                                                                                  'fill %(X)d -60 %(Zp3)d %(Xb)d -58 %(Zp3)d minecraft:barrier']},   # a pen open toward the caster (a closed one blocked the aim: 'This spell requires a target')
     'refined_mod:frost_strike': {'gap': 1.8, 'hold': 'minecraft:netherite_sword', 'target': 'husk', 'cam': 'mid', 'after': [[14, 'cast'], [28, 'cast']]},
     'refined_mod:moon_slash': {'hold': 'minecraft:netherite_sword', 'cam': 'mid'},
     'refined_mod:storm_blade': {'hold': 'minecraft:netherite_sword', 'target': 'husk', 'cam': 'tclose', 'after': [[15, 'cast']]},
@@ -174,20 +167,11 @@ SETUP = {
     'traveloptics:em_pulse': {'target': 'husk', 'gap': 1.75},
     'traveloptics:hydroshot': {'cam': 'tclose', 'after': [[12, 'cast'], [24, 'cast']]},
     'traveloptics:rainfall': {'target': 'husk', 'cam': 'farup', 'secs': 9},
-    'traveloptics:reversal': {'hold': 'minecraft:diamond_sword', 'gap': 1.75,   # lasts 8 ticks: hit at once; it strikes the first creature within 5 blocks
-                              'after': [[t, 'execute at RenderBot run damage RenderBot 8 minecraft:mob_attack by @e[type=dummmmmmy:target_dummy,limit=1,sort=nearest]'] for t in (2, 4)]},
     'traveloptics:astral_sense': {'target': 'husk_ai', 'cam': 'eyes', 'secs': 9},   # paths show for a mob that is walking
     'traveloptics:floodgate': {'target': 'husk_ai', 'gap': 1.6, 'cam': 'mid', 'secs': 9, 'pre': ['effect give @e[type=minecraft:husk] minecraft:strength 60 5 true']},   # a real attacker: a husk with AI and Strength VI beside the caster (a /damage hit did not set the buff off visibly)
-    'traveloptics:jet_steam': {'nogui': True, 'cam': 'eyes', 'secs': 6, 'pre': ['fill %(Xm3)d -61 %(Za)d %(Xb)d -56 %(Zc)d minecraft:water'],   # swimming: sprint under water
-                               'lead': [[20, 'key:w:down'], [18, 'key:Control_L:down']], 'after': [[40, 'key:w:up'], [41, 'key:Control_L:up']]},
-    'traveloptics:lingering_strain': {'before': ['cast @e[type=dummmmmmy:target_dummy,limit=1] traveloptics:lingering_strain 3'], 'nocast': True,   # on the dummy: a hit comes out as four smaller numbers
-                                      'after': [[10, 'execute at RenderBot run damage @e[type=dummmmmmy:target_dummy,limit=1,sort=nearest] 20 minecraft:player_attack by RenderBot']]},
+    
     'traveloptics:spectral_blink': {'target': 'husk', 'cam': 'eyes', 'secs': 5, 'after': [[10, 'key:Shift_L:down'], [16, 'key:Shift_L:up']]},   # crouch to blink to what you look at
-    'somakespells:blessed_connection': {'target': 'husk', 'cam': 'wide', 'secs': 9, 'pre': [SECOND], 'after': [[30, FACE_SECOND], [32, 'cast'],   # the beam shows when a heal is shared
-        [60, 'execute positioned %(Xt)s -60 %(Z)d.5 run damage @e[type=minecraft:husk,distance=..1,limit=1] 10'], [70, 'execute positioned %(Xt)s -60 %(Z)d.5 run effect give @e[type=minecraft:husk,distance=..1,limit=1] minecraft:instant_damage 1 1']]},
-    'somakespells:cursed_connection': {'target': 'husk', 'cam': 'wide', 'secs': 9, 'pre': [SECOND], 'after': [[30, FACE_SECOND], [32, 'cast'],   # the beam shows when damage is shared
-        [60, 'execute positioned %(Xt)s -60 %(Z)d.5 run damage @e[type=minecraft:husk,distance=..1,limit=1] 20 minecraft:generic']]},
-    'somakespells:chain_connection': {'target': 'husk', 'cam': 'wide', 'pre': [SECOND], 'after': [[30, FACE_SECOND], [32, 'cast']]},
+    
     'somakespells:bloodmark': {'cam': 'top', 'nogui': True, 'secs': 9, 'after': [[12, 'tp RenderBot %(Xm3)d -60 %(Zm3)d'], [13, 'cast'], [26, 'tp RenderBot %(Xp3)d -60 %(Zm3)d'], [27, 'cast'],   # marks the caster's feet
                                                      [40, 'tp RenderBot %(Xp3)d -60 %(Zp3)d'], [41, 'cast'], [54, 'tp RenderBot %(Xm3)d -60 %(Zp3)d'], [55, 'cast'], [68, 'cast']]},
     'somakespells:damned_demomans': {'target': 'husk_ai', 'gap': 1.6, 'cam': 'mid', 'secs': 5, 'pre': ['effect give @e[type=minecraft:husk] minecraft:strength 60 5 true']},   # the attacking husk brings the caster under 30% health: the caster explodes in flames (ends before the husk kills the caster)
@@ -207,14 +191,48 @@ SETUP = {
     'irons_spellbooks:gluttony': {'hud': True, 'cam': 'eyes', 'secs': 9, 'hold': 'minecraft:golden_apple 16', 'pre': ['mana set RenderBot 0', 'effect give RenderBot minecraft:hunger 2 255 true', 'attribute RenderBot irons_spellbooks:mana_regen modifier add 0-0-0-78-1 lgw_noregen -1 multiply_base',
                                           'attribute RenderBot irons_spellbooks:max_mana modifier add 0-0-0-78-2 lgw_smallbar -0.92 multiply'], 'level': 10,   # no natural regen and a 48-point bar: the meal's mana (26 at level 10) reads at a glance
                                   'after': [[10, 'btn:3:down'], [60, 'btn:3:up']]},   # eating refills the mana bar
-    'somakespells:overgrowth': {'level': 10, 'lead': [[70, 'cast RenderBot irons_spellbooks:poison_arrow 10']], 'after': [[45, 'cast RenderBot irons_spellbooks:poison_arrow 10']], 'secs': 8},   # nature has no instant bolt
     'traveloptics:reversal': {'hold': 'minecraft:diamond_sword', 'target': 'husk_ai', 'gap': 1.6, 'cam': 'mid', 'secs': 8, 'pre': ['effect give @e[type=minecraft:husk] minecraft:strength 60 2 true'],
                               'after': [x for t in range(8, 140, 8) for x in ([t - 1, 'clearCooldowns player RenderBot'], [t, 'cast'])]},   # an 8-tick window, renewed until the attacking husk lands a blow
-    'peyroscythe:illusion_fear': {'target': 'husk_ai', 'cam': 'far', 'secs': 9},
-    'legendary_spellbooks:annihilation_resonance': {'hold': 'minecraft:netherite_sword', 'gap': 1.8, 'target': 'husk', 'cam': 'mid', 'after': [[15, 'key:space:tap'], [22, 'click:1'], [50, 'key:space:tap'], [57, 'click:1']]},
-    'irons_spellbooks:counterspell': {'target': 'pyromancer', 'lead': [[40, 'execute at RenderBot run damage @e[type=irons_spellbooks:pyromancer,limit=1,sort=nearest] 1 minecraft:player_attack by RenderBot']], 'after': [[20, 'cast'], [40, 'cast'], [60, 'cast']], 'secs': 7},   # provoked, it casts at the caster
+    
     'somakespells:blood_cut': {'gap': 1.8, 'hold': 'minecraft:netherite_sword', 'cam': 'tclose', 'after': [[15, 'click:1'], [27, 'click:1'], [39, 'click:1']]},   # real hits
+    # --- 2026-11-15, round 8: the last 22 ---
+    # spells that link two creatures: Iron's skips the target check on a recast, so the second cast had no target; cooldown and recast cleared in between
+    'somakespells:chain_connection': {'target': 'husk', 'cam': 'mid', 'secs': 8, 'pre': [SECOND_SIDE], 'after': [[30, FACE_SECOND], [31, 'clearCooldowns player RenderBot'], [31, 'clearRecasts player RenderBot'], [32, 'cast']]},
+    'somakespells:cursed_connection': {'target': 'husk', 'cam': 'mid', 'secs': 9, 'pre': [SECOND_SIDE], 'after': [[30, FACE_SECOND], [31, 'clearCooldowns player RenderBot'], [31, 'clearRecasts player RenderBot'], [32, 'cast'],
+        [60, 'execute positioned %(Xt)s -60 %(Z)d.5 run damage @e[type=minecraft:husk,distance=..1,limit=1] 20 minecraft:generic'], [90, 'execute positioned %(Xt)s -60 %(Z)d.5 run damage @e[type=minecraft:husk,distance=..1,limit=1] 20 minecraft:generic']]},
+    'somakespells:blessed_connection': {'target': 'husk', 'cam': 'mid', 'secs': 9, 'pre': [SECOND_SIDE], 'after': [[30, FACE_SECOND], [31, 'clearCooldowns player RenderBot'], [31, 'clearRecasts player RenderBot'], [32, 'cast'],
+        [55, 'execute positioned %(Xt)s -60 %(Z)d.5 run damage @e[type=minecraft:husk,distance=..1,limit=1] 30'], [70, 'execute positioned %(Xt)s -60 %(Z)d.5 run effect give @e[type=minecraft:husk,distance=..1,limit=1] minecraft:instant_damage 1 2'],
+        [85, 'execute positioned %(Xt)s -60 %(Z)d.5 run effect give @e[type=minecraft:husk,distance=..1,limit=1] minecraft:instant_damage 1 2']]},   # instant damage heals undead
+    'irons_spellbooks:spider_aspect': {'level': 30, 'pre': ['effect give @e[type=dummmmmmy:target_dummy] minecraft:poison 60 0'],   # +5% a level against a poisoned target; the dummy keeps poison
+                                       'lead': [[45, 'cast RenderBot irons_spellbooks:magic_missile 10']], 'after': [[45, 'cast RenderBot irons_spellbooks:magic_missile 10']], 'secs': 7},
+    'somakespells:overgrowth': {'level': 10, 'hold': 'minecraft:bow', 'pre': ['give RenderBot minecraft:arrow 4'], 'secs': 12,   # a real bow shot before and after: the buff raises arrow damage
+                                'lead': [[95, 'btn:3:down'], [70, 'btn:3:up']], 'after': [[25, 'btn:3:down'], [50, 'btn:3:up']]},
+    'traveloptics:jet_steam': {'cam': 'jetc', 'secs': 6, 'gear': ['item replace entity RenderBot armor.chest with minecraft:elytra'],   # gliding (isFallFlying): high up, elytra opened, then the jet
+                               'lead': [[34, 'tp RenderBot %(Xc)s -36 %(Z)d.5 -90 0'], [26, 'key:space:tap'], [22, 'key:space:tap']]},
+    'irons_spellbooks:counterspell': {'cam': 'tclose', 'secs': 6, 'pre': ['cast @e[type=dummmmmmy:target_dummy,limit=1] irons_spellbooks:summon_vex 1'],   # a magic summon (the dummy's Vex) is dispelled
+                                      'lead': [[40, 'data merge entity @e[type=irons_spellbooks:summoned_vex,limit=1] {NoAI:1b}'], [38, 'tp @e[type=irons_spellbooks:summoned_vex,limit=1] %(Xn)s -59.5 %(Z)d.5']],
+                                      'before': ['execute as RenderBot at @s anchored eyes run tp @s ~ ~ ~ facing entity @e[type=irons_spellbooks:summoned_vex,limit=1,sort=nearest] eyes']},
+    'legendary_spellbooks:fossilized_fury': {'difficulty': 'easy', 'target': 'husk', 'cam': 'close', 'secs': 14,   # once the 80-tick cast is over, the caster strikes the husk and the raptors join in
+                                             'after': [[t, 'execute at RenderBot run damage @e[type=minecraft:husk,limit=1,sort=nearest] 1 minecraft:player_attack by RenderBot'] for t in (90, 130, 170)]},
+    'legendary_spellbooks:annihilation_resonance': {'hold': 'minecraft:netherite_sword', 'prime': 60, 'gap': 1.8, 'target': 'husk', 'cam': 'mid', 'secs': 9,   # critical hits (a jump, a blow while falling) set off the annihilation blast
+                                                    'after': [x for t in (45, 75, 105, 135) for x in ([t, 'key:space:down'], [t + 3, 'key:space:up'], [t + 8, 'click:1'])]},   # the jump key held 3 ticks (a 0.1 s tap is under a tick at quarter speed)
+    'legendary_spellbooks:ambush_thorns': {'level': 10, 'secs': 9, 'after': [[t, 'execute at RenderBot run damage RenderBot 6 minecraft:mob_attack by @e[type=dummmmmmy:target_dummy,limit=1,sort=nearest]'] for t in range(40, 160, 15)]},   # after the 30-tick cast: a hit during it interrupts the cast
+    'traveloptics:lingering_strain': {'nocast': True, 'secs': 7,   # the same 20 hit before (one number) and after (split in four)
+                                      'lead': [[40, 'execute at RenderBot run damage @e[type=dummmmmmy:target_dummy,limit=1,sort=nearest] 20 minecraft:player_attack by RenderBot']],
+                                      'before': ['cast @e[type=dummmmmmy:target_dummy,limit=1] traveloptics:lingering_strain 3'],
+                                      'after': [[20, 'execute at RenderBot run damage @e[type=dummmmmmy:target_dummy,limit=1,sort=nearest] 20 minecraft:player_attack by RenderBot']]},
+    'peyroscythe:illusion_fear': {'target': 'pig', 'cam': 'mid', 'secs': 10, 'level': 3, 'pre': ['attribute RenderBot irons_spellbooks:spell_power modifier add 0-0-0-78-3 lgw_power 9 multiply']},   # a pig (a hostile husk kept attacking); fear lasts 0.8 s per spell power
+    'traveloptics:violent_skreech': {'cam': 'tclose', 'secs': 8},   # its particle comes from Alex's Mobs, absent: the damage is what shows
+    'somakespells:ram_tchum': {'gap': 1.8, 'cam': 'mid', 'after': [[20, 'cast'], [40, 'cast']]},   # hits only within 3.5 blocks; its ring particle is from a mod the pack lacks
+    # small effects that fly from the caster: first person, zoomed on the middle of the frame
+    'irons_spellbooks:summon_ender_chest': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:300', 'pre': ['item replace entity RenderBot enderchest.%d with minecraft:%s' % (k, it) for k, it in
+                                            enumerate(('diamond 64', 'emerald 64', 'gold_ingot 64', 'ender_pearl 16', 'enchanted_golden_apple 8', 'netherite_ingot 4'))]},
 }
+for _k, _extra in (('irons_spellbooks:throw', {'hold': 'minecraft:trident'}), ('irons_spellbooks:sonic_boom', {'target': 'husk'}), ('somakespells:resonant_pulse', {'after': [[10, 'cast'], [20, 'cast']]}),
+                   ('refined_mod:storm_blade', {'hold': 'minecraft:netherite_sword', 'target': 'husk'}), ('refined_mod:moon_slash', {'hold': 'minecraft:netherite_sword'}),
+                   ('refined_mod:frost_strike', {'hold': 'minecraft:netherite_sword', 'target': 'husk', 'gap': 1.8, 'after': [[14, 'cast'], [28, 'cast']]}),
+                   ('somakespells:blood_cut', {'hold': 'minecraft:netherite_sword', 'gap': 1.8, 'after': [[15, 'click:1'], [27, 'click:1'], [39, 'click:1']]})):
+    SETUP[_k] = dict(_extra, cam='eyes', crop='crop=960:540:480:300')
 # projectiles that fly from the caster's eyes: first person keeps them in view the whole way
 for _k in ('traveloptics:despair', 'somakespells:lightning_spear', 'somakespells:resonant_pulse', 'irons_spellbooks:throw', 'irons_spellbooks:sonic_boom', 'refined_mod:storm_blade', 'refined_mod:moon_slash'):
     SETUP[_k] = dict(SETUP.get(_k, {}), cam='eyes')
@@ -337,18 +355,18 @@ def main():
         st = SETUP.get(s['id'], {}); tg = TARGETS[st.get('target', a.target)]
         X, Z = 4000, a.z0 + 100 * i; g = st.get('gap', 3.5); lvl = st.get('level') or s.get('maxLevel') or 1; t = (s.get('castTime') or 0) / 20
         var = {'X': X, 'Z': Z, 'Xt': '%.1f' % (X + g), 'Zb': Z - 3, 'Xa': X + 1, 'Xb': X + 6, 'Za': Z - 2, 'Zc': Z + 3, 'Xn': '%.1f' % (X + g - 1.2), 'X4': X + 4,
-               'Xm3': X - 3, 'Xp3': X + 3, 'Zm3': Z - 3, 'Zp3': Z + 3, 'Xc': '%.1f' % (X - g + 0.5)}
+               'Zm2': Z - 2, 'Xm3': X - 3, 'Xp3': X + 3, 'Zm3': Z - 3, 'Zp3': Z + 3, 'Xc': '%.1f' % (X - g + 0.5)}
         dur = st.get('secs') or (6.0 if s.get('cast') == 'INSTANT' else min(11, t + 6.0))
         c(['cam-server stop RenderBot', 'effect clear RenderBot', 'effect give RenderBot minecraft:instant_health 1 20 true', 'weather clear', 'time set ' + a.time,
            'gamerule doDaylightCycle false', 'difficulty ' + st.get('difficulty', a.difficulty or tg[2]), 'curios clear RenderBot spellbook',
-           'clearCooldowns player RenderBot', 'clearRecasts player RenderBot', 'gamemode survival RenderBot', 'attribute RenderBot irons_spellbooks:mana_regen modifier remove 0-0-0-78-1', 'attribute RenderBot irons_spellbooks:max_mana modifier remove 0-0-0-78-2',   # /cast still waits out a spell's cooldown (Supernova 180 s, Dead King 3600 s), so a second take of a spell cast nothing
+           'clearCooldowns player RenderBot', 'clearRecasts player RenderBot', 'gamemode survival RenderBot', 'attribute RenderBot irons_spellbooks:mana_regen modifier remove 0-0-0-78-1', 'attribute RenderBot irons_spellbooks:max_mana modifier remove 0-0-0-78-2', 'attribute RenderBot irons_spellbooks:spell_power modifier remove 0-0-0-78-3',   # /cast still waits out a spell's cooldown (Supernova 180 s, Dead King 3600 s), so a second take of a spell cast nothing
            'forceload remove all', 'forceload add %d %d %d %d' % (X - 24, Z - 24, X + 24, Z + 24)], 15)
         c(['tp RenderBot %.1f -60 %d' % (X - g, Z), 'fill %d -61 %d %d -61 %d minecraft:polished_deepslate' % (X - 24, Z - 24, X + 24, Z + 24),
            'fill %d -60 %d %d -56 %d minecraft:barrier' % (int(X + g + 1.5), Z - 1, int(X + g + 1.5), Z + 1), 'kill @e[type=!player]',
            ('summon %s %.1f -60 %.1f %s' % (tg[0], X + g, Z + 0.5, tg[1])).rstrip() if tg[0] else 'time query gametime'] + [p % var for p in st.get('pre', [])], 10)   # a trailing space fails the command
         robe = ROBE.get((s.get('school') or '').split(':')[-1], 'wandering_magician')
         c(['item replace entity RenderBot armor.%s with irons_spellbooks:%s_%s' % (slot, robe, part) for slot, part in (('head', 'helmet'), ('chest', 'chestplate'), ('legs', 'leggings'), ('feet', 'boots'))]
-          + ['item replace entity RenderBot weapon.mainhand with ' + st.get('hold', 'irons_spellbooks:graybeard_staff')], 4)
+          + ['item replace entity RenderBot weapon.mainhand with ' + st.get('hold', 'irons_spellbooks:graybeard_staff')] + [x % var for x in st.get('gear', [])], 4)   # gear: after the robes and the held item
         off = neutral(robe + '|' + st.get('hold', '') + '|' + str(any('curios' in x for x in st.get('pre', []))))
         if a.prime and not st.get('nocast') and not st.get('prime'): st = dict(st, prime=int(s.get('castTime') or 0) + 40)   # --prime: every spell gets the throwaway cast
         if st.get('prime'):   # a throwaway cast after the weapon is in hand, waited out before recording (the note above the weapon spells in SETUP)
@@ -402,7 +420,7 @@ def main():
         renice = lambda n: [subprocess.run(['renice', '-n', str(n), '-p', t], capture_output=True) for p in cl if os.path.isdir('/proc/%s/task' % p) for t in os.listdir('/proc/%s/task' % p)]
         renice(19)
         part = dst[:-4] + '.part.mp4'   # written whole, then renamed: a run stopped half way leaves no clip that a resume would skip
-        r = subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-vf', 'setpts=PTS*%g,scale=1280:720:flags=lanczos' % a.speed, '-r', str(a.fps), '-an', '-c:v', 'libx264', '-preset', 'medium',
+        r = subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', raw, '-vf', 'setpts=PTS*%g,%sscale=1280:720:flags=lanczos' % (a.speed, (st['crop'] + ',') if st.get('crop') else ''), '-r', str(a.fps), '-an', '-c:v', 'libx264', '-preset', 'medium',
                             '-crf', '23', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', part])
         k = poster_frame(part)
         subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', part, '-vf', 'select=eq(n\\,%d),scale=960:540:flags=lanczos' % k, '-frames:v', '1', '-c:v', 'libwebp', '-quality', '80', dst[:-4] + '.webp'])
