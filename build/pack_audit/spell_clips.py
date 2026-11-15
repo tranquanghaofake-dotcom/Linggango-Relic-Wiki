@@ -44,26 +44,6 @@ WAND = ['setblock %(X)d -62 %(Z)d minecraft:barrel{Items:[{Slot:0b,id:"%(wand)s"
 # Goety stage by the spell's class (the export's `kind`); SETUP entries win: summons need a hostile mob for their minions to fight, block spells act on the
 # block the eye meets (35 degrees down meets the floor 2.3 blocks ahead), touch spells on a creature within reach
 GOETY_KIND = {'SummonSpell': {'target': 'husk'}, 'BlockSpell': {'pitch': 35}, 'TouchSpell': {'gap': 1.5}}
-# Goety focuses that need more than the class default (review of 2026-11-15): touch spells on a mob (the dummy takes the click itself), a teleport
-# and a ring of walls that leave the side camera's frame
-SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charge_focus': {'target': 'husk', 'gap': 1.5},
-              'goety:blink_focus': {'cam': 'far'}, 'goety:barricade_focus': {'cam': 'wide'}, 'goety:ghastly_focus': {'cam': 'wide'}, 'goety:guardian_focus': {'cam': 'wide'},   # minions out of the side frame
-              'goety:glow_light_focus': {'pitch': 30}, 'goety:soul_light_focus': {'pitch': 30},   # the light ball forms where the shot meets a block
-              'goety:overgrowth_focus': {'cam': 'wide'}, 'goety:phantasm_focus': {'cam': 'wide', 'pre': ['time set 13800']},   # phantoms burn in the evening sun
-              'goety:pulverize_focus': {'pre': ['fill %(Xm3)d -61 %(Zm2)d %(X)d -61 %(Zc)d minecraft:cobblestone']},   # cobblestone turns to gravel
-              'goety:rotation_focus': {'pre': ['execute positioned %(X)d -60 %(Z)d run setblock ~-1 ~ ~ minecraft:oak_stairs[facing=east]']},   # a block that turns, where the 35-degree eye ray meets it
-              'goety:shockwave_focus': {'target': 'husk', 'gap': 1.5}, 'goety:temblor_clap_focus': {'target': 'husk', 'gap': 1.5}, 'goety:trembling_focus': {'target': 'husk', 'gap': 1.5},
-              'goety:sword_focus': {'gear': ['item replace entity RenderBot weapon.offhand with minecraft:diamond_sword']},   # throws a copy of the sword in the off hand
-              'goety:telekinesis_focus': {'target': 'pig'}, 'goety:wind_blast_focus': {'target': 'pig'},   # moves a creature (the dummy stays put)
-              'goety:water_whip_focus': {'gap': 1.5},   # a short tentacle
-              # the caster's own bars: survival (creative hides armour and hearts) with soul energy from the console, the player's view with the HUD
-              'goety:iron_hide_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60},
-              'goety:soul_heal_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'pre': ['damage RenderBot 12 minecraft:generic']},
-              'goety:fire_blast_focus': {'target': 'husk', 'gap': 1.5}, 'goety:frost_nova_focus': {'target': 'husk', 'gap': 1.5},   # a blast on the caster: a mob beside him
-              # menus: the screen, enlarged (the menu is small at 1080p); the Ender Chest with something in it
-              'goety:crafting_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270'},
-              'goety:ender_chest_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270', 'pre': ['item replace entity RenderBot enderchest.%d with minecraft:%s' % (k, it) for k, it in
-                                          enumerate(('diamond 12', 'emerald 30', 'golden_apple 4', 'ender_pearl 16', 'iron_ingot 64', 'book 8'))]}})
 AN = 'ars_nouveau:glyph_'
 
 
@@ -333,6 +313,26 @@ def ars_staff(n):
             % (n, name, name, r, g, b, recipe))
 for _n in ARS_EXAMPLES:
     SETUP['ars_n_spells:ars_cross_%d' % _n] = {'hold': ars_staff(_n), 'pre': ['gamemode creative RenderBot'], 'cam': 'mid' if _n in (6, 7) else 'side', 'difficulty': 'easy'}
+# Goety focuses that need more than the class default (review of 2026-11-15): touch spells on a mob (the dummy takes the click itself), a teleport
+# and a ring of walls that leave the side camera's frame
+SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charge_focus': {'target': 'husk', 'gap': 1.5},
+              'goety:blink_focus': {'cam': 'far'}, 'goety:barricade_focus': {'cam': 'wide'}, 'goety:ghastly_focus': {'cam': 'wide'}, 'goety:guardian_focus': {'cam': 'wide'},   # minions out of the side frame
+              'goety:glow_light_focus': {'pitch': 30}, 'goety:soul_light_focus': {'pitch': 30},   # the light ball forms where the shot meets a block
+              'goety:overgrowth_focus': {'cam': 'wide'}, 'goety:phantasm_focus': {'cam': 'wide', 'pre': ['time set 13800']},   # phantoms burn in the evening sun
+              'goety:pulverize_focus': {'pre': ['fill %(Xm3)d -61 %(Zm2)d %(X)d -61 %(Zc)d minecraft:cobblestone']},   # cobblestone turns to gravel
+              'goety:rotation_focus': {'pre': ['execute positioned %(X)d -60 %(Z)d run setblock ~-1 ~ ~ minecraft:oak_stairs[facing=east]']},   # a block that turns, where the 35-degree eye ray meets it
+              'goety:shockwave_focus': {'target': 'husk', 'gap': 1.5}, 'goety:temblor_clap_focus': {'target': 'husk', 'gap': 1.5}, 'goety:trembling_focus': {'target': 'husk', 'gap': 1.5},
+              'goety:sword_focus': {'gear': ['item replace entity RenderBot weapon.offhand with minecraft:diamond_sword']},   # throws a copy of the sword in the off hand
+              'goety:telekinesis_focus': {'target': 'pig'}, 'goety:wind_blast_focus': {'target': 'pig'},   # moves a creature (the dummy stays put)
+              'goety:water_whip_focus': {'gap': 1.5},   # a short tentacle
+              # the caster's own bars: survival (creative hides armour and hearts) with soul energy from the console, the player's view with the HUD
+              'goety:iron_hide_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60},
+              'goety:soul_heal_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'pre': ['damage RenderBot 12 minecraft:generic']},
+              'goety:fire_blast_focus': {'target': 'husk', 'gap': 1.5}, 'goety:frost_nova_focus': {'target': 'husk', 'gap': 1.5},   # a blast on the caster: a mob beside him
+              # menus: the screen, enlarged (the menu is small at 1080p); the Ender Chest with something in it
+              'goety:crafting_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270'},
+              'goety:ender_chest_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270', 'pre': ['item replace entity RenderBot enderchest.%d with minecraft:%s' % (k, it) for k, it in
+                                          enumerate(('diamond 12', 'emerald 30', 'golden_apple 4', 'ender_pearl 16', 'iron_ingot 64', 'book 8'))]}})
 ATTR = ['spell_power', 'cast_time_reduction', 'cooldown_reduction'] + [k + '_spell_power' for k in ('fire', 'ice', 'lightning', 'holy', 'ender', 'blood', 'evocation', 'nature', 'eldritch')]
 
 
