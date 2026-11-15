@@ -329,6 +329,7 @@ SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charg
               'goetyawaken:blood_rain_focus': {'cam': 'wide'},   # the hell cloud forms above the side frame
               'goetyawaken:chip_focus': {'target': 'husk'}, 'goetyawaken:chip_rain_focus': {'target': 'husk'},   # fire at a hostile target only
               'goetyawaken:ghost_havoc_focus': {'target': 'husk'}, 'goetyawaken:ghost_missile_focus': {'target': 'husk'},
+              'goetyawaken:marble_focus': {'pitch': 30},   # places its block where the eye meets the floor
               'goetyawaken:desert_plagues_focus': {'secs': 16}, 'goetyawaken:great_meteor_focus': {'cam': 'far'},   # a 10 s cast; a blast whose smoke filled the side camera
               # only a lich casts it: lichdom from Goety's own command for this clip, taken back before the next (a lasting state, as Bulwark's shields were)
               'goetyawaken:champion_focus': {'pre': ['lichdom grant RenderBot'], 'after': [[310, 'lichdom revoke RenderBot']]},
