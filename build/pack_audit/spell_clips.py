@@ -46,7 +46,13 @@ GOETY_KIND = {'SummonSpell': {'target': 'husk'}, 'BlockSpell': {'pitch': 35}, 'T
 # Goety focuses that need more than the class default (review of 2026-11-15): touch spells on a mob (the dummy takes the click itself), a teleport
 # and a ring of walls that leave the side camera's frame
 SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charge_focus': {'target': 'husk', 'gap': 1.5},
-              'goety:blink_focus': {'cam': 'far'}, 'goety:barricade_focus': {'cam': 'wide'},
+              'goety:blink_focus': {'cam': 'far'}, 'goety:barricade_focus': {'cam': 'wide'}, 'goety:ghastly_focus': {'cam': 'wide'}, 'goety:guardian_focus': {'cam': 'wide'},   # minions out of the side frame
+              'goety:glow_light_focus': {'pitch': 30},   # the light ball forms where the shot meets a block
+              'goety:overgrowth_focus': {'cam': 'wide'}, 'goety:phantasm_focus': {'cam': 'wide', 'pre': ['time set 13800']},   # phantoms burn in the evening sun
+              'goety:pulverize_focus': {'pre': ['fill %(Xm3)d -61 %(Zm2)d %(X)d -61 %(Zc)d minecraft:cobblestone']},   # cobblestone turns to gravel
+              'goety:rotation_focus': {'pre': ['execute positioned %(X)d -60 %(Z)d run setblock ~-1 ~ ~ minecraft:oak_stairs[facing=east]']},   # a block that turns, where the 35-degree eye ray meets it
+              'goety:shockwave_focus': {'target': 'husk', 'gap': 1.5},
+              'goety:fire_blast_focus': {'target': 'husk', 'gap': 1.5}, 'goety:frost_nova_focus': {'target': 'husk', 'gap': 1.5},   # a blast on the caster: a mob beside him
               # menus: the screen, enlarged (the menu is small at 1080p); the Ender Chest with something in it
               'goety:crafting_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270'},
               'goety:ender_chest_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270', 'pre': ['item replace entity RenderBot enderchest.%d with minecraft:%s' % (k, it) for k, it in
