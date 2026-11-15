@@ -62,7 +62,7 @@
     for (const x of G) { const e = Ei.get(x.i); if (!e) { bad.push('spells: ' + x.i + ' is on the Goety tab but not a focus in the export'); continue; }
       if (x.c !== e.cost || x.t !== e.cast || x.cd !== e.cooldown || x.y !== (e.type || 'NONE').toLowerCase()) bad.push('spells: ' + x.i + ' numbers differ from the export');
       if (!(x.y in GCOL)) bad.push('spells: Goety type "' + x.y + '" has no colour (GCOL in app.js)'); }
-    for (const id of window.SPCLIP || []) if (!(window.SPL || []).some(s => s.i === id) && !G.some(s => s.i === id)) bad.push('spells: a clip for ' + id + ', on neither tab');
+    for (const id of window.SPCLIP || []) if (![window.SPL, G, window.ASPL].some(L => (L || []).some(s => s.i === id))) bad.push('spells: a clip for ' + id + ', on no tab');
     location.hash = '#spells/goety'; await wait(80); render(); await wait(300);
     const cards = () => document.querySelectorAll('#gpl .spc').length;
     if (cards() !== Math.min(40, G.length)) bad.push('spells: the Goety tab first draws ' + cards() + ' cards');
@@ -71,4 +71,24 @@
     if (/undefined|NaN|\[object/.test(document.getElementById('main').innerText)) bad.push('spells: undefined, NaN or [object] on the Goety tab');
     location.hash = '#spells/irons_spellbooks:fireball'; await wait(80); render(); await wait(300);
     if (document.getElementById('sq')?.value !== 'irons_spellbooks:fireball' || document.querySelector('nav.mtabs a[aria-current]')?.getAttribute('href') !== '#spells') bad.push('spells: #spells/<id> no longer opens Iron\'s with the search filled'); }
+  // Spells > Ars Nouveau (2026-11-15): every glyph of the export's GlyphRegistry and nothing else; mana cost and on/off are the export's, the kind follows the
+  // glyph's type index; the tier is the pack's config (spell_systems.py), so here: 1 to 3, and one tier for each SpellTier object the export printed
+  { const A = window.ASPL || [], E = (await patchJSON('game_registry.json')).ars || [], Ei = new Map(E.map(g => [g.id, g])), KIND = {1: 'form', 5: 'augment', 8: 'effect', 10: 'effect', 15: 'filter'}, tierOf = new Map();
+    if (!A.length) bad.push('spells: window.ASPL is empty (Ars glyphs)');
+    if (new Set(A.map(g => g.i)).size !== A.length) bad.push('spells: an Ars glyph twice');
+    for (const g of E) if (!A.some(x => x.i === g.id)) bad.push('spells: the game has the glyph ' + g.id + ', the Ars tab lacks it');
+    for (const x of A) { const e = Ei.get(x.i); if (!e) { bad.push('spells: ' + x.i + ' is on the Ars tab but not a glyph in the export'); continue; }
+      if (x.c !== e.cost || !!x.x !== (e.enabled === false) || x.k !== KIND[e.type]) bad.push('spells: ' + x.i + ' cost, on/off or kind differ from the export');
+      if (!(x.k in ACOL)) bad.push('spells: Ars kind "' + x.k + '" has no colour (ACOL in app.js)');
+      if (![1, 2, 3].includes(x.r)) bad.push('spells: ' + x.i + ' has tier ' + x.r);
+      if (tierOf.has(e.tier) && tierOf.get(e.tier) !== x.r) bad.push('spells: ' + x.i + ' tier ' + x.r + ', another glyph of the same SpellTier has ' + tierOf.get(e.tier));
+      tierOf.set(e.tier, x.r); }
+    location.hash = '#spells/ars'; await wait(80); render(); await wait(300);
+    const cards = () => document.querySelectorAll('#apl .spc').length, count = () => document.getElementById('an')?.textContent;
+    if (cards() !== Math.min(40, A.length)) bad.push('spells: the Ars tab first draws ' + cards() + ' cards');
+    if (count() !== A.length + ' of ' + A.length) bad.push('spells: the Ars count says ' + count());
+    if (document.querySelector('nav.mtabs a[aria-current]')?.getAttribute('href') !== '#spells/ars') bad.push('spells: the Ars sub-tab is not marked');
+    if (/undefined|NaN|\[object/.test(document.getElementById('main').innerText)) bad.push('spells: undefined, NaN or [object] on the Ars tab');
+    const ar = document.getElementById('ar'); if (ar) { ar.value = '3'; ar.dispatchEvent(new Event('input')); const n3 = A.filter(x => x.r === 3).length;
+      if (count() !== n3 + ' of ' + A.length) bad.push('spells: the Ars tier filter (3) says ' + count() + ', expected ' + n3); } else bad.push('spells: no tier filter on the Ars tab'); }
   location.hash = '#home'; await wait(80); render(); }

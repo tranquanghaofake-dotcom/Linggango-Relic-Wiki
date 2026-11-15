@@ -29,3 +29,8 @@ The export is the list; these counts are only the expectation.
 ## Done when
 Every exported spell of the system has a card; every card has an approved clip or a stated reason; `bash build/check.sh` green; the site run
 green and `/build.txt` names the commit.
+
+## Progress
+- Goety: data and tab live (2026-11-15, 209 focuses); clips: `spell_clips.py --system goety` (creative, a Dark Wand holding the focus by a barrel copy, the right button), recording.
+- Ars Nouveau: data and tab (170 glyphs; tier from the pack's config, checked one to one against the export's SpellTier objects); clips not started.
+- Brutality: not started.

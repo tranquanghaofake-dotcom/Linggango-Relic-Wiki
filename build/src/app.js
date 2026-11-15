@@ -316,14 +316,14 @@ const EFFECTS=[
 function effHint(h){for(const e of EFFECTS){const m=h.match(e.re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/effects" title="${esc(TD(e.n))}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
 /* ---------- Spells: every spell the jars register (pack_audit/spells.py); the rows and icons come with wiki_pics.js (SPL, SPLI) ---------- */
 const SCOL={fire:"#e8602c",ice:"#7fd0ff",lightning:"#ffe14a",holy:"#fff3b0",ender:"#b36bff",blood:"#c0262d",evocation:"#79c84a",nature:"#5fbf4a",eldritch:"#5aa5a0",geo:"#b08a5a",aqua:"#3f8fe0"};
-// Spells has one sub-tab per spell system (2026-11-15, docs/plans/2026-11-15-spell-systems.md): #spells is Iron's, #spells/goety the Goety focuses;
-// #spells/<text> (not a tab name) is still Iron's with the search filled, as the Effects page links it
-const SPSYS=[["irons",N("Iron's Spells")],["goety",N("Goety")]];
+// Spells has one sub-tab per spell system (2026-11-15, docs/plans/2026-11-15-spell-systems.md): #spells is Iron's, #spells/goety the Goety focuses,
+// #spells/ars the Ars Nouveau glyphs; #spells/<text> (not a tab name) is still Iron's with the search filled, as the Effects page links it
+const SPSYS=[["irons",N("Iron's Spells")],["goety",N("Goety")],["ars",N("Ars Nouveau")]];
 function spellsTabs(){const hp=decodeURIComponent(location.hash).split("/"),tab=SPSYS.some(x=>x[0]===hp[1])?hp[1]:"irons",pre=(tab===hp[1]?hp.slice(2):hp.slice(1)).join("/");
  return {tab,pre,nav:`<nav class="mtabs" aria-label="${T("Spell systems")}">${SPSYS.map(([k,l])=>`<a href="#spells${k==="irons"?"":"/"+k}"${k===tab?' aria-current="page"':""}>${T(l)}</a>`).join("")}</nav>`}}
 function spellsPage(){
  document.title=T("Spells")+" · Linggango Wiki";needPics();
- const ST=spellsTabs();if(ST.tab==="goety")return goetySpells(ST);
+ const ST=spellsTabs();if(ST.tab!=="irons")return sysSpells(ST,SYSP[ST.tab]());
  const X=window.SPL||[],IC3=window.SPLI||{},EX=new Map((window.EFX||[]).map(e=>[e.i,e])),SM=40;
  const pretty=i=>i.split(":")[1].replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase()),cap=r=>r?r[0].toUpperCase()+r.slice(1):"";
  const rows=X.map(s=>({s,nm:s.n||pretty(s.i)})).sort((a,b)=>(a.s.s||"zzz").localeCompare(b.s.s||"zzz")||a.nm.localeCompare(b.nm));
@@ -347,30 +347,41 @@ ${ST.nav}<section class="s" id="m-spells"><p class="note">${T("School, rarity, l
   el("smore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(SM*3,hit.length-lim)})}</button>`:"";
   const b=el("smore").firstChild;if(b)b.onclick=()=>{lim+=SM*3;f(true)}};
  [q,ss,sr,sk,sm].forEach(x=>x.addEventListener("input",f));f()}
-// Spells > Goety: every focus the game registers (KubeJS lgw_registry.js in the full server -> patches/game_registry.json goety; pack_audit/spell_systems.py
-// -> patches/spells_goety.json), soul cost, cast and cooldown after the pack's config; the clip when one was approved
+// Spells > Goety and Spells > Ars Nouveau: every focus or glyph the game registers (KubeJS lgw_registry.js in the full server -> patches/game_registry.json;
+// pack_audit/spell_systems.py -> patches/spells_<system>.json), its numbers after the pack's config, the clip when one was approved. SYSP gives each
+// system's fields and filters; sysSpells draws the page (element ids start with the system's letter: #gq, #gy, #gpl ... for Goety, #aq ... for Ars)
 const GCOL={necromancy:"#4fbf5a",nether:"#c0392b",ill:"#d8c24a",frost:"#7fb8ff",geomancy:"#9a9a9a",wind:"#8fe3e6",storm:"#e3a33a",abyss:"#3a5fd0",wild:"#6fd06a",void:"#9b59d0",none:"#888"};
-function goetySpells(ST){
- const X=window.GSPL||[],IC4=window.GSPLI||{},SM=40,pretty=i=>i.split(":")[1].replace(/_focus$/,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
- const rows=X.map(s=>({s,nm:s.n||pretty(s.i)})).sort((a,b)=>a.nm.localeCompare(b.nm));
+const ACOL={form:"#6fa8dc",effect:"#c27ba0",augment:"#93c47d",filter:"#e0a050"},AKIND={form:N("Form"),effect:N("Effect"),augment:N("Augment"),filter:N("Filter")};
+const uniqBy=(X,f)=>[...new Set(X.map(f).filter(x=>x!=null&&x!==""))],secT=n=>Math.round(n/2)/10;
+const SYSP={
+ goety:()=>{const X=window.GSPL||[];return {X,IC:window.GSPLI||{},p:"g",sid:"goety-spells",name:N("Goety"),pretty:i=>i.split(":")[1].replace(/_focus$/,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase()),
+  col:s=>GCOL[s.y]||"#888",sub:s=>s.yn?esc(TD(s.yn)):"",find:s=>s.yn||"",
+  dl:s=>[[T("Soul cost"),s.c==null?"—":s.c],[T("Cast"),s.t==null?"—":s.t>=72000?T("Held"):s.t?`${secT(s.t)} s`:T("Instant")],[T("Cooldown"),s.cd==null?"—":`${secT(s.cd)} s`]],
+  note:T("Every Goety focus the game registers (Goety and its add-ons). Soul cost, cast time and cooldown are the running game's, after the pack's config."),ph:T("Find a focus, type or mod…"),
+  sel:[["y",T("All types"),uniqBy(X,x=>x.y).sort().map(k=>[k,TD((X.find(x=>x.y===k)||{}).yn||k)])],["m",T("All mods"),uniqBy(X,x=>x.m).sort((a,b)=>a.localeCompare(b)).map(m=>[m,m])]]}},
+ ars:()=>{const X=window.ASPL||[];return {X,IC:window.ASPLI||{},p:"a",sid:"ars-spells",name:N("Ars Nouveau"),pretty:i=>i.split(":")[1].replace(/^glyph_/,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase()),
+  col:s=>ACOL[s.k]||"#888",sub:s=>s.k?esc(T(AKIND[s.k])):"",find:s=>s.k?T(AKIND[s.k]):"",
+  dl:s=>[[T("Mana"),s.c==null?"—":s.c],[T("Tier"),s.r||"—"]],off:s=>s.x&&T("Turned off in this pack's spell config."),
+  note:T("Every Ars Nouveau glyph the game registers (Ars Nouveau and its add-ons). A spell is one form, then effects, each changed by the augments after it. Mana cost and tier are the running game's, after the pack's config."),ph:T("Find a glyph, kind or mod…"),
+  sel:[["k",T("All kinds"),["form","effect","augment","filter"].filter(k=>X.some(x=>x.k===k)).map(k=>[k,T(AKIND[k])])],["r",T("All tiers"),uniqBy(X,x=>x.r).sort().map(r=>[String(r),T("Tier {n}",{n:r})])],["m",T("All mods"),uniqBy(X,x=>x.m).sort((a,b)=>a.localeCompare(b)).map(m=>[m,m])]]}}};
+function sysSpells(ST,o){
+ const X=o.X,IC=o.IC,SM=40,p=o.p,rows=X.map(s=>({s,nm:s.n||o.pretty(s.i)})).sort((a,b)=>a.nm.localeCompare(b.nm));
  const clipBase=document.documentElement.dataset.clips,clips=new Set(window.SPCLIP||[]),clip=(s,nm)=>clipBase&&clips.has(s.i)?`<video class="spv" controls muted loop playsinline preload="none" title="${esc(TD(nm))}" poster="${clipBase}${s.i.replace(":","__")}.webp" src="${clipBase}${s.i.replace(":","__")}.mp4"></video>`:"";
- const sec=n=>Math.round(n/2)/10,cast=t=>t==null?"—":t>=72000?T("Held"):t?`${sec(t)} s`:T("Instant");
- const card=({s,nm})=>`<article class="spc" style="--sc:${GCOL[s.y]||"#888"}" id="spell-${esc(s.i.replace(/[:_]/g,"-"))}"><header>${IC4[s.i]?`<img class="spi" alt="" loading="lazy" src="data:image/png;base64,${IC4[s.i]}">`:`<span class="spi"></span>`}<div><h3>${esc(TD(nm))}</h3><small>${s.yn?esc(TD(s.yn)):""}</small></div></header>
+ const card=({s,nm})=>{const off=o.off&&o.off(s);return `<article class="spc"${off?" data-off":""} style="--sc:${o.col(s)}" id="spell-${esc(s.i.replace(/[:_]/g,"-"))}"><header>${IC[s.i]?`<img class="spi" alt="" loading="lazy" src="data:image/png;base64,${IC[s.i]}">`:`<span class="spi"></span>`}<div><h3>${esc(TD(nm))}</h3><small>${o.sub(s)}</small></div></header>
 ${clip(s,nm)}<p class="spg">${s.g?esc(TD(s.g)):""}</p>
-<dl class="spd"><dt>${T("Soul cost")}</dt><dd>${s.c==null?"—":s.c}</dd><dt>${T("Cast")}</dt><dd>${cast(s.t)}</dd><dt>${T("Cooldown")}</dt><dd>${s.cd==null?"—":`${sec(s.cd)} s`}</dd></dl>
-<small class="spm">${esc(s.m)} · ${esc(s.i)}</small></article>`;
- const opt=(v,l)=>`<option value="${esc(v)}">${l}</option>`,uniq=f=>[...new Set(X.map(f).filter(Boolean))];
- const types=uniq(x=>x.y).sort().map(k=>[k,(X.find(x=>x.y===k)||{}).yn||k]),mods=uniq(x=>x.m).sort((a,b)=>a.localeCompare(b));
- el("main").innerHTML=`${crumb(`<a href="#spells">${T("Spells")}</a>`,esc(T("Goety")))}${room("library",[],{head:`<h1>${T("Spells")}</h1><p class="lede">${T("Every spell the game registers, with the numbers the mods and the pack's config give them.")}</p>`,cols:4,label:T("Spells")})}
-${ST.nav}<section class="s" id="m-goety-spells"><p class="note">${T("Every Goety focus the game registers (Goety and its add-ons). Soul cost, cast time and cooldown are the running game's, after the pack's config.")}</p>
-<div class="rflt"><input id="gq" type="search" aria-label="${T("Find a focus, type or mod…")}" placeholder="${T("Find a focus, type or mod…")}"><select id="gy" aria-label="${T("All types")}"><option value="">${T("All types")}</option>${types.map(([k,n])=>opt(k,esc(TD(n)))).join("")}</select><select id="gm" aria-label="${T("All mods")}"><option value="">${T("All mods")}</option>${mods.map(m=>opt(m,esc(m))).join("")}</select><span id="gn"></span></div>
-<div class="spl" id="gpl"></div><div id="gmore"></div></section>${wikiNav()}`;
- const q=el("gq"),gy=el("gy"),gm=el("gm");let lim=SM;if(ST.pre)q.value=ST.pre;
- const f=more=>{if(more!==true)lim=SM;const v=q.value.trim().toLowerCase(),hit=rows.filter(({s,nm})=>(!gy.value||s.y===gy.value)&&(!gm.value||s.m===gm.value)&&(!v||(nm+" "+s.i+" "+s.m+" "+(s.yn||"")+" "+(s.g||"")).toLowerCase().includes(v)));
-  el("gpl").innerHTML=hit.slice(0,lim).map(card).join("");el("gn").textContent=T("{a} of {b}",{a:hit.length,b:rows.length});
-  el("gmore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(SM*3,hit.length-lim)})}</button>`:"";
-  const b=el("gmore").firstChild;if(b)b.onclick=()=>{lim+=SM*3;f(true)}};
- [q,gy,gm].forEach(x=>x.addEventListener("input",f));f()}
+<dl class="spd">${o.dl(s).map(([d,v])=>`<dt>${d}</dt><dd>${v}</dd>`).join("")}</dl>
+${off?`<p class="note">${off}</p>`:""}<small class="spm">${esc(s.m)} · ${esc(s.i)}</small></article>`};
+ const opt=(v,l)=>`<option value="${esc(v)}">${esc(l)}</option>`;
+ el("main").innerHTML=`${crumb(`<a href="#spells">${T("Spells")}</a>`,esc(T(o.name)))}${room("library",[],{head:`<h1>${T("Spells")}</h1><p class="lede">${T("Every spell the game registers, with the numbers the mods and the pack's config give them.")}</p>`,cols:4,label:T("Spells")})}
+${ST.nav}<section class="s" id="m-${o.sid}"><p class="note">${o.note}</p>
+<div class="rflt"><input id="${p}q" type="search" aria-label="${o.ph}" placeholder="${o.ph}">${o.sel.map(([k,all,opts])=>`<select id="${p}${k}" aria-label="${all}"><option value="">${all}</option>${opts.map(([v,l])=>opt(v,l)).join("")}</select>`).join("")}<span id="${p}n"></span></div>
+<div class="spl" id="${p}pl"></div><div id="${p}more"></div></section>${wikiNav()}`;
+ const q=el(p+"q"),ss=o.sel.map(([k])=>[k,el(p+k)]);let lim=SM;if(ST.pre)q.value=ST.pre;
+ const f=more=>{if(more!==true)lim=SM;const v=q.value.trim().toLowerCase(),hit=rows.filter(({s,nm})=>ss.every(([k,e])=>!e.value||String(s[k])===e.value)&&(!v||(nm+" "+s.i+" "+s.m+" "+o.find(s)+" "+(s.g||"")).toLowerCase().includes(v)));
+  el(p+"pl").innerHTML=hit.slice(0,lim).map(card).join("");el(p+"n").textContent=T("{a} of {b}",{a:hit.length,b:rows.length});
+  el(p+"more").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(SM*3,hit.length-lim)})}</button>`:"";
+  const b=el(p+"more").firstChild;if(b)b.onclick=()=>{lim+=SM*3;f(true)}};
+ [q,...ss.map(x=>x[1])].forEach(x=>x.addEventListener("input",f));f()}
 // Mechanics > Stats, "One hit": the nine steps as a track with the damage after each step, and a calculator (2026-11-14).
 // The rules are the pack's own: soft cap knee x sqrt(m / knee), knee 3.0 (Linggango Tweaks AccessoryLimitsMath.softened; config/linggango_tweaks-accessory_limits.toml);
 // floor 13% of the incoming hit and hit cap 1/2 max health, players only (linggango_tweaks-common.toml [damage_floor]); lifesteal at most 10% of max health a tick ([lifesteal_cap]);

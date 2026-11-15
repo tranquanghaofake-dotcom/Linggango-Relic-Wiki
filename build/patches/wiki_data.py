@@ -87,12 +87,20 @@ def _gsp(r):
         if r[k] not in (None, [], ""): o[f] = r[k]
     return o
 _gl = J("spells_goety.json")["spells"]; _gi2 = J("spell_icons_goety.json")
+# the Ars Nouveau glyphs (spell_systems.py -> spells_ars.json): name, description, mod, kind (form, effect, augment, filter), tier, mana cost, on or off
+def _asp(r):
+    o = {"i": r["id"], "n": r["name"] or "", "m": r["mod"]}
+    for k, f in (("kind", "k"), ("tier", "r"), ("cost", "c"), ("guide", "g")):
+        if r[k] not in (None, [], ""): o[f] = r[k]
+    if r["enabled"] is False: o["x"] = 1
+    return o
+_al = J("spells_ars.json")["spells"]; _ai = J("spell_icons_ars.json")
 # spell ids whose clip a person looked at and approved (build/clips/approved.json). The clips live on the workspace branch (clips/), fetched into
 # build/clips3 (or $LGW_CLIPS) by build/clips_fetch.sh; a build without them lists none (build.py applies the same rule and copies the files)
 import os as _os
 _cdir = pathlib.Path(_os.environ.get("LGW_CLIPS") or (H.parent / "clips3"))
 _appr = sorted(json.loads((H.parent / "clips" / "approved.json").read_text()))
-assert all(c in {r["id"] for r in _sl} | {r["id"] for r in _gl} for c in _appr), "an approved clip that is not a spell in spells.json or spells_goety.json"
+assert all(c in {r["id"] for r in _sl + _gl + _al} for c in _appr), "an approved clip that is not a spell in spells.json, spells_goety.json or spells_ars.json"
 _clips = [c for c in _appr if (_cdir / (c.replace(":", "__") + ".mp4")).exists()]
 pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(",", ":")) + ");\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_ui, separators=(",", ":")) + "))if(GUIDE[k])GUIDE[k].i=v;\n"
@@ -103,6 +111,7 @@ pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(
         + "window.EFXI=" + json.dumps(J("effect_icons.json"), separators=(",", ":")) + ";\n"
         + "window.SPL=" + json.dumps([_sp(r) for r in _sl], ensure_ascii=False, separators=(",", ":")) + ";window.SPLI=" + json.dumps(_si, separators=(",", ":")) + ";window.SPCLIP=" + json.dumps(_clips) + ";\n"
         + "window.GSPL=" + json.dumps([_gsp(r) for r in _gl], ensure_ascii=False, separators=(",", ":")) + ";window.GSPLI=" + json.dumps(_gi2, separators=(",", ":")) + ";\n"   # Spells > Goety (spell_systems.py)
+        + "window.ASPL=" + json.dumps([_asp(r) for r in _al], ensure_ascii=False, separators=(",", ":")) + ";window.ASPLI=" + json.dumps(_ai, separators=(",", ":")) + ";\n"   # Spells > Ars Nouveau
         + "window.PICS=1;if(typeof picsLoaded==='function')picsLoaded();\n")
 (H.parent / "src" / "wiki_pics.js").write_text(pics, encoding="utf-8")
 print("wiki_data.js", len(out) // 1024, "kB + wiki_pics.js", len(pics) // 1024, "kB")
