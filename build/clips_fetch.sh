@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Fetch the spell clips (the workspace branch's clips/: <ns>__<spell>.mp4 and its .webp poster) into build/clips3, without the rest of that branch.
 # build.py and patches/wiki_data.py put the approved ones (build/clips/approved.json) on the site; without them the build lists no clip.
-# CI does the same with actions/checkout (.github/workflows/site.yml). Needs network; about 300 MB (184 clips).
+# CI does the same with actions/checkout (.github/workflows/site.yml). Needs network; about 380 MB (233 clips).
 set -euo pipefail
 H="$(cd "$(dirname "$0")" && pwd)"; R="$(dirname "$H")"; T="$H/clips3"
 git -C "$R" fetch -q --filter=blob:none origin workspace:refs/remotes/origin/workspace
