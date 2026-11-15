@@ -53,4 +53,22 @@
     if (!document.title.startsWith(document.querySelector('nav.nav a[href="#spells"]').textContent.trim())) bad.push('spells: title ' + document.title);
     if (getComputedStyle(document.getElementById('side')).display !== 'none') bad.push('spells: the Filters column shows beside the Spells page');
   }
+  // Spells > Goety (2026-11-15): every focus the game export lists (an item with getSpell() whose id ends in _focus) and nothing else; the numbers are the export's;
+  // the sub-tabs switch the system and #spells/<text> stays Iron's with the search filled
+  { const G = window.GSPL || [], E = ((await patchJSON('game_registry.json')).goety || []).filter(g => g.id.endsWith('_focus')), Ei = new Map(E.map(g => [g.id, g]));
+    if (!G.length) bad.push('spells: window.GSPL is empty (Goety focuses)');
+    if (new Set(G.map(g => g.i)).size !== G.length) bad.push('spells: a Goety focus twice');
+    for (const g of E) if (!G.some(x => x.i === g.id)) bad.push('spells: the game has the focus ' + g.id + ', the Goety tab lacks it');
+    for (const x of G) { const e = Ei.get(x.i); if (!e) { bad.push('spells: ' + x.i + ' is on the Goety tab but not a focus in the export'); continue; }
+      if (x.c !== e.cost || x.t !== e.cast || x.cd !== e.cooldown || x.y !== (e.type || 'NONE').toLowerCase()) bad.push('spells: ' + x.i + ' numbers differ from the export');
+      if (!(x.y in GCOL)) bad.push('spells: Goety type "' + x.y + '" has no colour (GCOL in app.js)'); }
+    for (const id of window.SPCLIP || []) if (!(window.SPL || []).some(s => s.i === id) && !G.some(s => s.i === id)) bad.push('spells: a clip for ' + id + ', on neither tab');
+    location.hash = '#spells/goety'; await wait(80); render(); await wait(300);
+    const cards = () => document.querySelectorAll('#gpl .spc').length;
+    if (cards() !== Math.min(40, G.length)) bad.push('spells: the Goety tab first draws ' + cards() + ' cards');
+    if (document.getElementById('gn')?.textContent !== G.length + ' of ' + G.length) bad.push('spells: the Goety count says ' + document.getElementById('gn')?.textContent);
+    if (document.querySelector('nav.mtabs a[aria-current]')?.getAttribute('href') !== '#spells/goety') bad.push('spells: the Goety sub-tab is not marked');
+    if (/undefined|NaN|\[object/.test(document.getElementById('main').innerText)) bad.push('spells: undefined, NaN or [object] on the Goety tab');
+    location.hash = '#spells/irons_spellbooks:fireball'; await wait(80); render(); await wait(300);
+    if (document.getElementById('sq')?.value !== 'irons_spellbooks:fireball' || document.querySelector('nav.mtabs a[aria-current]')?.getAttribute('href') !== '#spells') bad.push('spells: #spells/<id> no longer opens Iron\'s with the search filled'); }
   location.hash = '#home'; await wait(80); render(); }

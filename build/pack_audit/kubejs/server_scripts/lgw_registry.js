@@ -1,4 +1,4 @@
-// Linggango wiki: dump every status effect and every spell the running game has registered (the game export the wiki's lists are checked against).
+// Linggango wiki: dump every status effect and every spell (Iron's, Goety focuses, Ars glyphs, Brutality) the running game has registered (the game export the wiki's lists are checked against).
 // Written for KubeJS's Rhino engine: var only, no destructuring. Writes kubejs/lgw_registry.json.
 // Run in game (op): /kubejs custom_command lgw_registry. On a dedicated server started only for this, create kubejs/lgw_registry_auto.json
 // ({"stop": true}) and the dump runs once the server has loaded, then the server stops.
@@ -50,6 +50,50 @@ LGWR.dump = function () {
       out.spells.push(r)
     }
   } catch (err) { out.errors.push('spells: ' + err) }
+  // the other spell systems (2026-11-15): Goety focuses (items whose class has getSpell: the focus and its spell, the soul cost, cast time and cooldown
+  // after the pack's config), Ars Nouveau glyphs (GlyphRegistry: type, tier, mana cost, enabled), Brutality spells (its SpellRegistry)
+  out.goety = []
+  try {
+    var ForgeRegistries2 = Java.loadClass('net.minecraftforge.registries.ForgeRegistries')
+    var ii = ForgeRegistries2.ITEMS.getKeys().iterator()
+    while (ii.hasNext()) {
+      var key = ii.next(), item = ForgeRegistries2.ITEMS.getValue(key), sp = null
+      try { if (typeof item.getSpell === 'function') sp = item.getSpell() } catch (err) { sp = null }
+      if (sp == null) continue
+      var g = { id: '' + key, cls: '' + sp.getClass().getName() }
+      var gt = { cost: function () { return sp.defaultSoulCost() }, cast: function () { return sp.defaultCastDuration() }, cooldown: function () { return sp.defaultSpellCooldown() },
+        type: function () { return '' + sp.getSpellType() }, kind: function () { return '' + sp.getClass().getSuperclass().getSimpleName() } }
+      for (var gk in gt) { try { g[gk] = gt[gk]() } catch (err) { g[gk] = null } }
+      out.goety.push(g)
+    }
+  } catch (err) { out.errors.push('goety: ' + err) }
+  out.ars = []
+  try {
+    var GlyphRegistry = Java.loadClass('com.hollingsworth.arsnouveau.api.registry.GlyphRegistry')
+    var gi = GlyphRegistry.getSpellpartMap().entrySet().iterator()
+    while (gi.hasNext()) {
+      var en2 = gi.next(), part = en2.getValue(), a = { id: '' + en2.getKey() }
+      var at = { name: function () { return '' + part.getName() }, cost: function () { return part.getCastingCost() }, tier: function () { return '' + part.getConfigTier() },
+        type: function () { return part.getTypeIndex() }, cls: function () { return '' + part.getClass().getSuperclass().getSimpleName() }, enabled: function () { return part.isEnabled() },
+        glyph: function () { return '' + ForgeRegistries2.ITEMS.getKey(part.getGlyph()) }, desc: function () { return '' + part.getBookDescription() } }
+      for (var ak in at) { try { a[ak] = at[ak]() } catch (err) { a[ak] = null } }
+      out.ars.push(a)
+    }
+  } catch (err) { out.errors.push('ars: ' + err) }
+  out.brutality = []
+  try {
+    var BSR = Java.loadClass('net.goo.brutality.magic.SpellRegistry')
+    var bi = BSR.SPELLS.entrySet().iterator()
+    while (bi.hasNext()) {
+      var en3 = bi.next(), b = en3.getValue(), r3 = { id: '' + en3.getKey(), cls: '' + b.getClass().getName() }
+      var bt = { name: function () { return '' + b.getSpellName() }, mana: function () { return b.getBaseManaCost() }, manaLv: function () { return b.getManaCostLevelScaling() },
+        damage: function () { return b.getBaseDamage() }, damageLv: function () { return b.getDamageLevelScaling() }, cooldown: function () { return b.getBaseCooldown() },
+        cooldownLv: function () { return b.getCooldownLevelScaling() }, cast: function () { return b.getBaseCastTime() }, castLv: function () { return b.getCastTimeLevelScaling() },
+        school: function () { return '' + b.getSchool() }, cats: function () { return '' + b.getCategories() }, icon: function () { return '' + b.getIcon() } }
+      for (var bk in bt) { try { r3[bk] = bt[bk]() } catch (err) { r3[bk] = null } }
+      out.brutality.push(r3)
+    }
+  } catch (err) { out.errors.push('brutality: ' + err) }
   JsonIO.write('kubejs/lgw_registry.json', out)
   return out
 }
