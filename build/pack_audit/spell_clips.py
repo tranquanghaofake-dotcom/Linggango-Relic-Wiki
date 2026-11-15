@@ -22,16 +22,68 @@ Length in game time: instant 6 s; long and continuous = cast time + 6 s, at most
 --system goety (patches/spells_goety.json): Goety has no cast command, so the caster casts as a player does, in creative mode (DarkWand.use skips the soul
 energy check when Abilities.instabuild): a Dark Wand holding the focus (the focus lives in the wand's item capability, ForgeCaps.Parent, which an item
 argument cannot set but a container's item NBT can: the wand is put in a barrel under the floor and copied into the hand with `item replace ... from block`), no armour,
-then the right button clicked (instant spells), held for the cast time plus half a second (charged), or held 5 s (continuous, cast 72000)."""
+then the right button clicked (instant spells), held for the cast time plus half a second (charged), or held 5 s (continuous, cast 72000).
+--system ars (patches/spells_ars.json): Ars has no cast command either: a Creative Spell Book whose one spell is set by NBT ("ars_nouveau:caster",
+the layout of SpellCaster.writeTag and Spell.serialize in the 1.20 source), the caster in creative mode (SpellResolver.enoughMana passes a creative
+player), the right button clicked. A glyph is shown inside a small spell (ars_stage): a form with Harm, an effect after Projectile (Self for the
+caster's own buffs, aimed at the floor for block effects, followed by Harm when it only passes the spell on), an augment cast twice in one clip,
+without and then with it, on a base spell its effect shows on.
+--system brutality (patches/spells_brutality.json): the school's tome holding the spell by NBT (SpellStorage: Spells[{SpellId, SpellLevel}],
+SelectedSpellIndex), mana filled through the brutality:max_mana and brutality:mana_regen attributes (Brutality's mana check has no creative pass),
+the right button clicked (instant), held for the cast time plus half a second (channelling) or 5 s (continuous)."""
 import os, re, json, math, time, subprocess, argparse
 H = os.path.dirname(os.path.abspath(__file__))
 SPELLS = os.path.join(H, '..', 'patches', 'spells.json')
-SYSTEMS = {'irons': SPELLS, 'goety': os.path.join(H, '..', 'patches', 'spells_goety.json')}
+SYSTEMS = {'irons': SPELLS, 'goety': os.path.join(H, '..', 'patches', 'spells_goety.json'), 'ars': os.path.join(H, '..', 'patches', 'spells_ars.json'),
+           'brutality': os.path.join(H, '..', 'patches', 'spells_brutality.json')}
+BTOME = {'cosmic': 'cosmic_tome', 'brimwielder': 'brimwielder_tome', 'umbrancy': 'umbral_tome', 'voidwalker': 'void_tome', 'celestia': 'celestia_tome',
+         'daemonic': 'daemonic_tome', 'darkist': 'darkist_tome', 'evergreen': 'evergreen_tome', 'exodic': 'exodic_tome'}
 WAND = ['setblock %(X)d -62 %(Z)d minecraft:barrel{Items:[{Slot:0b,id:"%(wand)s",Count:1b,ForgeCaps:{Parent:{Items:[{Slot:0,id:"%(focus)s",Count:1b}],Size:1}}}]}',
         'item replace entity RenderBot weapon.mainhand from block %(X)d -62 %(Z)d container.0', 'setblock %(X)d -62 %(Z)d minecraft:dirt']   # Goety: a wand with its focus, by a barrel under the floor (1.20.1 has no item-entity slot)
 # Goety stage by the spell's class (the export's `kind`); SETUP entries win: summons need a hostile mob for their minions to fight, block spells act on the
 # block the eye meets (35 degrees down meets the floor 2.3 blocks ahead), touch spells on a creature within reach
 GOETY_KIND = {'SummonSpell': {'target': 'husk'}, 'BlockSpell': {'pitch': 35}, 'TouchSpell': {'gap': 1.5}}
+AN = 'ars_nouveau:glyph_'
+
+
+def ars_book(parts, rgb=(255, 60, 200)):
+    """a Creative Spell Book holding one spell of these glyph ids"""
+    recipe = ','.join('part%d:"%s"' % (k, x) for k, x in enumerate(parts)) + ',size:%d' % len(parts)
+    return ('ars_nouveau:creative_spell_book{"ars_nouveau:caster":{current_slot:0,flavor:"",is_hidden:0b,hidden_recipe:"",spell_count:1,spells:{spell0:{name:"lgw",'
+            'spellColor:{r:%d,g:%d,b:%d,type:"ars_nouveau:constant"},recipe:{%s}}}}}' % (rgb + (recipe,)))
+
+
+# glyphs by the name after the namespace (the same name never appears in two add-ons here)
+ARS_SELF = {'glyph_glide', 'glyph_leap', 'glyph_slowfall', 'glyph_invisibility', 'glyph_bounce', 'glyph_bubble_shield', 'glyph_summon_steed', 'glyph_sense_magic',
+            'glyph_summon_decoy', 'glyph_effectconjureblade', 'glyph_effectconjurearrow', 'glyph_ender_inventory', 'glyph_craft'}
+ARS_FLOOR = {'glyph_break', 'glyph_place_block', 'glyph_conjure_terrain', 'glyph_conjure_water', 'glyph_crush', 'glyph_cut', 'glyph_fell', 'glyph_grow', 'glyph_harvest',
+             'glyph_interact', 'glyph_phantom_block', 'glyph_redstone_signal', 'glyph_rotate', 'glyph_smelt', 'glyph_light', 'glyph_evaporate', 'glyph_exchange',
+             'glyph_animate_block', 'glyph_rune', 'glyph_intangible', 'glyph_plow', 'glyph_flatten', 'glyph_effectraiseearth', 'glyph_effectdismantle', 'glyph_effecteruption'}
+ARS_WRAP = {'burst', 'glyph_delay', 'glyph_linger', 'glyph_wall', 'glyph_propagator_arc', 'glyph_propagator_homing', 'reset', 'rewind',
+            'glyph_propagate_projectile', 'glyph_propagate_self', 'glyph_propagate_underfoot', 'glyph_propagate_plane', 'glyph_chaining', 'glyph_reverse_direction',
+            'glyph_propdetonate', 'glyph_filternotself', 'glyph_spellefficiency'}
+# an augment's base spell: what it changes must show (damage numbers, speed, area, burning time, the dropped block)
+ARS_AUG_BASE = {'aoe': ([AN + 'projectile', AN + 'conjure_terrain'], {'pitch': 30}), 'extend': ([AN + 'projectile', AN + 'ignite'], {'secs': 14, 'again': 90}),
+                'duration': ([AN + 'projectile', AN + 'ignite'], {'secs': 14, 'again': 90}), 'extract': ([AN + 'projectile', AN + 'break'], {'pitch': 30}),
+                'fortune': ([AN + 'projectile', AN + 'break'], {'pitch': 30})}
+
+
+def ars_stage(s):
+    """the spell that shows one glyph, and the stage it needs (merged under SETUP)"""
+    g, k, n = s['id'], s.get('kind'), s['id'].split(':', 1)[1]
+    if k == 'form': return {'hold': ars_book([g, AN + ('leap' if n == 'glyph_self' else 'break' if n == 'glyph_underfoot' else 'harm')]), 'gap': 1.5 if n == 'glyph_touch' else 3.5}
+    if k == 'filter': return {'hold': ars_book([AN + 'projectile', g, AN + 'harm'])}
+    if k == 'augment':
+        fam = next((f for f in ARS_AUG_BASE if f in n.replace('extendtime', 'extend').replace('durationdown', 'duration').replace('duration_down', 'duration')), None)
+        base, st = ARS_AUG_BASE.get(fam, ([AN + 'projectile', AN + 'harm'], {}))
+        again = st.get('again', 50)   # ticks between the cast without the augment and the cast with it
+        return dict({k2: v for k2, v in st.items() if k2 != 'again'}, hold=ars_book(base), secs=st.get('secs', 10),
+                    after=[[again - 4, 'item replace entity RenderBot weapon.mainhand with ' + ars_book(base + [g], (60, 200, 255))], [again, 'click:3']])
+    if n == 'wololo': return {'hold': ars_book([AN + 'projectile', g]), 'target': 'sheep'}   # turns a sheep's colour
+    if n in ARS_SELF: return {'hold': ars_book([AN + 'self', g])}
+    if n in ARS_FLOOR: return {'hold': ars_book([AN + 'projectile', g]), 'pitch': 30}
+    if n in ARS_WRAP: return {'hold': ars_book([AN + 'projectile', g, AN + 'harm'])}
+    return {'hold': ars_book([AN + 'projectile', g])}
 ROBE = {'fire': 'pyromancer', 'ice': 'cryomancer', 'lightning': 'electromancer', 'holy': 'priest', 'blood': 'cultist', 'ender': 'shadowwalker', 'evocation': 'archevoker', 'nature': 'plagued'}
 # what the spells are cast at: the Target Dummy (shows damage numbers), or a mob that stands still and does not burn, for spells that need a living target;
 # the difficulty the stage needs (peaceful removes a hostile mob the tick it is summoned, so the husk needs easy; NoAI keeps it from attacking)
@@ -348,8 +400,8 @@ def main():
         if first: neutral_for[robe + '?'] = [at for at in ATTR if abs((ask('attribute RenderBot irons_spellbooks:%s get' % at) or 0) - 1) > 0.005]
         return neutral_for[robe + '?']
 
-    goety = a.system == 'goety'
-    spells = [s for s in json.load(open(SYSTEMS[a.system], encoding='utf-8'))['spells'] if goety or (s['enabled'] and s['ns'] in a.ns.split(','))]
+    goety, ars, brut = a.system == 'goety', a.system == 'ars', a.system == 'brutality'; player = goety or ars or brut   # player: cast by the player's right button, in creative mode
+    spells = [s for s in json.load(open(SYSTEMS[a.system], encoding='utf-8'))['spells'] if player or (s['enabled'] and s['ns'] in a.ns.split(','))]
     if a.only: spells = [s for s in spells if s['id'] in a.only.split(',')]
     if a.limit: spells = spells[:a.limit]
     c(['gamerule %s false' % g for g in ('sendCommandFeedback', 'logAdminCommands', 'mobGriefing', 'doDaylightCycle', 'doWeatherCycle', 'doMobSpawning',
@@ -364,18 +416,22 @@ def main():
         if os.path.exists(dst) and not (a.redo_below and qc.get(s['id'], {}).get('fps', 99) < a.redo_below): continue
         if subprocess.run(['pgrep', '-f', 'java -Djava.net.preferIPv6Addresses'], capture_output=True).returncode:   # the client is gone (a spell crashed it): stop, a restart resumes here
             print('client not running: stopped before ' + s['id'], flush=True); raise SystemExit(2)
-        st = dict(GOETY_KIND.get(s.get('kind'), {}) if goety else {}, **SETUP.get(s['id'], {})); tg = TARGETS[st.get('target', a.target)]
+        st = dict(GOETY_KIND.get(s.get('kind'), {}) if goety else ars_stage(s) if ars else {}, **SETUP.get(s['id'], {})); tg = TARGETS[st.get('target', a.target)]
         X, Z = 4000, a.z0 + 100 * i; g = st.get('gap', 3.5); lvl = st.get('level') or s.get('maxLevel') or 1; t = (s.get('castTime') or 0) / 20
         if goety:   # cast ticks: 0 instant, 72000 held until let go, else a charge
             ct = s.get('cast') or 0; t = 5.0 if ct >= 72000 else ct / 20; lvl = 0
             if not st.get('nocast') and ct: st = dict(st, after=sorted(st.get('after', []) + [[100 if ct >= 72000 else ct + 10, 'btn:3:up']], key=lambda x: x[0]))
             if s.get('kind') == 'SummonSpell' and 'secs' not in st: st = dict(st, secs=min(16.0, t + 10))   # the minion rises seconds after the cast (Blasting, cast 3 s, stood up at about 9 s in an 11 s clip)
+        if ars: t = 0; lvl = 0
+        if brut:
+            ct = s.get('castTicks') or 0; lvl = st.get('level', 1); t = ct / 20 if s.get('cast') == 'channelling' else 5.0 if s.get('cast') == 'continuous' else 0
+            if not st.get('nocast') and s.get('cast') != 'instant': st = dict(st, after=sorted(st.get('after', []) + [[ct + 10 if s.get('cast') == 'channelling' else 100, 'btn:3:up']], key=lambda x: x[0]))
         var = {'X': X, 'Z': Z, 'Xt': '%.1f' % (X + g), 'Zb': Z - 3, 'Xa': X + 1, 'Xb': X + 6, 'Za': Z - 2, 'Zc': Z + 3, 'Xn': '%.1f' % (X + g - 1.2), 'X4': X + 4,
                'Zm2': Z - 2, 'Xm3': X - 3, 'Xp3': X + 3, 'Zm3': Z - 3, 'Zp3': Z + 3, 'Xc': '%.1f' % (X - g + 0.5)}
-        dur = st.get('secs') or (6.0 if s.get('cast') in ('INSTANT', 0) else min(11, t + 6.0))
+        dur = st.get('secs') or (6.0 if ars or s.get('cast') in ('INSTANT', 0, 'instant') else min(11, t + 6.0))
         c(['cam-server stop RenderBot', 'effect clear RenderBot', 'effect give RenderBot minecraft:instant_health 1 20 true', 'weather clear', 'time set ' + a.time,
            'gamerule doDaylightCycle false', 'difficulty ' + st.get('difficulty', a.difficulty or tg[2]), 'curios clear RenderBot spellbook',
-           'clearCooldowns player RenderBot', 'clearRecasts player RenderBot', 'gamemode %s RenderBot' % ('creative' if goety else 'survival'), 'attribute RenderBot irons_spellbooks:mana_regen modifier remove 0-0-0-78-1', 'attribute RenderBot irons_spellbooks:max_mana modifier remove 0-0-0-78-2', 'attribute RenderBot irons_spellbooks:spell_power modifier remove 0-0-0-78-3',   # /cast still waits out a spell's cooldown (Supernova 180 s, Dead King 3600 s), so a second take of a spell cast nothing
+           'clearCooldowns player RenderBot', 'clearRecasts player RenderBot', 'gamemode %s RenderBot' % ('creative' if player else 'survival'), 'attribute RenderBot irons_spellbooks:mana_regen modifier remove 0-0-0-78-1', 'attribute RenderBot irons_spellbooks:max_mana modifier remove 0-0-0-78-2', 'attribute RenderBot irons_spellbooks:spell_power modifier remove 0-0-0-78-3',   # /cast still waits out a spell's cooldown (Supernova 180 s, Dead King 3600 s), so a second take of a spell cast nothing
            'forceload remove all', 'forceload add %d %d %d %d' % (X - 24, Z - 24, X + 24, Z + 24)], 15)
         c(['tp RenderBot %.1f -60 %d' % (X - g, Z), 'fill %d -61 %d %d -61 %d minecraft:polished_deepslate' % (X - 24, Z - 24, X + 24, Z + 24),
            'fill %d -60 %d %d -56 %d minecraft:barrier' % (int(X + g + 1.5), Z - 1, int(X + g + 1.5), Z + 1), 'kill @e[type=!player]',
@@ -385,11 +441,18 @@ def main():
             robe = None; off = []; var.update(wand=st.get('hold', 'goety:dark_wand'), focus=s['id'])
             c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['setblock %(X)d -62 %(Z)d minecraft:air' % var, WAND[0] % var], 2)   # air first: setblock leaves a barrel left by an earlier run as it is
             c([w % var for w in WAND[1:]] + [x % var for x in st.get('gear', [])], 4)
+        elif brut:
+            robe = None; off = []; tome = 'brutality:%s{Spells:[{SpellId:"%s",SpellLevel:%d}],SelectedSpellIndex:0}' % (BTOME.get(s.get('school'), 'cosmic_tome'), s['id'], lvl)
+            c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['item replace entity RenderBot weapon.mainhand with ' + st.get('hold', tome),
+               'attribute RenderBot brutality:max_mana base set 1000', 'attribute RenderBot brutality:mana_regen base set 1000'] + [x % var for x in st.get('gear', [])], 20)   # a second for the mana to fill
+        elif ars:
+            robe = None; off = []
+            c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['item replace entity RenderBot weapon.mainhand with ' + st['hold']] + [x % var for x in st.get('gear', [])], 4)
         else:
           c(['item replace entity RenderBot armor.%s with irons_spellbooks:%s_%s' % (slot, robe, part) for slot, part in (('head', 'helmet'), ('chest', 'chestplate'), ('legs', 'leggings'), ('feet', 'boots'))]
             + ['item replace entity RenderBot weapon.mainhand with ' + st.get('hold', 'irons_spellbooks:graybeard_staff')] + [x % var for x in st.get('gear', [])], 4)   # gear: after the robes and the held item
           off = neutral(robe + '|' + st.get('hold', '') + '|' + str(any('curios' in x for x in st.get('pre', []))))
-        if a.prime and not goety and not st.get('nocast') and not st.get('prime'): st = dict(st, prime=int(s.get('castTime') or 0) + 40)   # --prime: every spell gets the throwaway cast
+        if a.prime and not player and not st.get('nocast') and not st.get('prime'): st = dict(st, prime=int(s.get('castTime') or 0) + 40)   # --prime: every spell gets the throwaway cast
         if st.get('prime'):   # a throwaway cast after the weapon is in hand, waited out before recording (the note above the weapon spells in SETUP)
             c(['cast RenderBot %s %d' % (s['id'], lvl)], st['prime']); c(['clearCooldowns player RenderBot', 'clearRecasts player RenderBot', 'kill @e[type=!player,type=!%s]' % tg[0]] if tg[0] else ['clearCooldowns player RenderBot'], 10)
         k1, k2 = CAMS['eyes' if a.diag else st.get('cam', 'side')]   # --diag: the player's view, as the CMDCam camera hides the HUD   # the side camera: 6.5 blocks from the line between caster and dummy, looking north (yaw 180), 5 degrees down
@@ -422,13 +485,13 @@ def main():
           t0box = []
           rec = subprocess.Popen(['ffmpeg', '-y', '-loglevel', 'error', '-f', 'x11grab', '-framerate', '%g' % (a.fps * a.speed), '-video_size', a.size, '-i', a.at, '-t', '%.2f' % (dur / a.speed),
                                 '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '12', raw])
-        time.sleep(12 * TICK); cast = ('btn:3:down' if s.get('cast') else 'click:3') if goety else 'cast RenderBot %s %d' % (s['id'], lvl)
-        do = lambda cmd: xinput(a.display, cmd) if cmd.split(':')[0] in ('key', 'click', 'btn') else (xinput(a.display, cast) if goety and cmd == 'cast' else c(cast if cmd == 'cast' else cmd % var, 0))
+        time.sleep(12 * TICK); cast = 'click:3' if ars else ('btn:3:down' if s.get('cast') not in ('instant', None) else 'click:3') if brut else ('btn:3:down' if s.get('cast') else 'click:3') if goety else 'cast RenderBot %s %d' % (s['id'], lvl)
+        do = lambda cmd: xinput(a.display, cmd) if cmd.split(':')[0] in ('key', 'click', 'btn') else (xinput(a.display, cast) if player and cmd == 'cast' else c(cast if cmd == 'cast' else cmd % var, 0))
         lead = sorted(st.get('lead', []), key=lambda x: -x[0]); tl = time.time() + (lead[0][0] * TICK if lead else 0)
         for before, cmd in lead:   # commands this many ticks before the cast (a bolt before a buff, to compare the damage)
             time.sleep(max(0.0, tl - before * TICK - time.time())); do(cmd)
         time.sleep(max(0.0, tl - time.time()))
-        if goety:   # the cast is the player's right button, not a console command
+        if player:   # the cast is the player's right button, not a console command
             if st.get('before'): c([b % var for b in st['before']], 0)
             if not st.get('nocast'): do('cast')
         else: c([b % var for b in st.get('before', [])] + ([] if st.get('nocast') else [cast]), 0)
