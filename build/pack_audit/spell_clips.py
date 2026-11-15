@@ -47,11 +47,14 @@ GOETY_KIND = {'SummonSpell': {'target': 'husk'}, 'BlockSpell': {'pitch': 35}, 'T
 # and a ring of walls that leave the side camera's frame
 SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charge_focus': {'target': 'husk', 'gap': 1.5},
               'goety:blink_focus': {'cam': 'far'}, 'goety:barricade_focus': {'cam': 'wide'}, 'goety:ghastly_focus': {'cam': 'wide'}, 'goety:guardian_focus': {'cam': 'wide'},   # minions out of the side frame
-              'goety:glow_light_focus': {'pitch': 30},   # the light ball forms where the shot meets a block
+              'goety:glow_light_focus': {'pitch': 30}, 'goety:soul_light_focus': {'pitch': 30},   # the light ball forms where the shot meets a block
               'goety:overgrowth_focus': {'cam': 'wide'}, 'goety:phantasm_focus': {'cam': 'wide', 'pre': ['time set 13800']},   # phantoms burn in the evening sun
               'goety:pulverize_focus': {'pre': ['fill %(Xm3)d -61 %(Zm2)d %(X)d -61 %(Zc)d minecraft:cobblestone']},   # cobblestone turns to gravel
               'goety:rotation_focus': {'pre': ['execute positioned %(X)d -60 %(Z)d run setblock ~-1 ~ ~ minecraft:oak_stairs[facing=east]']},   # a block that turns, where the 35-degree eye ray meets it
               'goety:shockwave_focus': {'target': 'husk', 'gap': 1.5},
+              # the caster's own bars: survival (creative hides armour and hearts) with soul energy from the console, the player's view with the HUD
+              'goety:iron_hide_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60},
+              'goety:soul_heal_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'pre': ['damage RenderBot 12 minecraft:generic']},
               'goety:fire_blast_focus': {'target': 'husk', 'gap': 1.5}, 'goety:frost_nova_focus': {'target': 'husk', 'gap': 1.5},   # a blast on the caster: a mob beside him
               # menus: the screen, enlarged (the menu is small at 1080p); the Ender Chest with something in it
               'goety:crafting_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270'},
@@ -445,7 +448,7 @@ def main():
         dur = st.get('secs') or (6.0 if ars or s.get('cast') in ('INSTANT', 0, 'instant') else min(11, t + 6.0))
         c(['cam-server stop RenderBot', 'effect clear RenderBot', 'effect give RenderBot minecraft:instant_health 1 20 true', 'weather clear', 'time set ' + a.time,
            'gamerule doDaylightCycle false', 'difficulty ' + st.get('difficulty', a.difficulty or tg[2]), 'curios clear RenderBot spellbook',
-           'clearCooldowns player RenderBot', 'clearRecasts player RenderBot', 'gamemode %s RenderBot' % ('creative' if player else 'survival'), 'attribute RenderBot irons_spellbooks:mana_regen modifier remove 0-0-0-78-1', 'attribute RenderBot irons_spellbooks:max_mana modifier remove 0-0-0-78-2', 'attribute RenderBot irons_spellbooks:spell_power modifier remove 0-0-0-78-3',   # /cast still waits out a spell's cooldown (Supernova 180 s, Dead King 3600 s), so a second take of a spell cast nothing
+           'clearCooldowns player RenderBot', 'clearRecasts player RenderBot', 'gamemode %s RenderBot' % ('creative' if player and not st.get('survival') else 'survival'), 'attribute RenderBot irons_spellbooks:mana_regen modifier remove 0-0-0-78-1', 'attribute RenderBot irons_spellbooks:max_mana modifier remove 0-0-0-78-2', 'attribute RenderBot irons_spellbooks:spell_power modifier remove 0-0-0-78-3',   # /cast still waits out a spell's cooldown (Supernova 180 s, Dead King 3600 s), so a second take of a spell cast nothing
            'forceload remove all', 'forceload add %d %d %d %d' % (X - 24, Z - 24, X + 24, Z + 24)], 15)
         c(['tp RenderBot %.1f -60 %d' % (X - g, Z), 'fill %d -61 %d %d -61 %d minecraft:polished_deepslate' % (X - 24, Z - 24, X + 24, Z + 24),
            'fill %d -60 %d %d -56 %d minecraft:barrier' % (int(X + g + 1.5), Z - 1, int(X + g + 1.5), Z + 1), 'kill @e[type=!player]',
@@ -453,6 +456,7 @@ def main():
         robe = ROBE.get((s.get('school') or '').split(':')[-1], 'wandering_magician')
         if goety:
             robe = None; off = []; var.update(wand=st.get('hold', 'goety:dark_wand'), focus=s['id'])
+            if st.get('survival'): c(['goety soul set RenderBot 100000'], 2)   # soul energy for a survival cast
             c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['setblock %(X)d -62 %(Z)d minecraft:air' % var, WAND[0] % var], 2)   # air first: setblock leaves a barrel left by an earlier run as it is
             c([w % var for w in WAND[1:]] + [x % var for x in st.get('gear', [])], 4)
         elif brut:
