@@ -62,7 +62,7 @@
     for (const x of G) { const e = Ei.get(x.i); if (!e) { bad.push('spells: ' + x.i + ' is on the Goety tab but not a focus in the export'); continue; }
       if (x.c !== e.cost || x.t !== e.cast || x.cd !== e.cooldown || x.y !== (e.type || 'NONE').toLowerCase()) bad.push('spells: ' + x.i + ' numbers differ from the export');
       if (!(x.y in GCOL)) bad.push('spells: Goety type "' + x.y + '" has no colour (GCOL in app.js)'); }
-    for (const id of window.SPCLIP || []) if (![window.SPL, G, window.ASPL].some(L => (L || []).some(s => s.i === id))) bad.push('spells: a clip for ' + id + ', on no tab');
+    for (const id of window.SPCLIP || []) if (![window.SPL, G, window.ASPL, window.BSPL].some(L => (L || []).some(s => s.i === id))) bad.push('spells: a clip for ' + id + ', on no tab');
     location.hash = '#spells/goety'; await wait(80); render(); await wait(300);
     const cards = () => document.querySelectorAll('#gpl .spc').length;
     if (cards() !== Math.min(40, G.length)) bad.push('spells: the Goety tab first draws ' + cards() + ' cards');
@@ -91,4 +91,22 @@
     if (/undefined|NaN|\[object/.test(document.getElementById('main').innerText)) bad.push('spells: undefined, NaN or [object] on the Ars tab');
     const ar = document.getElementById('ar'); if (ar) { ar.value = '3'; ar.dispatchEvent(new Event('input')); const n3 = A.filter(x => x.r === 3).length;
       if (count() !== n3 + ' of ' + A.length) bad.push('spells: the Ars tier filter (3) says ' + count() + ', expected ' + n3); } else bad.push('spells: no tier filter on the Ars tab'); }
+  // Spells > Brutality (2026-11-15): every spell of the export's SpellRegistry and nothing else; base numbers and per-level additions are the export's;
+  // the first category is how it is cast; every school has a colour
+  { const B = window.BSPL || [], E = (await patchJSON('game_registry.json')).brutality || [], Ei = new Map(E.map(g => [g.id, g]));
+    if (!B.length) bad.push('spells: window.BSPL is empty (Brutality spells)');
+    if (new Set(B.map(g => g.i)).size !== B.length) bad.push('spells: a Brutality spell twice');
+    for (const g of E) if (!B.some(x => x.i === g.id)) bad.push('spells: the game has the spell ' + g.id + ', the Brutality tab lacks it');
+    for (const x of B) { const e = Ei.get(x.i); if (!e) { bad.push('spells: ' + x.i + ' is on the Brutality tab but not in the export'); continue; }
+      const cats = (e.cats || '').replace(/[\[\]\s]/g, '').toLowerCase().split(',').filter(Boolean), z = v => v || 0;
+      if (z(x.ma) !== z(e.mana) || z(x.mal) !== z(e.manaLv) || z(x.d) !== z(e.damage) || z(x.dl) !== z(e.damageLv) || z(x.cd) !== z(e.cooldown) || z(x.cdl) !== z(e.cooldownLv)
+        || z(x.t) !== z(e.cast) || z(x.tl) !== z(e.castLv) || x.s !== e.school || x.k !== cats[0] || (x.tg || []).join() !== cats.slice(1).join()) bad.push('spells: ' + x.i + ' numbers or categories differ from the export');
+      if (!(x.s in BCOL)) bad.push('spells: Brutality school "' + x.s + '" has no colour (BCOL in app.js)');
+      if (!(x.k in BCAST) || (x.tg || []).some(t => !(t in BTAG))) bad.push('spells: ' + x.i + ' has a category with no label (BCAST, BTAG in app.js)'); }
+    location.hash = '#spells/brutality'; await wait(80); render(); await wait(300);
+    const cards = () => document.querySelectorAll('#bpl .spc').length, count = () => document.getElementById('bn')?.textContent;
+    if (cards() !== Math.min(40, B.length)) bad.push('spells: the Brutality tab first draws ' + cards() + ' cards');
+    if (count() !== B.length + ' of ' + B.length) bad.push('spells: the Brutality count says ' + count());
+    if (document.querySelector('nav.mtabs a[aria-current]')?.getAttribute('href') !== '#spells/brutality') bad.push('spells: the Brutality sub-tab is not marked');
+    if (/undefined|NaN|\[object/.test(document.getElementById('main').innerText)) bad.push('spells: undefined, NaN or [object] on the Brutality tab'); }
   location.hash = '#home'; await wait(80); render(); }

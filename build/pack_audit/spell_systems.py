@@ -8,6 +8,9 @@ ticks and spell type. Names, descriptions and icons are the jars' (lang item.<ns
 Ars Nouveau: every glyph of the game's GlyphRegistry (Ars Nouveau and its add-ons) with its mana cost and whether it is on; the tier is the pack's
 config (config/<ns>/<glyph>.toml glyph_tier: the export printed the SpellTier object, and its three objects map one to one onto the configs' tiers,
 checked here); the kind from the glyph's type index (1 form, 5 augment, 8 and 10 effect, 15 filter).
+Brutality: every spell of its SpellRegistry with base mana, damage, cooldown and cast ticks and what one level adds to each (IBrutalitySpell.getActual*:
+base + per level x level, before the caster's attributes and curios), its school and categories (the first is how it is cast: instant, channelling,
+continuous); name and description lines from lang spell.brutality.<name>[.description.N], the icon from the spell's own getIcon() texture.
 Nothing is guessed: what neither source has stays null."""
 import sys, os, re, json, zipfile, glob, base64, collections
 H = os.path.dirname(os.path.abspath(__file__))
@@ -49,7 +52,7 @@ def jar_index(mods_dir):
         mm = re.fullmatch(r'items?/([a-z0-9_]+)', tp)
         if mm: tex.setdefault((ns, mm.group(1)), v)
     for ns, dn in owner.items(): modname.setdefault(ns, dn)
-    return lang, tex, modname
+    return lang, tex, modname, files
 
 
 def goety(game, lang, tex, modname):
@@ -92,11 +95,29 @@ def ars(game, lang, tex, modname, cfg_dir):
           'no name', sum(1 for r in rows if not r['name']), 'no description', sum(1 for r in rows if not r['guide']), 'off', sum(1 for r in rows if r['enabled'] is False), 'icons', len(icons))
 
 
+def brutality(game, lang, files, modname):
+    rows, icons = [], {}
+    for g in game.get('brutality', []):
+        ns, name = g['id'].split(':', 1); cats = [c.strip().lower() for c in (g.get('cats') or '').strip('[]').split(',') if c.strip()]
+        desc = [CODES.sub('', lang[k]).strip() for k in ['spell.%s.%s.description.%d' % (ns, name, n) for n in range(1, 10)] if k in lang]
+        rows.append({'id': g['id'], 'ns': ns, 'name': lang.get('spell.%s.%s' % (ns, name)), 'guide': ' '.join(desc) or None, 'mod': modname.get(ns) or ns,
+                     'school': g.get('school'), 'cast': cats[0] if cats else None, 'tags': cats[1:], 'cls': g.get('cls'),
+                     **{k: g.get(k) for k in ('mana', 'manaLv', 'damage', 'damageLv', 'cooldown', 'cooldownLv', 'castLv')}, 'castTicks': g.get('cast')})
+        icon = g.get('icon') or ''; m = re.fullmatch(r'([a-z0-9_.-]+):textures/(.+)\.png', icon)
+        if m and (m.group(1), m.group(2)) in files: f = files[(m.group(1), m.group(2))]; icons[g['id']] = base64.b64encode(zipfile.ZipFile(f[0]).read(f[1])).decode()
+    rows.sort(key=lambda r: r['id'])
+    json.dump({'spells': rows}, open(os.path.join(OUT, 'spells_brutality.json'), 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'), sort_keys=True)
+    json.dump(icons, open(os.path.join(OUT, 'spell_icons_brutality.json'), 'w'), separators=(',', ':'), sort_keys=True)
+    print('brutality spells', len(rows), dict(collections.Counter(r['school'] for r in rows)), dict(collections.Counter(r['cast'] for r in rows)),
+          'no name', sum(1 for r in rows if not r['name']), 'no description', sum(1 for r in rows if not r['guide']), 'icons', len(icons))
+
+
 def main(mods_dir):
     game = json.load(open(os.path.join(OUT, 'game_registry.json'), encoding='utf-8'))
-    lang, tex, modname = jar_index(mods_dir)
+    lang, tex, modname, files = jar_index(mods_dir)
     goety(game, lang, tex, modname)
     ars(game, lang, tex, modname, os.path.join(os.path.dirname(os.path.abspath(mods_dir)), 'config'))
+    brutality(game, lang, files, modname)
 
 
 if __name__ == '__main__': main(sys.argv[1])

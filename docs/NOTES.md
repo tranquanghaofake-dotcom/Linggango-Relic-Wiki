@@ -1712,3 +1712,14 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Kiểm tra**: `bash build/patches/apply_all.sh` exit 0; ảnh đã xem: `#spells/ars` 1440 và 375 (icon, mô tả, mana, tier, glyph tắt), `#spells/goety` 1440 (không đổi sau khi gộp mã); `checks/spells.js` chạy riêng 0 lỗi.
   - `bash build/check.sh` exit 1 với đúng một lỗi đo thời gian (`#mechanics: long task 209 ms`, giới hạn 200) trong lúc game quay vẫn chạy nền. Trang Mechanics không đổi trong lần này. Chạy riêng `node build/a11y_check.js` thì 0 lỗi. Các phần khác của check.sh: invariant 0, page text 0, script 0, site 0.
 - **Open**: (1) quay 209 focus Goety (đang chạy, xem rồi mới duyệt); (2) clip Ars (glyph ghép thành phép ví dụ, augment quay có/không); (3) Brutality (26 phép); (4) Annihilation Resonance, Paralyzing Skreech như các mục trước.
+## 2026-11-15 (tiếp 6): tab con Brutality (26 phép)
+- **Dữ liệu** (`spell_systems.py`, phần `brutality`): 26 phép theo bản xuất từ game (SpellRegistry của Brutality): Cosmic 6, Brimwielder 5, Umbrancy 5, Celestia 5, Voidwalker 5. Cách niệm theo phân loại đầu tiên: 17 instant, 5 continuous, 4 channelling.
+  - Công thức đọc từ bytecode `IBrutalitySpell.getActualCooldown`, `getActualManaCost`, `getActualCastTime`, `getFinalDamage`: giá trị = gốc + hệ số × cấp, rồi mới nhân với curio và thuộc tính của người niệm. Cooldown và cast time tính bằng tick (`checkCooldown` chia số tick còn lại cho 20). Thẻ ghi giá trị gốc và phần cộng mỗi cấp.
+  - Tên và mô tả lấy từ lang `spell.brutality.<tên>[.description.N]`; icon lấy từ texture của `getIcon()`.
+  - 3 phép Umbrancy (Crescent Dart, Crescent Scythe, Piercing Moonlight) có đăng ký nhưng jar không có tên, mô tả hay icon. Thẻ dùng tên suy từ id và ghi rõ điều này.
+- **Trang**: `#spells/brutality` dùng chung `sysSpells` (lọc theo trường phái và cách niệm). Nhãn phân loại "Target" đổi thành "Targeted" vì chuỗi "Target" đã có bản dịch mang nghĩa khác ("Bia Bắn"). Thêm 10 chuỗi i18n.
+- **Invariant** (`checks/spells.js`, khối Brutality): khớp hai chiều với bản xuất; số gốc, hệ số mỗi cấp, trường phái, cách niệm, phân loại khớp bản xuất; mỗi trường phái có màu, mỗi phân loại có nhãn; trang vẽ đủ thẻ, đếm "26 of 26", tab con đánh dấu đúng.
+- **Kiểm tra**: `apply_all.sh` exit 0; `checks/spells.js` chạy riêng 0 lỗi; ảnh đã xem: `#spells/brutality` 1440 và 375.
+  - `bash build/check.sh` exit 1, đúng một lỗi a11y (`contrast: no .chip .n text to test on #home`). Lần trước là một lỗi khác (`long task`), cũng trong lúc game quay chạy nền (đã hạ ưu tiên, vẫn chiếm CPU). Chạy riêng `node build/a11y_check.js` thì 0 lỗi. Các phần khác 0 lỗi.
+  - Kết luận: kiểm a11y nhạy với tải máy. Lần sau nên tắt hẳn game trước check.sh, hoặc chạy lại riêng a11y.
+- **Open**: clip Brutality (`/brutality spell add` đưa phép vào tome đang cầm; cần thử cách niệm), cùng các mục Open của "tiếp 5".

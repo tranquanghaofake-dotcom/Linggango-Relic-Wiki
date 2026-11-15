@@ -317,8 +317,8 @@ function effHint(h){for(const e of EFFECTS){const m=h.match(e.re);if(!m)continue
 /* ---------- Spells: every spell the jars register (pack_audit/spells.py); the rows and icons come with wiki_pics.js (SPL, SPLI) ---------- */
 const SCOL={fire:"#e8602c",ice:"#7fd0ff",lightning:"#ffe14a",holy:"#fff3b0",ender:"#b36bff",blood:"#c0262d",evocation:"#79c84a",nature:"#5fbf4a",eldritch:"#5aa5a0",geo:"#b08a5a",aqua:"#3f8fe0"};
 // Spells has one sub-tab per spell system (2026-11-15, docs/plans/2026-11-15-spell-systems.md): #spells is Iron's, #spells/goety the Goety focuses,
-// #spells/ars the Ars Nouveau glyphs; #spells/<text> (not a tab name) is still Iron's with the search filled, as the Effects page links it
-const SPSYS=[["irons",N("Iron's Spells")],["goety",N("Goety")],["ars",N("Ars Nouveau")]];
+// #spells/ars the Ars Nouveau glyphs, #spells/brutality Brutality's spells; #spells/<text> (not a tab name) is still Iron's with the search filled, as the Effects page links it
+const SPSYS=[["irons",N("Iron's Spells")],["goety",N("Goety")],["ars",N("Ars Nouveau")],["brutality",N("Brutality")]];
 function spellsTabs(){const hp=decodeURIComponent(location.hash).split("/"),tab=SPSYS.some(x=>x[0]===hp[1])?hp[1]:"irons",pre=(tab===hp[1]?hp.slice(2):hp.slice(1)).join("/");
  return {tab,pre,nav:`<nav class="mtabs" aria-label="${T("Spell systems")}">${SPSYS.map(([k,l])=>`<a href="#spells${k==="irons"?"":"/"+k}"${k===tab?' aria-current="page"':""}>${T(l)}</a>`).join("")}</nav>`}}
 function spellsPage(){
@@ -352,7 +352,11 @@ ${ST.nav}<section class="s" id="m-spells"><p class="note">${T("School, rarity, l
 // system's fields and filters; sysSpells draws the page (element ids start with the system's letter: #gq, #gy, #gpl ... for Goety, #aq ... for Ars)
 const GCOL={necromancy:"#4fbf5a",nether:"#c0392b",ill:"#d8c24a",frost:"#7fb8ff",geomancy:"#9a9a9a",wind:"#8fe3e6",storm:"#e3a33a",abyss:"#3a5fd0",wild:"#6fd06a",void:"#9b59d0",none:"#888"};
 const ACOL={form:"#6fa8dc",effect:"#c27ba0",augment:"#93c47d",filter:"#e0a050"},AKIND={form:N("Form"),effect:N("Effect"),augment:N("Augment"),filter:N("Filter")};
-const uniqBy=(X,f)=>[...new Set(X.map(f).filter(x=>x!=null&&x!==""))],secT=n=>Math.round(n/2)/10;
+const uniqBy=(X,f)=>[...new Set(X.map(f).filter(x=>x!=null&&x!==""))],secT=n=>Math.round(n/2)/10,rnd2=v=>Math.round(v*100)/100,capW=w=>w[0].toUpperCase()+w.slice(1);
+// Brutality: a number and what one spell level adds (IBrutalitySpell.getActual*: base + per level x level)
+const perLv=(b,p,u="")=>b==null?"—":!p?`${rnd2(b)}${u}`:T("{a} ({b} per level)",{a:`${rnd2(b)}${u}`,b:`${p>0?"+":"−"}${rnd2(Math.abs(p))}${u}`});
+const BCOL={brimwielder:"#d0452c",cosmic:"#7b6cff",umbrancy:"#5a6fb0",voidwalker:"#8a4fd0",celestia:"#f0d070"},BCAST={instant:N("Instant"),channelling:N("Channelling"),continuous:N("Continuous")},
+ BTAG={target:N("Targeted"),aoe:N("Area"),self:N("Self"),buff:N("Buff"),debuff:N("Debuff"),utility:N("Utility")};
 const SYSP={
  goety:()=>{const X=window.GSPL||[];return {X,IC:window.GSPLI||{},p:"g",sid:"goety-spells",name:N("Goety"),pretty:i=>i.split(":")[1].replace(/_focus$/,"").replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase()),
   col:s=>GCOL[s.y]||"#888",sub:s=>s.yn?esc(TD(s.yn)):"",find:s=>s.yn||"",
@@ -363,14 +367,21 @@ const SYSP={
   col:s=>ACOL[s.k]||"#888",sub:s=>s.k?esc(T(AKIND[s.k])):"",find:s=>s.k?T(AKIND[s.k]):"",
   dl:s=>[[T("Mana"),s.c==null?"—":s.c],[T("Tier"),s.r||"—"]],off:s=>s.x&&T("Turned off in this pack's spell config."),
   note:T("Every Ars Nouveau glyph the game registers (Ars Nouveau and its add-ons). A spell is one form, then effects, each changed by the augments after it. Mana cost and tier are the running game's, after the pack's config."),ph:T("Find a glyph, kind or mod…"),
-  sel:[["k",T("All kinds"),["form","effect","augment","filter"].filter(k=>X.some(x=>x.k===k)).map(k=>[k,T(AKIND[k])])],["r",T("All tiers"),uniqBy(X,x=>x.r).sort().map(r=>[String(r),T("Tier {n}",{n:r})])],["m",T("All mods"),uniqBy(X,x=>x.m).sort((a,b)=>a.localeCompare(b)).map(m=>[m,m])]]}}};
+  sel:[["k",T("All kinds"),["form","effect","augment","filter"].filter(k=>X.some(x=>x.k===k)).map(k=>[k,T(AKIND[k])])],["r",T("All tiers"),uniqBy(X,x=>x.r).sort().map(r=>[String(r),T("Tier {n}",{n:r})])],["m",T("All mods"),uniqBy(X,x=>x.m).sort((a,b)=>a.localeCompare(b)).map(m=>[m,m])]]}},
+ brutality:()=>{const X=window.BSPL||[];return {X,IC:window.BSPLI||{},p:"b",sid:"brutality-spells",name:N("Brutality"),pretty:i=>i.split(":")[1].replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase()),
+  col:s=>BCOL[s.s]||"#888",sub:s=>[s.s&&esc(capW(s.s)),s.k&&esc(T(BCAST[s.k]))].filter(Boolean).join(" · "),find:s=>(s.s||"")+" "+(s.k?T(BCAST[s.k]):""),
+  dl:s=>[[T("Mana"),perLv(s.ma,s.mal)],[T("Damage"),s.d||s.dl?perLv(s.d||0,s.dl):"—"],[T("Cooldown"),s.cd==null?"—":perLv(s.cd/20,(s.cdl||0)/20," s")],
+   [T("Cast"),s.k?`${T(BCAST[s.k])}${s.t?` · ${perLv(s.t/20,(s.tl||0)/20," s")}`:""}`:"—"]].concat(s.tg&&s.tg.length?[[T("Categories"),esc(s.tg.map(t=>T(BTAG[t]||t)).join(" · "))]]:[]),
+  info:s=>s.u&&T("The mod's files give this spell no name, description or icon."),
+  note:T("Every Brutality spell the game registers; they are cast from Brutality's magic tomes. Each number is the spell's base value and what one spell level adds; the caster's attributes and curios change them further."),ph:T("Find a spell, school or mod…"),
+  sel:[["s",T("All schools"),uniqBy(X,x=>x.s).sort().map(k=>[k,capW(k)])],["k",T("All cast types"),["instant","channelling","continuous"].filter(k=>X.some(x=>x.k===k)).map(k=>[k,T(BCAST[k])])]]}}};
 function sysSpells(ST,o){
  const X=o.X,IC=o.IC,SM=40,p=o.p,rows=X.map(s=>({s,nm:s.n||o.pretty(s.i)})).sort((a,b)=>a.nm.localeCompare(b.nm));
  const clipBase=document.documentElement.dataset.clips,clips=new Set(window.SPCLIP||[]),clip=(s,nm)=>clipBase&&clips.has(s.i)?`<video class="spv" controls muted loop playsinline preload="none" title="${esc(TD(nm))}" poster="${clipBase}${s.i.replace(":","__")}.webp" src="${clipBase}${s.i.replace(":","__")}.mp4"></video>`:"";
  const card=({s,nm})=>{const off=o.off&&o.off(s);return `<article class="spc"${off?" data-off":""} style="--sc:${o.col(s)}" id="spell-${esc(s.i.replace(/[:_]/g,"-"))}"><header>${IC[s.i]?`<img class="spi" alt="" loading="lazy" src="data:image/png;base64,${IC[s.i]}">`:`<span class="spi"></span>`}<div><h3>${esc(TD(nm))}</h3><small>${o.sub(s)}</small></div></header>
 ${clip(s,nm)}<p class="spg">${s.g?esc(TD(s.g)):""}</p>
 <dl class="spd">${o.dl(s).map(([d,v])=>`<dt>${d}</dt><dd>${v}</dd>`).join("")}</dl>
-${off?`<p class="note">${off}</p>`:""}<small class="spm">${esc(s.m)} · ${esc(s.i)}</small></article>`};
+${off?`<p class="note">${off}</p>`:""}${o.info&&o.info(s)?`<p class="note">${o.info(s)}</p>`:""}<small class="spm">${esc(s.m)} · ${esc(s.i)}</small></article>`};
  const opt=(v,l)=>`<option value="${esc(v)}">${esc(l)}</option>`;
  el("main").innerHTML=`${crumb(`<a href="#spells">${T("Spells")}</a>`,esc(T(o.name)))}${room("library",[],{head:`<h1>${T("Spells")}</h1><p class="lede">${T("Every spell the game registers, with the numbers the mods and the pack's config give them.")}</p>`,cols:4,label:T("Spells")})}
 ${ST.nav}<section class="s" id="m-${o.sid}"><p class="note">${o.note}</p>
