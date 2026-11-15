@@ -325,6 +325,7 @@ SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charg
               'goety:sword_focus': {'gear': ['item replace entity RenderBot weapon.offhand with minecraft:diamond_sword']},   # throws a copy of the sword in the off hand
               'goety:telekinesis_focus': {'target': 'pig'}, 'goety:wind_blast_focus': {'target': 'pig'},   # moves a creature (the dummy stays put)
               'goety:water_whip_focus': {'gap': 1.5},   # a short tentacle
+              'goety_cataclysm:sandstorm_focus': {'cam': 'wide'},   # the storm circles the caster, through the side camera
               # the caster's own bars: survival (creative hides armour and hearts) with soul energy from the console, the player's view with the HUD
               'goety:iron_hide_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60},
               'goety:soul_heal_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'pre': ['damage RenderBot 12 minecraft:generic']},
