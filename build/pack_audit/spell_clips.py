@@ -53,7 +53,8 @@ SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charg
               'goety:rotation_focus': {'pre': ['execute positioned %(X)d -60 %(Z)d run setblock ~-1 ~ ~ minecraft:oak_stairs[facing=east]']},   # a block that turns, where the 35-degree eye ray meets it
               'goety:shockwave_focus': {'target': 'husk', 'gap': 1.5}, 'goety:temblor_clap_focus': {'target': 'husk', 'gap': 1.5}, 'goety:trembling_focus': {'target': 'husk', 'gap': 1.5},
               'goety:sword_focus': {'gear': ['item replace entity RenderBot weapon.offhand with minecraft:diamond_sword']},   # throws a copy of the sword in the off hand
-              'goety:telekinesis_focus': {'target': 'pig'},   # lifts a creature that can move (the dummy stays put)
+              'goety:telekinesis_focus': {'target': 'pig'}, 'goety:wind_blast_focus': {'target': 'pig'},   # moves a creature (the dummy stays put)
+              'goety:water_whip_focus': {'gap': 1.5},   # a short tentacle
               # the caster's own bars: survival (creative hides armour and hearts) with soul energy from the console, the player's view with the HUD
               'goety:iron_hide_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60},
               'goety:soul_heal_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'pre': ['damage RenderBot 12 minecraft:generic']},
