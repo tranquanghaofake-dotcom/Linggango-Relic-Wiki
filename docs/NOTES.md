@@ -1723,3 +1723,30 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   - `bash build/check.sh` exit 1, đúng một lỗi a11y (`contrast: no .chip .n text to test on #home`). Lần trước là một lỗi khác (`long task`), cũng trong lúc game quay chạy nền (đã hạ ưu tiên, vẫn chiếm CPU). Chạy riêng `node build/a11y_check.js` thì 0 lỗi. Các phần khác 0 lỗi.
   - Kết luận: kiểm a11y nhạy với tải máy. Lần sau nên tắt hẳn game trước check.sh, hoặc chạy lại riêng a11y.
 - **Open**: clip Brutality (`/brutality spell add` đưa phép vào tome đang cầm; cần thử cách niệm), cùng các mục Open của "tiếp 5".
+## 2026-11-15 (tiếp 7): 92 clip Goety lên site; sân quay sẵn chế độ Ars và Brutality
+- **Quay Goety** (`spell_clips.py --system goety`): đã quay 132/209 focus, theo thứ tự id.
+  - Lượt quay nền dừng ở clip 132 vì chạm giới hạn 2 giờ của môi trường. Lệnh quay chạy tiếp được từ chỗ dừng.
+  - Mỗi clip mất khoảng 1,3 phút.
+- **Duyệt** 127 clip đầu, xem tấm ảnh 1 khung/giây cho từng clip (bảng ghi trong scratchpad `goety_review.tsv`): 92 dùng được, 29 quay lại, 2 cần chế độ survival, 4 không quay được.
+  - **Không quay được**: Command, Order, Troop cần lưu một servant (hoặc loại servant) vào focus trước bằng chuột trái; Recall cần lưu một vị trí trước bằng chuột phải lên một số loại khối.
+  - **Lỗi chung, đã sửa trong mã**:
+    - phép triệu hồi: minion xuất hiện vài giây sau khi niệm xong (Blasting niệm 3 s, minion đứng dậy ở giây 9 của clip 11 s). Clip triệu hồi nay dài bằng thời gian niệm + 10 s, tối đa 16 s;
+    - khiên Bulwark còn trên người niệm suốt 4 clip sau (Burrowing, Call, Carrion, Charge). `effect clear` không xóa được, vì đây không phải hiệu ứng thuốc. Bốn clip này quay lại.
+  - **Dựng cảnh riêng** (SETUP), mỗi mục kèm lý do trong mã:
+    - phép chạm và nổ quanh người niệm: đặt husk cách 1.5 khối (Banish, Charge, Fire Blast, Frost Nova, Shockwave, Temblor Clap, Trembling, Water Whip);
+    - dummy không di chuyển được, nên dùng con heo (Telekinesis, Wind Blast);
+    - camera xa hơn: Blink, Barricade, Ghastly, Guardian, Overgrowth, Phantasm (Phantasm quay ban đêm vì phantom cháy dưới nắng chiều);
+    - bắn xuống sàn để tạo quả cầu sáng: Glow Light, Soul Light;
+    - đặt khối để phép tác động: đá cuội cho Pulverize, bậc thang cho Rotation;
+    - kiếm ở tay trái cho Sword;
+    - menu phóng to ở góc nhìn thứ nhất: Crafting, Ender Chest;
+    - survival có HUD để thấy thanh giáp/tim: Iron Hide, Soul Heal (creative ẩn các thanh này; năng lượng linh hồn đặt bằng `/goety soul set`; cách này chưa thử).
+- **Lên site**: 92 clip lên nhánh `workspace` (commit 8535e82aa, đúng 184 tệp mới), `approved.json` từ 304 thành 396 id. Đã xem `#spells/goety` ở 1440 và 375: thẻ có clip và poster.
+- **Invariant sửa**: `checks/spells.js` còn một dòng cũ đòi mọi clip phải là spell của Iron's, nên báo sai 92 lỗi. Đã bỏ dòng đó; khối kiểm phía dưới đã đòi mỗi clip thuộc một tab bất kỳ (Iron's, Goety, Ars, Brutality).
+- **Kiểm tra**: `apply_all.sh` exit 0; `bash build/check.sh` exit 0 (đã tắt game: invariant 0, a11y 0, script 0, site 0 tệp thiếu). Lần này a11y không lỗi nào, xác nhận hai lỗi a11y trước là do máy bận.
+- **Chuẩn bị quay Ars và Brutality** (mã có rồi, chưa chạy thử):
+  - `--system ars`: Creative Spell Book chứa phép đặt bằng NBT (theo `SpellCaster.writeTag` và `Spell.serialize`, mã nguồn Ars nhánh 1.20). Người niệm ở creative được bỏ qua kiểm mana (`SpellResolver.enoughMana`). Mỗi glyph được đặt vào một phép nhỏ (`ars_stage`); augment niệm hai lần trong cùng clip, không có rồi có augment.
+  - `--system brutality`: tome đúng trường phái, phép đặt bằng NBT (`SpellStorage`). Mana nạp qua thuộc tính `brutality:max_mana` và `mana_regen`, vì Brutality không bỏ qua mana khi ở creative.
+  - Sân quay cần thêm 9 jar: Adam's Ars Plus, Ars Additions, Ars Elemental, Not Enough Glyphs, Tome of Blood, Blood Magic (Tome of Blood cần), Brutality, Terramity, Photon (Brutality cần).
+- **Dung lượng site**: hiện khoảng 635 MB (GitHub Pages giới hạn 1 GB). Ước tính đủ 209 clip Goety thì khoảng 810 MB, thêm Ars và Brutality (khoảng 196 clip) sẽ vượt 1 GB. Cần quyết cách làm trước khi đưa clip Ars và Brutality lên.
+- **Open**: (1) quay nốt 77 focus Goety và 31 clip quay lại (blackguard, blasting, blazing, carrion, burrowing, call, charge, banish, blink, barricade, crafting, ender_chest, fire_blast, frost_nova, ghastly, glow_light, guardian, overgrowth, phantasm, pulverize, rotation, shockwave, soul_light, iron_hide, soul_heal, sword, telekinesis, temblor_clap, trembling, water_whip, wind_blast; tất cả là `goety:<tên>_focus`), duyệt rồi đưa lên; (2) clip Ars và Brutality: thêm 9 jar vào sân quay, chạy thử, quay, duyệt; (3) dung lượng site như trên.

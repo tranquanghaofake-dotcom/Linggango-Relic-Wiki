@@ -23,7 +23,7 @@
     // the pack's per-spell config turns four spells off (config/irons_spellbooks_spell_config): the page says so
     const off = X.filter(s => s.x).length, offData = P.filter(s => s.enabled === false).length;
     if (off !== offData) bad.push(`spells: ${off} turned off on the page, ${offData} in the data`);
-    for (const id of window.SPCLIP || []) if (!ids.has(id)) bad.push('spells: a clip for the unknown ' + id);
+    // every clip belongs to a spell of some tab: checked below with the other systems (Goety, Ars, Brutality clips are not Iron's spells)
     const ic = window.SPLI || {}; for (const k of Object.keys(ic)) if (!ids.has(k)) bad.push('spells: icon for unknown ' + k);
     // the page
     location.hash = '#spells'; await wait(80); render(); await wait(300);
