@@ -51,7 +51,9 @@ SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charg
               'goety:overgrowth_focus': {'cam': 'wide'}, 'goety:phantasm_focus': {'cam': 'wide', 'pre': ['time set 13800']},   # phantoms burn in the evening sun
               'goety:pulverize_focus': {'pre': ['fill %(Xm3)d -61 %(Zm2)d %(X)d -61 %(Zc)d minecraft:cobblestone']},   # cobblestone turns to gravel
               'goety:rotation_focus': {'pre': ['execute positioned %(X)d -60 %(Z)d run setblock ~-1 ~ ~ minecraft:oak_stairs[facing=east]']},   # a block that turns, where the 35-degree eye ray meets it
-              'goety:shockwave_focus': {'target': 'husk', 'gap': 1.5},
+              'goety:shockwave_focus': {'target': 'husk', 'gap': 1.5}, 'goety:temblor_clap_focus': {'target': 'husk', 'gap': 1.5}, 'goety:trembling_focus': {'target': 'husk', 'gap': 1.5},
+              'goety:sword_focus': {'gear': ['item replace entity RenderBot weapon.offhand with minecraft:diamond_sword']},   # throws a copy of the sword in the off hand
+              'goety:telekinesis_focus': {'target': 'pig'},   # lifts a creature that can move (the dummy stays put)
               # the caster's own bars: survival (creative hides armour and hearts) with soul energy from the console, the player's view with the HUD
               'goety:iron_hide_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60},
               'goety:soul_heal_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'pre': ['damage RenderBot 12 minecraft:generic']},
