@@ -326,6 +326,10 @@ SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charg
               'goety:telekinesis_focus': {'target': 'pig'}, 'goety:wind_blast_focus': {'target': 'pig'},   # moves a creature (the dummy stays put)
               'goety:water_whip_focus': {'gap': 1.5},   # a short tentacle
               'goety_cataclysm:sandstorm_focus': {'cam': 'wide'}, 'goety_revelation:heretic_focus': {'cam': 'wide'},   # big summons and storms through the side camera
+              'goetyawaken:blood_rain_focus': {'cam': 'wide'},   # the hell cloud forms above the side frame
+              'goetyawaken:chip_focus': {'target': 'husk'}, 'goetyawaken:chip_rain_focus': {'target': 'husk'},   # fire at a hostile target only
+              # only a lich casts it: lichdom from Goety's own command for this clip, taken back before the next (a lasting state, as Bulwark's shields were)
+              'goetyawaken:champion_focus': {'pre': ['lichdom grant RenderBot'], 'after': [[310, 'lichdom revoke RenderBot']]},
               # the caster's own bars: survival (creative hides armour and hearts) with soul energy from the console, the player's view with the HUD
               'goety:iron_hide_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60},
               'goety:soul_heal_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'pre': ['damage RenderBot 12 minecraft:generic']},
