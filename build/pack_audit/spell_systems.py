@@ -83,7 +83,7 @@ def ars(game, lang, tex, modname, cfg_dir):
     rows, icons, by_obj = [], {}, collections.defaultdict(set)
     for g in game.get('ars', []):
         ns, name = g['id'].split(':', 1); t = tier.get(g['id']); by_obj[g.get('tier')].add(t)
-        desc = g.get('desc') or lang.get('%s.glyph_desc.%s' % (ns, name))
+        desc = (g.get('desc') or '').strip() or lang.get('%s.glyph_desc.%s' % (ns, name))   # Iceburst's getBookDescription() is a single space; the jar's lang has the text
         rows.append({'id': g['id'], 'ns': ns, 'name': g.get('name') or lang.get('item.%s.%s' % (ns, name)), 'guide': CODES.sub('', desc) if desc else None,
                      'mod': modname.get(ns) or ns, 'kind': ARS_KIND.get(g.get('type')), 'tier': t, 'cost': g.get('cost'), 'enabled': g.get('enabled'), 'cls': g.get('cls')})
         if (ns, name) in tex: icons[g['id']] = base64.b64encode(zipfile.ZipFile(tex[(ns, name)][0]).read(tex[(ns, name)][1])).decode()

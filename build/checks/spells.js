@@ -80,6 +80,7 @@
     for (const x of A) { const e = Ei.get(x.i); if (!e) { bad.push('spells: ' + x.i + ' is on the Ars tab but not a glyph in the export'); continue; }
       if (x.c !== e.cost || !!x.x !== (e.enabled === false) || x.k !== KIND[e.type]) bad.push('spells: ' + x.i + ' cost, on/off or kind differ from the export');
       if (!(x.k in ACOL)) bad.push('spells: Ars kind "' + x.k + '" has no colour (ACOL in app.js)');
+      if (!(x.g || '').trim()) bad.push('spells: ' + x.i + ' has a blank description (Iceburst\'s export text is one space: spell_systems.py falls back to the lang file)');
       if (![1, 2, 3].includes(x.r)) bad.push('spells: ' + x.i + ' has tier ' + x.r);
       if (tierOf.has(e.tier) && tierOf.get(e.tier) !== x.r) bad.push('spells: ' + x.i + ' tier ' + x.r + ', another glyph of the same SpellTier has ' + tierOf.get(e.tier));
       tierOf.set(e.tier, x.r); }

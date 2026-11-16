@@ -55,15 +55,15 @@ def ars_book(parts, rgb=(255, 60, 200)):
 
 
 # glyphs by the name after the namespace (the same name never appears in two add-ons here)
-ARS_FILTER_TARGET = {'glyph_undead_filter': 'husk', 'glyph_fiery_filter': 'blaze', 'glyph_aerial_filter': 'bat', 'glyph_aquatic_filter': 'drowned',
+ARS_FILTER_TARGET = {'glyph_undead_filter': 'husk', 'glyph_fiery_filter': 'magma', 'glyph_aerial_filter': 'bat', 'glyph_aquatic_filter': 'drowned',
                      'glyph_insect_filter': 'spider', 'glyph_filter_animal': 'pig', 'glyph_filter_monster': 'husk', 'glyph_filter_living': 'husk',
                      'glyph_filter_living_not_monster': 'pig', 'glyph_filter_living_not_player': 'husk', 'glyph_filter_entity': 'husk',
                      'glyph_filter_is_baby': 'baby_pig', 'glyph_filter_is_mature': 'pig'}   # the not_ filters pass the dummy
 ARS_SELF = {'glyph_glide', 'glyph_leap', 'glyph_slowfall', 'glyph_invisibility', 'glyph_bounce', 'glyph_bubble_shield', 'glyph_summon_steed', 'glyph_sense_magic',
-            'glyph_summon_decoy', 'glyph_effectconjureblade', 'glyph_effectconjurearrow', 'glyph_ender_inventory', 'glyph_craft'}
+            'glyph_summon_decoy', 'glyph_effectconjurearrow', 'glyph_ender_inventory', 'glyph_craft'}
 ARS_FLOOR = {'glyph_break', 'glyph_place_block', 'glyph_conjure_terrain', 'glyph_conjure_water', 'glyph_crush', 'glyph_cut', 'glyph_fell', 'glyph_grow', 'glyph_harvest',
              'glyph_interact', 'glyph_phantom_block', 'glyph_redstone_signal', 'glyph_rotate', 'glyph_smelt', 'glyph_light', 'glyph_evaporate', 'glyph_exchange',
-             'glyph_animate_block', 'glyph_rune', 'glyph_intangible', 'glyph_plow', 'glyph_flatten', 'glyph_effectraiseearth', 'glyph_effectdismantle', 'glyph_effecteruption'}
+             'glyph_animate_block', 'glyph_rune', 'glyph_intangible', 'glyph_plow', 'glyph_flatten', 'glyph_effectraiseearth', 'glyph_effectblueflame'}
 ARS_WRAP = {'burst', 'glyph_delay', 'glyph_linger', 'glyph_wall', 'glyph_propagator_arc', 'glyph_propagator_homing', 'reset', 'rewind',
             'glyph_propagate_projectile', 'glyph_propagate_self', 'glyph_propagate_underfoot', 'glyph_propagate_plane', 'glyph_chaining', 'glyph_reverse_direction',
             'glyph_propdetonate', 'glyph_filternotself', 'glyph_spellefficiency'}
@@ -73,9 +73,31 @@ ARS_AUG_BASE = {'aoe': ([AN + 'projectile', 'ars_elemental:glyph_conjure_terrain
                 'fortune': ([AN + 'projectile', AN + 'break'], {'pitch': 30})}
 
 
+# Ars glyphs that need more than ars_stage gives (review of 2026-11-16; each from the glyph's own description in the jar's lang file)
+ARS_SETUP = {
+    'adamsarsplus:glyph_effecteruption': {'hold': [AN + 'projectile', 'adamsarsplus:glyph_effecteruption', AN + 'ignite'], 'secs': 10},   # burning targets take more damage
+    'adamsarsplus:glyph_effectfracture': {'hold': [AN + 'projectile', 'adamsarsplus:glyph_effectfracture', AN + 'launch'], 'target': 'husk', 'secs': 8},   # damage on landing
+    'adamsarsplus:glyph_effecticeburst': {'hold': [AN + 'projectile', 'adamsarsplus:glyph_effecticeburst'], 'pitch': 30, 'target': 'husk', 'gap': 2.5,
+                                          'pre': ['execute positioned %(X)d -61 %(Z)d run setblock ~-1 ~ ~ minecraft:ice']},   # shatters the ice block the spell lands on
+    'adamsarsplus:glyph_effectdomain': {'hold': [AN + 'projectile', 'adamsarsplus:glyph_effectdomain', AN + 'harm'], 'target': 'husk', 'secs': 10},
+    'adamsarsplus:glyph_effectmeteorswarm': {'hold': [AN + 'projectile', 'adamsarsplus:glyph_effectmeteorswarm', AN + 'harm'], 'cam': 'wide', 'secs': 10},
+    'adamsarsplus:glyph_effectsummonundead_m': {'target': 'husk', 'secs': 10},
+    'adamsarsplus:glyph_propdetonate': {'pitch': 30, 'cam': 'wide'},
+    'ars_elemental:glyph_charm': {'target': 'husk_ai', 'secs': 8},
+    'ars_elemental:glyph_discharge': {'target': 'husk', 'pre': ['effect give @e[type=minecraft:husk] ars_elemental:static_charged 60']},   # only a charged target discharges
+    'ars_elemental:glyph_envenom': {'target': 'husk', 'secs': 10},
+    'ars_elemental:glyph_aquatic_filter': {'pre': ['time set 13200']},   # the drowned burns in the evening sun
+    # a form that fires on the last entity that hurt the caster: survival (creative takes no damage), a husk that attacks, the cast after its blow
+    'ars_additions:glyph_retaliate': {'survival': 1, 'target': 'husk_ai', 'gap': 1.5, 'nocast': 1, 'secs': 9, 'after': [[60, 'click:3']]},
+}
+
+
 def ars_stage(s):
     """the spell that shows one glyph, and the stage it needs (merged under SETUP)"""
     g, k, n = s['id'], s.get('kind'), s['id'].split(':', 1)[1]
+    if g in ARS_SETUP:
+        st = dict(ARS_SETUP[g]); st['hold'] = ars_book(st['hold']) if isinstance(st.get('hold'), list) else st.get('hold') or ars_book([AN + 'projectile', g] + ([AN + 'harm'] if n in ARS_WRAP else []))
+        return st
     if k == 'form': return {'hold': ars_book([g, AN + ('leap' if n == 'glyph_self' else 'break' if n == 'glyph_underfoot' else 'harm')]), 'gap': 1.5 if n == 'glyph_touch' else 3.5}
     if k == 'filter':   # a filter lets the effects after it reach only one kind of target: the clip shows it passing, on a target of that kind
         if n == 'glyph_filter_player': return {'hold': ars_book([AN + 'self', g, AN + 'leap'])}
@@ -107,6 +129,7 @@ TARGETS = {'dummy': ('dummmmmmy:target_dummy', '', 'peaceful'),
            'bat': ('minecraft:bat', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f]}', 'easy'),
            'drowned': ('minecraft:drowned', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f]}', 'easy'),
            'baby_pig': ('minecraft:pig', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Age:-24000}', 'easy'),
+           'magma': ('minecraft:magma_cube', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Size:1}', 'easy'),   # fire immune, does not burn on its own
            'husk_ai': ('minecraft:husk', '{Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Attributes:[{Name:"minecraft:generic.max_health",Base:1000d}],Health:1000f}', 'easy')}   # with AI (fear, madness); a husk, as a zombie burns in the evening sun
 # camera keyframes (x, y, z offsets from the stage centre X, Z; yaw; pitch), a slow dolly from the first to the second; field of view 50
 CAMS = {'side': ((0.1, -58.6, 7.0, 180, 5), (0.9, -58.65, 6.5, 180, 5)),          # the default: side on from 6.5 blocks
@@ -485,6 +508,8 @@ def main():
            'clearCooldowns player RenderBot', 'clearRecasts player RenderBot', 'gamemode %s RenderBot' % ('creative' if player and not st.get('survival') else 'survival'), 'attribute RenderBot irons_spellbooks:mana_regen modifier remove 0-0-0-78-1', 'attribute RenderBot irons_spellbooks:max_mana modifier remove 0-0-0-78-2', 'attribute RenderBot irons_spellbooks:spell_power modifier remove 0-0-0-78-3',   # /cast still waits out a spell's cooldown (Supernova 180 s, Dead King 3600 s), so a second take of a spell cast nothing
            'forceload remove all', 'forceload add %d %d %d %d' % (X - 24, Z - 24, X + 24, Z + 24)], 15)
         c(['tp RenderBot %.1f -60 %d' % (X - g, Z), 'fill %d -61 %d %d -61 %d minecraft:polished_deepslate' % (X - 24, Z - 24, X + 24, Z + 24),
+           # the air above the floor too: fire, conjured blocks and trees of an earlier run at the same spot stayed in the next clip (2026-11-16); two fills, each under the 32768-block limit
+           'fill %d -60 %d %d -51 %d minecraft:air' % (X - 24, Z - 24, X + 24, Z + 24), 'fill %d -50 %d %d -41 %d minecraft:air' % (X - 24, Z - 24, X + 24, Z + 24),
            'fill %d -60 %d %d -56 %d minecraft:barrier' % (int(X + g + 1.5), Z - 1, int(X + g + 1.5), Z + 1), 'kill @e[type=!player]',
            ('summon %s %.1f -60 %.1f %s' % (tg[0], X + g, Z + 0.5, tg[1])).rstrip() if tg[0] else 'time query gametime'] + [p % var for p in st.get('pre', [])], 10)   # a trailing space fails the command
         robe = ROBE.get((s.get('school') or '').split(':')[-1], 'wandering_magician')
