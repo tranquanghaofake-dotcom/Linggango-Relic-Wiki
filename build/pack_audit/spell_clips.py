@@ -330,6 +330,14 @@ SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charg
               'goetyawaken:chip_focus': {'target': 'husk'}, 'goetyawaken:chip_rain_focus': {'target': 'husk'},   # fire at a hostile target only
               'goetyawaken:ghost_havoc_focus': {'target': 'husk'}, 'goetyawaken:ghost_missile_focus': {'target': 'husk'},
               'goetyawaken:marble_focus': {'pitch': 30},   # places its block where the eye meets the floor
+              'goetyawaken:swamp_mine_focus': {'target': 'husk'}, 'goetyawaken:wololo_focus': {'target': 'sheep'},
+              'goetydelight:love_and_fertility_focus': {'target': 'pig'},
+              # Goety Delight's farming focuses need the plants they act on, in front of the caster where the eye meets the floor
+              'goetydelight:crop_growth_focus': {'pitch': 30, 'pre': ['fill %(Xm3)d -61 %(Zm2)d %(X)d -61 %(Za)d minecraft:farmland', 'fill %(Xm3)d -60 %(Zm2)d %(X)d -60 %(Za)d minecraft:wheat[age=0]']},
+              'goetydelight:hoe_focus': {'pitch': 30, 'pre': ['fill %(Xm3)d -61 %(Zm2)d %(X)d -61 %(Za)d minecraft:farmland', 'fill %(Xm3)d -60 %(Zm2)d %(X)d -60 %(Za)d minecraft:wheat[age=7]']},
+              'goetydelight:grass_cutting_focus': {'pre': ['fill %(Xm3)d -60 %(Zm2)d %(X)d -60 %(Za)d minecraft:grass']},
+              'goetydelight:rich_soil_focus': {'pitch': 30, 'pre': ['fill %(Xm3)d -61 %(Zm2)d %(X)d -61 %(Za)d minecraft:dirt']},
+              'goetydelight:tree_growth_focus': {'pre': ['execute positioned %(X)d -61 %(Z)d run setblock ~-1 ~ ~ minecraft:dirt', 'execute positioned %(X)d -60 %(Z)d run setblock ~-1 ~ ~ minecraft:oak_sapling']},
               'goetyawaken:desert_plagues_focus': {'secs': 16}, 'goetyawaken:great_meteor_focus': {'cam': 'far'},   # a 10 s cast; a blast whose smoke filled the side camera
               # only a lich casts it: lichdom from Goety's own command for this clip, taken back before the next (a lasting state, as Bulwark's shields were)
               'goetyawaken:champion_focus': {'pre': ['lichdom grant RenderBot'], 'after': [[310, 'lichdom revoke RenderBot']]},
