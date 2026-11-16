@@ -95,6 +95,21 @@ ARS_SETUP = {
                                           'pre': ['item replace entity RenderBot enderchest.%d with minecraft:%s' % (k, it) for k, it in enumerate(('diamond 12', 'emerald 30', 'golden_apple 4', 'ender_pearl 16'))]},
     'ars_nouveau:glyph_exchange': {'pitch': 30, 'gear': ['item replace entity RenderBot hotbar.1 with minecraft:gold_block 64']},   # swaps in a block from the inventory
     'ars_nouveau:glyph_flare': {'pre': ['execute as @e[type=dummmmmmy:target_dummy] run data merge entity @s {Fire:400s}']},   # hits burning targets harder
+    'ars_nouveau:glyph_gravity': {'target': 'bat'}, 'ars_nouveau:glyph_gust': {'target': 'pig'},
+    'ars_nouveau:glyph_heal': {'target': 'pig', 'pre': ['damage @e[type=minecraft:pig,limit=1] 6 minecraft:generic']},
+    'ars_nouveau:glyph_grow': {'pitch': 30, 'pre': ['fill %(Xm2)d -61 %(Zm1)d %(X)d -61 %(Zp1)d minecraft:farmland', 'fill %(Xm2)d -60 %(Zm1)d %(X)d -60 %(Zp1)d minecraft:wheat[age=0]']},
+    'ars_nouveau:glyph_harvest': {'pitch': 30, 'pre': ['fill %(Xm2)d -61 %(Zm1)d %(X)d -61 %(Zp1)d minecraft:farmland', 'fill %(Xm2)d -60 %(Zm1)d %(X)d -60 %(Zp1)d minecraft:wheat[age=7]']},
+    'ars_nouveau:glyph_infuse': {'gear': ['item replace entity RenderBot hotbar.1 with minecraft:potion{Potion:"minecraft:strong_harming"}']},   # a potion from the inventory
+    'ars_nouveau:glyph_interact': {'pitch': 30, 'pre': ['execute positioned %(Xm1)d -60 %(Z)d run setblock ~ ~ ~ minecraft:oak_fence_gate[facing=east]']},   # opens the gate
+    'ars_nouveau:glyph_pickup': {'pitch': 30, 'pre': ['summon minecraft:item %(Xm1)d -60 %(Z)d {Item:{id:"minecraft:diamond",Count:3b}}', 'summon minecraft:item %(X)d -60 %(Zp1)d {Item:{id:"minecraft:emerald",Count:3b}}']},
+    'ars_nouveau:glyph_place_block': {'pitch': 30, 'gear': ['item replace entity RenderBot hotbar.1 with minecraft:gold_block 64']},
+    'ars_nouveau:glyph_toss': {'pitch': 30, 'gear': ['item replace entity RenderBot hotbar.1 with minecraft:diamond 8']},
+    'ars_nouveau:glyph_smelt': {'pitch': 30, 'pre': ['fill %(Xm2)d -61 %(Zm1)d %(X)d -61 %(Zp1)d minecraft:sand']},   # sand to glass
+    'ars_nouveau:glyph_rotate': {'pitch': 30, 'pre': ['execute positioned %(Xm1)d -60 %(Z)d run setblock ~ ~ ~ minecraft:oak_stairs[facing=east]']},
+    'ars_nouveau:glyph_pull': {'target': 'pig'}, 'ars_nouveau:glyph_snare': {'target': 'pig'}, 'ars_nouveau:glyph_launch': {'target': 'pig'},
+    'ars_nouveau:glyph_name': {'target': 'pig'}, 'ars_nouveau:glyph_wind_shear': {'target': 'bat'},   # names it "lgw"; hits a target in the air
+    'ars_nouveau:glyph_summon_undead': {'target': 'husk', 'secs': 10}, 'ars_nouveau:glyph_summon_vex': {'target': 'husk', 'secs': 10},
+    'ars_nouveau:glyph_summon_wolves': {'target': 'husk', 'secs': 10},
     'ars_nouveau:glyph_fell': {'pitch': 30, 'pre': ['fill %(Xm1)d -60 %(Z)d %(Xm1)d -56 %(Z)d minecraft:oak_log', 'fill %(Xm2)d -55 %(Zm1)d %(X)d -54 %(Zp1)d minecraft:oak_leaves']},   # a tree where the 30-degree ray meets it
     'ars_nouveau:glyph_evaporate': {'pitch': 30, 'pre': ['fill %(Xm3)d -60 %(Zm2)d %(X)d -60 %(Za)d minecraft:water']},   # aimed at the floor (ARS_FLOOR), where the water is
     'ars_elemental:glyph_aquatic_filter': {'target': 'drowned', 'pre': ['time set 13200']},   # the drowned burns in the evening sun
