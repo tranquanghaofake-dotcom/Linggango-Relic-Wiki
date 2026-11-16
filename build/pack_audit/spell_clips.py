@@ -78,7 +78,7 @@ ARS_SETUP = {
     'adamsarsplus:glyph_effecteruption': {'hold': [AN + 'projectile', 'adamsarsplus:glyph_effecteruption', AN + 'ignite'], 'secs': 10},   # burning targets take more damage
     'adamsarsplus:glyph_effectfracture': {'hold': [AN + 'projectile', 'adamsarsplus:glyph_effectfracture', AN + 'launch'], 'target': 'husk', 'secs': 8},   # damage on landing
     'adamsarsplus:glyph_effecticeburst': {'hold': [AN + 'projectile', 'adamsarsplus:glyph_effecticeburst'], 'pitch': 30, 'target': 'husk', 'gap': 2.5,
-                                          'pre': ['execute positioned %(X)d -61 %(Z)d run setblock ~-1 ~ ~ minecraft:ice']},   # shatters the ice block the spell lands on
+                                          'pre': ['fill %(X)d -61 %(Zm2)d %(Xp3)d -61 %(Zc)d minecraft:ice']},   # shatters the ice the spell lands on (30 degrees from the eye meets the floor about X+1)
     'adamsarsplus:glyph_effectdomain': {'hold': [AN + 'projectile', 'adamsarsplus:glyph_effectdomain', AN + 'harm'], 'target': 'husk', 'secs': 10},
     'adamsarsplus:glyph_effectmeteorswarm': {'hold': [AN + 'projectile', 'adamsarsplus:glyph_effectmeteorswarm', AN + 'harm'], 'cam': 'wide', 'secs': 10},
     'adamsarsplus:glyph_effectsummonundead_m': {'target': 'husk', 'secs': 10},
