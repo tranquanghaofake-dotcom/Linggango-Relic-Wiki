@@ -512,7 +512,7 @@ def main():
             from Xlib.ext import xtest
             xdp = xd.Display(a.display); kc = xdp.keysym_to_keycode(XK.string_to_keysym('Escape'))
             xtest.fake_input(xdp, XX.KeyPress, kc); xdp.sync(); time.sleep(0.05); xtest.fake_input(xdp, XX.KeyRelease, kc); xdp.sync(); time.sleep(20 * TICK)
-        if st.get('hud'): xinput(a.display, 'key:F1:tap'); time.sleep(4 * TICK)   # the HUD on for spells whose effect is the player's own bars (hearts, mana)
+        if st.get('hud') and not a.diag: xinput(a.display, 'key:F1:tap'); time.sleep(4 * TICK)   # the HUD on for spells whose effect is the player's own bars (hearts, mana); --diag has it on already (a toggle here hid it for every later shot, 2026-11-16)
         if a.diag:   # no clip: the HUD is on (F1 pressed before the run) and the screen is grabbed after the cast, to read the cast's error message
             import threading
             def grabs(t0box, n=name, t=t):
