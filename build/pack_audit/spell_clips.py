@@ -385,6 +385,13 @@ SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5, 'cam': 'eyes'
               'goety:crafting_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270'},
               'goety:ender_chest_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270', 'pre': ['item replace entity RenderBot enderchest.%d with minecraft:%s' % (k, it) for k, it in
                                           enumerate(('diamond 12', 'emerald 30', 'golden_apple 4', 'ender_pearl 16', 'iron_ingot 64', 'book 8'))]}})
+# Brutality spells that need more than the default stage (from each spell's own description in the jar's lang file)
+SETUP.update({'brutality:dematerialize': {'target': 'pig'},   # deletes a mob whose health is under its threshold (the husk has 1000)
+              'brutality:gravitokinesis': {'target': 'pig'}, 'brutality:light_binding': {'target': 'husk_ai'},   # pulls a mob; halts a moving one
+              'brutality:void_walk': {'cam': 'far'}, 'brutality:cosmic_cataclysm': {'cam': 'far', 'secs': 10},
+              'brutality:divine_retribution': {'secs': 14}, 'brutality:nightfall': {'secs': 9}, 'brutality:chthonic_capsule': {'secs': 9},
+              'brutality:moonlit_mending': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1, 'pre': ['damage RenderBot 12 minecraft:generic']},
+              'brutality:sacrifice': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1, 'pre': ['damage RenderBot 12 minecraft:generic']}})
 ATTR = ['spell_power', 'cast_time_reduction', 'cooldown_reduction'] + [k + '_spell_power' for k in ('fire', 'ice', 'lightning', 'holy', 'ender', 'blood', 'evocation', 'nature', 'eldritch')]
 
 
@@ -522,7 +529,7 @@ def main():
         elif brut:
             robe = None; off = []; tome = 'brutality:%s{Spells:[{SpellId:"%s",SpellLevel:%d}],SelectedSpellIndex:0}' % (BTOME.get(s.get('school'), 'cosmic_tome'), s['id'], lvl)
             c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['item replace entity RenderBot weapon.offhand with minecraft:air', 'item replace entity RenderBot weapon.mainhand with ' + st.get('hold', tome),
-               'attribute RenderBot brutality:max_mana base set 1000', 'attribute RenderBot brutality:mana_regen base set 1000'] + [x % var for x in st.get('gear', [])], 20)   # a second for the mana to fill
+               'attribute RenderBot brutality:max_mana base set 1000', 'attribute RenderBot brutality:mana_regen base set 1000'] + [x % var for x in st.get('gear', [])], 120)   # 6 s for the mana to fill: after 1 s Annihilation (cost 105) cast nothing and Star Burst (65) cast
         elif ars:
             robe = None; off = []
             c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['item replace entity RenderBot weapon.offhand with minecraft:air', 'item replace entity RenderBot weapon.mainhand with ' + st['hold']] + [x % var for x in st.get('gear', [])], 4)
