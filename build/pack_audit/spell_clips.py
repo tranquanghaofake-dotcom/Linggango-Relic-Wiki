@@ -315,7 +315,7 @@ for _n in ARS_EXAMPLES:
     SETUP['ars_n_spells:ars_cross_%d' % _n] = {'hold': ars_staff(_n), 'pre': ['gamemode creative RenderBot'], 'cam': 'mid' if _n in (6, 7) else 'side', 'difficulty': 'easy'}
 # Goety focuses that need more than the class default (review of 2026-11-15): touch spells on a mob (the dummy takes the click itself), a teleport
 # and a ring of walls that leave the side camera's frame
-SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5}, 'goety:charge_focus': {'target': 'husk', 'gap': 1.5},
+SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5, 'cam': 'eyes'}, 'goety:charge_focus': {'target': 'husk', 'gap': 1.5, 'cam': 'eyes'},   # a right click ON a mob: the client picks it from the camera, so the player's own view (from the CMDCam camera the click met nothing, twice)
               'goety:blink_focus': {'cam': 'far'}, 'goety:barricade_focus': {'cam': 'wide'}, 'goety:ghastly_focus': {'cam': 'wide'}, 'goety:guardian_focus': {'cam': 'wide'},   # minions out of the side frame
               'goety:glow_light_focus': {'pitch': 30}, 'goety:soul_light_focus': {'pitch': 30},   # the light ball forms where the shot meets a block
               'goety:overgrowth_focus': {'cam': 'wide'}, 'goety:phantasm_focus': {'cam': 'wide', 'pre': ['time set 13800']},   # phantoms burn in the evening sun
