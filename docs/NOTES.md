@@ -1750,3 +1750,47 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   - Sân quay cần thêm 9 jar: Adam's Ars Plus, Ars Additions, Ars Elemental, Not Enough Glyphs, Tome of Blood, Blood Magic (Tome of Blood cần), Brutality, Terramity, Photon (Brutality cần).
 - **Dung lượng site**: hiện khoảng 635 MB (GitHub Pages giới hạn 1 GB). Ước tính đủ 209 clip Goety thì khoảng 810 MB, thêm Ars và Brutality (khoảng 196 clip) sẽ vượt 1 GB. Cần quyết cách làm trước khi đưa clip Ars và Brutality lên.
 - **Open**: (1) quay nốt 77 focus Goety và 31 clip quay lại (blackguard, blasting, blazing, carrion, burrowing, call, charge, banish, blink, barricade, crafting, ender_chest, fire_blast, frost_nova, ghastly, glow_light, guardian, overgrowth, phantasm, pulverize, rotation, shockwave, soul_light, iron_hide, soul_heal, sword, telekinesis, temblor_clap, trembling, water_whip, wind_blast; tất cả là `goety:<tên>_focus`), duyệt rồi đưa lên; (2) clip Ars và Brutality: thêm 9 jar vào sân quay, chạy thử, quay, duyệt; (3) dung lượng site như trên.
+## 2026-11-16: 178 clip Goety; nén lại mọi clip ở CRF 28
+- **Nén** (chủ wiki giao "chọn cách nén tối ưu"): H.264 CRF 28, preset slow, tune animation; giữ 1280x720 và 60 fps.
+  - Thử trên 4 clip mẫu (Fireball, Blizzard, Vexing, Ignite), tính so với bản CRF 23 medium đang dùng:
+    - CRF 26: 68% dung lượng, SSIM 0.984–0.988;
+    - CRF 28: 54% (52% với tune animation), SSIM 0.978–0.983;
+    - CRF 30: 44%, SSIM 0.970–0.977, sàn nhà bắt đầu mờ khi xem cận.
+  - Giữ H.264, không đổi sang AV1 hay VP9, vì Safari không phát được ổn định hai codec đó.
+  - `spell_clips.py` nay ghi thẳng ở thiết lập mới. Script mới `pack_audit/clips_reencode.py` nén lại các clip cũ: đọc CRF trong SEI của x264, clip nào chưa CRF 28 thì nén, chạy tiếp được nếu bị dừng.
+  - Kết quả: 482 clip từ 471 MB (396 clip) còn 373 MB; `static/` của site khoảng 395 MB, xa giới hạn 1 GB của GitHub Pages.
+- **Goety**: đã quay đủ 203 focus (6 focus của Linggango Tweaks còn chờ, xem dưới). Duyệt từng clip, kể cả 3 lượt quay lại:
+  - **178 dùng được**, đều lên site;
+  - **14 không quay được**:
+    - Command, Order, Troop, Call: phải lưu servant vào focus trước;
+    - Recall: phải lưu một vị trí trước;
+    - Access: phải gắn một Ender Access Lectern trước;
+    - Dementor, Dragon Nirvana, Dragon Skyrocket, Nether Meteor, Shadow Clone: focus mang phép rỗng (EmptySpell, cast -1), chính mod mô tả là "Nothing.";
+    - Banish, Charge: phép chạm, thử 2 cách (husk + camera bên, husk + góc nhìn người chơi) đều không có tác dụng, nên dừng;
+    - Grass Cutting: cỏ đặt bằng lệnh không đứng được, không có gì để cắt;
+  - **11 chưa rõ nguyên nhân** (clip không hiện gì): Iron Hide, Lightning Spear, Water Spear, Agony, Chip, Chip Rain, Desert Plagues, Fate Dice, Ghost Missile, Swamp Mine, Love and Fertility.
+    - Hai lần chạy chẩn đoán (`--diag`) đều chụp ra màn hình không có HUD, nên không đọc được thông báo lỗi. Đã dừng theo quy tắc 2 lần.
+    - Nguyên nhân: Iron Hide đứng đầu danh sách và có cờ `hud`; cờ này bật/tắt HUD bằng F1, còn chế độ chẩn đoán bỏ qua lần bật lại. Đã sửa: `--diag` nay bỏ qua cờ `hud`.
+- **Trạng thái còn sót sang clip sau** (tìm ra khi duyệt, đã sửa trong mã):
+  - khiên Bulwark: còn 4 clip sau;
+  - kiếm ở tay trái của clip Sword: còn 8 clip sau. Nay dọn tay trái trước mỗi clip;
+  - quyền lich của Champion: được cấp rồi thu hồi ngay trong chính clip đó;
+  - menu tạm dừng: hai clip survival nhìn xuống sàn làm màn hình tối, `gui_open()` tưởng có menu đang mở và bấm Escape, mở ra menu tạm dừng. Hai clip này nay bỏ bước kiểm menu.
+- **Dựng cảnh mới**:
+  - menu phóng to: Crafting, Ender Chest;
+  - survival có HUD: Soul Heal (thấy tim hồi);
+  - cừu xanh: Wololo;
+  - lúa non, lúa chín, đất, cây non cho các focus làm nông của Goety Delight;
+  - cấp quyền lich cho Champion;
+  - camera rộng hoặc xa: Sandstorm, Heretic, Blood Rain, Great Meteor;
+  - thời gian niệm 10 s: Desert Plagues.
+- **Kiểm tra**:
+  - `workspace` commit 9ba134577: 568 tệp đổi, gồm 396 clip cũ nén lại, 86 clip Goety mới và 86 poster.
+  - `approved.json` từ 396 thành 482 id.
+  - `apply_all.sh` exit 0; `bash build/check.sh` exit 0 (đã tắt game; invariant 0, a11y 0, script 0).
+  - Ảnh đã xem: `#spells/goety` lọc Goety Delight ở 1440. Phát thử Fireball và Tree Growth trong trang: video 1280x720, thời gian chạy tiếp.
+- **Sân quay**: đã chép thêm 12 jar (5 addon Ars, Blood Magic, Brutality, Terramity, Photon, Linggango Tweaks, Class API, Class Enhancement) vào server và client quay. Chưa khởi động lại với các jar này.
+- **Open**:
+  - (1) 6 focus Linggango Tweaks;
+  - (2) clip Ars (170 glyph, trừ 2 glyph pack tắt) và Brutality (26);
+  - (3) chạy lại chẩn đoán 11 focus nói trên (mã đã sửa, khoảng 12 phút).
