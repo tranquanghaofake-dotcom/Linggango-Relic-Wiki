@@ -93,7 +93,7 @@ ARS_SETUP = {
     'ars_nouveau:glyph_dispel': {'target': 'husk', 'pre': ['effect give @e[type=minecraft:husk] minecraft:glowing 60']},   # removes the glow outline
     'ars_nouveau:glyph_ender_inventory': {'hold': [AN + 'self', AN + 'ender_inventory'], 'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270',
                                           'pre': ['item replace entity RenderBot enderchest.%d with minecraft:%s' % (k, it) for k, it in enumerate(('diamond 12', 'emerald 30', 'golden_apple 4', 'ender_pearl 16'))]},
-    'ars_nouveau:glyph_evaporate': {'pre': ['fill %(Xm3)d -60 %(Zm2)d %(X)d -60 %(Za)d minecraft:water']},   # aimed at the floor (ARS_FLOOR), where the water is
+    'ars_nouveau:glyph_evaporate': {'pitch': 30, 'pre': ['fill %(Xm3)d -60 %(Zm2)d %(X)d -60 %(Za)d minecraft:water']},   # aimed at the floor (ARS_FLOOR), where the water is
     'ars_elemental:glyph_aquatic_filter': {'pre': ['time set 13200']},   # the drowned burns in the evening sun
     # a form that fires on the last entity that hurt the caster: survival (creative takes no damage), a husk that attacks, the cast after its blow
     'ars_additions:glyph_retaliate': {'survival': 1, 'target': 'husk_ai', 'gap': 1.5, 'nocast': 1, 'secs': 9, 'after': [[60, 'click:3']]},
