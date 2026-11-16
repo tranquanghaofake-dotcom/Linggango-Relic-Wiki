@@ -55,6 +55,10 @@ def ars_book(parts, rgb=(255, 60, 200)):
 
 
 # glyphs by the name after the namespace (the same name never appears in two add-ons here)
+ARS_FILTER_TARGET = {'glyph_undead_filter': 'husk', 'glyph_fiery_filter': 'blaze', 'glyph_aerial_filter': 'bat', 'glyph_aquatic_filter': 'drowned',
+                     'glyph_insect_filter': 'spider', 'glyph_filter_animal': 'pig', 'glyph_filter_monster': 'husk', 'glyph_filter_living': 'husk',
+                     'glyph_filter_living_not_monster': 'pig', 'glyph_filter_living_not_player': 'husk', 'glyph_filter_entity': 'husk',
+                     'glyph_filter_is_baby': 'baby_pig', 'glyph_filter_is_mature': 'pig'}   # the not_ filters pass the dummy
 ARS_SELF = {'glyph_glide', 'glyph_leap', 'glyph_slowfall', 'glyph_invisibility', 'glyph_bounce', 'glyph_bubble_shield', 'glyph_summon_steed', 'glyph_sense_magic',
             'glyph_summon_decoy', 'glyph_effectconjureblade', 'glyph_effectconjurearrow', 'glyph_ender_inventory', 'glyph_craft'}
 ARS_FLOOR = {'glyph_break', 'glyph_place_block', 'glyph_conjure_terrain', 'glyph_conjure_water', 'glyph_crush', 'glyph_cut', 'glyph_fell', 'glyph_grow', 'glyph_harvest',
@@ -73,7 +77,10 @@ def ars_stage(s):
     """the spell that shows one glyph, and the stage it needs (merged under SETUP)"""
     g, k, n = s['id'], s.get('kind'), s['id'].split(':', 1)[1]
     if k == 'form': return {'hold': ars_book([g, AN + ('leap' if n == 'glyph_self' else 'break' if n == 'glyph_underfoot' else 'harm')]), 'gap': 1.5 if n == 'glyph_touch' else 3.5}
-    if k == 'filter': return {'hold': ars_book([AN + 'projectile', g, AN + 'harm'])}
+    if k == 'filter':   # a filter lets the effects after it reach only one kind of target: the clip shows it passing, on a target of that kind
+        if n == 'glyph_filter_player': return {'hold': ars_book([AN + 'self', g, AN + 'leap'])}
+        if n == 'glyph_filter_block': return {'hold': ars_book([AN + 'projectile', g, AN + 'break']), 'pitch': 30}
+        return {'hold': ars_book([AN + 'projectile', g, AN + 'harm']), 'target': ARS_FILTER_TARGET.get(n, 'dummy')}
     if k == 'augment':
         fam = next((f for f in ARS_AUG_BASE if f in n.replace('extendtime', 'extend').replace('durationdown', 'duration').replace('duration_down', 'duration')), None)
         base, st = ARS_AUG_BASE.get(fam, ([AN + 'projectile', AN + 'harm'], {}))
@@ -95,6 +102,11 @@ TARGETS = {'dummy': ('dummmmmmy:target_dummy', '', 'peaceful'),
            'pyromancer': ('irons_spellbooks:pyromancer', '{PersistenceRequired:1b,Rotation:[90f,0f]}', 'easy'),   # casts at the caster: something to counter
            'husk_frozen': ('minecraft:husk', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],TicksFrozen:1000}', 'easy'),   # fully frozen (140+ ticks): Frostbite
            'none': (None, '', 'peaceful'),
+           'blaze': ('minecraft:blaze', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f]}', 'easy'),   # Ars filters: a creature of each kind
+           'spider': ('minecraft:spider', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f]}', 'easy'),
+           'bat': ('minecraft:bat', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f]}', 'easy'),
+           'drowned': ('minecraft:drowned', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f]}', 'easy'),
+           'baby_pig': ('minecraft:pig', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Age:-24000}', 'easy'),
            'husk_ai': ('minecraft:husk', '{Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Attributes:[{Name:"minecraft:generic.max_health",Base:1000d}],Health:1000f}', 'easy')}   # with AI (fear, madness); a husk, as a zombie burns in the evening sun
 # camera keyframes (x, y, z offsets from the stage centre X, Z; yaw; pitch), a slow dolly from the first to the second; field of view 50
 CAMS = {'side': ((0.1, -58.6, 7.0, 180, 5), (0.9, -58.65, 6.5, 180, 5)),          # the default: side on from 6.5 blocks
@@ -440,6 +452,7 @@ def main():
 
     goety, ars, brut = a.system == 'goety', a.system == 'ars', a.system == 'brutality'; player = goety or ars or brut   # player: cast by the player's right button, in creative mode
     spells = [s for s in json.load(open(SYSTEMS[a.system], encoding='utf-8'))['spells'] if player or (s['enabled'] and s['ns'] in a.ns.split(','))]
+    if ars: spells = [s for s in spells if s.get('enabled') is not False]   # the pack's config turns two glyphs off: no clip for them
     if a.only: spells = [s for s in spells if s['id'] in a.only.split(',')]
     if a.limit: spells = spells[:a.limit]
     c(['gamerule %s false' % g for g in ('sendCommandFeedback', 'logAdminCommands', 'mobGriefing', 'doDaylightCycle', 'doWeatherCycle', 'doMobSpawning',
