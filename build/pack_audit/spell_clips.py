@@ -93,6 +93,9 @@ ARS_SETUP = {
     'ars_nouveau:glyph_dispel': {'target': 'husk', 'pre': ['effect give @e[type=minecraft:husk] minecraft:glowing 60']},   # removes the glow outline
     'ars_nouveau:glyph_ender_inventory': {'hold': [AN + 'self', AN + 'ender_inventory'], 'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270',
                                           'pre': ['item replace entity RenderBot enderchest.%d with minecraft:%s' % (k, it) for k, it in enumerate(('diamond 12', 'emerald 30', 'golden_apple 4', 'ender_pearl 16'))]},
+    'ars_nouveau:glyph_exchange': {'pitch': 30, 'gear': ['item replace entity RenderBot hotbar.1 with minecraft:gold_block 64']},   # swaps in a block from the inventory
+    'ars_nouveau:glyph_flare': {'pre': ['execute as @e[type=dummmmmmy:target_dummy] run data merge entity @s {Fire:400s}']},   # hits burning targets harder
+    'ars_nouveau:glyph_fell': {'pitch': 30, 'pre': ['fill %(Xm1)d -60 %(Z)d %(Xm1)d -56 %(Z)d minecraft:oak_log', 'fill %(Xm2)d -55 %(Zm1)d %(X)d -54 %(Zp1)d minecraft:oak_leaves']},   # a tree where the 30-degree ray meets it
     'ars_nouveau:glyph_evaporate': {'pitch': 30, 'pre': ['fill %(Xm3)d -60 %(Zm2)d %(X)d -60 %(Za)d minecraft:water']},   # aimed at the floor (ARS_FLOOR), where the water is
     'ars_elemental:glyph_aquatic_filter': {'target': 'drowned', 'pre': ['time set 13200']},   # the drowned burns in the evening sun
     # a form that fires on the last entity that hurt the caster: survival (creative takes no damage), a husk that attacks, the cast after its blow
@@ -516,7 +519,7 @@ def main():
             ct = s.get('castTicks') or 0; lvl = st.get('level', 1); t = ct / 20 if s.get('cast') == 'channelling' else 5.0 if s.get('cast') == 'continuous' else 0
             if not st.get('nocast') and s.get('cast') != 'instant': st = dict(st, after=sorted(st.get('after', []) + [[ct + 10 if s.get('cast') == 'channelling' else 100, 'btn:3:up']], key=lambda x: x[0]))
         var = {'X': X, 'Z': Z, 'Xt': '%.1f' % (X + g), 'Zb': Z - 3, 'Xa': X + 1, 'Xb': X + 6, 'Za': Z - 2, 'Zc': Z + 3, 'Xn': '%.1f' % (X + g - 1.2), 'X4': X + 4,
-               'Zm2': Z - 2, 'Xm3': X - 3, 'Xp3': X + 3, 'Zm3': Z - 3, 'Zp3': Z + 3, 'Xc': '%.1f' % (X - g + 0.5)}
+               'Zm2': Z - 2, 'Xm1': X - 1, 'Xm2': X - 2, 'Zm1': Z - 1, 'Zp1': Z + 1, 'Xm3': X - 3, 'Xp3': X + 3, 'Zm3': Z - 3, 'Zp3': Z + 3, 'Xc': '%.1f' % (X - g + 0.5)}
         dur = st.get('secs') or (6.0 if ars or s.get('cast') in ('INSTANT', 0, 'instant') else min(11, t + 6.0))
         c(['cam-server stop RenderBot', 'effect clear RenderBot', 'effect give RenderBot minecraft:instant_health 1 20 true', 'weather clear', 'time set ' + a.time,
            'gamerule doDaylightCycle false', 'difficulty ' + st.get('difficulty', a.difficulty or tg[2]), 'curios clear RenderBot spellbook',
