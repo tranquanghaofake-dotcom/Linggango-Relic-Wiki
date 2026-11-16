@@ -478,15 +478,16 @@ def main():
         if goety:
             robe = None; off = []; var.update(wand=st.get('hold', 'goety:dark_wand'), focus=s['id'])
             if st.get('survival'): c(['goety soul set RenderBot 100000'], 2)   # soul energy for a survival cast
-            c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['setblock %(X)d -62 %(Z)d minecraft:air' % var, WAND[0] % var], 2)   # air first: setblock leaves a barrel left by an earlier run as it is
+            c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['item replace entity RenderBot weapon.offhand with minecraft:air',   # a sword given for one clip stayed in the off hand for the next eight (2026-11-16)
+               'setblock %(X)d -62 %(Z)d minecraft:air' % var, WAND[0] % var], 2)   # air first: setblock leaves a barrel left by an earlier run as it is
             c([w % var for w in WAND[1:]] + [x % var for x in st.get('gear', [])], 4)
         elif brut:
             robe = None; off = []; tome = 'brutality:%s{Spells:[{SpellId:"%s",SpellLevel:%d}],SelectedSpellIndex:0}' % (BTOME.get(s.get('school'), 'cosmic_tome'), s['id'], lvl)
-            c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['item replace entity RenderBot weapon.mainhand with ' + st.get('hold', tome),
+            c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['item replace entity RenderBot weapon.offhand with minecraft:air', 'item replace entity RenderBot weapon.mainhand with ' + st.get('hold', tome),
                'attribute RenderBot brutality:max_mana base set 1000', 'attribute RenderBot brutality:mana_regen base set 1000'] + [x % var for x in st.get('gear', [])], 20)   # a second for the mana to fill
         elif ars:
             robe = None; off = []
-            c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['item replace entity RenderBot weapon.mainhand with ' + st['hold']] + [x % var for x in st.get('gear', [])], 4)
+            c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['item replace entity RenderBot weapon.offhand with minecraft:air', 'item replace entity RenderBot weapon.mainhand with ' + st['hold']] + [x % var for x in st.get('gear', [])], 4)
         else:
           c(['item replace entity RenderBot armor.%s with irons_spellbooks:%s_%s' % (slot, robe, part) for slot, part in (('head', 'helmet'), ('chest', 'chestplate'), ('legs', 'leggings'), ('feet', 'boots'))]
             + ['item replace entity RenderBot weapon.mainhand with ' + st.get('hold', 'irons_spellbooks:graybeard_staff')] + [x % var for x in st.get('gear', [])], 4)   # gear: after the robes and the held item
