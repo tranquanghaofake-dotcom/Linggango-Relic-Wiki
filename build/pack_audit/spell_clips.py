@@ -68,7 +68,7 @@ ARS_WRAP = {'burst', 'glyph_delay', 'glyph_linger', 'glyph_wall', 'glyph_propaga
             'glyph_propagate_projectile', 'glyph_propagate_self', 'glyph_propagate_underfoot', 'glyph_propagate_plane', 'glyph_chaining', 'glyph_reverse_direction',
             'glyph_propdetonate', 'glyph_filternotself', 'glyph_spellefficiency'}
 # an augment's base spell: what it changes must show (damage numbers, speed, area, burning time, the dropped block)
-ARS_AUG_BASE = {'aoe': ([AN + 'projectile', AN + 'conjure_terrain'], {'pitch': 30}), 'extend': ([AN + 'projectile', AN + 'ignite'], {'secs': 14, 'again': 90}),
+ARS_AUG_BASE = {'aoe': ([AN + 'projectile', 'ars_elemental:glyph_conjure_terrain'], {'pitch': 30}),   # Conjure Terrain is Ars Elemental's (an unknown part is dropped from the spell) 'extend': ([AN + 'projectile', AN + 'ignite'], {'secs': 14, 'again': 90}),
                 'duration': ([AN + 'projectile', AN + 'ignite'], {'secs': 14, 'again': 90}), 'extract': ([AN + 'projectile', AN + 'break'], {'pitch': 30}),
                 'fortune': ([AN + 'projectile', AN + 'break'], {'pitch': 30})}
 
