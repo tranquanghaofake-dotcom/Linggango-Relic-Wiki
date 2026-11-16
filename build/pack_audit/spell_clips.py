@@ -110,6 +110,7 @@ ARS_SETUP = {
     'ars_nouveau:glyph_name': {'target': 'pig'}, 'ars_nouveau:glyph_wind_shear': {'target': 'bat'},   # names it "lgw"; hits a target in the air
     'ars_nouveau:glyph_summon_undead': {'target': 'husk', 'secs': 10}, 'ars_nouveau:glyph_summon_vex': {'target': 'husk', 'secs': 10},
     'ars_nouveau:glyph_summon_wolves': {'target': 'husk', 'secs': 10},
+    'ars_nouveau:glyph_orbit': {'hold': [AN + 'projectile', AN + 'orbit', AN + 'harm'], 'target': 'husk', 'secs': 9},
     'ars_nouveau:glyph_fell': {'pitch': 30, 'pre': ['fill %(Xm1)d -60 %(Z)d %(Xm1)d -56 %(Z)d minecraft:oak_log', 'fill %(Xm2)d -55 %(Zm1)d %(X)d -54 %(Zp1)d minecraft:oak_leaves']},   # a tree where the 30-degree ray meets it
     'ars_nouveau:glyph_evaporate': {'pitch': 30, 'pre': ['fill %(Xm3)d -60 %(Zm2)d %(X)d -60 %(Za)d minecraft:water']},   # aimed at the floor (ARS_FLOOR), where the water is
     'ars_elemental:glyph_aquatic_filter': {'target': 'drowned', 'pre': ['time set 13200']},   # the drowned burns in the evening sun
