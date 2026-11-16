@@ -318,7 +318,7 @@ for _n in ARS_EXAMPLES:
 SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5, 'cam': 'eyes'}, 'goety:charge_focus': {'target': 'husk', 'gap': 1.5, 'cam': 'eyes'},   # a right click ON a mob: the client picks it from the camera, so the player's own view (from the CMDCam camera the click met nothing, twice)
               'goety:blink_focus': {'cam': 'far'}, 'goety:barricade_focus': {'cam': 'wide'}, 'goety:ghastly_focus': {'cam': 'wide'}, 'goety:guardian_focus': {'cam': 'wide'},   # minions out of the side frame
               'goety:glow_light_focus': {'pitch': 30}, 'goety:soul_light_focus': {'pitch': 30},   # the light ball forms where the shot meets a block
-              'goety:overgrowth_focus': {'cam': 'wide'}, 'goety:phantasm_focus': {'cam': 'wide', 'pre': ['time set 13800']},   # phantoms burn in the evening sun
+              'goety:overgrowth_focus': {'cam': 'wide'}, 'goety:phantasm_focus': {'cam': 'wide', 'pre': ['time set 13200']},   # phantoms burn in the evening sun (13800 was too dark to see them)
               'goety:pulverize_focus': {'pre': ['fill %(Xm3)d -61 %(Zm2)d %(X)d -61 %(Zc)d minecraft:cobblestone']},   # cobblestone turns to gravel
               'goety:rotation_focus': {'pre': ['execute positioned %(X)d -60 %(Z)d run setblock ~-1 ~ ~ minecraft:oak_stairs[facing=east]']},   # a block that turns, where the 35-degree eye ray meets it
               'goety:shockwave_focus': {'target': 'husk', 'gap': 1.5}, 'goety:temblor_clap_focus': {'target': 'husk', 'gap': 1.5}, 'goety:trembling_focus': {'target': 'husk', 'gap': 1.5},
@@ -342,8 +342,9 @@ SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5, 'cam': 'eyes'
               # only a lich casts it: lichdom from Goety's own command for this clip, taken back before the next (a lasting state, as Bulwark's shields were)
               'goetyawaken:champion_focus': {'pre': ['lichdom grant RenderBot'], 'after': [[310, 'lichdom revoke RenderBot']]},
               # the caster's own bars: survival (creative hides armour and hearts) with soul energy from the console, the player's view with the HUD
-              'goety:iron_hide_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60},
-              'goety:soul_heal_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'pre': ['damage RenderBot 12 minecraft:generic']},
+              # nogui: looking down at the floor darkens the sky band, which gui_open() took for an open menu, and its Escape opened the pause menu (2026-11-16)
+              'goety:iron_hide_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1},
+              'goety:soul_heal_focus': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1, 'pre': ['damage RenderBot 12 minecraft:generic']},
               'goety:fire_blast_focus': {'target': 'husk', 'gap': 1.5}, 'goety:frost_nova_focus': {'target': 'husk', 'gap': 1.5},   # a blast on the caster: a mob beside him
               # menus: the screen, enlarged (the menu is small at 1080p); the Ender Chest with something in it
               'goety:crafting_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270'},
