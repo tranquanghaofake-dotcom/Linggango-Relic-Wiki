@@ -111,6 +111,9 @@ ARS_SETUP = {
     'ars_nouveau:glyph_summon_undead': {'target': 'husk', 'secs': 10}, 'ars_nouveau:glyph_summon_vex': {'target': 'husk', 'secs': 10},
     'ars_nouveau:glyph_summon_wolves': {'target': 'husk', 'secs': 10},
     'ars_nouveau:glyph_redstone_signal': {'pitch': 30, 'pre': ['fill %(Xm2)d -61 %(Zm1)d %(X)d -61 %(Zp1)d minecraft:redstone_lamp']},   # the lamps it powers light up
+    'arsomega:glyph_flatten': {'pitch': 30, 'pre': ['fill %(Xm2)d -60 %(Zm1)d %(X)d -59 %(Zp1)d minecraft:stone']},   # flattens raised ground
+    'not_enough_glyphs:glyph_plow': {'pitch': 30, 'pre': ['fill %(Xm2)d -61 %(Zm1)d %(X)d -61 %(Zp1)d minecraft:grass_block']},   # tills it
+    'not_enough_glyphs:glyph_trail': {'hold': ['not_enough_glyphs:glyph_trail', AN + 'harm'], 'secs': 8, 'after': [[5, 'key:w:down'], [70, 'key:w:up']]},   # acts along the caster's path
     'ars_nouveau:glyph_orbit': {'hold': [AN + 'projectile', AN + 'orbit', AN + 'harm'], 'target': 'husk', 'secs': 9},
     'ars_nouveau:glyph_fell': {'pitch': 30, 'pre': ['fill %(Xm1)d -60 %(Z)d %(Xm1)d -56 %(Z)d minecraft:oak_log', 'fill %(Xm2)d -55 %(Zm1)d %(X)d -54 %(Zp1)d minecraft:oak_leaves']},   # a tree where the 30-degree ray meets it
     'ars_nouveau:glyph_evaporate': {'pitch': 30, 'pre': ['fill %(Xm3)d -60 %(Zm2)d %(X)d -60 %(Za)d minecraft:water']},   # aimed at the floor (ARS_FLOOR), where the water is
