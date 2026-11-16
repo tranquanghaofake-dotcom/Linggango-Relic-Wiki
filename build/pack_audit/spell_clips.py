@@ -85,7 +85,8 @@ ARS_SETUP = {
     'adamsarsplus:glyph_propdetonate': {'pitch': 30, 'cam': 'wide'},
     'ars_elemental:glyph_charm': {'target': 'husk_ai', 'secs': 8},
     'ars_elemental:glyph_discharge': {'target': 'husk', 'pre': ['effect give @e[type=minecraft:husk] ars_elemental:static_charged 60']},   # only a charged target discharges
-    'ars_elemental:glyph_envenom': {'target': 'husk', 'secs': 10},
+    'ars_elemental:glyph_envenom': {'target': 'husk', 'secs': 10}, 'ars_elemental:glyph_poison_spores': {'target': 'husk', 'secs': 10},
+    'ars_elemental:glyph_propagator_arc': {'pitch': 30, 'cam': 'wide'},   # the arc it sends on from where the first shot lands
     'ars_elemental:glyph_aquatic_filter': {'pre': ['time set 13200']},   # the drowned burns in the evening sun
     # a form that fires on the last entity that hurt the caster: survival (creative takes no damage), a husk that attacks, the cast after its blow
     'ars_additions:glyph_retaliate': {'survival': 1, 'target': 'husk_ai', 'gap': 1.5, 'nocast': 1, 'secs': 9, 'after': [[60, 'click:3']]},
