@@ -401,17 +401,17 @@ LGW.run = (server, who, name) => {
     var full = null; for (var k = 0; k < c.length; k++) if (top > 0 && c[k][1] >= .97 * top) { full = c[k][0]; break }
     return { curve: c, full: full, charge: ch }
   }
+  // a gun needs rounds loaded (Terramity keeps them in the stack's ammoLoaded) and an energy weapon needs charge (Mekanism, Just
+  // Dire Things): both are given before each shot, so the weapon fires the way it does in a real fight (2026-11-17)
+  var arm = st => {
+    try { c2(c0(st, 'getOrCreateTag'), 'putDouble', 'ammoLoaded', 999) } catch (e) {}
+    try { var EN = Java.loadClass('net.minecraftforge.common.capabilities.ForgeCapabilities').ENERGY; st.getCapability(EN).ifPresent(e => { e.receiveEnergy(2147483647, false) }) } catch (e) {}
+  }
   var ranged = id => {
     reset(); wear(EquipmentSlot.OFFHAND, Item.of('minecraft:arrow', 64))
     var r = { ad: c1(P, 'getAttributeValue', A_AD), shots: [] }, k = 0
     safe('draw curve', () => { var dc = drawCurve(id); r.curve = dc.curve; r.full = dc.full; r.charge = dc.charge }, id)
     reset(); wear(EquipmentSlot.OFFHAND, Item.of('minecraft:arrow', 64))
-    // a gun needs rounds loaded (Terramity keeps them in the stack's ammoLoaded) and an energy weapon needs charge (Mekanism, Just
-    // Dire Things): both are given before each shot, so the weapon fires the way it does in a real fight (2026-11-17)
-    var arm = st => {
-      try { c2(c0(st, 'getOrCreateTag'), 'putDouble', 'ammoLoaded', 999) } catch (e) {}
-      try { var EN = Java.loadClass('net.minecraftforge.common.capabilities.ForgeCapabilities').ENERGY; st.getCapability(EN).ifPresent(e => { e.receiveEnergy(2147483647, false) }) } catch (e) {}
-    }
     var shot = () => {
       wear(EquipmentSlot.MAINHAND, Item.of(id)); arm(c0(P, 'getMainHandItem')); ticks(5)
       // the target's health: 10,000, or the plan's rhp (1,000: the health melee scores take for a share-of-max-health weapon). Two more
