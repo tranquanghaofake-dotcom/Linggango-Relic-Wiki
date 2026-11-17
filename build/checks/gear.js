@@ -122,7 +122,7 @@ for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(
       ['Flames Of Eldritch (Lv 3)', 'MA', 'fire'], ['Flames Of Eldritch (Lv 3)', 'MA', 'eldritch'],
       ['Soul Whip', 'SU', 'summonity'], ['Soul Whip', 'SU', 'whip'], ['Spectre Whip', 'SU', 'goety'], ['Spectre Whip', 'SU', 'whip'], ['Imp Staff', 'SU', 'staff']];
   for (const [n, r, k] of want) { const x = at(n, r); if (!x.length || x.some(v => !v.includes(k))) bad.push(`equip-groups: ${n} (${r}) should be in "${k}": ${JSON.stringify(x)}`); }
-  for (const r of R) { await go(`#gear/${a}/${r}/w`); const all = tiles().length, counts = [...document.querySelectorAll('#main .gseg.subs a')].filter(a => !/\/attack$/.test(a.getAttribute('href'))).map(a => +a.querySelector('.n').textContent), total = counts[0], per = counts.slice(1), keys = GSUB[r].map(x => x[0]).filter(k => k !== 'attack').filter(k => listed(r).some(g => gSubOf(g, r).includes(k)));
+  for (const r of R) { await go(`#gear/${a}/${r}/w`); const all = tiles().length, counts = [...document.querySelectorAll('#main .gseg.subs a')].filter(a => !/\/(attack|whip)$/.test(a.getAttribute('href'))).map(a => +a.querySelector('.n').textContent), total = counts[0], per = counts.slice(1), keys = GSUB[r].map(x => x[0]).filter(k => k !== 'attack' && k !== 'whip').filter(k => listed(r).some(g => gSubOf(g, r).includes(k)));
     if (!total || per.length !== keys.length || per.some(n => !n || n > total) || ((r === 'ME' || r === 'RA') && per.reduce((x, y) => x + y, 0) !== total)) bad.push(`equip-groups: ${r} counts ${total} / ${per.join(', ')} for groups ${keys.join(', ')}`);
     for (const k of keys) { await go(`#gear/${a}/${r}/w/${k}`); const ts = tiles();
       if (!ts.length) bad.push(`equip-groups: ${r}/${k} shows nothing`);
@@ -155,6 +155,17 @@ for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(
     if (g.sc.SU != null && !(gMn(g) != null && g.sc.SU === gR3(gMn(g)))) o.add('tier-act: Summon weapon ranked without its measured minions: ' + g.id); }
   // the Mage tab's Own attack table: every Mage weapon with a measured own attack, by its damage a second, and nothing else
   for (const a of acts) { const xs = gPool(a, 'MA', 'x'); for (const [g, v] of xs) if (!('MA' in g.sc) || v !== gRng(g)) o.add(`tier-act: ${g.n} in Own attack at Act ${a} with ${v}`); }
+  // the Summon tab's Whips table (2026-11-17): every Summon whip with a number, by its own damage a second, and nothing else; a
+  // Summonity whip's lash is its config damage x 20 / cooldown ticks (Soul Whip: 24.6 every 13 ticks); the page lists them in that order
+  for (const a of acts) { const xs = gPool(a, 'SU', 'h'); for (const [g, v] of xs) if (!gWhip(g) || v !== gWh(g)) o.add(`tier-act: ${g.n} in Whips at Act ${a} with ${v}`); }
+  { const sw = GE.find(g => g.id === 'summonity:soul_whip'), xs = gPool(last, 'SU', 'h');
+    if (!sw || !sw.wh || Math.abs(gWh(sw) - 24.6 * 20 / 13) > 1e-9) o.add('tier-act: Soul Whip\'s lash is not 24.6 every 13 ticks: ' + JSON.stringify(sw && sw.wh));
+    if (xs.length < 6) o.add(`tier-act: the Whips table at Act ${last} has ${xs.length} whips`);
+    location.hash = `#gear/${last}/SU/w/whip`; render(); const shown = [...document.querySelectorAll('#main .gtl-list .grow:not(.gunr) a.gtl')].map(t => GE[+t.getAttribute('href').slice(2)]);
+    if (!shown.length || shown.some((g, i) => g !== gTiers(last, 'SU', 'h').flatMap(x => x[1])[i])) o.add('tier-act: the Whips page does not show the Whips table in order'); }
+  // a minion run's target is hurt only by minions (2026-11-17: in daylight the zombie burned, 1.25 a second, under every weapon,
+  // minions or none): a weapon that summoned nothing reads no damage
+  for (const g of GE) if (g.mn && !g.mn.n && g.mn.dmg > 0) o.add(`tier-act: ${g.id} summoned nothing, yet its target lost ${g.mn.dmg}`);
   for (const s of GS) if (!s.f && Object.values(s.sc).some(v => v != null)) o.add('tier-act: set ranked with no numbers: ' + s.k);
   for (const a of acts) for (const r of Object.keys(GROLE)) for (const w of ['w', 'a']) {
     const inList = new Set([...gPool(a, r, w).map(x => x[0]), ...gUnranked(a, r, w)]);

@@ -26,7 +26,7 @@ LGW.SRG = {
   setHealth: ['m_21153_'], getMaxHealth: ['m_21233_'], getHealth: ['m_21223_'], getArmorValue: ['m_21230_'], getAttributes: ['m_21204_'],
   getInventory: ['m_150109_'], getAttackStrengthScale: ['m_36403_'], attack: ['m_5706_'], getAbsorptionAmount: ['m_6103_'],
   setItemSlot: ['m_8061_'], doTick: ['m_9240_'], setNoAi: ['m_21557_'], getSharedSpawnPos: ['m_220360_'], addFreshEntity: ['m_7967_'],
-  clearContent: ['m_6211_'], setBaseValue: ['m_22100_'], getValue: ['m_22135_'], getSyncableAttributes: ['m_22170_'],
+  clearContent: ['m_6211_'], setBaseValue: ['m_22100_'], getValue: ['m_22135_'], getBaseValue: ['m_22115_'], getSyncableAttributes: ['m_22170_'],
   getDefaultValue: ['m_22082_'], getEffect: ['m_19544_'], getAmplifier: ['m_19564_'], getDuration: ['m_19557_'],
   mobAttack: ['m_269333_'], inFire: ['m_269387_'], magic: ['m_269425_'], explosion: ['m_269036_'], fall: ['m_268989_'],
   is: ['m_269533_'], getDamageAfterAbsorb: ['m_19272_'], isEmpty: ['m_41619_'], create: ['m_20615_'],
@@ -40,7 +40,8 @@ LGW.SRG = {
   getDeltaMovement: ['m_20184_'], getBaseDamage: ['m_36789_'], getOwner: ['m_19749_'], setOwner: ['m_5602_'], shoot: ['m_6686_'],
   setDeltaMovement: ['m_20256_'], resetFallDistance: ['m_183634_'], isNoGravity: ['m_20068_'], setGameMode: ['m_143403_'],
   getOrCreateTag: ['m_41784_'], putDouble: ['m_128347_'], getCooldowns: ['m_36335_'], isOnCooldown: ['m_41519_'],
-  setTarget: ['m_6710_'], getUUID: ['m_20148_'], useOn: ['m_6225_']
+  setTarget: ['m_6710_'], setItem: ['m_6836_'], getUUID: ['m_20148_'], useOn: ['m_6225_'], getId: ['m_19879_'], getType: ['m_6095_'], getPlayerList: ['m_6846_'],
+  getTarget: ['m_5448_'], isAlive: ['m_6084_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
   BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_', hurtTime: 'f_20916_', SURVIVAL: 'f_46392_', UP: 'f_122401_' }
@@ -112,7 +113,7 @@ LGW.run = (server, who, name) => {
     o.n++; if (id && o.ids.length < 5) o.ids.push(id)
   }
   var safe = (stage, f, id) => { try { f(); return true } catch (e) { err(stage, e, id); return false } }
-  var P = FakePlayerFactory.get(level, new GameProfile(UUID.fromString('6c9a3f1e-0b7d-4c55-9e2a-1f0d3b4a5c6e'), '[lgw_tester]'))
+  var PUID = UUID.fromString('6c9a3f1e-0b7d-4c55-9e2a-1f0d3b4a5c6e'), P = FakePlayerFactory.get(level, new GameProfile(PUID, '[lgw_tester]'))
   // next to whoever ran the command (their chunk is loaded), else above the world spawn
   var X, Y, Z
   if (who) { X = Math.floor(who.x) + 0.5; Y = Math.floor(who.y) + 3; Z = Math.floor(who.z) + 0.5 }
@@ -391,7 +392,7 @@ LGW.run = (server, who, name) => {
   var DRAWT = [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 25, 26, 28, 30, 32, 36, 40]
   var drawCurve = id => {
     var c = [], ch = null
-    DRAWT.forEach(t => { clearAll(); wear(EquipmentSlot.MAINHAND, Item.of(id)); var st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem')
+    DRAWT.forEach(t => { clearAll(); wear(EquipmentSlot.MAINHAND, Item.of(id)); arm(c0(P, 'getMainHandItem')); var st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem')
       safe('draw curve', () => { c3(it, 'use', level, P, MAIN); if (!c0(P, 'isUsingItem')) return; ticks(t); c0(P, 'releaseUsingItem')
         var cb = false; try { cb = !!c1(it, 'isCharged', st) } catch (e) {}
         if (cb) { if (ch == null) ch = t; c3(it, 'use', level, P, MAIN) }
@@ -407,11 +408,32 @@ LGW.run = (server, who, name) => {
     try { c2(c0(st, 'getOrCreateTag'), 'putDouble', 'ammoLoaded', 999) } catch (e) {}
     try { var EN = Java.loadClass('net.minecraftforge.common.capabilities.ForgeCapabilities').ENERGY; st.getCapability(EN).ifPresent(e => { e.receiveEnergy(2147483647, false) }) } catch (e) {}
   }
+  // ammunition in the inventory, not the off hand: Terramity's guns fire only with the off hand empty (their right-click procedure
+  // checks getOffhandItem is air; the third run: all 17 missed), and a bow finds arrows in the inventory as well. Slots 9 on, out of
+  // the hotbar: in slot 0 the weapon put in the main hand replaced them (first probe: the Bow had no arrows). Arrows, potatoes
+  // (Create's Potato Cannon), darts (Mowzie's Blowgun), silver bullets (Soulslike Weaponry's guns), steel rods (Immersive
+  // Engineering's Railgun), depthrock pebbles (the Undergarden's Slingshot)
+  var AMMO = ['minecraft:arrow', 'minecraft:potato', 'mowziesmobs:dart', 'soulsweapons:silver_bullet', 'immersiveengineering:stick_steel', 'undergarden:depthrock_pebble']
+  var ammo = () => AMMO.forEach((a, j) => safe('ammo', () => c2(c0(P, 'getInventory'), 'setItem', 9 + j, Item.of(a, 64))))
+  // a drawn weapon whose shot the speed curve cannot see (a beam, a projectile that is not an arrow: third run, Raygun and
+  // Dreadbow read 0 at every draw): held for 10, 20, 40 and 60 ticks of world time, one tick of the tester each (held in one
+  // server tick the target's hurt time never runs down, so a beam lands once), and the damage at each kept (r.dcurve)
+  var DCT = [10, 20, 40, 60]
+  var dcurve = (id, r, i) => {
+    if (i >= DCT.length) return null
+    clearAll(); clearShots(); wear(EquipmentSlot.MAINHAND, Item.of(id)); arm(c0(P, 'getMainHandItem')); ticks(5)
+    var d = dummy({ max: plan.rhp || 10000, dx: 5, dy: 0.9 }), h0 = hp(d), lows = [dummy({ max: plan.rhp || 10000, dx: 3, dy: -1 }), dummy({ max: plan.rhp || 10000, dx: 2, dy: -2.5 })], lh = lows.map(e => hp(e))
+    var used = false; safe('dmg curve', () => { c3(c0(c0(P, 'getMainHandItem'), 'getItem'), 'use', level, P, MAIN); used = !!c0(P, 'isUsingItem') }, id)
+    var read = () => { var low = 0; lows.forEach((e, j) => { low = Math.max(low, lh[j] - hp(e)); drop(e) })
+      ;(r.dcurve = r.dcurve || []).push([DCT[i], Math.round(Math.max(h0 - hp(d), low) * 100) / 100]); drop(d); clearShots(); return dcurve(id, r, i + 1) }
+    var hold = n => { ticks(1); if (n > 1) return { wait: 1, then: () => hold(n - 1) }; safe('dmg curve release', () => c0(P, 'releaseUsingItem'), id); return { wait: 30, then: read } }
+    return used ? { wait: 1, then: () => hold(DCT[i]) } : { wait: 30, then: read }
+  }
   var ranged = id => {
-    reset(); wear(EquipmentSlot.OFFHAND, Item.of('minecraft:arrow', 64))
+    reset(); ammo()
     var r = { ad: c1(P, 'getAttributeValue', A_AD), shots: [] }, k = 0
     safe('draw curve', () => { var dc = drawCurve(id); r.curve = dc.curve; r.full = dc.full; r.charge = dc.charge }, id)
-    reset(); wear(EquipmentSlot.OFFHAND, Item.of('minecraft:arrow', 64))
+    reset(); ammo()
     var shot = () => {
       wear(EquipmentSlot.MAINHAND, Item.of(id)); arm(c0(P, 'getMainHandItem')); ticks(5)
       // the target's health: 10,000, or the plan's rhp (1,000: the health melee scores take for a share-of-max-health weapon). Two more
@@ -421,6 +443,10 @@ LGW.run = (server, who, name) => {
       var lows = [dummy({ max: plan.rhp || 10000, dx: 3, dy: -1 }), dummy({ max: plan.rhp || 10000, dx: 2, dy: -2.5 })], lh = lows.map(e => hp(e))
       safe('shoot', () => {
         var it = c0(st, 'getItem')
+        // Brutality's throwables throw on a left-click swing: the client sends a packet whose handler calls handleCooldownAndSound
+        // (item cooldown 20 / attack speed ticks, then the throw a few ticks later); use() does nothing (first probe: Dynamite 0)
+        var thr = false; try { thr = typeof it.handleCooldownAndSound == 'function' } catch (e) {}
+        if (thr) { how = 'throw'; it.handleCooldownAndSound(P, st); safe('throw cooldown', () => { var cd = c0(P, 'getCooldowns'), n = 0; while (n < 200 && c1(cd, 'isOnCooldown', it)) { ticks(1); n++ } s.cd = n }, id); return }
         c3(it, 'use', level, P, MAIN)
         // used, not drawn (a gun, a throwable): how long until it can be used again, from the game's item cooldowns
         if (!c0(P, 'isUsingItem')) { how = 'use'; safe('use cooldown', () => { var cd = c0(P, 'getCooldowns'), n = 0; while (n < 200 && c1(cd, 'isOnCooldown', it)) { ticks(1); n++ } s.cd = n }, id); return }
@@ -434,9 +460,19 @@ LGW.run = (server, who, name) => {
         if (plan.probe) { var h = hitOf(d); s.src = h.src; s.hurtTime = h.hurtTime }
         r.shots.push(s); drop(d); clearShots()
         if (++k < 3) return shot()
-        out.ranged[id] = r; return null
+        out.ranged[id] = r
+        var top = 0; (r.curve || []).forEach(x => { if (x[1] > top) top = x[1] })
+        return how == 'draw' && !top ? dcurve(id, r, 0) : null
       }
-      if (!plan.probe) return { wait: how == 'use' ? 40 : 20, then: fin }
+      // used with no item cooldown (a gun with its own timer, a held trigger): the third shot uses it again every tick for 40
+      // ticks of world time, and what the targets lost all told is its rate (s.sus)
+      if (k == 2 && how == 'use' && s.cd === 0) {
+        s.sus = { uses: 1, ticks: 40 }
+        var spam = n => { ticks(1); safe('use again', () => { var h = c0(P, 'getMainHandItem'); arm(h); c3(c0(h, 'getItem'), 'use', level, P, MAIN); s.sus.uses++ }, id)
+          return n > 1 ? { wait: 1, then: () => spam(n - 1) } : { wait: 40, then: fin } }
+        return { wait: 1, then: () => spam(39) }
+      }
+      if (!plan.probe) return { wait: how == 'throw' ? 80 : how == 'use' ? 40 : 20, then: fin }
       return { wait: 3, then: () => {
         var l = near(); s.flying = plain(l)
         if (k == 0 && l && l.length) safe('trace shot', () => {
@@ -460,25 +496,72 @@ LGW.run = (server, who, name) => {
       o.after = plain(near()); out.probe.push(o); drop(d); clearShots()
       say('plain arrow ' + (owned ? 'owned by the tester' : 'with no owner') + ': ' + o.dmg + ' damage, pig last hurt by ' + o.src); return null } }
   }
-  // 6. minions (2026-11-17): the summon weapon used once (drawn and let go if it draws), with charge and rounds given as for shots;
-  // a 1,000-health zombie with no AI 4 blocks ahead; every new creature near the tester that can target is set on it; after 200 ticks
-  // of world time the zombie's lost health is what the minions dealt (out.minions[id]: dmg in 10 s, how many came, what they are)
+  // 6. minions (2026-11-17): a summon weapon used the way a player does, its damage to a 1,000-health zombie with no AI over 200
+  // ticks of world time (out.minions[id]: dmg, how many came, what they are). Three things a first run got wrong:
+  // - Summonity's minions find their owner in the server's player list (PlayerList.getPlayer(uuid)); a FakePlayer is not in it,
+  //   so each minion removed itself on its first tick. The tester is put in that list's UUID map (not its player list, which is
+  //   ticked and sent packets) for the minion runs and taken out after.
+  // - near() skips entities whose type cannot be saved, and minions often are; the new ones are told apart by their number in the
+  //   level (getId) instead.
+  // - the zombie floated at the tester's height, 3 blocks over the floor, out of a walking minion's reach: it stands on the floor
+  //   now, on a flat stone arena made for these runs.
+  // Not here: a Summonity whip's lash finds its owner with level.getEntity(id), which a FakePlayer (never added to the level) is
+  // not found by, so the lash removes itself (third test run: 10 lashes, no damage); its damage and cooldown are in the pack's
+  // config/summonity-common.toml, which the build reads instead.
+  var ents = () => { var l = []; try { level.getEntities().forEach(e => { try { var dx = c0(e, 'getX') - X, dy = c0(e, 'getY') - Y, dz = c0(e, 'getZ') - Z
+    if (Math.abs(dx) <= 32 && Math.abs(dy) <= 16 && Math.abs(dz) <= 32) l.push(e) } catch (x) {} }) } catch (x) {} return l }
+  var eid = e => { try { return c0(e, 'getId') } catch (x) { return -1 } }
+  var etype = e => { var t = ''; try { t = '' + c0(e, 'getType') } catch (x) {} try { t += ' ' + e.getClass().getSimpleName() } catch (x) {} return t }
+  var pmap = null, puid = null
+  var listed = on => safe(on ? 'tester into the player list' : 'tester out of the player list', () => {
+    if (!pmap) { var PL = c0(server, 'getPlayerList'), cl = PL.getClass(); while (cl && ('' + cl.getName()) != 'net.minecraft.server.players.PlayerList') cl = cl.getSuperclass()
+      var fd = cl.getDeclaredField('f_11197_'); fd.setAccessible(true); pmap = fd.get(PL); puid = PUID }
+    if (on) pmap.put(puid, P); else pmap.remove(puid) })
+  var arena = false
+  // every entity near but the tester discarded: /kill leaves some minions (fourth test run: two Stardust Dragon segments lived
+  // on into the Imp Staff's run)
+  var purge = () => { var pid = eid(P); ents().forEach(e => { if (eid(e) != pid) try { c0(e, 'discard') } catch (x) {} }) }
   var minions = id => {
-    reset(); clearAll(); wear(EquipmentSlot.MAINHAND, Item.of(id)); arm(c0(P, 'getMainHandItem')); ticks(5)
-    var before = {}; (near() || []).forEach(o => { try { before['' + c0(o.e, 'getUUID')] = 1 } catch (e) {} })
-    var z = newEnt('minecraft:zombie'), r = { kinds: {} }
-    safe('minion target', () => { c3(z, 'setPos', X + 4, Y, Z); c1(z, 'setNoAi', true); c1(z, 'setNoGravity', true); c1(c1(z, 'getAttribute', A_HP), 'setBaseValue', 1000); c1(z, 'setHealth', 1000); c1(level, 'addFreshEntity', z); spawned.push(z) }, id)
-    safe('summon', () => { var st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem'); c3(it, 'use', level, P, MAIN); if (c0(P, 'isUsingItem')) { ticks(30); c0(P, 'releaseUsingItem') } }, id)
-    // Summonity's staffs summon on a right click on a block (useOn), not in the air: the floor 2 blocks ahead (the tester stands 3
-    // blocks up, the floor's top block is at Y - 4)
-    safe('summon on block', () => { var st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem')
+    reset(); clearAll(); purge(); wear(EquipmentSlot.MAINHAND, Item.of(id)); arm(c0(P, 'getMainHandItem')); ticks(5)
+    if (!arena) { arena = true; var x0 = Math.floor(X), y0 = Math.floor(Y), z0 = Math.floor(Z)
+      safe('arena', () => { server.runCommandSilent('fill ' + (x0 - 8) + ' ' + (y0 - 4) + ' ' + (z0 - 8) + ' ' + (x0 + 12) + ' ' + (y0 - 4) + ' ' + (z0 + 8) + ' minecraft:stone')
+        server.runCommandSilent('fill ' + (x0 - 8) + ' ' + (y0 - 3) + ' ' + (z0 - 8) + ' ' + (x0 + 12) + ' ' + (y0 + 3) + ' ' + (z0 + 8) + ' minecraft:air')
+        // midnight, held: a zombie in daylight burns (fifth test run: 1.25 damage a second on every weapon, minions or not)
+        server.runCommandSilent('gamerule doDaylightCycle false'); server.runCommandSilent('time set 18000') }, id) }
+    var r = { seen: {}, hp: [] }, st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem')
+    r.reg = listed(true)
+    // a Summonity staff fails when its slot cost is over the player's minion slots: the tester has the 2 a new player has
+    // (defaultMinionSlots), the cost of the dearest staff (Fairy Staff: 2)
+    safe('minion slots', () => { var SD = Java.loadClass('com.fevzi.summonity.player.SummonityPlayerData'), MA = Java.loadClass('com.fevzi.summonity.registry.ModAttributes')
+      var ai = c1(P, 'getAttribute', MA.MINION_SLOTS.get()); if (ai && c0(ai, 'getBaseValue') < 2) c1(ai, 'setBaseValue', 2); r.slots = SD.getMinionSlots(P) }, id)
+    var before = {}; ents().forEach(e => { before[eid(e)] = 1 })
+    var z = newEnt('minecraft:zombie')
+    // the zombie's health and armor are set after it joins the level: the pack scales a monster's health as it joins (first run:
+    // 1,000 set before, 25 after, and the zombie died to the spider)
+    safe('minion target', () => { c3(z, 'setPos', X + 4, Y - 3, Z); c1(z, 'setNoAi', true); c1(z, 'setNoGravity', true); c1(level, 'addFreshEntity', z); spawned.push(z)
+      c1(c1(z, 'getAttribute', A_HP), 'setBaseValue', 100000); c1(c1(z, 'getAttribute', A_ARMOR), 'setBaseValue', 0); c1(z, 'setHealth', 100000)
+      r.zmax = c0(z, 'getMaxHealth'); r.zarm = c1(z, 'getAttributeValue', A_ARMOR) }, id)
+    var zid = eid(z), pid = eid(P), h00 = hp(z)
+    var setOn = when => { var n = 0, seen = {}; ents().forEach(e => { var k = eid(e); if (before[k] || k == zid || k == pid) return
+      var t = etype(e); seen[t] = (seen[t] || 0) + 1
+      try { c1(e, 'setTarget', z); n++ } catch (x) {} }); r.seen[when] = seen; return n }
+    // r.hp[k] = what the zombie had lost 10 x (k + 1) ticks after the summon; the build takes the rate from the first sample with
+    // damage on, so the minion's walk to the zombie is not counted
+    var k = 0, fin = () => { r.dmg = Math.round((h00 - hp(z)) * 100) / 100; setOn('end'); r.ticks = k * 10; r.zAlive = !!c0(z, 'isAlive')
+      out.minions[id] = r; drop(z); purge(); clearAll(); listed(false); return null }
+    safe('summon', () => { r.use = '' + c3(it, 'use', level, P, MAIN); if (c0(P, 'isUsingItem')) { ticks(30); c0(P, 'releaseUsingItem') } }, id)
+    // Summonity's staffs summon on a right click on a block (useOn): the floor 2 blocks ahead
+    safe('summon on block', () => {
       var BP = Java.loadClass('net.minecraft.core.BlockPos'), V3 = Java.loadClass('net.minecraft.world.phys.Vec3'), D = fld(Java.loadClass('net.minecraft.core.Direction'), 'UP')
       var hit = new (Java.loadClass('net.minecraft.world.phys.BlockHitResult'))(new V3(X + 2, Y - 3, Z), D, new BP(Math.floor(X) + 2, Math.floor(Y) - 4, Math.floor(Z)), false)
-      c1(it, 'useOn', new (Java.loadClass('net.minecraft.world.item.context.UseOnContext'))(P, MAIN, hit)) }, id)
-    var setOn = () => { var n = 0; (near() || []).forEach(o => { var u = ''; try { u = '' + c0(o.e, 'getUUID') } catch (e) {} if (before[u] || o.e == z) return
-      try { c1(o.e, 'setTarget', z); n++; r.kinds[o.id] = (r.kinds[o.id] || 0) + 1 } catch (e) {} }); return n }
-    return { wait: 5, then: () => { r.n = setOn(); var h0 = hp(z)
-      return { wait: 100, then: () => { setOn(); return { wait: 100, then: () => { r.dmg = Math.round((h0 - hp(z)) * 100) / 100; r.ticks = 200; out.minions[id] = r; drop(z); clearAll(); return null } } } } } }
+      r.useOn = '' + c1(it, 'useOn', new (Java.loadClass('net.minecraft.world.item.context.UseOnContext'))(P, MAIN, hit))
+      r.cd = !!c1(c0(P, 'getCooldowns'), 'isOnCooldown', it) }, id)
+    r.n0 = setOn('t0')
+    var samp = () => { ticks(10); k++; r.hp.push(Math.round((h00 - hp(z)) * 100) / 100)
+      if (k == 1 || k == 10) r.n = Math.max(r.n || 0, setOn('t' + k * 10))
+      if (!c0(z, 'isAlive')) { r.died = k * 10; return fin() }
+      return k < 30 ? { wait: 10, then: samp } : fin() }
+    return { wait: 10, then: samp }
   }
   // 5. a curio that cancelled its one test hit (first extra run): ten 8-damage hits 20 ticks apart (the tester ticked through
   // them too, so cooldowns run either way), to see how often it blocks
@@ -599,6 +682,7 @@ LGW.run = (server, who, name) => {
     out.finished = '' + new Date()
     JsonIO.write('kubejs/' + base + '_measure.json', out)
     while (spawned.length) drop(spawned[spawned.length - 1])
+    if (pmap) listed(false)
     say('done: kubejs/' + base + '_measure.json (' + Object.keys(out.melee).length + ' weapons, ' + Object.keys(out.armor).length + ' sets, '
       + Object.keys(out.grows).length + ' re-measured, ' + Object.keys(out.curios).length + ' curios, ' + Object.keys(out.ranged).length + ' shooters, '
       + Object.keys(out.blocks).length + ' blockers, ' + Object.keys(out.errors).length + ' kinds of error)')

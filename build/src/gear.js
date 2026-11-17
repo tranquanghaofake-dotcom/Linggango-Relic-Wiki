@@ -157,18 +157,25 @@ const gKindRoles=g=>{const k=g.k==="melee"?["ME"]:g.k==="ranged"?["RA"]:g.k==="s
 /* a weapon's score for a role is a number read from the game, never its Act or how hard it is to get: the Act only decides
    which lists it is in (gPool). Melee: damage per second (gMelee). Mage: what it multiplies your spells by (GOFF.MA on its
    bonuses: spell power and school, cooldown, cast time, mana, Ars spell damage); its own shot or built-in spell is set in its
-   mod's code and is not counted. Ranged and Summon: the damage of a shot or a minion is set in code when it fires or attacks
-   and has not been measured in game, so those weapons are not ranked yet; nor is a melee weapon whose damage is computed in
-   code, or a staff with no spell bonus. Unranked = listed for the role with sc[r] null (gUnr): gPool leaves them out and
-   gUnranked lists them in their own row */
+   mod's code and is not counted. Ranged and Summon: the damage of a shot or a minion is set in code when it fires or attacks,
+   so it is measured in game (gRng, gMn below); one with no measured number is not ranked, nor is a melee weapon whose damage is
+   computed in code, or a staff with no spell bonus. Unranked = listed for the role with sc[r] null (gUnr): gPool leaves them out
+   and gUnranked lists them in their own row */
 /* Ranged: shot in game (lgw_measure.js, 2026-11-17, a 6.6.6cf server): plain arrows in the off hand, the median shot at a 1,000-health
    target (rng.hit), and the ticks a shot takes (rng.t: the draw that reaches full speed, a crossbow's charge; the vanilla Bow reads
    20, the Crossbow 25). Score = damage a shot x shots a second. A shooter whose shots did no damage there, or whose rate was not
    read, stays unranked */
 const gRng=g=>g.rng&&g.rng.hit>0&&g.rng.t>0?g.rng.hit*20/g.rng.t:null;
-/* Summon: the weapon used once in game, its minions set on a 1,000-health zombie with no AI for 10 s (lgw_measure.js minions,
-   2026-11-17): score = what they dealt a second. A weapon whose minions dealt nothing there stays unranked */
+/* Summon: the weapon used once in game next to a 100,000-health zombie with no AI, at night, its minions set on it and its health
+   read every 10 ticks for 15 s (lgw_measure.js minions, 2026-11-17): score = what they dealt a second from their first hit on
+   (mn.dmg over mn.s), so the walk to the target is not counted. A weapon whose minions dealt nothing there stays unranked */
 const gMn=g=>g.mn&&g.mn.dmg>0&&g.mn.s>0?g.mn.dmg/g.mn.s:null;
+/* Summon whips: a whip summons nothing; its own hit is what it adds (the minions are the staff's, and they keep their full damage
+   while a whip is held). A Summonity whip's lash from the pack's config (g.wh, gear_stats.py: damage x 20 / cooldown ticks for a
+   player with no whip gear; the lash cannot be measured in the test world), a Better Combat whip (Goety Revelation's) by its
+   measured hit x attacks a second. Ranked in the Summon tab's own "Whips" table (pool "h"), not against the staffs' minions */
+const gWh=g=>g.wh&&g.wh.cd>0?g.wh.dmg*20/g.wh.cd:g.dmg!=null?gHit(g)*Math.max(.25,g.spd||1.6):null;
+const gWhip=g=>!!g.sc&&"SU" in g.sc&&gSubOf(g,"SU").includes("whip");
 GE.forEach(g=>{g.sc={};if(g.k==="armor")return;gKindRoles(g).forEach(r=>g.sc[r]=null);
  if(g.dmg!=null&&g.sc.ME!==undefined)g.sc.ME=gR3(gMelee(g));
  if(g.sc.RA!==undefined&&gRng(g)!=null)g.sc.RA=gR3(gRng(g));
@@ -334,6 +341,8 @@ function gPool(a,r,w){const ia=oiA(+a);
  if(w==="o"||w==="s")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)&&(w==="o"?gOwn:gShared)(d,r,+a)).map(d=>[d,gCurioScore(d,r,+a)-1]).filter(x=>x[1]>.005).sort((p,q)=>q[1]-p[1]);
  // "x": the Mage tab's "Own attack" table: every Mage weapon whose own attack (used or drawn and let go) was shot in game, by damage a second
  if(w==="x")return GE.filter(g=>g.k!=="armor"&&"MA" in g.sc&&oiA(g.a)<=ia&&!gHidden(g)&&gRng(g)!=null).map(g=>[g,gRng(g)]).sort((p,q)=>q[1]-p[1]);
+ // "h": the Summon tab's "Whips" table: every Summon whip by its own damage a second (gWh)
+ if(w==="h")return GE.filter(g=>g.k!=="armor"&&gWhip(g)&&oiA(g.a)<=ia&&!gHidden(g)&&gWh(g)!=null).map(g=>[g,gWh(g)]).sort((p,q)=>q[1]-p[1]);
  const xs=(w==="a"?GS:GE.filter(g=>g.k!=="armor")).filter(g=>g.sc[r]!=null&&oiA(g.a)<=ia&&!gHidden(g));
  return xs.map(g=>[g,gScore(g,r,+a)]).sort((p,q)=>q[1]-p[1])}
 /* not ranked: listed for role r but with no number from the game to rank it by (see the scoring notes above). They stand in
@@ -346,8 +355,10 @@ const gWhy=(g,r)=>g.ps||g.k==="armor"?T("Not ranked: its base armor is computed 
   :g.rng&&g.rng.miss?T("Not ranked: shot in game, it did no damage to the test target. It throws, explodes or fires through its own code that the test did not trigger, or it needs power or ammunition the test did not give.")
   :g.rng&&g.rng.hit?T("Not ranked: its shot was measured ({n} damage), but not how often it fires.",{n:gRound(g.rng.hit)})
   :T("Not ranked: a gun or a weapon that fires through its own key presses, which the in-game test cannot make; it has no measured shot."))
- :r==="SU"?(g.row?T("Not ranked: used in game, these summoned nothing that hurt the test target in 10 seconds. Each one's page says what came.")
-  :g.mn?T("Not ranked: used in game, what it summoned ({n}) did no damage to the test target in {s} seconds.",{n:g.mn.n,s:gRound(g.mn.s)})
+ :r==="SU"?(g.row==="h"?T("Not ranked here: a whip with no lash damage the wiki could read.")
+  :g.row?T("Not ranked: used in game, these summoned nothing that hurt the test target in 15 seconds. Each one's page says what came.")
+  :gWhip(g)&&gWh(g)!=null?T("Not ranked with the staffs: a whip summons nothing. Its own hit, {d} damage a second, is ranked in the Summon tab's “Whips” table.",{d:gRound(gWh(g))})
+  :g.mn?T("Not ranked: used in game, it summoned nothing that hurt the test target in 15 seconds (a staff that casts the focus put in it, a spell staff, a support summon).")
   :T("Not ranked yet: the damage of a minion is set in each mod's code, and it has not been measured in game."))
  :r==="MA"?(g.row==="x"?T("Not ranked here: used in game, its own attack did no damage to the test target, or it has none to use. Each one's page says what it does.")
   :gRng(g)!=null?T("Not ranked by spell bonus: it gives none the wiki can read. Its own attack, {d} damage a second, is ranked in the Mage tab's “Own attack” table.",{d:gRound(gRng(g))})
@@ -364,7 +375,8 @@ const gWhy=(g,r)=>g.ps||g.k==="armor"?T("Not ranked: its base armor is computed 
    - Mage: the spell attributes the weapon carries: a school of Iron's (fire_spell_power...: a mage builds around one, as the
      score assumes), Goety or Ars Nouveau by mod and attributes, "any school" for a weapon with only generic spell power, Other
      for the rest (nothing read from it).
-   - Summon: the mod its minions come from, and whips against staffs and the rest.
+   - Summon: the mod its minions come from, and whips against staffs and the rest (gWhip). The "Whips" button is a table of its
+     own (pool "h": each whip by its own hit), like the Mage tab's "Own attack".
    Curios: "own" are the curios that raise the playstyle's own output by at least GOWN (its attack, spell or minion bonuses),
    ranked by how much they raise it; "any" are the rest of the tiered curios (armor, health, dodge and the like, which serve
    every playstyle alike), ranked as before by the combined score. */
@@ -426,7 +438,7 @@ function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
 const gHref=g=>g.ps?"#gs"+g.ix:"#g"+g.ix;
 /* the row under the tiers for the items that are not ranked yet: the reason, then the items by name */
-const gUnrRow=(xs,a,r,w)=>xs.length?`<section class="grow gunr" style="--gc:#8a8f99"><h2 class="glet" aria-label="${T("Not ranked yet")}">?</h2><div class="gunrb"><p class="note">${gWhy(w==="a"?{ps:1}:{row:w==="x"?"x":1},r)}</p><div class="gtiles">${(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")}${!GALL&&xs.length>48?`<button class="gmore" data-gall>${T("Show {n} more",{n:xs.length-48})}</button>`:""}</div></div></section>`:"";
+const gUnrRow=(xs,a,r,w)=>xs.length?`<section class="grow gunr" style="--gc:#8a8f99"><h2 class="glet" aria-label="${T("Not ranked yet")}">?</h2><div class="gunrb"><p class="note">${gWhy(w==="a"?{ps:1}:{row:w==="x"||w==="h"?w:1},r)}</p><div class="gtiles">${(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")}${!GALL&&xs.length>48?`<button class="gmore" data-gall>${T("Show {n} more",{n:xs.length-48})}</button>`:""}</div></div></section>`:"";
 /* later: the tile is a search hit that unlocks after Act a, marked with its Act in the NEW badge's place */
 const gTile=(g,a,r,later)=>gIsCurio(g)?`<a class="gtl" href="#i${g.ix}" data-t="${g.ix}">${img(g.id)}${g.t===+a&&+a!==ORDER[0]?`<i class="gnew">${T("NEW")}</i>`:""}<span>${esc(TD(g.n))}</span></a>`:`<a class="gtl${!g.ps&&g.k!=="armor"?" wpn":""}" href="${gHref(g)}" data-t="${g.ps?"s":"g"}${g.ix}"${later?` title="${T("Unlocks at {act}",{act:esc(actL(g.a))})}"`:""}>${gImg(g)}${later?`<i class="gnew glater">${esc(ACT[g.a][3]?TD(ACT[g.a][0]):T("Act {n}",{n:ACT[g.a][0]}))}</i>`:g.a===+a&&+a!==ORDER[0]?`<i class="gnew">${T("NEW")}</i>`:""}${g.ps?`<i class="gpc">${g.ps.length}</i>`:""}<span>${esc(TD(g.n)).replace(/ \((Lv|Tier|Mk) /g," ($1&nbsp;")}</span></a>`;
 const GSTATE={a:0,r:"ME",w:"w",q:""};let GALL=false;
@@ -448,12 +460,15 @@ function gearPage(h,miss){
  // rest; weapons are filtered by group out of the whole playstyle's tiers
  // the Mage tab's "Own attack" button is its own table (pool "x", by measured damage a second), not a filter of the spell-bonus tiers
  const att=w==="w"&&r==="MA"&&s==="attack";
- const all=gTiers(a,r,w==="c"?(s==="any"?"v":s==="shared"?"s":"o"):att?"x":w),inSub=w==="c"||att?null:s?g=>gSubOf(g,r).includes(s):null;
+ // so is the Summon tab's "Whips" button (pool "h", by each whip's own damage a second)
+ const whp=w==="w"&&r==="SU"&&s==="whip";
+ const all=gTiers(a,r,w==="c"?(s==="any"?"v":s==="shared"?"s":"o"):att?"x":whp?"h":w),inSub=w==="c"||att||whp?null:s?g=>gSubOf(g,r).includes(s):null;
  // the items with no number to rank them by are listed under the tiers (gUnranked), filtered by the same group
  const attUnr=()=>GE.filter(g=>g.k!=="armor"&&"MA" in g.sc&&oiA(g.a)<=oiA(+a)&&!gHidden(g)&&gRng(g)==null).sort((x,y)=>TD(x.n).localeCompare(TD(y.n)));
- const unrAll=gUnranked(a,r,w),unr=att?attUnr():inSub?unrAll.filter(inSub):unrAll;
+ const whUnr=()=>GE.filter(g=>g.k!=="armor"&&gWhip(g)&&oiA(g.a)<=oiA(+a)&&!gHidden(g)&&gWh(g)==null).sort((x,y)=>TD(x.n).localeCompare(TD(y.n)));
+ const unrAll=gUnranked(a,r,w),unr=att?attUnr():whp?whUnr():inSub?unrAll.filter(inSub):unrAll;
  const tiers=inSub?Object.assign(all.map(([t,xs])=>[t,xs.filter(inSub)]),{top:all.top}):all,pool=tiers.reduce((n,x)=>n+x[1].length,0)+unr.length;
- const subN=k=>w==="c"?gTiers(a,r,k==="any"?"v":k==="shared"?"s":"o").reduce((n,x)=>n+x[1].length,0):k==="attack"?gTiers(a,"MA","x").reduce((n,x)=>n+x[1].length,0)+attUnr().length:(att?gTiers(a,r,w):all).reduce((n,x)=>n+x[1].filter(g=>k===""||gSubOf(g,r).includes(k)).length,0)+unrAll.filter(g=>k===""||gSubOf(g,r).includes(k)).length;
+ const subN=k=>w==="c"?gTiers(a,r,k==="any"?"v":k==="shared"?"s":"o").reduce((n,x)=>n+x[1].length,0):k==="attack"?gTiers(a,"MA","x").reduce((n,x)=>n+x[1].length,0)+attUnr().length:k==="whip"&&r==="SU"?gTiers(a,"SU","h").reduce((n,x)=>n+x[1].length,0)+whUnr().length:(att||whp?gTiers(a,r,w):all).reduce((n,x)=>n+x[1].filter(g=>k===""||gSubOf(g,r).includes(k)).length,0)+unrAll.filter(g=>k===""||gSubOf(g,r).includes(k)).length;
  const go=(A,R,W,S)=>`#gear/${A}/${R}/${W}${S?"/"+S:""}`;
  const q=GSTATE.q.trim().toLowerCase();
  const hits=q?gMatch(q,a):null;
@@ -466,8 +481,8 @@ function gearPage(h,miss){
  <input id="gq" type="search" autocomplete="off" name="gearq" placeholder="${T("Find a weapon or set…")}" value="${esc(GSTATE.q)}" aria-label="${T("Find gear")}"></div>
  ${subs?`<div class="gseg subs" role="tablist" aria-label="${T("All kinds")}">${(w==="c"?[]:[["",()=>T("All kinds")]]).concat(subs).map(([k,t])=>{const n=subN(k);
   return n||k===s?`<a role="tab" href="${go(a,r,w,k==="own"?"":k)}"${k===s?' aria-selected="true"':""}>${t()} <span class="n">${n}</span></a>`:""}).join("")}</div>`:""}
- ${q?gSearch(hits,a,r):`<div class="gtl-list">${tiers.length||unr.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>${T("Show {n} more",{n:xs.length-48})}</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join("")+gUnrRow(unr,a,r,att?"x":w):`<p class="note">${w==="a"?T("No armor for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):w==="c"?T("No curios measured to help {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):T("No weapons for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))})}</p>`}</div>`}
- <div class="gfoot"><p>${hits?TN(hits.length,"{n} match for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.","{n} matches for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.",{n:`<b>${hits.length}</b>`,q:esc(GSTATE.q.trim()),k:hits.n,act:esc(actL(a))}):w==="a"?TN(pool,"{n} set usable at {act}.","{n} sets usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))}):w==="c"?TN(pool,"{n} curio usable at {act} measured to help {role}.","{n} curios usable at {act} measured to help {role}.",{n:`<b>${pool}</b>`,act:esc(actL(a)),role:GROLE[r]}):TN(pool,"{n} weapon usable at {act}.","{n} weapons usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))})}${w==="c"?" "+(s==="any"?T("Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page."):T("Each was worn alone in game on a bare test player. A curio is listed here for the {role} output it raises (attack, spell or minion bonuses); its tier is how much it adds to a typical {role} build of the Act all told, that output times the survival it adds or costs, next to the fifth best curio in this list, so a curio that halves your health pays for it here. Curios that only add armor, health or dodge are under “Survival, any playstyle”. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page.",{role:GROLE[r]})+" "+(s==="shared"?T("These curios raise the damage of {role} and of at least one other playstyle (damage dealt of every kind, crit for blades and bows alike, emblems of melee, ranged and magic damage): no one playstyle owns them. A curio whose text says it raises damage dealt is counted for melee, shots and spells alike, not for minions, whose hits are their own.",{role:GROLE[r]}):T("Only curios that raise {role} and no other playstyle are here; those that raise the damage of several playstyles are under “Damage, shared with other playstyles”.",{role:GROLE[r]}))):""}${att?" "+T("Own attack: what the weapon does by itself when used, shot in game at a 1,000-health target, damage a shot × uses a second; its spell bonus is not in it. The other buttons rank Mage weapons by what they add to your spells."):""}${+a!==ORDER[0]?` <i class="gnew">${T("NEW")}</i> ${T("unlocks at this Act.")}`:""}</p>
+ ${q?gSearch(hits,a,r):`<div class="gtl-list">${tiers.length||unr.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>${T("Show {n} more",{n:xs.length-48})}</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join("")+gUnrRow(unr,a,r,att?"x":whp?"h":w):`<p class="note">${w==="a"?T("No armor for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):w==="c"?T("No curios measured to help {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):T("No weapons for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))})}</p>`}</div>`}
+ <div class="gfoot"><p>${hits?TN(hits.length,"{n} match for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.","{n} matches for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.",{n:`<b>${hits.length}</b>`,q:esc(GSTATE.q.trim()),k:hits.n,act:esc(actL(a))}):w==="a"?TN(pool,"{n} set usable at {act}.","{n} sets usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))}):w==="c"?TN(pool,"{n} curio usable at {act} measured to help {role}.","{n} curios usable at {act} measured to help {role}.",{n:`<b>${pool}</b>`,act:esc(actL(a)),role:GROLE[r]}):TN(pool,"{n} weapon usable at {act}.","{n} weapons usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))})}${w==="c"?" "+(s==="any"?T("Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page."):T("Each was worn alone in game on a bare test player. A curio is listed here for the {role} output it raises (attack, spell or minion bonuses); its tier is how much it adds to a typical {role} build of the Act all told, that output times the survival it adds or costs, next to the fifth best curio in this list, so a curio that halves your health pays for it here. Curios that only add armor, health or dodge are under “Survival, any playstyle”. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page.",{role:GROLE[r]})+" "+(s==="shared"?T("These curios raise the damage of {role} and of at least one other playstyle (damage dealt of every kind, crit for blades and bows alike, emblems of melee, ranged and magic damage): no one playstyle owns them. A curio whose text says it raises damage dealt is counted for melee, shots and spells alike, not for minions, whose hits are their own.",{role:GROLE[r]}):T("Only curios that raise {role} and no other playstyle are here; those that raise the damage of several playstyles are under “Damage, shared with other playstyles”.",{role:GROLE[r]}))):""}${att?" "+T("Own attack: what the weapon does by itself when used, shot in game at a 1,000-health target, damage a shot × uses a second; its spell bonus is not in it. The other buttons rank Mage weapons by what they add to your spells."):""}${whp?" "+T("Whips: each whip's own hit, damage a second (a Summonity whip's lash from the pack's config, damage × lashes a second; a Better Combat whip measured in game). A whip summons nothing; your minions keep their full damage while you hold it. The other buttons rank summon weapons by what their minions deal."):""}${+a!==ORDER[0]?` <i class="gnew">${T("NEW")}</i> ${T("unlocks at this Act.")}`:""}</p>
  <details class="ghow"><summary>${T("How the tiers are worked out")}</summary><ul>
  <li>${T("<b>Act</b>: the Keeper gate from Linggango's own progression tags (<code>forge:iron_tools</code> … <code>forge:helionite_armor</code>): gear tagged Diamond is locked until Eldorath falls, and so on. Gear with no tag sits at the Act of its hardest ingredient or drop (Nether materials need Act V, a Nether Star the Wither, End loot the Ender Dragon).")}</li>
  <li>${T("<b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does. Better Combat clears the target's hurt cooldown on every hit, so fast weapons are not capped at two hits a second. Staves, spears and gunblades whose melee damage is readable are ranked here too.")}</li>

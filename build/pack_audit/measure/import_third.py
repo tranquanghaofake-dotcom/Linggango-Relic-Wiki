@@ -35,18 +35,35 @@ bow_hit = any(s.get("dmg", 0) > 0 for s in (R.get("minecraft:bow") or {}).get("s
 if R and hit_any < 0.5 * len(R) and not bow_hit:
     print("ranged left out:", hit_any, "of", len(R), "shooters did any damage"); R = {}
 for k, v in R.items():
-    d = [s.get("dmg", 0) for s in v.get("shots", [])]
+    # a shot with "sus" is not one shot: the weapon used again every tick for 40 ticks (lgw_measure.js, 2026-11-17: a gun with no item
+    # cooldown), its dmg what the target lost all told
+    d = [s.get("dmg", 0) for s in v.get("shots", []) if not s.get("sus")]
+    sus = [s for s in v.get("shots", []) if s.get("sus") and s.get("dmg", 0) > 0]
     if not d: continue
     o = items.setdefault(k, {"ad": r2(v.get("ad", 0))})
     hit = [x for x in d if x > 0]
+    dc = {int(a): b for a, b in (v.get("dcurve") or [])}
+    # every 40-tick draw missed but a hold in world time landed (a beam held in one server tick lands once or not at all)
+    if not hit and dc and max(dc.values()) > 0: hit = [max(dc.values())]
     if not hit: o["rng"] = {"miss": 1, "shots": d}; nm += 1; continue
     o["rng"] = {"hit": r2(statistics.median(hit)), "shots": d, "n": len(hit), "how": sorted({s.get("how", "") for s in v["shots"]})}
     # ticks a shot takes (lgw_measure.js drawCurve, 2026-11-17): a crossbow's charge, else the fewest ticks of drawing that reach
     # 97% of the fastest shot (the vanilla Bow reads 20, the Trident 10); none for an item thrown on use
     t = v.get("charge") or v.get("full")
     # a weapon used, not drawn (a gun, a throwable): the game's item cooldown after each use (lgw_measure.js, 2026-11-17)
-    cds = [s["cd"] for s in v["shots"] if s.get("how") == "use" and s.get("cd")]
+    # a Brutality throwable ("throw"): its cooldown after the swing, 20 / attack speed ticks
+    cds = [s["cd"] for s in v["shots"] if s.get("how") in ("use", "throw") and s.get("cd")]
     if not t and cds: t = statistics.median(cds)
+    # no cooldown and used again every tick: its rate is what 40 ticks of use dealt (t = the ticks one median shot is worth)
+    if not t and sus: t = r2(40 * o["rng"]["hit"] / sus[0]["dmg"]); o["rng"]["sus"] = sus[0]["dmg"]
+    # drawn, its shot unseen by the speed curve (a beam, a projectile that is not an arrow): held 10, 20, 40, 60 ticks of world time
+    # (v.dcurve). Still rising from 40 to 60 by a quarter: a beam, its rate the damage from 20 to 60 ticks over those 40 ticks; else
+    # the fewest ticks that reach 97% of the most (a bow's full draw)
+    if not t and dc and max(dc.values()) > 0:
+        o["rng"]["dcurve"] = [[a, dc[a]] for a in sorted(dc)]
+        if dc.get(60, 0) > 1.25 * dc.get(40, 0) and dc.get(60, 0) > dc.get(20, 0):
+            t = r2(40 * o["rng"]["hit"] / (dc[60] - dc.get(20, 0))); o["rng"]["beam"] = 1
+        else: t = min(a for a in sorted(dc) if dc[a] >= .97 * max(dc.values()))
     if t: o["rng"]["t"] = t
     h1 = [s.get("dmg", 0) for s in (K1.get(k) or {}).get("shots", []) if s.get("dmg", 0) > 0]
     if h1:
@@ -63,12 +80,28 @@ for k, v in R.items():
     if tf: o["rng"]["tfx"] = [[e, lv, du] for e, (lv, du) in tf.items()]
     nr += 1
 
-# minions (lgw_measure.js minions, 2026-11-17): what a summon weapon's minions dealt to a 1,000-health no-AI zombie in 200 ticks after one
-# use, how many came and what they were; items[id].mn = {dmg, n, s (seconds), kinds}
+# minions (lgw_measure.js minions, 2026-11-17): a summon weapon used once next to a 100,000-health no-AI zombie on the floor, the
+# zombie's lost health read every 10 ticks for 300 (v.hp, cumulative). The rate is taken from the first reading with damage on to the
+# last, so the minions' walk to the zombie is not counted: items[id].mn = {dmg, s (seconds of that window), n (minions that came),
+# first (ticks to the first damage), kinds}. A weapon whose minions dealt nothing in 300 ticks (no minion came, or it does not attack:
+# a focus staff, a whip, a support summon) keeps dmg 0, and the page lists it unranked. An older run's record (one reading, "dmg" in
+# 200 ticks) is read as one window of 200 ticks.
 nmn = 0
 for k, v in (X.get("minions") or {}).items():
-    o = items.setdefault(k, {"ad": 0}); o["mn"] = {"dmg": r2(v.get("dmg", 0)), "n": v.get("n", 0), "s": r2(v.get("ticks", 200) / 20), "kinds": v.get("kinds", {})}; nmn += 1
-if nmn: print(nmn, "summon weapons' minions measured")
+    hp = v.get("hp") or []
+    seen = (v.get("seen") or {})
+    kinds = {}
+    for when in ("t10", "t100", "t0"):
+        if seen.get(when): kinds = {t.split(" ")[0]: c for t, c in seen[when].items() if "experience_orb" not in t and "minecraft:item" not in t}; break
+    if len(hp) >= 3:
+        i = next((j for j, h in enumerate(hp) if h > 0), None)
+        dmg, s, first = (r2(hp[-1] - hp[i]), r2((len(hp) - 1 - i) * 10 / 20), (i + 1) * 10) if i is not None and i < len(hp) - 1 else (0, 0, None)
+    else:
+        dmg, s, first = r2(v.get("dmg", 0)), r2(v.get("ticks", 200) / 20), None
+    o = items.setdefault(k, {"ad": 0}); o["mn"] = {"dmg": dmg, "n": v.get("n", 0), "s": s, "kinds": kinds}
+    if first: o["mn"]["first"] = first
+    nmn += 1
+if nmn: print(nmn, "summon weapons' minions measured,", sum(1 for k in (X.get("minions") or {}) if items[k]["mn"]["dmg"] > 0), "dealt damage")
 
 nk = 0
 r3 = lambda v: round(v, 3)

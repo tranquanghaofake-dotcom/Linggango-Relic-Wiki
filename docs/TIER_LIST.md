@@ -8,7 +8,7 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
 - **Trạng thái** (sau đợt 2026-11-17, mục 6):
   - toàn bộ vũ khí, giáp và curio được đo lại trên người thử đã sửa;
   - Ranged có 76 món, Mage có bảng "Own attack", giáp 313/313 bộ được xếp;
-  - Summon chưa đo được: đã thử 2 cách đều thất bại.
+  - Summon có số từ đợt "tiếp 7": 12 staff có tier, roi có bảng "Whips" riêng (mục 2.4, 6).
 - **Việc còn lại**: mục 7.
 
 ## 1. Nguyên tắc
@@ -26,7 +26,8 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
 | Vũ khí Ranged | sát thương mỗi phát × số phát mỗi giây | 3 phát bắn đo trong game |
 | Vũ khí Mage, bảng chính | mức vũ khí nhân sức mạnh phép (chia tier theo phần tăng) | thuộc tính đọc trong game |
 | Vũ khí Mage, bảng "Own attack" | sát thương mỗi giây của đòn riêng | bắn thử trong game |
-| Vũ khí Summon | sát thương minion mỗi giây | đo minion trong game (chưa ra số tin được, mục 7) |
+| Vũ khí Summon | sát thương minion mỗi giây | đo minion trong game |
+| Roi Summon, bảng "Whips" | sát thương mỗi giây của chính cây roi | config của pack (Summonity), nhát chém đo trong game (Better Combat) |
 | Bộ giáp | hệ số sức mạnh theo lối chơi × máu hiệu dụng^k | mặc thử và nhận đòn trong game |
 | Curio | hệ số sức mạnh × (máu hiệu dụng có/không đeo)^k | đeo thử trong game |
 
@@ -53,9 +54,10 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
   - Tier tính theo **phần tăng** (điểm − 1).
 - **Bảng "Own attack"** (tiếng Việt: "Đòn riêng"; pool `x`): mọi vũ khí Mage có đòn riêng đo được, xếp theo sát thương mỗi giây, tách hẳn khỏi bảng chính. Bạn đã chọn "một bảng riêng với tên gọi hợp lý".
 
-### 2.4 Summon (`gMn`)
-Mã chấm điểm đã có nhưng chưa có số dùng được: hai cách đo đều thất bại (mục 6 và 7). Cách đo được thiết kế như sau:
-Người thử dùng vũ khí một lần. Một con zombie không AI có 1.000 máu đứng cách 4 khối, và mọi sinh vật mới xuất hiện quanh người thử bị ép nhắm vào nó. Sau 200 tick, lượng máu zombie mất đi chia cho 10 giây là điểm.
+### 2.4 Summon (`gMn`, `gWh`)
+- **Staff**: người thử dùng vũ khí một lần (Summonity triệu hồi khi nhấp vào khối sàn). Một con zombie không AI, 100.000 máu, không giáp, đứng trên sàn đá cách 4 khối, lúc nửa đêm; mọi thực thể mới xuất hiện bị ép nhắm vào nó. Máu của nó được đọc mỗi 10 tick trong 300 tick. Điểm = máu mất từ lần đọc đầu tiên có sát thương tới lần cuối, chia cho số giây đó (không tính lúc minion đi tới).
+- **Người thử phải là "chủ" minion**: minion Summonity tìm chủ trong danh sách người chơi của server; script đưa FakePlayer vào map UUID của danh sách đó trong lúc đo.
+- **Roi** (bảng "Whips", pool `h`, tách khỏi bảng staff như "Own attack" của Mage): roi không triệu hồi gì; minion vẫn giữ nguyên sát thương khi cầm roi. Roi Summonity: sát thương × 20 ÷ cooldownTicks lấy từ `summonity-common.toml` (đòn quất không đo được: nó tìm chủ bằng `level.getEntity`). Roi Better Combat (Goety Revelation): nhát chém đo được × tốc độ đánh.
 
 ### 2.5 Bộ giáp (`gSetScore`, `gEHP`)
 - **Điểm** = hệ số sức mạnh của lối chơi (`GOFF`) × máu hiệu dụng^k.
@@ -143,7 +145,8 @@ Người thử dùng vũ khí một lần. Một con zombie không AI có 1.000 
 | Ranged | 76 / 68 | Thời gian kéo, nạp và hồi đo trong game; trang của từng món ghi lý do nếu chưa xếp |
 | Mage, bảng chính | 60 / 41 | 41 món không cộng gì cho phép |
 | Mage, "Own attack" | 7 có tier (9 có số) | 92 món không có đòn riêng gây sát thương, hoặc chưa đo được tốc độ |
-| Summon | 0 / 24 | Đã thử 2 cách (`use()`, rồi nhấp vào khối sàn), số đo không tin được, đã dừng (mục 7) |
+| Summon | 12 / 12 | 12 staff có DPS minion; 12 món không gây sát thương: roi (xếp ở bảng "Whips"), Fairy Staff (hỗ trợ), 2 staff Goety (phóng focus), Blood Staff |
+| Summon, "Whips" | 7 có tier ở Act XII | Summonity theo config, Goety Revelation theo nhát chém đo được |
 | Giáp | 313 / 313 | Hazmat và Scuba của Mekanism được xếp với giáp 0 |
 | Curio | 253 có hạng Power | Ba bảng mỗi lối chơi; số đo bị chặn trần 69 → 8 |
 
@@ -153,7 +156,7 @@ Số đo lại của curio đã đổi một số kết luận cũ:
 - Chthonic Shell Casing được tính ×1.3 cho đòn từ xa theo hằng số trong code: nhát chém thử cách 1.2 khối, không tạo được khoảng cách trên 3 khối.
 
 ## 7. Các bước còn lại
-1. **Summon**: cách thứ ba là đọc chỉ số của minion ngay trong game đang chạy (thuộc tính sát thương và nhịp đánh của entity được triệu hồi), thay vì chờ minion tự đánh. Cách khác là để một người chơi thật triệu hồi.
+1. **Summon**: xong (mục 2.4). Còn lại: Fairy Staff và staff Goety không có số vì không tự gây sát thương.
 2. **Ranged còn 68 món**: súng bắn qua gói phím riêng, đồ ném nổ ngoài tầm các con lợn thử, món cần điều kiện riêng. Mỗi nhóm cần một cách bắn riêng.
 3. **Lethality và xuyên giáp**: tính theo giáp của Keeper ở từng Act, dùng đúng công thức đã đọc trong mixin của Brutality, thay cho bài đo trên mục tiêu 0 giáp.
 4. **Combo của Better Combat**: đo đủ một vòng combo thay vì trung vị 3 nhát.

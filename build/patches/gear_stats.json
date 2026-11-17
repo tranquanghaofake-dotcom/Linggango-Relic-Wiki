@@ -1,5 +1,5 @@
 {
- "_doc": "Gear stats the first extraction missed. Sources: Hazen 'N Stuff 1.1.2 HnSArmorMaterial.<clinit> (additional attributes, applied to every piece by HnSArmorItem); summonity-common.toml [armor.*] (SnifferArmorItem etc. replace the material values with these); mowziesmobs-common.toml tools_and_abilities.*.tool_config (MowzieToolItem reads each item's own config); soulslike-weaponry data/soulsweapons/trickweapons/item_mappings.json. Iron's Spellbooks 3.15.6 ExtendedArmorMaterials.<clinit> (getAdditionalAttributes: every piece gets them, ExtendedArmorItem.platformHandleDefaultModifiers), written by build/pack_audit/iss_armor.py --gear-stats.",
+ "_doc": "Gear stats the first extraction missed. Sources: Hazen 'N Stuff 1.1.2 HnSArmorMaterial.<clinit> (additional attributes, applied to every piece by HnSArmorItem); summonity-common.toml [armor.*] (SnifferArmorItem etc. replace the material values with these); mowziesmobs-common.toml tools_and_abilities.*.tool_config (MowzieToolItem reads each item's own config); soulslike-weaponry data/soulsweapons/trickweapons/item_mappings.json. Iron's Spellbooks 3.15.6 ExtendedArmorMaterials.<clinit> (getAdditionalAttributes: every piece gets them, ExtendedArmorItem.platformHandleDefaultModifiers), written by build/pack_audit/iss_armor.py --gear-stats. summonity-common.toml [whips.*] (read 2026-11-17 from the 6.6.6cf server pack): each Summonity whip's lash damage, cooldownTicks and range; WhipItem.startSharedCooldown sets max(1, ceil(cooldownTicks x configuredAttackSpeed / (player attack speed x whip attack speed))), which for a player with no whip gear (holding the whip sets attack speed to configuredAttackSpeed, whip attack speed 1) is cooldownTicks, and WhipEntity.getModifiedWhipDamage is the damage times the player's whip damage attribute (1), so a lash a cooldown is that whip's own damage a second for a base player.",
  "hns_materials": {
   "PYROMANCER": {
    "max_mana": [
@@ -671,5 +671,42 @@
   "tarnished_": "TARNISHED",
   "wandering_magician_": "WANDERING_MAGICIAN",
   "wizard_": "WIZARD"
+ },
+ "summonity_whips": {
+  "leather": [
+   7.4,
+   24,
+   12.0
+  ],
+  "spinal": [
+   6.3,
+   22,
+   13.0
+  ],
+  "amethyst": [
+   9.0,
+   20,
+   14.0
+  ],
+  "soul": [
+   24.6,
+   13,
+   16.0
+  ],
+  "magma": [
+   22.2,
+   16,
+   14.0
+  ],
+  "hemorrhage": [
+   24.0,
+   20,
+   14.0
+  ],
+  "constellation": [
+   12.3,
+   22,
+   13.0
+  ]
  }
 }

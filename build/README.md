@@ -107,9 +107,14 @@ damage × a/(a+armor), a = 10 under 20 damage, 10+(dmg−20)/2 above, and toughn
 Base stats: `patches/gear_runtime.py` lays the pack's in-game dump (`gear_runtime.json`, from `kubejs/server_scripts/dump_gear.js`) over the jar reading. The file holds 2,587 items (2,472 from the dump, 115 more read in game by the wiki's own `pack_audit/kubejs/server_scripts/lgw_measure.js`); the build prints how many are gear in the table. Re-run `/kubejs custom_command dump_gear` and convert `kubejs/gear_dump.json` when the pack updates.
 The Act only decides which lists an item is in (usable at or before it), never its score. Melee weapons: DPS (`gMelee`); any weapon with
 readable melee damage (staves, spears) is also a Melee candidate. Mage weapons: what their bonuses multiply your spells by (`GOFF.MA`: spell
-power and best school, cooldown, cast time, mana; Ars spell damage). Ranged and Summon weapons have no readable shot or minion damage and
-are not ranked until it is measured in game: `sc[role]` is null and they stand, by name and with the reason (`gWhy`), in the "?" row under the
-tiers (`gUnranked`); so do a melee weapon whose damage is computed in code, a staff with no spell bonus and a set never measured. Armor sets: score(set, role, Act) = `GOFF[role]` × EHP^k
+power and best school, cooldown, cast time, mana; Ars spell damage). Ranged and Summon weapons have no readable shot or minion damage, so
+they are measured in game (`lgw_measure.js`): Ranged by damage a shot × shots a second (`gRng`), Summon by what the minions of one use deal a
+second to a 100,000-health zombie at night, counted from their first hit (`gMn`; Summonity's minions find their owner in the server's player
+list, so the test puts its FakePlayer in that list's UUID map for the run). A Summon whip summons nothing: it has its own table, "Whips" (pool
+`h`, `gWh`): a Summonity whip's lash from `summonity-common.toml` (damage × 20 / cooldown ticks, `gear_stats.json` `summonity_whips`), a
+Better Combat whip by its measured hit × attacks a second. A weapon with no measured number is not ranked: `sc[role]` is null and it stands,
+by name and with the reason (`gWhy`), in the "?" row under the tiers (`gUnranked`); so do a melee weapon whose damage is computed in code, a
+staff with no spell bonus and a set never measured. Armor sets: score(set, role, Act) = `GOFF[role]` × EHP^k
 (k: Melee 1, Ranged .7, Mage .6, Summon .6), EHP against the Act's Keeper hit (`GHIT`, from entitybalance.json) on top of 20 + 4 HP per Act;
 so set scores depend on the Act (`gScore`). Tiers are the ratio to
 the fifth best usable item at that Act (a Mage weapon's by what it adds, score − 1: its score is a multiplier, and as a plain ratio every staff read 85% of the fifth best or more) (so one runaway item does not push the rest to D; S ≥85%, A ≥70%, B ≥55%, C ≥40%); under 25% is not listed; creative-only items are hidden.

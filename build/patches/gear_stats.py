@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Gear stats the full extraction could not read (build/patches/gear_stats.json; the checks are in pack_audit/verify2.json):
   - Summonity armor: armor, toughness and minion slots come from summonity-common.toml, not the ArmorMaterial.
+  - Summonity whips: each lash's damage and cooldown (g["wh"] = {dmg, cd}) come from summonity-common.toml [whips.*]; the lash cannot
+    be measured in the test world (its entity finds its owner with level.getEntity, which a FakePlayer is not found by).
   - Hazen 'N Stuff armor: every piece also carries its HnSArmorMaterial attributes (mana, spell power, cast time...).
   - Iron's Spellbooks armor: every piece also carries its ExtendedArmorMaterials attributes (125-150 mana, spell power, school power).
   - Mowzie's tools: each reads its own tool_config (the table had copied the wrought axe onto all of them).
@@ -23,6 +25,10 @@ def apply(st):
     touched = set()
     for g in GE:
         ns, p = g["id"].split(":")
+        if ns == "summonity" and g["k"] != "armor":
+            w = D["summonity_whips"].get(p[:-5] if p.endswith("_whip") else p)
+            if w: g["wh"] = {"dmg": w[0], "cd": w[1]}
+            continue
         if g["k"] != "armor" and ns != "mowziesmobs": continue
         if ns == "summonity" and g["k"] == "armor":
             m = re.match(r"(.+)_(helmet|chestplate|leggings|boots)$", p)
