@@ -32,5 +32,5 @@ green and `/build.txt` names the commit.
 
 ## Progress
 - Goety: data and tab live (2026-11-15, 209 focuses); clips (2026-11-16): 178 approved, 14 cannot be shown (reasons in NOTES), 11 cause unknown, 6 Linggango Tweaks focuses waiting for the stage's new jars. Every clip now H.264 CRF 28 (`clips_reencode.py`).
-- Ars Nouveau: data and tab (170 glyphs; tier from the pack's config, checked one to one against the export's SpellTier objects); clips not started.
-- Brutality: data and tab (26 spells; base numbers and per-level additions; 3 Umbrancy spells have no name, description or icon in the jar); clips not started (its `/brutality spell add` puts a spell into the held tome).
+- Ars Nouveau: data and tab (170 glyphs; tier from the pack's config, checked one to one against the export's SpellTier objects); clips (2026-11-17): 123 approved, 45 without a clip and the reason for each (NOTES), 2 turned off by the pack.
+- Brutality: data and tab (26 spells); clips (2026-11-17): 23 approved, 3 without a clip and the reason for each (NOTES).

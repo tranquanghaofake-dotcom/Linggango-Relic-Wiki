@@ -1794,3 +1794,40 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   - (1) 6 focus Linggango Tweaks;
   - (2) clip Ars (170 glyph, trừ 2 glyph pack tắt) và Brutality (26);
   - (3) chạy lại chẩn đoán 11 focus nói trên (mã đã sửa, khoảng 12 phút).
+## 2026-11-17: clip Ars Nouveau (123) và Brutality (23) lên site
+- **Ars Nouveau** (`spell_clips.py --system ars`): quay 168 glyph. Không quay 2 glyph mà config pack tắt (Annihilate, Limitless). Duyệt từng giây, có 2 lượt quay lại.
+  - **123 dùng được.**
+  - **45 không quay được**, mỗi glyph có lý do ghi trong bảng duyệt. Chia ba nhóm:
+    - (a) Hiệu ứng không có gì để thấy trên sân quay (17 glyph): Soul Rime, Swap Target, Open Domain (chỉ đổi glyph Domain), Life Link, Summon Filter, Watery Grave (cần nước), Bounce, Glide, Slowfall (cần đang rơi), Fortune, Name, Sense Magic, Sensitive, Pierce, Split (với một mục tiêu thì không khác gì), Item Filter, Ten Shadows (phải thuần hoá qua ritual trước).
+    - (b) Cần vật phẩm sân quay không có: Mark, Recall (cần Reliquary).
+    - (c) Thử 2 lần không thấy tác dụng, nên dừng theo quy tắc: Blue Flame, Eruption, Fracture, Summon Undead (Adam's), Prop Detonate, Retaliate, Aquatic Filter, Charm, Envenom, Poison Spores, Propagate Arc, Evaporate, Gravity, Gust, Harvest, Heal, Redstone Signal, Flatten, Trail.
+    - Thêm 6 glyph mới thử 1 lần: Wind Shear, 4 glyph Propagate, Is Baby Filter.
+  - **Cách quay**: mỗi glyph đặt trong một phép nhỏ (`ars_stage`):
+    - form đi kèm Harm;
+    - augment niệm 2 lần trong một clip, lần đầu không có augment, lần sau có (ví dụ Amplify 5 rồi 7; Dampen 5 rồi 3; AOE từ một khối thành bức tường);
+    - filter bắn vào đúng loại mục tiêu: husk, quỷ lửa magma, dơi, drowned, nhện, cừu đứng yên.
+    - 40 glyph có cách dựng riêng (`ARS_SETUP`), mỗi cách lấy từ mô tả của chính glyph trong jar.
+- **Brutality** (`--system brutality`): 26 phép. Người niệm cầm tome đúng trường phái; phép đặt vào tome bằng NBT. Mana nạp bằng thuộc tính, chờ 6 s.
+  - **23 dùng được.**
+  - **3 không quay được**:
+    - Heavenly Flight: chỉ cho khả năng bay, người niệm không tự cất cánh;
+    - Dematerialize: husk không bị xoá, cả khi 1000 máu lẫn 20 máu (thử 2 lần);
+    - Piercing Moonlight: niệm thì client crash. Tôi không thử lần 2 để giữ sân quay; jar cũng không có texture cho phép này.
+- **Lỗi sân quay tìm ra và đã sửa**:
+  - Phần không khí phía trên sàn không được dọn: lửa, khối, nước của lần quay trước ở cùng chỗ còn sót sang clip sau. Nay dọn 10 khối phía trên sàn.
+  - Conjure Terrain là glyph của Ars Elemental, nhưng mã ghi sai namespace, nên phép mẫu cho AOE mất glyph đó.
+  - Mô tả của Iceburst trong bản xuất chỉ là một dấu cách. Nay lấy từ file lang; invariant mới trong `checks/spells.js` kiểm "không glyph nào có mô tả rỗng".
+  - Phép nhắm mục tiêu cần tâm ngắm nằm trên con vật. Con heo thấp hơn tầm nhắm nên tâm ngắm đi qua đầu nó; nay dùng husk.
+  - Hai phép hồi máu: người niệm bị trừ máu trong 6 s chờ mana nên đã tự hồi đầy. Nay trừ máu 1 s trước khi niệm.
+- **Không đưa lên**: 6 focus Goety của Linggango Tweaks. Jar này cần thêm L2 Hostility và các thư viện L2 trong sân quay. Đã thử thêm L2 Library và L2 Complements, server vẫn crash (thiếu `l2hostility`), nên đã gỡ lại.
+- **Kiểm tra**:
+  - `workspace` commit eda7ce861: thêm đúng 292 tệp (146 clip, đều CRF 28).
+  - `approved.json` từ 482 thành 628 id.
+  - `apply_all.sh` exit 0; `static/` 465 MB.
+  - `bash build/check.sh` exit 0 (đã tắt game; invariant 0, a11y 0, script 0).
+  - Ảnh đã xem: `#spells/ars` 1440 và `#spells/brutality` 375, thẻ có clip. Phát thử Summon Wolves và Star Stream trong trang: video 1280x720, thời gian chạy tiếp.
+- **Open**:
+  - (1) 6 focus Linggango Tweaks: cần thêm L2 Hostility và các phụ thuộc của nó vào sân quay;
+  - (2) 11 focus Goety chưa rõ nguyên nhân (mục 2026-11-16);
+  - (3) các glyph và phép thử 1 lần ở trên có thể thử lần 2;
+  - (4) Annihilation Resonance, Paralyzing Skreech như các mục trước.
