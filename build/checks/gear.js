@@ -173,6 +173,18 @@ for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(
   for (const [r, n] of [['RA', gUnranked(last, 'RA', 'w').length], ['SU', gUnranked(last, 'SU', 'w').length]]) {
     location.hash = `#gear/${last}/${r}/w`; render(); const row = document.querySelector('#main .grow.gunr');
     if (!n || !row || row.querySelectorAll("a.gtl").length !== (GALL ? n : Math.min(n, 48)) || !row.querySelector('.note')?.textContent.trim()) o.add(`tier-act: the ${r} list at Act ${last} lacks its unranked row (${n} weapons)`); }
+  // the fourth shot run (2026-11-17): a Terramity gun fires only with the off hand empty (ammunition went to the inventory, slot 9
+  // on: in slot 0 the weapon replaced the arrows and the Bow read 0); a Brutality throwable is thrown by a swing and ready again
+  // after 20 / attack speed ticks (Vampire Knives: 5); a held weapon whose damage keeps rising is rated by the hold (Raygun), a bow
+  // is not (its random arrow crit made a 60-tick hold read half again); a gun's shots are not swollen by shots fired before them
+  // (the draw curve used to call use() 17 times: Advanced Burst Rifle 493, then 39 and 39)
+  { const by = id => GE.find(g => g.id === id), GM = (await patchJSON('gear_measure.json')).items;
+    for (const id of ['terramity:basic_pistol', 'terramity:advanced_pistol', 'brutality:vampire_knives', 'alexscaves:raygun'])
+      if (!by(id) || gRng(by(id)) == null) o.add('tier-act: ' + id + ' has no measured rate of fire');
+    if ((by('brutality:vampire_knives')?.rng || {}).t !== 5) o.add('tier-act: Vampire Knives are not ready every 5 ticks: ' + JSON.stringify(by('brutality:vampire_knives')?.rng));
+    if (!(by('alexscaves:raygun')?.rng || {}).beam || (by('minecraft:bow')?.rng || {}).beam) o.add('tier-act: the held-damage rule took the Raygun for a bow or the Bow for a beam');
+    for (const id of ['terramity:advanced_burst_rifle', 'terramity:conductite_laser_rifle']) { const sh = ((GM[id] || {}).rng || {}).shots || [];
+      if (!sh.length || Math.max(...sh) > 3 * Math.min(...sh.filter(x => x > 0))) o.add(`tier-act: ${id}'s shots disagree: ${sh.join(', ')}`); } }
   { const b = GE.find(g => g.id === 'minecraft:bow'), c = GE.find(g => g.id === 'minecraft:crossbow');
     if (!b || !b.rng || b.rng.t !== 20 || !(b.rng.hit >= 6 && b.rng.hit <= 10)) o.add('tier-act: the measured Bow is not 6-10 a shot at 20 ticks: ' + JSON.stringify(b && b.rng));
     if (!c || !c.rng || c.rng.t !== 25) o.add('tier-act: the measured Crossbow does not load in 25 ticks: ' + JSON.stringify(c && c.rng)); }

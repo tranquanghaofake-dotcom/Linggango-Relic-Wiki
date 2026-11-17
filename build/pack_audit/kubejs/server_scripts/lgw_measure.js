@@ -392,6 +392,10 @@ LGW.run = (server, who, name) => {
   var DRAWT = [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 25, 26, 28, 30, 32, 36, 40]
   var drawCurve = id => {
     var c = [], ch = null
+    // only a weapon that is held to draw: a gun's use() fires, and 17 uses here put 17 shots (Terramity's land a few ticks late)
+    // into the first measured shot (fourth run: Advanced Burst Rifle 493, then 39 and 39)
+    var ud = 0; safe('use duration', () => { wear(EquipmentSlot.MAINHAND, Item.of(id)); var st0 = c0(P, 'getMainHandItem'); ud = c1(c0(st0, 'getItem'), 'getUseDuration', st0) }, id)
+    if (!(ud > 0)) return { curve: c, full: null, charge: null }
     DRAWT.forEach(t => { clearAll(); wear(EquipmentSlot.MAINHAND, Item.of(id)); arm(c0(P, 'getMainHandItem')); var st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem')
       safe('draw curve', () => { c3(it, 'use', level, P, MAIN); if (!c0(P, 'isUsingItem')) return; ticks(t); c0(P, 'releaseUsingItem')
         var cb = false; try { cb = !!c1(it, 'isCharged', st) } catch (e) {}
