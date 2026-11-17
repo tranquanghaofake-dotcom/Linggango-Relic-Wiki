@@ -396,7 +396,8 @@ LGW.run = (server, who, name) => {
     reset(); wear(EquipmentSlot.OFFHAND, Item.of('minecraft:arrow', 64))
     var shot = () => {
       wear(EquipmentSlot.MAINHAND, Item.of(id)); ticks(5)
-      var d = dummy({ max: 10000, dx: 5, dy: 0.9 }), h0 = hp(d), st = c0(P, 'getMainHandItem'), how = '', s = {}
+      // the target's health: 10,000, or the plan's rhp (1,000: the health melee scores take for a share-of-max-health weapon)
+      var d = dummy({ max: plan.rhp || 10000, dx: 5, dy: 0.9 }), h0 = hp(d), st = c0(P, 'getMainHandItem'), how = '', s = {}
       safe('shoot', () => {
         var it = c0(st, 'getItem')
         c3(it, 'use', level, P, MAIN)

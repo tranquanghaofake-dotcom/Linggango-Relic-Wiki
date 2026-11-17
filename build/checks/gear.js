@@ -149,7 +149,9 @@ for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(
   for (const g of GE) { if (g.k === 'armor') continue;
     if (g.sc.ME != null && g.sc.ME !== gR3(gMelee(g))) o.add('tier-act: Melee score is not its DPS: ' + g.id);
     if (g.sc.MA != null && !(g.sc.MA > 1.001 && g.sc.MA === gR3(gOff(g, 'MA', g.a)))) o.add('tier-act: Mage score is not its spell multiplier: ' + g.id);
-    if (g.sc.RA != null || g.sc.SU != null) o.add('tier-act: Ranged or Summon weapon ranked with no measurement: ' + g.id); }
+    // Ranged: ranked only from its measured shots (2026-11-17), at exactly damage a shot x shots a second; Summon not yet
+    if (g.sc.RA != null && !(gRng(g) != null && g.sc.RA === gR3(gRng(g)))) o.add('tier-act: Ranged weapon ranked without its measured shots: ' + g.id);
+    if (g.sc.SU != null) o.add('tier-act: Summon weapon ranked with no measurement: ' + g.id); }
   for (const s of GS) if (!s.f && Object.values(s.sc).some(v => v != null)) o.add('tier-act: set ranked with no numbers: ' + s.k);
   for (const a of acts) for (const r of Object.keys(GROLE)) for (const w of ['w', 'a']) {
     const inList = new Set([...gPool(a, r, w).map(x => x[0]), ...gUnranked(a, r, w)]);
@@ -157,4 +159,7 @@ for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(
   for (const [r, n] of [['RA', gUnranked(last, 'RA', 'w').length], ['SU', gUnranked(last, 'SU', 'w').length]]) {
     location.hash = `#gear/${last}/${r}/w`; render(); const row = document.querySelector('#main .grow.gunr');
     if (!n || !row || row.querySelectorAll("a.gtl").length !== (GALL ? n : Math.min(n, 48)) || !row.querySelector('.note')?.textContent.trim()) o.add(`tier-act: the ${r} list at Act ${last} lacks its unranked row (${n} weapons)`); }
+  { const b = GE.find(g => g.id === 'minecraft:bow'), c = GE.find(g => g.id === 'minecraft:crossbow');
+    if (!b || !b.rng || b.rng.t !== 20 || !(b.rng.hit >= 6 && b.rng.hit <= 10)) o.add('tier-act: the measured Bow is not 6-10 a shot at 20 ticks: ' + JSON.stringify(b && b.rng));
+    if (!c || !c.rng || c.rng.t !== 25) o.add('tier-act: the measured Crossbow does not load in 25 ticks: ' + JSON.stringify(c && c.rng)); }
   bad.push(...o); }

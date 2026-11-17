@@ -1,5 +1,5 @@
 """The third run (lgw_measure_third, kubejs/lgw_third_measure.json) -> adds to build/patches/gear_measure.json and curio_measure.json.
-Usage: python3 pack_audit/measure/import_third.py lgw_third_measure.json   (after import.py and import_curios.py; the run's "grows"
+Usage: python3 pack_audit/measure/import_third.py lgw_third_measure.json [lgw_third_1k.json]   (after import.py and import_curios.py; the run's "grows"
 weapons are pooled by import.py itself, given the file as its fourth argument)
 
   ranged  each bow, crossbow and throwable shot three times at a 10,000-health pig 5 blocks in front of the tester, arrows in the
@@ -17,6 +17,10 @@ weapons are pooled by import.py itself, given the file as its fourth argument)
 import json, sys, pathlib, statistics
 H = pathlib.Path(__file__).resolve().parents[2] / "patches"
 X = json.load(open(sys.argv[1], encoding="utf-8"))
+# a second run of the same shooters at a 1,000-health target (plan "rhp": 1000; 2026-11-17): its median shot is the one scored, the
+# health melee takes for a share-of-max-health weapon; the 10,000-health shot is kept as h10k when it hit harder (a share of the
+# target's health: Rainfall Serenity)
+K1 = (json.load(open(sys.argv[2], encoding="utf-8")).get("ranged") or {}) if len(sys.argv) > 2 else {}
 r2 = lambda v: round(v, 2)
 GM = json.loads((H / "gear_measure.json").read_text(encoding="utf-8"))
 CM = json.loads((H / "curio_measure.json").read_text(encoding="utf-8"))
@@ -38,6 +42,11 @@ for k, v in R.items():
     # 97% of the fastest shot (the vanilla Bow reads 20, the Trident 10); none for an item thrown on use
     t = v.get("charge") or v.get("full")
     if t: o["rng"]["t"] = t
+    h1 = [s.get("dmg", 0) for s in (K1.get(k) or {}).get("shots", []) if s.get("dmg", 0) > 0]
+    if h1:
+        m1 = r2(statistics.median(h1))
+        if o["rng"]["hit"] > 1.2 * m1: o["rng"]["h10k"] = o["rng"]["hit"]
+        o["rng"]["hit"] = m1; o["rng"]["shots"] = [s.get("dmg", 0) for s in K1[k]["shots"]]
     fire = [s["fire"] for s in v["shots"] if s.get("fire", -1) > 0]
     if fire: o["rng"]["fire"] = r2(max(fire) / 20)
     tf = {}
