@@ -457,6 +457,8 @@ ol.how li::before{content:counter(howc);position:absolute;left:10px;top:8px;disp
 .grow{border:0;border-radius:4px;background:var(--gui);box-shadow:0 0 0 2px #000,var(--bevel);overflow:visible}
 .gear .grow>.glet{font:700 36px var(--disp);color:#1b1320!important;text-shadow:0 1px 0 rgba(255,255,255,.35);box-shadow:inset 3px 3px 0 rgba(255,255,255,.45),inset -3px -3px 0 rgba(0,0,0,.3);border-radius:4px 0 0 4px}
 .gtiles{gap:0;padding:var(--s3)}
+/* the "not ranked yet" row under the tiers: its reason above its tiles */
+.gunrb>.note{margin:0;padding:var(--s3) var(--s3) 0;max-width:80ch;color:var(--gui-ink)}
 .gtl{width:84px;padding:var(--s2) 2px var(--s2);border:0;border-radius:0;background:none;color:var(--gui-ink);transition:none}
 .gtl:hover,.gtl:focus-visible{transform:none;box-shadow:none;background:rgba(255,255,255,.4)}
 .gtl img,.gtl .ph{width:54px;height:54px;padding:var(--s2);background:var(--slot);box-shadow:inset 3px 3px 0 var(--slot-lo),inset -3px -3px 0 var(--slot-hi)}

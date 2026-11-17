@@ -109,10 +109,12 @@ for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(
 // GOWN or more, ranked by how much, and the other view holds none of them
 { const a = acts[acts.length - 1], R = ['ME', 'RA', 'MA', 'SU'], go = async h => { location.hash = h; await new Promise(r => setTimeout(r, 80)); render(); },
     rows = () => [...document.querySelectorAll('#main .gtl-list .grow')], tiles = () => rows().flatMap(r => [...r.querySelectorAll('a.gtl')].map(t => [r, t]));
-  for (const r of R) { const ws = gTiers(a, r, 'w').flatMap(x => x[1]), keys = GSUB[r].map(x => x[0]);
+  // a playstyle's weapons: the tiered ones and those not ranked yet (their own row under the tiers), grouped the same way
+  const listed = r => [...gTiers(a, r, 'w').flatMap(x => x[1]), ...gUnranked(a, r, 'w')];
+  for (const r of R) { const ws = listed(r), keys = GSUB[r].map(x => x[0]);
     for (const g of ws) { const k = gSubOf(g, r); if (!k.length || k.some(x => !keys.includes(x))) bad.push(`equip-groups: ${g.n} (${r}) is in ${k.length ? 'a group the playstyle does not have' : 'no group'}`); }
     if ((r === 'ME' || r === 'RA') && ws.some(g => gSubOf(g, r).length !== 1)) bad.push(`equip-groups: a ${r} weapon is in several groups`); }
-  const at = (n, r) => GE.filter(g => g.n === n && g.k !== 'armor' && g.sc[r] != null).map(g => gSubOf(g, r)),
+  const at = (n, r) => GE.filter(g => g.n === n && g.k !== 'armor' && r in g.sc).map(g => gSubOf(g, r)),
     want = [['Railgun', 'RA', 'gun'], ['Blowgun', 'RA', 'thrown'], ['Gungnir', 'RA', 'thrown'], ['Crossbow', 'RA', 'xbow'], ['Bow', 'RA', 'bow'],
       ['Bloody Scythe', 'ME', 'scythe'], ['Claymore', 'ME', 'great'], ['Frying Pan', 'ME', 'hammer'], ['Iron Pike', 'ME', 'polearm'], ['Dagger', 'ME', 'dagger'],
       ['Ice Staff', 'ME', 'staff'], ['Gut Whip', 'ME', 'other'], ['Elvenite Axe', 'ME', 'axe'],
@@ -120,12 +122,12 @@ for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(
       ['Flames Of Eldritch (Lv 3)', 'MA', 'fire'], ['Flames Of Eldritch (Lv 3)', 'MA', 'eldritch'],
       ['Soul Whip', 'SU', 'summonity'], ['Soul Whip', 'SU', 'whip'], ['Spectre Whip', 'SU', 'goety'], ['Spectre Whip', 'SU', 'whip'], ['Imp Staff', 'SU', 'staff']];
   for (const [n, r, k] of want) { const x = at(n, r); if (!x.length || x.some(v => !v.includes(k))) bad.push(`equip-groups: ${n} (${r}) should be in "${k}": ${JSON.stringify(x)}`); }
-  for (const r of R) { await go(`#gear/${a}/${r}/w`); const all = tiles().length, counts = [...document.querySelectorAll('#main .gseg.subs a .n')].map(x => +x.textContent), total = counts[0], per = counts.slice(1), keys = GSUB[r].map(x => x[0]).filter(k => gTiers(a, r, 'w').some(x => x[1].some(g => gSubOf(g, r).includes(k))));
+  for (const r of R) { await go(`#gear/${a}/${r}/w`); const all = tiles().length, counts = [...document.querySelectorAll('#main .gseg.subs a .n')].map(x => +x.textContent), total = counts[0], per = counts.slice(1), keys = GSUB[r].map(x => x[0]).filter(k => listed(r).some(g => gSubOf(g, r).includes(k)));
     if (!total || per.length !== keys.length || per.some(n => !n || n > total) || ((r === 'ME' || r === 'RA') && per.reduce((x, y) => x + y, 0) !== total)) bad.push(`equip-groups: ${r} counts ${total} / ${per.join(', ')} for groups ${keys.join(', ')}`);
     for (const k of keys) { await go(`#gear/${a}/${r}/w/${k}`); const ts = tiles();
       if (!ts.length) bad.push(`equip-groups: ${r}/${k} shows nothing`);
       for (const [row, t] of ts) { const g = GE[+t.getAttribute('href').slice(2)];
-        if (!gSubOf(g, r).includes(k) || gTierOf(g, a, r, 'w') !== row.querySelector('.glet').textContent.trim()) bad.push(`equip-groups: ${g.n} on ${r}/${k} is not in the group, or stands under another tier than the playstyle gives it`); } } }
+        if (!gSubOf(g, r).includes(k) || (gTierOf(g, a, r, 'w') || (gUnr(g, r) ? '?' : '')) !== row.querySelector('.glet').textContent.trim()) bad.push(`equip-groups: ${g.n} on ${r}/${k} is not in the group, or stands under another tier than the playstyle gives it`); } } }
   for (const r of R) { const own = gTiers(a, r, 'o').flatMap(x => x[1]), g = own.map(d => gCurioGain(d, r, a)), any = gTiers(a, r, 'c').flatMap(x => x[1]).filter(d => !gOwn(d, r, a));
     if (!own.length || !any.length || own.some(d => !gOwn(d, r, a)) || g.some((v, i) => i && v > g[i - 1]) || any.some(d => own.includes(d)))
       bad.push(`equip-groups: ${r} curios: ${own.length} own, ${any.length} others; an own curio below ${GOWN}, out of order, or in both views`);
@@ -138,3 +140,21 @@ for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(
     const roles = [...document.querySelectorAll('.gear .gseg.roles a')]; if (roles.length !== 4 || roles.some(x => getComputedStyle(x, '::before').backgroundColor === 'rgba(0, 0, 0, 0)')) bad.push('equip-layout: a playstyle button has no role colour');
     const sub = document.querySelector('.gear .gseg.subs a'); if (sub && getComputedStyle(sub).borderImageSource !== 'none') bad.push('equip-layout: the group chips wear the big button texture, not the flat chip'); }
   await go('#gear'); }
+// tier-act (2026-11-13): the Act an item unlocks at only decides which lists it is in, never its place in them. A weapon's score is
+// a number read or measured in game (Melee: its DPS; Mage: what its bonuses multiply your spells by) and a set's is its own armor
+// and bonuses; nothing is scored by its Act or by how hard it is to get (the old power curve put every later-Act bow and staff
+// above every earlier one). Ranged and Summon weapons, a weapon whose damage is computed in code and a set never measured are not
+// ranked: they stand in the "?" row under the tiers, and nothing usable at an Act falls out of both the tiers and that row
+{ const o = new Set(), last = acts[acts.length - 1];
+  for (const g of GE) { if (g.k === 'armor') continue;
+    if (g.sc.ME != null && g.sc.ME !== gR3(gMelee(g))) o.add('tier-act: Melee score is not its DPS: ' + g.id);
+    if (g.sc.MA != null && !(g.sc.MA > 1.001 && g.sc.MA === gR3(gOff(g, 'MA', g.a)))) o.add('tier-act: Mage score is not its spell multiplier: ' + g.id);
+    if (g.sc.RA != null || g.sc.SU != null) o.add('tier-act: Ranged or Summon weapon ranked with no measurement: ' + g.id); }
+  for (const s of GS) if (!s.f && Object.values(s.sc).some(v => v != null)) o.add('tier-act: set ranked with no numbers: ' + s.k);
+  for (const a of acts) for (const r of Object.keys(GROLE)) for (const w of ['w', 'a']) {
+    const inList = new Set([...gPool(a, r, w).map(x => x[0]), ...gUnranked(a, r, w)]);
+    for (const g of w === 'a' ? GS : GE.filter(x => x.k !== 'armor')) if (r in g.sc && oiA(g.a) <= oiA(a) && !gHidden(g) && !inList.has(g)) o.add(`tier-act: ${g.n} usable at Act ${a} is in neither the ${w}/${r} tiers nor its unranked row`); }
+  for (const [r, n] of [['RA', gUnranked(last, 'RA', 'w').length], ['SU', gUnranked(last, 'SU', 'w').length]]) {
+    location.hash = `#gear/${last}/${r}/w`; render(); const row = document.querySelector('#main .grow.gunr');
+    if (!n || !row || row.querySelectorAll("a.gtl").length !== (GALL ? n : Math.min(n, 48)) || !row.querySelector('.note')?.textContent.trim()) o.add(`tier-act: the ${r} list at Act ${last} lacks its unranked row (${n} weapons)`); }
+  bad.push(...o); }
