@@ -39,7 +39,7 @@ SYSTEMS = {'irons': SPELLS, 'goety': os.path.join(H, '..', 'patches', 'spells_go
            'brutality': os.path.join(H, '..', 'patches', 'spells_brutality.json')}
 BTOME = {'cosmic': 'cosmic_tome', 'brimwielder': 'brimwielder_tome', 'umbrancy': 'umbral_tome', 'voidwalker': 'void_tome', 'celestia': 'celestia_tome',
          'daemonic': 'daemonic_tome', 'darkist': 'darkist_tome', 'evergreen': 'evergreen_tome', 'exodic': 'exodic_tome'}
-WAND = ['setblock %(X)d -62 %(Z)d minecraft:barrel{Items:[{Slot:0b,id:"%(wand)s",Count:1b,ForgeCaps:{Parent:{Items:[{Slot:0,id:"%(focus)s",Count:1b}],Size:1}}}]}',
+WAND = ['setblock %(X)d -62 %(Z)d minecraft:barrel{Items:[{Slot:0b,id:"%(wand)s",Count:1b,ForgeCaps:{Parent:{Items:[{Slot:0,id:"%(focus)s",Count:1b%(ftag)s}],Size:1}}}]}',
         'item replace entity RenderBot weapon.mainhand from block %(X)d -62 %(Z)d container.0', 'setblock %(X)d -62 %(Z)d minecraft:dirt']   # Goety: a wand with its focus, by a barrel under the floor (1.20.1 has no item-entity slot)
 # Goety stage by the spell's class (the export's `kind`); SETUP entries win: summons need a hostile mob for their minions to fight, block spells act on the
 # block the eye meets (35 degrees down meets the floor 2.3 blocks ahead), touch spells on a creature within reach
@@ -426,6 +426,71 @@ SETUP.update({'brutality:dematerialize': {'target': 'husk20'},   # deletes a mob
               # the hurt a second before the cast: hurt during the 6 s mana wait, natural regeneration had the hearts full again (Sacrifice, 2026-11-17)
               'brutality:moonlit_mending': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1, 'lead': [[20, 'damage RenderBot 12 minecraft:generic']]},
               'brutality:sacrifice': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1, 'lead': [[20, 'damage RenderBot 12 minecraft:generic']]}})
+# 2026-11-17, second round for the spells two tries could not show: a different stage for each, not a third try of the same one
+CAMS['tall'] = ((0.1, -55.0, 16.0, 180, 0), (0.9, -55.05, 15.4, 180, 0))   # 16 blocks out at eye level 5 up: a caster falling from 10 blocks stays in frame
+TARGETS['husk_float'] = ('minecraft:husk', '{NoAI:1b,NoGravity:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Attributes:[{Name:"minecraft:generic.max_health",Base:1000d}],Health:1000f}', 'easy')
+UP10 = 'execute as RenderBot at @s run tp @s ~ ~10 ~'   # the caster 10 blocks up, falling, a moment before a spell that only shows in a fall
+SLOW = 'effect give @e[type=minecraft:husk] minecraft:slowness 60 255 true'   # a husk with AI (knockback moves it) that does not walk
+
+
+def ars_aug(base, g, again=50, **st):
+    """an augment shown as two casts: the base spell, then the same spell with the augment (as ars_stage does, with a stage of its own)"""
+    return dict(st, hold=ars_book(base), secs=st.get('secs', 10),
+                after=[[again - 4, 'item replace entity RenderBot weapon.mainhand with ' + ars_book(base + [g], (60, 200, 255))], [again, 'click:3']])
+
+
+ARS_SETUP.update({
+    # only in a fall: cast 10 blocks up
+    'ars_nouveau:glyph_slowfall': {'hold': [AN + 'self', AN + 'slowfall'], 'cam': 'tall', 'secs': 9, 'lead': [[6, UP10]]},
+    'ars_nouveau:glyph_bounce': {'hold': [AN + 'self', AN + 'bounce'], 'cam': 'tall', 'secs': 9, 'lead': [[6, UP10]]},
+    'ars_nouveau:glyph_glide': {'hold': [AN + 'self', AN + 'glide'], 'cam': 'tall', 'secs': 9, 'lead': [[6, UP10]],
+                                'after': [[8, 'key:space:tap'], [10, 'key:w:down'], [80, 'key:w:up']]},   # the jump key in the air starts the glide
+    # several targets: three husks in a line, 1.2 blocks apart in front of the target (pierce goes through the first) or side by side (split fans out)
+    'ars_nouveau:glyph_pierce': ars_aug([AN + 'projectile', AN + 'harm'], AN + 'pierce', target='husk',
+                                        pre=['summon minecraft:husk %(Xa)d.1 -60 %(Z)d.5 {NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Attributes:[{Name:"minecraft:generic.max_health",Base:1000d}],Health:1000f}',
+                                             'summon minecraft:husk %(Xn)s -60 %(Z)d.5 {NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Attributes:[{Name:"minecraft:generic.max_health",Base:1000d}],Health:1000f}']),
+    'ars_nouveau:glyph_split': ars_aug([AN + 'projectile', AN + 'harm'], AN + 'split', target='husk', cam='wide',
+                                       pre=['summon minecraft:husk %(Xt)s -60 %(Zm1)d.3 {NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Attributes:[{Name:"minecraft:generic.max_health",Base:1000d}],Health:1000f}',
+                                            'summon minecraft:husk %(Xt)s -60 %(Zp1)d.7 {NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Attributes:[{Name:"minecraft:generic.max_health",Base:1000d}],Health:1000f}']),
+    # Luck on ore that drops many items (lapis), two layers so the second cast breaks ore too
+    'ars_nouveau:glyph_fortune': ars_aug([AN + 'projectile', AN + 'break'], AN + 'fortune', pitch=30, pre=['fill %(Xm3)d -62 %(Zm1)d %(Xp3)d -61 %(Zp1)d minecraft:lapis_ore']),
+    # a pond sunk into the floor (water placed on it spread over the stage, 2026-11-16); a projectile passes through water unless Sensitive
+    'ars_nouveau:glyph_evaporate': {'hold': [AN + 'projectile', AN + 'sensitive', AN + 'evaporate', AN + 'aoe'], 'pitch': 30, 'nogui': 1,
+                                    'pre': ['fill %(Xm3)d -62 %(Zm2)d %(Xp3)d -62 %(Zp1)d minecraft:polished_deepslate', 'fill %(Xm2)d -61 %(Zm1)d %(X)d -61 %(Z)d minecraft:water']},
+    'ars_nouveau:glyph_sensitive': ars_aug([AN + 'projectile', AN + 'evaporate', AN + 'aoe'], AN + 'sensitive', pitch=30, nogui=1,
+                                           pre=['fill %(Xm3)d -62 %(Zm2)d %(Xp3)d -62 %(Zp1)d minecraft:polished_deepslate', 'fill %(Xm2)d -61 %(Zm1)d %(X)d -61 %(Z)d minecraft:water']),
+    # the caster heals itself: the hearts refill (the pig ran off before, 2026-11-16)
+    'ars_nouveau:glyph_heal': {'hold': [AN + 'self', AN + 'heal'], 'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1, 'lead': [[20, 'damage RenderBot 12 minecraft:generic']]},
+    # a husk with AI that cannot walk: knockback moves it (the pig walked off on its own)
+    'ars_nouveau:glyph_gust': {'target': 'husk_ai', 'pre': [SLOW]},
+    # a target in the air at eye height (the bat was too small to see)
+    'ars_nouveau:glyph_wind_shear': {'target': 'husk_float', 'pitch': 0, 'pre': ['execute as @e[type=minecraft:husk] at @s run tp @s ~ ~1.2 ~']},
+    # the charmed husk turns on a zombie the caster strikes
+    'ars_elemental:glyph_charm': {'target': 'husk_ai', 'secs': 10, 'pre': [SLOW.replace('60 255', '3 255'), SECOND.replace('minecraft:husk', 'minecraft:zombie').replace('NoAI:1b,', 'ArmorItems:[{},{},{},{id:"minecraft:leather_helmet",Count:1b}],')],
+                                  'after': [[30, 'damage @e[tag=t2,limit=1] 1 minecraft:player_attack by RenderBot']]},
+    # the name shows when the player looks at the mob: the player's view with the HUD
+    'ars_nouveau:glyph_name': {'target': 'husk', 'cam': 'eyes', 'hud': 1, 'nogui': 1},
+    'toomanyglyphs:glyph_filter_is_baby': {'target': 'baby_pig', 'cam': 'tclose'},
+})
+# Goety focuses that act on what was saved to them (left click on a servant, right click on a block): the save written into the focus instead
+# (CommandFocus "Servant", CallFocus "Summoned": the servant's UUID; TroopFocus "Summon Type"; RecallFocus "RecallPos" and "RecallDimension", read with javap);
+# the servants are owned by RenderBot (its offline UUID) and stand still ("staying") until called
+RB_UUID = '[I;1445793630,1057439473,-1534648778,-1237805312]'
+SV_UUID, SV_UUID2 = '[I;11,22,33,44]', '[I;11,22,33,45]'
+SERVANT = 'summon goety:zombie_servant %s -60 %s {%sOwner:' + RB_UUID + ',staying:1b,PersistenceRequired:1b,Silent:1b,Rotation:[180f,0f],ArmorItems:[{},{},{},{id:"minecraft:leather_helmet",Count:1b}]}'   # a helmet: a zombie burns in the evening sun
+SETUP.update({
+    'goety:call_focus': {'ftag': '{Summoned:' + SV_UUID + '}', 'cam': 'wide', 'secs': 8, 'difficulty': 'easy', 'pre': [SERVANT % ('%(Xp3)d.5', '%(Zm3)d.5', 'UUID:' + SV_UUID + ',')]},   # 7 blocks from the caster
+    'goety:troop_focus': {'ftag': '{"Summon Type":"goety:zombie_servant"}', 'cam': 'wide', 'secs': 8, 'difficulty': 'easy',
+                          'pre': [SERVANT % (x, '%(Zm3)d.5', '') for x in ('%(Xa)d.5', '%(Xp3)d.5', '%(X4)d.5')]},
+    'goety:command_focus': {'ftag': '{Servant:' + SV_UUID2 + '}', 'cam': 'wide', 'secs': 10, 'difficulty': 'easy', 'pitch': 18,   # 18 degrees meets the floor about 5 blocks ahead
+                            'pre': [(SERVANT % ('%(Xm6)d.5', '%(Zm3)d.5', 'UUID:' + SV_UUID2 + ','))]},   # 3 blocks behind the caster, away from the line: it walks past to the spot
+    'goety:recall_focus': {'ftag': '{RecallPos:{X:%(Xa)d,Y:-60,Z:%(Zm3)d},RecallDimension:"minecraft:overworld"}', 'cam': 'wide', 'secs': 7,
+                           'pre': ['setblock %(Xa)d -60 %(Zm3)d minecraft:lodestone']},   # the saved block; the caster lands beside it
+    # the mine goes off under a creature that walks onto it: a husk with AI walks at the caster (survival: a creative player is no target)
+    'goetyawaken:swamp_mine_focus': {'survival': 1, 'target': 'husk_ai', 'secs': 12},
+})
+ARS_SETUP['ars_nouveau:glyph_bounce'] = dict(ARS_SETUP['ars_nouveau:glyph_bounce'], survival=1)   # a creative caster takes no fall, so nothing to bounce off (2026-11-17)
+SETUP.update({'brutality:heavenly_flight': {'survival': 1, 'cam': 'tall', 'secs': 9, 'after': [[20, 'key:space:tap'], [28, 'key:space:down'], [90, 'key:space:up']]}})   # Mortal Flight: a jump, then the key held in the air
 ATTR = ['spell_power', 'cast_time_reduction', 'cooldown_reduction'] + [k + '_spell_power' for k in ('fire', 'ice', 'lightning', 'holy', 'ender', 'blood', 'evocation', 'nature', 'eldritch')]
 
 
@@ -542,7 +607,7 @@ def main():
             ct = s.get('castTicks') or 0; lvl = st.get('level', 1); t = ct / 20 if s.get('cast') == 'channelling' else 5.0 if s.get('cast') == 'continuous' else 0
             if not st.get('nocast') and s.get('cast') != 'instant': st = dict(st, after=sorted(st.get('after', []) + [[ct + 10 if s.get('cast') == 'channelling' else 100, 'btn:3:up']], key=lambda x: x[0]))
         var = {'X': X, 'Z': Z, 'Xt': '%.1f' % (X + g), 'Zb': Z - 3, 'Xa': X + 1, 'Xb': X + 6, 'Za': Z - 2, 'Zc': Z + 3, 'Xn': '%.1f' % (X + g - 1.2), 'X4': X + 4,
-               'Zm2': Z - 2, 'Xm1': X - 1, 'Xm2': X - 2, 'Zm1': Z - 1, 'Zp1': Z + 1, 'Xm3': X - 3, 'Xp3': X + 3, 'Zm3': Z - 3, 'Zp3': Z + 3, 'Xc': '%.1f' % (X - g + 0.5)}
+               'Zm2': Z - 2, 'Xm6': X - 6, 'Xm1': X - 1, 'Xm2': X - 2, 'Zm1': Z - 1, 'Zp1': Z + 1, 'Xm3': X - 3, 'Xp3': X + 3, 'Zm3': Z - 3, 'Zp3': Z + 3, 'Xc': '%.1f' % (X - g + 0.5)}
         dur = st.get('secs') or (6.0 if ars or s.get('cast') in ('INSTANT', 0, 'instant') else min(11, t + 6.0))
         c(['cam-server stop RenderBot', 'effect clear RenderBot', 'effect give RenderBot minecraft:instant_health 1 20 true', 'weather clear', 'time set ' + a.time,
            'gamerule doDaylightCycle false', 'difficulty ' + st.get('difficulty', a.difficulty or tg[2]), 'curios clear RenderBot spellbook',
@@ -555,7 +620,7 @@ def main():
            ('summon %s %.1f -60 %.1f %s' % (tg[0], X + g, Z + 0.5, tg[1])).rstrip() if tg[0] else 'time query gametime'] + [p % var for p in st.get('pre', [])], 10)   # a trailing space fails the command
         robe = ROBE.get((s.get('school') or '').split(':')[-1], 'wandering_magician')
         if goety:
-            robe = None; off = []; var.update(wand=st.get('hold', 'goety:dark_wand'), focus=s['id'])
+            robe = None; off = []; var.update(wand=st.get('hold', 'goety:dark_wand'), focus=s['id'], ftag=(',tag:' + st['ftag'] % var) if st.get('ftag') else '')   # ftag: what a focus has saved (a servant, a place)
             if st.get('survival'): c(['goety soul set RenderBot 100000'], 2)   # soul energy for a survival cast
             c(['item replace entity RenderBot armor.%s with minecraft:air' % slot for slot in ('head', 'chest', 'legs', 'feet')] + ['item replace entity RenderBot weapon.offhand with minecraft:air',   # a sword given for one clip stayed in the off hand for the next eight (2026-11-16)
                'setblock %(X)d -62 %(Z)d minecraft:air' % var, WAND[0] % var], 2)   # air first: setblock leaves a barrel left by an earlier run as it is

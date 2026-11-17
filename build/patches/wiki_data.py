@@ -74,12 +74,17 @@ for _it, _v in J("gear_fx.json").items():
 # every spell (pack_audit/spells.py) and its icon: only the Spells page shows them, so they go to wiki_pics.js
 def _sp(r):
     o = {"i": r["id"], "n": r["name"] or "", "m": r["mod"]}
+    g = _pw["spells"].get(r["id"])   # the running game's school, levels and on/off (spell_power.json) over the jar reading
+    if g: r = dict(r, school=g["school"].split(":")[1], schoolName=g["schoolName"], maxLevel=g["lv"][1], enabled=g["enabled"])
     for k, f in (("school", "s"), ("schoolName", "sn"), ("rarity", "r"), ("maxLevel", "L"), ("cooldown", "c"), ("mana", "ma"), ("manaPer", "mp"), ("manaMul", "mm"), ("castTime", "t"), ("cast", "k"), ("guide", "g"), ("fx", "f")):
         if r[k] not in (None, [], ""): o[f] = r[k]
     if not r["enabled"]: o["x"] = 1
     if r["craft"] is False: o["nc"] = 1
     return o
 _sl = J("spells.json")["spells"]; _si = J("spell_icons.json")
+# the running game's view of each Iron's spell (pack_audit/spell_power.py from kubejs lgw_spellpower.js): school, levels, on/off, what spell power changes
+_pw = J("spell_power.json") if (H / "spell_power.json").exists() else {"spells": {}, "goety": {}}
+_en = lambda r: (_pw["spells"].get(r["id"]) or r)["enabled"]
 # the Goety focuses (pack_audit/spell_systems.py -> spells_goety.json): name, description, mod, type, soul cost, cast and cooldown ticks
 def _gsp(r):
     o = {"i": r["id"], "n": r["name"] or "", "m": r["mod"]}
@@ -115,7 +120,12 @@ _clips = [c for c in _appr if (_cdir / (c.replace(":", "__") + ".mp4")).exists()
 # why a spell has no clip (build/clips/noclip.json, from the clip reviews in docs/NOTES.md): every spell the pack leaves on has an approved clip or
 # a reason, never both; a spell the pack turns off needs neither (the page says it is off)
 _why = json.loads((H.parent / "clips" / "noclip.json").read_text())
-_on = {r["id"] for r in _sl + _al if r["enabled"] is not False} | {r["id"] for r in _gl + _bl}
+# what spell power changes in each Iron's spell (pack_audit/spell_power.py, from the running game: kubejs lgw_spellpower.js) and the enchantments each Goety
+# focus accepts: [school power name, lowest level, highest level, [[line label, value at the lowest level, at the highest, flags]]]; flags: p the school's
+# power changes it, g the general Spell Power does, l the level does
+_ppw = {k: [v["attr"], v["lv"][0], v["lv"][1], [[r["t"], r.get("a"), r["b"], "".join(f for f in "pgl" if r.get(f))] for r in v["rows"]]] for k, v in _pw["spells"].items()}
+assert not _pw["spells"] or set(_ppw) == {r["id"] for r in _sl}, "spell_power.json and spells.json list different spells"
+_on = {r["id"] for r in _sl if _en(r) is not False} | {r["id"] for r in _al if r["enabled"] is not False} | {r["id"] for r in _gl + _bl}
 assert not set(_why) & set(_appr), "noclip.json gives a reason for a spell with an approved clip: " + ", ".join(sorted(set(_why) & set(_appr)))
 assert set(_why) <= _on, "noclip.json names a spell that is not on (or not a spell): " + ", ".join(sorted(set(_why) - _on))
 assert _on <= set(_why) | set(_appr), "a spell with neither an approved clip nor a reason in noclip.json: " + ", ".join(sorted(_on - set(_why) - set(_appr)))
@@ -126,7 +136,7 @@ pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(
         + "window.BWALK=" + json.dumps(J("boss_walks.json"), separators=(",", ":")) + ";\n"   # the walk loops of the home page's figures (boss_portraits.js --figs)
         + "window.EFX=" + json.dumps([_slim(r) for r in _ef["effects"]], ensure_ascii=False, separators=(",", ":")) + ";window.EFXA=" + json.dumps(_ea, ensure_ascii=False, separators=(",", ":")) + ";window.EFXU=" + str(len(_ef["unconfirmed"])) + ";window.EFXG=" + json.dumps(_eg, separators=(",", ":")) + ";\n"
         + "window.EFXI=" + json.dumps(J("effect_icons.json"), separators=(",", ":")) + ";\n"
-        + "window.SPL=" + json.dumps([_sp(r) for r in _sl], ensure_ascii=False, separators=(",", ":")) + ";window.SPLI=" + json.dumps(_si, separators=(",", ":")) + ";window.SPCLIP=" + json.dumps(_clips) + ";window.SPWHY=" + json.dumps(_why, ensure_ascii=False, separators=(",", ":")) + ";\n"
+        + "window.SPL=" + json.dumps([_sp(r) for r in _sl], ensure_ascii=False, separators=(",", ":")) + ";window.SPLI=" + json.dumps(_si, separators=(",", ":")) + ";window.SPCLIP=" + json.dumps(_clips) + ";window.SPWHY=" + json.dumps(_why, ensure_ascii=False, separators=(",", ":")) + ";window.SPPOW=" + json.dumps({"g": _pw.get("general"), "s": _ppw, "goety": _pw.get("goety", {})}, ensure_ascii=False, separators=(",", ":")) + ";\n"
         + "window.GSPL=" + json.dumps([_gsp(r) for r in _gl], ensure_ascii=False, separators=(",", ":")) + ";window.GSPLI=" + json.dumps(_gi2, separators=(",", ":")) + ";\n"   # Spells > Goety (spell_systems.py)
         + "window.ASPL=" + json.dumps([_asp(r) for r in _al], ensure_ascii=False, separators=(",", ":")) + ";window.ASPLI=" + json.dumps(_ai, separators=(",", ":")) + ";\n"   # Spells > Ars Nouveau
         + "window.BSPL=" + json.dumps([_bsp(r) for r in _bl], ensure_ascii=False, separators=(",", ":")) + ";window.BSPLI=" + json.dumps(_bi, separators=(",", ":")) + ";\n"   # Spells > Brutality

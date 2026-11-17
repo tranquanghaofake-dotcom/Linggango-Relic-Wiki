@@ -37,4 +37,10 @@ well at 1440 and 375 px; `bash build/check.sh` green; the site run green and `/b
 - Clips: Linggango Tweaks needs a third library chain (Enigmatic Legacy after L2 Hostility): stopped, its 6 focuses keep their reason. Five Goety
   Awaken focuses (Chip, Chip Rain, Ghost Missile, Fate Dice, Swamp Mine) throw entities of Meet Your Fight, which the pack has and the recording
   stage lacked: added to the stage and recorded again.
+- 2026-11-17, second session part: a reader asked what spell power changes in each spell. Approved scope: Iron's spells from the running game (which
+  tooltip lines the school's power and the level change, with the base numbers at the lowest and highest level), one rule each for the other three
+  systems read from their code (Brutality's school level adds levels for damage only and Spell Damage multiplies it; Ars's own Spell Power adds to
+  damage, augments do the rest; a Goety focus grows with its enchantments, and Goety Revelation adds its own Spell Power attributes). The export also
+  corrected four spells' data (three schools, one turned off) and gave a school and levels to the 95 spells the config does not list.
+- Clips, second stage round: 3 more (Glide, Knockback, Heal); the rest of the round showed nothing new and keeps its reason (three tries each).
 

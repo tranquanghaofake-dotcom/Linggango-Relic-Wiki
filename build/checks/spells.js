@@ -21,9 +21,17 @@
     // what the jar says about one well-known spell (Fireball, read by javap: DefaultConfig RARE, FIRE, level 5, 25 s; mana 60 + 15 a level; cast 40 ticks, LONG)
     const fb = X.find(s => s.i === 'irons_spellbooks:fireball');
     if (!fb || fb.s !== 'fire' || fb.r !== 'rare' || fb.L !== 5 || fb.c !== 25 || fb.ma !== 60 || fb.mp !== 15 || fb.t !== 40 || fb.k !== 'LONG') bad.push('spells: Fireball reads ' + JSON.stringify(fb));
-    // the pack's per-spell config turns four spells off (config/irons_spellbooks_spell_config): the page says so
-    const off = X.filter(s => s.x).length, offData = P.filter(s => s.enabled === false).length;
-    if (off !== offData) bad.push(`spells: ${off} turned off on the page, ${offData} in the data`);
+    // the running game (kubejs lgw_spellpower.js -> patches/spell_power.json, after the pack's config) decides school, levels and on/off: the jar reading
+    // had no school for 95 spells, Earthquake, Stomp and Touch Dig in Nature (Geomancy Plus puts them in Geo) and Cloud of Regeneration on (2026-11-17)
+    { const PW = (await patchJSON('spell_power.json')).spells || {}, off = X.filter(s => s.x).length, offData = Object.values(PW).filter(v => v.enabled === false).length;
+      if (off !== offData) bad.push(`spells: ${off} turned off on the page, ${offData} in the game`);
+      for (const s of X) { const g = PW[s.i]; if (!g) { bad.push('spells: ' + s.i + ' is not in spell_power.json'); continue; }
+        if (s.s !== g.school.split(':')[1] || s.L !== g.lv[1] || !!s.x !== (g.enabled === false)) bad.push(`spells: ${s.i} reads ${s.s}/${s.L}/${s.x ? 'off' : 'on'}, the game ${g.school}/${g.lv[1]}/${g.enabled ? 'on' : 'off'}`); }
+      // what spell power changes: every spell has its rows; Fireball's damage and radius grow with Fire Spell Power and with the level (in game: 10 and 3 at level 1, 30 and 7 at 5)
+      const fb = PW['irons_spellbooks:fireball'], r = t => (fb.rows || []).find(x => x.t === t);
+      if (!fb || fb.attr !== 'Fire Spell Power' || !r('Damage') || !r('Damage').p || !r('Damage').l || r('Damage').a !== '10' || r('Damage').b !== '30' || !r('Block Radius') || !r('Block Radius').p)
+        bad.push('spells: Fireball\'s spell power rows read ' + JSON.stringify(fb && fb.rows));
+      if (!(window.SPPOW && SPPOW.s && Object.keys(SPPOW.s).length === X.length)) bad.push('spells: window.SPPOW does not cover every Iron\'s spell'); }
     // every clip belongs to a spell of some tab: checked below with the other systems (Goety, Ars, Brutality clips are not Iron's spells)
     const ic = window.SPLI || {}; for (const k of Object.keys(ic)) if (!ids.has(k)) bad.push('spells: icon for unknown ' + k);
     // the chips of an effect lead to the Effects page filtered to it, and that page lists the spell back
@@ -130,5 +138,8 @@
       if (document.querySelector('#sdp .snc p')?.textContent !== why[id]) bad.push('spells: ' + id + ' does not say why it has no clip'); }
     { const o = SP.find(s => s.x); if (o) { await go('#spells/' + encodeURIComponent(o.i)); if (!/Turned off/.test(document.querySelector('#sdp .snc')?.textContent || '')) bad.push('spells: the turned-off ' + o.i + ' does not say so'); } }
     for (const X of [SP, G, A, B]) { const s = X.find(x => !x.x); await go('#spells/' + encodeURIComponent(s.i));
-      if (/undefined|NaN|\[object|\{\w+\}/.test(document.getElementById('sdp').innerText)) bad.push('spells: undefined, NaN, [object] or a {placeholder} in the panel of ' + s.i); } }
+      if (/undefined|NaN|\[object|\{\w+\}/.test(document.getElementById('sdp').innerText)) bad.push('spells: undefined, NaN, [object] or a {placeholder} in the panel of ' + s.i);
+      if (!document.querySelector('#sdp .sgw')) bad.push('spells: the panel of ' + s.i + ' does not say what makes it stronger'); }
+    await go('#spells/irons_spellbooks%3Afireball');
+    if (!/Fire Spell Power/.test(document.querySelector('#sdp .sgw')?.textContent || '') || document.querySelectorAll('#sdp .sgt tbody tr.sgp').length !== 2) bad.push('spells: Fireball\'s panel does not show Fire Spell Power raising its two lines'); }
   location.hash = '#home'; await wait(80); render(); }

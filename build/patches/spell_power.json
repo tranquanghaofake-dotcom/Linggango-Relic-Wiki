@@ -1,0 +1,10534 @@
+{
+ "errors": [],
+ "general": "Spell Power",
+ "goety": {
+  "goety:arrow_rain_focus": [
+   "Potency",
+   "Range",
+   "Burning",
+   "Velocity"
+  ],
+  "goety:banish_focus": [
+   "Range"
+  ],
+  "goety:barricade_focus": [
+   "Potency",
+   "Range",
+   "Duration"
+  ],
+  "goety:biomine_focus": [
+   "Potency",
+   "Range",
+   "Duration",
+   "Radius"
+  ],
+  "goety:biting_focus": [
+   "Potency",
+   "Range",
+   "Burning",
+   "Life Absorb",
+   "Soul Eater"
+  ],
+  "goety:blackguard_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:blasting_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:blazing_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:blink_focus": [
+   "Range"
+  ],
+  "goety:blizzard_focus": [
+   "Potency",
+   "Range",
+   "Velocity"
+  ],
+  "goety:blossoming_focus": [
+   "Potency",
+   "Duration",
+   "Radius",
+   "Velocity"
+  ],
+  "goety:bolting_focus": [
+   "Potency",
+   "Velocity"
+  ],
+  "goety:bombardment_focus": [
+   "Potency",
+   "Burning",
+   "Duration"
+  ],
+  "goety:bouncy_bubble_focus": [
+   "Potency",
+   "Velocity",
+   "Radius"
+  ],
+  "goety:bulwark_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:burrowing_focus": [
+   "Potency",
+   "Range",
+   "Burning",
+   "Magnetize",
+   "minecraft:fortune",
+   "minecraft:silk_touch"
+  ],
+  "goety:call_focus": [],
+  "goety:carrion_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:charge_focus": [],
+  "goety:chilling_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:command_focus": [],
+  "goety:corruption_focus": [
+   "Potency"
+  ],
+  "goety:crafting_focus": [],
+  "goety:cushion_focus": [
+   "Range",
+   "Duration",
+   "Radius"
+  ],
+  "goety:cyclone_focus": [
+   "Potency",
+   "Radius",
+   "Duration",
+   "Velocity"
+  ],
+  "goety:discharge_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goety:earth_punch_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety:electrocute_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety:end_walk_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:ender_chest_focus": [],
+  "goety:entangling_focus": [
+   "Range",
+   "Duration"
+  ],
+  "goety:eruption_focus": [
+   "Potency",
+   "Range",
+   "Radius",
+   "Duration",
+   "Burning"
+  ],
+  "goety:feast_focus": [
+   "Potency",
+   "Radius",
+   "Burning",
+   "Life Absorb"
+  ],
+  "goety:fire_blast_focus": [
+   "Potency",
+   "Radius",
+   "Burning"
+  ],
+  "goety:fire_breath_focus": [
+   "Potency",
+   "Range",
+   "Burning"
+  ],
+  "goety:fireball_focus": [
+   "Potency",
+   "Burning"
+  ],
+  "goety:flame_strike_focus": [
+   "Potency",
+   "Duration",
+   "Range"
+  ],
+  "goety:flying_focus": [
+   "Potency"
+  ],
+  "goety:frost_breath_focus": [
+   "Potency",
+   "Range",
+   "Duration"
+  ],
+  "goety:frost_nova_focus": [
+   "Potency",
+   "Radius",
+   "Duration"
+  ],
+  "goety:frostborn_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:ghastly_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:ghost_fire_focus": [
+   "Potency",
+   "Range",
+   "Duration"
+  ],
+  "goety:glow_light_focus": [],
+  "goety:grapple_focus": [
+   "Velocity"
+  ],
+  "goety:guardian_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:hail_focus": [
+   "Potency",
+   "Range",
+   "Duration",
+   "Radius"
+  ],
+  "goety:hogging_focus": [
+   "Duration",
+   "Radius"
+  ],
+  "goety:hunting_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:ice_spike_focus": [
+   "Potency",
+   "Velocity"
+  ],
+  "goety:ice_storm_focus": [
+   "Potency",
+   "Duration",
+   "Range",
+   "Velocity"
+  ],
+  "goety:iceology_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety:ignite_focus": [
+   "Burning"
+  ],
+  "goety:illuminate_focus": [],
+  "goety:illusion_focus": [],
+  "goety:iron_hide_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:killing_focus": [
+   "Range"
+  ],
+  "goety:launch_focus": [
+   "Potency"
+  ],
+  "goety:lavaball_focus": [
+   "Potency",
+   "Burning",
+   "Radius"
+  ],
+  "goety:leaping_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:leeching_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety:lightning_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety:magic_bolt_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:magma_bomb_focus": [
+   "Potency",
+   "Duration",
+   "Radius",
+   "Velocity"
+  ],
+  "goety:mauling_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:meteor_shower_focus": [
+   "Potency",
+   "Range",
+   "Burning",
+   "Radius",
+   "Duration"
+  ],
+  "goety:ministrous_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:monsoon_focus": [
+   "Potency",
+   "Range",
+   "Duration",
+   "Radius"
+  ],
+  "goety:order_focus": [],
+  "goety:osseous_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:overgrowth_focus": [
+   "Potency",
+   "Range",
+   "Duration"
+  ],
+  "goety:phantasm_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:poison_dart_focus": [
+   "Potency",
+   "Duration",
+   "Velocity"
+  ],
+  "goety:prisma_beam_focus": [
+   "Potency"
+  ],
+  "goety:pulverize_focus": [
+   "Radius"
+  ],
+  "goety:quaking_focus": [
+   "Potency",
+   "Range",
+   "Radius"
+  ],
+  "goety:razor_wind_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goety:reaping_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:recall_focus": [],
+  "goety:rotation_focus": [],
+  "goety:rotting_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:rupture_focus": [
+   "Potency",
+   "Duration",
+   "Range",
+   "Radius"
+  ],
+  "goety:scatter_focus": [
+   "Potency",
+   "Duration",
+   "Radius"
+  ],
+  "goety:sensing_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:shocking_focus": [
+   "Potency",
+   "Range",
+   "Burning"
+  ],
+  "goety:shockwave_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goety:shredding_focus": [
+   "Potency",
+   "Range",
+   "Burning",
+   "Soul Eater"
+  ],
+  "goety:skull_focus": [
+   "Potency",
+   "Duration",
+   "Burning",
+   "Radius"
+  ],
+  "goety:slimy_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:smack_stone_focus": [
+   "Potency",
+   "Velocity",
+   "Burning"
+  ],
+  "goety:snaring_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:sonic_boom_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety:soul_bolt_focus": [
+   "Potency",
+   "Velocity"
+  ],
+  "goety:soul_heal_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goety:soul_healer": [
+   "Potency",
+   "Radius"
+  ],
+  "goety:soul_light_focus": [],
+  "goety:spooky_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:sprightly_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:steaming_focus": [
+   "Potency",
+   "Velocity"
+  ],
+  "goety:stellar_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goety:surging_focus": [
+   "Potency",
+   "Velocity"
+  ],
+  "goety:swarm_focus": [
+   "Potency",
+   "Duration",
+   "Range"
+  ],
+  "goety:sword_focus": [
+   "Velocity"
+  ],
+  "goety:teeth_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety:telekinesis_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety:temblor_clap_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goety:thunderbolt_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety:thunderstorm_focus": [
+   "Potency",
+   "Duration",
+   "Radius"
+  ],
+  "goety:tidal_focus": [
+   "Potency",
+   "Range",
+   "Duration"
+  ],
+  "goety:trembling_focus": [
+   "Potency",
+   "Radius",
+   "Duration"
+  ],
+  "goety:trident_storm_focus": [
+   "Potency"
+  ],
+  "goety:troop_focus": [],
+  "goety:tunnel_focus": [
+   "Range",
+   "Duration"
+  ],
+  "goety:updraft_focus": [
+   "Potency",
+   "Range",
+   "Radius"
+  ],
+  "goety:vanguard_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:vexing_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:void_flash_focus": [
+   "Potency",
+   "Velocity"
+  ],
+  "goety:watching_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:water_jet_focus": [
+   "Potency",
+   "Range",
+   "Burning"
+  ],
+  "goety:water_whip_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety:weakening_focus": [
+   "Potency",
+   "Radius",
+   "Duration"
+  ],
+  "goety:whirlwind_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goety:whispering_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety:wind_blast_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety:wither_skull_focus": [
+   "Potency",
+   "Duration",
+   "Burning",
+   "Radius"
+  ],
+  "goety_cataclysm:abyssal_beam_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety_cataclysm:abyssal_mine_focus": [
+   "Range",
+   "Radius"
+  ],
+  "goety_cataclysm:abyssal_orb_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goety_cataclysm:amethyst_cluster_focus": [
+   "Potency",
+   "Velocity"
+  ],
+  "goety_cataclysm:ashen_breath_focus": [
+   "Potency",
+   "Range",
+   "Duration"
+  ],
+  "goety_cataclysm:battlefield_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goety_cataclysm:cursed_cairn_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:cursed_grave_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:cursed_tomb_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:death_laser_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:desert_crush_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety_cataclysm:desert_raid_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:earth_shake_focus": [
+   "Potency",
+   "Velocity"
+  ],
+  "goety_cataclysm:extinct_flame_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goety_cataclysm:flare_bomb_focus": [
+   "Potency",
+   "Velocity"
+  ],
+  "goety_cataclysm:kakourgos_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:kyria_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:lightning_spear_focus": [
+   "Potency",
+   "Velocity",
+   "Radius"
+  ],
+  "goety_cataclysm:polemistis_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:sandstorm_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:storm_serpent_focus": [
+   "Potency"
+  ],
+  "goety_cataclysm:sunken_current_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:sunken_swell_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:sunken_tribune_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_cataclysm:thunder_rage_focus": [
+   "Potency",
+   "Velocity",
+   "Radius"
+  ],
+  "goety_cataclysm:void_rune_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goety_cataclysm:void_vortex_focus": [
+   "Range",
+   "Radius"
+  ],
+  "goety_cataclysm:water_spear_focus": [
+   "Potency",
+   "Velocity"
+  ],
+  "goety_revelation:dementor_focus": [],
+  "goety_revelation:dragon_nirvana_focus": [],
+  "goety_revelation:dragon_skyrocket_focus": [],
+  "goety_revelation:heretic_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goety_revelation:ice_focus": [
+   "Potency",
+   "Range",
+   "Velocity"
+  ],
+  "goety_revelation:nether_meteor_focus": [],
+  "goety_revelation:revelation_focus": [],
+  "goety_revelation:shadow_clone_focus": [],
+  "goety_revelation:wither_quietus_focus": [
+   "Range"
+  ],
+  "goetyawaken:access_focus": [],
+  "goetyawaken:agony_focus": [
+   "Potency"
+  ],
+  "goetyawaken:blood_rain_focus": [
+   "Potency",
+   "Range",
+   "Duration",
+   "Radius"
+  ],
+  "goetyawaken:burning_shield_focus": [
+   "Potency",
+   "Duration",
+   "Burning",
+   "Radius"
+  ],
+  "goetyawaken:champion_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goetyawaken:chasing_flame_focus": [
+   "Potency",
+   "Velocity",
+   "Range"
+  ],
+  "goetyawaken:chip_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goetyawaken:chip_rain_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goetyawaken:creeper_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goetyawaken:death_ray_focus": [
+   "Potency"
+  ],
+  "goetyawaken:deepdark_vermin_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goetyawaken:desert_plagues_focus": [
+   "Potency",
+   "Range",
+   "Duration",
+   "Radius"
+  ],
+  "goetyawaken:fate_dice_focus": [
+   "Potency"
+  ],
+  "goetyawaken:fireball_feast_focus": [
+   "Potency",
+   "Burning",
+   "Radius"
+  ],
+  "goetyawaken:ghost_havoc_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goetyawaken:ghost_missile_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goetyawaken:great_meteor_focus": [
+   "Potency",
+   "Velocity"
+  ],
+  "goetyawaken:heaven_rift_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goetyawaken:infestation_focus": [
+   "Potency",
+   "Velocity",
+   "Duration",
+   "Radius"
+  ],
+  "goetyawaken:killer_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goetyawaken:marble_focus": [
+   "Range"
+  ],
+  "goetyawaken:mooshroom_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goetyawaken:mushroom_missile_focus": [
+   "Potency",
+   "Velocity",
+   "Duration"
+  ],
+  "goetyawaken:oblivion_gale_focus": [
+   "Potency",
+   "Radius",
+   "Duration",
+   "Burning"
+  ],
+  "goetyawaken:rock_launch_focus": [
+   "Potency",
+   "Velocity",
+   "Range",
+   "Burning",
+   "Radius"
+  ],
+  "goetyawaken:scatter_bomb_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goetyawaken:seismic_focus": [
+   "Potency",
+   "Radius",
+   "Burning",
+   "Duration",
+   "Velocity",
+   "Range"
+  ],
+  "goetyawaken:shattered_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goetyawaken:shulker_missile_focus": [
+   "Potency",
+   "Duration",
+   "Range",
+   "Velocity"
+  ],
+  "goetyawaken:stare_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goetyawaken:starless_night": [],
+  "goetyawaken:swamp_mine_focus": [
+   "Potency",
+   "Range"
+  ],
+  "goetyawaken:torment_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "goetyawaken:wololo_focus": [
+   "Radius",
+   "Range"
+  ],
+  "goetydelight:crop_growth_focus": [
+   "Radius"
+  ],
+  "goetydelight:grass_cutting_focus": [
+   "minecraft:silk_touch",
+   "minecraft:fortune",
+   "Radius",
+   "Velocity",
+   "Magnetize"
+  ],
+  "goetydelight:hoe_focus": [
+   "minecraft:silk_touch",
+   "minecraft:fortune",
+   "Radius",
+   "Magnetize"
+  ],
+  "goetydelight:laowang_focus": [
+   "Potency"
+  ],
+  "goetydelight:love_and_fertility_focus": [
+   "Radius",
+   "Duration"
+  ],
+  "goetydelight:malevolent_shrine_focus": [
+   "Potency",
+   "Radius"
+  ],
+  "goetydelight:marble_focus": [
+   "Radius"
+  ],
+  "goetydelight:rich_soil_focus": [
+   "Radius"
+  ],
+  "goetydelight:tree_growth_focus": [],
+  "linggango_tweaks:apothecarist_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "linggango_tweaks:cryomancer_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "linggango_tweaks:cultist_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "linggango_tweaks:necromancer_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "linggango_tweaks:priest_focus": [
+   "Potency",
+   "Duration"
+  ],
+  "linggango_tweaks:pyromancer_focus": [
+   "Potency",
+   "Duration"
+  ]
+ },
+ "spells": {
+  "ars_n_spells:ars_cross_1": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "ars_n_spells:ars_cross_2": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "ars_n_spells:ars_cross_3": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "ars_n_spells:ars_cross_4": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "ars_n_spells:ars_cross_5": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "ars_n_spells:ars_cross_6": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "ars_n_spells:ars_cross_7": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "ars_n_spells:ars_cross_8": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "caster_curios_bonus:arcane_overdrive": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "10s",
+     "b": "10s",
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "darkermagic:summoned_sculk_centipede": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "5",
+     "l": 1,
+     "t": "Summons"
+    },
+    {
+     "a": "13",
+     "b": "16",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "HP"
+    },
+    {
+     "a": "5",
+     "b": "8",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    6.0,
+    18.0
+   ],
+   "sp2": 36.0
+  },
+  "darkermagic:summoned_sculk_snapper": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "5",
+     "l": 1,
+     "t": "Summons"
+    },
+    {
+     "a": "13",
+     "b": "16",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "HP"
+    },
+    {
+     "a": "5",
+     "b": "8",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    6.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "darkermagic:summoned_shattered": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "5",
+     "l": 1,
+     "t": "Summons"
+    },
+    {
+     "a": "41",
+     "b": "44",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "HP"
+    },
+    {
+     "a": "6",
+     "b": "9",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    6.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "darkermagic:summoned_warden": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "1",
+     "t": "Summons"
+    },
+    {
+     "a": "176",
+     "b": "176",
+     "g": 1,
+     "p": 1,
+     "t": "HP"
+    },
+    {
+     "a": "16",
+     "b": "16",
+     "g": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    6.0,
+    6.0
+   ],
+   "sp2": 12.0
+  },
+  "gtbcs_geomancy_plus:chunker": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "4.5",
+     "b": "22",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "6.5s",
+     "b": "11.5s",
+     "l": 1,
+     "t": "Duration"
+    },
+    {
+     "a": "0.8",
+     "b": "0.8",
+     "t": "→ Resonate Multiplier: … x"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    6.0
+   ],
+   "sp2": 12.0
+  },
+  "gtbcs_geomancy_plus:crystalline_conduit": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "10%",
+     "b": "35%",
+     "l": 1,
+     "t": "Geo Spell Power"
+    },
+    {
+     "a": "12.5s",
+     "b": "27.5s",
+     "l": 1,
+     "t": "Duration"
+    },
+    {
+     "a": "4",
+     "b": "10",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Shockwave Radius"
+    },
+    {
+     "a": "0.25",
+     "b": "0.25",
+     "t": "→ Resonate Multiplier: … x"
+    },
+    {
+     "a": "2%",
+     "b": "2%",
+     "t": "→ Regenerate … of Max Mana"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    4.0
+   ],
+   "sp2": 8.0
+  },
+  "gtbcs_geomancy_plus:dripstone_bolt": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "10.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    12.0,
+    21.0
+   ],
+   "sp2": 42.0
+  },
+  "gtbcs_geomancy_plus:eroding_boulder": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10.5",
+     "b": "28.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AoE Damage"
+    },
+    {
+     "a": "3",
+     "b": "7",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AoE Radius"
+    },
+    {
+     "a": "1",
+     "b": "3",
+     "l": 1,
+     "t": "Erode Amplifier"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "gtbcs_geomancy_plus:fissure": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "6.5",
+     "b": "24",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    8.0
+   ],
+   "sp2": 16.0
+  },
+  "gtbcs_geomancy_plus:geo_conductor": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "20s",
+     "b": "40s",
+     "l": 1,
+     "t": "Duration"
+    },
+    {
+     "a": "3",
+     "b": "4",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "7.5%",
+     "b": "17.5%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Armor Gain"
+    },
+    {
+     "a": "3.75%",
+     "b": "8.75%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Spell Resist Gain"
+    },
+    {
+     "a": "1.15",
+     "b": "1.15",
+     "t": "→ Resonate Multiplier: … x"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "gtbcs_geomancy_plus:petrivise": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "20",
+     "b": "30",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "20",
+     "b": "20",
+     "t": "Pillars"
+    },
+    {
+     "a": "1.0",
+     "b": "1.0",
+     "t": "→ Resonate Multiplier: … x"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "gtbcs_geomancy_plus:pillar_of_the_resounding_earth": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "18",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "20s",
+     "b": "1.16m",
+     "l": 1,
+     "t": "Duration"
+    },
+    {
+     "a": "5",
+     "b": "10",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "5%",
+     "b": "30%",
+     "l": 1,
+     "t": "→ Armor Shred: -"
+    },
+    {
+     "a": "2.5%",
+     "b": "15%",
+     "l": 1,
+     "t": "→ Spell Resist Shred: -"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    6.0
+   ],
+   "sp2": 12.0
+  },
+  "gtbcs_geomancy_plus:seismic_surf": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "0.6",
+     "b": "1.1",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Forward Velocity"
+    },
+    {
+     "a": "52.5s",
+     "b": "1.6m",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "gtbcs_geomancy_plus:solar_beam": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "4.5",
+     "b": "9.8",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "gtbcs_geomancy_plus:solar_chorus": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "",
+     "b": "",
+     "t": "Chance to Summon: Umvuthana Crane, Umvuthana Raptor [9]"
+    },
+    {
+     "a": "12",
+     "b": "20",
+     "l": 1,
+     "t": "Raptor HP"
+    },
+    {
+     "a": "6",
+     "b": "10",
+     "l": 1,
+     "t": "Crane HP"
+    },
+    {
+     "a": "1.75",
+     "b": "5.25",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "gtbcs_geomancy_plus:solar_storm": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "12",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "20",
+     "b": "20",
+     "t": "Block Radius"
+    },
+    {
+     "a": "11s",
+     "b": "32s",
+     "l": 1,
+     "t": "Solar Storm Duration"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    1.0,
+    8.0
+   ],
+   "sp2": 16.0
+  },
+  "gtbcs_geomancy_plus:tremor_spike": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "2",
+     "b": "4",
+     "l": 1,
+     "t": "Rings"
+    },
+    {
+     "a": "1",
+     "b": "3",
+     "l": 1,
+     "t": "Recast Count"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "gtbcs_geomancy_plus:tremor_step": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "6",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AoE Damage"
+    },
+    {
+     "a": "7.5%",
+     "b": "15.0%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Speed Bonus"
+    },
+    {
+     "a": "20s",
+     "b": "40s",
+     "l": 1,
+     "t": "Effect Duration"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "gtbcs_geomancy_plus:weeping_cluster": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "20",
+     "b": "50",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Max Damage Possible"
+    },
+    {
+     "a": "15s",
+     "b": "15s",
+     "t": "Duration"
+    },
+    {
+     "a": "6.5",
+     "b": "14",
+     "l": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    4.0
+   ],
+   "sp2": 8.0
+  },
+  "gtbcs_geomancy_plus:weeping_wall": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "30",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Per Pillar Health"
+    },
+    {
+     "a": "6",
+     "b": "14",
+     "l": 1,
+     "t": "Wall Width"
+    },
+    {
+     "a": "15s",
+     "b": "35s",
+     "l": 1,
+     "t": "Duration"
+    },
+    {
+     "a": "15",
+     "b": "15",
+     "t": "Block Radius"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "irons_spellbooks:abyssal_shroud": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "6s",
+     "b": "18s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    6.0,
+    18.0
+   ],
+   "sp2": 36.0
+  },
+  "irons_spellbooks:acid_orb": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "3",
+     "g": 1,
+     "p": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "20%",
+     "b": "55%",
+     "l": 1,
+     "t": "Reduced Armor"
+    },
+    {
+     "a": "20s",
+     "b": "20s",
+     "g": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "irons_spellbooks:acupuncture": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "2",
+     "g": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "5",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Projectiles"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "irons_spellbooks:angel_wing": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10s",
+     "b": "50s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    10.0,
+    50.0
+   ],
+   "sp2": 100.0
+  },
+  "irons_spellbooks:arrow_volley": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "2",
+     "g": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "25",
+     "b": "80",
+     "l": 1,
+     "t": "Projectiles"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    8.0,
+    8.0
+   ],
+   "sp2": 16.0
+  },
+  "irons_spellbooks:ascension": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    5.0,
+    14.0
+   ],
+   "sp2": 28.0
+  },
+  "irons_spellbooks:ball_lightning": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "9.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    10.0,
+    19.0
+   ],
+   "sp2": 38.0
+  },
+  "irons_spellbooks:black_hole": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "2",
+     "g": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    },
+    {
+     "a": "6.1",
+     "b": "16.1",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "irons_spellbooks:blaze_storm": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "5.59",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    5.0,
+    14.0
+   ],
+   "sp2": 28.0
+  },
+  "irons_spellbooks:blessing_of_life": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Healing"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    6.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "irons_spellbooks:blight": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "10%",
+     "b": "80%",
+     "l": 1,
+     "t": "Reduced Healing"
+    },
+    {
+     "a": "5%",
+     "b": "40%",
+     "l": 1,
+     "t": "Reduced Damage"
+    },
+    {
+     "a": "30s",
+     "b": "30s",
+     "g": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "irons_spellbooks:blood_needles": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "4.25",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "t": "Projectiles"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    8.0,
+    17.0
+   ],
+   "sp2": 34.0
+  },
+  "irons_spellbooks:blood_slash": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    10.0,
+    14.0
+   ],
+   "sp2": 28.0
+  },
+  "irons_spellbooks:blood_step": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "12",
+     "b": "28",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    12.0,
+    28.0
+   ],
+   "sp2": 56.0
+  },
+  "irons_spellbooks:burning_dash": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "18",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    1.3,
+    13.0
+   ],
+   "sp2": 26.0
+  },
+  "irons_spellbooks:chain_creeper": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "5",
+     "g": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "8",
+     "l": 1,
+     "t": "Projectiles"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    5.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "irons_spellbooks:chain_lightning": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "4",
+     "b": "13",
+     "l": 1,
+     "t": "Max Targets"
+    },
+    {
+     "a": "4",
+     "b": "8.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    6.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "irons_spellbooks:charge": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+30% Base ❗ Attack Damage"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Lightning Spell Power"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "irons_spellbooks:cleanse": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "3",
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "irons_spellbooks:cloud_of_regeneration": {
+   "attr": "Holy Spell Power",
+   "enabled": false,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "3",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Healing"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    2.0,
+    6.0
+   ],
+   "sp2": 12.0
+  },
+  "irons_spellbooks:cone_of_cold": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "7.75",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    0.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "irons_spellbooks:counterspell": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "irons_spellbooks:devour": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "2",
+     "b": "6",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Max HP on Kill"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    6.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "irons_spellbooks:divine_smite": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "20",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    8.0,
+    20.0
+   ],
+   "sp2": 40.0
+  },
+  "irons_spellbooks:dragon_breath": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "7.75",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    0.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "irons_spellbooks:earthquake": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "4.25",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    },
+    {
+     "a": "1",
+     "b": "3",
+     "l": 1,
+     "t": "Slowness"
+    },
+    {
+     "a": "8",
+     "b": "8",
+     "g": 1,
+     "p": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    8.0,
+    17.0
+   ],
+   "sp2": 34.0
+  },
+  "irons_spellbooks:echoing_strikes": {
+   "attr": "Ender Spell Power",
+   "enabled": false,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "3%",
+     "b": "7%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "2",
+     "b": "2",
+     "t": "Block Radius"
+    },
+    {
+     "a": "2s",
+     "b": "4s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    2.0,
+    4.0
+   ],
+   "sp2": 8.0
+  },
+  "irons_spellbooks:eldritch_blast": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "15",
+     "b": "15",
+     "g": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "7",
+     "l": 1,
+     "t": "Blasts"
+    },
+    {
+     "a": "30",
+     "b": "30",
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    15.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "irons_spellbooks:electrocute": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "1.75",
+     "b": "8.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    1.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "irons_spellbooks:evasion": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Hits Dodged"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    0.0,
+    4.0
+   ],
+   "sp2": 8.0
+  },
+  "irons_spellbooks:fang_strike": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "17",
+     "l": 1,
+     "t": "Fangs"
+    },
+    {
+     "a": "6",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    6.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "irons_spellbooks:fang_ward": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "4",
+     "l": 1,
+     "t": "Rings"
+    },
+    {
+     "a": "8",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    8.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "irons_spellbooks:fire_arrow": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "11",
+     "b": "20",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "3",
+     "t": "Block Radius"
+    },
+    {
+     "a": "5.5",
+     "b": "10",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    11.0,
+    20.0
+   ],
+   "sp2": 40.0
+  },
+  "irons_spellbooks:fire_breath": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "7.75",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    0.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "irons_spellbooks:fireball": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "30",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "7",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "irons_spellbooks:firebolt": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "10.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    12.0,
+    21.0
+   ],
+   "sp2": 42.0
+  },
+  "irons_spellbooks:firecracker": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "4",
+     "b": "13",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    4.0,
+    13.0
+   ],
+   "sp2": 26.0
+  },
+  "irons_spellbooks:firefly_swarm": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    },
+    {
+     "a": "2",
+     "b": "2",
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    6.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "irons_spellbooks:flaming_barrage": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "11",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "t": "Projectiles"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    3.0,
+    11.0
+   ],
+   "sp2": 22.0
+  },
+  "irons_spellbooks:flaming_strike": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "13",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    5.0,
+    13.0
+   ],
+   "sp2": 26.0
+  },
+  "irons_spellbooks:fortify": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Temporary HP"
+    },
+    {
+     "a": "8",
+     "b": "8",
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    6.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "irons_spellbooks:frost_step": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "10.5",
+     "b": "21",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Range"
+    },
+    {
+     "a": "4",
+     "b": "11",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Shatter Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    4.0,
+    11.0
+   ],
+   "sp2": 22.0
+  },
+  "irons_spellbooks:frostbite": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "10",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Shatter Damage"
+    },
+    {
+     "a": "30s",
+     "b": "30s",
+     "g": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    30.0,
+    30.0
+   ],
+   "sp2": 60.0
+  },
+  "irons_spellbooks:frostwave": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "10s",
+     "b": "31s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "6.75",
+     "b": "12",
+     "l": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    10.0,
+    31.0
+   ],
+   "sp2": 62.0
+  },
+  "irons_spellbooks:gluttony": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "4",
+     "l": 1,
+     "t": "Mana Recovery"
+    },
+    {
+     "a": "30s",
+     "b": "30s",
+     "g": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    30.0,
+    30.0
+   ],
+   "sp2": 60.0
+  },
+  "irons_spellbooks:greater_heal": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "irons_spellbooks:guiding_bolt": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "7.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "25s",
+     "b": "25s",
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    6.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "irons_spellbooks:gust": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "100%",
+     "b": "190%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Strength"
+    },
+    {
+     "a": "4.5",
+     "b": "9",
+     "l": 1,
+     "t": "Impact Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    10.0,
+    19.0
+   ],
+   "sp2": 38.0
+  },
+  "irons_spellbooks:haste": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "10%",
+     "b": "40%",
+     "l": 1,
+     "t": "Hastened"
+    },
+    {
+     "a": "30s",
+     "b": "45s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "t": "Max Targets"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    30.0,
+    45.0
+   ],
+   "sp2": 90.0
+  },
+  "irons_spellbooks:heal": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "12",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Healing"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    5.0,
+    12.0
+   ],
+   "sp2": 24.0
+  },
+  "irons_spellbooks:healing_circle": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "0.5",
+     "b": "2.75",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Healing"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "t": "Block Radius"
+    },
+    {
+     "a": "10s",
+     "b": "10s",
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    2.0,
+    11.0
+   ],
+   "sp2": 22.0
+  },
+  "irons_spellbooks:heartstop": {
+   "attr": "Blood Spell Power",
+   "enabled": false,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "3s",
+     "b": "4.8s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    60.0,
+    96.0
+   ],
+   "sp2": 192.0
+  },
+  "irons_spellbooks:heat_surge": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "15%",
+     "b": "40%",
+     "l": 1,
+     "t": "Reduced Armor"
+    },
+    {
+     "a": "10s",
+     "b": "20s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "6.5",
+     "b": "9",
+     "l": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    10.0,
+    20.0
+   ],
+   "sp2": 40.0
+  },
+  "irons_spellbooks:ice_block": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "14",
+     "b": "24",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    14.0,
+    24.0
+   ],
+   "sp2": 48.0
+  },
+  "irons_spellbooks:ice_spikes": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "12",
+     "b": "21",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "8",
+     "b": "22",
+     "l": 1,
+     "t": "Spikes"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    12.0,
+    21.0
+   ],
+   "sp2": 42.0
+  },
+  "irons_spellbooks:ice_tomb": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "1",
+     "g": 1,
+     "p": 1,
+     "t": "Healing"
+    },
+    {
+     "a": "5s",
+     "b": "12s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    5.0,
+    12.0
+   ],
+   "sp2": 24.0
+  },
+  "irons_spellbooks:icicle": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "10.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    12.0,
+    21.0
+   ],
+   "sp2": 42.0
+  },
+  "irons_spellbooks:invisibility": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "10s",
+     "b": "35s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    10.0,
+    35.0
+   ],
+   "sp2": 70.0
+  },
+  "irons_spellbooks:lightning_bolt": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "28",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    10.0,
+    28.0
+   ],
+   "sp2": 56.0
+  },
+  "irons_spellbooks:lightning_lance": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "14",
+     "b": "32",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    14.0,
+    32.0
+   ],
+   "sp2": 64.0
+  },
+  "irons_spellbooks:lob_creeper": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "10.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    12.0,
+    21.0
+   ],
+   "sp2": 42.0
+  },
+  "irons_spellbooks:magic_arrow": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "28",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    10.0,
+    28.0
+   ],
+   "sp2": 56.0
+  },
+  "irons_spellbooks:magic_missile": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "10.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    12.0,
+    21.0
+   ],
+   "sp2": 42.0
+  },
+  "irons_spellbooks:magma_bomb": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "8",
+     "g": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "1.7",
+     "b": "3.9",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    },
+    {
+     "a": "4",
+     "b": "4",
+     "g": 1,
+     "p": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    8.0,
+    29.0
+   ],
+   "sp2": 58.0
+  },
+  "irons_spellbooks:oakskin": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "15%",
+     "b": "50%",
+     "l": 1,
+     "t": "… Damage Reduction"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "-20% Base Speed"
+    },
+    {
+     "a": "20s",
+     "b": "41s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    20.0,
+    41.0
+   ],
+   "sp2": 82.0
+  },
+  "irons_spellbooks:planar_sight": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "40s",
+     "b": "1.3m",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    40.0,
+    80.0
+   ],
+   "sp2": 160.0
+  },
+  "irons_spellbooks:pocket_dimension": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "irons_spellbooks:poison_arrow": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "0.9",
+     "b": "2.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    5.0,
+    14.0
+   ],
+   "sp2": 28.0
+  },
+  "irons_spellbooks:poison_breath": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "7.75",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    0.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "irons_spellbooks:poison_splash": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "17",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "7s",
+     "b": "25s",
+     "l": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    8.0,
+    17.0
+   ],
+   "sp2": 34.0
+  },
+  "irons_spellbooks:portal": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "48",
+     "b": "48",
+     "t": "Cast Range"
+    },
+    {
+     "a": "5m",
+     "b": "9m",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Portal Duration"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    300.0,
+    540.0
+   ],
+   "sp2": 1080.0
+  },
+  "irons_spellbooks:raise_dead": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "8",
+     "l": 1,
+     "t": "Summons"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    10.0,
+    25.0
+   ],
+   "sp2": 50.0
+  },
+  "irons_spellbooks:raise_hell": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "15",
+     "b": "15",
+     "g": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "8",
+     "b": "8",
+     "t": "Block Radius"
+    },
+    {
+     "a": "1",
+     "b": "5",
+     "l": 1,
+     "t": "Casts"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    15.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "irons_spellbooks:ray_of_frost": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "12",
+     "b": "18",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "4.5s",
+     "b": "7.5s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Freeze Time"
+    },
+    {
+     "a": "30",
+     "b": "30",
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    6.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "irons_spellbooks:ray_of_siphoning": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "3.25",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "12",
+     "b": "12",
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    4.0,
+    13.0
+   ],
+   "sp2": 26.0
+  },
+  "irons_spellbooks:recall": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "irons_spellbooks:root": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "5s",
+     "b": "14s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    5.0,
+    14.0
+   ],
+   "sp2": 28.0
+  },
+  "irons_spellbooks:sacrifice": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "12",
+     "b": "16",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Base Damage"
+    },
+    {
+     "a": "3",
+     "b": "3",
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    2.0,
+    6.0
+   ],
+   "sp2": 12.0
+  },
+  "irons_spellbooks:scorch": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "17",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "2.5",
+     "b": "2.5",
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    8.0,
+    17.0
+   ],
+   "sp2": 34.0
+  },
+  "irons_spellbooks:sculk_tentacles": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "9.19",
+     "b": "9.19",
+     "g": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "2.5",
+     "b": "6.5",
+     "l": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    9.2,
+    19.55
+   ],
+   "sp2": 39.1
+  },
+  "irons_spellbooks:shadow_slash": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "9",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    5.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "irons_spellbooks:shield": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "15",
+     "b": "105",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "HP"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    5.0,
+    95.0
+   ],
+   "sp2": 190.0
+  },
+  "irons_spellbooks:shockwave": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "15.25",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "9",
+     "b": "16",
+     "l": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    8.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "irons_spellbooks:slow": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "10%",
+     "b": "40%",
+     "l": 1,
+     "t": "Slowed"
+    },
+    {
+     "a": "20s",
+     "b": "32s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "t": "Max Targets"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    20.0,
+    32.0
+   ],
+   "sp2": 64.0
+  },
+  "irons_spellbooks:snowball": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "4",
+     "b": "6",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "10s",
+     "b": "10s",
+     "g": 1,
+     "p": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    8.0,
+    20.0
+   ],
+   "sp2": 40.0
+  },
+  "irons_spellbooks:sonic_boom": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "20",
+     "b": "36",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "20",
+     "b": "30",
+     "l": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    20.0,
+    36.0
+   ],
+   "sp2": 72.0
+  },
+  "irons_spellbooks:spectral_hammer": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "",
+     "b": "",
+     "g": 1,
+     "p": 1,
+     "t": "5x5x6"
+    },
+    {
+     "a": "16",
+     "b": "16",
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "irons_spellbooks:spider_aspect": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "5%",
+     "b": "40%",
+     "l": 1,
+     "t": "Additional Poisoned Damage"
+    },
+    {
+     "a": "20s",
+     "b": "55s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    20.0,
+    55.0
+   ],
+   "sp2": 110.0
+  },
+  "irons_spellbooks:starfall": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "4",
+     "b": "8.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "6",
+     "b": "6",
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    8.0,
+    17.0
+   ],
+   "sp2": 34.0
+  },
+  "irons_spellbooks:stomp": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "16",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "5",
+     "b": "9",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    8.0,
+    16.0
+   ],
+   "sp2": 32.0
+  },
+  "irons_spellbooks:summon_ender_chest": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "irons_spellbooks:summon_horse": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    85.0,
+    145.0
+   ],
+   "sp2": 290.0
+  },
+  "irons_spellbooks:summon_polar_bear": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "24",
+     "b": "60",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "HP"
+    },
+    {
+     "a": "4",
+     "b": "13",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    4.0,
+    13.0
+   ],
+   "sp2": 26.0
+  },
+  "irons_spellbooks:summon_swords": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "3",
+     "t": "Summons"
+    },
+    {
+     "a": "100%",
+     "b": "140%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "100%",
+     "b": "180%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Health"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "irons_spellbooks:summon_vex": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "7",
+     "l": 1,
+     "t": "Summons"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "irons_spellbooks:sunbeam": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "12",
+     "b": "25.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    24.0,
+    51.0
+   ],
+   "sp2": 102.0
+  },
+  "irons_spellbooks:telekinesis": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "12",
+     "b": "20",
+     "l": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    8.0,
+    24.0
+   ],
+   "sp2": 48.0
+  },
+  "irons_spellbooks:teleport": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "50",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    10.0,
+    50.0
+   ],
+   "sp2": 100.0
+  },
+  "irons_spellbooks:throw": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "irons_spellbooks:thunderstorm": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "1.59",
+     "b": "1.8",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "20",
+     "b": "20",
+     "t": "Block Radius"
+    },
+    {
+     "a": "20s",
+     "b": "22.7s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    1.6,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "irons_spellbooks:touch_dig": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "Iron",
+     "b": "Netherite",
+     "l": 1,
+     "t": "Harvest Level"
+    },
+    {
+     "a": "8",
+     "b": "8",
+     "t": "Block Range"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    10.0,
+    16.0
+   ],
+   "sp2": 32.0
+  },
+  "irons_spellbooks:volt_strike": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    1.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "irons_spellbooks:wall_of_fire": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "4",
+     "b": "8",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    },
+    {
+     "a": "13",
+     "b": "25",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    4.0,
+    8.0
+   ],
+   "sp2": 16.0
+  },
+  "irons_spellbooks:wisp": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    5.0,
+    14.0
+   ],
+   "sp2": 28.0
+  },
+  "irons_spellbooks:wither_skull": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "10.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    12.0,
+    21.0
+   ],
+   "sp2": 42.0
+  },
+  "irons_spellbooks:wololo": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    4.0,
+    4.0
+   ],
+   "sp2": 8.0
+  },
+  "legendary_spellbooks:ambush_thorns": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "0.5",
+     "b": "2.8",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "thorn damage + 20% of damage received"
+    },
+    {
+     "a": "15s",
+     "b": "60s",
+     "l": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "legendary_spellbooks:annihilation_arrow": {
+   "attr": "Annihilation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "0.25%",
+     "b": "2.00%",
+     "l": 1,
+     "t": "of target's max HP damage"
+    },
+    {
+     "a": "8.0",
+     "b": "22.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "legendary_spellbooks:annihilation",
+   "schoolName": "Annihilation",
+   "sp": [
+    8.0,
+    22.0
+   ],
+   "sp2": 44.0
+  },
+  "legendary_spellbooks:annihilation_beam": {
+   "attr": "Annihilation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "1.0%",
+     "b": "3.0%",
+     "l": 1,
+     "t": "of target's max HP damage"
+    },
+    {
+     "a": "8.0",
+     "b": "20.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "4s",
+     "b": "2s",
+     "l": 1,
+     "t": "Duration"
+    },
+    {
+     "a": "30",
+     "b": "50",
+     "l": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "legendary_spellbooks:annihilation",
+   "schoolName": "Annihilation",
+   "sp": [
+    8.0,
+    20.0
+   ],
+   "sp2": 40.0
+  },
+  "legendary_spellbooks:annihilation_bomb": {
+   "attr": "Annihilation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "0.5%",
+     "b": "3.0%",
+     "l": 1,
+     "t": "of target's max HP damage"
+    },
+    {
+     "a": "6.0",
+     "b": "26.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "30",
+     "b": "55",
+     "l": 1,
+     "t": "Projectiles"
+    }
+   ],
+   "school": "legendary_spellbooks:annihilation",
+   "schoolName": "Annihilation",
+   "sp": [
+    6.0,
+    26.0
+   ],
+   "sp2": 52.0
+  },
+  "legendary_spellbooks:annihilation_geyser": {
+   "attr": "Annihilation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "30.0",
+     "b": "30.0",
+     "g": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    },
+    {
+     "a": "2.5s",
+     "b": "2.5s",
+     "t": "Duration"
+    },
+    {
+     "a": "8",
+     "b": "8",
+     "t": "Block Radius"
+    }
+   ],
+   "school": "legendary_spellbooks:annihilation",
+   "schoolName": "Annihilation",
+   "sp": [
+    30.0,
+    30.0
+   ],
+   "sp2": 60.0
+  },
+  "legendary_spellbooks:annihilation_resonance": {
+   "attr": "Annihilation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "7.0",
+     "b": "22.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    },
+    {
+     "a": "4",
+     "b": "4",
+     "t": "Block Radius"
+    },
+    {
+     "a": "25s",
+     "b": "50s",
+     "l": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "legendary_spellbooks:annihilation",
+   "schoolName": "Annihilation",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "legendary_spellbooks:annihilation_shockwave": {
+   "attr": "Annihilation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "0.50%",
+     "b": "3.00%",
+     "l": 1,
+     "t": "of target's max HP damage"
+    },
+    {
+     "a": "6.0",
+     "b": "16.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "6",
+     "b": "13.5",
+     "l": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "legendary_spellbooks:annihilation",
+   "schoolName": "Annihilation",
+   "sp": [
+    6.0,
+    16.0
+   ],
+   "sp2": 32.0
+  },
+  "legendary_spellbooks:cloud_rail": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "11",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    },
+    {
+     "a": "3",
+     "b": "12",
+     "l": 1,
+     "t": "Projectiles"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    2.0,
+    11.0
+   ],
+   "sp2": 22.0
+  },
+  "legendary_spellbooks:cloud_ring": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    },
+    {
+     "a": "1",
+     "b": "5",
+     "l": 1,
+     "t": "Rings"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    2.0,
+    14.0
+   ],
+   "sp2": 28.0
+  },
+  "legendary_spellbooks:collapsed_kingdoms_legion": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "8.0",
+     "b": "16.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "65",
+     "b": "95",
+     "l": 1,
+     "t": "HP"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    8.0,
+    16.0
+   ],
+   "sp2": 32.0
+  },
+  "legendary_spellbooks:cumulo_charge": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "10.0",
+     "b": "26.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "6s",
+     "b": "8s",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    10.0,
+    26.0
+   ],
+   "sp2": 52.0
+  },
+  "legendary_spellbooks:energy_beam": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "25.0",
+     "b": "35.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "2.5s",
+     "b": "3.5s",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    25.0,
+    35.0
+   ],
+   "sp2": 70.0
+  },
+  "legendary_spellbooks:flame_eater": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "10.0",
+     "b": "25.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "2",
+     "b": "7",
+     "l": 1,
+     "t": "Max Targets"
+    },
+    {
+     "a": "1.5s",
+     "b": "4s",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    10.0,
+    25.0
+   ],
+   "sp2": 50.0
+  },
+  "legendary_spellbooks:flame_sector": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "12",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "4",
+     "b": "10",
+     "l": 1,
+     "t": "Rings"
+    },
+    {
+     "a": "1s",
+     "b": "1.75s",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    3.0,
+    12.0
+   ],
+   "sp2": 24.0
+  },
+  "legendary_spellbooks:flameborn_drift": {
+   "attr": "Annihilation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    7
+   ],
+   "rows": [
+    {
+     "a": "0.25%",
+     "b": "1.75%",
+     "l": 1,
+     "t": "of target's max HP damage"
+    },
+    {
+     "a": "4.0",
+     "b": "10.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "legendary_spellbooks:annihilation",
+   "schoolName": "Annihilation",
+   "sp": [
+    4.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "legendary_spellbooks:fossilized_fury": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "4.0",
+     "b": "9.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "25",
+     "b": "50",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "1",
+     "b": "6",
+     "l": 1,
+     "t": "Summons"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    4.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "legendary_spellbooks:glacier_eruption": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    7
+   ],
+   "rows": [
+    {
+     "a": "3.0",
+     "b": "9.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "4",
+     "b": "10",
+     "l": 1,
+     "t": "Spikes"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    3.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "legendary_spellbooks:glacier_ringburst": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "3.0",
+     "b": "9.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "6",
+     "l": 1,
+     "t": "Rings"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    3.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "legendary_spellbooks:hematite_trishula": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "10.0",
+     "b": "20.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    20.0,
+    40.0
+   ],
+   "sp2": 80.0
+  },
+  "legendary_spellbooks:nimbus_array": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    7
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "8",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "2",
+     "b": "14",
+     "l": 1,
+     "t": "Nimbus"
+    },
+    {
+     "a": "1.25s",
+     "b": "2s",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    2.0,
+    8.0
+   ],
+   "sp2": 16.0
+  },
+  "legendary_spellbooks:overgrown_shockwave": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "4.0",
+     "b": "16.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "5.75",
+     "b": "10.25",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "1",
+     "b": "4",
+     "l": 1,
+     "t": "Casts"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    4.0,
+    16.0
+   ],
+   "sp2": 32.0
+  },
+  "legendary_spellbooks:possessed_soul_blade": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "6.0",
+     "b": "18.0",
+     "g": 1,
+     "l": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "6",
+     "l": 1,
+     "t": "Rings"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    6.0,
+    18.0
+   ],
+   "sp2": 18.0
+  },
+  "legendary_spellbooks:possessed_wing": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    2
+   ],
+   "rows": [
+    {
+     "a": "20",
+     "b": "40",
+     "l": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "legendary_spellbooks:quad_tornado": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "7",
+     "l": 1,
+     "t": "Projectiles"
+    },
+    {
+     "a": "1.5s",
+     "b": "3.5s",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "legendary_spellbooks:release_riftwalker_predator": {
+   "attr": "Annihilation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "15.0",
+     "b": "21.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "160",
+     "b": "200",
+     "l": 1,
+     "t": "HP"
+    }
+   ],
+   "school": "legendary_spellbooks:annihilation",
+   "schoolName": "Annihilation",
+   "sp": [
+    15.0,
+    21.0
+   ],
+   "sp2": 42.0
+  },
+  "legendary_spellbooks:sentinel_saturation": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    2
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "12",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    6.0,
+    12.0
+   ],
+   "sp2": 24.0
+  },
+  "legendary_spellbooks:summon_flameborn_knights": {
+   "attr": "Annihilation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "8.0",
+     "b": "20.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "88 Summoned FlameBorn Guard's HP"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "100 Summoned FlameBorn Warrior's HP"
+    }
+   ],
+   "school": "legendary_spellbooks:annihilation",
+   "schoolName": "Annihilation",
+   "sp": [
+    8.0,
+    20.0
+   ],
+   "sp2": 40.0
+  },
+  "legendary_spellbooks:thunder_fanburst": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "2.0",
+     "b": "11.0",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "12",
+     "l": 1,
+     "t": "Projectiles"
+    },
+    {
+     "a": "1.5s",
+     "b": "3.75s",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    2.0,
+    11.0
+   ],
+   "sp2": 22.0
+  },
+  "legendary_spellbooks:tornado": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "0.75s",
+     "b": "3s",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "legendary_spellbooks:triple_nimbus_array": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "11",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "2",
+     "b": "10",
+     "l": 1,
+     "t": "Nimbus"
+    },
+    {
+     "a": "1.25s",
+     "b": "2s",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    3.0,
+    11.0
+   ],
+   "sp2": 22.0
+  },
+  "peyroscythe:black_fireball": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "7",
+     "b": "19",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "1",
+     "b": "2.4",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    0.5,
+    2.5
+   ],
+   "sp2": 5.0
+  },
+  "peyroscythe:black_flame_wings": {
+   "attr": "Eldritch Spell Power",
+   "enabled": false,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "2.5m",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    30.0,
+    150.0
+   ],
+   "sp2": 300.0
+  },
+  "peyroscythe:chaos_cradle": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "9",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "12",
+     "b": "24",
+     "l": 1,
+     "t": "Seconds Duration"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    10.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "peyroscythe:crimson_moon": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "6.1",
+     "b": "16.1",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "peyroscythe:death_smoke": {
+   "attr": "Eldritch Spell Power",
+   "enabled": false,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "1.75",
+     "b": "3.25",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "peyroscythe:frost_hell": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "9",
+     "b": "17",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "6",
+     "b": "10",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "3",
+     "b": "7",
+     "l": 1,
+     "t": "Casts"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    9.0,
+    17.0
+   ],
+   "sp2": 34.0
+  },
+  "peyroscythe:glacier": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    10.0,
+    25.0
+   ],
+   "sp2": 50.0
+  },
+  "peyroscythe:holy_bell": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "7.2",
+     "b": "12",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "16.05",
+     "b": "16.3",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Seconds Duration"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    10.0,
+    60.0
+   ],
+   "sp2": 120.0
+  },
+  "peyroscythe:holy_lance": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "28",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    10.0,
+    28.0
+   ],
+   "sp2": 56.0
+  },
+  "peyroscythe:icy_comet_rain": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "3.2",
+     "b": "5.2",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "7",
+     "b": "7.6",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    8.0,
+    13.0
+   ],
+   "sp2": 26.0
+  },
+  "peyroscythe:illusion_crazy": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    8.0,
+    12.0
+   ],
+   "sp2": 24.0
+  },
+  "peyroscythe:illusion_fear": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    8.0,
+    12.0
+   ],
+   "sp2": 24.0
+  },
+  "peyroscythe:made_in_heaven": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "20",
+     "b": "120",
+     "l": 1,
+     "t": "Daylight Cycle Speed： … Times"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "peyroscythe:made_in_heaven_real": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    2
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "5",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "20",
+     "b": "40",
+     "l": 1,
+     "t": "Daylight Cycle Speed： … Times"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "peyroscythe:mundus": {
+   "attr": "Holy Spell Power",
+   "enabled": false,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "64",
+     "b": "128",
+     "l": 1,
+     "t": "Chunk Radius"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "peyroscythe:nero_holy_ray": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "12",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "32",
+     "b": "32",
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    20.0,
+    40.0
+   ],
+   "sp2": 80.0
+  },
+  "peyroscythe:ryan_tempest_edge": {
+   "attr": "Nature Spell Power",
+   "enabled": false,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "16",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "4",
+     "b": "6",
+     "l": 1,
+     "t": "Casts"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    8.0,
+    16.0
+   ],
+   "sp2": 32.0
+  },
+  "peyroscythe:sinfire_embrace": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "12s",
+     "b": "20s",
+     "l": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+20% Base Max Health Regeneration per Second"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    30.0,
+    50.0
+   ],
+   "sp2": 100.0
+  },
+  "peyroscythe:summon_blaze": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "5",
+     "l": 1,
+     "t": "Summons"
+    },
+    {
+     "a": "20%",
+     "b": "22%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Senator Possibility"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    10.0,
+    30.0
+   ],
+   "sp2": 60.0
+  },
+  "peyroscythe:the_frozen_world": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "9",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "10s",
+     "b": "10s",
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    10.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "peyroscythe:young_for_you": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    2
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "refined_mod:create_bonfire": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "60s",
+     "b": "3m",
+     "l": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "2",
+     "b": "6",
+     "l": 1,
+     "t": "Temporary HP"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    10.0,
+    20.0
+   ],
+   "sp2": 40.0
+  },
+  "refined_mod:frost_strike": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "4",
+     "b": "12",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    4.0,
+    12.0
+   ],
+   "sp2": 24.0
+  },
+  "refined_mod:glintstar_pebble": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "9.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    10.0,
+    19.0
+   ],
+   "sp2": 38.0
+  },
+  "refined_mod:hunters_mark": {
+   "attr": "Nature Spell Power",
+   "enabled": false,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10%",
+     "b": "50%",
+     "l": 1,
+     "t": "Bonus Damage"
+    },
+    {
+     "a": "1.5s",
+     "b": "4.5s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    1.5,
+    4.5
+   ],
+   "sp2": 9.0
+  },
+  "refined_mod:moon_slash": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    8.0,
+    14.0
+   ],
+   "sp2": 28.0
+  },
+  "refined_mod:storm_blade": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    7
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "9",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    3.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "refined_mod:summon_wolves": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "12",
+     "b": "30",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "4.5",
+     "b": "9",
+     "l": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    4.0,
+    13.0
+   ],
+   "sp2": 26.0
+  },
+  "refined_mod:thunder_strike": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "18",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    6.0,
+    18.0
+   ],
+   "sp2": 36.0
+  },
+  "refined_mod:tidal_wave": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    7
+   ],
+   "rows": [
+    {
+     "a": "7",
+     "b": "25",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    7.0,
+    25.0
+   ],
+   "sp2": 50.0
+  },
+  "somakespells:abyssal_burn": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "7",
+     "b": "25",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    7.0,
+    25.0
+   ],
+   "sp2": 50.0
+  },
+  "somakespells:abyssal_orbs": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "4.5",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "t": "Projectiles"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    6.0,
+    20.0
+   ],
+   "sp2": 40.0
+  },
+  "somakespells:apocalyptic_burst": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "13",
+     "b": "40",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "6",
+     "b": "15",
+     "l": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    13.0,
+    40.0
+   ],
+   "sp2": 80.0
+  },
+  "somakespells:blessed_connection": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "12s",
+     "b": "20s",
+     "l": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+50% Base Healing"
+    },
+    {
+     "a": "24",
+     "b": "56",
+     "l": 1,
+     "t": "Max Connection Distance: … blocks"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    10.0,
+    18.0
+   ],
+   "sp2": 36.0
+  },
+  "somakespells:blessing": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Holy Spell Power"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+45% Base Healing Received"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "-15% Base Blood Spell Power"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "somakespells:blood_cut": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "2%",
+     "b": "10%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "4s",
+     "b": "8s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    4.0,
+    8.0
+   ],
+   "sp2": 16.0
+  },
+  "somakespells:blood_rush": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Blood Spell Power"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+7% Base Life Steal"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "-15% Base Holy Spell Power"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "somakespells:bloodmark": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "4.3",
+     "b": "10.3",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "9.2s",
+     "b": "13.2s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "somakespells:ceraunus_dash": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "11",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "14",
+     "b": "34",
+     "l": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    6.0,
+    11.0
+   ],
+   "sp2": 22.0
+  },
+  "somakespells:ceraunus_grasp": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "11",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "14",
+     "b": "34",
+     "l": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    6.0,
+    11.0
+   ],
+   "sp2": 22.0
+  },
+  "somakespells:chain_connection": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10s",
+     "b": "18s",
+     "l": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "5",
+     "b": "7",
+     "l": 1,
+     "t": "Block Range"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "somakespells:combustion": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Fire Spell Power"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15 Fire Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "somakespells:cursed_connection": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "12s",
+     "b": "20s",
+     "l": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "10%",
+     "b": "50%",
+     "l": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "24",
+     "b": "56",
+     "l": 1,
+     "t": "Max Connection Distance: … blocks"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    10.0,
+    18.0
+   ],
+   "sp2": 36.0
+  },
+  "somakespells:damned_demomans": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "11s",
+     "b": "15s",
+     "l": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "5",
+     "b": "25",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    5.0,
+    25.0
+   ],
+   "sp2": 50.0
+  },
+  "somakespells:earthbound": {
+   "attr": "Geo Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Geo Spell Power"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+6 Armor"
+    }
+   ],
+   "school": "gtbcs_geomancy_plus:geo",
+   "schoolName": "Geo",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "somakespells:eldritch_gambit": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Eldritch Spell Power"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "somakespells:ender_corruption": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Ender Spell Power"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+150 Max Mana"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "somakespells:eruption": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "15",
+     "b": "27",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "3",
+     "p": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    15.0,
+    27.0
+   ],
+   "sp2": 54.0
+  },
+  "somakespells:evocation_fortitude": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Evocation Spell Power"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Summon Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "somakespells:fire_blast": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "1",
+     "b": "4",
+     "l": 1,
+     "t": "Projectiles"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    5.0,
+    14.0
+   ],
+   "sp2": 28.0
+  },
+  "somakespells:fire_orbs": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "4.5",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "t": "Projectiles"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    6.0,
+    20.0
+   ],
+   "sp2": 40.0
+  },
+  "somakespells:firestorm_vortex": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "7.8",
+     "b": "13.2",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "4",
+     "b": "4",
+     "p": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "7",
+     "b": "13",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    12.0,
+    24.0
+   ],
+   "sp2": 48.0
+  },
+  "somakespells:guardian_connection": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10s",
+     "b": "18s",
+     "l": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "24",
+     "b": "56",
+     "l": 1,
+     "t": "Max Connection Distance: … blocks"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "somakespells:hydro_slash": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    5.0,
+    14.0
+   ],
+   "sp2": 28.0
+  },
+  "somakespells:ignis_shield": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "100",
+     "b": "200",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "HP"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    10.0,
+    30.0
+   ],
+   "sp2": 60.0
+  },
+  "somakespells:incinerator_slash": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "22",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    10.0,
+    22.0
+   ],
+   "sp2": 44.0
+  },
+  "somakespells:lightning_ball": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "30",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "7",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "somakespells:lightning_cut": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "13",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    5.0,
+    13.0
+   ],
+   "sp2": 26.0
+  },
+  "somakespells:lightning_dance": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "10",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "10",
+     "l": 1,
+     "t": "Projectiles"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    3.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "somakespells:lightning_field": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "12s",
+     "b": "20s",
+     "l": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "2",
+     "b": "10",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    2.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "somakespells:lightning_lash": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    6.0,
+    14.0
+   ],
+   "sp2": 28.0
+  },
+  "somakespells:lightning_spark": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "4",
+     "b": "13",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    4.0,
+    13.0
+   ],
+   "sp2": 26.0
+  },
+  "somakespells:lightning_spear": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "17",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    8.0,
+    17.0
+   ],
+   "sp2": 34.0
+  },
+  "somakespells:lightning_strike": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "12s",
+     "b": "20s",
+     "l": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "5",
+     "b": "13",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    5.0,
+    13.0
+   ],
+   "sp2": 26.0
+  },
+  "somakespells:lightning_swarm": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "5",
+     "g": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "6",
+     "b": "15",
+     "l": 1,
+     "t": "Projectiles"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    5.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "somakespells:overgrowth": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+90% Base Arrow Damage"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+30% Base Arrow Velocity"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Nature Spell Power"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "somakespells:permafrost": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Ice Spell Power"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15 Cold Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "somakespells:pumpkin_bomb": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "9",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "1",
+     "b": "1.8",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AOE Damage"
+    },
+    {
+     "a": "3",
+     "b": "3",
+     "p": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    5.0,
+    9.0
+   ],
+   "sp2": 18.0
+  },
+  "somakespells:ram_tchum": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "3.5",
+     "b": "5.5",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "8",
+     "b": "16",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    8.0,
+    16.0
+   ],
+   "sp2": 32.0
+  },
+  "somakespells:resonant_pulse": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "12",
+     "b": "24",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    12.0,
+    24.0
+   ],
+   "sp2": 48.0
+  },
+  "somakespells:reverberation": {
+   "attr": "Evocation Spell Power",
+   "enabled": false,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base attribute.familiarslib.sound_spell_power"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "somakespells:sea_serpent": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "12",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    8.0,
+    12.0
+   ],
+   "sp2": 24.0
+  },
+  "somakespells:sea_serpent_jet": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "18",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    10.0,
+    18.0
+   ],
+   "sp2": 36.0
+  },
+  "somakespells:slumber_melody": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "7s",
+     "b": "15s",
+     "l": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    10.0,
+    18.0
+   ],
+   "sp2": 36.0
+  },
+  "somakespells:storm_aura": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "15",
+     "b": "27",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "7",
+     "b": "7",
+     "t": "Block Radius"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    15.0,
+    27.0
+   ],
+   "sp2": 54.0
+  },
+  "somakespells:submerge": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "30s",
+     "b": "46s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Length"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+15% Base Aqua Spell Power"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "+150% Base Swim Speed"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    30.0,
+    46.0
+   ],
+   "sp2": 92.0
+  },
+  "somakespells:thunder_cloud": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "12",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    3.0,
+    12.0
+   ],
+   "sp2": 24.0
+  },
+  "somakespells:water_ball": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "18",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    10.0,
+    18.0
+   ],
+   "sp2": 36.0
+  },
+  "somakespells:water_control": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "7",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "4.5",
+     "b": "4.5",
+     "t": "Block Range"
+    },
+    {
+     "a": "6s",
+     "b": "10s",
+     "l": 1,
+     "t": "Effect Length"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    7.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "somakespells:water_spear": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    6.0,
+    15.0
+   ],
+   "sp2": 30.0
+  },
+  "traveloptics:abyssal_blast": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "17.5",
+     "b": "32.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:aerial_collapse": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "4",
+     "b": "12",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "12%",
+     "b": "12%",
+     "t": "Current Hp Damage"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    0.01,
+    0.05
+   ],
+   "sp2": 0.1
+  },
+  "traveloptics:annihilation": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "60",
+     "b": "120",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AoE Damage"
+    },
+    {
+     "a": "8",
+     "b": "12",
+     "l": 1,
+     "t": "AoE Radius"
+    },
+    {
+     "a": "5s",
+     "b": "15s",
+     "l": 1,
+     "t": "Irradiated Effect"
+    },
+    {
+     "a": "30",
+     "b": "40",
+     "l": 1,
+     "t": "Range"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:apex_harvest": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "20",
+     "b": "20",
+     "t": "Soul Apex Collection Radius"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "traveloptics:aqua_missiles": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "5.5",
+     "b": "11.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Multi Hit AoE Damage"
+    },
+    {
+     "a": "20",
+     "b": "40",
+     "l": 1,
+     "t": "Seeking Distance"
+    },
+    {
+     "a": "3",
+     "b": "3",
+     "t": "AoE Radius"
+    },
+    {
+     "a": "1",
+     "b": "1",
+     "t": "◆ Applies Wet [ … ]"
+    },
+    {
+     "a": "10%",
+     "b": "10%",
+     "t": "→ Lightning Res Shred"
+    },
+    {
+     "a": "5%",
+     "b": "5%",
+     "t": "→ Ice Res Shred"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:ashen_breath": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "10",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    1.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "traveloptics:astral_sense": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "25",
+     "b": "35",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "45s",
+     "b": "55s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:axe_of_the_doomed": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "70",
+     "b": "160",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "14",
+     "b": "18",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:blackout": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "12",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "1.5s",
+     "b": "1.5s",
+     "t": "Effect Duration"
+    },
+    {
+     "a": "8s",
+     "b": "12s",
+     "l": 1,
+     "t": "Anti Magic Zone Duration"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:blink": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "3.65",
+     "b": "4.95",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Distance"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:blood_howl": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "6.5",
+     "b": "16.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AoE Damage"
+    },
+    {
+     "a": "2",
+     "b": "6",
+     "l": 1,
+     "t": "Shots"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:bubble_spray": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "1.79",
+     "b": "9",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "3",
+     "t": "◆ Applies Wet [ … ]"
+    },
+    {
+     "a": "20%",
+     "b": "20%",
+     "t": "→ Lightning Res Shred"
+    },
+    {
+     "a": "10%",
+     "b": "10%",
+     "t": "→ Ice Res Shred"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "traveloptics:burning_judgment": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "3",
+     "b": "18",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "2",
+     "b": "7",
+     "l": 1,
+     "t": "Flame Strikes"
+    },
+    {
+     "a": "2s",
+     "b": "12s",
+     "l": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    1.0,
+    6.0
+   ],
+   "sp2": 12.0
+  },
+  "traveloptics:call_forth_the_dead_king": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    0.0,
+    0.0
+   ],
+   "sp2": 0.0
+  },
+  "traveloptics:conjure_void_tomes": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "",
+     "b": "",
+     "t": "Summons: Void Tome [3]"
+    },
+    {
+     "a": "20",
+     "b": "40",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "20%",
+     "b": "100%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Spell Power"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:coral_barrage": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "4",
+     "b": "12",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "t": "Projectiles"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    3.0,
+    11.0
+   ],
+   "sp2": 22.0
+  },
+  "traveloptics:cursed_minefield": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "4",
+     "b": "32",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Abyssal Mines"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    8.0
+   ],
+   "sp2": 16.0
+  },
+  "traveloptics:cursed_revenants": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "",
+     "b": "",
+     "t": "Chance to Summon: Draugr, Royal Draugr, Elite Draugr [5]"
+    },
+    {
+     "a": "8",
+     "b": "28",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "0.800000011920929",
+     "b": "4",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:death_laser": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "7.5",
+     "b": "22.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:despair": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "4.5",
+     "b": "18",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "2",
+     "b": "7",
+     "l": 1,
+     "t": "Recast Count"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    1.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "traveloptics:echo_of_the_abyss": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    2
+   ],
+   "rows": [
+    {
+     "a": "120",
+     "b": "180",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "13",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    2.0
+   ],
+   "sp2": 4.0
+  },
+  "traveloptics:eek": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "20",
+     "b": "20",
+     "t": "Range"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "traveloptics:em_pulse": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "1s",
+     "b": "5s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Stun Duration"
+    },
+    {
+     "a": "4",
+     "b": "12",
+     "l": 1,
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:eternal_sentinel": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "90",
+     "b": "180",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "10",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:extinction": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "65",
+     "b": "65",
+     "g": 1,
+     "p": 1,
+     "t": "impact Damage"
+    },
+    {
+     "a": "15",
+     "b": "15",
+     "t": "Impact Radius"
+    },
+    {
+     "a": "32.5",
+     "b": "32.5",
+     "g": 1,
+     "p": 1,
+     "t": "Shockwave Damage"
+    },
+    {
+     "a": "30",
+     "b": "30",
+     "t": "Shockwave Radius"
+    },
+    {
+     "a": "8",
+     "b": "8",
+     "g": 1,
+     "p": 1,
+     "t": "Eruption damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "traveloptics:flames_reborn": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "16s",
+     "b": "25s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Duration"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:flood_slash": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "11.19",
+     "b": "16",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "60.0%",
+     "b": "100.0%",
+     "l": 1,
+     "t": "Mana Steal"
+    },
+    {
+     "a": "1",
+     "b": "1",
+     "t": "◆ Applies Wet [ … ]"
+    },
+    {
+     "a": "10%",
+     "b": "10%",
+     "t": "→ Lightning Res Shred"
+    },
+    {
+     "a": "5%",
+     "b": "5%",
+     "t": "→ Ice Res Shred"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:floodgate": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "30.0%",
+     "b": "30.0%",
+     "t": "Damage Cap: … Max health"
+    },
+    {
+     "a": "3",
+     "b": "10",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "12s",
+     "b": "26s",
+     "l": 1,
+     "t": "Effect Duration"
+    },
+    {
+     "a": "1",
+     "b": "1",
+     "t": "◆ Applies Wet [ … ]"
+    },
+    {
+     "a": "10%",
+     "b": "10%",
+     "t": "→ Lightning Res Shred"
+    },
+    {
+     "a": "5%",
+     "b": "5%",
+     "t": "→ Ice Res Shred"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    8.0
+   ],
+   "sp2": 16.0
+  },
+  "traveloptics:galena_shatter": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "2",
+     "b": "2",
+     "t": "Single Hit AoE Damage"
+    },
+    {
+     "a": "3",
+     "b": "3",
+     "g": 1,
+     "p": 1,
+     "t": "Damage Per Magnetic Charge"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "Evo 3: Crouch cast to gain additional boosts"
+    },
+    {
+     "a": "12",
+     "b": "12",
+     "t": "Block Radius"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "traveloptics:gyro_slash": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "24",
+     "b": "24",
+     "g": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "12",
+     "b": "12",
+     "g": 1,
+     "p": 1,
+     "t": "Flame Jet Damage"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "Requires Infernal Devastator Evo 2 or above to trigger Flame Jet damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "traveloptics:halberd_horizon": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "22",
+     "b": "42",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AoE Damage"
+    },
+    {
+     "a": "2",
+     "b": "7",
+     "l": 1,
+     "t": "Rings"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    1.0,
+    6.0
+   ],
+   "sp2": 12.0
+  },
+  "traveloptics:herald_of_acropolis": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "125",
+     "b": "225",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "10.5",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:hydroshot": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "10.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "0",
+     "b": "1",
+     "l": 1,
+     "t": "Slowness Amplifier"
+    },
+    {
+     "a": "0",
+     "b": "0",
+     "t": "◆ Applies Wet [ … ]"
+    },
+    {
+     "a": "5%",
+     "b": "5%",
+     "t": "→ Lightning Res Shred"
+    },
+    {
+     "a": "2.5%",
+     "b": "2.5%",
+     "t": "→ Ice Res Shred"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    12.0,
+    21.0
+   ],
+   "sp2": 42.0
+  },
+  "traveloptics:ignited_onslaught": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "",
+     "b": "",
+     "t": "Summons: Ignited Berserker, Ignited Revenant [2]"
+    },
+    {
+     "a": "33",
+     "b": "65",
+     "l": 1,
+     "t": "Berserker HP"
+    },
+    {
+     "a": "3.2",
+     "b": "8",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Berserker Damage"
+    },
+    {
+     "a": "40",
+     "b": "80",
+     "l": 1,
+     "t": "Revenant HP"
+    },
+    {
+     "a": "3",
+     "b": "7",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Revenant Damage"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:jet_steam": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "2s",
+     "b": "2s",
+     "g": 1,
+     "p": 1,
+     "t": "Fall Flying"
+    },
+    {
+     "a": "4s",
+     "b": "4s",
+     "g": 1,
+     "p": 1,
+     "t": "Swimming"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "t": "Recast Count"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "traveloptics:lava_bomb": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "3",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Lava Bombs"
+    },
+    {
+     "a": "1",
+     "b": "1",
+     "t": "x Motion Scale"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:lingering_strain": {
+   "attr": "Evocation Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "16s",
+     "b": "25s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Effect Duration"
+    }
+   ],
+   "school": "irons_spellbooks:evocation",
+   "schoolName": "Evocation",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:magnetron_deployment": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "traveloptics:mechanized_predator": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "25",
+     "l": 1,
+     "t": "Watcher HP"
+    },
+    {
+     "a": "1",
+     "b": "5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Watcher Damage"
+    },
+    {
+     "a": "80",
+     "b": "160",
+     "l": 1,
+     "t": "Prowler HP"
+    },
+    {
+     "a": "7",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Prowler Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:meteor_storm": {
+   "attr": "Fire Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "16",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "9",
+     "b": "24",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "11s",
+     "b": "26s",
+     "l": 1,
+     "t": "Meteor Storm Duration"
+    }
+   ],
+   "school": "irons_spellbooks:fire",
+   "schoolName": "Fire",
+   "sp": [
+    1.0,
+    6.0
+   ],
+   "sp2": 12.0
+  },
+  "traveloptics:nocturnal_swarm": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "",
+     "b": "",
+     "t": "Summons: Vesper [10]"
+    },
+    {
+     "a": "4.5",
+     "b": "15",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "1.5",
+     "b": "5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    1.0,
+    8.0
+   ],
+   "sp2": 16.0
+  },
+  "traveloptics:nullflare": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "15",
+     "b": "35",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Fire Blast Damage"
+    },
+    {
+     "a": "15",
+     "b": "35",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Ice Blast Damage"
+    },
+    {
+     "a": "4",
+     "b": "12",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "",
+     "b": "",
+     "t": "75% Damage/stack"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:orbital_void": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "7.5",
+     "b": "17.5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3",
+     "b": "15",
+     "l": 1,
+     "t": "Abyssal Orbs"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:overflow": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "10",
+     "b": "25",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "15s",
+     "b": "30s",
+     "l": 1,
+     "t": "Duration"
+    },
+    {
+     "a": "",
+     "b": "",
+     "g": 1,
+     "p": 1,
+     "t": "◆ Applies Wet [3-9]:"
+    },
+    {
+     "a": "",
+     "b": "",
+     "g": 1,
+     "p": 1,
+     "t": "→ Lightning Res Shred: 20% - 50%"
+    },
+    {
+     "a": "",
+     "b": "",
+     "g": 1,
+     "p": 1,
+     "t": "→ Ice Res Shred: 10% - 25%"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "traveloptics:primal_pack": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "",
+     "b": "",
+     "t": "Summons: Vallumraptor, Tremorsaurus [6]"
+    },
+    {
+     "a": "10",
+     "b": "30",
+     "l": 1,
+     "t": "Vallumraptor HP"
+    },
+    {
+     "a": "1",
+     "b": "5",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Vallumraptor Damage"
+    },
+    {
+     "a": "70",
+     "b": "150",
+     "l": 1,
+     "t": "Tremorsaurus HP"
+    },
+    {
+     "a": "6",
+     "b": "14",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Tremorsaurus Damage"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:primordial_steed": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "130",
+     "b": "250",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "6",
+     "b": "10",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:psychic_bolt": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "5",
+     "b": "5",
+     "t": "Recast Count"
+    },
+    {
+     "a": "10s",
+     "b": "20s",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Duration"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:rainfall": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "4",
+     "b": "8",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "5s",
+     "b": "5s",
+     "t": "Harmful Effect Immunity Duration"
+    },
+    {
+     "a": "2",
+     "b": "6",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "◆ Applies Wet [ … ]"
+    },
+    {
+     "a": "15%",
+     "b": "35%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "→ Lightning Res Shred"
+    },
+    {
+     "a": "7.5%",
+     "b": "17.5%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "→ Ice Res Shred"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:rapid_laser": {
+   "attr": "Lightning Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    10
+   ],
+   "rows": [
+    {
+     "a": "6",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Direct Damage"
+    }
+   ],
+   "school": "irons_spellbooks:lightning",
+   "schoolName": "Lightning",
+   "sp": [
+    1.0,
+    10.0
+   ],
+   "sp2": 20.0
+  },
+  "traveloptics:reversal": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "1.3",
+     "b": "1.8",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Reversed Damage Multiplier: … x"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:serpentide": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "3.75",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Multi Hit AoE Damage"
+    },
+    {
+     "a": "4",
+     "b": "10",
+     "l": 1,
+     "t": "Storm Serpents"
+    },
+    {
+     "a": "0",
+     "b": "2",
+     "l": 1,
+     "t": "◆ Applies Wet [ … ]"
+    },
+    {
+     "a": "5%",
+     "b": "15%",
+     "l": 1,
+     "t": "→ Lightning Res Shred"
+    },
+    {
+     "a": "2.5%",
+     "b": "7.5%",
+     "l": 1,
+     "t": "→ Ice Res Shred"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    4.0
+   ],
+   "sp2": 8.0
+  },
+  "traveloptics:shadowed_miasma": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "12",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "0",
+     "b": "0",
+     "g": 1,
+     "p": 1,
+     "t": "Abyssal Strike Amplifier"
+    },
+    {
+     "a": "17s",
+     "b": "32s",
+     "l": 1,
+     "t": "Effect Duration"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    0.4,
+    0.8
+   ],
+   "sp2": 1.6
+  },
+  "traveloptics:shear_of_the_stars": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "6.66",
+     "b": "6.66",
+     "g": 1,
+     "p": 1,
+     "t": "Dragon Spirit Damage: … /0.1s"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "g": 1,
+     "p": 1,
+     "t": "Stellar Trail Damage: … /0.5s"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "traveloptics:skypiercer": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "12",
+     "b": "12",
+     "t": "Block Radius"
+    },
+    {
+     "a": "25",
+     "b": "25",
+     "g": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "12s",
+     "b": "12s",
+     "t": "Duration"
+    },
+    {
+     "a": "1",
+     "b": "1",
+     "t": "◆ Applies Tidal Torment [ … ]"
+    },
+    {
+     "a": "20%",
+     "b": "20%",
+     "t": "→ Slowness"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "traveloptics:spectral_blink": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "35",
+     "b": "70",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Range"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:stele_cascade": {
+   "attr": "Nature Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "8",
+     "b": "28",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "1",
+     "b": "6",
+     "l": 1,
+     "t": "Ring Count"
+    },
+    {
+     "a": "2",
+     "b": "12",
+     "l": 1,
+     "t": "Row Count"
+    }
+   ],
+   "school": "irons_spellbooks:nature",
+   "schoolName": "Nature",
+   "sp": [
+    1.0,
+    6.0
+   ],
+   "sp2": 12.0
+  },
+  "traveloptics:sticky_steed_summon": {
+   "attr": "Ice Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "60",
+     "b": "120",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "14",
+     "b": "18",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:ice",
+   "schoolName": "Ice",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:summon_desert_dwellers": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    5
+   ],
+   "rows": [
+    {
+     "a": "",
+     "b": "",
+     "t": "Summons: Koboleton, Wadjet [6]"
+    },
+    {
+     "a": "5",
+     "b": "25",
+     "l": 1,
+     "t": "Koboleton HP"
+    },
+    {
+     "a": "0.6",
+     "b": "3",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Koboleton Damage"
+    },
+    {
+     "a": "70",
+     "b": "150",
+     "l": 1,
+     "t": "Wadjet HP"
+    },
+    {
+     "a": "4",
+     "b": "12",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Wadjet Damage"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    1.0,
+    5.0
+   ],
+   "sp2": 10.0
+  },
+  "traveloptics:supernova": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    1
+   ],
+   "rows": [
+    {
+     "a": "80",
+     "b": "80",
+     "g": 1,
+     "p": 1,
+     "t": "Supernova Explosion Damage"
+    },
+    {
+     "a": "22",
+     "b": "22",
+     "g": 1,
+     "p": 1,
+     "t": "Supernova Explosion Radius"
+    },
+    {
+     "a": "2.2",
+     "b": "2.2",
+     "g": 1,
+     "p": 1,
+     "t": "Supermassive Black hole Damage"
+    },
+    {
+     "a": "32",
+     "b": "32",
+     "g": 1,
+     "p": 1,
+     "t": "Supermassive Blackhole Radius"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    1.0
+   ],
+   "sp2": 2.0
+  },
+  "traveloptics:sword_of_the_ancients": {
+   "attr": "Holy Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "90",
+     "b": "160",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "12",
+     "b": "16",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:holy",
+   "schoolName": "Holy",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:the_forgotten_beast": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    2
+   ],
+   "rows": [
+    {
+     "a": "140",
+     "b": "200",
+     "l": 1,
+     "t": "HP"
+    },
+    {
+     "a": "13",
+     "b": "15",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    1.0,
+    2.0
+   ],
+   "sp2": 4.0
+  },
+  "traveloptics:the_howling_tempest": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "32",
+     "b": "32",
+     "t": "Range"
+    },
+    {
+     "a": "10",
+     "b": "20",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Multi Hit Direct Damage"
+    },
+    {
+     "a": "1",
+     "b": "1",
+     "t": "◆ Applies Wet [ … ]"
+    },
+    {
+     "a": "10%",
+     "b": "10%",
+     "t": "→ Lightning Res Shred"
+    },
+    {
+     "a": "5%",
+     "b": "5%",
+     "t": "→ Ice Res Shred"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:tidal_grasp": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "13",
+     "b": "28",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Damage"
+    },
+    {
+     "a": "3s",
+     "b": "3s",
+     "t": "Stun Duration"
+    },
+    {
+     "a": "30",
+     "b": "30",
+     "t": "Range"
+    },
+    {
+     "a": "2",
+     "b": "2",
+     "t": "◆ Applies Wet [ … ]"
+    },
+    {
+     "a": "15%",
+     "b": "15%",
+     "t": "→ Lightning Res Shred"
+    },
+    {
+     "a": "7.5%",
+     "b": "7.5%",
+     "t": "→ Ice Res Shred"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    6.0
+   ],
+   "sp2": 12.0
+  },
+  "traveloptics:tsunami": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    4
+   ],
+   "rows": [
+    {
+     "a": "20",
+     "b": "35",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Single Hit AoE Damage"
+    },
+    {
+     "a": "3",
+     "b": "6",
+     "l": 1,
+     "t": "◆ Applies Wet [ … ]"
+    },
+    {
+     "a": "20%",
+     "b": "35%",
+     "l": 1,
+     "t": "→ Lightning Res Shred"
+    },
+    {
+     "a": "10%",
+     "b": "17.5%",
+     "l": 1,
+     "t": "→ Ice Res Shred"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    4.0
+   ],
+   "sp2": 8.0
+  },
+  "traveloptics:vigor_siphon": {
+   "attr": "Blood Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "15",
+     "b": "15",
+     "t": "Tether Range"
+    },
+    {
+     "a": "9%",
+     "b": "16%",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Max Hp Healing"
+    },
+    {
+     "a": "30s",
+     "b": "1.5m",
+     "l": 1,
+     "t": "Effect Duration"
+    }
+   ],
+   "school": "irons_spellbooks:blood",
+   "schoolName": "Blood",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:violent_skreech": {
+   "attr": "Eldritch Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    8
+   ],
+   "rows": [
+    {
+     "a": "1",
+     "b": "8",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Direct Damage"
+    },
+    {
+     "a": "0.5",
+     "b": "4",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AoE Damage"
+    },
+    {
+     "a": "5",
+     "b": "5",
+     "t": "s Direct Sundering Duration"
+    },
+    {
+     "a": "2.5",
+     "b": "2.5",
+     "t": "s AoE Chilled Duration"
+    },
+    {
+     "a": "2%",
+     "b": "2%",
+     "t": "Lifesteal"
+    }
+   ],
+   "school": "irons_spellbooks:eldritch",
+   "schoolName": "Eldritch",
+   "sp": [
+    2.0,
+    16.0
+   ],
+   "sp2": 32.0
+  },
+  "traveloptics:void_eruption": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "16",
+     "b": "22",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AoE Damage"
+    },
+    {
+     "a": "1",
+     "b": "3",
+     "l": 1,
+     "t": "Shots"
+    },
+    {
+     "a": "20",
+     "b": "20",
+     "t": "Falloff Distance"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  },
+  "traveloptics:vortex_of_the_deep": {
+   "attr": "Aqua Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    6
+   ],
+   "rows": [
+    {
+     "a": "3.5",
+     "b": "11",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AoE Damage"
+    },
+    {
+     "a": "7",
+     "b": "22",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "Boltstrike Damage"
+    },
+    {
+     "a": "10",
+     "b": "20",
+     "l": 1,
+     "t": "Block Radius"
+    },
+    {
+     "a": "20s",
+     "b": "20s",
+     "t": "Duration"
+    },
+    {
+     "a": "1",
+     "b": "1",
+     "t": "◆ Applies Wet [ … ]"
+    },
+    {
+     "a": "10%",
+     "b": "10%",
+     "t": "→ Lightning Res Shred"
+    },
+    {
+     "a": "5%",
+     "b": "5%",
+     "t": "→ Ice Res Shred"
+    }
+   ],
+   "school": "traveloptics:aqua",
+   "schoolName": "Aqua",
+   "sp": [
+    1.0,
+    6.0
+   ],
+   "sp2": 12.0
+  },
+  "traveloptics:vortex_punch": {
+   "attr": "Ender Spell Power",
+   "enabled": true,
+   "lv": [
+    1,
+    3
+   ],
+   "rows": [
+    {
+     "a": "20",
+     "b": "40",
+     "g": 1,
+     "l": 1,
+     "p": 1,
+     "t": "AoE Damage"
+    },
+    {
+     "a": "20",
+     "b": "20",
+     "t": "Range"
+    }
+   ],
+   "school": "irons_spellbooks:ender",
+   "schoolName": "Ender",
+   "sp": [
+    1.0,
+    3.0
+   ],
+   "sp2": 6.0
+  }
+ }
+}

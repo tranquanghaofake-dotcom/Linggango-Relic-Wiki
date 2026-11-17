@@ -1861,3 +1861,45 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   - (2) 6 focus Goety không gọi mod ngoài nhưng niệm không thấy gì: cần đọc code từng spell;
   - (3) Swamp Mine: cho husk đi vào mìn;
   - (4) Annihilation Resonance, Paralyzing Skreech như các mục trước.
+
+## 2026-11-17 (tiếp): "What makes it stronger" cho từng phép; bản xuất từ game sửa trường phái, cấp, bật/tắt; thêm 5 clip
+- **Ý người đọc** ("liệt kê spell power của trường phái làm thay đổi gì ở phép, không cần bao nhiêu"). Chủ wiki duyệt phạm vi "kèm số gốc".
+  - **Nguồn**: `pack_audit/kubejs/server_scripts/lgw_spellpower.js`, chạy trong server pack đầy đủ.
+    - Với mỗi phép Iron's: lấy các dòng tooltip của game (`getUniqueInfo`) ở cấp thấp nhất và cao nhất, cho một FakePlayer không trang bị.
+    - Lấy lại một lần ở cấp cao nhất khi nhân đôi spell power của trường phái, và một lần khi nhân đôi Spell Power chung.
+    - Ghi thêm enchant mà mỗi focus Goety nhận (`acceptedEnchantments`).
+  - **Chuyển dữ liệu**: `pack_audit/spell_power.py` dựng câu tiếng Anh từ lang trong jar, đánh dấu dòng đổi theo power (p, g) hay theo cấp (l), và ghi `patches/spell_power.json`.
+  - **Kết quả**: 314 phép. 268 có ít nhất một dòng tooltip tăng theo spell power; 21 không có dòng tooltip nào.
+  - **Panel** có mục "What makes it stronger":
+    - Iron's: thuộc tính nào tăng dòng nào, dòng nào tăng theo cấp, và bảng số gốc cấp thấp → cao. Dòng tăng theo spell power đánh dấu vàng.
+    - Brutality (đọc javap `IBrutalitySpell`): `<School> School Level` cộng thêm cấp chỉ cho sát thương, và Spell Damage nhân sát thương. Mana, hồi chiêu, thời gian niệm theo cấp của tome.
+    - Ars: Spell Power riêng của Ars (perk `ars_nouveau.perk.spell_damage`, mô tả "Increases the damage of your ars spells") cộng vào sát thương; phần còn lại theo augment.
+    - Goety: focus mạnh lên theo enchant (liệt kê enchant từng focus nhận). Goety Revelation có thêm Spell Power và Spell Power Multiplier; trang dẫn nguyên mô tả của mod, vì tôi chưa lần tới chỗ code dùng chúng.
+- **Sai số liệu tìm ra nhờ bản xuất** (bản xuất sau khi config phép đã dựng: Fireball cấp tối đa 5):
+  - Earthquake, Stomp, Touch Dig thuộc Geo, không phải Nature (addon Geomancy Plus chuyển).
+  - Cloud of Regeneration đang bị tắt trong game. Phép đang bật giảm từ 709 còn 708.
+  - 95 phép không có trong config của pack nay có trường phái và cấp. Trường phái "No school" không còn trên trang.
+  - `wiki_data.py` cho bản xuất thắng phần đọc jar. Invariant mới trong `checks/spells.js`: trường phái, cấp, bật/tắt trên trang phải khớp `spell_power.json`; Fireball phải có Damage 10 → 30 và Block Radius tăng theo Fire Spell Power; mỗi panel phải có mục "What makes it stronger".
+- **Bài học về server đầy đủ**:
+  - `/reload` trong pack này giữ một tick quá 60 s (một mod vũ khí lặp qua item khi kiểm enchant), watchdog dừng server.
+  - Config phép của Iron's chỉ được dựng khi có đồng bộ datapack. Script gọi thẳng `SpellConfigManager.onDatapackSync`.
+  - Rhino không gọi được `size()` trên `List.of` của Java; phải chép sang `ArrayList`.
+- **Clip, đợt dựng mới** (một hướng khác cho mỗi phép đã thử 2 lần):
+  - **Lượt A (Ars, Brutality)**:
+    - Đạt 3: Glide (rơi từ 10 khối rồi lướt), Knockback (husk có AI nhưng bị làm chậm, bị hất văng), Heal (tự hồi máu, có HUD: tim 4 → 10, mana 99 → 41).
+    - Không đạt 12. Lý do mới ghi trong `noclip.json`: Charm, Bounce (cả creative lẫn survival), Evaporate, Luck, Name, Pierce, Sensitive, Slowfall, Split, Wind Shear, Filter: Baby, Heavenly Flight.
+  - **Goety, focus ghi sẵn NBT** (khóa đọc bằng javap; servant của RenderBot theo UUID offline):
+    - Troop đạt, bản servant đội mũ.
+    - Call đạt, dùng bản đầu: servant cháy vì nắng chiều nhưng hiện rõ cạnh người niệm; bản đội mũ thì servant biến mất sau hình nộm.
+    - Command không đạt sau 2 lần. Recall không dịch chuyển. Swamp Mine: husk tới người niệm trước khi mìn nổ.
+  - `workspace` d19b1e5a5. `approved.json` 637 id; 636 phép đang bật có clip, 72 phép có lý do.
+- **Kiểm tra**:
+  - `apply_all.sh` exit 0; i18n 1384/1384 câu.
+  - `checks/spells.js` chạy riêng 0 lỗi.
+  - Ảnh đã xem: panel Fireball, Arrow Rain Focus, Star Burst, Harm (1440), Aqua Missiles (375).
+  - `bash build/check.sh` lần đầu: invariant 0, a11y 0, script 0, site đạt; chỉ QA bản dịch báo 1 lỗi cứng (tiếng Tây Ban Nha cần dấu cách trước %). Đã sửa; lần hai exit 0 (QA 0, invariant 0, a11y 0, script 0, site đạt).
+- **Open**:
+  - (1) Khoảng 60 phép còn lại không có clip. Hầu hết đã qua 3 hướng dựng khác nhau; muốn thêm thì cần đọc code từng phép.
+  - (2) Goety Revelation Spell Power: lần tới chỗ code dùng nó để ghi cụ thể hơn;
+  - (3) mana, hồi chiêu của 95 phép không có trong config: bản xuất có thể đọc thêm (`getManaCost`, `getSpellCooldown`);
+  - (4) các mục open cũ.

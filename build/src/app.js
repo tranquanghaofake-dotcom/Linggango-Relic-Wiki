@@ -315,7 +315,7 @@ const EFFECTS=[
 // effect names in an item's text link to the Effects list
 function effHint(h){for(const e of EFFECTS){const m=h.match(e.re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/effects" title="${esc(TD(e.n))}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
 /* ---------- Spells: every spell the jars register (pack_audit/spells.py); the rows and icons come with wiki_pics.js (SPL, SPLI) ---------- */
-const SCOL={fire:"#e8602c",ice:"#7fd0ff",lightning:"#ffe14a",holy:"#fff3b0",ender:"#b36bff",blood:"#c0262d",evocation:"#79c84a",nature:"#5fbf4a",eldritch:"#5aa5a0",geo:"#b08a5a",aqua:"#3f8fe0"};
+const SCOL={annihilation:"#c2185b",fire:"#e8602c",ice:"#7fd0ff",lightning:"#ffe14a",holy:"#fff3b0",ender:"#b36bff",blood:"#c0262d",evocation:"#79c84a",nature:"#5fbf4a",eldritch:"#5aa5a0",geo:"#b08a5a",aqua:"#3f8fe0"};
 // Spells is one library for the four spell systems (2026-11-17, docs/plans/2026-11-17-spell-library.md): one search, the system chips, filters with live
 // counts on the left, a compact list in the middle, the chosen spell on the right (on a phone it opens over the list). Iron's Spells (window.SPL),
 // Goety (GSPL), Ars Nouveau (ASPL) and Brutality (BSPL) come in their own shapes from wiki_pics.js; spellRows() turns them into one, and the page reads
@@ -332,7 +332,7 @@ const SPSYS=[["irons",N("Iron's Spells"),"#b48cff"],["goety",N("Goety"),"#7fd46a
 // how a spell is cast, in one word for every system: it fires at once, it takes a cast time first (Iron's LONG, a charged Goety focus, Brutality's
 // channelling), or it lasts while the button is held (Iron's CONTINUOUS, a Goety focus of 72000 ticks, Brutality's continuous); Ars spells fire at once
 const SPCAST={instant:N("Instant"),time:N("Cast time"),held:N("Held")},SPSTAT={clip:N("Has a clip"),none:N("No clip"),off:N("Turned off")};
-const SPNOTE={irons:N("School, rarity, levels, mana, cooldown and cast time are read from each spell's code and from the pack's per-spell config. Damage depends on your Spell Power and on each spell's own formula, which the wiki does not read yet; cast times are each spell's base value."),
+const SPNOTE={irons:N("School, rarity, levels, mana, cooldown and cast time are read from each spell's code and from the pack's per-spell config; cast times are each spell's base value. The base numbers are the game's own tooltip lines for a caster with no gear."),
  goety:N("Every Goety focus the game registers (Goety and its add-ons). Soul cost, cast time and cooldown are the running game's, after the pack's config."),
  ars:N("Every Ars Nouveau glyph the game registers (Ars Nouveau and its add-ons). A spell is one form, then effects, each changed by the augments after it. Mana cost and tier are the running game's, after the pack's config."),
  brutality:N("Every Brutality spell the game registers; they are cast from Brutality's magic tomes. Each number is the spell's base value and what one spell level adds; the caster's attributes and curios change them further.")};
@@ -354,7 +354,7 @@ function spellRows(){
   facts:[[N("Soul cost"),s.c==null?"—":s.c],[N("Cast"),s.t==null?"—":s.t>=72000?T("Held"):s.t?`${secT(s.t)} s`:T("Instant")],[N("Cooldown"),s.cd==null?"—":`${secT(s.cd)} s`]]});
  for(const s of L.ars)add("ars",s,{nm:s.n||pretty(s.i,/^glyph_/),gk:s.k||"none",gn:AKIND[s.k]||"",gu:1,col:ACOL[s.k]||"#888",tier:s.r?String(s.r):"",cost:s.c==null?null:s.c,cu:"mana",
   facts:[[N("Kind"),s.k?T(AKIND[s.k]):"—"],[N("Tier"),s.r||"—"],[N("Mana"),s.c==null?"—":s.c]]});
- for(const s of L.brutality)add("brutality",s,{nm:s.n||pretty(s.i),gk:s.s||"none",gn:s.s?capW(s.s):"",col:BCOL[s.s]||"#888",ck:{instant:"instant",channelling:"time",continuous:"held"}[s.k]||"",
+ for(const s of L.brutality)add("brutality",s,{nm:s.n||pretty(s.i),gk:s.s||"none",gn:s.s?capW(s.s):"",dmg:!!(s.d||s.dl),col:BCOL[s.s]||"#888",ck:{instant:"instant",channelling:"time",continuous:"held"}[s.k]||"",
   cost:s.ma==null?null:s.ma,cu:"mana",cd:s.cd==null?null:rnd2(s.cd/20),info:s.u?N("The mod's files give this spell no name, description or icon."):"",
   facts:[[N("Mana"),perLv(s.ma,s.mal)],[N("Damage"),s.d||s.dl?perLv(s.d||0,s.dl):"—"],[N("Cooldown"),s.cd==null?"—":perLv(s.cd/20,(s.cdl||0)/20," s")],
    [N("Cast"),s.k?`${T(BCAST[s.k])}${s.t?` · ${perLv(s.t/20,(s.tl||0)/20," s")}`:""}`:"—"]].concat(s.tg&&s.tg.length?[[N("Categories"),s.tg.map(t=>T(BTAG[t]||t)).join(" · ")]]:[])});
@@ -363,6 +363,22 @@ function spellRows(){
  rows.forEach((r,k)=>{r.k=k;r.sk=r.nm.replace(/^[^A-Za-z0-9]+/,"").toLowerCase()});SPLIB={n,rows};return rows}   // sk: the name without its opening quote mark, for A-Z
 const spGroup=r=>r.gu?T(r.gn):TD(r.gn),spSys=sy=>(SPSYS.find(x=>x[0]===sy)||[])[1]||sy,spCost=r=>r.cost==null?"—":`${r.cost} ${r.cu==="souls"?T("souls"):T("mana")}`;
 // the filters: each is a field of the row, its chips and their names; a chip's count is how many spells it would show with the other filters as they are
+// What makes it stronger (2026-11-17, a reader's idea): Iron's spells from the game's own tooltip lines at two powers and two levels (pack_audit/spell_power.py,
+// window.SPPOW); the other systems have no spell power and say what they use instead (read from their code: Brutality's school level counts as extra
+// levels for damage only and Spell Damage multiplies it; a Goety focus grows with the enchantments it accepts, and Goety Revelation adds its own Spell Power
+// and Spell Power Multiplier (described in the mod's own lang text); Ars's own Spell Power adds to damage)
+function spGrow(r){const P=window.SPPOW||{},chips=L=>L.map(x=>`<span class="sgc">${esc(TD(x))}</span>`).join(""),head=`<p class="sdl">${T("What makes it stronger")}</p>`;
+ if(r.sy==="irons"){const w=(P.s||{})[r.i];if(!w)return "";const [an,l0,l1,rows]=w,sp=rows.filter(x=>x[3].includes("p")),lv=rows.filter(x=>x[3].includes("l")&&!x[3].includes("p"));
+  const who=[an,sp.length&&sp.every(x=>x[3].includes("g"))&&P.g&&P.g!==an?P.g:null].filter(Boolean),one=l0===l1;
+  return head+`<div class="sgw">${!rows.length?`<p>${T("The game's tooltip shows no number for this spell.")}</p>`:sp.length?`<p>${chips(who)} <span class="sga">${T("raises")}</span> ${chips(sp.map(x=>x[0]||"—"))}</p>`:`<p>${T("Spell power changes no number its tooltip shows.")}</p>`}
+${lv.length?`<p>${chips([N("Spell level")])} <span class="sga">${T("raises")}</span> ${chips(lv.map(x=>x[0]||"—"))}</p>`:""}
+${rows.length?`<table class="sgt"><caption>${T("Base numbers with no gear (spell power 100%)")}</caption><thead><tr><th></th>${one?`<th>${T("Level {n}",{n:l1})}</th>`:`<th>${T("Level {n}",{n:l0})}</th><th>${T("Level {n}",{n:l1})}</th>`}</tr></thead><tbody>${rows.map(x=>`<tr${x[3].includes("p")?' class="sgp"':""}><th>${esc(TD(x[0]||"—"))}</th>${one?"":`<td>${esc(x[1]??"—")}</td>`}<td>${esc(x[2])}</td></tr>`).join("")}</tbody></table>
+${sp.length?`<p class="sgk">${T("Marked rows grow with spell power.")}</p>`:""}`:""}</div>`}
+ if(r.sy==="goety"){const e=(P.goety||{})[r.i];return head+`<div class="sgw"><p>${T("A Goety focus grows with the enchantments put on it.")}</p>${e?`<p>${e.length?`${T("It takes")} ${chips(e)}`:T("This focus takes no enchantments.")}</p>`:""}<p>${T("Goety Revelation adds two attributes of its own: Spell Power (in the mod's words, it “increases goety spell power”) and Spell Power Multiplier (“increases total goety spell level”).")}</p></div>`}
+ if(r.sy==="ars")return head+`<div class="sgw"><p>${T("Ars glyphs do not use Iron's spell power. Ars's own Spell Power (from Ars armor and perks) adds to the damage of glyphs that deal damage; anything else a glyph does grows with the augments placed after it (Amplify, Extend Time, AOE…).")}</p></div>`;
+ if(r.sy==="brutality"){const a=r.gn?`${r.gn} School Level`:"School Level";
+  return head+`<div class="sgw"><p>${r.dmg?T("{a} counts as extra spell levels for this spell's damage, and Spell Damage multiplies it. Mana, cooldown and cast time follow the tome's own spell level.",{a:`<b>${esc(a)}</b>`}):T("Brutality spells have no spell power: {a} and Spell Damage change only damage, which this spell does not deal.",{a:`<b>${esc(a)}</b>`})}</p></div>`}
+ return ""}
 const SPF=[["st",N("Clip"),r=>r.st,v=>T(SPSTAT[v])],["gk",N("School, type or kind"),r=>r.sy+"/"+r.gk,null],["ck",N("How it is cast"),r=>r.ck,v=>T(SPCAST[v])],
  ["rar",N("Rarity (Iron's)"),r=>r.rar,v=>TD(capW(v))],["tier",N("Tier (Ars)"),r=>r.tier,v=>T("Tier {n}",{n:v})],["m",N("Mod"),r=>r.m,v=>esc(v)]];
 const SPS={sy:"",q:"",f:{},sort:"name",sel:null,lim:60};
@@ -437,7 +453,7 @@ function spellsPage(){
 <div class="sdv">${media(r)}</div>${r.g?`<p class="sdg">${esc(TD(r.g))}</p>`:""}
 <dl class="sds">${r.facts.map(fact).join("")}</dl>
 ${r.fx.length?`<p class="sdl">${T("Applies")}</p><div class="nchs">${r.fx.map(([e,n])=>`<a class="nch" href="#mechanics/effects/${enc(e)}">${esc(TD(n))}</a>`).join("")}</div>`:""}
-${r.info?`<p class="note">${T(r.info)}</p>`:""}<p class="sdm">${esc(r.m)} · <code>${esc(r.i)}</code></p>
+${spGrow(r)}${r.info?`<p class="note">${T(r.info)}</p>`:""}<p class="sdm">${esc(r.m)} · <code>${esc(r.i)}</code></p>
 <p class="sdn">${T(SPNOTE[r.sy])}</p><nav class="sdnav" aria-label="${T("Next and previous spell")}">${nb(-1,T("← Previous"))}${at>=0?`<span>${at+1} / ${hit.length}</span>`:"<span></span>"}${nb(1,T("Next →"))}</nav></article>`;
   if(user){history.replaceState(null,"","#spells/"+enc(id));lastHash=location.hash;
    if(innerWidth<=760){el("slib").classList.add("sheet");document.body.classList.add("noscroll");dp.scrollTop=0;el("sdback").focus()}}};
