@@ -9,6 +9,7 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
   - toàn bộ vũ khí, giáp và curio được đo lại trên người thử đã sửa;
   - Ranged có 76 món, Mage có bảng "Own attack", giáp 313/313 bộ được xếp;
   - Summon có số từ đợt "tiếp 7": 12 staff có tier, roi có bảng "Whips" riêng (mục 2.4, 6).
+  - Ranged: 49 món mới có số (súng Terramity, đồ ném Brutality, Gatling, Raygun, Meka-Gun...); còn 23 món chưa xếp ở Act XII (mục 6).
 - **Việc còn lại**: mục 7.
 
 ## 1. Nguyên tắc
@@ -40,11 +41,16 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
 - **Better Combat** xoá thời gian bất tử sau đòn, nên DPS không bị giới hạn ở 2 nhát mỗi giây.
 
 ### 2.2 Ranged (`gRng`)
-- **Sát thương mỗi phát**: trung vị 3 phát vào lợn 1.000 máu (cùng chuẩn với cận chiến), mũi tên thường ở tay phụ, kéo căng hết cỡ.
+- **Sát thương mỗi phát**: trung vị 3 phát vào lợn 1.000 máu (cùng chuẩn với cận chiến), kéo căng hết cỡ. Đạn để trong túi từ ô 9 (mũi tên, khoai tây, phi tiêu, đạn Soulslike, thanh thép IE, đá Undergarden, đạn và vỏ đạn Terramity), không ở tay phụ: súng Terramity chỉ bắn khi tay phụ trống.
+- **Phát đầu bị phồng**: phát đầu cao hơn 3 lần các phát sau thì bỏ (đạn bắn trễ của lần trước rơi vào). Súng có các phát lệch nhau quá 3 lần, hoặc chỉ trúng 1/3 phát (shotgun tản đạn), không xếp.
 - **Số tick mỗi phát**, tuỳ loại:
   - cung: số tick ít nhất để mũi tên đạt 97% tốc độ tối đa;
   - nỏ: số tick để nạp tên;
-  - vũ khí dùng bằng chuột phải: thời gian hồi của item.
+  - vũ khí dùng bằng chuột phải: thời gian hồi của item;
+  - đồ ném Brutality: ném qua hàm xử lý nhát vung (`handleCooldownAndSound`, đúng đường gói tin chuột trái), hồi 20 ÷ tốc độ đánh;
+  - vũ khí không có thời gian hồi: dùng lại mỗi 4 tick (nhịp lặp khi giữ chuột phải) trong 40 tick, lấy tổng sát thương;
+  - vũ khí giữ chuột mà sát thương tăng mãi (tia, gatling): giữ 10/20/40/60 tick theo thời gian thật, tốc độ = phần tăng từ 20 đến 60 tick; cung thường không bị tính vậy (đòi tăng 1.5 lần rồi 1.3 lần);
+  - súng có băng đạn (Terramity): tháo hết đạn, ngồi + chuột phải để nạp, đếm thời gian nạp; số tick mỗi phát = (số viên × hồi + nạp) ÷ số viên. Basic Pistol: 5 viên, nạp 75 tick → 19 sát thương/giây (không phải 72).
 - **Món gây sát thương theo % máu**: nếu phát bắn ở 10.000 máu luôn cao hơn ở 1.000 máu và gấp hơn 1.5 lần, giữ thêm số 10k để ghi chú.
 
 ### 2.3 Mage
@@ -131,6 +137,11 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
 3. **Chế độ sáng tạo**: người thử ở creative thì chặn mọi đòn. Sửa: script đặt survival.
 4. **Khoá bảo vệ của Difficulty Enhancement**: người thử miễn sát thương vì chưa chọn độ khó. Sửa: script chọn độ khó, không modifier.
 5. **Chí mạng của kẻ đánh thử**: con lợn có 5% chí mạng Apothic; 8 thành 12 rồi bị trần 10 cắt, cho ra 69–84 số đo "nhận thêm 25%" ngẫu nhiên. Sửa: đặt chí mạng của nó về 0. Số đo bị chặn trần giảm từ 69 xuống 8.
+6. **Minion tự xoá** (Summonity tìm chủ trong danh sách người chơi của server): đưa FakePlayer vào map UUID của danh sách đó trong lúc đo. Cùng đợt: đếm thực thể theo `getId` (tên `getUUID` không gọi được trên FakePlayer), zombie đứng trên sàn, máu đặt sau khi vào thế giới (pack co 1.000 → 25), giữ nửa đêm (zombie cháy nắng 1,25/giây).
+7. **Mũi tên ở tay phụ**: súng Terramity không bắn. Chuyển vào túi; ở ô 0 thì bị vũ khí đè (Bow đọc 0), nên để từ ô 9.
+8. **Đường cong kéo cung gọi `use()` 17 lần**: với súng đó là 17 phát thật, rơi trễ vào phát đo đầu (Burst Rifle 493). Nay chỉ vẽ đường cong cho món có thời gian kéo.
+9. **Bắn liên tục mỗi tick**: client chỉ lặp chuột phải mỗi 4 tick; nay đo theo nhịp đó.
+10. **Đạn 999 viên**: bỏ qua thời gian nạp; nay đo nạp đạn thật cho súng có băng.
 
 ### 5.4 Món chuẩn để hiệu chỉnh (phải ra đúng mới tin lượt đo)
 - Bow: 20 tick mỗi phát, 7–9 sát thương (vanilla: 6 cộng chí mạng ngẫu nhiên).
@@ -142,7 +153,7 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
 | Nhóm | Đã xếp / chưa xếp | Ghi chú |
 |---|---|---|
 | Melee | 1011 / 1 | Đo lại: 977/1010 khớp lần cũ; 7 món lần cũ bị thổi ×1.5 vì người thử đang rơi |
-| Ranged | 76 / 68 | Thời gian kéo, nạp và hồi đo trong game; trang của từng món ghi lý do nếu chưa xếp |
+| Ranged | 121 có số / 23 chưa xếp | 42 món đạt ngưỡng tier ở Act XII. Chưa xếp: cung Animus, Too Many Bows, L2 Archery, Meka-Bow, Infinity Launcher, Matter Cannon, Tesla Cannon, Crankbow, Autoloader, shotgun Nether Expansion, Providence, Rocket Launcher, Sticky Bomb, Beach Ball (không gây sát thương trong bài thử); Blunderbuss, Pump Action Shotgun (không đọc được nạp đạn); Railgun và Sawed Off Shotgun Terramity (các phát lệch nhau) |
 | Mage, bảng chính | 60 / 41 | 41 món không cộng gì cho phép |
 | Mage, "Own attack" | 7 có tier (9 có số) | 92 món không có đòn riêng gây sát thương, hoặc chưa đo được tốc độ |
 | Summon | 12 / 12 | 12 staff có DPS minion; 12 món không gây sát thương: roi (xếp ở bảng "Whips"), Fairy Staff (hỗ trợ), 2 staff Goety (phóng focus), Blood Staff |
@@ -157,9 +168,9 @@ Số đo lại của curio đã đổi một số kết luận cũ:
 
 ## 7. Các bước còn lại
 1. **Summon**: xong (mục 2.4). Còn lại: Fairy Staff và staff Goety không có số vì không tự gây sát thương.
-2. **Ranged còn 68 món**: súng bắn qua gói phím riêng, đồ ném nổ ngoài tầm các con lợn thử, món cần điều kiện riêng. Mỗi nhóm cần một cách bắn riêng.
-3. **Lethality và xuyên giáp**: tính theo giáp của Keeper ở từng Act, dùng đúng công thức đã đọc trong mixin của Brutality, thay cho bài đo trên mục tiêu 0 giáp.
-4. **Combo của Better Combat**: đo đủ một vòng combo thay vì trung vị 3 nhát.
+2. **Ranged còn 23 món** (mục 6): mỗi món cần cách bắn riêng của mod (ví dụ cung Animus cần "will", Sticky Bomb cần lệnh kích nổ, Too Many Bows và L2 Archery không bắn được với mũi tên thường trong túi). Đã thử 2 cách chung (mũi tên ở tay phụ, rồi ở túi), nên dừng theo quy tắc 2 lần.
+3. **Lethality và xuyên giáp**: tính theo giáp của Keeper ở từng Act, dùng đúng công thức đã đọc trong mixin của Brutality, thay cho bài đo trên mục tiêu 0 giáp. Số liệu đã có trong `entitybalance.json`: giáp Keeper 12 (Act II), 18, 50, 100, 120, 130–330 (Act VIII), 340, 400, 450 (Act XII), độ cứng tới 460. Với giáp như vậy lethality phẳng (vài điểm) gần như không đổi gì ở Keeper cuối, còn xuyên giáp bị độ cứng làm yếu (2%/điểm, tối đa 60%). Chưa làm vì cần chọn mô hình (sàn sát thương của pack có áp cho quái không, công thức giáp Apothic với đòn của người chơi): cần chủ wiki duyệt.
+4. **Combo của Better Combat**: đo đủ một vòng combo thay vì trung vị 3 nhát. Cần đo lại 1.048 vũ khí cận chiến với chí mạng của người thử tắt; sai số hiện tại tối đa khoảng 10% (Laser Blade: 15, 22.5, 22.5 → trung vị 22.5, trung bình 20). Chưa làm.
 5. **Kỹ năng chủ động của vũ khí cận chiến** và **hệ số k của giáp**: mục 8.
 
 ## 8. Giới hạn và câu hỏi còn mở

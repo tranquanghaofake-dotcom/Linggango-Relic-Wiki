@@ -88,6 +88,9 @@ for k, v in R.items():
     # (lgw_measure.js reloadOf: Basic Pistol 5 rounds, 75 ticks)
     if t and v.get("loaded", 0) > 0 and v.get("reload", 0) > 0 and not o["rng"].get("sus"):
         n = v["loaded"]; o["rng"]["mag"] = int(n); o["rng"]["reload"] = v["reload"]; t = r2((n * t + v["reload"]) / n)
+    # a small magazine whose reload put no round in (Pump Action Shotgun: loads a shell at a time, later): how often it fires is not
+    # known, so no rate; a big one (Conductite Laser Rifle, 100) fires on long enough for the reload not to matter
+    elif t and v.get("mag") and v.get("loaded", 0) <= 0 and v["mag"] < 20 and not o["rng"].get("sus"): o["rng"]["mag"] = int(v["mag"]); t = None
     if t: o["rng"]["t"] = t
     fire = [s["fire"] for s in v["shots"] if s.get("fire", -1) > 0]
     if fire: o["rng"]["fire"] = r2(max(fire) / 20)

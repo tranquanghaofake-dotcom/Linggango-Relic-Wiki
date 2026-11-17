@@ -108,7 +108,11 @@ Base stats: `patches/gear_runtime.py` lays the pack's in-game dump (`gear_runtim
 The Act only decides which lists an item is in (usable at or before it), never its score. Melee weapons: DPS (`gMelee`); any weapon with
 readable melee damage (staves, spears) is also a Melee candidate. Mage weapons: what their bonuses multiply your spells by (`GOFF.MA`: spell
 power and best school, cooldown, cast time, mana; Ars spell damage). Ranged and Summon weapons have no readable shot or minion damage, so
-they are measured in game (`lgw_measure.js`): Ranged by damage a shot × shots a second (`gRng`), Summon by what the minions of one use deal a
+they are measured in game (`lgw_measure.js`): Ranged by damage a shot × shots a second (`gRng`; ammunition in the inventory from slot 9, since
+a Terramity gun fires only with the off hand empty; a Brutality throwable thrown through its swing handler, `handleCooldownAndSound`; a
+weapon with no item cooldown used every 4 ticks, the held right click's pace; a held weapon whose damage keeps rising, a beam or a gatling,
+rated from 20 to 60 ticks held; a magazine gun's reloads counted, measured by emptying it and reloading as a player does; a gun whose
+three shots disagree by more than three times is not ranked), Summon by what the minions of one use deal a
 second to a 100,000-health zombie at night, counted from their first hit (`gMn`; Summonity's minions find their owner in the server's player
 list, so the test puts its FakePlayer in that list's UUID map for the run). A Summon whip summons nothing: it has its own table, "Whips" (pool
 `h`, `gWh`): a Summonity whip's lash from `summonity-common.toml` (damage × 20 / cooldown ticks, `gear_stats.json` `summonity_whips`), a
