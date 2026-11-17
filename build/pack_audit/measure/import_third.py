@@ -41,12 +41,29 @@ for k, v in R.items():
     sus = [s for s in v.get("shots", []) if s.get("sus") and s.get("dmg", 0) > 0]
     if not d: continue
     o = items.setdefault(k, {"ad": r2(v.get("ad", 0))})
+    used = any(s.get("how") == "use" for s in v.get("shots", []))
+    # a gun's first shot can carry shots that landed late from before it (fifth run: Conductite Laser Rifle 414, then 38 and 33;
+    # Terramity queues some shots a few ticks on): one over three times the others' median is left out
+    if used and len(d) >= 3 and statistics.median(d[1:]) > 0 and d[0] > 3 * statistics.median(d[1:]): d = d[1:]
     hit = [x for x in d if x > 0]
+    # a gun whose shots disagree by more than three times, or that landed one of three (a shotgun's spread pellets), gives no one
+    # number: kept as {spread: shots}, not ranked
+    if used and (len(hit) == 1 and len(d) >= 2 or len(hit) >= 2 and max(hit) > 3 * min(hit)):
+        o["rng"] = {"spread": [s.get("dmg", 0) for s in v.get("shots", []) if not s.get("sus")]}; nm += 1; continue
     dc = {int(a): b for a, b in (v.get("dcurve") or [])}
     # every 40-tick draw missed but a hold in world time landed (a beam held in one server tick lands once or not at all)
     if not hit and dc and max(dc.values()) > 0: hit = [max(dc.values())]
     if not hit: o["rng"] = {"miss": 1, "shots": d}; nm += 1; continue
     o["rng"] = {"hit": r2(statistics.median(hit)), "shots": d, "n": len(hit), "how": sorted({s.get("how", "") for s in v["shots"]})}
+    # the 1,000-health run's shot, before the rate: a held or sustained rate below is worked out from the hit it is given
+    # (not for a record shot at 1,000 health itself: the fourth run on, rhp 1000)
+    h1 = [] if v.get("rhp") == 1000 else [s.get("dmg", 0) for s in (K1.get(k) or {}).get("shots", []) if s.get("dmg", 0) > 0]
+    if h1:
+        m1 = r2(statistics.median(h1))
+        # a share of the target's health shows as every 10,000-health shot above every 1,000-health one, by half again; a random
+        # arrow crit moves a shot by a few points either way (Dreadbow 12 and 9)
+        if min(hit) > max(h1) and o["rng"]["hit"] > 1.5 * m1: o["rng"]["h10k"] = o["rng"]["hit"]
+        o["rng"]["hit"] = m1; o["rng"]["shots"] = [s.get("dmg", 0) for s in K1[k]["shots"]]
     # ticks a shot takes (lgw_measure.js drawCurve, 2026-11-17): a crossbow's charge, else the fewest ticks of drawing that reach
     # 97% of the fastest shot (the vanilla Bow reads 20, the Trident 10); none for an item thrown on use
     t = v.get("charge") or v.get("full")
@@ -67,14 +84,11 @@ for k, v in R.items():
         if dc.get(20, 0) > 0 and dc.get(40, 0) >= 1.5 * dc[20] and dc.get(60, 0) >= 1.3 * dc[40]:
             t = r2(40 * o["rng"]["hit"] / (dc[60] - dc.get(20, 0))); o["rng"]["beam"] = 1
         elif not t: t = min(a for a in sorted(dc) if dc[a] >= .97 * max(dc.values()))
+    # a gun with a magazine (Terramity): shots a second count its reloads, loaded rounds fired at the cooldown, then the reload
+    # (lgw_measure.js reloadOf: Basic Pistol 5 rounds, 75 ticks)
+    if t and v.get("loaded", 0) > 0 and v.get("reload", 0) > 0 and not o["rng"].get("sus"):
+        n = v["loaded"]; o["rng"]["mag"] = int(n); o["rng"]["reload"] = v["reload"]; t = r2((n * t + v["reload"]) / n)
     if t: o["rng"]["t"] = t
-    h1 = [s.get("dmg", 0) for s in (K1.get(k) or {}).get("shots", []) if s.get("dmg", 0) > 0]
-    if h1:
-        m1 = r2(statistics.median(h1))
-        # a share of the target's health shows as every 10,000-health shot above every 1,000-health one, by half again; a random
-        # arrow crit moves a shot by a few points either way (Dreadbow 12 and 9)
-        if min(hit) > max(h1) and o["rng"]["hit"] > 1.5 * m1: o["rng"]["h10k"] = o["rng"]["hit"]
-        o["rng"]["hit"] = m1; o["rng"]["shots"] = [s.get("dmg", 0) for s in K1[k]["shots"]]
     fire = [s["fire"] for s in v["shots"] if s.get("fire", -1) > 0]
     if fire: o["rng"]["fire"] = r2(max(fire) / 20)
     tf = {}

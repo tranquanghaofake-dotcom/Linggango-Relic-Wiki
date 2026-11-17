@@ -40,7 +40,7 @@ LGW.SRG = {
   getDeltaMovement: ['m_20184_'], getBaseDamage: ['m_36789_'], getOwner: ['m_19749_'], setOwner: ['m_5602_'], shoot: ['m_6686_'],
   setDeltaMovement: ['m_20256_'], resetFallDistance: ['m_183634_'], isNoGravity: ['m_20068_'], setGameMode: ['m_143403_'],
   getOrCreateTag: ['m_41784_'], putDouble: ['m_128347_'], getCooldowns: ['m_36335_'], isOnCooldown: ['m_41519_'],
-  setTarget: ['m_6710_'], setItem: ['m_6836_'], getUUID: ['m_20148_'], useOn: ['m_6225_'], getId: ['m_19879_'], getType: ['m_6095_'], getPlayerList: ['m_6846_'],
+  setTarget: ['m_6710_'], setItem: ['m_6836_'], setShiftKeyDown: ['m_20260_'], getDouble: ['m_128459_'], contains: ['m_128441_'], getUUID: ['m_20148_'], useOn: ['m_6225_'], getId: ['m_19879_'], getType: ['m_6095_'], getPlayerList: ['m_6846_'],
   getTarget: ['m_5448_'], isAlive: ['m_6084_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
@@ -417,7 +417,11 @@ LGW.run = (server, who, name) => {
   // the hotbar: in slot 0 the weapon put in the main hand replaced them (first probe: the Bow had no arrows). Arrows, potatoes
   // (Create's Potato Cannon), darts (Mowzie's Blowgun), silver bullets (Soulslike Weaponry's guns), steel rods (Immersive
   // Engineering's Railgun), depthrock pebbles (the Undergarden's Slingshot)
-  var AMMO = ['minecraft:arrow', 'minecraft:potato', 'mowziesmobs:dart', 'soulsweapons:silver_bullet', 'immersiveengineering:stick_steel', 'undergarden:depthrock_pebble']
+  // Terramity's rounds and shells too, for the reload test (each gun's right-click procedure reloads from its own: Basic Pistol
+  // copper, rifles gold, shotguns daemonium shotshells...)
+  var AMMO = ['minecraft:arrow', 'minecraft:potato', 'mowziesmobs:dart', 'soulsweapons:silver_bullet', 'immersiveengineering:stick_steel', 'undergarden:depthrock_pebble',
+    'terramity:copper_round', 'terramity:gold_round', 'terramity:dimlite_round', 'terramity:antimatter_round', 'terramity:iridium_round', 'terramity:hellspec_shotshells',
+    'terramity:daemonium_shotshells', 'terramity:virentium_rocket', 'terramity:suppressed_gold_round', 'terramity:steel_shell', 'terramity:shadowflame_bullet']
   var ammo = () => AMMO.forEach((a, j) => safe('ammo', () => c2(c0(P, 'getInventory'), 'setItem', 9 + j, Item.of(a, 64))))
   // a drawn weapon held for 10, 20, 40 and 60 ticks of world time, one tick of the tester each (held in one server tick the
   // target's hurt time never runs down, so a beam lands once), the damage at each kept (r.dcurve): a shot the speed curve cannot
@@ -433,6 +437,20 @@ LGW.run = (server, who, name) => {
       ;(r.dcurve = r.dcurve || []).push([DCT[i], Math.round(Math.max(h0 - hp(d), low) * 100) / 100]); drop(d); clearShots(); return dcurve(id, r, i + 1) }
     var hold = n => { ticks(1); if (n > 1) return { wait: 1, then: () => hold(n - 1) }; safe('dmg curve release', () => c0(P, 'releaseUsingItem'), id); return { wait: 30, then: read } }
     return used ? { wait: 1, then: () => hold(DCT[i]) } : { wait: 30, then: read }
+  }
+  // a gun with a magazine (Terramity: the stack's maxAmmo and ammoLoaded): the shots above had 999 rounds loaded, so how often it
+  // fires leaves out its reloads (fourth run: Basic Pistol 18 every 5 ticks, 72 a second, where its code reloads 5 rounds in 75
+  // ticks). Emptied, then reloaded the way a player does (sneaking, right click, its rounds in the inventory): r.mag its
+  // magazine, r.loaded the rounds one reload put in, r.reload the ticks until it can fire again
+  var reloadOf = (id, r) => {
+    wear(EquipmentSlot.MAINHAND, Item.of(id)); var st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem'), tg = c0(st, 'getOrCreateTag'), cd = c0(P, 'getCooldowns'), n = 0
+    while (n < 400 && c1(cd, 'isOnCooldown', it)) { ticks(1); n++ }
+    c2(tg, 'putDouble', 'ammoLoaded', 0); c3(it, 'use', level, P, MAIN)   // an empty gun, used: it writes its maxAmmo
+    if (!c1(tg, 'contains', 'maxAmmo')) return
+    r.mag = c1(tg, 'getDouble', 'maxAmmo'); n = 0; while (n < 400 && c1(cd, 'isOnCooldown', it)) { ticks(1); n++ }
+    c2(tg, 'putDouble', 'ammoLoaded', 0); c1(P, 'setShiftKeyDown', true)
+    try { c3(it, 'use', level, P, MAIN); n = 0; while (n < 400 && c1(cd, 'isOnCooldown', it)) { ticks(1); n++ } r.reload = n; r.loaded = c1(tg, 'getDouble', 'ammoLoaded') }
+    finally { c1(P, 'setShiftKeyDown', false) }
   }
   var ranged = id => {
     reset(); ammo()
@@ -466,6 +484,7 @@ LGW.run = (server, who, name) => {
         r.shots.push(s); drop(d); clearShots()
         if (++k < 3) return shot()
         out.ranged[id] = r
+        if (how == 'use') safe('reload', () => reloadOf(id, r), id)
         // every drawn weapon: a held trigger (a gatling, a beam) fires on through the hold, which only world time shows
         return how == 'draw' ? dcurve(id, r, 0) : null
       }
