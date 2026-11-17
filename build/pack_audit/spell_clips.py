@@ -160,6 +160,7 @@ TARGETS = {'dummy': ('dummmmmmy:target_dummy', '', 'peaceful'),
            'bat': ('minecraft:bat', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f]}', 'easy'),
            'drowned': ('minecraft:drowned', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f]}', 'easy'),
            'baby_pig': ('minecraft:pig', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Age:-24000}', 'easy'),
+           'husk20': ('minecraft:husk', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f]}', 'easy'),   # its own 20 health
            'magma': ('minecraft:magma_cube', '{NoAI:1b,Silent:1b,PersistenceRequired:1b,Size:1}', 'easy'),   # fire immune, does not burn on its own
            'husk_ai': ('minecraft:husk', '{Silent:1b,PersistenceRequired:1b,Rotation:[90f,0f],Attributes:[{Name:"minecraft:generic.max_health",Base:1000d}],Health:1000f}', 'easy')}   # with AI (fear, madness); a husk, as a zombie burns in the evening sun
 # camera keyframes (x, y, z offsets from the stage centre X, Z; yaw; pitch), a slow dolly from the first to the second; field of view 50
@@ -417,8 +418,9 @@ SETUP.update({'goety:banish_focus': {'target': 'husk', 'gap': 1.5, 'cam': 'eyes'
               'goety:ender_chest_focus': {'cam': 'eyes', 'secs': 5, 'crop': 'crop=960:540:480:270', 'pre': ['item replace entity RenderBot enderchest.%d with minecraft:%s' % (k, it) for k, it in
                                           enumerate(('diamond 12', 'emerald 30', 'golden_apple 4', 'ender_pearl 16', 'iron_ingot 64', 'book 8'))]}})
 # Brutality spells that need more than the default stage (from each spell's own description in the jar's lang file)
-SETUP.update({'brutality:dematerialize': {'target': 'pig'},   # deletes a mob whose health is under its threshold (the husk has 1000)
-              'brutality:gravitokinesis': {'target': 'pig'}, 'brutality:light_binding': {'target': 'husk_ai'},   # pulls a mob; halts a moving one
+# a TARGET spell needs the crosshair on the mob: the eye ray aims at chest height and passed over the pig (0.9 tall), so these take a husk
+SETUP.update({'brutality:dematerialize': {'target': 'husk20'},   # deletes a mob whose health is under its threshold (the stage husk has 1000)
+              'brutality:gravitokinesis': {'target': 'husk_ai'}, 'brutality:light_binding': {'target': 'husk_ai'},   # pulls a mob; halts a moving one
               'brutality:void_walk': {'cam': 'far'}, 'brutality:cosmic_cataclysm': {'cam': 'far', 'secs': 10},
               'brutality:divine_retribution': {'secs': 14}, 'brutality:nightfall': {'secs': 9}, 'brutality:chthonic_capsule': {'secs': 9},
               'brutality:moonlit_mending': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1, 'pre': ['damage RenderBot 12 minecraft:generic']},
