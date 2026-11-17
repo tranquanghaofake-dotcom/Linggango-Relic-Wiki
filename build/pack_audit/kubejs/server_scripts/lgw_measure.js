@@ -40,10 +40,10 @@ LGW.SRG = {
   getDeltaMovement: ['m_20184_'], getBaseDamage: ['m_36789_'], getOwner: ['m_19749_'], setOwner: ['m_5602_'], shoot: ['m_6686_'],
   setDeltaMovement: ['m_20256_'], resetFallDistance: ['m_183634_'], isNoGravity: ['m_20068_'], setGameMode: ['m_143403_'],
   getOrCreateTag: ['m_41784_'], putDouble: ['m_128347_'], getCooldowns: ['m_36335_'], isOnCooldown: ['m_41519_'],
-  setTarget: ['m_6710_'], getUUID: ['m_20148_']
+  setTarget: ['m_6710_'], getUUID: ['m_20148_'], useOn: ['m_6225_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
-  BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_', hurtTime: 'f_20916_', SURVIVAL: 'f_46392_' }
+  BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_', hurtTime: 'f_20916_', SURVIVAL: 'f_46392_', UP: 'f_122401_' }
 // the member name to use on o: the Mojang one if Rhino shows it, else the first SRG name o has
 LGW.K = (o, n) => {
   try { if (typeof o[n] === 'function') return n } catch (x) {}
@@ -469,6 +469,12 @@ LGW.run = (server, who, name) => {
     var z = newEnt('minecraft:zombie'), r = { kinds: {} }
     safe('minion target', () => { c3(z, 'setPos', X + 4, Y, Z); c1(z, 'setNoAi', true); c1(z, 'setNoGravity', true); c1(c1(z, 'getAttribute', A_HP), 'setBaseValue', 1000); c1(z, 'setHealth', 1000); c1(level, 'addFreshEntity', z); spawned.push(z) }, id)
     safe('summon', () => { var st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem'); c3(it, 'use', level, P, MAIN); if (c0(P, 'isUsingItem')) { ticks(30); c0(P, 'releaseUsingItem') } }, id)
+    // Summonity's staffs summon on a right click on a block (useOn), not in the air: the floor 2 blocks ahead (the tester stands 3
+    // blocks up, the floor's top block is at Y - 4)
+    safe('summon on block', () => { var st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem')
+      var BP = Java.loadClass('net.minecraft.core.BlockPos'), V3 = Java.loadClass('net.minecraft.world.phys.Vec3'), D = fld(Java.loadClass('net.minecraft.core.Direction'), 'UP')
+      var hit = new (Java.loadClass('net.minecraft.world.phys.BlockHitResult'))(new V3(X + 2, Y - 3, Z), D, new BP(Math.floor(X) + 2, Math.floor(Y) - 4, Math.floor(Z)), false)
+      c1(it, 'useOn', new (Java.loadClass('net.minecraft.world.item.context.UseOnContext'))(P, MAIN, hit)) }, id)
     var setOn = () => { var n = 0; (near() || []).forEach(o => { var u = ''; try { u = '' + c0(o.e, 'getUUID') } catch (e) {} if (before[u] || o.e == z) return
       try { c1(o.e, 'setTarget', z); n++; r.kinds[o.id] = (r.kinds[o.id] || 0) + 1 } catch (e) {} }); return n }
     return { wait: 5, then: () => { r.n = setOn(); var h0 = hp(z)
