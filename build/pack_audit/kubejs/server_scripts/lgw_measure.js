@@ -532,6 +532,12 @@ LGW.run = (server, who, name) => {
   ;(plan.curios || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return } cur = id; safe('curio', () => { out.curios[id] = curio(id) }, id) }))
   // jobs that return { wait, then } go on after that many server ticks (shots in flight)
   if (plan.probe) { out.probe = []; jobs.push(() => { reset(); return arrowProbe(true) }); jobs.push(() => arrowProbe(false)) }
+  // why the tester takes no damage in the hurt test (2026-11-17, a 6.6.6cf server: 8 in, 0 out for every kind, bare too): an 8-damage
+  // mob hit on the tester walked through each listener of LivingHurtEvent and LivingDamageEvent, noting which one changes it
+  if (plan.hurtTrace) jobs.push(() => { reset(); var r = {}, d = dummy(), src = c1(c0(level, 'damageSources'), 'mobAttack', d)
+    safe('hurt trace hurt', () => walk(r, 'LivingHurtEvent', () => new LivingHurtEvent(P, src, 8), true))
+    safe('hurt trace damage', () => walk(r, 'LivingDamageEvent', () => new LivingDamageEvent(P, src, 8), true))
+    r.hurt = hurt(8); out.hurtTrace = r; drop(d) })
   ;(plan.ranged || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } var w = null; safe('ranged', () => { w = ranged(id) }, id); return w }))
   ;(plan.blocks || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } cur = id; var w = null; safe('blocks', () => { w = blocks(id) }, id); return w }))
   var i = 0, next = 0
