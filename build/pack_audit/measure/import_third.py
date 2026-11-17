@@ -41,6 +41,9 @@ for k, v in R.items():
     # ticks a shot takes (lgw_measure.js drawCurve, 2026-11-17): a crossbow's charge, else the fewest ticks of drawing that reach
     # 97% of the fastest shot (the vanilla Bow reads 20, the Trident 10); none for an item thrown on use
     t = v.get("charge") or v.get("full")
+    # a weapon used, not drawn (a gun, a throwable): the game's item cooldown after each use (lgw_measure.js, 2026-11-17)
+    cds = [s["cd"] for s in v["shots"] if s.get("how") == "use" and s.get("cd")]
+    if not t and cds: t = statistics.median(cds)
     if t: o["rng"]["t"] = t
     h1 = [s.get("dmg", 0) for s in (K1.get(k) or {}).get("shots", []) if s.get("dmg", 0) > 0]
     if h1:

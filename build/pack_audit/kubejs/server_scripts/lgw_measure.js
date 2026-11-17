@@ -38,7 +38,9 @@ LGW.SRG = {
   releaseUsing: ['m_5551_'], getUseDuration: ['m_8105_'], use: ['m_7203_'], getItem: ['m_41720_'], add: ['m_36054_'], isCharged: ['m_40932_'],
   isUsingItem: ['m_6117_'], releaseUsingItem: ['m_21253_'], getTicksUsingItem: ['m_21252_'], arrow: ['m_269418_'], getEncodeId: ['m_20078_'],
   getDeltaMovement: ['m_20184_'], getBaseDamage: ['m_36789_'], getOwner: ['m_19749_'], setOwner: ['m_5602_'], shoot: ['m_6686_'],
-  setDeltaMovement: ['m_20256_'], resetFallDistance: ['m_183634_'], isNoGravity: ['m_20068_'], setGameMode: ['m_143403_']
+  setDeltaMovement: ['m_20256_'], resetFallDistance: ['m_183634_'], isNoGravity: ['m_20068_'], setGameMode: ['m_143403_'],
+  getOrCreateTag: ['m_41784_'], putDouble: ['m_128347_'], getCooldowns: ['m_36335_'], isOnCooldown: ['m_41519_'],
+  setTarget: ['m_6710_'], getUUID: ['m_20148_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
   BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_', hurtTime: 'f_20916_', SURVIVAL: 'f_46392_' }
@@ -102,7 +104,7 @@ LGW.run = (server, who, name) => {
   var HITS = plan.hits || 3
   var level = who ? who.level : server.overworld()
   var say = m => { console.info('lgw_measure: ' + m); try { if (who) who.tell(m) } catch (e) {} }
-  var out = { started: '' + new Date(), check: {}, attrs: {}, melee: {}, armor: {}, grows: {}, curios: {}, ranged: {}, blocks: {}, errors: {} }
+  var out = { started: '' + new Date(), check: {}, attrs: {}, melee: {}, armor: {}, grows: {}, curios: {}, ranged: {}, blocks: {}, minions: {}, errors: {} }
   var told = 0
   var err = (stage, e, id) => {
     var w = typeof e == 'string' ? e : LGW.why(e), k = stage + ': ' + w.split(' @ ')[0].substring(0, 300)
@@ -124,6 +126,10 @@ LGW.run = (server, who, name) => {
     'the_shadow_keeper', 'the_cataclysm_keeper', 'the_elvenite_keeper', 'the_voiderite_keeper', 'the_sun_keeper', 'overworld_conqueror']
   var grant = () => {
     var mgr, pa, got = [], miss = []
+  // Linggango's Difficulty Enhancement cancels every hit on a player until the world's difficulty is chosen (SetupGuard): a fresh
+  // test world never chose one, so the tester took no damage (2026-11-17). Choose it here with no modifiers, as its setup screen does
+  safe('difficulty setup', () => { var DS = Java.loadClass('com.misanthropy.linggango.difficulty_enhancement.core.DifficultyState'), st = DS.of(server)
+    if (!st.setupComplete()) st.setActive(new (Java.loadClass('java.util.ArrayList'))()) })
     if (!safe('grant', () => { mgr = c0(server, 'getAdvancements'); pa = c0(P, 'getAdvancements') })) { say('could not give the tester the Keeper advancements'); return }
     KEEPERS.forEach(k => {
       var ok = safe('grant ' + k, () => {
@@ -397,26 +403,37 @@ LGW.run = (server, who, name) => {
     var r = { ad: c1(P, 'getAttributeValue', A_AD), shots: [] }, k = 0
     safe('draw curve', () => { var dc = drawCurve(id); r.curve = dc.curve; r.full = dc.full; r.charge = dc.charge }, id)
     reset(); wear(EquipmentSlot.OFFHAND, Item.of('minecraft:arrow', 64))
+    // a gun needs rounds loaded (Terramity keeps them in the stack's ammoLoaded) and an energy weapon needs charge (Mekanism, Just
+    // Dire Things): both are given before each shot, so the weapon fires the way it does in a real fight (2026-11-17)
+    var arm = st => {
+      try { c2(c0(st, 'getOrCreateTag'), 'putDouble', 'ammoLoaded', 999) } catch (e) {}
+      try { var EN = Java.loadClass('net.minecraftforge.common.capabilities.ForgeCapabilities').ENERGY; st.getCapability(EN).ifPresent(e => { e.receiveEnergy(2147483647, false) }) } catch (e) {}
+    }
     var shot = () => {
-      wear(EquipmentSlot.MAINHAND, Item.of(id)); ticks(5)
-      // the target's health: 10,000, or the plan's rhp (1,000: the health melee scores take for a share-of-max-health weapon)
+      wear(EquipmentSlot.MAINHAND, Item.of(id)); arm(c0(P, 'getMainHandItem')); ticks(5)
+      // the target's health: 10,000, or the plan's rhp (1,000: the health melee scores take for a share-of-max-health weapon). Two more
+      // targets, nearer and lower, catch what is thrown in an arc (Brutality's throwables fell short of the one at eye height); the
+      // shot reads the one that lost most
       var d = dummy({ max: plan.rhp || 10000, dx: 5, dy: 0.9 }), h0 = hp(d), st = c0(P, 'getMainHandItem'), how = '', s = {}
+      var lows = [dummy({ max: plan.rhp || 10000, dx: 3, dy: -1 }), dummy({ max: plan.rhp || 10000, dx: 2, dy: -2.5 })], lh = lows.map(e => hp(e))
       safe('shoot', () => {
         var it = c0(st, 'getItem')
         c3(it, 'use', level, P, MAIN)
-        if (!c0(P, 'isUsingItem')) { how = 'use'; return }
+        // used, not drawn (a gun, a throwable): how long until it can be used again, from the game's item cooldowns
+        if (!c0(P, 'isUsingItem')) { how = 'use'; safe('use cooldown', () => { var cd = c0(P, 'getCooldowns'), n = 0; while (n < 200 && c1(cd, 'isOnCooldown', it)) { ticks(1); n++ } s.cd = n }, id); return }
         ticks(40); s.drawn = c0(P, 'getTicksUsingItem'); s.py = r1(c0(P, 'getY') - Y); c0(P, 'releaseUsingItem'); how = 'draw'
         var cb = false; try { cb = !!c1(it, 'isCharged', st) } catch (e) {}
         if (cb) { c3(it, 'use', level, P, MAIN); how = 'crossbow' }
       }, id)
       var fin = () => {
-        s.dmg = Math.round((h0 - hp(d)) * 100) / 100; s.how = how; s.tfx = fx(d); s.fire = c0(d, 'getRemainingFireTicks')
+        var low = 0; lows.forEach((e, j) => { low = Math.max(low, lh[j] - hp(e)); drop(e) })
+        s.dmg = Math.round(Math.max(h0 - hp(d), low) * 100) / 100; s.how = how; s.tfx = fx(d); s.fire = c0(d, 'getRemainingFireTicks')
         if (plan.probe) { var h = hitOf(d); s.src = h.src; s.hurtTime = h.hurtTime }
         r.shots.push(s); drop(d); clearShots()
         if (++k < 3) return shot()
         out.ranged[id] = r; return null
       }
-      if (!plan.probe) return { wait: 20, then: fin }
+      if (!plan.probe) return { wait: how == 'use' ? 40 : 20, then: fin }
       return { wait: 3, then: () => {
         var l = near(); s.flying = plain(l)
         if (k == 0 && l && l.length) safe('trace shot', () => {
@@ -439,6 +456,20 @@ LGW.run = (server, who, name) => {
     return { wait: 20, then: () => { o.dmg = Math.round((h0 - hp(d)) * 100) / 100; var h = hitOf(d); o.src = h.src; o.hurtTime = h.hurtTime
       o.after = plain(near()); out.probe.push(o); drop(d); clearShots()
       say('plain arrow ' + (owned ? 'owned by the tester' : 'with no owner') + ': ' + o.dmg + ' damage, pig last hurt by ' + o.src); return null } }
+  }
+  // 6. minions (2026-11-17): the summon weapon used once (drawn and let go if it draws), with charge and rounds given as for shots;
+  // a 1,000-health zombie with no AI 4 blocks ahead; every new creature near the tester that can target is set on it; after 200 ticks
+  // of world time the zombie's lost health is what the minions dealt (out.minions[id]: dmg in 10 s, how many came, what they are)
+  var minions = id => {
+    reset(); clearAll(); wear(EquipmentSlot.MAINHAND, Item.of(id)); arm(c0(P, 'getMainHandItem')); ticks(5)
+    var before = {}; (near() || []).forEach(o => { try { before['' + c0(o.e, 'getUUID')] = 1 } catch (e) {} })
+    var z = newEnt('minecraft:zombie'), r = { kinds: {} }
+    safe('minion target', () => { c3(z, 'setPos', X + 4, Y, Z); c1(z, 'setNoAi', true); c1(z, 'setNoGravity', true); c1(c1(z, 'getAttribute', A_HP), 'setBaseValue', 1000); c1(z, 'setHealth', 1000); c1(level, 'addFreshEntity', z); spawned.push(z) }, id)
+    safe('summon', () => { var st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem'); c3(it, 'use', level, P, MAIN); if (c0(P, 'isUsingItem')) { ticks(30); c0(P, 'releaseUsingItem') } }, id)
+    var setOn = () => { var n = 0; (near() || []).forEach(o => { var u = ''; try { u = '' + c0(o.e, 'getUUID') } catch (e) {} if (before[u] || o.e == z) return
+      try { c1(o.e, 'setTarget', z); n++; r.kinds[o.id] = (r.kinds[o.id] || 0) + 1 } catch (e) {} }); return n }
+    return { wait: 5, then: () => { r.n = setOn(); var h0 = hp(z)
+      return { wait: 100, then: () => { setOn(); return { wait: 100, then: () => { r.dmg = Math.round((h0 - hp(z)) * 100) / 100; r.ticks = 200; out.minions[id] = r; drop(z); clearAll(); return null } } } } } }
   }
   // 5. a curio that cancelled its one test hit (first extra run): ten 8-damage hits 20 ticks apart (the tester ticked through
   // them too, so cooldowns run either way), to see how often it blocks
@@ -539,6 +570,7 @@ LGW.run = (server, who, name) => {
     safe('hurt trace damage', () => walk(r, 'LivingDamageEvent', () => new LivingDamageEvent(P, src, 8), true))
     r.hurt = hurt(8); out.hurtTrace = r; drop(d) })
   ;(plan.ranged || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } var w = null; safe('ranged', () => { w = ranged(id) }, id); return w }))
+  ;(plan.minions || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } cur = id; var w = null; safe('minions', () => { w = minions(id) }, id); return w }))
   ;(plan.blocks || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } cur = id; var w = null; safe('blocks', () => { w = blocks(id) }, id); return w }))
   var i = 0, next = 0
   say('starting: ' + jobs.length + ' measurements; the game slows down until it is done')

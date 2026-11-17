@@ -1,5 +1,5 @@
 """Write the plan for kubejs/server_scripts/lgw_measure.js: which items to measure in game.
-Usage: prep.py OUT.json [--test] [--extra | --third] [--auto --stop]
+Usage: prep.py OUT.json [--test] [--extra | --third [--guns] [--only-missed]] [--auto --stop]
   copy OUT.json to the game's kubejs/lgw_items.json (or kubejs/lgw_test_items.json with --test: 5 weapons, 2 sets, 10 items);
   --auto starts it 200 ticks after a dedicated server loads, --stop shuts the server down when done
 --extra writes the second plan instead (kubejs/lgw_extra_items.json, /kubejs custom_command lgw_measure_extra): the weapons the
@@ -29,7 +29,12 @@ if "--third" in sys.argv:
     M = json.loads((H / "patches" / "gear_measure.json").read_text(encoding="utf-8"))
     CMx = json.loads((H / "patches" / "curio_measure.json").read_text(encoding="utf-8"))["curios"]
     GUN = re.compile(r"Gun|Rifle|Pistol|Shotgun|Revolver|Blaster|Railgun|Musket|Launcher")
-    ranged = sorted(g["id"] for g in GE if g["k"] == "ranged" and not any(GUN.search(c) for c in g.get("cls") or []))
+    # every gun is tried too (2026-11-17): Terramity's fire on right click once rounds are loaded, which lgw_measure.js now gives;
+    # a gun that fires through its own key packet reads 0 and says so on its page
+    ranged = sorted(g["id"] for g in GE if g["k"] == "ranged" and ("--guns" in sys.argv or not any(GUN.search(c) for c in g.get("cls") or [])))
+    # --only-missed: the shooters the measured shots have no number for yet (no shot that did damage, or no rate)
+    if "--only-missed" in sys.argv:
+        ranged = [x for x in ranged if not ((M["items"].get(x) or {}).get("rng") or {}).get("t")]
     grows = sorted(k for k, v in M["items"].items() if v.get("st") in ("grows", "pct") or v.get("swx"))
     blocks = sorted(k for k, v in CMx.items() if any(x != "fall" for x in v.get("neg") or []))
     probe = "--test" in sys.argv
