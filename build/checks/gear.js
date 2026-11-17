@@ -122,7 +122,7 @@ for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(
       ['Flames Of Eldritch (Lv 3)', 'MA', 'fire'], ['Flames Of Eldritch (Lv 3)', 'MA', 'eldritch'],
       ['Soul Whip', 'SU', 'summonity'], ['Soul Whip', 'SU', 'whip'], ['Spectre Whip', 'SU', 'goety'], ['Spectre Whip', 'SU', 'whip'], ['Imp Staff', 'SU', 'staff']];
   for (const [n, r, k] of want) { const x = at(n, r); if (!x.length || x.some(v => !v.includes(k))) bad.push(`equip-groups: ${n} (${r}) should be in "${k}": ${JSON.stringify(x)}`); }
-  for (const r of R) { await go(`#gear/${a}/${r}/w`); const all = tiles().length, counts = [...document.querySelectorAll('#main .gseg.subs a .n')].map(x => +x.textContent), total = counts[0], per = counts.slice(1), keys = GSUB[r].map(x => x[0]).filter(k => k !== 'attack').filter(k => listed(r).some(g => gSubOf(g, r).includes(k)));
+  for (const r of R) { await go(`#gear/${a}/${r}/w`); const all = tiles().length, counts = [...document.querySelectorAll('#main .gseg.subs a')].filter(a => !/\/attack$/.test(a.getAttribute('href'))).map(a => +a.querySelector('.n').textContent), total = counts[0], per = counts.slice(1), keys = GSUB[r].map(x => x[0]).filter(k => k !== 'attack').filter(k => listed(r).some(g => gSubOf(g, r).includes(k)));
     if (!total || per.length !== keys.length || per.some(n => !n || n > total) || ((r === 'ME' || r === 'RA') && per.reduce((x, y) => x + y, 0) !== total)) bad.push(`equip-groups: ${r} counts ${total} / ${per.join(', ')} for groups ${keys.join(', ')}`);
     for (const k of keys) { await go(`#gear/${a}/${r}/w/${k}`); const ts = tiles();
       if (!ts.length) bad.push(`equip-groups: ${r}/${k} shows nothing`);

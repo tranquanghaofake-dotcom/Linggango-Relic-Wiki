@@ -2051,3 +2051,41 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   - (2) Summon: chưa viết script đo minion.
   - (3) 45 món bắn ra 0 cần cách bắn riêng: đồ ném của Brutality, món cần năng lượng, súng.
   - (4) Các mục open cũ.
+
+## 2026-11-17 (tiếp 6): đo lại toàn bộ trên người thử đã sửa; Ranged 76, bảng "Own attack" cho Mage, giáp 313/313; tài liệu tổng hợp
+- **Ý chủ wiki**:
+  - "tìm cách xếp hạng đúng tất cả vũ khí và giáp" → chọn chạy cả 3 phần: đo lại, Ranged còn lại, Summon;
+  - 41 món Mage không cộng gì cho phép → "một bảng riêng với tên gọi hợp lý";
+  - "tổng hợp, sắp xếp logic" → chỉ cần tài liệu (`docs/TIER_LIST.md`), không làm mod;
+  - "làm" → làm tiếp mục 7 của tài liệu.
+- **Thêm hai lỗi của bài đo, đã sửa** (`lgw_measure.js`):
+  - Difficulty Enhancement (`SetupGuard`) huỷ mọi đòn vào người chơi cho tới khi chọn độ khó; tìm ra bằng `hurtTrace` (lần theo từng listener). Script nay tự chọn độ khó, không modifier.
+  - Con lợn đóng vai kẻ đánh có 5% chí mạng Apothic (8 → 12, bị trần 10 cắt) → 69–84 số đo "nhận thêm 25%" ngẫu nhiên. Nay chí mạng của nó bằng 0; số đo bị chặn trần còn 8.
+- **Đo lại** trên server 6.6.6cf:
+  - lượt chính: 3518 thuộc tính, 1048 vũ khí, 314 bộ giáp, khoảng 6 phút;
+  - lượt phụ: 1321 curio cộng 13 vũ khí theo mục tiêu;
+  - lượt bắn ở 1.000 máu: 74 món Ranged còn lại, 102 món Mage (đòn riêng), 8 curio chặn đòn, 16 vũ khí quay mặt.
+  - Bài bắn nay nạp sẵn đạn (`ammoLoaded`), nạp năng lượng Forge, thêm hai con lợn thấp cho đồ ném, và đọc thời gian hồi item.
+- **Kết quả**:
+  - Melee: 977/1010 khớp lần cũ; 7 món lần cũ bị thổi ×1.5 (người thử đang rơi).
+  - Ranged 76/144 có tier (trước 71).
+  - Bảng "Own attack" (`#gear/…/MA/w/attack`, pool `x`): 7 món có tier.
+  - Giáp: Hazmat và Scuba của Mekanism có số (giáp 0, code và số đo cùng nói 0).
+  - Chặn đòn: Ace of Iron 0/10 (cũ 3/10); Opal Necklace, Ethereal Eclipse Emblem, Shinobi Sash mỗi món 1/10.
+  - Lethality với mục tiêu 0 giáp: không tăng gì. Warpslice Scabbard và Portable Quantum Thingamabob mất +70%/+100% cũ.
+  - Chthonic Shell Casing: ×1.3 khi xa trên 3 khối, đọc trong jar (`GHITCODE`).
+  - Charged Redstone Piece: buff Amped lấy theo nhát thứ hai (`hit2`).
+- **Summon dừng sau 2 cách**:
+  - `use()`: không có minion nào xuất hiện.
+  - Nhấp vào khối sàn (`useOn`, đúng cách gậy Summonity triệu hồi): 6/23 món làm zombie mất 7.5–15 máu, nhưng không đếm được minion nào, và một cây roi cũng gây sát thương. Số không tin được nên không nhập. 24 món giữ trạng thái "chưa xếp".
+- **Sửa nhỏ**:
+  - mẫu chữ: "fall damage" không còn bị đọc là "all damage"; "từ xa" chỉ khi là sát thương gây ra; "tầm gần < 3 m" là cận chiến;
+  - `import_third.py` dùng Bow làm món chuẩn để quyết định giữ hay bỏ một lượt;
+  - nút nhóm của Mage đếm theo bảng chính dù đang mở "Own attack".
+- **Tài liệu**: `docs/TIER_LIST.md` (tiếng Việt) gom nguyên tắc, công thức, cách đo, sự thật đã kiểm trong jar, trạng thái và các bước còn lại.
+- **Kiểm**:
+  - `checks/gear.js` và `checks/curio_class.js` 0 lỗi; thêm kiểm cho Summon, bảng "Own attack" và số đếm nút nhóm.
+  - QA 0 lỗi cứng; 1410/1410 câu.
+  - Ảnh đã xem: `#gear/12/MA/w/attack` 1440 và 375; `#gear/12/SU/w`; ghi chú của Chthonic Shell Casing.
+  - `check.sh`: ghi trong commit.
+- **Open**: mục 7 và 8 của `docs/TIER_LIST.md` (Summon, 68 món Ranged, lethality theo giáp của Keeper, combo của Better Combat, kỹ năng chủ động, hệ số k).

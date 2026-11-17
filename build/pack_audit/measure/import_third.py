@@ -29,7 +29,10 @@ items, curios = GM["items"], CM["curios"]
 nr = nm = 0
 R = X.get("ranged") or {}
 hit_any = sum(1 for v in R.values() if any(s.get("dmg", 0) > 0 for s in v.get("shots", [])))
-if R and hit_any < 0.5 * len(R):
+# a run whose calibration shooter (the vanilla Bow) hit is sound however many others missed: Mage weapons with no attack of their
+# own and throwables that need other targets read 0 by nature (2026-11-17)
+bow_hit = any(s.get("dmg", 0) > 0 for s in (R.get("minecraft:bow") or {}).get("shots", []))
+if R and hit_any < 0.5 * len(R) and not bow_hit:
     print("ranged left out:", hit_any, "of", len(R), "shooters did any damage"); R = {}
 for k, v in R.items():
     d = [s.get("dmg", 0) for s in v.get("shots", [])]

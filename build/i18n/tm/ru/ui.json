@@ -865,6 +865,7 @@
 "1iq5gbl8tu9": {"en": "Read from the item's code (each piece's own effect while worn).", "t": "Прочитано из кода предмета (собственный эффект каждой части, пока она надета).", "s": "llm"},
 "21fbifbh0xw": {"en": "Read from the item's code.", "t": "Прочитано из кода предмета.", "s": "llm"},
 "20h4nsq5kyo": {"en": "Read from the mods' code by a script: it looks at how each curio's bonuses are keyed and how its effects check what you wear. Effects coded in unusual ways can be missed.", "t": "Прочитано скриптом из кода модов: он смотрит, как у каждого аксессуара заданы ключи бонусов и как его эффекты проверяют, что на вас надето. Эффекты, написанные необычным способом, могут быть пропущены.", "s": "llm"},
+"z82tgvhh80": {"en": "Read in its code, not measured: it multiplies a hit by 1.3 when the target is more than 3 blocks away, which the test's sword swing at 1.2 blocks cannot meet. Counted for shots and spells from range.", "t": "Прочитано в коде, а не измерено: он умножает удар на 1,3, когда цель дальше 3 блоков, а удар мечом в тесте с 1,2 блока этого не достигает. Учитывается для выстрелов и заклинаний издалека.", "s": "llm"},
 "86ebcwq0a0": {"en": "Recently opened", "t": "Недавно открытые", "s": "llm"},
 "1meiqiou36z": {"en": "Recipe tree", "t": "Дерево рецептов", "s": "llm"},
 "w5td8hqlk0": {"en": "Recovery", "t": "Восстановление", "s": "llm"},

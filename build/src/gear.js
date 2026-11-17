@@ -220,14 +220,18 @@ const GHITALL=/^(lethality|armor_penetration|armor_pierce|crit_chance|crit_damag
 const GHFAR=/dealt from range|\(\s*>\s*\d+ ?m\)/i,GHNEAR=/close[- ]range|\(\s*<\s*\d+ ?m\)/i;
 const GHME=/(melee|slash|sword|blunt) damage(?! taken)|melee hits/i,GHRA=/(ranged|arrow|projectile) damage(?! taken)|damage dealt from range/i;
 const GHALL=/damage (dealt|boost|increase|modifier|multiplier)|\ball damage|(\d|%)\s*damage\b(?! taken| reduction)|damage\s*[×x]\s*\d|(extra|more|bonus|additional) damage/i;
-const gHitX=m=>{if(!m||!m.hit)return 0;const d=m.d||{},bc=d["brutality:critical_strike_chance"]||0;
+const gHitX=(m,c)=>{if(!m)return 0;const hv=c&&GHITBUFF[c.id]&&m.hit2?m.hit2:m.hit;if(!hv)return 0;const d=m.d||{},bc=d["brutality:critical_strike_chance"]||0;
  // with Brutality's crit chance at 100% every test swing was a crit (Divine Immolation: 1.4, its base x1.4); gCritME counts it
- const h=bc>=1?m.hit/(1.4+(d["brutality:critical_strike_damage"]||0)):m.hit,x=h-1-(d["minecraft:generic.attack_damage"]||0)/CMREF;return Math.abs(x)>.005?x:0};
+ const h=bc>=1?hv/(1.4+(d["brutality:critical_strike_damage"]||0)):hv,x=h-1-(d["minecraft:generic.attack_damage"]||0)/CMREF;return Math.abs(x)>.005?x:0};
 /* hits a buff explains that the curio's text does not name (read in the jar and seen in the 2026-11-17 re-measure): Charged Redstone
    Piece grants Amped on a hit, and Lethality's LivingHurtEvent handler raises the next hits by half when the direct attacker is a
-   player (melee); its first test swing read 15 and its second 22.5 */
+   player (melee); its first test swing read 15 and its second 22.5 (hit2) */
 const GHITBUFF={"lethality:charged_redstone_piece":"ME"};
-function gHitKind(c,m){if(!gHitX(m))return "";if(c&&GHITBUFF[c.id])return GHITBUFF[c.id];const ks=Object.keys(m.d||{}).map(GCK);if(ks.some(k=>GHITA.test(k)))return "ME";
+/* effects read in a curio's code whose condition the test cannot meet: Chthonic Shell Casing multiplies a hit by 1.3 when the target
+   is more than 3 blocks away (ChthonicShellCasingProcProcedure: sqrt of the squared distances > 3.0), and the test sword swings at
+   1.2 (2026-11-17; the earlier 1.3 came from a tester who had fallen 3 blocks): shots and spells from range (dmg_far) */
+const GHITCODE={"terramity:chthonic_shell_casing":["dmg_far",.3]};
+function gHitKind(c,m){if(!gHitX(m,c))return "";if(c&&GHITBUFF[c.id])return GHITBUFF[c.id];const ks=Object.keys(m.d||{}).map(GCK);if(ks.some(k=>GHITA.test(k)))return "ME";
  if(ks.some(k=>GHITALL.test(k)))return "ALL";
  const t=c?[c.fx||"",...(c.st||[])].join(" / "):"";if(GHNEAR.test(t))return "ME";if(GHFAR.test(t))return "FAR";const me=GHME.test(t),ra=GHRA.test(t);
  return me&&!ra?"ME":ra&&!me?"RA":me||ra||GHALL.test(t)?"ALL":""}
@@ -254,7 +258,8 @@ function gCurioAt(m,c){const at={},add=(k,i,v)=>{(at[k]=at[k]||[0,0])[i]+=v},d=m
  for(const k in d){const p=GCK(k),v=d[k];
   if(p==="attack_speed"){const h=c?gAsKind(v,txt):"pct";if(h==="flat")add(p,0,v);else if(h)add(p,1,v/GTESTAS)}
   else if(p==="max_health"&&hpPct)add(p,1,v/GTESTHP);else add(p,GCADD.test(p)?0:1,v)}
- {const x=gHitX(m),h=x&&gHitKind(c,m);if(h)add(h==="ME"?"attack_damage":h==="RA"?"arrow_damage":h==="FAR"?"dmg_far":"dmg_all",1,x)}
+ if(c&&GHITCODE[c.id])add(GHITCODE[c.id][0],1,GHITCODE[c.id][1]);
+ {const x=gHitX(m,c),h=x&&gHitKind(c,m);if(h)add(h==="ME"?"attack_damage":h==="RA"?"arrow_damage":h==="FAR"?"dmg_far":"dmg_all",1,x)}
  for(const [e,l] of m.fx||[]){if(e==="minecraft:resistance")add("resistance",1,gRes(l));if(e==="minecraft:health_boost"||e==="minecraft:absorption")add("max_health",0,4*l)}
  return at}
 const GCS=new Map();
@@ -302,7 +307,7 @@ function gCurioMs(c){const m=typeof CM!=="undefined"&&CM[c.id];if(!m)return "";c
  return `${sc.length?`<p class="gverd" style="--gc:${GTIER[0][2]}"><b>${gTierOf(c,a,sc[0][0],gShared(c,sc[0][0],a)?"s":gOwn(c,sc[0][0],a)?"o":"v")||"–"}</b><span>${T("On a typical {act} build it adds {gains}. {link}",{act:esc(actL(a)),gains:sc.map(([r,v])=>`<strong>+${Math.round((v-1)*100)}%</strong> ${GROLE[r]}`).join(", "),link:`<a href="#gear/${a}/${sc[0][0]}/c${gShared(c,sc[0][0],a)?"/shared":gOwn(c,sc[0][0],a)?"":"/any"}">${T("See the curio tiers")}</a>`})}</span></p>`:""}
 ${ctx?`<p class="note">${T("Not tiered: what it does depends on “{ctx}”, and the test met that condition or hid its cost: a bare player (no armor, empty hands when read, standing still, at full health when read and half health when swinging, below Y 0, in daylight) hitting a full-health pig with no AI (not hostile, it never noticed the player) with other mobs near, all in moments. These numbers would not hold in a real build.",{ctx:esc(ctx)})}</p>`:""}
 ${rows.length?`<h3>${T("Attributes")}</h3><ul class="gbon attr">${rows.join("")}</ul>`:""}
-${m.hit?`<table class="gst"><tr><td>${T("Diamond sword hit")}</td><td class="num">${gRound(CMREF)} → ${gRound(CMREF*m.hit)} (${m.hit>1?"+":""}${gRound((m.hit-1)*100)}%)</td></tr></table>`:""}${gHitX(m)&&!gHitKind(c,m)&&!ctx?`<p class="note">${T("Not counted: nothing in its text or its attributes explains this change to the sword hit. Measured again on 2026-11-17 with the test player held still, the change was gone (×1): the first test swung while the player was falling, which makes a vanilla jump critical (×1.5).")}</p>`:""}
+${m.hit?`<table class="gst"><tr><td>${T("Diamond sword hit")}</td><td class="num">${gRound(CMREF)} → ${gRound(CMREF*m.hit)} (${m.hit>1?"+":""}${gRound((m.hit-1)*100)}%)</td></tr></table>`:""}${GHITCODE[c.id]?`<p class="note">${T("Read in its code, not measured: it multiplies a hit by 1.3 when the target is more than 3 blocks away, which the test's sword swing at 1.2 blocks cannot meet. Counted for shots and spells from range.")}</p>`:""}${gHitX(m,c)&&!gHitKind(c,m)&&!ctx?`<p class="note">${T("Not counted: nothing in its text or its attributes explains this change to the sword hit. Measured again on 2026-11-17 with the test player held still, the change was gone (×1): the first test swung while the player was falling, which makes a vanilla jump critical (×1.5).")}</p>`:""}
 ${Object.keys(tk).length?`<table class="gst"><tr><th>${T("An 8-damage hit")}</th><th class="num">${T("You take")}</th><th class="num">${T("Without it")}</th></tr>${Object.keys(K).filter(k=>tk[k]!=null).map(k=>`<tr><td>${K[k]}</td><td class="num">${gRound(8*tk[k])}</td><td class="num">8</td></tr>`).join("")}</table>`:""}
 ${(m.neg||[]).includes("fall")?`<p class="note">${T("It cancelled the test fall damage: no fall damage while worn.")}</p>`:""}${m.blk?`<p class="note">${T("It blocked {blocked} of {n} melee hits of 8, a second or two apart: at that pace {pct}% of melee damage gets through (the pack lets 13% of a blocked hit land, zeroed_hit_floor), and that is in its score. Hit faster, a block on a cooldown stops a smaller share; hit seldom, a larger one.",{blocked:m.blk.blocked,n:m.blk.n,pct:gRound(m.blk.tk*100)})}</p>`:""}${(m.neg||[]).some(k=>k!=="fall"&&!(m.blk&&k==="melee"))?`<p class="note">${T("It cancelled the test hit outright ({kinds}): it blocks such hits, often on a cooldown or by chance, which one test hit cannot measure, so the block is not in its score. The pack still lets 13% of a hit an accessory zeroes land (zeroed_hit_floor).",{kinds:m.neg.filter(k=>k!=="fall"&&!(m.blk&&k==="melee")).map(k=>K[k]||k).join(", ")})}</p>`:""}
 ${m.hp?`<table class="gst"><tr><td>${T("Max health")}</td><td class="num">${m.hp>0?"+":""}${gRound(m.hp)}</td></tr></table>`:""}
@@ -448,7 +453,7 @@ function gearPage(h,miss){
  const attUnr=()=>GE.filter(g=>g.k!=="armor"&&"MA" in g.sc&&oiA(g.a)<=oiA(+a)&&!gHidden(g)&&gRng(g)==null).sort((x,y)=>TD(x.n).localeCompare(TD(y.n)));
  const unrAll=gUnranked(a,r,w),unr=att?attUnr():inSub?unrAll.filter(inSub):unrAll;
  const tiers=inSub?Object.assign(all.map(([t,xs])=>[t,xs.filter(inSub)]),{top:all.top}):all,pool=tiers.reduce((n,x)=>n+x[1].length,0)+unr.length;
- const subN=k=>w==="c"?gTiers(a,r,k==="any"?"v":k==="shared"?"s":"o").reduce((n,x)=>n+x[1].length,0):k==="attack"?gTiers(a,"MA","x").reduce((n,x)=>n+x[1].length,0)+attUnr().length:all.reduce((n,x)=>n+x[1].filter(g=>k===""||gSubOf(g,r).includes(k)).length,0)+unrAll.filter(g=>k===""||gSubOf(g,r).includes(k)).length;
+ const subN=k=>w==="c"?gTiers(a,r,k==="any"?"v":k==="shared"?"s":"o").reduce((n,x)=>n+x[1].length,0):k==="attack"?gTiers(a,"MA","x").reduce((n,x)=>n+x[1].length,0)+attUnr().length:(att?gTiers(a,r,w):all).reduce((n,x)=>n+x[1].filter(g=>k===""||gSubOf(g,r).includes(k)).length,0)+unrAll.filter(g=>k===""||gSubOf(g,r).includes(k)).length;
  const go=(A,R,W,S)=>`#gear/${A}/${R}/${W}${S?"/"+S:""}`;
  const q=GSTATE.q.trim().toLowerCase();
  const hits=q?gMatch(q,a):null;

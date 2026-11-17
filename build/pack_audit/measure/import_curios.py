@@ -56,6 +56,9 @@ for k, v in C.items():
     if sw:
         hr = min(sw) / REF
         if abs(hr - 1) > 0.005: o["hit"] = r3(hr)
+        # a second swing higher than the first: a buff the first hit gave (Charged Redstone Piece's Amped: 15, then 22.5); kept as
+        # hit2, which gear.js uses only for the curios whose buff was read in their code (GHITBUFF), not for a random crit
+        if len(sw) == 2 and sw[0] > 0 and sw[1] > 1.05 * sw[0]: o["hit2"] = r3(sw[1] / REF)
         tf = {}
         for h in v["hits"]:
             for e, (amp, dur) in (h.get("tfx") or {}).items(): tf[e] = [amp + 1, dur]

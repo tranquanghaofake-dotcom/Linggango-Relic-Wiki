@@ -865,6 +865,7 @@
 "1iq5gbl8tu9": {"en": "Read from the item's code (each piece's own effect while worn).", "t": "Lido do código do item (o efeito próprio de cada peça enquanto equipada).", "s": "llm"},
 "21fbifbh0xw": {"en": "Read from the item's code.", "t": "Lido do código do item.", "s": "llm"},
 "20h4nsq5kyo": {"en": "Read from the mods' code by a script: it looks at how each curio's bonuses are keyed and how its effects check what you wear. Effects coded in unusual ways can be missed.", "t": "Lido por um script a partir do código dos mods: ele olha como os bônus de cada acessório são identificados e como seus efeitos verificam o que você usa. Efeitos escritos de maneiras incomuns podem passar despercebidos.", "s": "llm"},
+"z82tgvhh80": {"en": "Read in its code, not measured: it multiplies a hit by 1.3 when the target is more than 3 blocks away, which the test's sword swing at 1.2 blocks cannot meet. Counted for shots and spells from range.", "t": "Lido no código, não medido: multiplica um golpe por 1,3 quando o alvo está a mais de 3 blocos, o que o golpe de espada do teste a 1,2 bloco não alcança. Conta para disparos e magias à distância.", "s": "llm"},
 "86ebcwq0a0": {"en": "Recently opened", "t": "Abertos recentemente", "s": "llm"},
 "1meiqiou36z": {"en": "Recipe tree", "t": "Árvore de receitas", "s": "llm"},
 "w5td8hqlk0": {"en": "Recovery", "t": "Recuperação", "s": "llm"},

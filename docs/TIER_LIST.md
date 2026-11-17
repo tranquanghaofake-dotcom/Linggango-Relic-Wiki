@@ -4,9 +4,12 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
 
 ## 0. Tóm tắt
 
-- **Nguyên tắc**: một món chỉ được xếp hạng khi có con số lấy từ game. Act chỉ quyết định món có mặt trong danh sách nào. Món chưa có số đứng ở hàng "?" kèm lý do riêng.
-- **Trạng thái**: site (nhánh `main`, commit `cdf5407`) đã có Ranged từ số đo phát bắn và curio chia theo lối chơi. Nhánh `claude/exciting-lamport-9cwni5` có thêm số đo lại toàn bộ và mã cho Summon cùng bảng "Own attack" của Mage, nhưng chưa lên site. Mục 6 và 7 ghi chi tiết.
-- **Việc tiếp theo** (mục 7): sửa lỗi bài đo minion, nhập lượt đo cuối, kiểm tra, rồi đưa lên site.
+- **Nguyên tắc**: một món chỉ được xếp hạng khi có con số lấy từ game, hoặc một hằng số đọc trong code khi bài đo không tạo được điều kiện (ghi rõ trên trang). Act chỉ quyết định món có mặt trong danh sách nào. Món chưa có số đứng ở hàng "?" kèm lý do riêng.
+- **Trạng thái** (sau đợt 2026-11-17, mục 6):
+  - toàn bộ vũ khí, giáp và curio được đo lại trên người thử đã sửa;
+  - Ranged có 76 món, Mage có bảng "Own attack", giáp 313/313 bộ được xếp;
+  - Summon chưa đo được: đã thử 2 cách đều thất bại.
+- **Việc còn lại**: mục 7.
 
 ## 1. Nguyên tắc
 
@@ -22,8 +25,8 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
 | Vũ khí Melee | DPS = nhát chém × tốc độ đánh × chí mạng × hút máu × tầm với, cộng sát thương theo thời gian | 3 nhát chém đo trong game |
 | Vũ khí Ranged | sát thương mỗi phát × số phát mỗi giây | 3 phát bắn đo trong game |
 | Vũ khí Mage, bảng chính | mức vũ khí nhân sức mạnh phép (chia tier theo phần tăng) | thuộc tính đọc trong game |
-| Vũ khí Mage, bảng "Own attack" | sát thương mỗi giây của đòn riêng | bắn thử trong game (mã đã có, chưa có số) |
-| Vũ khí Summon | sát thương minion mỗi giây | đo minion trong game (mã đã có, lần chạy bị lỗi) |
+| Vũ khí Mage, bảng "Own attack" | sát thương mỗi giây của đòn riêng | bắn thử trong game |
+| Vũ khí Summon | sát thương minion mỗi giây | đo minion trong game (chưa ra số tin được, mục 7) |
 | Bộ giáp | hệ số sức mạnh theo lối chơi × máu hiệu dụng^k | mặc thử và nhận đòn trong game |
 | Curio | hệ số sức mạnh × (máu hiệu dụng có/không đeo)^k | đeo thử trong game |
 
@@ -51,6 +54,7 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
 - **Bảng "Own attack"** (tiếng Việt: "Đòn riêng"; pool `x`): mọi vũ khí Mage có đòn riêng đo được, xếp theo sát thương mỗi giây, tách hẳn khỏi bảng chính. Bạn đã chọn "một bảng riêng với tên gọi hợp lý".
 
 ### 2.4 Summon (`gMn`)
+Mã chấm điểm đã có nhưng chưa có số dùng được: hai cách đo đều thất bại (mục 6 và 7). Cách đo được thiết kế như sau:
 Người thử dùng vũ khí một lần. Một con zombie không AI có 1.000 máu đứng cách 4 khối, và mọi sinh vật mới xuất hiện quanh người thử bị ép nhắm vào nó. Sau 200 tick, lượng máu zombie mất đi chia cho 10 giây là điểm.
 
 ### 2.5 Bộ giáp (`gSetScore`, `gEHP`)
@@ -131,26 +135,29 @@ Người thử dùng vũ khí một lần. Một con zombie không AI có 1.000 
 - Crossbow: nạp 25 tick. Trident: 10 tick, 8 sát thương.
 - Kiếm kim cương: 15. Người thử không mặc gì nhận 10 trên đòn cận chiến 20 (trần nửa máu) và 20 trên các loại đòn khác.
 
-## 6. Trạng thái hiện tại (Act XII)
+## 6. Trạng thái hiện tại (Act XII, sau đợt 2026-11-17)
 
-| Nhóm | Trên site (`cdf5407`) | Trên nhánh, chưa lên site | Lượt đo cuối, chưa nhập |
-|---|---|---|---|
-| Melee | 1011 xếp / 1 chưa | đo lại: 977/1010 khớp; 7 món bị thổi ×1.5 do người thử rơi | — |
-| Ranged | 71 / 73 | — | thêm 11 món có sát thương (74 món đã bắn) |
-| Mage | 60 / 41 | mã bảng "Own attack" | 17/102 món có đòn riêng đo được |
-| Summon | 0 / 24 | mã chấm điểm | lỗi `arm is not defined`, chưa có số |
-| Giáp | 311 / 313 | Hazmat, Scuba của Mekanism được xếp (giáp 0) | — |
-| Curio | 253 có hạng Power | số đo lại: 252 có hạng (sau khi sửa phân loại Asteroid Belt, Prismatic Feather, Proximity Badge); số đo bị chặn trần 69 → 8 | số chặn đòn đo lại: Ace of Iron 0/10 (cũ ghi 3/10), Opal Necklace 1/10, Ethereal Eclipse Emblem 1/10, Shinobi Sash 1/10 |
+| Nhóm | Đã xếp / chưa xếp | Ghi chú |
+|---|---|---|
+| Melee | 1011 / 1 | Đo lại: 977/1010 khớp lần cũ; 7 món lần cũ bị thổi ×1.5 vì người thử đang rơi |
+| Ranged | 76 / 68 | Thời gian kéo, nạp và hồi đo trong game; trang của từng món ghi lý do nếu chưa xếp |
+| Mage, bảng chính | 60 / 41 | 41 món không cộng gì cho phép |
+| Mage, "Own attack" | 7 có tier (9 có số) | 92 món không có đòn riêng gây sát thương, hoặc chưa đo được tốc độ |
+| Summon | 0 / 24 | Đã thử 2 cách (`use()`, rồi nhấp vào khối sàn), số đo không tin được, đã dừng (mục 7) |
+| Giáp | 313 / 313 | Hazmat và Scuba của Mekanism được xếp với giáp 0 |
+| Curio | 253 có hạng Power | Ba bảng mỗi lối chơi; số đo bị chặn trần 69 → 8 |
 
-## 7. Các bước còn lại để triển khai (theo thứ tự)
-1. **Sửa bài đo minion**: hàm `arm` đang khai báo bên trong `ranged()`; chuyển ra ngoài để `minions()` dùng được. Chạy lại phần minion: `prep.py --third --minions`, bỏ trống `ranged`, `grows`, `blocks`.
-2. **Nhập lượt cuối**:
-   - gộp phần `ranged` của lượt cuối vào hai file lượt cũ (10k và 1k): món mới chỉ có số ở 1.000 máu;
-   - lấy `blocks` và `minions` từ lượt cuối và lượt minion;
-   - chạy `import_third.py`.
-3. **Dựng và kiểm**: `bash build/patches/apply_all.sh`; xem ảnh `#gear/12/RA/w`, `#gear/12/MA/w/attack`, `#gear/12/SU/w`, `#gear/12/a` ở 1440 và 375 px; chạy `bash build/check.sh`.
-4. **Đưa lên site**: ghi NOTES, commit, đẩy lên `main`, kiểm workflow `site` xanh và `/build.txt`.
-5. **Món còn chưa đo được** sau bước 2: súng bắn bằng gói phím riêng, đồ ném nổ ngoài tầm hai con lợn thấp, món cần điều kiện riêng. Mỗi nhóm cần một cách bắn riêng; trang của từng món ghi lý do.
+Số đo lại của curio đã đổi một số kết luận cũ:
+- Chặn đòn: Ace of Iron chặn 0/10 (cũ ghi 3/10); Opal Necklace, Ethereal Eclipse Emblem, Shinobi Sash mỗi món 1/10.
+- Lethality đánh vào mục tiêu 0 giáp không tăng gì: Warpslice Scabbard và Portable Quantum Thingamabob mất mức +70%/+100% cũ (số cũ là lỗi của bài đo).
+- Chthonic Shell Casing được tính ×1.3 cho đòn từ xa theo hằng số trong code: nhát chém thử cách 1.2 khối, không tạo được khoảng cách trên 3 khối.
+
+## 7. Các bước còn lại
+1. **Summon**: cách thứ ba là đọc chỉ số của minion ngay trong game đang chạy (thuộc tính sát thương và nhịp đánh của entity được triệu hồi), thay vì chờ minion tự đánh. Cách khác là để một người chơi thật triệu hồi.
+2. **Ranged còn 68 món**: súng bắn qua gói phím riêng, đồ ném nổ ngoài tầm các con lợn thử, món cần điều kiện riêng. Mỗi nhóm cần một cách bắn riêng.
+3. **Lethality và xuyên giáp**: tính theo giáp của Keeper ở từng Act, dùng đúng công thức đã đọc trong mixin của Brutality, thay cho bài đo trên mục tiêu 0 giáp.
+4. **Combo của Better Combat**: đo đủ một vòng combo thay vì trung vị 3 nhát.
+5. **Kỹ năng chủ động của vũ khí cận chiến** và **hệ số k của giáp**: mục 8.
 
 ## 8. Giới hạn và câu hỏi còn mở
 - **Combo của Better Combat**: mỗi nhát trong chuỗi combo có hệ số riêng (Laser Blade: 15, 22.5, 22.5). Trung vị 3 nhát phụ thuộc vào vị trí trong chuỗi; đo đủ một vòng combo sẽ đúng hơn.

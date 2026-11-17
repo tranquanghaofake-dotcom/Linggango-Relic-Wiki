@@ -20,7 +20,7 @@
   // known curios, by what their text says they do (curio_measure.json numbers, Act XII)
   const want = [['terramity:eyepatch', 's'], ['terramity:band_of_power', 's'], ['confluence:avenger_emblem', 's'], ['confluence:destroyer_emblem', 's'],
     ['terramity:chthonic_cursemark', 's'], ['terramity:magma_stone', 'ME'], ['confluence:warrior_emblem', 'ME'],
-    ['summonity:gobs_mask', 'SU'], ['traveloptics:chronicles_of_the_firelord', 'MA'], ['brutality:portable_quantum_thingamabob', 's'], ['uniqueaccessories:devils_eyeball', 's']];
+    ['summonity:gobs_mask', 'SU'], ['traveloptics:chronicles_of_the_firelord', 'MA'], ['uniqueaccessories:devils_eyeball', 's']];
   for (const [id, k] of want) { const d = byId(id); if (!d || !CM[id]) { o.add('curio-class: no curio ' + id); continue; }
     const rs = gCurioRoles(d, last), ok = k === 's' ? rs.length >= 2 && rs.includes('ME') && rs.includes('RA') : rs.length === 1 && rs[0] === k;
     if (!ok) o.add(`curio-class: ${d.n} raises ${rs.join(', ') || 'nothing'}, want ${k === 's' ? 'melee and ranged both (shared)' : k + ' only'}`); }
@@ -28,7 +28,7 @@
   // spells, not melee; Apothic crit and Brutality lethality act on any damage the player causes, spells included
   { const d = byId('terramity:chthonic_shell_casing'), rs = d ? gCurioRoles(d, last).join() : '';
     if (rs !== 'RA,MA') o.add(`curio-class: Chthonic Shell Casing raises ${rs}, want Ranged and Mage (any hit from range)`);
-    for (const id of ['brutality:portable_quantum_thingamabob', 'uniqueaccessories:devils_eyeball']) { const e = byId(id);
+    for (const id of ['uniqueaccessories:devils_eyeball']) { const e = byId(id);
       if (!e || gCurioGain(e, 'MA', last) < GOWN) o.add(`curio-class: ${id} (lethality or Apothic crit, any hit) adds nothing to Mage`); } }
   // a "damage dealt" curio counts for spells as it does for a sword; a minion's hits are its own
   { const e = byId('terramity:eyepatch'), g = r => gCurioGain(e, r, last);
@@ -73,6 +73,10 @@
   for (const d of D) { if (!CM[d.id] || gCtx(d)) continue; const h = document.createElement('div'); h.innerHTML = gCurioMs(d); const b = h.querySelector('.gverd b'), lk = h.querySelector('.gverd a');
     if (!b || !lk) continue; const [, a, r, w] = lk.getAttribute('href').match(/#gear\/([\d.]+)\/(\w\w)\/c\/?(\w*)/) || [], v = w === 'shared' ? 's' : w === 'any' ? 'v' : 'o';
     if ((gTierOf(d, +a, r, v) || '–') !== b.textContent) o.add(`curio-class: ${d.n}'s page says ${b.textContent}, its list (${r}/${w || 'own'}) says ${gTierOf(d, +a, r, v)}`); }
+  // the Mage tab's group buttons count the spell-bonus list whichever table is open (with Own attack open, All kinds read 48 of 101)
+  { const cnt = async h => { location.hash = h; await new Promise(r => setTimeout(r, 80)); render(); return [...document.querySelectorAll('#main .gseg.subs a')].filter(a => !/\/attack$/.test(a.getAttribute('href'))).map(a => a.querySelector('.n').textContent).join(); };
+    const plain = await cnt(`#gear/${last}/MA/w`), att = await cnt(`#gear/${last}/MA/w/attack`);
+    if (plain !== att) o.add(`curio-class: Mage group counts differ with Own attack open: ${plain} / ${att}`); }
   // the page: each view shows its own curios, and Summon has no shared view (no curio raises minions and another playstyle)
   const go = async h => { location.hash = h; await new Promise(r => setTimeout(r, 80)); render(); },
     shown = () => [...document.querySelectorAll('#main .gtl-list a.gtl')].map(t => D[+t.dataset.t]);
