@@ -9,18 +9,27 @@
   // the three views of a playstyle never share a curio, own curios raise no other playstyle, shared ones raise two or more
   for (const a of [3, 6, last]) for (const r of R) {
     const own = gTiers(a, r, 'o').flatMap(x => x[1]), sh = gTiers(a, r, 's').flatMap(x => x[1]),
-      any = gTiers(a, r, 'c').flatMap(x => x[1]).filter(d => !gOwn(d, r, a) && !gShared(d, r, a));
+      any = gTiers(a, r, 'v').flatMap(x => x[1]);
     for (const d of own) { if (sh.includes(d) || any.includes(d)) o.add(`curio-class: ${d.n} is in two views of ${r} at Act ${a}`);
       const other = R.filter(x => x !== r && gCurioGain(d, x, a) >= GOWN); if (other.length) o.add(`curio-class: ${d.n} is ${r}'s own but raises ${other.join(', ')} too`); }
     for (const d of sh) { if (any.includes(d)) o.add(`curio-class: ${d.n} is shared and survival for ${r}`); if (gCurioRoles(d, a).length < 2) o.add(`curio-class: ${d.n} is shared but raises only ${gCurioRoles(d, a)}`); }
-    for (const [d] of [...gPool(a, r, 'o'), ...gPool(a, r, 's')]) if (gCtx(d)) o.add(`curio-class: ${d.n} depends on "${gCtx(d)}" and is listed`); }
+    for (const d of any) if (gOwn(d, r, a) || gShared(d, r, a)) o.add(`curio-class: ${d.n} is in the survival view of ${r} but raises its damage`);
+    for (const [d] of [...gPool(a, r, 'o'), ...gPool(a, r, 's'), ...gPool(a, r, 'v')]) if (gCtx(d)) o.add(`curio-class: ${d.n} depends on "${gCtx(d)}" and is listed`);
+    // each view is tiered among its own curios: the survival view keeps its curios when a strong damage curio joins the playstyle
+    if (a === last && any.length < 15) o.add(`curio-class: the survival view of ${r} at Act ${a} holds only ${any.length} curios`); }
   // known curios, by what their text says they do (curio_measure.json numbers, Act XII)
   const want = [['terramity:eyepatch', 's'], ['terramity:band_of_power', 's'], ['confluence:avenger_emblem', 's'], ['confluence:destroyer_emblem', 's'],
-    ['terramity:chthonic_cursemark', 's'], ['terramity:magma_stone', 'ME'], ['confluence:warrior_emblem', 'ME'], ['terramity:chthonic_shell_casing', 'RA'],
-    ['summonity:gobs_mask', 'SU'], ['traveloptics:chronicles_of_the_firelord', 'MA']];
+    ['terramity:chthonic_cursemark', 's'], ['terramity:magma_stone', 'ME'], ['confluence:warrior_emblem', 'ME'],
+    ['summonity:gobs_mask', 'SU'], ['traveloptics:chronicles_of_the_firelord', 'MA'], ['brutality:portable_quantum_thingamabob', 's'], ['uniqueaccessories:devils_eyeball', 's']];
   for (const [id, k] of want) { const d = byId(id); if (!d || !CM[id]) { o.add('curio-class: no curio ' + id); continue; }
     const rs = gCurioRoles(d, last), ok = k === 's' ? rs.length >= 2 && rs.includes('ME') && rs.includes('RA') : rs.length === 1 && rs[0] === k;
     if (!ok) o.add(`curio-class: ${d.n} raises ${rs.join(', ') || 'nothing'}, want ${k === 's' ? 'melee and ranged both (shared)' : k + ' only'}`); }
+  // read in the jars (2026-11-17): Chthonic Shell Casing checks the distance to the target (> 3 m), not the kind of hit: shots and
+  // spells, not melee; Apothic crit and Brutality lethality act on any damage the player causes, spells included
+  { const d = byId('terramity:chthonic_shell_casing'), rs = d ? gCurioRoles(d, last).join() : '';
+    if (rs !== 'RA,MA') o.add(`curio-class: Chthonic Shell Casing raises ${rs}, want Ranged and Mage (any hit from range)`);
+    for (const id of ['brutality:portable_quantum_thingamabob', 'uniqueaccessories:devils_eyeball']) { const e = byId(id);
+      if (!e || gCurioGain(e, 'MA', last) < GOWN) o.add(`curio-class: ${id} (lethality or Apothic crit, any hit) adds nothing to Mage`); } }
   // a "damage dealt" curio counts for spells as it does for a sword; a minion's hits are its own
   { const e = byId('terramity:eyepatch'), g = r => gCurioGain(e, r, last);
     if (Math.abs(g('ME') - g('MA')) > .005 || g('MA') < .3 || g('SU') !== 0) o.add(`curio-class: Eyepatch (x1.33 damage dealt) adds Melee ${g('ME')}, Mage ${g('MA')}, Summon ${g('SU')}`); }

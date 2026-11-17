@@ -103,13 +103,20 @@ function gFront(a){const k=oiA(a);if(GFR[k])return GFR[k];
 /* dmg_all: damage dealt of every kind, as a curio's text says ("+15% damage dealt", "Damage x1.33"); it is set only from a curio's
    measured hit (gCurioAt) and counts for the player's own melee, shots and spells, not for minions, whose hits are their own */
 const gAll=at=>1+gS(at,/^dmg_all$/,1);
+/* dmg_far: damage dealt from more than a few blocks away (Chthonic Shell Casing's check is the distance to the target, not the kind
+   of hit), so shots and spells cast at range */
+const gFar=at=>1+gS(at,/^dmg_far$/,1);
+/* Apothic Attributes' critical strike (crit_chance, crit_damage on a base of +50%) is rolled in a LivingHurtEvent handler on any
+   damage whose source entity is the attacker (AttributeEvents.apothCriticalStrike): melee, shots and spells alike. Brutality's
+   critical_strike_chance is rolled in CriticalHitEvent, which only a player's melee swing fires: melee only (GCC) */
+const gApCrit=at=>1+Math.min(1,gS2(at,/^(crit_chance|crit_rate)$/))*(.5+gS2(at,/^crit_damage$/));
 const GOFF={
  /* flat attack damage counts against the frontier's hit at that Act: +2 is a lot at Act 0 and little at Act XII */
  ME:(at,a)=>(1+gS(at,/^attack_damage$/,0)/gFront(a).hit)*(1+gS(at,/^attack_damage$/,1))*(1+gS(at,/^attack_speed$/,1))
   *(1+Math.min(1,gS2(at,GCC))*(.5+gS2(at,GCD)))*(1+.5*gS(at,/^life_?steal$/,0))*gAll(at),
  /* Apothic arrow_damage / draw_speed are percent attributes (base 1); gun_damage is +1 on a shot of about 12 */
  RA:at=>(1+gS2(at,/^(arrow_damage|projectile_damage|bow_damage)$/)+gS(at,/^gun_damage$/,0)/12)*(1+gS2(at,/draw_speed$/))
-  *(1+Math.min(1,gS2(at,/^(crit_chance|crit_rate|bow_crit_chance)$/))*(.5+gS2(at,/^crit_damage$/)))*gAll(at),
+  *(1+Math.min(1,gS2(at,/^(crit_chance|crit_rate|bow_crit_chance)$/))*(.5+gS2(at,/^crit_damage$/)))*gAll(at)*gFar(at),
  /* two spell systems, and a mage casts with one: the better of
     Iron's: spell power + the best single school (a mage builds around one), x cast rate from cooldowns, x mana (saturating: +300 = +25%), x regen;
     Goety's own spell attributes (goety.spell_potency, goety.casting_speed, goety_revelation.spell_power: Goety spell levels and
@@ -120,7 +127,7 @@ const GOFF={
   const iron=(1+gS2(at,/^spell_power$/)+sch)/(1-Math.min(.6,gS(at,/^cooldown_reduction$/,1)))
    *(1+.5*gS(at,/^cast_time_reduction$/,1))*mana(m)*(1+.3*Math.min(1,gS(at,/^mana_regen$/,1)));
   const ars=(1+gS(at,/spell_damage$/,0)/gFront(a).hit)*mana(gS(at,/^ars_nouveau\.perk\.max_mana$/,0));
-  return Math.max(iron,ars)*gAll(at)},
+  return Math.max(iron,ars)*gAll(at)*gFar(at)*gApCrit(at)},
  /* summon damage (percent: Iron's summon_damage, Summonity minion_damage), flat summon damage (Ars Elemental's Summon Power adds
     its value to each hit of an Ars summon) at .05 a point, each extra minion slot +25%; how long summons last is not damage */
  SU:at=>(1+gS(at,/^(summon_damage|minion_damage)$/,1)+.05*gS(at,/^(summon_damage|ars_elemental\.perk\.summon_power)$/,0))*(1+.25*gS(at,/^minion_slots$/,0))};
@@ -185,19 +192,27 @@ const GCADD=/^(attack_damage|max_mana|minion_slots|entity_reach|max_health|armor
    (gHitKind): "ME" when the curio has an attribute that changes a sword hit (attack damage, crit, lethality, armor pierce, Slash or
    Sword damage) or its text speaks of melee damage; "RA" when its text speaks of ranged damage only; "ALL" when its text speaks of
    damage dealt in general ("+15% damage dealt", "Damage x1.33"): then it counts for melee, shots and spells alike (dmg_all, gAll);
-   "" when nothing in its text or attributes explains it: not counted. Three of those read exactly x1.5 (Gob's Mask, a mask of
+   "FAR" when its text gates it on distance ("Ranged damage (>3 m)": the code measures the distance to the target, whatever the
+   hit): shots and spells; "ALL" too when only lethality, armor penetration or Apothic crit explain it (they act on any hit the
+   player causes, checked in the jars); "" when nothing in its text or attributes explains it: not counted. Three of those read exactly x1.5 (Gob's Mask, a mask of
    minion slots; Chronicles Of The Firelord, a spellbook; Amplifier Stone, a horn charm), the vanilla jump critical: the test player
    was likely falling when it swung */
-const GHITA=/^(attack_damage|crit_chance|crit_damage|critical_strike_chance|critical_strike_damage|lethality|armor_penetration|armor_pierce|slash_damage|piercing_damage|sword_damage|blunt_damage)$/;
+const GHITA=/^(attack_damage|critical_strike_chance|critical_strike_damage|slash_damage|piercing_damage|sword_damage|blunt_damage)$/;
+/* attributes that change any hit the player causes, so a sword-hit change they explain is all damage: Brutality's lethality and
+   armor penetration lower the target's armor in getDamageAfterArmorAbsorb for every damage whose source entity is a player
+   (Iron's spell damage types do not bypass armor, so spells too); Apothic's crit is rolled on any such damage */
+const GHITALL=/^(lethality|armor_penetration|armor_pierce|crit_chance|crit_damage)$/;
+const GHFAR=/from range|\(\s*>\s*\d+ ?m\)/i;
 const GHME=/(melee|slash|sword|blunt) damage(?! taken)|melee hits/i,GHRA=/(ranged|arrow|projectile) damage(?! taken)|damage dealt from range/i;
 const GHALL=/damage (dealt|boost|increase|modifier|multiplier)|all damage|(\d|%)\s*damage\b(?! taken| reduction)|damage\s*[×x]\s*\d|(extra|more|bonus|additional) damage/i;
 const gHitX=m=>{const x=m&&m.hit?m.hit-1-((m.d||{})["minecraft:generic.attack_damage"]||0)/CMREF:0;return Math.abs(x)>.005?x:0};
-function gHitKind(c,m){if(!gHitX(m))return "";if(Object.keys(m.d||{}).some(k=>GHITA.test(GCK(k))))return "ME";
- const t=c?[c.fx||"",...(c.st||[])].join(" / "):"",me=GHME.test(t),ra=GHRA.test(t);
+function gHitKind(c,m){if(!gHitX(m))return "";const ks=Object.keys(m.d||{}).map(GCK);if(ks.some(k=>GHITA.test(k)))return "ME";
+ if(ks.some(k=>GHITALL.test(k)))return "ALL";
+ const t=c?[c.fx||"",...(c.st||[])].join(" / "):"";if(GHFAR.test(t))return "FAR";const me=GHME.test(t),ra=GHRA.test(t);
  return me&&!ra?"ME":ra&&!me?"RA":me||ra||GHALL.test(t)?"ALL":""}
 function gCurioAt(m,c){const at={},add=(k,i,v)=>{(at[k]=at[k]||[0,0])[i]+=v},d=m.d||{};
  for(const k in d){const p=GCK(k),v=d[k];if(p==="attack_speed")add(p,1,v/4);else add(p,GCADD.test(p)?0:1,v)}
- {const x=gHitX(m),h=x&&gHitKind(c,m);if(h)add(h==="ME"?"attack_damage":h==="RA"?"arrow_damage":"dmg_all",1,x)}
+ {const x=gHitX(m),h=x&&gHitKind(c,m);if(h)add(h==="ME"?"attack_damage":h==="RA"?"arrow_damage":h==="FAR"?"dmg_far":"dmg_all",1,x)}
  for(const [e,l] of m.fx||[]){if(e==="minecraft:resistance")add("resistance",1,gRes(l));if(e==="minecraft:health_boost"||e==="minecraft:absorption")add("max_health",0,4*l)}
  return at}
 const GCS=new Map();
@@ -264,6 +279,9 @@ function gPool(a,r,w){const ia=oiA(+a);
  if(w==="c")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)).map(d=>[d,gCurioScore(d,r,+a)-1]).filter(x=>x[1]>.005).sort((p,q)=>q[1]-p[1]);
  // "o": the curios that raise this playstyle's output (GOWN or more) and no other's; "s": those that raise it and another's too
  // (gShared); each ranked by how much it raises this one (the Equipment page's views; the curios' Power tiers stay those of "c")
+ // "v": the rest (survival: armor, health, dodge), by what it adds to a typical build (score - 1), tiered among themselves: on the
+ // whole pool ("c") a shared x2 damage curio set the fifth best and pushed most of them under the floor (Ranged: 44 down to 9)
+ if(w==="v")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)&&!gOwn(d,r,+a)&&!gShared(d,r,+a)).map(d=>[d,gCurioScore(d,r,+a)-1]).filter(x=>x[1]>.005).sort((p,q)=>q[1]-p[1]);
  if(w==="o"||w==="s")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)&&(w==="o"?gOwn:gShared)(d,r,+a)).map(d=>[d,gCurioGain(d,r,+a)]).sort((p,q)=>q[1]-p[1]);
  const xs=(w==="a"?GS:GE.filter(g=>g.k!=="armor")).filter(g=>g.sc[r]!=null&&oiA(g.a)<=ia&&!gHidden(g));
  return xs.map(g=>[g,gScore(g,r,+a)]).sort((p,q)=>q[1]-p[1])}
@@ -370,11 +388,11 @@ function gearPage(h,miss){
  const subs=w==="w"?GSUB[r]||null:w==="c"?GSUBC(r):null,s=subs&&subs.some(x=>x[0]===GSTATE.s)?GSTATE.s:w==="c"?"own":"";
  // curios: the own view is its own pool (ranked by how much each raises the playstyle's output), the other view is the tiered
  // rest; weapons are filtered by group out of the whole playstyle's tiers
- const all=gTiers(a,r,w==="c"?(s==="any"?"c":s==="shared"?"s":"o"):w),inSub=w==="c"?(s==="any"?d=>!gOwn(d,r,a)&&!gShared(d,r,a):null):s?g=>gSubOf(g,r).includes(s):null;
+ const all=gTiers(a,r,w==="c"?(s==="any"?"v":s==="shared"?"s":"o"):w),inSub=w==="c"?null:s?g=>gSubOf(g,r).includes(s):null;
  // the items with no number to rank them by are listed under the tiers (gUnranked), filtered by the same group
  const unrAll=gUnranked(a,r,w),unr=inSub?unrAll.filter(inSub):unrAll;
  const tiers=inSub?Object.assign(all.map(([t,xs])=>[t,xs.filter(inSub)]),{top:all.top}):all,pool=tiers.reduce((n,x)=>n+x[1].length,0)+unr.length;
- const subN=k=>w==="c"?(k==="any"?gTiers(a,r,"c").reduce((n,x)=>n+x[1].filter(d=>!gOwn(d,r,a)&&!gShared(d,r,a)).length,0):gTiers(a,r,k==="shared"?"s":"o").reduce((n,x)=>n+x[1].length,0)):all.reduce((n,x)=>n+x[1].filter(g=>k===""||gSubOf(g,r).includes(k)).length,0)+unrAll.filter(g=>k===""||gSubOf(g,r).includes(k)).length;
+ const subN=k=>w==="c"?gTiers(a,r,k==="any"?"v":k==="shared"?"s":"o").reduce((n,x)=>n+x[1].length,0):all.reduce((n,x)=>n+x[1].filter(g=>k===""||gSubOf(g,r).includes(k)).length,0)+unrAll.filter(g=>k===""||gSubOf(g,r).includes(k)).length;
  const go=(A,R,W,S)=>`#gear/${A}/${R}/${W}${S?"/"+S:""}`;
  const q=GSTATE.q.trim().toLowerCase();
  const hits=q?gMatch(q,a):null;
@@ -393,7 +411,7 @@ function gearPage(h,miss){
  <li>${T("<b>Act</b>: the Keeper gate from Linggango's own progression tags (<code>forge:iron_tools</code> … <code>forge:helionite_armor</code>): gear tagged Diamond is locked until Eldorath falls, and so on. Gear with no tag sits at the Act of its hardest ingredient or drop (Nether materials need Act V, a Nether Star the Wither, End loot the Ender Dragon).")}</li>
  <li>${T("<b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does. Better Combat clears the target's hurt cooldown on every hit, so fast weapons are not capped at two hits a second. Staves, spears and gunblades whose melee damage is readable are ranked here too.")}</li>
  <li>${T("<b>Mage weapons</b>: ranked by what they add to your spells: spell power plus the best single school, cooldown and cast time, mana and mana regen (Iron's Spells), or Ars Nouveau spell damage. A weapon's own shot or built-in spell is set in its mod's code and is not counted. <b>Ranged and Summon weapons are not ranked yet</b>: the damage of a shot or a minion is set in each mod's code when it fires or attacks and has not been measured in game, so they are listed by name under the tiers. The Act an item unlocks at only decides which lists it is in, never its place in them.")}</li>
- <li>${T("<b>Armor sets</b>: score = output bonus × effective health<sup>k</sup>, the damage you deal times how long you last. Effective health uses Apothic Attributes' armor rule (damage × a/(a + armor), a = 10 for hits under 20, 10 + (hit − 20)/2 above) against the attack damage of the Keeper that ends the Act (10 at Act 0, 30 at Act VI, 50 at Act XII), on top of 20 + 4 HP per Act from your other gear, × damage-taken reduction and dodge. Toughness only blunts armor shred in this pack, so it counts little. k = 1 for Melee, 0.7 Ranged, 0.6 Mage and Summon (fighting at range, you take fewer hits). Output bonus: Melee attack damage (flat bonus against the Act's typical weapon hit), attack speed, crit, lifesteal; Ranged arrow damage, draw speed, crit; Mage: the better of Iron's (spell power + the best single school, × cast rate from cooldown reduction, × mana: +300 mana = +25%) and Ars Nouveau (flat spell damage against the Act's typical hit, × mana); Summon summon damage and +25% per extra minion slot. A plain set is the fallback in every list; a set built for the role beats it. Sets whose armor is computed in code get the median of their Act.")}</li>
+ <li>${T("<b>Armor sets</b>: score = output bonus × effective health<sup>k</sup>, the damage you deal times how long you last. Effective health uses Apothic Attributes' armor rule (damage × a/(a + armor), a = 10 for hits under 20, 10 + (hit − 20)/2 above) against the attack damage of the Keeper that ends the Act (10 at Act 0, 30 at Act VI, 50 at Act XII), on top of 20 + 4 HP per Act from your other gear, × damage-taken reduction and dodge. Toughness only blunts armor shred in this pack, so it counts little. k = 1 for Melee, 0.7 Ranged, 0.6 Mage and Summon (fighting at range, you take fewer hits). Output bonus: Melee attack damage (flat bonus against the Act's typical weapon hit), attack speed, crit, lifesteal; Ranged arrow damage, draw speed, crit; Mage: the better of Iron's (spell power + the best single school, × cast rate from cooldown reduction, × mana: +300 mana = +25%) and Ars Nouveau (flat spell damage against the Act's typical hit, × mana); Summon summon damage and +25% per extra minion slot. A plain set is the fallback in every list; a set built for the role beats it. Sets whose armor is computed in code get the median of their Act.")} ${T("Apothic Attributes' critical strike counts for Mage too: the game rolls it on any damage you cause, spells included (Brutality's critical strike only on a melee swing).")}</li>
  <li>${T("Tiers compare each item with the fifth best usable at that Act (not the very best, so one item far ahead does not push all the others down): S is at 85% of it or more, A 70%, B 55%, C 40%, the rest D; under 25% it is left off the list (search still finds it). When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.")} ${T("Mage weapons are compared by what they add to your spells: a staff that multiplies them by 1.26 adds 26%, which is 65% of one that adds 40%.")}</li>
  <li>${T("<b>Groups</b>: the buttons under the playstyles only choose which of these items to show; every tier is still against the whole playstyle. Weapons are grouped by what they are (shape, bow or gun, spell school, whip or staff); one weapon can be in several groups, and one that fits none is under All kinds. On the Curios tab the first button lists the curios that raise that playstyle's output by 2% or more and no other playstyle's, best first; the second, “Damage, shared with other playstyles”, those that raise the damage of several playstyles (damage dealt of every kind, crit for blades and bows alike); the third, “Survival, any playstyle”, the armor, health and dodge curios.")}</li></ul></details></div></div>`;
  const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;GALL=false;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};

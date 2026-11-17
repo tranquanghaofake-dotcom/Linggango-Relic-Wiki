@@ -191,6 +191,7 @@
 "108k8wvxvw0": {"en": "Any {kind}", "t": "Любой: {kind}", "s": "llm"},
 "2bywd3gq3ll": {"en": "Apothic", "t": "Apothic", "s": "llm"},
 "2g5am5e5tkr": {"en": "Apothic Attributes replaces vanilla armor. A hit keeps <b>A / (A + armor)</b> of its damage, where A is 10 for hits under 20 and 10 + (hit − 20) / 2 above. Armor has no cap, and big hits go through it more easily.", "t": "Apothic Attributes заменяет ванильную броню. Удар сохраняет <b>A / (A + броня)</b> своего урона, где A равно 10 для ударов меньше 20 и 10 + (удар − 20) / 2 выше. У брони нет предела, а большие удары проходят сквозь неё легче.", "s": "llm"},
+"1i8xz1xy6l3": {"en": "Apothic Attributes' critical strike counts for Mage too: the game rolls it on any damage you cause, spells included (Brutality's critical strike only on a melee swing).", "t": "Критический удар Apothic Attributes учитывается и для мага: игра бросает его на любой урон, который вы наносите, включая заклинания (критический удар Brutality — только при ударе в ближнем бою).", "s": "llm"},
 "yf3jj33gg1": {"en": "Apothic Critical Chance / Damage, damage affinity, Exposed, Perfect Hit, roll counters, Damage Taken, Summon Damage", "t": "Apothic Critical Chance / Damage, damage affinity, Exposed, Perfect Hit, контрудары после переката, Damage Taken, Summon Damage", "s": "llm"},
 "2elwkghfens": {"en": "Apothic crit: its own roll on every hit you own (base 5%, ×1.5).", "t": "Крит Apothic: отдельный бросок на каждый ваш удар (база 5%, ×1,5).", "s": "llm"},
 "e77drix3bx": {"en": "Apothic formula", "t": "Формула Apothic", "s": "llm"},
