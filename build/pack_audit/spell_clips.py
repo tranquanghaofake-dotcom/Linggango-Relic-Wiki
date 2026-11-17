@@ -56,9 +56,9 @@ def ars_book(parts, rgb=(255, 60, 200)):
 
 # glyphs by the name after the namespace (the same name never appears in two add-ons here)
 ARS_FILTER_TARGET = {'glyph_undead_filter': 'husk', 'glyph_fiery_filter': 'magma', 'glyph_aerial_filter': 'bat', 'glyph_aquatic_filter': 'drowned',
-                     'glyph_insect_filter': 'spider', 'glyph_filter_animal': 'pig', 'glyph_filter_monster': 'husk', 'glyph_filter_living': 'husk',
-                     'glyph_filter_living_not_monster': 'pig', 'glyph_filter_living_not_player': 'husk', 'glyph_filter_entity': 'husk',
-                     'glyph_filter_is_baby': 'baby_pig', 'glyph_filter_is_mature': 'pig'}   # the not_ filters pass the dummy
+                     'glyph_insect_filter': 'spider', 'glyph_filter_animal': 'sheep', 'glyph_filter_monster': 'husk', 'glyph_filter_living': 'husk',
+                     'glyph_filter_living_not_monster': 'sheep', 'glyph_filter_living_not_player': 'husk', 'glyph_filter_entity': 'husk',
+                     'glyph_filter_is_baby': 'baby_pig', 'glyph_filter_is_mature': 'sheep'}   # still targets: the pig (with AI) walked out of the shot   # the not_ filters pass the dummy
 ARS_SELF = {'glyph_glide', 'glyph_leap', 'glyph_slowfall', 'glyph_invisibility', 'glyph_bounce', 'glyph_bubble_shield', 'glyph_summon_steed', 'glyph_sense_magic',
             'glyph_summon_decoy', 'glyph_effectconjurearrow', 'glyph_ender_inventory', 'glyph_craft'}
 ARS_FLOOR = {'glyph_break', 'glyph_place_block', 'glyph_conjure_terrain', 'glyph_conjure_water', 'glyph_crush', 'glyph_cut', 'glyph_fell', 'glyph_grow', 'glyph_harvest',
