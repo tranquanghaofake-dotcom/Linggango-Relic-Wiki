@@ -371,9 +371,29 @@ LGW.run = (server, who, name) => {
   // went into the held slot and the bow replaced them); the item is held afresh for each shot (a thrown trident leaves the hand).
   // In a probe run each shot also notes the projectiles 3 ticks after it and the pig's last damage source, and the first
   // projectile's hit is walked through the damage events' listeners
+  // how long a shot takes: the projectile's speed the moment it leaves, after holding the item 4 to 40 ticks (a shot's speed is set
+  // as it is fired, so no world tick is needed); full = the fewest ticks that reach 97% of the fastest. A crossbow fires only once
+  // loaded: charge = the fewest ticks of holding that load it. The world is cleared of projectiles between tries
+  var clearAll = () => { try { server.runCommandSilent('kill @e[type=!minecraft:player,type=!minecraft:pig]') } catch (e) {} }
+  var speedNow = () => { var b = 0; (near() || []).forEach(o => { var m = ('' + (o.v || '')).match(/-?[0-9.]+(E-?[0-9]+)?/g); if (m && m.length >= 3) { var v = Math.sqrt(m[0] * m[0] + m[1] * m[1] + m[2] * m[2]); if (v > b) b = v } }); return b }
+  var DRAWT = [4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 40]
+  var drawCurve = id => {
+    var c = [], ch = null
+    DRAWT.forEach(t => { clearAll(); wear(EquipmentSlot.MAINHAND, Item.of(id)); var st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem')
+      safe('draw curve', () => { c3(it, 'use', level, P, MAIN); if (!c0(P, 'isUsingItem')) return; ticks(t); c0(P, 'releaseUsingItem')
+        var cb = false; try { cb = !!c1(it, 'isCharged', st) } catch (e) {}
+        if (cb) { if (ch == null) ch = t; c3(it, 'use', level, P, MAIN) }
+        c.push([t, Math.round(speedNow() * 1000) / 1000]) }, id) })
+    clearAll()
+    var top = 0; c.forEach(x => { if (x[1] > top) top = x[1] })
+    var full = null; for (var k = 0; k < c.length; k++) if (top > 0 && c[k][1] >= .97 * top) { full = c[k][0]; break }
+    return { curve: c, full: full, charge: ch }
+  }
   var ranged = id => {
     reset(); wear(EquipmentSlot.OFFHAND, Item.of('minecraft:arrow', 64))
     var r = { ad: c1(P, 'getAttributeValue', A_AD), shots: [] }, k = 0
+    safe('draw curve', () => { var dc = drawCurve(id); r.curve = dc.curve; r.full = dc.full; r.charge = dc.charge }, id)
+    reset(); wear(EquipmentSlot.OFFHAND, Item.of('minecraft:arrow', 64))
     var shot = () => {
       wear(EquipmentSlot.MAINHAND, Item.of(id)); ticks(5)
       var d = dummy({ max: 10000, dx: 5, dy: 0.9 }), h0 = hp(d), st = c0(P, 'getMainHandItem'), how = '', s = {}
