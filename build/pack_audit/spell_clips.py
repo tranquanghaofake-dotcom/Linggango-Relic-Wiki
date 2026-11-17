@@ -423,8 +423,9 @@ SETUP.update({'brutality:dematerialize': {'target': 'husk20'},   # deletes a mob
               'brutality:gravitokinesis': {'target': 'husk_ai'}, 'brutality:light_binding': {'target': 'husk_ai'},   # pulls a mob; halts a moving one
               'brutality:void_walk': {'cam': 'far'}, 'brutality:cosmic_cataclysm': {'cam': 'far', 'secs': 10},
               'brutality:divine_retribution': {'secs': 14}, 'brutality:nightfall': {'secs': 9}, 'brutality:chthonic_capsule': {'secs': 9},
-              'brutality:moonlit_mending': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1, 'pre': ['damage RenderBot 12 minecraft:generic']},
-              'brutality:sacrifice': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1, 'pre': ['damage RenderBot 12 minecraft:generic']}})
+              # the hurt a second before the cast: hurt during the 6 s mana wait, natural regeneration had the hearts full again (Sacrifice, 2026-11-17)
+              'brutality:moonlit_mending': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1, 'lead': [[20, 'damage RenderBot 12 minecraft:generic']]},
+              'brutality:sacrifice': {'survival': 1, 'cam': 'eyes', 'hud': 1, 'pitch': 60, 'nogui': 1, 'lead': [[20, 'damage RenderBot 12 minecraft:generic']]}})
 ATTR = ['spell_power', 'cast_time_reduction', 'cooldown_reduction'] + [k + '_spell_power' for k in ('fire', 'ice', 'lightning', 'holy', 'ender', 'blood', 'evocation', 'nature', 'eldritch')]
 
 
