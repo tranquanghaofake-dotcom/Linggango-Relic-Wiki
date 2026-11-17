@@ -43,6 +43,33 @@
     if (!n || t[0][1].length * 2 > n) o.add(`curio-class: Mage weapons at Act ${a}: ${t[0][1].length} S of ${n}`);
     t.forEach(([k, xs], i) => xs.forEach(g => { const q = (g.sc.MA - 1) / (top - 1), want = GTIER_R.findIndex(f => q >= f);
       if (want !== i) o.add(`curio-class: ${g.n} is ${k} at Act ${a}, its gain says ${GTIER[want] ? GTIER[want][0] : '-'}`); })); }
+  // review of 2026-11-17 (findings checked against the jars and the measurement):
+  // a curio's cost counts in the own and shared views: none listed makes a typical build worse all told
+  for (const r of R) for (const w of ['o', 's']) for (const [d] of gPool(last, r, w)) if (gCurioScore(d, r, last) <= 1) o.add(`curio-class: ${d.n} is listed for ${r} (${w}) but makes a typical build worse`);
+  // a share of max health measured on the 20-health tester is a share of a real build's (Divine Immolation -99%, Bruteskin Belt -50%)
+  for (const id of ['brutality:divine_immolation', 'brutality:bruteskin_belt']) { const d = byId(id); if (!d || gCurioScore(d, 'ME', last) > 1) o.add(`curio-class: ${id} costs a share of max health but scores ${d && gCurioScore(d, 'ME', last)}`); }
+  // Brutality's crit: chance = attribute - 1, a crit deals x1.4 + crit damage; with it always on the measured hit already holds it
+  if (Math.abs(gCritME({critical_strike_chance: [1, 0]}) - 1.4) > 1e-9 || Math.abs(gCritME({crit_chance: [1, 0]}) - 1.5) > 1e-9) o.add('curio-class: crit bases are not Brutality x1.4, Apothic x1.5');
+  { const d = byId('brutality:divine_immolation'); if (!d || Math.abs(gCurioGain(d, 'ME', last) - .4) > .01) o.add(`curio-class: Divine Immolation adds ${d && gCurioGain(d, 'ME', last)} to Melee, measured 0.4 (its crit counted twice?)`); }
+  // a melee damage-taken reading at the hit cap (half the tester's health) is not a reading
+  for (const id in CM) { const m = CM[id], t = gTk(m), cap = .5 * (20 + (m.hp || 0)) / 8; if (t.melee != null && Math.abs(t.melee - cap) < .002) o.add(`curio-class: ${id} keeps a capped melee reading`); }
+  for (const id of ['armageddon_mod:pegasus_boots', 'confluence:power_glove']) { const d = byId(id); if (!d || gCurioScore(d, 'ME', 6) < .999) o.add(`curio-class: ${id} is penalised for a capped damage reading (${d && gCurioScore(d, 'ME', 6)})`); }
+  { const d = byId('terramity:chthonic_cursemark'), t = d && gTk(CM[d.id]); if (!t || t.melee !== 2) o.add('curio-class: Chthonic Cursemark\'s melee damage taken is not its other kinds\' x2'); }
+  // minion attack speed counts: Lead Bell (+12.5% minion damage, -20% minion attack speed) is a loss for Summon
+  { const d = byId('summonity:lead_bell'); if (!d || gCurioGain(d, 'SU', last) > -.05) o.add(`curio-class: Lead Bell adds ${d && gCurioGain(d, 'SU', last)} to Summon`); }
+  // attack speed: +-0.1 with no word of it in the text is test noise; a flat bonus adds to the weapon's speed
+  for (const d of D) { const m = CM[d.id]; if (!m) continue; const ks = Object.keys(m.d || {}), v = (m.d || {})['minecraft:generic.attack_speed'], t = [d.fx || '', ...(d.st || [])].join(' / ');
+    if (ks.length === 1 && v != null && Math.abs(Math.abs(v) - .1) < .001 && !/attack speed|haste/i.test(t) && Math.abs(gCurioGain(d, 'ME', last)) > .001) o.add(`curio-class: ${d.n} gets ${gCurioGain(d, 'ME', last)} from a 0.1 attack-speed noise`); }
+  { const d = byId('terramity:electron_bracelets'), want = .5 / gFront(last).spd; if (!d || Math.abs(gCurioGain(d, 'ME', last) - want) > .005) o.add(`curio-class: Electron Bracelets (+0.5 attack speed, flat) adds ${d && gCurioGain(d, 'ME', last)}, want ${want}`); }
+  // Brutality's spell_damage is for its own spells, not Iron's or Ars's
+  for (const id in CM) if ((CM[id].d || {})['brutality:spell_damage'] && Object.keys(CM[id].d).length === 1 && byId(id) && gCurioGain(byId(id), 'MA', last) > .001) o.add(`curio-class: ${id} counts Brutality spell damage for Mage`);
+  // under five items the best is the reference: Act 0 Mage weapons are not all S
+  for (const a of acts) for (const r of R) for (const w of ['w', 'a', 'o', 's', 'v']) { const t = gTiers(a, r, w), n = t.reduce((s, x) => s + x[1].length, 0);
+    if (n > 1 && n < 5 && t[0] && t[0][1].length === n && new Set(gPool(a, r, w).map(x => x[1])).size > 1) o.add(`curio-class: all ${n} items of ${w}/${r} at Act ${a} are S though they differ`); }
+  // a curio's page shows the tier of the view its link opens
+  for (const d of D) { if (!CM[d.id] || gCtx(d)) continue; const h = document.createElement('div'); h.innerHTML = gCurioMs(d); const b = h.querySelector('.gverd b'), lk = h.querySelector('.gverd a');
+    if (!b || !lk) continue; const [, a, r, w] = lk.getAttribute('href').match(/#gear\/([\d.]+)\/(\w\w)\/c\/?(\w*)/) || [], v = w === 'shared' ? 's' : w === 'any' ? 'v' : 'o';
+    if ((gTierOf(d, +a, r, v) || '–') !== b.textContent) o.add(`curio-class: ${d.n}'s page says ${b.textContent}, its list (${r}/${w || 'own'}) says ${gTierOf(d, +a, r, v)}`); }
   // the page: each view shows its own curios, and Summon has no shared view (no curio raises minions and another playstyle)
   const go = async h => { location.hash = h; await new Promise(r => setTimeout(r, 80)); render(); },
     shown = () => [...document.querySelectorAll('#main .gtl-list a.gtl')].map(t => D[+t.dataset.t]);

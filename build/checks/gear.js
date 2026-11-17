@@ -128,7 +128,7 @@ for (const g of [...GE, ...GS]) for (const k in g.at || {}) if (/\./.test(gAttr(
       if (!ts.length) bad.push(`equip-groups: ${r}/${k} shows nothing`);
       for (const [row, t] of ts) { const g = GE[+t.getAttribute('href').slice(2)];
         if (!gSubOf(g, r).includes(k) || (gTierOf(g, a, r, 'w') || (gUnr(g, r) ? '?' : '')) !== row.querySelector('.glet').textContent.trim()) bad.push(`equip-groups: ${g.n} on ${r}/${k} is not in the group, or stands under another tier than the playstyle gives it`); } } }
-  for (const r of R) { const own = gTiers(a, r, 'o').flatMap(x => x[1]), g = own.map(d => gCurioGain(d, r, a)), any = gTiers(a, r, 'c').flatMap(x => x[1]).filter(d => !gOwn(d, r, a));
+  for (const r of R) { const own = gTiers(a, r, 'o').flatMap(x => x[1]), g = own.map(d => gCurioScore(d, r, a)), any = gTiers(a, r, 'c').flatMap(x => x[1]).filter(d => !gOwn(d, r, a));
     if (!own.length || !any.length || own.some(d => !gOwn(d, r, a)) || g.some((v, i) => i && v > g[i - 1]) || any.some(d => own.includes(d)))
       bad.push(`equip-groups: ${r} curios: ${own.length} own, ${any.length} others; an own curio below ${GOWN}, out of order, or in both views`);
     await go(`#gear/${a}/${r}/c`); const shown = tiles().map(([, t]) => D[+t.dataset.t]);

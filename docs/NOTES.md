@@ -1980,3 +1980,42 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   - (4) Việc 3 (công thức giáp, hệ số k đặt tay) và việc 4 (kỹ năng chủ động của vũ khí melee).
   - (5) Ranged/Summon: chờ đo trong game.
   - (6) Bản dịch 7 câu mới chưa người bản ngữ xem.
+
+## 2026-11-17 (tiếp 4): tier list chính xác hơn mà không vào game: luật kiểm trong jar, review độc lập, 9 lỗi logic
+- **Ý chủ wiki**: "làm mọi thứ để cải thiện độ chính xác, logic của tier list mà không cần vào game đo".
+- **Nguồn**: jar của pack 6.6.6hf. Lấy danh sách file từ `manifest.json` của modpack zip qua `api.cfwidget.com`, rồi tải jar từ `edge.forgecdn.net`; mạng của phiên cho phép cả hai. Đọc bằng `javap`.
+- **Kiểm trong jar, đợt A** (commit `fbbf8fb`):
+  - Curio "damage dealt" (Terramity, Meet Your Fight, More Artifacts, Odd Accessories) lấy `DamageSource.getEntity()`, tức người gây sát thương. Áp cho cận chiến, đòn bắn và phép; không áp cho minion. Giả định của đợt trước là đúng.
+  - Curio "melee damage" của Terramity kiểm loại sát thương `PLAYER_ATTACK`, nên chỉ cận chiến.
+  - Chthonic Shell Casing kiểm khoảng cách tới mục tiêu (> 3 m), không kiểm loại đòn: đòn bắn và phép (`dmg_far`), không phải riêng Ranged.
+  - Chí mạng Apothic tung trong `LivingHurtEvent` cho mọi sát thương mà người tấn công là nguồn, kể cả phép: `GOFF.MA` nay tính nó (có câu giải thích mới).
+  - Chí mạng Brutality chỉ trong `CriticalHitEvent` (chỉ nhát chém cận chiến). Tỉ lệ = thuộc tính − 1; một nhát chí mạng gây ×1.4 + crit damage; cần lực đánh > 90%.
+  - Lethality và xuyên giáp của Brutality: mixin `getDamageAfterArmorAbsorb` hạ giáp mục tiêu thành giáp × (2 − xuyên giáp) − lethality, cho mọi sát thương người chơi gây ra. Loại sát thương phép của Iron's không nằm trong `bypasses_armor`. Vì vậy curio lethality chuyển sang nhóm dùng chung.
+  - Resonarium (Deeper and Darker): mỗi mảnh trừ 1/4 sát thương nhận vào và chuyển thành độ bền mất đi. Độ bền là 30 × (11/16/15/13). Lớp đệm 330 điểm chặn khoảng 24 đòn của Keeper Act VI, nên điểm hiện tại (evr đo được) là thấp chứ không phải cao. Giữ nguyên.
+  - Tab Survival có bảng riêng (`v`). Trước đó nó lọc từ bảng gộp, nên một curio ×2 sát thương làm mốc và đẩy curio sống sót của Ranged từ 44 xuống còn 9.
+- **Review độc lập** (agent Opus, chỉ đọc). Tôi tự kiểm lại từng số trước khi sửa; đúng cả 8 mục. Đợt B:
+  1. 69 curio đọc `tk.melee` 1.25 = 10/8, đúng bằng trần nửa máu của người thử 20 máu. 61 curio không nói gì về việc nhận thêm sát thương. Sửa: `gTk` bỏ số đo bị chặn trần; nếu các loại sát thương khác tăng quá trần (Chthonic Cursemark ×2) thì lấy theo chúng. Pegasus Boots không còn bị phạt 13%; Power Glove từ −2% thành +12%.
+  2. Divine Immolation: nhát chém đo ×1.4 chính là chí mạng Brutality 100%, công thức lại nhân chí mạng lần nữa (+110%). Sửa: `gCritME` tách hai loại chí mạng (Apothic +50%, Brutality +40%); nhát đo khi chí mạng Brutality ≥ 100% được chia lại. Nay phần tăng là +40%, khớp số đo.
+  3. Tab riêng và tab dùng chung bỏ qua cái giá. Sửa: cả ba tab xếp theo `gCurioScore` (sức mạnh × độ bền); lối chơi của curio vẫn xét theo phần sức mạnh. Câu chân trang viết lại, dịch 4 ngôn ngữ.
+  4. Bỏ qua `minion_attack_speed`. Sửa: `GOFF.SU` nhân thêm nó. Lead Bell (+12.5% sát thương, −20% tốc đánh) lỗ 10%, rời tab Summon.
+  5. Chữ tier trên trang curio lấy từ bảng gộp, khác với tab mà link mở (179/354). Sửa: lấy theo đúng tab.
+  6. Tốc độ đánh luôn chia 4. Thật ra tay không của người thử là 4.1; còn curio ghi "+0.5 attack speed (added to base)" là cộng thẳng vào vũ khí. Sửa: `gAsKind` (theo %, cộng thẳng, hoặc nhiễu); `gFront` có thêm tốc độ của vũ khí đầu bảng. Electron Bracelets từ +12.5% thành +22.6%.
+  7. Danh sách dưới 5 món lấy món yếu nhất làm mốc (Act 0 Mage: 4 món đều S). Sửa: dưới 5 món thì lấy món mạnh nhất. Nay S1 A1 C1 D1.
+  8. `brutality:spell_damage` bị đọc như sát thương phép phẳng của Ars. Sửa: chỉ đọc `ars_nouveau.perk.spell_damage`.
+- **Tôi tự tìm thêm**:
+  - Phạt máu theo % đo trên người thử 20 máu bị đọc thành số máu cố định (Divine Immolation −99% thành −19). Sửa: `GHPCT` áp đúng tỉ lệ cho build thật. Divine Immolation lỗ 42% và Bruteskin Belt (−50% máu) lỗ 40%, nên cả hai rời bảng.
+  - 27 curio có tốc độ đánh ±0.1 dù mô tả không nhắc tới tốc độ đánh (Wither's Spine, Schulk Eye Gem). Đây là nhiễu của bài đo; nó đẩy +2.4% vượt ngưỡng 2% vào tab Melee. Sửa: bỏ qua.
+- **Số sau đợt B** (Act XII, riêng / dùng chung / sống sót): Melee 42/18/41, Ranged 7/21/48, Mage 50/16/48, Summon 26/0/52. Hạng Power trên trang Curios: 94 curio đổi so với đầu phiên; số curio có hạng từ 249 lên 252.
+- **Kiểm**:
+  - `build/checks/curio_class.js` thêm 11 nhóm kiểm cho các lỗi trên; `checks/gear.js` sắp tab riêng theo điểm gộp.
+  - Thử đỏ đợt B (bỏ chặn trần, chia 4, bỏ tốc đánh minion, xếp theo phần tăng) báo 89 lỗi; trả mã về thì 0. Đợt A thử đỏ báo 79 lỗi.
+  - `qa.py --strict` 0 lỗi cứng; 1395/1395 câu.
+  - `bash build/check.sh` exit 0 sau đợt A và sau đợt B (patches idempotent, invariant 0, page text 0, script 0, a11y 0, site đạt).
+  - Ảnh đã xem: `#gear/12/ME/c` (không còn Divine Immolation, Chthonic Cursemark); `#gear/0/MA/w` (S1 A1 C1 D1); `#gear/12/SU/c/any` ở 375 px (375/375); trang Eyepatch (S, +33% cho ba lối chơi).
+- **Open**:
+  - (1) Vũ khí Ranged đọc từ code: mỗi cây Too Many Bows có code bắn riêng (mũi tên riêng, sát thương đặt trong nhánh điều kiện, bắn nhiều mũi). Đọc đúng 144 món là dự án riêng, ước tính hơn 10 giờ. Chưa làm, chờ chủ wiki quyết.
+  - (2) Lethality chỉ có một điểm đo (lợn không giáp). Hiệu quả thật phụ thuộc giáp của mục tiêu, nên số trên trang là của mục tiêu 0 giáp.
+  - (3) Sát thương minion của Summonity đo được bằng nửa con số trong tooltip (Dragon Mask 0.06 so với +12%). Chưa đọc jar để biết bên nào đúng.
+  - (4) Lý do của hệ số k trong điểm giáp ("đánh từ xa thì ít bị trúng đòn") chưa đủ. Với mô hình tích, tần suất trúng đòn là hằng số nên không đổi thứ hạng; k < 1 chỉ đứng được nếu độ bền có lợi ích giảm dần. Chưa sửa vì phải viết lại câu dài đã dịch.
+  - (5) Bốn nhát ×1.5 không giải thích được, các mục cũ (việc 3–4, Ranged/Summon đo trong game, bản dịch chưa người bản ngữ xem).
+  - (6) Chưa đưa lên `main`: lệnh đẩy lên `main` bị chặn; cần chủ wiki cho phép hoặc tự gộp nhánh `claude/exciting-lamport-9cwni5`.
