@@ -38,10 +38,10 @@ LGW.SRG = {
   releaseUsing: ['m_5551_'], getUseDuration: ['m_8105_'], use: ['m_7203_'], getItem: ['m_41720_'], add: ['m_36054_'], isCharged: ['m_40932_'],
   isUsingItem: ['m_6117_'], releaseUsingItem: ['m_21253_'], getTicksUsingItem: ['m_21252_'], arrow: ['m_269418_'], getEncodeId: ['m_20078_'],
   getDeltaMovement: ['m_20184_'], getBaseDamage: ['m_36789_'], getOwner: ['m_19749_'], setOwner: ['m_5602_'], shoot: ['m_6686_'],
-  setDeltaMovement: ['m_20256_'], resetFallDistance: ['m_183634_'], isNoGravity: ['m_20068_']
+  setDeltaMovement: ['m_20256_'], resetFallDistance: ['m_183634_'], isNoGravity: ['m_20068_'], setGameMode: ['m_143403_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
-  BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_', hurtTime: 'f_20916_' }
+  BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_', hurtTime: 'f_20916_', SURVIVAL: 'f_46392_' }
 // the member name to use on o: the Mojang one if Rhino shows it, else the first SRG name o has
 LGW.K = (o, n) => {
   try { if (typeof o[n] === 'function') return n } catch (x) {}
@@ -181,6 +181,9 @@ LGW.run = (server, who, name) => {
     // the tester stands 3 blocks up and doTick() runs its physics: it fell during every wait (2026-11-17 probe: a bow drawn 40
     // ticks shot from 3 blocks lower, under the pig, so every shot missed), and a swing while falling is a vanilla jump critical
     // (x1.5: Gob's Mask, Chronicles Of The Firelord, Amplifier Stone read exactly 1.5). It now hangs where it is put
+    // survival, whatever the world's default: a creative tester takes no damage in the hurt test and stops every hit in the
+    // block test (2026-11-17, a server set to creative: every reading 0)
+    safe('reset game mode', () => c1(P, 'setGameMode', fld(Java.loadClass('net.minecraft.world.level.GameType'), 'SURVIVAL')))
     safe('reset gravity', () => { c1(P, 'setNoGravity', true); try { c0(P, 'resetFallDistance') } catch (e) {} try { c1(P, 'setDeltaMovement', new (Java.loadClass('net.minecraft.world.phys.Vec3'))(0, 0, 0)) } catch (e) {} })
     safe('reset slots', () => { for (var s in SLOT) wear(SLOT[s], EMPTY) })
     safe('reset curios', () => clearCurios())

@@ -2019,3 +2019,35 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   - (4) Lý do của hệ số k trong điểm giáp ("đánh từ xa thì ít bị trúng đòn") chưa đủ. Với mô hình tích, tần suất trúng đòn là hằng số nên không đổi thứ hạng; k < 1 chỉ đứng được nếu độ bền có lợi ích giảm dần. Chưa sửa vì phải viết lại câu dài đã dịch.
   - (5) Bốn nhát ×1.5 không giải thích được, các mục cũ (việc 3–4, Ranged/Summon đo trong game, bản dịch chưa người bản ngữ xem).
   - (6) Chưa đưa lên `main`: lệnh đẩy lên `main` bị chặn; cần chủ wiki cho phép hoặc tự gộp nhánh `claude/exciting-lamport-9cwni5`.
+
+## 2026-11-17 (tiếp 5): Claude tự đo trong game trên server 6.6.6cf; vũ khí Ranged có tier từ số đo phát bắn
+- **Ý chủ wiki**: tìm cách xếp hạng đúng mà Claude tự làm được, không cần chủ wiki vào game. Chủ wiki chọn bản 6.6.6cf, gửi link Drive của server pack và cho đẩy lên `main`.
+- **Server**:
+  - `serverpack` từ Drive: 877,769,936 byte, SHA-1 `97ee7586f3ae…`, 387 jar, có `linggango_fixes-2.16-leakfix.jar`. Giải nén ở `/home/user/pack/server` (ngoài repo). Đủ 58/58 thư viện của `unix_args.txt`.
+  - Chạy headless bằng Java 21 với `-Xmx8G`; `server.properties`: flat, offline, không sinh quái, `max-tick-time=-1`. Lệnh gửi qua `console.txt`. Khởi động mất khoảng 2 phút.
+  - So sánh: 6.6.6cf khác 6.6.6hf ở Linggango Fixes (thêm một mixin sửa rò bộ nhớ BWG), Punchy! (client) và 5 `defaultconfigs` có giá trị mặc định. Số liệu wiki vẫn đúng với cf (`build/README.md`).
+- **Ba lỗi của bài đo (trước đây do chủ wiki chạy) tìm ra và sửa trong `lgw_measure.js`**:
+  1. Người thử đứng cao 3 khối và rơi trong lúc chờ, vì `doTick()` chạy vật lý. Hậu quả: mũi tên bắn ra từ chỗ thấp hơn và bay lọt dưới lợn, và nhát chém lúc đang rơi thành chí mạng khi nhảy ×1.5. Sửa: tắt trọng lực, đặt độ cao rơi về 0. Đo lại: Gob's Mask, Chronicles Of The Firelord, Amplifier Stone, Anvil Talisman đều ra ×1.0, xác nhận ×1.5 cũ là chí mạng do đang rơi.
+  2. Không có người chơi thật thì sau 300 tick vanilla ngừng cập nhật vật thể, nên mũi tên đứng yên giữa không trung. Sửa: `forceload add -48 -48 48 48`.
+  3. Người thử ở chế độ sáng tạo (do `gamemode=creative` của tôi) chặn 10/10 đòn trong bài thử chặn. Sửa: script tự đặt survival. Importer bỏ một lượt có mọi curio chặn hết mọi đòn, và giữ nguyên nhãn nguồn của dữ liệu curio khi không nhập số chặn đòn nào.
+- **Đo phát bắn mới**:
+  - Thời gian kéo hoặc nạp: vận tốc của vật thể bắn ra sau 4–40 tick giữ chuột (`drawCurve`).
+  - Hiệu chỉnh: Bow 20 tick, Crossbow 25 tick, Trident 10 tick, đúng code vanilla. Sát thương Bow 7–9, Trident 8.
+  - Kết quả: 118 vũ khí bắn ở lợn 10.000 máu và lợn 1.000 máu. 73 món gây sát thương, 71 món có thời gian kéo/nạp, 45 món mọi phát đều 0 (đồ ném của Brutality, món cần năng lượng, súng của mod).
+  - Điểm Ranged = sát thương mỗi phát ở mục tiêu 1.000 máu (cùng chuẩn cận chiến) × số phát mỗi giây.
+  - Rainfall Serenity: 783 ở 1.000 máu, 592 ở 10.000 máu. Không tỉ lệ với máu mục tiêu, nên là sát thương thật.
+  - Act XII Ranged: S5 A3 B2 C11 D7, 73 món ở hàng "?" kèm lý do riêng từng món (không gây sát thương trong bài thử / chưa đo tốc độ bắn / súng).
+- **Curio**:
+  - Charged Redstone Piece: nhát đầu 15, nhát sau 22.5. Đây là buff Amped; theo jar, handler của Lethality chỉ áp khi người chơi là thực thể trực tiếp gây đòn (cận chiến). Nay là curio riêng Melee, hạng A (`GHITBUFF`).
+  - Ghi chú "Not counted" đổi thành câu đã xác nhận.
+- **Kiểm**:
+  - `tier-act`: điểm Ranged phải đúng bằng số đo; Bow phải 6–10 sát thương với 20 tick, Crossbow phải 25 tick.
+  - `curio_class`: Charged Redstone Piece là Melee +50%.
+  - 11 câu mới cho 4 ngôn ngữ; QA 0 lỗi cứng; 1403/1403 câu.
+  - `bash build/check.sh` exit 0 trên cây cuối. Lượt trước đó có 1 lỗi a11y "no .mtabs a text to test on #mechanics" khi server và các bước nhập số chạy cùng lúc; chạy lại không còn, và `#mechanics` không được sửa.
+  - Ảnh đã xem: `#gear/12/RA/w` (1440 và 375); trang Bow (9/phát, 20 tick, S từ Act 0–I tới III); Rainfall Serenity; Dynamite và Basic Pistol (dòng "?" kèm lý do).
+- **Open**:
+  - (1) Bài thử sát thương nhận vào trên server này ra 0 cho mọi loại đòn, kể cả khi không đeo gì. Một handler `LivingDamageEvent` nào đó đưa sát thương về 0. Đã dừng sau 2 lần thử (không phải do chế độ chơi), nên 69 số đo bị chặn trần chưa đo lại được; wiki vẫn bỏ chúng (`gTk`).
+  - (2) Summon: chưa viết script đo minion.
+  - (3) 45 món bắn ra 0 cần cách bắn riêng: đồ ném của Brutality, món cần năng lượng, súng.
+  - (4) Các mục open cũ.

@@ -36,6 +36,9 @@
   // a hit change nothing explains is not counted: Gob's Mask (minion slots, hit x1.5) adds nothing to Melee
   for (const id of ['summonity:gobs_mask', 'traveloptics:chronicles_of_the_firelord', 'uniqueaccessories:amplifier_stone']) { const d = byId(id);
     if (!d || gHitKind(d, CM[id]) !== '' || gCurioGain(d, 'ME', last) >= GOWN) o.add(`curio-class: ${id}'s unexplained x1.5 hit still counts for Melee`); }
+  // re-measured on 2026-11-17 with the tester held still: the x1.5 of Gob's Mask, Chronicles Of The Firelord and Amplifier Stone was a
+  // falling (jump-critical) swing and stays out; Charged Redstone Piece's is its Amped buff on melee hits (15 then 22.5): Melee's own
+  { const d = byId('lethality:charged_redstone_piece'); if (!d || gHitKind(d, CM[d.id]) !== 'ME' || !gOwn(d, 'ME', last) || Math.abs(gCurioGain(d, 'ME', last) - .5) > .02) o.add(`curio-class: Charged Redstone Piece (Amped, +50% on melee hits) adds ${d && gCurioGain(d, 'ME', last)} to Melee`); }
   // the test's own conditions are not tiered: the pig at full health, with no AI, among other mobs
   for (const id of ['brutality:crowbar', 'oddaccessories:malice', 'brutality:greed']) { const d = byId(id); if (!d || !gCtx(d)) o.add(`curio-class: ${id} is tiered though the test pig met its condition`); }
   // Mage weapons by what they add: S is not most of the list (Act VI had 21 S of 22), and each tier is the gain's ratio
