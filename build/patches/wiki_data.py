@@ -112,6 +112,13 @@ _cdir = pathlib.Path(_os.environ.get("LGW_CLIPS") or (H.parent / "clips3"))
 _appr = sorted(json.loads((H.parent / "clips" / "approved.json").read_text()))
 assert all(c in {r["id"] for r in _sl + _gl + _al + _bl} for c in _appr), "an approved clip that is not a spell of spells.json or spells_<system>.json"
 _clips = [c for c in _appr if (_cdir / (c.replace(":", "__") + ".mp4")).exists()]
+# why a spell has no clip (build/clips/noclip.json, from the clip reviews in docs/NOTES.md): every spell the pack leaves on has an approved clip or
+# a reason, never both; a spell the pack turns off needs neither (the page says it is off)
+_why = json.loads((H.parent / "clips" / "noclip.json").read_text())
+_on = {r["id"] for r in _sl + _al if r["enabled"] is not False} | {r["id"] for r in _gl + _bl}
+assert not set(_why) & set(_appr), "noclip.json gives a reason for a spell with an approved clip: " + ", ".join(sorted(set(_why) & set(_appr)))
+assert set(_why) <= _on, "noclip.json names a spell that is not on (or not a spell): " + ", ".join(sorted(set(_why) - _on))
+assert _on <= set(_why) | set(_appr), "a spell with neither an approved clip nor a reason in noclip.json: " + ", ".join(sorted(_on - set(_why) - set(_appr)))
 pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(",", ":")) + ");\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_ui, separators=(",", ":")) + "))if(GUIDE[k])GUIDE[k].i=v;\n"
         + "for(const [k,v] of Object.entries(" + json.dumps(_gi, separators=(",", ":")) + "))if(GOETY.types[k])GOETY.types[k].img=v;\n"
@@ -119,7 +126,7 @@ pics = ("Object.assign(ARMR," + json.dumps(J("armor_renders.json"), separators=(
         + "window.BWALK=" + json.dumps(J("boss_walks.json"), separators=(",", ":")) + ";\n"   # the walk loops of the home page's figures (boss_portraits.js --figs)
         + "window.EFX=" + json.dumps([_slim(r) for r in _ef["effects"]], ensure_ascii=False, separators=(",", ":")) + ";window.EFXA=" + json.dumps(_ea, ensure_ascii=False, separators=(",", ":")) + ";window.EFXU=" + str(len(_ef["unconfirmed"])) + ";window.EFXG=" + json.dumps(_eg, separators=(",", ":")) + ";\n"
         + "window.EFXI=" + json.dumps(J("effect_icons.json"), separators=(",", ":")) + ";\n"
-        + "window.SPL=" + json.dumps([_sp(r) for r in _sl], ensure_ascii=False, separators=(",", ":")) + ";window.SPLI=" + json.dumps(_si, separators=(",", ":")) + ";window.SPCLIP=" + json.dumps(_clips) + ";\n"
+        + "window.SPL=" + json.dumps([_sp(r) for r in _sl], ensure_ascii=False, separators=(",", ":")) + ";window.SPLI=" + json.dumps(_si, separators=(",", ":")) + ";window.SPCLIP=" + json.dumps(_clips) + ";window.SPWHY=" + json.dumps(_why, ensure_ascii=False, separators=(",", ":")) + ";\n"
         + "window.GSPL=" + json.dumps([_gsp(r) for r in _gl], ensure_ascii=False, separators=(",", ":")) + ";window.GSPLI=" + json.dumps(_gi2, separators=(",", ":")) + ";\n"   # Spells > Goety (spell_systems.py)
         + "window.ASPL=" + json.dumps([_asp(r) for r in _al], ensure_ascii=False, separators=(",", ":")) + ";window.ASPLI=" + json.dumps(_ai, separators=(",", ":")) + ";\n"   # Spells > Ars Nouveau
         + "window.BSPL=" + json.dumps([_bsp(r) for r in _bl], ensure_ascii=False, separators=(",", ":")) + ";window.BSPLI=" + json.dumps(_bi, separators=(",", ":")) + ";\n"   # Spells > Brutality

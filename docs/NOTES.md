@@ -1831,3 +1831,33 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
   - (2) 11 focus Goety chưa rõ nguyên nhân (mục 2026-11-16);
   - (3) các glyph và phép thử 1 lần ở trên có thể thử lần 2;
   - (4) Annihilation Resonance, Paralyzing Skreech như các mục trước.
+
+## 2026-11-17: Spells thành một thư viện cho 709 phép; lý do cho mọi phép không có clip; thêm 4 clip Goety Awaken
+- **Trang Spells mới** (bố cục "thư viện 3 cột" chủ wiki chọn; spec `docs/plans/2026-11-17-spell-library.md`):
+  - Một ô tìm kiếm cho cả 4 hệ, chip hệ có số đếm (All 709, Iron's 306, Goety 209, Ars 168, Brutality 26).
+  - Cột trái: chip lọc có số đếm sống (Clip, School/type/kind, How it is cast, Rarity của Iron's, Tier của Ars, Mod). Số trên chip là số phép sẽ hiện nếu bấm, với các bộ lọc khác giữ nguyên.
+  - Cột giữa: mỗi phép một hàng (icon trong ô slot, tên, nhóm theo màu, hệ, chi phí, hồi chiêu; dấu ▶ ở góc ô khi có clip). Hiện 60 hàng đầu, cuộn tới đâu nạp tới đó. Sắp xếp theo tên, nhóm, chi phí, hồi chiêu.
+  - Cột phải: phép đang chọn (clip tự phát, tắt tiếng, lặp; mô tả trong khung tooltip vanilla; các chỉ số trong ô slot; hiệu ứng nó gây ra; lý do khi không có clip; nút Previous/Next).
+  - Điện thoại: danh sách một cột, chi tiết mở phủ màn hình, có nút "← Back to the list"; 761–1180 px: bộ lọc gập lên trên, hai cột.
+  - Link: `#spells/<id>` mở phép đó (link từ trang Effects vẫn đúng), `#spells/<hệ>` mở một hệ, chữ khác thành từ khoá tìm. Chọn một hàng đổi địa chỉ bằng `replaceState`: trang không vẽ lại, không nhảy lên đầu.
+  - Code: `app.js spellsPage` + `spellRows()` (gộp SPL, GSPL, ASPL, BSPL thành một kiểu hàng); CSS "spells: the library" trong `style.game.css`; 35 câu UI mới đã dịch vi/ru/pt/es.
+- **Lý do không có clip**: `build/clips/noclip.json` (77 phép: Iron's 2, Goety 27, Ars 45, Brutality 3), lấy từ các lần duyệt clip trước. `patches/wiki_data.py` assert: mọi phép đang bật có clip đã duyệt hoặc có lý do, không có cả hai. Bản build đưa ra `window.SPWHY`; panel chi tiết hiện lý do.
+- **Clip mới**:
+  - 5 focus Goety Awaken (Chip, Chip Rain, Ghost Missile, Fate Dice, Swamp Mine) bắn entity của mod Meet Your Fight (javap: `lykrast/meetyourfight`). Pack có mod này nhưng sân quay thiếu, nên trước đây niệm không thấy gì. Đã thêm `meetyourfight-1.20.1-1.6.1.jar` vào sân quay rồi quay lại.
+  - Duyệt 4 clip đạt: Chip, Chip Rain, Fate Dice, Ghost Missile. Swamp Mine chỉ thấy mìn đặt xuống, chưa nổ trong 10 s, nên không duyệt.
+  - Commit `workspace` 3fab6afaa có 8 tệp. `approved.json` từ 628 lên 632 id.
+- **Dừng theo quy tắc thử 2 lần**:
+  - Linggango Tweaks: sau L2 Damage Tracker và L2 Hostility, jar còn cần Enigmatic Legacy (`NoClassDefFoundError: com/aizistral/enigmaticlegacy/items/CursedRing`). Chuỗi mod đã được gỡ khỏi sân quay; 6 focus giữ lý do.
+  - 11 focus Goety "chưa rõ": lượt chẩn đoán thứ 3 có HUD bật, nhưng chat và log server đều không có lỗi. Lượt này tìm ra 5 focus cần Meet Your Fight (đã xử lý ở trên); 6 focus còn lại (Iron Hide, Lightning Spear, Water Spear, Agony, Desert Plagues, Love and Fertility) không gọi mod ngoài nào.
+- **Kiểm tra**:
+  - `apply_all.sh` exit 0; i18n 1369/1369 câu cho cả 4 ngôn ngữ; `static/` 487 MB (`du -sb`).
+  - `checks/spells.js` viết lại phần trang. Nó kiểm: số hàng đầu, dòng đếm, số node dưới 5000, chip hệ, số trên chip lọc khớp số hiện ra, tìm kiếm, Clear filters, nạp hết, chọn hàng không vẽ lại trang, link `#spells/<id>` / `#spells/goety` / chữ, lý do không clip, phép bị tắt. Chạy riêng: 0 lỗi.
+  - `site_check.js` nay tìm video trong panel chi tiết; chạy riêng: đạt.
+  - Ảnh đã xem: `#spells` 1440, `#spells/irons_spellbooks:fireball`, `#spells/goety:banish_focus` 375 (sheet), `#spells` 1024, `#spells/ars` tiếng Việt, `#spells/goetyawaken:fate_dice_focus` (clip phát).
+  - `bash build/check.sh` (đã tắt game): lần đầu style_check báo 3 lỗi. Đã sửa: `gap:3px` thành `var(--s1)`; tên phép trong panel từ h2 (dành cho tiêu đề mục, Jersey 15 ≥ 30 px) thành h3; ◀ ▶ (bị tính là emoji) thành ← →. Lần hai exit 0: invariant 0, a11y 0, script 0, site đạt.
+  - Panel chi tiết dừng phía trên nút ↑ cố định (max-height `100vh - 152px`) để nút không đè lên Next.
+- **Open**:
+  - (1) Khoảng 70 phép còn lại cần cách dựng mới (rơi từ trên cao, nhiều mục tiêu, ao nước, servant gắn vào focus…, xem plan). Chưa làm ở đợt này;
+  - (2) 6 focus Goety không gọi mod ngoài nhưng niệm không thấy gì: cần đọc code từng spell;
+  - (3) Swamp Mine: cho husk đi vào mìn;
+  - (4) Annihilation Resonance, Paralyzing Skreech như các mục trước.

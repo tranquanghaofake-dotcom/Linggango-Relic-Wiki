@@ -49,12 +49,13 @@ const { chromium } = (() => { try { return require('playwright'); } catch { // g
     if (!after.pimg || !after.n || (after.hub && !after.mark) || before < 0) late.push(`${h || 'hub'}: PIMG ${after.pimg ? 'arrived' : 'never arrived'}, ${before} matches before and ${after.n} after${after.hub && !after.mark ? ', the hero was drawn again' : ''}`);
     await lp.close();
   }
-  // spell clips (pack_audit/spell_clips.py, build/clips): the page draws a <video> for each spell the data says has one, and each file is in static/
+  // spell clips (pack_audit/spell_clips.py, build/clips): the Spells library plays a spell's clip in its detail panel when the data says it has one
   const clipBad = [];
   { const cp = await b.newPage({ viewport: { width: 1400, height: 900 } }); cp.on('pageerror', e => errs.push('clips: ' + e.message));
     await cp.goto(url + '#spells', { waitUntil: 'load' }); await cp.waitForFunction(() => window.SPCLIP, null, { timeout: 15000 }).catch(() => {}); await cp.waitForTimeout(600);
-    const c = await cp.evaluate(() => { const q = document.getElementById('sq'); if (q) { q.value = ''; q.dispatchEvent(new Event('input', { bubbles: true })); } return { base: document.documentElement.dataset.clips, ids: window.SPCLIP || [], videos: document.querySelectorAll('#spl video').length }; });
-    if (c.ids.length && (!c.base || !c.videos)) clipBad.push(`no clip drawn (base ${c.base}, ${c.ids.length} ids, ${c.videos} videos on the first page)`);   // no approved clip yet is fine; approved ones must show
+    const c = await cp.evaluate(async () => { const ids = window.SPCLIP || []; if (ids.length) { location.hash = '#spells/' + encodeURIComponent(ids[0]); await new Promise(r => setTimeout(r, 600)); }
+      const v = document.querySelector('#sdp video'); return { base: document.documentElement.dataset.clips, ids, video: v ? v.getAttribute('src') : null }; });
+    if (c.ids.length && (!c.base || !c.video)) clipBad.push(`no clip drawn (base ${c.base}, ${c.ids.length} ids, the panel of ${c.ids[0]} has ${c.video ? 'a' : 'no'} video)`);   // no approved clip yet is fine; approved ones must show
     for (const id of c.ids) if (!fs.existsSync(path.join(path.dirname(path.resolve(process.argv[2] || 'index.html')), c.base + id.replace(':', '__') + '.mp4'))) clipBad.push('missing file for ' + id);
     await cp.close(); }
   await b.close();

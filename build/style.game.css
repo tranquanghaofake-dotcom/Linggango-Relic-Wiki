@@ -584,20 +584,92 @@ body.noside main{max-width:1440px;margin-inline:auto;width:100%}
 .mtabs a{padding:var(--s2) var(--s4);background:var(--btn);color:#fff;text-decoration:none;font:600 14px var(--body);box-shadow:0 0 0 2px #000,inset 2px 2px 0 var(--btn-hi),inset -2px -2px 0 var(--btn-lo)}
 .mtabs a:hover{background:var(--btn-hover)}
 #m-effects .rtab{min-width:760px}#m-effects .rtab td.nchs{min-width:340px}
-/* spells: one card per spell, a stripe in its school's colour */
-.spl{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:var(--s3);margin:var(--s3) 0}
-.spc{background:var(--gui2);box-shadow:inset 2px 2px 0 rgba(0,0,0,.45);padding:var(--s3) var(--s4);border-top:4px solid var(--sc,#888);display:flex;flex-direction:column;gap:var(--s2)}
-.spc header{display:flex;gap:var(--s3);align-items:center}
-.spc .spi{width:48px;height:48px;flex:none;image-rendering:pixelated;background:#000;box-shadow:0 0 0 2px #000;display:block}
-.spc h3{margin:0;font:600 16px var(--body)}
-.spc small,.spc .spm{color:var(--gui-mute)}
-.spc .spg{margin:0}
-.spc .spv{display:block;width:100%;aspect-ratio:16/9;background:#000}
-.spc .spd{display:grid;grid-template-columns:auto 1fr;gap:var(--s1) var(--s3);margin:0}
-.spc .spd dt{color:var(--gui-mute)}
-.spc .spd dd{margin:0}
-.spc[data-off]{opacity:.65}
-.rflt #sn{color:var(--gui-mute);font-size:13px}   /* four columns: on a phone the table scrolls inside its frame instead of squeezing Given by into a tall strip */
+/* spells: the library (app.js spellsPage). Search and systems on top, then filters | the list | the chosen spell (its panel ends above #totop); at 761-1180 px the filters fold above
+   the two columns; on a phone the list is alone and the chosen spell opens over it (.slib.sheet). Panels, slots and buttons are the GUI's own. */
+.slib{display:grid;grid-template-columns:232px minmax(0,1fr) minmax(360px,440px);grid-template-areas:"bar bar bar" "fx list dp";gap:var(--s4);align-items:start;margin:0 0 var(--s5)}
+.sbar,.sfx,.slist,.sdp{position:relative;background:var(--gui);color:var(--gui-ink);border-radius:4px;box-shadow:0 0 0 2px #000,var(--bevel),0 6px 0 2px rgba(0,0,0,.35)}
+.sbar{grid-area:bar;display:flex;flex-wrap:wrap;align-items:center;gap:var(--s3) var(--s4);padding:var(--s4)}
+.sbar input{flex:1 1 300px;min-width:0;font-size:16px;padding:var(--s3) var(--s4)}
+.ssys{display:flex;flex-wrap:wrap;gap:var(--s3)}
+.ssb{min-height:36px;padding:var(--s2) var(--s3);font-size:14px;gap:var(--s2)}
+.ssb::before{content:"";flex:none;width:10px;height:10px;background:var(--sc);box-shadow:0 0 0 2px #000}
+.ssb i{font-style:normal}
+.sfx{grid-area:fx;position:sticky;top:84px;max-height:calc(100vh - 100px);overflow:auto;padding:var(--s2) var(--s4) var(--s3);scrollbar-width:thin;scrollbar-color:#555 var(--gui)}
+.sfx>details>summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:var(--s2);padding:var(--s2) 0;font:700 16px var(--disp);color:#fff}
+.sfx>details>summary::-webkit-details-marker{display:none}
+.sfx>details>summary b{font:600 12.5px var(--body);color:var(--yellow)}
+.sfx .grp summary{font-size:14px}
+.sfx .chip{gap:var(--s1)}
+.sfsub{flex-basis:100%;margin:var(--s2) 0 0;font:600 11.5px var(--body);color:var(--gui-mute);text-transform:uppercase;letter-spacing:.06em}
+.sdot{display:inline-block;width:8px;height:8px;background:var(--sc);box-shadow:0 0 0 1px #000}
+.slist{grid-area:list;padding:var(--s3) var(--s3) var(--s4)}
+.slh{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s2) var(--s3);padding:var(--s1) var(--s1) var(--s3)}
+.slh .ghost{min-height:28px;padding:var(--s1) var(--s3);font-size:13px}
+.ssort{margin-left:auto;display:flex;align-items:center;gap:var(--s2);font-size:13px;color:var(--gui-mute);white-space:nowrap}
+.ssort select{padding:var(--s1) var(--s2);font-size:13px}
+.srh,.sr{display:grid;grid-template-columns:40px minmax(0,1fr) 88px 76px;align-items:center;gap:var(--s3)}
+.srh{padding:0 var(--s2) var(--s1) calc(var(--s2) + 4px);font:600 11px var(--body);color:var(--gui-mute);text-transform:uppercase;letter-spacing:.06em}
+.srh span:nth-child(n+3),.sru{text-align:right}
+.spl2{display:flex;flex-direction:column;gap:var(--s1)}
+.sr{padding:var(--s1) var(--s2);color:var(--gui-ink);text-decoration:none;background:var(--gui2);border-left:4px solid var(--sc);box-shadow:inset 2px 2px 0 rgba(0,0,0,.35);transition:background-color .1s}
+.sr:hover{background:var(--gui-hover)}
+.sr[aria-current]{background:#3a3752;box-shadow:0 0 0 2px #fff,inset 2px 2px 0 rgba(0,0,0,.35)}
+.sr[data-off]{opacity:.6}
+.sr .slot img{image-rendering:pixelated}
+.sr[data-clip] .slot::after{content:"▶";position:absolute;right:2px;bottom:0;font:700 11px/1 var(--body);color:#8dff6a;text-shadow:1px 1px 0 #000}
+.srn{display:flex;flex-direction:column;min-width:0}
+.srn b{font:600 14.5px/1.3 var(--body);color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.srn b small{font-weight:500;font-size:12px;color:var(--gui-mute)}
+.srn em{font:500 12.5px/1.3 var(--body);font-style:normal;color:color-mix(in srgb,var(--sc) 55%,#fff);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sru{font:500 13px var(--body);color:var(--gui-mute);white-space:nowrap}
+#smore{display:flex;justify-content:center;padding-top:var(--s3)}
+.sdp{grid-area:dp;position:sticky;top:84px;max-height:calc(100vh - 152px);overflow:auto;padding:var(--s4);scrollbar-width:thin;scrollbar-color:#555 var(--gui)}
+.sdp .empty{margin:0}
+.sdtop{display:none}
+.sdh{display:flex;gap:var(--s3);align-items:center;margin:0 0 var(--s3)}
+.sdh .slot img{image-rendering:pixelated}
+.sdh h3{margin:0;font:700 21px/1.2 var(--disp);color:#fff;text-wrap:balance}
+.sdh p{margin:var(--s1) 0 0;color:var(--gui-mute);font-size:13.5px}
+.sgk{color:color-mix(in srgb,var(--sc) 55%,#fff);font-weight:600}
+.sdv{margin:0 0 var(--s3)}
+.sdv .spv{display:block;width:100%;aspect-ratio:16/9;background:#000;box-shadow:0 0 0 2px #000}
+.snc{display:grid;place-content:center;justify-items:center;gap:var(--s2);width:100%;aspect-ratio:16/9;padding:var(--s4);text-align:center;background:var(--slot);
+ box-shadow:inset 3px 3px 0 var(--slot-lo),inset -3px -3px 0 var(--slot-hi)}
+.snc b{font:700 16px var(--disp);color:#fff}
+.snc p{margin:0;max-width:44ch;color:var(--gui-mute);font-size:13.5px;line-height:1.5}
+.snc a{color:var(--gui-link)}
+.sdg{margin:0 0 var(--s3);padding:var(--s3);background:var(--tt-bg);color:#e6e0f0;font-size:14px;line-height:1.55;
+ box-shadow:0 0 0 2px #100010,inset 0 0 0 2px var(--tt-b2),inset 0 2px 0 2px var(--tt-b1)}
+.sds{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:var(--s2);margin:0 0 var(--s3)}
+.sds div{padding:var(--s2) var(--s3);background:var(--slot);box-shadow:inset 2px 2px 0 var(--slot-lo),inset -2px -2px 0 var(--slot-hi)}
+.sds dt{font:600 11px var(--body);color:var(--gui-mute);text-transform:uppercase;letter-spacing:.05em}
+.sds dd{margin:var(--s1) 0 0;font:600 15px/1.3 var(--body);color:#fff}
+.sdl{margin:0 0 var(--s1);font:600 11px var(--body);color:var(--gui-mute);text-transform:uppercase;letter-spacing:.05em}
+.sdp .nchs{margin:0 0 var(--s3)}
+.sdm{margin:var(--s3) 0 0;font-size:12.5px;color:var(--gui-mute);overflow-wrap:anywhere}
+.sdm code{font-size:12px;color:#cfcbe0}
+.sdn{margin:var(--s2) 0 var(--s3);font-size:12.5px;line-height:1.5;color:var(--gui-mute)}
+.sdnav{display:flex;justify-content:space-between;align-items:center;gap:var(--s2);padding-top:var(--s3);border-top:2px solid var(--gui-line);font-size:13px;color:var(--gui-mute)}
+@media (max-width:1180px){
+ .slib{grid-template-columns:minmax(0,1fr) minmax(320px,400px);grid-template-areas:"bar bar" "fx fx" "list dp"}
+ .sfx{position:static;max-height:none}
+ .sfx .grp{display:inline-block;vertical-align:top;width:calc(50% - var(--s3));margin-right:var(--s3)}
+ .sdp{top:176px;max-height:calc(100vh - 244px)}
+}
+@media (max-width:760px){
+ .slib{grid-template-columns:minmax(0,1fr);grid-template-areas:"bar" "fx" "list";gap:var(--s3)}
+ .sbar{padding:var(--s3)}
+ .ssb{min-height:32px;font-size:13px;padding:var(--s1) var(--s2)}
+ .sfx .grp{display:block;width:auto;margin-right:0}
+ .srh,.sr{grid-template-columns:40px minmax(0,1fr) auto}
+ .srh span:nth-child(4),.sr .sru+.sru{display:none}
+ .sdp{display:none}
+ .slib.sheet .sdp{display:block;position:fixed;inset:0;align-self:stretch;justify-self:stretch;z-index:60;max-height:none;border-radius:0;padding:0 var(--s3) var(--s6);overflow:auto;overscroll-behavior:contain}
+ .slib.sheet .sdtop{display:flex;position:sticky;top:0;z-index:1;margin:0 calc(-1 * var(--s3)) var(--s3);padding:calc(var(--s2) + env(safe-area-inset-top,0px)) var(--s3) var(--s2);background:var(--gui);box-shadow:0 2px 0 #000}
+ body.noscroll{overflow:hidden}
+ body.noscroll #totop{display:none}
+}
+/* four columns: on a phone the table scrolls inside its frame instead of squeezing Given by into a tall strip */
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s3);margin:var(--s2) 0 var(--s4)}
 .steps>div{padding:var(--s3) var(--s4);background:var(--gui2);box-shadow:inset 2px 2px 0 rgba(0,0,0,.45)}
 .steps b{font:700 15px var(--body);color:#fff}
