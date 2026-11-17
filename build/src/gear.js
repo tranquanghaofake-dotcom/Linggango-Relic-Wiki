@@ -100,13 +100,16 @@ function gFront(a){const k=oiA(a);if(GFR[k])return GFR[k];
  const xs=GME.filter(g=>oiA(g.a)<=k).map(g=>[gMelee(g),gHit(g)]).sort((p,q)=>q[0]-p[0]).slice(0,10);
  return GFR[k]={dps:xs.reduce((s,x)=>s+x[0],0)/xs.length,hit:xs.reduce((s,x)=>s+x[1],0)/xs.length}}
 /* what a set of attributes {attr: [add, mul]} multiplies a role's output by (1 = nothing) */
+/* dmg_all: damage dealt of every kind, as a curio's text says ("+15% damage dealt", "Damage x1.33"); it is set only from a curio's
+   measured hit (gCurioAt) and counts for the player's own melee, shots and spells, not for minions, whose hits are their own */
+const gAll=at=>1+gS(at,/^dmg_all$/,1);
 const GOFF={
  /* flat attack damage counts against the frontier's hit at that Act: +2 is a lot at Act 0 and little at Act XII */
  ME:(at,a)=>(1+gS(at,/^attack_damage$/,0)/gFront(a).hit)*(1+gS(at,/^attack_damage$/,1))*(1+gS(at,/^attack_speed$/,1))
-  *(1+Math.min(1,gS2(at,GCC))*(.5+gS2(at,GCD)))*(1+.5*gS(at,/^life_?steal$/,0)),
+  *(1+Math.min(1,gS2(at,GCC))*(.5+gS2(at,GCD)))*(1+.5*gS(at,/^life_?steal$/,0))*gAll(at),
  /* Apothic arrow_damage / draw_speed are percent attributes (base 1); gun_damage is +1 on a shot of about 12 */
  RA:at=>(1+gS2(at,/^(arrow_damage|projectile_damage|bow_damage)$/)+gS(at,/^gun_damage$/,0)/12)*(1+gS2(at,/draw_speed$/))
-  *(1+Math.min(1,gS2(at,/^(crit_chance|crit_rate|bow_crit_chance)$/))*(.5+gS2(at,/^crit_damage$/))),
+  *(1+Math.min(1,gS2(at,/^(crit_chance|crit_rate|bow_crit_chance)$/))*(.5+gS2(at,/^crit_damage$/)))*gAll(at),
  /* two spell systems, and a mage casts with one: the better of
     Iron's: spell power + the best single school (a mage builds around one), x cast rate from cooldowns, x mana (saturating: +300 = +25%), x regen;
     Goety's own spell attributes (goety.spell_potency, goety.casting_speed, goety_revelation.spell_power: Goety spell levels and
@@ -117,7 +120,7 @@ const GOFF={
   const iron=(1+gS2(at,/^spell_power$/)+sch)/(1-Math.min(.6,gS(at,/^cooldown_reduction$/,1)))
    *(1+.5*gS(at,/^cast_time_reduction$/,1))*mana(m)*(1+.3*Math.min(1,gS(at,/^mana_regen$/,1)));
   const ars=(1+gS(at,/spell_damage$/,0)/gFront(a).hit)*mana(gS(at,/^ars_nouveau\.perk\.max_mana$/,0));
-  return Math.max(iron,ars)},
+  return Math.max(iron,ars)*gAll(at)},
  /* summon damage (percent: Iron's summon_damage, Summonity minion_damage), flat summon damage (Ars Elemental's Summon Power adds
     its value to each hit of an Ars summon) at .05 a point, each extra minion slot +25%; how long summons last is not damage */
  SU:at=>(1+gS(at,/^(summon_damage|minion_damage)$/,1)+.05*gS(at,/^(summon_damage|ars_elemental\.perk\.summon_power)$/,0))*(1+.25*gS(at,/^minion_slots$/,0))};
@@ -178,14 +181,28 @@ GS.forEach(s=>{s.sc={};for(const r of ["ME","RA","MA","SU"])s.sc[r]=gSetScore(s,
 const GCNS=/^(goety|goety_revelation|goetyawaken|goety_cataclysm|bosgoety)$/;
 const GCK=k=>{const i=k.indexOf(":"),ns=k.slice(0,i),p=k.slice(i+1).replace(/^generic\./,"");return GCNS.test(ns)?ns+"."+p:p};
 const GCADD=/^(attack_damage|max_mana|minion_slots|entity_reach|max_health|armor|armor_toughness|knockback_resistance|gun_damage|goety\.casting_speed|life_?steal|dodge_chance|ars_nouveau\.perk\.max_mana|ars_elemental\.perk\.summon_power|.*spell_damage)$/;
-function gCurioAt(m){const at={},add=(k,i,v)=>{(at[k]=at[k]||[0,0])[i]+=v},d=m.d||{};
+/* the part of a curio's measured sword-hit change that its flat attack damage does not account for, and what kind of damage it is
+   (gHitKind): "ME" when the curio has an attribute that changes a sword hit (attack damage, crit, lethality, armor pierce, Slash or
+   Sword damage) or its text speaks of melee damage; "RA" when its text speaks of ranged damage only; "ALL" when its text speaks of
+   damage dealt in general ("+15% damage dealt", "Damage x1.33"): then it counts for melee, shots and spells alike (dmg_all, gAll);
+   "" when nothing in its text or attributes explains it: not counted. Three of those read exactly x1.5 (Gob's Mask, a mask of
+   minion slots; Chronicles Of The Firelord, a spellbook; Amplifier Stone, a horn charm), the vanilla jump critical: the test player
+   was likely falling when it swung */
+const GHITA=/^(attack_damage|crit_chance|crit_damage|critical_strike_chance|critical_strike_damage|lethality|armor_penetration|armor_pierce|slash_damage|piercing_damage|sword_damage|blunt_damage)$/;
+const GHME=/(melee|slash|sword|blunt) damage(?! taken)|melee hits/i,GHRA=/(ranged|arrow|projectile) damage(?! taken)|damage dealt from range/i;
+const GHALL=/damage (dealt|boost|increase|modifier|multiplier)|all damage|(\d|%)\s*damage\b(?! taken| reduction)|damage\s*[×x]\s*\d|(extra|more|bonus|additional) damage/i;
+const gHitX=m=>{const x=m&&m.hit?m.hit-1-((m.d||{})["minecraft:generic.attack_damage"]||0)/CMREF:0;return Math.abs(x)>.005?x:0};
+function gHitKind(c,m){if(!gHitX(m))return "";if(Object.keys(m.d||{}).some(k=>GHITA.test(GCK(k))))return "ME";
+ const t=c?[c.fx||"",...(c.st||[])].join(" / "):"",me=GHME.test(t),ra=GHRA.test(t);
+ return me&&!ra?"ME":ra&&!me?"RA":me||ra||GHALL.test(t)?"ALL":""}
+function gCurioAt(m,c){const at={},add=(k,i,v)=>{(at[k]=at[k]||[0,0])[i]+=v},d=m.d||{};
  for(const k in d){const p=GCK(k),v=d[k];if(p==="attack_speed")add(p,1,v/4);else add(p,GCADD.test(p)?0:1,v)}
- if(m.hit){const x=m.hit-1-(d["minecraft:generic.attack_damage"]||0)/CMREF;if(Math.abs(x)>.005)add("attack_damage",1,x)}
+ {const x=gHitX(m),h=x&&gHitKind(c,m);if(h)add(h==="ME"?"attack_damage":h==="RA"?"arrow_damage":"dmg_all",1,x)}
  for(const [e,l] of m.fx||[]){if(e==="minecraft:resistance")add("resistance",1,gRes(l));if(e==="minecraft:health_boost"||e==="minecraft:absorption")add("max_health",0,4*l)}
  return at}
 const GCS=new Map();
 function gCurioScore(c,r,a){const key=c.id+r+a;let v=GCS.get(key);if(v!=null)return v;const m=CM[c.id];if(!m)return 1;
- const at=gCurioAt(m),b=gMedAt(a),o=k=>(at[k]||[0,0])[0];
+ const at=gCurioAt(m,c),b=gMedAt(a),o=k=>(at[k]||[0,0])[0];
  const base={arm:b.arm,tough:b.tough,hp:b.hp,kbr:0,dtk:0,at:{}};
  // damage it cut (or added) beyond its own armor: an 8 hit of each kind, measured over what its armor alone lets through (a = 10;
  // magic and fall skip armor), weighted by how often each kind hits you: melee .6, magic .15, fire .1, explosion .1, fall .05; a
@@ -198,10 +215,12 @@ function gCurioScore(c,r,a){const key=c.id+r+a;let v=GCS.get(key);if(v!=null)ret
 const gIsCurio=x=>!!(x&&x.ro&&x.st);
 /* the test player was bare: no armor, nothing in hand when its attributes were read, standing still, at full health when read and
    at 10 under it (half, for a 20-health tester) when swinging, below Y 0, in daylight
-   (the user's flat test world). A curio whose text depends on one of those met it in the test (Championship Belt's unarmed
-   damage and empty-slot armor, Spelunker Talisman's Resistance below Y 0) or hid its cost (Venerated Locket loses the armor the
+   (the user's flat test world); its target was a pig at full health, with no AI (not hostile, it never noticed the tester), among
+   other mobs, and the test was over in moments (no falling, no combo). A curio whose text depends on one of those met it in the test
+   (Championship Belt's unarmed damage and empty-slot armor,
+   Spelunker Talisman's Resistance below Y 0, Crowbar's +40% to mobs above 90% health, Malice's +30% to mobs that are not hostile) or hid its cost (Venerated Locket loses the armor the
    tester did not have): its numbers would not hold in a real build, so it is shown but not tiered */
-const GCTX=/unarmed|bare[- ]?hand|empty armou?r slot|empty armor slots|without armou?r|lose all (your )?armou?r|armou?r stops working|armou?r debuff|standing still|stand still|below y ?0|underground|at full health|full health|health you (have )?lose|health you (have )?lost|missing health|low(er)? health|below \d+ ?% (of )?(your )?(max )?(health|hp)|during the day|in daylight|daytime|at night|during the night|nighttime/i;
+const GCTX=/unarmed|bare[- ]?hand|empty armou?r slot|empty armor slots|without armou?r|lose all (your )?armou?r|armou?r stops working|armou?r debuff|standing still|stand still|below y ?0|underground|at full health|full health|health you (have )?lose|health you (have )?lost|missing health|low(er)? health|below \d+ ?% (of )?(your )?(max )?(health|hp)|during the day|in daylight|daytime|in sunlight|at night|during the night|nighttime|mobs? above \d+ ?%|not hostile|haven't noticed you|for each mob|per mob within|to larger enemies|oscillates|faster you fall|combos? on one mob/i;
 const gCtx=c=>{const m=GCTX.exec([c.fx||"",...(c.st||[])].join(" | "));return m?m[0]:""};
 /* the curio page's "Measured in game" section */
 /* the unit a measured change (CM d: the value worn minus the base) is printed in: flat points; a percent (base-1 multipliers, Apothic
@@ -223,10 +242,10 @@ function gCurioMs(c){const m=typeof CM!=="undefined"&&CM[c.id];if(!m)return "";c
  const a=c.t,ctx=gCtx(c),sc=ctx?[]:Object.keys(GROLE).map(r=>[r,gCurioScore(c,r,a)]).filter(x=>x[1]>1.005).sort((p,q)=>q[1]-p[1]);
  const any=rows.length||m.hit||Object.keys(tk).length||fxl.length||tfx.length||m.hp||m.fire||m.heal||m.neg||m.blk;
  if(!any)return `<p class="note">${T("Worn alone in game (in its {slot} slot) it changed nothing the test can see: no attribute, no change to a sword hit, no change to damage taken, no effect. What it does needs a condition (low health, a kill, being hit, night, a key press) or works on something else (mobs, loot, blocks); its text above says what.",{slot:gSl(m.sl)})}</p>`;
- return `${sc.length?`<p class="gverd" style="--gc:${GTIER[0][2]}"><b>${gTierOf(c,a,sc[0][0],"c")||"–"}</b><span>${T("On a typical {act} build it adds {gains}. {link}",{act:esc(actL(a)),gains:sc.map(([r,v])=>`<strong>+${Math.round((v-1)*100)}%</strong> ${GROLE[r]}`).join(", "),link:`<a href="#gear/${a}/${sc[0][0]}/c">${T("See the curio tiers")}</a>`})}</span></p>`:""}
-${ctx?`<p class="note">${T("Not tiered: what it does depends on “{ctx}”, and the bare test player (no armor, empty hands when read, standing still, at full health when read and half health when swinging, below Y 0, in daylight) met that condition or hid its cost, so these numbers would not hold in a real build.",{ctx:esc(ctx)})}</p>`:""}
+ return `${sc.length?`<p class="gverd" style="--gc:${GTIER[0][2]}"><b>${gTierOf(c,a,sc[0][0],"c")||"–"}</b><span>${T("On a typical {act} build it adds {gains}. {link}",{act:esc(actL(a)),gains:sc.map(([r,v])=>`<strong>+${Math.round((v-1)*100)}%</strong> ${GROLE[r]}`).join(", "),link:`<a href="#gear/${a}/${sc[0][0]}/c${gShared(c,sc[0][0],a)?"/shared":gOwn(c,sc[0][0],a)?"":"/any"}">${T("See the curio tiers")}</a>`})}</span></p>`:""}
+${ctx?`<p class="note">${T("Not tiered: what it does depends on “{ctx}”, and the test met that condition or hid its cost: a bare player (no armor, empty hands when read, standing still, at full health when read and half health when swinging, below Y 0, in daylight) hitting a full-health pig with no AI (not hostile, it never noticed the player) with other mobs near, all in moments. These numbers would not hold in a real build.",{ctx:esc(ctx)})}</p>`:""}
 ${rows.length?`<h3>${T("Attributes")}</h3><ul class="gbon attr">${rows.join("")}</ul>`:""}
-${m.hit?`<table class="gst"><tr><td>${T("Diamond sword hit")}</td><td class="num">${gRound(CMREF)} → ${gRound(CMREF*m.hit)} (${m.hit>1?"+":""}${gRound((m.hit-1)*100)}%)</td></tr></table>`:""}
+${m.hit?`<table class="gst"><tr><td>${T("Diamond sword hit")}</td><td class="num">${gRound(CMREF)} → ${gRound(CMREF*m.hit)} (${m.hit>1?"+":""}${gRound((m.hit-1)*100)}%)</td></tr></table>`:""}${gHitX(m)&&!gHitKind(c,m)&&!ctx?`<p class="note">${T("Not counted: nothing in its text or its attributes explains this change to the sword hit, so it is left out of its score. A swing that landed as a vanilla jump critical (×1.5) is suspected.")}</p>`:""}
 ${Object.keys(tk).length?`<table class="gst"><tr><th>${T("An 8-damage hit")}</th><th class="num">${T("You take")}</th><th class="num">${T("Without it")}</th></tr>${Object.keys(K).filter(k=>tk[k]!=null).map(k=>`<tr><td>${K[k]}</td><td class="num">${gRound(8*tk[k])}</td><td class="num">8</td></tr>`).join("")}</table>`:""}
 ${(m.neg||[]).includes("fall")?`<p class="note">${T("It cancelled the test fall damage: no fall damage while worn.")}</p>`:""}${m.blk?`<p class="note">${T("It blocked {blocked} of {n} melee hits of 8, a second or two apart: at that pace {pct}% of melee damage gets through (the pack lets 13% of a blocked hit land, zeroed_hit_floor), and that is in its score. Hit faster, a block on a cooldown stops a smaller share; hit seldom, a larger one.",{blocked:m.blk.blocked,n:m.blk.n,pct:gRound(m.blk.tk*100)})}</p>`:""}${(m.neg||[]).some(k=>k!=="fall"&&!(m.blk&&k==="melee"))?`<p class="note">${T("It cancelled the test hit outright ({kinds}): it blocks such hits, often on a cooldown or by chance, which one test hit cannot measure, so the block is not in its score. The pack still lets 13% of a hit an accessory zeroes land (zeroed_hit_floor).",{kinds:m.neg.filter(k=>k!=="fall"&&!(m.blk&&k==="melee")).map(k=>K[k]||k).join(", ")})}</p>`:""}
 ${m.hp?`<table class="gst"><tr><td>${T("Max health")}</td><td class="num">${m.hp>0?"+":""}${gRound(m.hp)}</td></tr></table>`:""}
@@ -243,9 +262,9 @@ const gHidden=g=>(g.ob&&g.ob[0]==="!")||(g.ps&&g.ps.length&&g.ps.every(p=>p.ob&&
 function gPool(a,r,w){const ia=oiA(+a);
  // curios: those a measured change makes better for the role, by how much they add (score - 1)
  if(w==="c")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)).map(d=>[d,gCurioScore(d,r,+a)-1]).filter(x=>x[1]>.005).sort((p,q)=>q[1]-p[1]);
- // "o": the curios that raise the playstyle's own output (GOWN or more), ranked by how much (the Equipment page's own view; the
- // curios' Power tiers stay those of "c")
- if(w==="o")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)).map(d=>[d,gCurioGain(d,r,+a)]).filter(x=>x[1]>=GOWN).sort((p,q)=>q[1]-p[1]);
+ // "o": the curios that raise this playstyle's output (GOWN or more) and no other's; "s": those that raise it and another's too
+ // (gShared); each ranked by how much it raises this one (the Equipment page's views; the curios' Power tiers stay those of "c")
+ if(w==="o"||w==="s")return typeof CM==="undefined"?[]:D.filter(d=>CM[d.id]&&oiA(d.t)<=ia&&!gCtx(d)&&(w==="o"?gOwn:gShared)(d,r,+a)).map(d=>[d,gCurioGain(d,r,+a)]).sort((p,q)=>q[1]-p[1]);
  const xs=(w==="a"?GS:GE.filter(g=>g.k!=="armor")).filter(g=>g.sc[r]!=null&&oiA(g.a)<=ia&&!gHidden(g));
  return xs.map(g=>[g,gScore(g,r,+a)]).sort((p,q)=>q[1]-p[1])}
 /* not ranked: listed for role r but with no number from the game to rank it by (see the scoring notes above). They stand in
@@ -282,7 +301,7 @@ const GSUB={
  RA:[["bow",()=>T("Bows")],["xbow",()=>T("Crossbows")],["gun",()=>T("Guns")],["thrown",()=>T("Thrown and other")]],
  MA:[["any",()=>T("Any school")],...GSCH.map(k=>[k,()=>GSCHN[k]?T(GSCHN[k]):k[0].toUpperCase()+k.slice(1)]),["goety",()=>"Goety"],["ars",()=>"Ars Nouveau"],["other",()=>T("Other")]],
  SU:[["summonity",()=>"Summonity"],["goety",()=>"Goety"],["whip",()=>T("Whips")],["staff",()=>T("Staffs and other")]]};
-const GSUBC=r=>[["own",()=>T("For {role}",{role:GROLE[r]})],["any",()=>T("Survival, any playstyle")]];
+const GSUBC=r=>[["own",()=>T("For {role}",{role:GROLE[r]})],["shared",()=>T("Damage, shared with other playstyles")],["any",()=>T("Survival, any playstyle")]];
 /* melee shapes: the first rule whose words are in the name wins (so a Greataxe is an axe and a Warhammer a hammer), then the item class */
 const GMEL=[["other",/chakram|\bwhip\b|gauntlet|\bfists?\b|\bclaws?\b|greatclaw|\bgun\b|cannon|launcher|\bdrill\b/i],
  ["staff",/\b(staff|staves|wand|scepter|sceptre|cane|rod|grimoire|tome|stick)\b|quarterstaff|greatstaff/i],
@@ -311,14 +330,21 @@ function gSubOf(g,r){if(g.ps)return [];const key=g.id+r;let v=GSM.get(key);if(v)
 const GOWN=.02;
 /* how much a curio raises a playstyle's own output: GOFF on its measured changes, minus 1 (the own view ranks by this) */
 const GOG=new Map();
-function gCurioGain(c,r,a){const key=c.id+r+a;let v=GOG.get(key);if(v!=null)return v;const m=typeof CM!=="undefined"&&CM[c.id];v=m?gRound(GOFF[r](gCurioAt(m),+a)*1000)/1000-1:0;GOG.set(key,v);return v}
-const gOwn=(d,r,a)=>gCurioGain(d,r,a)>=GOWN;
+function gCurioGain(c,r,a){const key=c.id+r+a;let v=GOG.get(key);if(v!=null)return v;const m=typeof CM!=="undefined"&&CM[c.id];v=m?gRound(GOFF[r](gCurioAt(m,c),+a)*1000)/1000-1:0;GOG.set(key,v);return v}
+/* the playstyles a curio raises by GOWN or more. One: it is that playstyle's own curio (the "own" view). Several: it is shared, a
+   curio of no one playstyle (damage dealt in general, crit for blades and bows alike, the Avenger Emblem's melee, ranged and magic
+   damage), listed in the "shared" view of each playstyle it raises, by what it adds to that one. None: the survival view */
+const gCurioRoles=(d,a)=>Object.keys(GROLE).filter(r=>gCurioGain(d,r,a)>=GOWN);
+const gOwn=(d,r,a)=>{const x=gCurioRoles(d,a);return x.length===1&&x[0]===r};
+const gShared=(d,r,a)=>{const x=gCurioRoles(d,a);return x.length>1&&x.includes(r)};
 const GTC=new Map();
 function gTiers(a,r,w){const key=a+r+w;if(GTC.has(key))return GTC.get(key);const xs=gPool(a,r,w);let out=[];
  if(xs.length){const b=GTIER.map(()=>[]);
   // tier = how close an item is to the fifth best usable at this Act (old gear slides down as better gear opens). Not the best
   // one: a single item far ahead (Flames Of Eldritch at Act VIII, 2.5x the next) pushed every other one to D
-  const top=xs[Math.min(4,xs.length-1)][1]||1;xs.forEach(([g,v])=>{const q=v/top;if(q<GFLOOR)return;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;b[t].push(g)});
+  // a Mage weapon's score is what it multiplies spells by (1 = nothing), so it is compared by what it adds: x1.26 against x1.4
+  // is 26% against 40%, not 0.9 (every staff read 85% of the fifth best or more, and Act VI had 21 S, 1 A and nothing else)
+  const z=w==="w"&&r==="MA"?1:0,top=xs[Math.min(4,xs.length-1)][1]||1;xs.forEach(([g,v])=>{const q=(v-z)/(top-z);if(q<GFLOOR)return;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;b[t].push(g)});
   out=GTIER.map(([t],i)=>[t,b[i]]);out.top=top}
  GTC.set(key,out);return out}
 function gTierOf(g,a,r,w){for(const [t,xs] of gTiers(a,r,w))if(xs.includes(g))return t;return null}
@@ -344,11 +370,11 @@ function gearPage(h,miss){
  const subs=w==="w"?GSUB[r]||null:w==="c"?GSUBC(r):null,s=subs&&subs.some(x=>x[0]===GSTATE.s)?GSTATE.s:w==="c"?"own":"";
  // curios: the own view is its own pool (ranked by how much each raises the playstyle's output), the other view is the tiered
  // rest; weapons are filtered by group out of the whole playstyle's tiers
- const all=gTiers(a,r,w==="c"?(s==="any"?"c":"o"):w),inSub=w==="c"?(s==="any"?d=>!gOwn(d,r,a):null):s?g=>gSubOf(g,r).includes(s):null;
+ const all=gTiers(a,r,w==="c"?(s==="any"?"c":s==="shared"?"s":"o"):w),inSub=w==="c"?(s==="any"?d=>!gOwn(d,r,a)&&!gShared(d,r,a):null):s?g=>gSubOf(g,r).includes(s):null;
  // the items with no number to rank them by are listed under the tiers (gUnranked), filtered by the same group
  const unrAll=gUnranked(a,r,w),unr=inSub?unrAll.filter(inSub):unrAll;
  const tiers=inSub?Object.assign(all.map(([t,xs])=>[t,xs.filter(inSub)]),{top:all.top}):all,pool=tiers.reduce((n,x)=>n+x[1].length,0)+unr.length;
- const subN=k=>w==="c"?(k==="any"?gTiers(a,r,"c").reduce((n,x)=>n+x[1].filter(d=>!gOwn(d,r,a)).length,0):gTiers(a,r,"o").reduce((n,x)=>n+x[1].length,0)):all.reduce((n,x)=>n+x[1].filter(g=>k===""||gSubOf(g,r).includes(k)).length,0)+unrAll.filter(g=>k===""||gSubOf(g,r).includes(k)).length;
+ const subN=k=>w==="c"?(k==="any"?gTiers(a,r,"c").reduce((n,x)=>n+x[1].filter(d=>!gOwn(d,r,a)&&!gShared(d,r,a)).length,0):gTiers(a,r,k==="shared"?"s":"o").reduce((n,x)=>n+x[1].length,0)):all.reduce((n,x)=>n+x[1].filter(g=>k===""||gSubOf(g,r).includes(k)).length,0)+unrAll.filter(g=>k===""||gSubOf(g,r).includes(k)).length;
  const go=(A,R,W,S)=>`#gear/${A}/${R}/${W}${S?"/"+S:""}`;
  const q=GSTATE.q.trim().toLowerCase();
  const hits=q?gMatch(q,a):null;
@@ -362,14 +388,14 @@ function gearPage(h,miss){
  ${subs?`<div class="gseg subs" role="tablist" aria-label="${T("All kinds")}">${(w==="c"?[]:[["",()=>T("All kinds")]]).concat(subs).map(([k,t])=>{const n=subN(k);
   return n||k===s?`<a role="tab" href="${go(a,r,w,k==="own"?"":k)}"${k===s?' aria-selected="true"':""}>${t()} <span class="n">${n}</span></a>`:""}).join("")}</div>`:""}
  ${q?gSearch(hits,a,r):`<div class="gtl-list">${tiers.length||unr.length?tiers.map(([t,xs],i)=>`<section class="grow" style="--gc:${GTIER[i][2]}"><h2 class="glet">${t}</h2><div class="gtiles">${xs.length?(GALL?xs:xs.slice(0,48)).map(g=>gTile(g,a,r)).join("")+(!GALL&&xs.length>48?`<button class="gmore" data-gall>${T("Show {n} more",{n:xs.length-48})}</button>`:""):'<span class="gnone">—</span>'}</div></section>`).join("")+gUnrRow(unr,a,r,w):`<p class="note">${w==="a"?T("No armor for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):w==="c"?T("No curios measured to help {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))}):T("No weapons for {role} unlocked by {act} yet.",{role:GROLE[r],act:esc(actL(a))})}</p>`}</div>`}
- <div class="gfoot"><p>${hits?TN(hits.length,"{n} match for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.","{n} matches for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.",{n:`<b>${hits.length}</b>`,q:esc(GSTATE.q.trim()),k:hits.n,act:esc(actL(a))}):w==="a"?TN(pool,"{n} set usable at {act}.","{n} sets usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))}):w==="c"?TN(pool,"{n} curio usable at {act} measured to help {role}.","{n} curios usable at {act} measured to help {role}.",{n:`<b>${pool}</b>`,act:esc(actL(a)),role:GROLE[r]}):TN(pool,"{n} weapon usable at {act}.","{n} weapons usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))})}${w==="c"?" "+(s==="any"?T("Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page."):T("Each was worn alone in game on a bare test player; its tier is how much it raises the output of a {role} build (its attack, spell or minion bonuses) next to the fifth best curio in this list. Armor, health and dodge do not count here: those curios are under “Survival, any playstyle”. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page.",{role:GROLE[r]})):""}${+a!==ORDER[0]?` <i class="gnew">${T("NEW")}</i> ${T("unlocks at this Act.")}`:""}</p>
+ <div class="gfoot"><p>${hits?TN(hits.length,"{n} match for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.","{n} matches for “{q}”, {k} usable at {act}; later ones carry the Act they unlock at.",{n:`<b>${hits.length}</b>`,q:esc(GSTATE.q.trim()),k:hits.n,act:esc(actL(a))}):w==="a"?TN(pool,"{n} set usable at {act}.","{n} sets usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))}):w==="c"?TN(pool,"{n} curio usable at {act} measured to help {role}.","{n} curios usable at {act} measured to help {role}.",{n:`<b>${pool}</b>`,act:esc(actL(a)),role:GROLE[r]}):TN(pool,"{n} weapon usable at {act}.","{n} weapons usable at {act}.",{n:`<b>${pool}</b>`,act:esc(actL(a))})}${w==="c"?" "+(s==="any"?T("Each was worn alone in game on a bare test player; its tier is how much it adds to a typical build of the Act (its median armor set) next to the fifth best curio. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page."):T("Each was worn alone in game on a bare test player; its tier is how much it raises the output of a {role} build (its attack, spell or minion bonuses) next to the fifth best curio in this list. Armor, health and dodge do not count here: those curios are under “Survival, any playstyle”. Effects the test cannot see (conditions, active abilities, kills, low health) are not in it: see each curio's page.",{role:GROLE[r]})+" "+(s==="shared"?T("These curios raise the damage of {role} and of at least one other playstyle (damage dealt of every kind, crit for blades and bows alike, emblems of melee, ranged and magic damage): no one playstyle owns them. A curio whose text says it raises damage dealt is counted for melee, shots and spells alike, not for minions, whose hits are their own.",{role:GROLE[r]}):T("Only curios that raise {role} and no other playstyle are here; those that raise the damage of several playstyles are under “Damage, shared with other playstyles”.",{role:GROLE[r]}))):""}${+a!==ORDER[0]?` <i class="gnew">${T("NEW")}</i> ${T("unlocks at this Act.")}`:""}</p>
  <details class="ghow"><summary>${T("How the tiers are worked out")}</summary><ul>
  <li>${T("<b>Act</b>: the Keeper gate from Linggango's own progression tags (<code>forge:iron_tools</code> … <code>forge:helionite_armor</code>): gear tagged Diamond is locked until Eldorath falls, and so on. Gear with no tag sits at the Act of its hardest ingredient or drop (Nether materials need Act V, a Nether Star the Wither, End loot the Ender Dragon).")}</li>
  <li>${T("<b>Melee</b>: damage per second = (base damage + pack bonus) × attack speed, × crit (chance × (50% + crit damage)), × lifesteal and reach. Base damage and speed are read from each mod's code and config; the pack's extra modifiers (<i>attributesetter</i>) are added on top, as the game does. Better Combat clears the target's hurt cooldown on every hit, so fast weapons are not capped at two hits a second. Staves, spears and gunblades whose melee damage is readable are ranked here too.")}</li>
  <li>${T("<b>Mage weapons</b>: ranked by what they add to your spells: spell power plus the best single school, cooldown and cast time, mana and mana regen (Iron's Spells), or Ars Nouveau spell damage. A weapon's own shot or built-in spell is set in its mod's code and is not counted. <b>Ranged and Summon weapons are not ranked yet</b>: the damage of a shot or a minion is set in each mod's code when it fires or attacks and has not been measured in game, so they are listed by name under the tiers. The Act an item unlocks at only decides which lists it is in, never its place in them.")}</li>
  <li>${T("<b>Armor sets</b>: score = output bonus × effective health<sup>k</sup>, the damage you deal times how long you last. Effective health uses Apothic Attributes' armor rule (damage × a/(a + armor), a = 10 for hits under 20, 10 + (hit − 20)/2 above) against the attack damage of the Keeper that ends the Act (10 at Act 0, 30 at Act VI, 50 at Act XII), on top of 20 + 4 HP per Act from your other gear, × damage-taken reduction and dodge. Toughness only blunts armor shred in this pack, so it counts little. k = 1 for Melee, 0.7 Ranged, 0.6 Mage and Summon (fighting at range, you take fewer hits). Output bonus: Melee attack damage (flat bonus against the Act's typical weapon hit), attack speed, crit, lifesteal; Ranged arrow damage, draw speed, crit; Mage: the better of Iron's (spell power + the best single school, × cast rate from cooldown reduction, × mana: +300 mana = +25%) and Ars Nouveau (flat spell damage against the Act's typical hit, × mana); Summon summon damage and +25% per extra minion slot. A plain set is the fallback in every list; a set built for the role beats it. Sets whose armor is computed in code get the median of their Act.")}</li>
- <li>${T("Tiers compare each item with the fifth best usable at that Act (not the very best, so one item far ahead does not push all the others down): S is at 85% of it or more, A 70%, B 55%, C 40%, the rest D; under 25% it is left off the list (search still finds it). When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.")}</li>
- <li>${T("<b>Groups</b>: the buttons under the playstyles only choose which of these items to show; every tier is still against the whole playstyle. Weapons are grouped by what they are (shape, bow or gun, spell school, whip or staff); one weapon can be in several groups, and one that fits none is under All kinds. On the Curios tab the first button lists the curios that raise that playstyle's own output by 2% or more, best first; the other, “Survival, any playstyle”, holds the armor, health and dodge curios.")}</li></ul></details></div></div>`;
+ <li>${T("Tiers compare each item with the fifth best usable at that Act (not the very best, so one item far ahead does not push all the others down): S is at 85% of it or more, A 70%, B 55%, C 40%, the rest D; under 25% it is left off the list (search still finds it). When stronger gear opens, older gear slides down, and the Tier by Act strip says when an item is outclassed. Enchantments, reforges (Tiered) and set bonuses written in code are not counted.")} ${T("Mage weapons are compared by what they add to your spells: a staff that multiplies them by 1.26 adds 26%, which is 65% of one that adds 40%.")}</li>
+ <li>${T("<b>Groups</b>: the buttons under the playstyles only choose which of these items to show; every tier is still against the whole playstyle. Weapons are grouped by what they are (shape, bow or gun, spell school, whip or staff); one weapon can be in several groups, and one that fits none is under All kinds. On the Curios tab the first button lists the curios that raise that playstyle's output by 2% or more and no other playstyle's, best first; the second, “Damage, shared with other playstyles”, those that raise the damage of several playstyles (damage dealt of every kind, crit for blades and bows alike); the third, “Survival, any playstyle”, the armor, health and dodge curios.")}</li></ul></details></div></div>`;
  const gq=el("gq");gq.oninput=()=>{GSTATE.q=gq.value;GALL=false;try{localStorage.setItem("lgw-gear",JSON.stringify(GSTATE))}catch(e){};const p=gq.selectionStart;gearPage(location.hash);const n=el("gq");n.focus();n.setSelectionRange(p,p)};
  seedBg("gear"+a,[]);decorate();
 }

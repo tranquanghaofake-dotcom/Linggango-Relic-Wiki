@@ -1921,3 +1921,62 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Trên trang**: ảnh `#gear/12/RA/w` cho thấy 144 vũ khí Ranged nằm ở hàng "?" với dòng "Not ranked yet". `#gear/12/MA/w` xếp theo hệ số phép, nhiều món dồn ở hạng S; đây là việc 2 mà mục 13/11 đã ghi.
 - **Kiểm**: `apply_all.sh` exit 0 (curio tiers không đổi); `bash build/check.sh` exit 0 (QA 0, invariant 0 kể cả `tier-act`, a11y 0, script 0, site đạt).
 - **Open**: việc 2–4 của kế hoạch Equipment (mục 13/11): Mage dồn hạng, đo phát bắn trong game cho Ranged và Summon.
+
+## 2026-11-17 (tiếp 3): Equipment, việc 2 của 4: curio chỉ xếp theo đúng lối chơi của nó; vũ khí Mage chia tier theo phần tăng
+- **Ý chủ wiki**: tier list curio của một lối chơi chỉ nên có curio thật sự của lối đó; curio "+dame cho toàn bộ" thì để riêng. Chủ wiki chọn cách A (luật tự động theo số đo và mô tả) và phương án (b): curio dùng chung có tab và tier riêng; làm tự động, không sửa tay.
+- **Tìm ra khi đọc dữ liệu** (Act XII, tab "For Melee" có 51 curio trong tier):
+  - Bài đo chỉ chém kiếm, nên mọi curio "+X% damage dealt" (Eyepatch, Band of Power, Avenger/Destroyer Emblem…) hiện như curio Melee, còn tab Mage không thấy chúng.
+  - Con lợn thử tự thoả điều kiện của curio: đầy máu (Crowbar), không AI (Malice), có mob khác gần (Sin of Greed).
+  - Gob's Mask (mặt nạ triệu hồi), Chronicles Of The Firelord (sách phép) và Amplifier Stone có nhát chém đúng ×1,5, nhưng mô tả không nói gì về sát thương. ×1,5 trùng chí mạng khi nhảy của vanilla; Anvil Talisman ("ngã càng nhanh càng đau") đo được +4%, cũng gợi ý người thử đang rơi.
+  - Tiền lệ: Terraria wiki chia phụ kiện chiến đấu thành General / Melee / Ranged / Magic / Summon.
+- **Đã làm** (`build/src/gear.js`):
+  - `gHitKind`: phần nhát chém mà sát thương phẳng không giải thích được phân thành 4 loại.
+    - Melee: curio có thuộc tính đổi nhát chém (attack damage, crit, lethality, armor pierce, Slash/Sword damage), hoặc mô tả nói melee damage.
+    - Ranged: mô tả chỉ nói ranged damage.
+    - Mọi sát thương (`dmg_all`, `gAll`): mô tả nói damage dealt nói chung. Tính cho cận chiến, phát bắn và phép; không tính cho minion.
+    - Không tính: không có gì giải thích. Trang curio ghi chú "Not counted" và nghi là chí mạng khi nhảy.
+  - `gCurioRoles`, `gOwn`, `gShared`: curio nâng đúng 1 lối chơi (≥ 2%) là của lối đó; nâng ≥ 2 lối là "dùng chung".
+  - Tab Curios có 3 nút: "For {role}", "Damage, shared with other playstyles" (mới, tier theo % tăng cho lối đang xem, pool `s`), "Survival, any playstyle". Summon không có curio dùng chung nên nút đó ẩn.
+  - `GCTX` thêm điều kiện của mục tiêu và của thời điểm đo: mobs above N%, not hostile / haven't noticed you, per mob within, to larger enemies, oscillates, faster you fall, combos on one mob, in sunlight. Thêm đúng 11 curio, không bỏ curio nào cũ (so tập trước/sau): Crowbar, Malice, Sin of Greed, Law of Scale, Sine/Cosine/Exponential Charm, Anvil Talisman, Necro Crown, Necro Cape, Ancient Stone Mask. Câu "Not tiered" viết lại để nói cả con lợn thử.
+  - `gTiers`: vũ khí Mage so theo phần tăng (điểm − 1) thay vì hệ số.
+  - Link "See the curio tiers" trên trang curio dẫn đúng tab (own / shared / any).
+  - 7 câu mới cho vi, ru, pt, es (`merge.py --domain ui --pairs`, trạng thái llm, chưa người bản ngữ xem). `build/README.md` cập nhật.
+- **Số sau khi đổi** (Act XII, curio trong tier):
+
+  | Lối chơi | Riêng (trước → sau) | Dùng chung | Sống sót (trước → sau) |
+  |---|---|---|---|
+  | Melee | 51 → 32 | 16 | 31 → 31 |
+  | Ranged | 14 → 8 | 22 | 47 → 44 |
+  | Mage | 50 → 50 | 15 | 10 → 9 |
+  | Summon | 21 → 21 | 0 | 15 → 15 |
+
+  - Vũ khí Mage: Act VI từ S21 A1 thành S5 A7 B2 C0 D7; Act XII từ S40 A20 thành S11 A7 B7 C17 D12. Act XII có 6 món, Act VI có 1 món dưới 25% của món thứ 5 nên rời danh sách (tìm kiếm vẫn ra).
+  - Hạng Power trên trang Curios (`curio_tiers.json`) đổi ở 56 curio:
+    - 21 lên, 5 xuống, 15 giữ hạng nhưng đổi lối chơi.
+    - 8 mới có hạng; 7 mất hạng: Crowbar, Sin of Greed, Malice, Law of Scale, Exponential Charm, Charged Redstone Piece, Amplifier Stone.
+    - Lý do: bốn món S cũ (Crowbar, Sin of Greed, Malice, Amplifier Stone) rời bảng nên mốc "món thứ 5" hạ xuống; curio "damage dealt" nay tính cả cho Ranged.
+- **Kiểm**:
+  - Invariant mới `build/checks/curio_class.js`. Nó kiểm:
+    - ba tab của một lối chơi không trùng curio; curio riêng không nâng lối khác; curio dùng chung nâng ≥ 2 lối;
+    - curio có điều kiện không vào tier;
+    - 10 curio đã biết đứng đúng chỗ; Eyepatch cộng như nhau cho Melee và Mage, 0 cho Summon;
+    - ba nhát ×1,5 không còn tính cho Melee;
+    - Mage Act VI và XII: S không quá nửa danh sách, mỗi món đúng tier theo phần tăng;
+    - trang hiện đúng tab dùng chung; Summon không có nút đó.
+  - Thử đỏ: cài lại hai lỗi cũ (mọi nhát chém tính là melee; Mage chia theo hệ số) thì báo 79 lỗi; trả mã về thì 0. `checks/gear.js` cũ vẫn 0.
+  - `qa.py --strict` 0 lỗi cứng; 1394/1394 câu có bản dịch.
+  - `bash build/check.sh` exit 0: patches idempotent, curio_tiers ổn định, invariant 0, page text 0, script 0, a11y 0, site đạt.
+  - Ảnh đã xem (`#gear/12/ME/c/shared` 375 px: 375/375, không cuộn ngang):
+    - `#gear/12/ME/c/shared` 1440 và 375;
+    - `#gear/6/MA/w`; `#gear/12/MA/c/shared` tiếng Việt;
+    - chân trang tab riêng và tab dùng chung;
+    - trang Gob's Mask: chỉ còn "+25% Summon", có ghi chú "Not counted";
+    - trang Crowbar: ghi chú "Not tiered" mới;
+    - trang Eyepatch: "+33% Melee, Ranged, Mage", link sang tab dùng chung.
+- **Open**:
+  - (1) Crit và lethality của Brutality: mô hình vẫn coi là chỉ cận chiến (như `GOFF` trước đây). Crit của Apothic coi là cho cả kiếm lẫn cung. Chưa đọc jar để xác nhận.
+  - (2) Curio "damage dealt" được tính cho phép theo lời mô tả, chưa đọc code từng mod.
+  - (3) Bốn curio có nhát chém không giải thích được (Gob's Mask, Chronicles Of The Firelord, Amplifier Stone, Charged Redstone Piece): cần đo lại với người thử đứng trên đất (`lgw_measure.js` chưa đặt `fallDistance`/onGround); cần chủ wiki chạy game.
+  - (4) Việc 3 (công thức giáp, hệ số k đặt tay) và việc 4 (kỹ năng chủ động của vũ khí melee).
+  - (5) Ranged/Summon: chờ đo trong game.
+  - (6) Bản dịch 7 câu mới chưa người bản ngữ xem.
