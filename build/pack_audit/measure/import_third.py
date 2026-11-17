@@ -45,7 +45,9 @@ for k, v in R.items():
     h1 = [s.get("dmg", 0) for s in (K1.get(k) or {}).get("shots", []) if s.get("dmg", 0) > 0]
     if h1:
         m1 = r2(statistics.median(h1))
-        if o["rng"]["hit"] > 1.2 * m1: o["rng"]["h10k"] = o["rng"]["hit"]
+        # a share of the target's health shows as every 10,000-health shot above every 1,000-health one, by half again; a random
+        # arrow crit moves a shot by a few points either way (Dreadbow 12 and 9)
+        if min(hit) > max(h1) and o["rng"]["hit"] > 1.5 * m1: o["rng"]["h10k"] = o["rng"]["hit"]
         o["rng"]["hit"] = m1; o["rng"]["shots"] = [s.get("dmg", 0) for s in K1[k]["shots"]]
     fire = [s["fire"] for s in v["shots"] if s.get("fire", -1) > 0]
     if fire: o["rng"]["fire"] = r2(max(fire) / 20)
@@ -57,7 +59,12 @@ for k, v in R.items():
 
 nk = 0
 r3 = lambda v: round(v, 3)
-for k, hits in (X.get("blocks") or {}).items():
+# a run whose blockers all stopped every hit is a fault of the run (2026-11-17: a creative-mode tester takes no damage), not of the
+# curios: its block rates are left out
+B = X.get("blocks") or {}
+if B and all(sum(1 for h in hs if h is not None and h <= 0.4) == len([h for h in hs if h is not None]) for hs in B.values()):
+    print("blocks left out: every blocker stopped every hit"); B = {}
+for k, hits in B.items():
     hs = [h for h in hits if h is not None]
     c = curios.get(k)
     if not hs or c is None: continue
@@ -71,7 +78,7 @@ for k, hits in (X.get("blocks") or {}).items():
         if not t: del c["tk"]
 
 GM["_third"] = "ranged and blocks: lgw_measure_third (" + X.get("started", "") + "), pack_audit/measure/import_third.py"
-CM["_third"] = GM["_third"]
+if nk: CM["_third"] = GM["_third"]   # the curios' block rates came from this run only if it gave any
 (H / "gear_measure.json").write_text(json.dumps(GM, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 (H / "curio_measure.json").write_text(json.dumps(CM, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 print(nr, "ranged measured,", nm, "every shot missed |", nk, "curios with a block rate")

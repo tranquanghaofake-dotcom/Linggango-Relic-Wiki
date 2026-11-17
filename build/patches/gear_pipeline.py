@@ -109,7 +109,7 @@ def gear_measure(st):
         m = I.get(g["id"])
         if not m: continue
         # a bow, crossbow or thrown weapon shot in game (import_third.py): shot damage, ticks a shot takes, what it put on the target
-        if m.get("rng"): g["rng"] = {k: m["rng"][k] for k in ("hit", "t", "miss", "fire", "tfx", "how") if k in m["rng"]}
+        if m.get("rng"): g["rng"] = {k: m["rng"][k] for k in ("hit", "t", "miss", "fire", "tfx", "how", "h10k") if k in m["rng"]}
         if "n" not in m: continue
         n = m["n"]
         g["ms"] = {"hit": m["hit"], "sw": m["swings"], "ad": m.get("ad")}
