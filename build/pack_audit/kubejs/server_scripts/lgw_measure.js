@@ -37,7 +37,8 @@ LGW.SRG = {
   setYBodyRot: ['m_5618_'], setYHeadRot: ['m_5616_'],
   releaseUsing: ['m_5551_'], getUseDuration: ['m_8105_'], use: ['m_7203_'], getItem: ['m_41720_'], add: ['m_36054_'], isCharged: ['m_40932_'],
   isUsingItem: ['m_6117_'], releaseUsingItem: ['m_21253_'], getTicksUsingItem: ['m_21252_'], arrow: ['m_269418_'], getEncodeId: ['m_20078_'],
-  getDeltaMovement: ['m_20184_'], getBaseDamage: ['m_36789_'], getOwner: ['m_19749_'], setOwner: ['m_5602_'], shoot: ['m_6686_']
+  getDeltaMovement: ['m_20184_'], getBaseDamage: ['m_36789_'], getOwner: ['m_19749_'], setOwner: ['m_5602_'], shoot: ['m_6686_'],
+  setDeltaMovement: ['m_20256_'], resetFallDistance: ['m_183634_'], isNoGravity: ['m_20068_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
   BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_', hurtTime: 'f_20916_' }
@@ -177,6 +178,10 @@ LGW.run = (server, who, name) => {
     // facing +x matters for shots (third test run: moveTo fell back to setPos and the tester faced south). KubeJS's own
     // setPositionAndRotation runs on the Java side, clear of Rhino's member names
     safe('reset position', () => { try { P.setPositionAndRotation(X, Y, Z, -90, 0) } catch (e) { try { c5(P, 'moveTo', X, Y, Z, -90, 0) } catch (e2) { c3(P, 'setPos', X, Y, Z) } } })
+    // the tester stands 3 blocks up and doTick() runs its physics: it fell during every wait (2026-11-17 probe: a bow drawn 40
+    // ticks shot from 3 blocks lower, under the pig, so every shot missed), and a swing while falling is a vanilla jump critical
+    // (x1.5: Gob's Mask, Chronicles Of The Firelord, Amplifier Stone read exactly 1.5). It now hangs where it is put
+    safe('reset gravity', () => { c1(P, 'setNoGravity', true); try { c0(P, 'resetFallDistance') } catch (e) {} try { c1(P, 'setDeltaMovement', new (Java.loadClass('net.minecraft.world.phys.Vec3'))(0, 0, 0)) } catch (e) {} })
     safe('reset slots', () => { for (var s in SLOT) wear(SLOT[s], EMPTY) })
     safe('reset curios', () => clearCurios())
     ticks(3)
@@ -376,7 +381,7 @@ LGW.run = (server, who, name) => {
         var it = c0(st, 'getItem')
         c3(it, 'use', level, P, MAIN)
         if (!c0(P, 'isUsingItem')) { how = 'use'; return }
-        ticks(40); s.drawn = c0(P, 'getTicksUsingItem'); c0(P, 'releaseUsingItem'); how = 'draw'
+        ticks(40); s.drawn = c0(P, 'getTicksUsingItem'); s.py = r1(c0(P, 'getY') - Y); c0(P, 'releaseUsingItem'); how = 'draw'
         var cb = false; try { cb = !!c1(it, 'isCharged', st) } catch (e) {}
         if (cb) { c3(it, 'use', level, P, MAIN); how = 'crossbow' }
       }, id)
