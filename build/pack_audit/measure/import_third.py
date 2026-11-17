@@ -4,7 +4,8 @@ weapons are pooled by import.py itself, given the file as its fourth argument)
 
   ranged  each bow, crossbow and throwable shot three times at a 10,000-health pig 5 blocks in front of the tester, arrows in the
           off hand, a bow drawn 40 ticks: per item {hit: median shot, shots, how} into gear_measure.json items[id].rng. A shot that
-          missed or never left reads 0: an item with every shot 0 is kept as {miss: 1} (the page says it was not measured).
+          missed or never left reads 0: an item with every shot 0 is kept as {miss: 1} (the page says it was not measured). t: the
+          ticks a shot takes (a crossbow's charge, else the draw that reaches full speed).
           A run where most shooters read 0 is a fault of the run, not of the items (third run: 113 of 118, with arrows that landed
           and did nothing): its shots are left out
   blocks  each curio that cancelled a test hit (Ace of Iron, Opal Necklace...) worn alone and hit with 8 melee damage ten times, a
@@ -33,6 +34,10 @@ for k, v in R.items():
     hit = [x for x in d if x > 0]
     if not hit: o["rng"] = {"miss": 1, "shots": d}; nm += 1; continue
     o["rng"] = {"hit": r2(statistics.median(hit)), "shots": d, "n": len(hit), "how": sorted({s.get("how", "") for s in v["shots"]})}
+    # ticks a shot takes (lgw_measure.js drawCurve, 2026-11-17): a crossbow's charge, else the fewest ticks of drawing that reach
+    # 97% of the fastest shot (the vanilla Bow reads 20, the Trident 10); none for an item thrown on use
+    t = v.get("charge") or v.get("full")
+    if t: o["rng"]["t"] = t
     fire = [s["fire"] for s in v["shots"] if s.get("fire", -1) > 0]
     if fire: o["rng"]["fire"] = r2(max(fire) / 20)
     tf = {}

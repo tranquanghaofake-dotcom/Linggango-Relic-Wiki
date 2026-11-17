@@ -376,7 +376,7 @@ LGW.run = (server, who, name) => {
   // loaded: charge = the fewest ticks of holding that load it. The world is cleared of projectiles between tries
   var clearAll = () => { try { server.runCommandSilent('kill @e[type=!minecraft:player,type=!minecraft:pig]') } catch (e) {} }
   var speedNow = () => { var b = 0; (near() || []).forEach(o => { var m = ('' + (o.v || '')).match(/-?[0-9.]+(E-?[0-9]+)?/g); if (m && m.length >= 3) { var v = Math.sqrt(m[0] * m[0] + m[1] * m[1] + m[2] * m[2]); if (v > b) b = v } }); return b }
-  var DRAWT = [4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 40]
+  var DRAWT = [4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 25, 26, 28, 30, 32, 36, 40]
   var drawCurve = id => {
     var c = [], ch = null
     DRAWT.forEach(t => { clearAll(); wear(EquipmentSlot.MAINHAND, Item.of(id)); var st = c0(P, 'getMainHandItem'), it = c0(st, 'getItem')
