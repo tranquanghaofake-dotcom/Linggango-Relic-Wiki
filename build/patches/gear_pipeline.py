@@ -154,7 +154,9 @@ def gear_measure(st):
     for x in st["GS"]:
         m = S.get(x["k"])
         # a merged family's key was measured on the one piece that set then held: not the family worn
-        if not m or x["k"] in gear_fix.MERGED: continue
+        # (a merged family that reads no armor in code and was worn in game without stopping anything, Mekanism's Hazmat and Scuba
+        # suits, keeps the measurement: both sources say 0, 2026-11-17)
+        if not m or (x["k"] in gear_fix.MERGED and not (x.get("arm", 0) == 0 and m.get("arm", 0) == 0)): continue
         x["ms"] = {"taken": m["taken"]}
         if m.get("evr"): x["ms"]["evr"] = m["evr"]
         # armor, toughness and health worn in game stand for the set where the stats could not be read (they were the Act's

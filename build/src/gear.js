@@ -217,9 +217,9 @@ const GHITA=/^(attack_damage|critical_strike_chance|critical_strike_damage|slash
    armor penetration lower the target's armor in getDamageAfterArmorAbsorb for every damage whose source entity is a player
    (Iron's spell damage types do not bypass armor, so spells too); Apothic's crit is rolled on any such damage */
 const GHITALL=/^(lethality|armor_penetration|armor_pierce|crit_chance|crit_damage)$/;
-const GHFAR=/from range|\(\s*>\s*\d+ ?m\)/i;
+const GHFAR=/dealt from range|\(\s*>\s*\d+ ?m\)/i,GHNEAR=/close[- ]range|\(\s*<\s*\d+ ?m\)/i;
 const GHME=/(melee|slash|sword|blunt) damage(?! taken)|melee hits/i,GHRA=/(ranged|arrow|projectile) damage(?! taken)|damage dealt from range/i;
-const GHALL=/damage (dealt|boost|increase|modifier|multiplier)|all damage|(\d|%)\s*damage\b(?! taken| reduction)|damage\s*[×x]\s*\d|(extra|more|bonus|additional) damage/i;
+const GHALL=/damage (dealt|boost|increase|modifier|multiplier)|\ball damage|(\d|%)\s*damage\b(?! taken| reduction)|damage\s*[×x]\s*\d|(extra|more|bonus|additional) damage/i;
 const gHitX=m=>{if(!m||!m.hit)return 0;const d=m.d||{},bc=d["brutality:critical_strike_chance"]||0;
  // with Brutality's crit chance at 100% every test swing was a crit (Divine Immolation: 1.4, its base x1.4); gCritME counts it
  const h=bc>=1?m.hit/(1.4+(d["brutality:critical_strike_damage"]||0)):m.hit,x=h-1-(d["minecraft:generic.attack_damage"]||0)/CMREF;return Math.abs(x)>.005?x:0};
@@ -229,7 +229,7 @@ const gHitX=m=>{if(!m||!m.hit)return 0;const d=m.d||{},bc=d["brutality:critical_
 const GHITBUFF={"lethality:charged_redstone_piece":"ME"};
 function gHitKind(c,m){if(!gHitX(m))return "";if(c&&GHITBUFF[c.id])return GHITBUFF[c.id];const ks=Object.keys(m.d||{}).map(GCK);if(ks.some(k=>GHITA.test(k)))return "ME";
  if(ks.some(k=>GHITALL.test(k)))return "ALL";
- const t=c?[c.fx||"",...(c.st||[])].join(" / "):"";if(GHFAR.test(t))return "FAR";const me=GHME.test(t),ra=GHRA.test(t);
+ const t=c?[c.fx||"",...(c.st||[])].join(" / "):"";if(GHNEAR.test(t))return "ME";if(GHFAR.test(t))return "FAR";const me=GHME.test(t),ra=GHRA.test(t);
  return me&&!ra?"ME":ra&&!me?"RA":me||ra||GHALL.test(t)?"ALL":""}
 /* a max-health change its text gives as a share ("-50% max health", "max health -99%", "half your max health", "sets max health to 1")
    was measured on the 20-health tester as points (-10, -19): it is that share of a real build's health, not 10 points of it */
