@@ -1,5 +1,5 @@
 """Write the plan for kubejs/server_scripts/lgw_measure.js: which items to measure in game.
-Usage: prep.py OUT.json [--test] [--extra | --third [--guns] [--only-missed]] [--auto --stop]
+Usage: prep.py OUT.json [--test] [--extra | --third [--guns] [--only-missed] [--mage] [--minions] [--rhp N]] [--auto --stop]
   copy OUT.json to the game's kubejs/lgw_items.json (or kubejs/lgw_test_items.json with --test: 5 weapons, 2 sets, 10 items);
   --auto starts it 200 ticks after a dedicated server loads, --stop shuts the server down when done
 --extra writes the second plan instead (kubejs/lgw_extra_items.json, /kubejs custom_command lgw_measure_extra): the weapons the
@@ -37,6 +37,10 @@ if "--third" in sys.argv:
         ranged = [x for x in ranged if not ((M["items"].get(x) or {}).get("rng") or {}).get("t")]
     grows = sorted(k for k, v in M["items"].items() if v.get("st") in ("grows", "pct") or v.get("swx"))
     blocks = sorted(k for k, v in CMx.items() if any(x != "fall" for x in v.get("neg") or []))
+    # --mage: every Mage weapon's own attack shot the same way (2026-11-17; ranked in the Mage tab's own table); --minions: every summon
+    # weapon's minions on a target (lgw_measure.js minions)
+    if "--mage" in sys.argv: ranged = sorted(set(ranged) | {g["id"] for g in GE if g["k"] == "magic"})
+    minions = sorted(g["id"] for g in GE if g["k"] == "summon") if "--minions" in sys.argv else []
     probe = "--test" in sys.argv
     if probe:
         # the test is a probe of the shots (third run: 113 of 118 did no damage): plain arrows from the script, then a vanilla
@@ -45,7 +49,8 @@ if "--third" in sys.argv:
         ranged = [x for x in ("minecraft:bow", "minecraft:crossbow", "minecraft:trident", "l2archery:sun_bow", "too_many_bows:frostbite",
                               "brutality:cavendish") if x in ids] or ranged[:3]
         grows, blocks = [], []
-    plan = {"hits": 3, "stop": "--stop" in sys.argv, "auto": "--auto" in sys.argv, "probe": probe, "ranged": ranged, "grows": grows, "blocks": blocks}
+    plan = {"hits": 3, "stop": "--stop" in sys.argv, "auto": "--auto" in sys.argv, "probe": probe, "ranged": ranged, "grows": grows, "blocks": blocks, "minions": minions}
+    if "--rhp" in sys.argv: plan["rhp"] = int(sys.argv[sys.argv.index("--rhp") + 1])
     json.dump(plan, open(sys.argv[1], "w"), indent=0)
     print(len(ranged), "shooters,", len(grows), "weapons turned,", len(blocks), "blocking curios ->", sys.argv[1]); sys.exit()
 if "--extra" in sys.argv:

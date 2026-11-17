@@ -302,7 +302,10 @@ LGW.run = (server, who, name) => {
     amt = amt || 20
     var ds = c0(level, 'damageSources'), src = {}, o = {}
     safe('hurt sources', () => {
-      src.melee = c1(ds, 'mobAttack', dummy()); src.fire = c0(ds, 'inFire'); src.magic = c0(ds, 'magic')
+      // the attacking pig rolls Apothic's crit on its hit like any mob (5% base: 8 became 12, held at the 20-health tester's cap of 10,
+      // so 84 curios read melee 1.25 at random); its crit chance is set to 0
+      var atk = dummy(); safe('attacker crit 0', () => { var CC = ForgeRegistries.ATTRIBUTES.getValue(rl('attributeslib:crit_chance')); c1(c1(atk, 'getAttribute', CC), 'setBaseValue', 0) })
+      src.melee = c1(ds, 'mobAttack', atk); src.fire = c0(ds, 'inFire'); src.magic = c0(ds, 'magic')
       src.explosion = c2(ds, 'explosion', null, null); src.fall = c0(ds, 'fall')
     }, cur)
     for (var k in src) {

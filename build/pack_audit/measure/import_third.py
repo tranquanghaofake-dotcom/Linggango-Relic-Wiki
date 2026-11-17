@@ -60,6 +60,13 @@ for k, v in R.items():
     if tf: o["rng"]["tfx"] = [[e, lv, du] for e, (lv, du) in tf.items()]
     nr += 1
 
+# minions (lgw_measure.js minions, 2026-11-17): what a summon weapon's minions dealt to a 1,000-health no-AI zombie in 200 ticks after one
+# use, how many came and what they were; items[id].mn = {dmg, n, s (seconds), kinds}
+nmn = 0
+for k, v in (X.get("minions") or {}).items():
+    o = items.setdefault(k, {"ad": 0}); o["mn"] = {"dmg": r2(v.get("dmg", 0)), "n": v.get("n", 0), "s": r2(v.get("ticks", 200) / 20), "kinds": v.get("kinds", {})}; nmn += 1
+if nmn: print(nmn, "summon weapons' minions measured")
+
 nk = 0
 r3 = lambda v: round(v, 3)
 # a run whose blockers all stopped every hit is a fault of the run (2026-11-17: a creative-mode tester takes no damage), not of the
