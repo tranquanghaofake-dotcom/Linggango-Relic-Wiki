@@ -59,11 +59,12 @@ for k, v in R.items():
     # drawn, its shot unseen by the speed curve (a beam, a projectile that is not an arrow): held 10, 20, 40, 60 ticks of world time
     # (v.dcurve). Still rising from 40 to 60 by a quarter: a beam, its rate the damage from 20 to 60 ticks over those 40 ticks; else
     # the fewest ticks that reach 97% of the most (a bow's full draw)
-    if not t and dc and max(dc.values()) > 0:
+    # a held trigger that fires on (a gatling) is a beam too, whatever its speed curve said
+    if dc and max(dc.values()) > 0:
         o["rng"]["dcurve"] = [[a, dc[a]] for a in sorted(dc)]
         if dc.get(60, 0) > 1.25 * dc.get(40, 0) and dc.get(60, 0) > dc.get(20, 0):
             t = r2(40 * o["rng"]["hit"] / (dc[60] - dc.get(20, 0))); o["rng"]["beam"] = 1
-        else: t = min(a for a in sorted(dc) if dc[a] >= .97 * max(dc.values()))
+        elif not t: t = min(a for a in sorted(dc) if dc[a] >= .97 * max(dc.values()))
     if t: o["rng"]["t"] = t
     h1 = [s.get("dmg", 0) for s in (K1.get(k) or {}).get("shots", []) if s.get("dmg", 0) > 0]
     if h1:

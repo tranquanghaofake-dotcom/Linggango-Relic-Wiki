@@ -415,9 +415,10 @@ LGW.run = (server, who, name) => {
   // Engineering's Railgun), depthrock pebbles (the Undergarden's Slingshot)
   var AMMO = ['minecraft:arrow', 'minecraft:potato', 'mowziesmobs:dart', 'soulsweapons:silver_bullet', 'immersiveengineering:stick_steel', 'undergarden:depthrock_pebble']
   var ammo = () => AMMO.forEach((a, j) => safe('ammo', () => c2(c0(P, 'getInventory'), 'setItem', 9 + j, Item.of(a, 64))))
-  // a drawn weapon whose shot the speed curve cannot see (a beam, a projectile that is not an arrow: third run, Raygun and
-  // Dreadbow read 0 at every draw): held for 10, 20, 40 and 60 ticks of world time, one tick of the tester each (held in one
-  // server tick the target's hurt time never runs down, so a beam lands once), and the damage at each kept (r.dcurve)
+  // a drawn weapon held for 10, 20, 40 and 60 ticks of world time, one tick of the tester each (held in one server tick the
+  // target's hurt time never runs down, so a beam lands once), the damage at each kept (r.dcurve): a shot the speed curve cannot
+  // see (a beam, a projectile that is not an arrow: third run, Raygun and Dreadbow read 0 at every draw), or a trigger that fires
+  // on while held (a gatling)
   var DCT = [10, 20, 40, 60]
   var dcurve = (id, r, i) => {
     if (i >= DCT.length) return null
@@ -461,8 +462,8 @@ LGW.run = (server, who, name) => {
         r.shots.push(s); drop(d); clearShots()
         if (++k < 3) return shot()
         out.ranged[id] = r
-        var top = 0; (r.curve || []).forEach(x => { if (x[1] > top) top = x[1] })
-        return how == 'draw' && !top ? dcurve(id, r, 0) : null
+        // every drawn weapon: a held trigger (a gatling, a beam) fires on through the hold, which only world time shows
+        return how == 'draw' ? dcurve(id, r, 0) : null
       }
       // used with no item cooldown (a gun with its own timer, a held trigger): the third shot uses it again every tick for 40
       // ticks of world time, and what the targets lost all told is its rate (s.sus)

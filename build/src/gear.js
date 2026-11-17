@@ -161,10 +161,12 @@ const gKindRoles=g=>{const k=g.k==="melee"?["ME"]:g.k==="ranged"?["RA"]:g.k==="s
    so it is measured in game (gRng, gMn below); one with no measured number is not ranked, nor is a melee weapon whose damage is
    computed in code, or a staff with no spell bonus. Unranked = listed for the role with sc[r] null (gUnr): gPool leaves them out
    and gUnranked lists them in their own row */
-/* Ranged: shot in game (lgw_measure.js, 2026-11-17, a 6.6.6cf server): plain arrows in the off hand, the median shot at a 1,000-health
-   target (rng.hit), and the ticks a shot takes (rng.t: the draw that reaches full speed, a crossbow's charge; the vanilla Bow reads
-   20, the Crossbow 25). Score = damage a shot x shots a second. A shooter whose shots did no damage there, or whose rate was not
-   read, stays unranked */
+/* Ranged: shot in game (lgw_measure.js, 2026-11-17, a 6.6.6cf server): plain arrows (in the inventory since the fourth run: a
+   Terramity gun fires only with the off hand empty), the median shot at a 1,000-health target (rng.hit), and the ticks a shot takes
+   (rng.t: the draw that reaches full speed, a crossbow's charge, a used weapon's item cooldown, a Brutality throwable's swing cooldown;
+   the vanilla Bow reads 20, the Crossbow 25). A weapon with no cooldown is used every tick for 40 ticks (rng.sus: what that dealt); a
+   held one whose damage keeps rising with the hold (a beam, a gatling: rng.beam) takes its rate from 20 to 60 ticks held. Score =
+   damage a shot x shots a second. A shooter whose shots did no damage there, or whose rate was not read, stays unranked */
 const gRng=g=>g.rng&&g.rng.hit>0&&g.rng.t>0?g.rng.hit*20/g.rng.t:null;
 /* Summon: the weapon used once in game next to a 100,000-health zombie with no AI, at night, its minions set on it and its health
    read every 10 ticks for 15 s (lgw_measure.js minions, 2026-11-17): score = what they dealt a second from their first hit on
@@ -591,7 +593,7 @@ const GMK=gT({melee:N("Melee"),fire:N("Fire"),explosion:N("Explosion"),magic:N("
 /* a shooter's measured shots (g.rng); one whose shots did no damage says so in its verdict line (gWhy) */
 function gRngHtml(g){const r=g.rng;if(!r||!(r.hit>0))return "";
  return `<table class="gst"><tr><td>${T("Damage a shot")}</td><td class="num">${gRound(r.hit)}</td></tr>${r.t?`<tr><td>${T("Ticks a shot")}</td><td class="num">${r.t} (${gRound(20/r.t)}/s)</td></tr><tr><td>${T("Damage a second")}</td><td class="num">${gRound(r.hit*20/r.t)}</td></tr>`:""}</table>${r.h10k?`<p class="note">${T("Its shots hit harder on a target with more health ({b} against 10,000 health): part of its damage is a share of the target's health. The score takes the 1,000-health shot, as melee does.",{b:gRound(r.h10k)})}</p>`:""}
-<p class="note">${T("Shot in game three times at a 1,000-health pig 5 blocks away, with plain arrows in the off hand, at full draw; the draw time is the fewest ticks that reach full speed (for a crossbow, the ticks to load it). Enchantments are not counted.")}</p>`}
+<p class="note">${T("Shot in game three times at a 1,000-health pig 5 blocks away, with plain arrows, at full draw; the draw time is the fewest ticks that reach full speed (for a crossbow, the ticks to load it). Enchantments are not counted.")}${r.beam?" "+T("Held, it keeps dealing damage: it was held 10, 20, 40 and 60 ticks in game, and its rate is what it dealt from 20 to 60 ticks held (shown as ticks a shot)."):r.sus?" "+T("It has no cooldown: used every tick for 2 seconds in game it dealt {n}, and its rate comes from that.",{n:gRound(r.sus)}):(r.how||[]).includes("throw")&&r.t?" "+T("Thrown with a swing (left click), the way the game throws it; it is ready again after {t} ticks (20 ÷ your attack speed).",{t:r.t}):""}</p>`}
 function gMsHtml(g){const m=g.ms;if(!m)return "";
  if(m.sw){if(m.st==="nodmg")return `<p class="note">${T("Swung in game at a test target it dealt no damage: the item cancels its own hit (it only pushes and slows). Its melee score is 0.")}</p>`;
   if(m.st==="nomelee")return `<p class="note">${T("Swung by hand at a test target it dealt no damage: it works when thrown, shot or used, so it is not ranked as a melee weapon.")}</p>`;
