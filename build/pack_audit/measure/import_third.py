@@ -62,7 +62,9 @@ for k, v in R.items():
     # a held trigger that fires on (a gatling) is a beam too, whatever its speed curve said
     if dc and max(dc.values()) > 0:
         o["rng"]["dcurve"] = [[a, dc[a]] for a in sorted(dc)]
-        if dc.get(60, 0) > 1.25 * dc.get(40, 0) and dc.get(60, 0) > dc.get(20, 0):
+        # rising all the way, by half again from 20 to 40 ticks and by a third from 40 to 60: one sample a hold, and a bow's random
+        # arrow crit moves a sample by up to half (fourth run: the vanilla Bow 3, 7, 8, 12, a full draw at 20 ticks)
+        if dc.get(20, 0) > 0 and dc.get(40, 0) >= 1.5 * dc[20] and dc.get(60, 0) >= 1.3 * dc[40]:
             t = r2(40 * o["rng"]["hit"] / (dc[60] - dc.get(20, 0))); o["rng"]["beam"] = 1
         elif not t: t = min(a for a in sorted(dc) if dc[a] >= .97 * max(dc.values()))
     if t: o["rng"]["t"] = t

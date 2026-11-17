@@ -465,13 +465,14 @@ LGW.run = (server, who, name) => {
         // every drawn weapon: a held trigger (a gatling, a beam) fires on through the hold, which only world time shows
         return how == 'draw' ? dcurve(id, r, 0) : null
       }
-      // used with no item cooldown (a gun with its own timer, a held trigger): the third shot uses it again every tick for 40
-      // ticks of world time, and what the targets lost all told is its rate (s.sus)
+      // used with no item cooldown (a gun with its own timer, a held trigger): the third shot uses it again every 4 ticks for 40
+      // ticks of world time, the pace a held right click repeats at (the client's rightClickDelay), and what the targets lost all
+      // told is its rate (s.sus)
       if (k == 2 && how == 'use' && s.cd === 0) {
         s.sus = { uses: 1, ticks: 40 }
-        var spam = n => { ticks(1); safe('use again', () => { var h = c0(P, 'getMainHandItem'); arm(h); c3(c0(h, 'getItem'), 'use', level, P, MAIN); s.sus.uses++ }, id)
-          return n > 1 ? { wait: 1, then: () => spam(n - 1) } : { wait: 40, then: fin } }
-        return { wait: 1, then: () => spam(39) }
+        var spam = n => { ticks(4); safe('use again', () => { var h = c0(P, 'getMainHandItem'); arm(h); c3(c0(h, 'getItem'), 'use', level, P, MAIN); s.sus.uses++ }, id)
+          return n > 1 ? { wait: 4, then: () => spam(n - 1) } : { wait: 40, then: fin } }
+        return { wait: 4, then: () => spam(9) }
       }
       if (!plan.probe) return { wait: how == 'throw' ? 80 : how == 'use' ? 40 : 20, then: fin }
       return { wait: 3, then: () => {
