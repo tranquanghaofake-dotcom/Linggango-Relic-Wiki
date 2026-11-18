@@ -2383,3 +2383,20 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
  .hb-lower{grid-template-columns:1fr}.hb-ctl{grid-template-columns:minmax(0,1fr) auto}.hb-ctl label{grid-column:1/-1;margin-bottom:-6px}
 }
 @media (prefers-reduced-motion:reduce){.hb-dmg i{transition:none}}
+
+/* build planner: Starter ring toggle, and curios that need a ring that is not chosen */
+.brg{margin:var(--s1) 0 var(--s2)}.brg .note{margin:0;font-size:12.5px}
+.bopt.rqoff,.bsb .bx.on.rqoff{opacity:.55}
+.bsb .bx.on.rqoff{box-shadow:inset 0 0 0 2px #e0a030}
+.bopt .rqw{color:#e0a030;font-weight:700}
+
+/* Effects tab: a coloured edge and badge for the kind, quieter empty cells, one-line technical id on hover */
+#m-effects .rtab tr td:first-child{box-shadow:inset 3px 0 0 #8a8f99}
+#m-effects .rtab tr.ek-b td:first-child{box-shadow:inset 3px 0 0 #47b05a}
+#m-effects .rtab tr.ek-h td:first-child{box-shadow:inset 3px 0 0 #e0565b}
+#m-effects .rtab td:first-child{padding-left:var(--s3)}
+#m-effects .rtab td:first-child small{color:var(--gui-mute)}
+.ekb{display:inline-block;padding:1px var(--s2);border-radius:4px;font:700 12px var(--body);background:#ffffff12;color:#c9ccd2;white-space:nowrap}
+.ek-b .ekb{background:#47b05a26;color:#8fe39f}.ek-h .ekb{background:#e0565b26;color:#ff9a9e}
+.eno{color:var(--gui-mute);font-size:12.5px;font-style:italic}
+#m-effects .rtab td.nchs{min-width:300px}

@@ -2123,3 +2123,14 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Trang**: ghi chú dưới bảng phát bắn nói món được đo thế nào (giữ chuột, dùng mỗi 4 tick, ném bằng nhát vung, băng đạn và thời gian nạp, nạp không đọc được); lý do mới "các phát lệch nhau"; 8 câu mới, đủ vi/ru/pt/es.
 - **Invariant mới** (`checks/gear.js`, tier-act): Basic/Advanced Pistol, Vampire Knives, Raygun có tốc độ bắn; Vampire Knives 5 tick; Raygun là tia còn Bow thì không; các phát của Burst Rifle và Conductite không lệch quá 3 lần. Thử đỏ: Bow gắn cờ tia và Vampire Knives 20 tick (3 lỗi đúng); sửa tạm dữ liệu Burst Rifle về 493, 39, 39 (1 lỗi đúng), rồi khôi phục.
 - **Kiểm**: `check.sh` exit 0 (invariants 0 hỏng, script 0, a11y 0); ảnh đã xem: `#gear/12/RA/w`, trang Basic Pistol (1440 và 375, phần đo trong game), đọc chữ trên trang Raygun, Vampire Knives, Meka-Gun, Blunderbuss, Railgun.
+
+## 2026-11-18: Build planner: công tắc Starter ring + Gambler; tab Effects gọn hơn
+- **Ý chủ wiki**: góp ý từ người dùng (toggle Ring / không Ring; starter build không bao giờ chọn đồ RNG, không có dice) và "cải thiện UI tab Effects".
+- **Planner** (`app.js`, `style.game.css`):
+  - Hàng "Ring worn: None / Curses / Virtues / Both" (`BS.g`, nằm trong share link dạng `|^C`, `|^V`, `|^CV`). 46 curio nói thẳng trong text của chúng là cần Ring of the Seven Curses (26) hoặc Virtues (20) (cùng regex `RQRX`).
+  - Món cần ring chưa chọn: mờ trong slot và trong danh sách chọn, có nhãn "needs Ring of the Seven …", và một dòng cảnh báo dưới thanh công cụ. Mọi Starter build bỏ món cần ring chưa chọn.
+  - Nút Starter build "Gambler": chọn món có chữ dice/coin/gambl/"N% chance"/random/luck level (`RNGRX`), ưu tiên dice/coin rồi món cộng Luck; trang Stat totals ghi số món RNG và tổng Luck. Không tính giá trị kỳ vọng: chưa có số đo cho từng món.
+  - Hai Ring cùng slot "Ring"; ghi chú nói "Both" chiếm cả 2 slot Ring. Chưa kiểm trong game rằng đeo cả hai cùng lúc là được; ghi theo ý góp ý.
+- **Effects**: cạnh màu + nhãn cho loại (Beneficial xanh, Harmful đỏ, Neutral xám), id kỹ thuật chuyển vào tooltip, ô trống ghi rõ lý do, "Given by" hiện 4 chip rồi "N more" (trước là 8).
+- **Kiểm**: `checks/planner_ring.js` mới (ringless không có món cần ring; Curses không có món Virtues; link đọc lại đúng; Gambler có ≥4 dice/coin; dimming). Ảnh đã xem: `#build/12`, `#mechanics/effects`, `#mechanics/effects/poison` (1440 và 375). `check.sh`: xem commit.
+- **Open**: giá trị kỳ vọng của món RNG (cần số đo từng món); Effects chưa có sắp xếp theo cột; nút Ring chưa tự thêm Ring vào slot.
