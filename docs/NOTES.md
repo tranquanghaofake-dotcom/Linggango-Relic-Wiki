@@ -2161,3 +2161,12 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Đợt 1** (`patches/curio_tiers.js`, `gear.js` `gPlain`): món đo được có lợi, dưới ngưỡng, và text chỉ gồm số thuộc tính → hạng Common. **22 món** (255 → 277). 72 món còn lại trong 94 có cơ chế bài đo không thấy (Ankh Aegis: đo thấy +5 giáp nhưng giá trị chính là miễn nhiễm 9 hiệu ứng); lần thử đầu hạ cả 94 xuống Common, thấy sai ở trang Ankh Aegis nên đã thu hẹp.
 - **Kiểm**: `checks/curio_tiers.js` mới (món có lợi và text thuần số phải có tier; Common không dành cho món có cơ chế ẩn; không đồng thời có tier đo và nhãn estimate). Ảnh đã xem: trang Ankh Aegis (trước khi thu hẹp). `check.sh` exit 0.
 - **Open**: tầng 2 (ước lượng từ text cho 692 món bài đo không thấy và 72 món trên; mỗi giả định ghi rõ), tầng 3 (món bổ trợ xếp riêng), 64 món bị giữ vì điều kiện, 17 Looting Charm. Hạng A của Fateful Coin chờ chủ wiki xem.
+
+## 2026-11-18 (tiếp 4): tầng 2, kết quả thật của việc thử đọc text
+- **Ý chủ wiki**: "làm, đảm bảo logic".
+- **Đã thử**: bộ đọc text nghiêm ngặt (mọi mệnh đề phải là một chỉ số mô hình biết) trên 1.027 curio chưa có tier đo: đọc trọn được 7 món. 6 món Brutality trong đó **đã được đo từ trước** (thuộc tính crit nằm trong `curio_measure.json`), nên lúc đầu tôi nói sai là bài đo không thấy chúng; bộ đọc riêng của tôi (`gTextAt`) thừa và đã gỡ. Phần còn lại quá khác nhau (miễn nhiễm, kỹ năng chủ động, di chuyển, loot, phép và minion, điều kiện) để gán số không bịa.
+- **Quyết định**: không bịa số cho hàng nghìn món. Thay vào đó:
+  - `gPlain` không còn coi "crit chance" là "xác suất của một việc": 5 món chỉ cộng crit/lifesteal nay có hạng Common theo số đo (282 curio có tier, trước là 277).
+  - Mọi curio còn xếp theo text nói lý do bằng loại nội dung (`gUnrKind`, hiện ở dòng Power của trang curio): miễn nhiễm, kỹ năng chủ động, xác suất không rõ mức, loot/đào/Luck, di chuyển, phép hoặc minion, điều kiện. Dịch vi, ru, pt, es (8 câu).
+- **Kiểm**: `checks/curio_tiers.js` (mọi món còn là estimate đều có lý do; 3 món crit thuần số có tier); đọc lại HTML của 4 trang (Ankh Aegis, Ibuprofen Capsules, Lightning Boots, Superstitious Hat); `check.sh` exit 0.
+- **Open**: tầng 3 (món bổ trợ xếp riêng) và ước lượng cho từng món đơn lẻ: mỗi cái cần số từ file pack (Luck, tốc độ, thời gian hiệu lực). 64 món bị giữ vì điều kiện; 17 Looting Charm.

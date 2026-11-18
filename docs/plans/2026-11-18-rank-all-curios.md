@@ -10,3 +10,9 @@
 **Done when**: every curio has a tier or a stated reason it has none; `d.pe` ("estimate") only on layers 2 and 3; an invariant per layer; pages of each layer looked at; `check.sh` green.
 
 **Assumptions for layer 2** (added here as they are made; a number with no source in the pack's files is not used): none yet beyond the three items above. The rule "each Luck point = +2% damage, +2.5% attack speed, +2% dodge" is in a hand-written table in app.js with no source in the pack's files, so it is not used.
+
+## Result of layer 2 (2026-11-18, same day)
+A strict reader (every clause of the text must be a stat the model knows) was tried on the 1,027 curios still without a measured tier: it fully reads 7, and those 6 Brutality crit curios were already measured (their attributes are in `curio_measure.json`), so nothing new came from it. The rest are too different (immunities, activated abilities, movement, loot, spells and minions, conditions) for one number per curio that is not invented. Decision: no invented numbers. What was done instead:
+- the lower rank (Common) now also covers the curios whose only text is crit chance, crit damage or lifesteal (`gPlain` no longer counts "crit chance" as a chance of something): 282 tiered, up from 277;
+- every curio still rated from its text says what its text is about (`gUnrKind`: immunity, an activated ability, a chance the text does not size, loot/mining/luck, movement, a spell or minion effect, a condition), so the reader sees why it has no measured tier.
+Layer 3 (utility ranked among its own kind) and a per-curio expected value for single items remain open; each needs a number from the pack's files.

@@ -273,6 +273,7 @@ function gCurioAt(m,c){const at={},add=(k,i,v)=>{(at[k]=at[k]||[0,0])[i]+=v},d=m
   if(p==="attack_speed"){const h=c?gAsKind(v,txt):"pct";if(h==="flat")add(p,0,v);else if(h)add(p,1,v/GTESTAS)}
   else if(p==="max_health"&&hpPct)add(p,1,v/GTESTHP);else add(p,GCADD.test(p)?0:1,v)}
  if(c&&GHITCODE[c.id])add(GHITCODE[c.id][0],1,GHITCODE[c.id][1]);
+
  {const x=gHitX(m,c),h=x&&gHitKind(c,m);if(h)add(h==="ME"?"attack_damage":h==="RA"?"arrow_damage":h==="FAR"?"dmg_far":"dmg_all",1,x)}
  for(const [e,l] of m.fx||[]){if(e==="minecraft:resistance")add("resistance",1,gRes(l));if(e==="minecraft:health_boost"||e==="minecraft:absorption")add("max_health",0,4*l)}
  return at}
@@ -299,7 +300,10 @@ const gIsCurio=x=>!!(x&&x.ro&&x.st);
 const GCTX=/unarmed|bare[- ]?hand|empty armou?r slot|empty armor slots|without armou?r|lose all (your )?armou?r|armou?r stops working|armou?r debuff|standing still|stand still|below y ?0|underground|at full health|full health|health you (have )?lose|health you (have )?lost|missing health|low(er)? health|below \d+ ?% (of )?(your )?(max )?(health|hp)|during the day|in daylight|daytime|in sunlight|at night|during the night|nighttime|mobs? above \d+ ?%|not hostile|haven't noticed you|for each mob|per mob within|to larger enemies|oscillates|faster you fall|combos? on one mob/i;
 /* a curio whose text is only numbers on attributes ("+3 attack damage", "+2.5% lifesteal"): what the test measured is all it does, so a low measured gain
    is its real rank. A word of condition, chance, immunity, loot or an effect means the test cannot see its main value: it is not ranked by the measurement alone */
-const gPlain=c=>(c.fx||"").split(/[;,]| and /).map(x=>x.trim()).filter(Boolean).every(x=>/^[+−-]?\s*\d[\d.,]*\s*%?\s+\S/.test(x)&&!/(chance|when|while|if |per |every|after|on hit|on kill|immun|loot|drop)/i.test(x));
+const gPlain=c=>(c.fx||"").split(/[;,]| and /).map(x=>x.trim()).filter(Boolean).every(x=>/^[+−-]?\s*\d[\d.,]*\s*%?\s+\S/.test(x)&&!/(chance (to|of|for|that)|\d+%\s+chance|when|while|if |per |every|after|on hit|on kill|immun|loot|drop)/i.test(x));
+/* why a curio is not ranked by the game test: what its own text is about (first match wins). It says what the test cannot see, not a verdict on the curio */
+const gUnrKind=c=>{const t=[c.fx||"",...(c.st||[])].join(" | ");
+ return /immun/i.test(t)?T("immunity to effects"):/\b(activate|active ability|right.click|hold |press )/i.test(t)?T("an activated ability"):/\d+%\s*chance|chance to|random/i.test(t)?T("a chance of something the text does not size"):/\b(loot|drop|fortune|looting|xp|experience|mining|ore|luck)\b/i.test(t)?T("loot, mining or luck"):/\b(speed|jump|fly|flight|swim|fall|dash|step|teleport|glide)\b/i.test(t)?T("movement"):/\b(mana|spell|cast|cooldown|minion|summon|servant)\b/i.test(t)?T("a spell or minion effect"):T("a condition or an effect")};
 const gCtx=c=>{const m=GCTX.exec([c.fx||"",...(c.st||[])].join(" | "));return m?m[0]:""};
 /* the curio page's "Measured in game" section */
 /* the unit a measured change (CM d: the value worn minus the base) is printed in: flat points; a percent (base-1 multipliers, Apothic

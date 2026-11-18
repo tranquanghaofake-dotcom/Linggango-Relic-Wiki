@@ -7,3 +7,7 @@
     if (t && (t[0] < 0 || t[0] > 5)) bad.push('tiers: ' + d.n + ' has tier ' + t[0]);
     if (t && d.pe) bad.push('tiers: ' + d.n + ' is tiered from the measurement but still marked as an estimate'); }
   if (miss.length) bad.push('tiers: measured to help, no tier: ' + miss.slice(0, 6).join(', ') + (miss.length > 6 ? ' (+' + (miss.length - 6) + ')' : '')); }
+// the reason line: every curio still rated from its text says what its text is about
+{ for (const d of D) if (d.pe && !gUnrKind(d)) bad.push('tiers: no reason for ' + d.n); }
+// crit chance, crit damage and lifesteal are stats, not a chance of something: the curios that only add them are ranked by what the test measured
+{ for (const n of ['Hemograft Needle', 'Energy Focuser', 'Deadshot Brooch']) { const d = D.find(x => x.n === n); if (!d) bad.push('tiers: no ' + n); else if (!gPlain(d)) bad.push('tiers: ' + n + ' is plain stats but gPlain says it is not'); else if (!CTIER[d.id]) bad.push('tiers: ' + n + ' has no tier'); } }
