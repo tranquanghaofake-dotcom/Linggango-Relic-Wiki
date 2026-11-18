@@ -180,3 +180,12 @@ Số đo lại của curio đã đổi một số kết luận cũ:
 - **Kỹ năng chủ động của vũ khí cận chiến**: chưa tính.
 - **Summonity**: `minion_damage` đo được bằng nửa con số trong tooltip; chưa đọc code để biết bên nào đúng.
 - **Phù phép, reforge (Tiered), hiệu ứng bộ viết trong code**: không tính (hiệu ứng bộ được đo khi chúng chạy qua event).
+
+### 5.4 Lấy mẫu cho curio xác suất (2026-11-18)
+- **Vì sao**: bài đo hai nhát chém không thấy được hiệu ứng là một xác suất (xúc xắc, đồng xu, proc trên đòn), nên những curio đó không có tier.
+- **Bài đo**: `lgw_measure_chance` (`lgw_measure.js` mục 3b) đọc `kubejs/lgw_chance_items.json` (`{"chance": [id…], "chanceN": 300, "chanceHurt": 300, "chanceAmt": 4, "chanceLuck": ["0", "e1", "e3"]}`) và ghi `kubejs/lgw_chance_measure.json`: đeo curio, N nhát chém kiếm kim cương vào heo mới, M đòn 4 sát thương mỗi loại qua các sự kiện sát thương. Mức Luck: số là thuộc tính Luck, `eN` là hiệu ứng Luck cấp N. Đòn thử là 4 vì pack chặn một đòn ở nửa máu người thử (10): đòn 8 nhân ×1.5 chỉ đọc được 10.
+- **Nhập**: `python3 build/pack_audit/measure/import_chance.py chance_main.json chance_luck.json` → `build/patches/curio_chance.json` (`CCH` trong trang): `hs` = trung bình sát thương gây ra so với người thử trần, `tk` = trung bình sát thương nhận vào theo loại, `lk` = các mức Luck hiệu ứng.
+- **Điểm**: `gear.js` dùng `hs` và `tk` thay cho một nhát và một đòn, trừ curio mà thuộc tính đo đã giải thích sát thương (`gHsOwned`: crit, sát thương, tốc độ, lifesteal), để không cộng đôi. Trang curio ghi "Sampled in game".
+- **Sự thật đo được**: (1) điểm thuộc tính Luck không đổi gì (Lucky Dice 20% ở Luck 0, 5 và 20; người thử trần cùng sát thương); chỉ **hiệu ứng Luck** tăng tỉ lệ: Lucky Dice 20% → 29% (Luck I) → 73% (Luck V), Nullifying Dice 10% → 13,5% → 36,5%, đúng "mỗi cấp" trong text. (2) Fateful Coin: gây ra ×1.25 nhưng nhận vào từ đòn cận chiến ×1.54 (lửa, nổ, phép, rơi ×1.25). (3) Slicer's Dice (text không có số nào) thật ra ×1.18 sát thương, ×1.25 ở Luck I, ×1.48 ở Luck III.
+- **Kết quả**: 125 curio được lấy mẫu; 33 đổi sát thương gây ra, 12 đổi sát thương nhận vào, 84 không đo được bằng bài này (điều kiện, kỹ năng chủ động). Curio có tier 282 → 286 (thêm Ace of Iron, Slicer's Dice, Shinobi Sash, Ultra Sniffer Fur).
+- **Server**: pack 6.6.6cf giải nén ngoài repo; Forge 47.4.20, Java 21, `-Xmx8G`; chạy cùng build và `check.sh` thì hết RAM (15 GB) và tiến trình bị kill: tắt server trước khi build.

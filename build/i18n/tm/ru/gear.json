@@ -29,6 +29,8 @@
 "1khod0os4jx": {"en": "Critical Chance", "t": "Шанс крита", "s": "llm"},
 "8df1s0pp13": {"en": "Critical Damage", "t": "Урон крита", "s": "llm"},
 "1d2ruz6k560": {"en": "Damage Taken", "t": "Получаемый урон", "s": "llm"},
+"15x103adepl": {"en": "Damage dealt: ×{v} on average over {n} swings.", "t": "Наносимый урон: в среднем ×{v} за {n} ударов.", "s": "llm"},
+"215dpy8s5su": {"en": "Damage taken: {v} on average over {m} hits of each kind.", "t": "Получаемый урон: {v}, в среднем за {m} ударов каждого вида.", "s": "llm"},
 "twjr0veu19": {"en": "Dodge Chance", "t": "Шанс уклонения", "s": "llm"},
 "199r7rymsum": {"en": "Dodge Damage", "t": "Урон уклонения", "s": "llm"},
 "17sifxvaoo5": {"en": "Dodge Window", "t": "Окно уклонения", "s": "llm"},
@@ -73,6 +75,7 @@
 "1kk3f4ccvih": {"en": "Roll Count", "t": "Число перекатов", "s": "llm"},
 "18iqt2j8ohr": {"en": "Roll Distance", "t": "Дальность переката", "s": "llm"},
 "1ttvxdz1uwd": {"en": "Roll Recharge", "t": "Перезарядка переката", "s": "llm"},
+"uwlduid7x": {"en": "Sampled in game, not read from its text:", "t": "Выборка в игре, а не чтение из текста:", "s": "llm"},
 "ie7f3pf95c": {"en": "Sigil Cost Reduction", "t": "Снижение стоимости сигил", "s": "llm"},
 "17ud6z68h5n": {"en": "Soul Decrease Reduction (Goety)", "t": "Снижение убыли душ (Goety)", "s": "llm"},
 "1tdzcls18kh": {"en": "Soul Discount (Goety)", "t": "Скидка на души (Goety)", "s": "llm"},
@@ -94,5 +97,7 @@
 "w6ivkrb5rs": {"en": "Technique Range", "t": "Дальность техники", "s": "llm"},
 "gtvdx1eag2": {"en": "Technique Recharge", "t": "Перезарядка техник", "s": "llm"},
 "y4bzi7rkg6": {"en": "Warding", "t": "Оберег", "s": "llm"},
-"2bvozyd4vw1": {"en": "XP Gained", "t": "Получаемый опыт", "s": "llm"}
+"1xr41yxfbac": {"en": "With the Luck effect: {v}.", "t": "С эффектом Luck: {v}.", "s": "llm"},
+"2bvozyd4vw1": {"en": "XP Gained", "t": "Получаемый опыт", "s": "llm"},
+"18917vu529i": {"en": "level {l}", "t": "уровень {l}", "s": "llm"}
 }

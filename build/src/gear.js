@@ -243,13 +243,16 @@ const GHITCODE={"terramity:chthonic_shell_casing":["dmg_far",.3]};
 /* chance curios (a dice, a coin, a proc) are sampled in game (build/pack_audit/measure/import_chance.py, patches/curio_chance.json, CCH): hs is the mean
    damage of a swing over the bare tester's, tk the mean damage taken by kind, with the tester's Luck at 0; they stand in for the single swing
    and the single hit of the first measurement, which a chance cannot be read from */
+/* a curio whose measured attributes already say what it does to damage (a crit chance, attack damage, speed, lifesteal) is scored from them: the sampled mean
+   would count the same crit a second time (Divine Immolation: its 100% crit chance read x1.414 in the sample and is already scored as a crit) */
+const gHsOwned=m=>Object.keys((m&&m.d)||{}).some(k=>/crit|attack_damage|attack_speed|life_?steal|dmg|damage/i.test(GCK(k)));
 const gCC=c=>c&&typeof CCH!=="undefined"?CCH[c.id]||null:null;
 const gKindName={melee:"melee",magic:"magic",fire:"fire",explosion:"explosion",fall:"fall"};
 function gChanceNote(c){const x=gCC(c);if(!x)return "";const p=[];
  if(x.hs)p.push(T("Damage dealt: ×{v} on average over {n} swings.",{v:x.hs,n:x.n}));
- if(x.tk)p.push(T("Damage taken: ×{v} on average over {m} hits of each kind.",{v:Object.entries(x.tk).map(([k,v])=>T(gKindName[k]||k)+" ×"+v).join(", "),m:x.m}));
+ if(x.tk)p.push(T("Damage taken: {v} on average over {m} hits of each kind.",{v:Object.entries(x.tk).map(([k,v])=>T(gKindName[k]||k)+" ×"+v).join(", "),m:x.m}));
  if(x.lk&&x.lk.length)p.push(T("With the Luck effect: {v}.",{v:x.lk.map(l=>T("level {l}",{l:l[0]})+" ×"+l[1]+(l[2]&&Object.keys(l[2]).length?" / "+Object.entries(l[2]).map(([k,v])=>T(gKindName[k]||k)+" ×"+v).join(", "):"")).join("; ")}));
- return p.length?T("Sampled in game, not read from its text: ")+p.join(" "):""}
+ return p.length?T("Sampled in game, not read from its text:")+" "+p.join(" "):""}
 function gHitKind(c,m){if(!gHitX(m,c))return "";if(c&&GHITBUFF[c.id])return GHITBUFF[c.id];const ks=Object.keys(m.d||{}).map(GCK);if(ks.some(k=>GHITA.test(k)))return "ME";
  if(ks.some(k=>GHITALL.test(k)))return "ALL";
  const t=c?[c.fx||"",...(c.st||[])].join(" / "):"";if(GHNEAR.test(t))return "ME";if(GHFAR.test(t))return "FAR";const me=GHME.test(t),ra=GHRA.test(t);
@@ -279,8 +282,8 @@ function gCurioAt(m,c){const at={},add=(k,i,v)=>{(at[k]=at[k]||[0,0])[i]+=v},d=m
   else if(p==="max_health"&&hpPct)add(p,1,v/GTESTHP);else add(p,GCADD.test(p)?0:1,v)}
  if(c&&GHITCODE[c.id])add(GHITCODE[c.id][0],1,GHITCODE[c.id][1]);
 
- {const cc=gCC(c);if(cc&&cc.hs){const mm=Object.assign({},m,{hit:cc.hs,hit2:0}),x=gHitX(mm,c);if(x){const h=gHitKind(c,mm)||"ME";add(h==="ME"?"attack_damage":h==="RA"?"arrow_damage":h==="FAR"?"dmg_far":"dmg_all",1,x)}}}
- {const x=gCC(c)&&gCC(c).hs?0:gHitX(m,c),h=x&&gHitKind(c,m);if(h)add(h==="ME"?"attack_damage":h==="RA"?"arrow_damage":h==="FAR"?"dmg_far":"dmg_all",1,x)}
+ {const cc=gCC(c);if(cc&&cc.hs&&!gHsOwned(m)){const mm=Object.assign({},m,{hit:cc.hs,hit2:0}),x=gHitX(mm,c);if(x){const h=gHitKind(c,mm)||"ME";add(h==="ME"?"attack_damage":h==="RA"?"arrow_damage":h==="FAR"?"dmg_far":"dmg_all",1,x)}}}
+ {const x=gCC(c)&&gCC(c).hs&&!gHsOwned(m)?0:gHitX(m,c),h=x&&gHitKind(c,m);if(h)add(h==="ME"?"attack_damage":h==="RA"?"arrow_damage":h==="FAR"?"dmg_far":"dmg_all",1,x)}
  for(const [e,l] of m.fx||[]){if(e==="minecraft:resistance")add("resistance",1,gRes(l));if(e==="minecraft:health_boost"||e==="minecraft:absorption")add("max_health",0,4*l)}
  return at}
 const GCS=new Map();

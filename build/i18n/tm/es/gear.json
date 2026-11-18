@@ -29,6 +29,8 @@
 "1khod0os4jx": {"en": "Critical Chance", "t": "Probabilidad de crítico", "s": "llm"},
 "8df1s0pp13": {"en": "Critical Damage", "t": "Daño crítico", "s": "llm"},
 "1d2ruz6k560": {"en": "Damage Taken", "t": "Daño recibido", "s": "llm"},
+"15x103adepl": {"en": "Damage dealt: ×{v} on average over {n} swings.", "t": "Daño causado: de media ×{v} en {n} golpes.", "s": "llm"},
+"215dpy8s5su": {"en": "Damage taken: {v} on average over {m} hits of each kind.", "t": "Daño recibido: {v}, de media en {m} golpes de cada tipo.", "s": "llm"},
 "twjr0veu19": {"en": "Dodge Chance", "t": "Probabilidad de esquiva", "s": "llm"},
 "199r7rymsum": {"en": "Dodge Damage", "t": "Daño de esquiva", "s": "llm"},
 "17sifxvaoo5": {"en": "Dodge Window", "t": "Ventana de esquiva", "s": "llm"},
@@ -73,6 +75,7 @@
 "1kk3f4ccvih": {"en": "Roll Count", "t": "Número de volteretas", "s": "llm"},
 "18iqt2j8ohr": {"en": "Roll Distance", "t": "Distancia de voltereta", "s": "llm"},
 "1ttvxdz1uwd": {"en": "Roll Recharge", "t": "Recarga de voltereta", "s": "llm"},
+"uwlduid7x": {"en": "Sampled in game, not read from its text:", "t": "Muestreado en el juego, no leído del texto:", "s": "llm"},
 "ie7f3pf95c": {"en": "Sigil Cost Reduction", "t": "Reducción de coste de sigilos", "s": "llm"},
 "17ud6z68h5n": {"en": "Soul Decrease Reduction (Goety)", "t": "Reducción de la pérdida de almas (Goety)", "s": "llm"},
 "1tdzcls18kh": {"en": "Soul Discount (Goety)", "t": "Descuento de almas (Goety)", "s": "llm"},
@@ -94,5 +97,7 @@
 "w6ivkrb5rs": {"en": "Technique Range", "t": "Alcance de técnica", "s": "llm"},
 "gtvdx1eag2": {"en": "Technique Recharge", "t": "Recarga de técnica", "s": "llm"},
 "y4bzi7rkg6": {"en": "Warding", "t": "Resguardo", "s": "llm"},
-"2bvozyd4vw1": {"en": "XP Gained", "t": "XP ganado", "s": "llm"}
+"1xr41yxfbac": {"en": "With the Luck effect: {v}.", "t": "Con el efecto Luck: {v}.", "s": "llm"},
+"2bvozyd4vw1": {"en": "XP Gained", "t": "XP ganado", "s": "llm"},
+"18917vu529i": {"en": "level {l}", "t": "nivel {l}", "s": "llm"}
 }
