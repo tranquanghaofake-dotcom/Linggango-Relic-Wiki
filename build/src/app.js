@@ -604,7 +604,10 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 <p>${T("Status effects in the pack, what each one does, and the items whose own text names it. Food buffs are not an item: eating a meal that scores high enough gives them, as set in <code>linggango_tweaks-common.toml</code>.")}</p>
 <p class="note">${T("Every effect the game registers: {n} in {m} mods, listed by the running pack itself, with each effect's category, colour and attribute changes. Names, descriptions and icons come from the mods' own files.",{n:X.length,m:new Set(X.map(e=>e.m)).size})}</p>
 <div class="rflt"><input id="eq" type="search" aria-label="${T("Find an effect, mod or item…")}" placeholder="${T("Find an effect, mod or item…")}"><select id="em" aria-label="${T("All mods")}"><option value="">${T("All mods")}</option>${[...new Set(X.map(e=>e.m))].sort((a,b)=>(a==="Minecraft"?-1:b==="Minecraft"?1:a.localeCompare(b))).map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join("")}</select><select id="ek" aria-label="${T("All kinds")}"><option value="">${T("All kinds")}</option><option value="b">${T("Beneficial")}</option><option value="h">${T("Harmful")}</option><option value="n">${T("Neutral")}</option></select><span id="en"></span></div>
-<div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Effect")}</th><th>${T("Type")}</th><th>${T("What it does")}</th><th>${T("Given by")}</th></tr></thead><tbody id="etb"></tbody></table></div><div id="emore"></div></section>`},
+<div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Effect")}</th><th>${T("Type")}</th><th>${T("What it does")}</th><th>${T("Given by")}</th></tr></thead><tbody id="etb"></tbody></table></div><div id="emore"></div>
+<h3 id="m-imm">${T("Immunity ranking")}</h3>
+<p>${T("Curios that block effects or hazards, ranked by how many and how strong. Each effect or hazard is weighted 1 (a nuisance), 2 (cripples what you do) or 3 (damages you or can kill); this is an estimate, not a measurement, and only the blocking is scored.")}</p>
+<div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Rank")}</th><th>${T("Curio")}</th><th>${T("Tier")}</th><th>${T("Threat points")}</th><th>${T("Blocks")}</th></tr></thead><tbody>${immRank().map(d=>`<tr><td>${d._immK}</td><td>${ilink(d.id,d.n)}</td><td>${d._immT}</td><td>${immOf(d).pts}</td><td>${esc(immOf(d).hits.map(h=>TD(h.n)).join(", "))}</td></tr>`).join("")}</tbody></table></div></section>`},
  stats:()=>`<section class="s" id="m-stats"><h2>${T("Stats explained")}</h2>
 <p>${T("About a dozen mods in the pack add combat stats, often with the same name and a different rule. This section follows one hit from your swing to the target's health bar and says at which step each stat counts. It is read from the code of the V6.6.6hf jars and the pack's own config files (the stat caps in <code>attributefix.json</code>, the Linggango Tweaks combat rules). Two warnings up front: several stats on the wiki do nothing in this pack, and some caps are much lower than the mods' own tooltips say.")}</p>
 <nav class="mtabs" aria-label="${T("Stats explained")}"><a href="#mechanics" data-go="m-st-hit">${T("One hit")}</a><a href="#mechanics" data-go="m-st-armor">${T("Armor")}</a><a href="#mechanics" data-go="m-st-crit">${T("Crits")}</a><a href="#mechanics" data-go="m-st-dodge">${T("Dodge")}</a><a href="#mechanics" data-go="m-st-def">${T("Taking damage")}</a><a href="#mechanics" data-go="m-st-heal">${T("Healing")}</a><a href="#mechanics" data-go="m-st-roll">${T("Roll and parry")}</a><a href="#mechanics" data-go="m-st-type">${T("Damage types")}</a><a href="#mechanics" data-go="m-st-combo">${T("Status and combos")}</a><a href="#mechanics" data-go="m-st-magic">${T("Magic")}</a><a href="#mechanics" data-go="m-st-summon">${T("Summons")}</a></nav>
@@ -1131,6 +1134,24 @@ D.sort((a,b)=>b.r-a.r||b.sc-a.sc||a.n.localeCompare(b.n));
 const BYID={};D.forEach((d,i)=>{d.ix=i;d.c=d.ro[0];BYID[d.id]=d});
 // list fingerprint: share links store item indices, so a link made before the item list changed is flagged
 const DFP=(()=>{let h=0;D.forEach(d=>{for(const c of d.id)h=(h*31+c.charCodeAt(0))%1000003});return h.toString(36)})();
+/* Immunity ranking: what a curio's text says it is immune to, weighted by how much that hurts (patches/effect_threat.json: 3 damages you, 2 cripples you,
+   1 a nuisance; a judgement, labelled as an estimate), summed over distinct things, then tiered like the rest (against the fifth best). Only the blocking is scored. */
+const IMMM=(THREAT.items||[]),IMMST=IMMM.filter(x=>x.kind==="effect"),IMMMEAN=IMMST.reduce((s,x)=>s+x.w,0)/IMMST.length;
+function immTok(x){x=x.trim().toLowerCase().replace(/[. ]+$/,"");if(!x)return null;let f=1;const mo=/^(reduced|most|many)\s+/.exec(x);if(mo){f=mo[1]==="reduced"?.5:.75;x=x.slice(mo[0].length)}
+ if(/^all effects$/.test(x))return {n:"all effects",w:IMMST.reduce((s,y)=>s+y.w,0)*f,key:"*all"};
+ if(/^harmful effects$/.test(x))return {n:"most harmful effects",w:IMMST.reduce((s,y)=>s+y.w,0)*f,key:"*all"};
+ let m=/^(\d+) harmful effects/.exec(x);if(m)return {n:m[1]+" harmful effects",w:+m[1]*IMMMEAN*f,key:"*n"+m[1]};
+ const hit=IMMM.map(y=>[y,y.names.filter(nm=>x===nm||x.startsWith(nm+" ")||x.endsWith(" "+nm)).sort((p,q)=>q.length-p.length)[0]]).filter(p=>p[1]).sort((p,q)=>q[1].length-p[1].length)[0];
+ return hit?{n:hit[0].names[0],w:hit[0].w*f,key:hit[0].id,why:hit[0].why,part:f}:{miss:x}}
+function immOf(d){if(d._imm!==undefined)return d._imm;let r=null;const hits=[],miss=[],seen=new Set();
+ for(const m of (d.fx||"").matchAll(/immun\w*(?: to)? ([^;]+)/gi)){const seg=m[1].split(/\b(?:in return|but|while|when|activate)\b/i)[0];
+  for(const x of seg.split(/,| and /)){const t=immTok(x);if(!t)continue;if(t.miss){if(t.miss.length<40)miss.push(t.miss)}else if(!seen.has(t.key)){seen.add(t.key);hits.push(t)}}}
+ if(hits.length)r={hits,miss,pts:Math.round(hits.reduce((s,h)=>s+h.w,0)*100)/100};return d._imm=r}
+let IMMR=null;
+function immRank(){if(IMMR)return IMMR;const xs=D.filter(d=>immOf(d)).sort((p,q)=>immOf(q).pts-immOf(p).pts||p.n.localeCompare(q.n)),top=(xs[xs.length<5?0:4]&&immOf(xs[xs.length<5?0:4]).pts)||1;
+ xs.forEach((d,i)=>{const q=immOf(d).pts/top;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;d._immK=i+1;d._immT=GTIER[t][0]});return IMMR=xs}
+function immHtml(d){const o=immOf(d);if(!o)return"";const rk=immRank();
+ return `<p>${T("Immunity rank {k} of {m}: tier {t}. It scores {pts} threat points for what it blocks (an estimate: each effect is weighted 1 to 3 by how much it hurts).",{k:d._immK,m:rk.length,t:d._immT,pts:o.pts})}</p><ul class="imm">${o.hits.map(h=>`<li><b>${esc(TD(h.n.replace(/^\w/,c=>c.toUpperCase())))}</b> · ${Math.round(h.w*100)/100}${h.part&&h.part<1?" ("+T("partly")+")":""}${h.why?` <small>${esc(TD(h.why))}</small>`:""}</li>`).join("")}</ul>${o.miss.length?`<p class="note">${T("Not counted: {names}. Only what it blocks is scored; its other effects are not.",{names:esc(o.miss.join(", "))})}</p>`:`<p class="note">${T("Only what it blocks is scored; its other effects are not.")}</p>`}`}
 /* d.rq: the curio's own text says it needs the Ring of the Seven Curses or Virtues */
 const RQRING={Curses:"enigmaticlegacy:cursed_ring",Virtues:"covenant_of_the_seven:virtue_ring"},RQRX=/requires (?:the )?(?:Ring of )?(?:the )?Seven (?:Curses|Virtues)|Seven (?:Curses|Virtues) bearers only|\(Seven (?:Curses|Virtues)(?: path)?\)|Break the Ring of (?:the )?Seven Curses/i;
 D.forEach(d=>{if(d.id===RQRING.Curses||d.id===RQRING.Virtues)return;const m=RQRX.exec([d.fx,...d.st,...d.src].join(" | "));if(m)d.rq=/curses/i.test(m[0])?"Curses":"Virtues"});
@@ -2009,6 +2030,7 @@ function page(d){
  sh=statsHtml(d,other)+sh;
  if(sh)secs.push(["stats",T("Stats"),sh]);
  if(typeof gCurioMs==="function"){const mh=gCurioMs(d);if(mh)secs.push(["ms",T("Measured in game"),mh])}
+ if(immOf(d))secs.push(["im",T("Immunity"),immHtml(d)])
  if(d.uid.length)secs.push(["uses",T("Used to craft"),`<div class="cards">${d.uid.map(o=>{const t=BYID[o];return `<a class="card"${t?` href="#i${t.ix}" data-t="${t.ix}"`:""}>${img(o)}<span>${esc(NM[o]||o)}${t?"":` <span class="meta">${T("(not a curio)")}</span>`}</span></a>`}).join("")}</div>`]);
  const bar=(v,l)=>`<div class="sg" style="grid-template-columns:150px 1fr;margin:var(--s1) 0"><span>${l}</span><div class="bar"><i style="width:${Math.round(Math.min(5,Math.max(0,v))*20)}%;background:var(--rc);opacity:.55"></i><span>${(+v).toFixed(1)} / 5</span></div></div>`;
   const same=D.filter(x=>x!==d&&x.m===d.m&&x.t===d.t).slice(0,8);

@@ -1,0 +1,242 @@
+{
+ "_basis": "Weights are a judgement, not a measurement: the game export gives no damage or strength per effect (effects.json has amount 0 for Weakness, none for Wither). 3 = damages you or can kill, 2 = cripples what you do or see, 1 = a nuisance. A curio text that says 'reduced X' counts half, 'most X' three quarters, 'all effects' every status effect here, 'N harmful effects' N times the mean status weight. Change a weight here and the Immunity ranking follows.",
+ "items": [
+  {
+   "id": "wither",
+   "kind": "effect",
+   "names": [
+    "wither"
+   ],
+   "w": 3,
+   "why": "Damages you over time and stops natural healing"
+  },
+  {
+   "id": "poison",
+   "kind": "effect",
+   "names": [
+    "poison"
+   ],
+   "w": 2,
+   "why": "Damages you over time, but cannot kill"
+  },
+  {
+   "id": "weakness",
+   "kind": "effect",
+   "names": [
+    "weakness"
+   ],
+   "w": 2,
+   "why": "Cuts the damage you deal"
+  },
+  {
+   "id": "slowness",
+   "kind": "effect",
+   "names": [
+    "slowness"
+   ],
+   "w": 2,
+   "why": "Cuts your movement speed"
+  },
+  {
+   "id": "blindness",
+   "kind": "effect",
+   "names": [
+    "blindness"
+   ],
+   "w": 2,
+   "why": "You cannot see targets"
+  },
+  {
+   "id": "levitation",
+   "kind": "effect",
+   "names": [
+    "levitation"
+   ],
+   "w": 2,
+   "why": "Lifts you off the ground and takes away control"
+  },
+  {
+   "id": "hex",
+   "kind": "effect",
+   "names": [
+    "hexed",
+    "hex"
+   ],
+   "w": 2,
+   "why": "A mod curse: counted as a crippling effect (its size is not read)"
+  },
+  {
+   "id": "hunger",
+   "kind": "effect",
+   "names": [
+    "hunger"
+   ],
+   "w": 1,
+   "why": "Drains food"
+  },
+  {
+   "id": "mining_fatigue",
+   "kind": "effect",
+   "names": [
+    "mining fatigue"
+   ],
+   "w": 1,
+   "why": "Slows mining and swinging tools"
+  },
+  {
+   "id": "darkness",
+   "kind": "effect",
+   "names": [
+    "darkness"
+   ],
+   "w": 1,
+   "why": "Dims the screen"
+  },
+  {
+   "id": "nausea",
+   "kind": "effect",
+   "names": [
+    "nausea"
+   ],
+   "w": 1,
+   "why": "Warps the screen"
+  },
+  {
+   "id": "voidflame",
+   "kind": "effect",
+   "names": [
+    "voidflame"
+   ],
+   "w": 2,
+   "why": "A mod fire effect: counted as a crippling effect (its size is not read)"
+  },
+  {
+   "id": "glowing",
+   "kind": "effect",
+   "names": [
+    "glowing"
+   ],
+   "w": 1,
+   "why": "Shows you to mobs through walls"
+  },
+  {
+   "id": "fire",
+   "kind": "hazard",
+   "names": [
+    "fire",
+    "burning",
+    "sunburn"
+   ],
+   "w": 3,
+   "why": "Burns you for damage"
+  },
+  {
+   "id": "lava",
+   "kind": "hazard",
+   "names": [
+    "lava",
+    "lava damage",
+    "lava immunity"
+   ],
+   "w": 3,
+   "why": "Lava is the harshest fire"
+  },
+  {
+   "id": "fire_blocks",
+   "kind": "hazard",
+   "names": [
+    "fire blocks",
+    "walk through fire"
+   ],
+   "w": 2,
+   "why": "Standing in fire or lava blocks only"
+  },
+  {
+   "id": "explosion",
+   "kind": "hazard",
+   "names": [
+    "explosion damage",
+    "explosion"
+   ],
+   "w": 3,
+   "why": "One large hit"
+  },
+  {
+   "id": "magic",
+   "kind": "hazard",
+   "names": [
+    "magic damage"
+   ],
+   "w": 3,
+   "why": "Skips armor"
+  },
+  {
+   "id": "fall",
+   "kind": "hazard",
+   "names": [
+    "fall damage",
+    "fall"
+   ],
+   "w": 2,
+   "why": "A large hit from heights"
+  },
+  {
+   "id": "freezing",
+   "kind": "hazard",
+   "names": [
+    "freezing",
+    "powder snow freezing",
+    "powder snow"
+   ],
+   "w": 2,
+   "why": "Slows you and damages you"
+  },
+  {
+   "id": "starvation",
+   "kind": "hazard",
+   "names": [
+    "starvation damage"
+   ],
+   "w": 2,
+   "why": "Damage when food is empty"
+  },
+  {
+   "id": "impact",
+   "kind": "hazard",
+   "names": [
+    "impact damage"
+   ],
+   "w": 2,
+   "why": "Damage from flying into walls"
+  },
+  {
+   "id": "knockback",
+   "kind": "hazard",
+   "names": [
+    "knockback",
+    "complete knockback immunity"
+   ],
+   "w": 1,
+   "why": "Keeps you in place"
+  },
+  {
+   "id": "cactus",
+   "kind": "hazard",
+   "names": [
+    "cactus",
+    "berry bushes"
+   ],
+   "w": 1,
+   "why": "Trivial contact damage"
+  },
+  {
+   "id": "acid",
+   "kind": "hazard",
+   "names": [
+    "acid"
+   ],
+   "w": 2,
+   "why": "A mod hazard: counted as a crippling hazard (its size is not read)"
+  }
+ ]
+}
