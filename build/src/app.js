@@ -621,6 +621,7 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 <li>${T("<b>per level</b>: the change at level I; level II doubles it, level III triples it.")}</li>
 <li>${T("<b>†</b>: the mod gives this effect no name, so its id is shown.")}</li>
 <li>${T("Names, descriptions and icons come from the mods' own files; food buffs are set in <code>linggango_tweaks-common.toml</code>.")}</li>
+<li>${T("<b>Measured in game</b>: each effect at level I and II, for 5 seconds on a test pig and a test player, in the running pack. \"No change the test can see\" means it acts on something the test does not do: a hit it takes or deals in a certain way, a spell, a block, the screen.")}</li>
 <li>${T("<small class=\"edc\">read from the mod's code</small>: the mod gives no description, so the wiki wrote one from what the effect's code does.")}</li></ul>
 <div class="rflt" id="m-eff-list"><input id="eq" type="search" aria-label="${T("Find an effect, mod or item…")}" placeholder="${T("Find an effect, mod or item…")}"><select id="eg" aria-label="${T("Which effects")}"><option value="g">${T("Effects you can get")}</option><option value="">${T("All effects")}</option></select><select id="em" aria-label="${T("All mods")}"><option value="">${T("All mods")}</option>${[...new Set(X.map(e=>e.m))].sort((a,b)=>(a==="Minecraft"?-1:b==="Minecraft"?1:a.localeCompare(b))).map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join("")}</select><select id="ek" aria-label="${T("All kinds")}"><option value="">${T("All kinds")}</option><option value="b">${T("Beneficial")}</option><option value="h">${T("Harmful")}</option><option value="n">${T("Neutral")}</option></select><span id="en"></span></div>
 <div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Effect")}</th><th>${T("Type")}</th><th>${T("What it does")}</th><th>${T("Given by")}</th></tr></thead><tbody id="etb"></tbody></table></div><div id="emore"></div>
@@ -831,6 +832,24 @@ ${S[sk]()}${wikiNav()}`;
   const rows=X.map(e=>{const nm=e.n||pretty(e.i),h=rk(e)<2&&hand.get(nm.toLowerCase());return {e,nm,h,txt:((h&&h.d)||e.d||"").replace(/§./g,"").trim()}})
    .sort((a,b)=>rk(a.e)-rk(b.e)||(rk(a.e)<2?0:a.e.m.localeCompare(b.e.m))||a.nm.localeCompare(b.nm));
   const num=v=>Math.round(v*100)/100,mt=m=>{if(m.amount===0)return "";/* Strength, Weakness: the value is in the effect's code and its text */const n=esc(TD(A[m.attr]||m.attr||"?"));if(m.amount==null)return `<b>${n}</b>`;const pc=/MULTIPLY/.test(m.op),v=pc?Math.round(m.amount*1000)/10:num(m.amount);return `<b>${n}</b> ${v<0?"−":"+"}${Math.abs(v)}${pc?"%":""}`};
+  const SRC=window.EFXS||{},MZ=window.EFXM||{},roman=n=>["I","II","III","IV","V","VI","VII","VIII","IX","X"][n-1]||String(n),dur=s=>s>=60?Math.floor(s/60)+":"+String(s%60).padStart(2,"0"):s+" s";
+  // what the in-game test saw at one level (import_fx.py): health per second, damage taken and dealt, attributes not already in the modifier list, height, fire, other effects
+  const anm=a=>TD(A[a]||a.split(":")[1].split(".").pop().replace(/_/g," ").replace(/^\w/,c=>c.toUpperCase())),XI=new Map(X.map(y=>[y.i,y])),enm=id=>{const x=XI.get(id);return x?TD(x.n||pretty(id)):pretty(id)},sg=v=>(v<0?"−":"+")+Math.abs(v);
+  const mzL=(m,e)=>{const o=[],own=new Set((e.a||[]).map(x=>x.attr));
+   if(m.hp!=null)o.push(m.hp<0?T("loses {n} health a second",{n:Math.abs(m.hp)}):T("heals {n} health a second",{n:m.hp}));
+   if(m.tk!=null)o.push(m.tk>1?T("takes {p}% more damage",{p:Math.round((m.tk-1)*100)}):T("takes {p}% less damage",{p:Math.round((1-m.tk)*100)}));
+   if(m.ab)o.push(T("{n} absorption",{n:m.ab}));
+   if(m.hit)o.push(T("bare-hand hit {a} → {b}",{a:m.hit[0],b:m.hit[1]}));
+   let seen=0;for(const [a,[x,y]] of Object.entries(m.at||{}))if(!own.has(a))o.push(`${esc(anm(a))} ${num(x)} → ${num(y)}`);else seen=1;
+   if(m.dy)o.push(m.dy>0?T("rises {n} blocks in 5 s",{n:m.dy}):T("sinks {n} blocks in 5 s",{n:-m.dy}));
+   if(m.fire)o.push(T("sets it on fire"));if(m.frz)o.push(T("freezes it"));
+   if(m.gx)o.push(T("also gives {list}",{list:m.gx.map(enm).map(esc).join(", ")}));
+   if(m.tfx)o.push(T("its hits give {list}",{list:m.tfx.map(enm).map(esc).join(", ")}));
+   if(m.end)o.push(T("ends early by itself"));if(m.dead)o.push(T("killed the test pig"));
+   return o.length?o.join(" · "):seen?T("the attribute changes above, as listed"):""};
+  const mz=e=>{const m=MZ[e.i];if(!m)return"";if(m.crash)return `<div class="emz"><small>${T("Measured in game")}</small> ${T("crashed the test server when it ticked on a pig, so it was not measured")}</div>`;
+   const [a,b]=(m.l||[]).map(x=>mzL(x,e));if(!a&&!b)return `<div class="emz"><small>${T("Measured in game")}</small> ${T("no change the test can see")}</div>`;
+   return `<div class="emz"><small>${T("Measured in game")}</small> ${a===b?`<b>I, II</b> ${a}`:`<b>I</b> ${a||T("no change")}; <b>II</b> ${b||T("no change")}`}</div>`};
   const given=r=>{const o=[];if(r.h&&r.h.note)o.push(`<span class="nch">${esc(TD(r.h.note))}</span>`);
    const by=new Map();for(const [it,when] of GF[r.e.i]||[]){const x=by.get(it)||by.set(it,new Set()).get(it);x.add(when)}
    for(const [it,ws] of by){const lab=` <small>${[...ws].map(w=>T(WH[w]||w)).join(", ")}</small>`,ix=gix.get(it);
@@ -840,23 +859,29 @@ ${S[sk]()}${wikiNav()}`;
    // the curios that keep it off come last and do not count as a way to get it
    const bl=[];if(rk(r.e)<2||cnt[r.nm.toLowerCase()]===1){const re=effRe(r.nm.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")),lo=r.nm.toLowerCase();for(const [d,fl] of fxl)if(fl.includes(lo)&&re.test(d.fx)){
     if(effBlocks(d.fx,re))bl.push(`<span class="nch nblk">${ilink(d.id,d.n)} <small>${T("blocks it")}</small></span>`);else o.push(`<span class="nch">${ilink(d.id,d.n)}</span>`)}}
+   // potions and foods that give it (the game's own registries, lgw_measure_fx): one chip per potion name or food, its levels and seconds in small print
+   {const by=new Map();for(const [kd,nm,lv,sec,ch] of SRC[r.e.i]||[]){const k=kd+"|"+nm;(by.get(k)||by.set(k,{kd,nm,l:[]}).get(k)).l.push(roman(lv)+(sec>1?" "+dur(sec):"")+(ch<1?" "+Math.round(ch*100)+"%":""))}
+    for(const x of by.values())o.push(`<span class="nch">${esc(TD(x.nm))} <small>${x.kd==="potion"?T("potion"):T("food")} ${esc([...new Set(x.l)].join(", "))}</small></span>`)}
    r.n=o.length;o.push(...bl);return o.length>4?o.slice(0,4).join("")+`<details class="nmore"><summary>${T("{n} more",{n:o.length-4})}</summary><div class="nchs">${o.slice(4).join("")}</div></details>`:o.join("")||`<span class="eno">${T("No item or spell in the wiki gives it")}</span>`};
   const row=r=>{const e=r.e,k=e.k==="b"?T("Beneficial"):e.k==="h"?T("Harmful"):e.k==="n"?T("Neutral"):"—",ms=(e.a||[]).map(mt).filter(Boolean).join(", ");
-   return `<tr class="ek-${e.k||"x"}${r.hl?" hl":""}" id="eff-${esc(e.i.replace(/[:_]/g,"-"))}"><td>${IC2[e.i]?`<img class="nic" alt="" loading="lazy" src="data:image/png;base64,${IC2[e.i]}"> `:""}<b>${esc(TD(r.nm))}</b>${e.u?` <sup>†</sup>`:""}<br><small title="${esc(e.i)}">${esc(e.m)}</small></td><td><span class="ekb">${k}</span></td><td>${r.txt?esc(TD(r.txt)):""}${r.txt&&e.dc&&!r.h?` <small class="edc">${T("read from the mod's code")}</small>`:""}${r.txt&&ms?"<br>":""}${ms?`${ms} <small>${T("per level")}</small>`:""}${r.txt||ms?"":`<span class="eno">${T("No description in the game files")}</span>`}</td><td class="nchs">${r.g}</td></tr>`};
+   return `<tr class="ek-${e.k||"x"}${r.hl?" hl":""}" id="eff-${esc(e.i.replace(/[:_]/g,"-"))}"><td>${IC2[e.i]?`<img class="nic" alt="" loading="lazy" src="data:image/png;base64,${IC2[e.i]}"> `:""}<b>${esc(TD(r.nm))}</b>${e.u?` <sup>†</sup>`:""}<br><small title="${esc(e.i)}">${esc(e.m)}</small></td><td><span class="ekb">${k}</span></td><td>${r.txt?esc(TD(r.txt)):""}${r.txt&&e.dc&&!r.h?` <small class="edc">${T("read from the mod's code")}</small>`:""}${r.txt&&ms?"<br>":""}${ms?`${ms} <small>${T("per level")}</small>`:""}${r.txt||ms?"":`<span class="eno">${T("No description in the game files")}</span>`}${mz(e)}</td><td class="nchs">${r.g}</td></tr>`};
   // the "Given by" of all 973 rows at once stays under the long-task limit: spells indexed by effect, a curio's text tried with a plain includes first
   const spBy=new Map();for(const sp of window.SPL||[])for(const f of sp.f||[])(spBy.get(f)||spBy.set(f,[]).get(f)).push(sp);
   const fxl=D.filter(d=>d.fx).map(d=>[d,d.fx.toLowerCase()]);
-  rows.forEach(r=>{r.g=given(r)});   // what gives each effect, once: the "Effects you can get" view needs it for every row
+  // what gives each effect, once: the "Effects you can get" view needs it for every row. Computed in slices of 40 ms between frames (one pass over
+  // all 973 rows was a 201 ms long task once potions and food were added)
+  const tb=el("etb"),prep=(i,done)=>{if(!tb.isConnected)return;/* the reader left the page before the slices were done */const t0=performance.now();while(i<rows.length&&performance.now()-t0<40){rows[i].g=given(rows[i]);i++}if(i<rows.length)setTimeout(()=>prep(i,done),0);else done()};
   const eq=el("eq"),eg=el("eg"),em=el("em"),ek=el("ek");let lim=EM;
   // #mechanics/effects/<name> (an effect name on an item page, a spell's "Applies"): every effect, filtered to that name, the exact match marked and in view
   {const pre=decodeURIComponent(location.hash).split("/").slice(2).join("/");if(pre){eq.value=pre;eg.value="";const lo=pre.toLowerCase();rows.forEach(r=>{r.hl=r.nm.toLowerCase()===lo||r.e.i===pre})}}
-  const ng=rows.filter(r=>r.n).length;eg.options[0].textContent=T("Effects you can get ({n})",{n:ng});eg.options[1].textContent=T("All effects ({n})",{n:rows.length});
+  let ng=0;
   const fe=more=>{if(more!==true)lim=EM;const v=eq.value.trim().toLowerCase(),hit=rows.filter(r=>(!eg.value||r.n)&&(!em.value||r.e.m===em.value)&&(!ek.value||r.e.k===ek.value)&&(!v||(r.nm+" "+r.e.i+" "+r.e.m+" "+r.txt).toLowerCase().includes(v))).sort((a,b)=>(b.hl|0)-(a.hl|0));
    el("etb").innerHTML=hit.slice(0,lim).map(row).join("");el("en").textContent=T("{a} of {b}",{a:hit.length,b:eg.value?ng:rows.length});
    el("emore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(EM*5,hit.length-lim)})}</button>`:"";
    const b=el("emore").firstChild;if(b)b.onclick=()=>{lim+=EM*5;fe(true)}};
-  [eq,eg,em,ek].forEach(x=>x.addEventListener("input",fe));
-  fe();const h1=el("etb").querySelector("tr.hl");if(h1)setTimeout(()=>h1.scrollIntoView({block:"center"}),60)}
+  prep(0,()=>{ng=rows.filter(r=>r.n).length;eg.options[0].textContent=T("Effects you can get ({n})",{n:ng});eg.options[1].textContent=T("All effects ({n})",{n:rows.length});
+   [eq,eg,em,ek].forEach(x=>x.addEventListener("input",fe));
+   fe();const h1=el("etb").querySelector("tr.hl");if(h1)setTimeout(()=>h1.scrollIntoView({block:"center"}),60)})}
  if(sk==="stats")hitInit();
  el("main").querySelectorAll(".mtabs [data-go]").forEach(a=>a.onclick=e=>{e.preventDefault();el(a.dataset.go).scrollIntoView({behavior:"smooth"})});
 }
@@ -1380,7 +1405,7 @@ function changesPage(){
 </ul>
 <h3 class="ck chg">${T("Changed")}</h3><ul>
 <li>${T("<b>Mechanics</b> is now four pages: Goety rituals, AE2 storage, Effects and Stats.")}</li>
-<li>${T("<b>Effects</b> lists every status effect the game registers (973 in 83 mods) with what it does, its kind, icon and attribute changes, and the items and spells that give it. It opens on the 208 effects something in the pack gives you, marks the curios that only block an effect, and an effect name on an item page opens the list on that effect.")}</li>
+<li>${T("<b>Effects</b> lists every status effect the game registers (973 in 83 mods) with what it does, its kind, icon and attribute changes, and the curios, gear, spells, potions and food that give it. Each effect was also tested in game at level I and II, and the page shows what changed. It opens on the 342 effects something in the pack gives you, marks the curios that only block an effect, and an effect name on an item page opens the list on that effect.")}</li>
 <li>${T("<b>Equipment ranking</b> uses numbers measured in game for Ranged and Summon weapons too (shots with reloads, minion damage). The Mage's own attack and the whips have their own tables, the Act only decides what is open to you, and a curio is ranked only for the playstyle it serves.")}</li>
 <li>${T("<b>Curio tiers:</b> 288 curios have a tier from numbers measured in game. The page of every other curio says what its power is read from and why the game test could not measure it.")}</li>
 </ul></section>

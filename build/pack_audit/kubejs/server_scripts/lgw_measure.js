@@ -41,7 +41,8 @@ LGW.SRG = {
   setDeltaMovement: ['m_20256_'], resetFallDistance: ['m_183634_'], isNoGravity: ['m_20068_'], setGameMode: ['m_143403_'],
   getOrCreateTag: ['m_41784_'], putDouble: ['m_128347_'], getCooldowns: ['m_36335_'], isOnCooldown: ['m_41519_'],
   setTarget: ['m_6710_'], setItem: ['m_6836_'], setShiftKeyDown: ['m_20260_'], getDouble: ['m_128459_'], contains: ['m_128441_'], getUUID: ['m_20148_'], useOn: ['m_6225_'], getId: ['m_19879_'], getType: ['m_6095_'], getPlayerList: ['m_6846_'],
-  getTarget: ['m_5448_'], isAlive: ['m_6084_']
+  getTarget: ['m_5448_'], isAlive: ['m_6084_'],
+  addEffect: ['m_7292_'], getEffects: ['m_43488_', 'm_38749_'], getFoodProperties: ['m_41473_'], getTicksFrozen: ['m_146888_']
 }
 LGW.FLD = { MAX_HEALTH: 'f_22276_', ARMOR: 'f_22284_', ARMOR_TOUGHNESS: 'f_22285_', ATTACK_DAMAGE: 'f_22281_', ATTACK_SPEED: 'f_22283_',
   BYPASSES_ARMOR: 'f_268490_', EMPTY: 'f_41583_', instabuild: 'f_35937_', hurtTime: 'f_20916_', SURVIVAL: 'f_46392_', UP: 'f_122401_' }
@@ -724,6 +725,105 @@ LGW.run = (server, who, name) => {
   }
 
   // run in slices so one server tick never holds the watchdog
+
+  // 5. status effects (2026-11-18, docs/NOTES.md "Effects measured in game"): every effect in plan.effects at each level in plan.fxLevels ([0, 1] = I, II).
+  //  On a pig (the world's own ticks): plan.fxBatch (50) pigs a batch on a 16-block grid, 1,000 max health at 500, no AI, no gravity, no armor, each
+  //  with one effect for plan.fxTicks (100) ticks; then health change, alive, height change, fire and freeze ticks, every attribute, the effects it has,
+  //  and a 10-damage hit from the tester (damage taken, absorption included). Each batch has a bare pig first ('(none)#<batch>'): the baseline.
+  //  On the tester (its ticks run here): the effect for 20 ticks, then its attributes (extraAttrs), the effects it has, may-fly, and one bare-hand swing
+  //  at a fresh pig (damage dealt, health gained). The bare tester is '(none)'. Readings only: the comparison with the baselines is the importer's.
+  //  Sources: every potion's effects (the potion registry) and every food's (Item.getFoodProperties).
+  // plan lists come from JsonIO as wrapped Java lists (slice on one threw in Rhino's CustomFunction): copied into plain arrays
+  var FXT = plan.fxTicks || 100, FXB = plan.fxBatch || 50, FXL = [], FXE = []
+  // plan.fxSkip: effects that crash the server when they tick (found one run at a time from the crash report; listed in out.fxSkip, not measured)
+  var FXS = {}; (plan.fxSkip || []).forEach(v => { FXS['' + v] = 1 })
+  // plan.fxSolo: effects that reach every creature in the world (Enigmatic Dice's "Day of" effects reached all 50 pigs of their batch, the bare one too),
+  // each measured in a batch of its own after the others
+  var FXO = {}; (plan.fxSolo || []).forEach(v => { FXO['' + v] = 1 })
+  ;(plan.fxLevels || [0, 1]).forEach(v => FXL.push(+v)); (plan.effects || []).forEach(v => { if (!FXS['' + v]) FXE.push('' + v) })
+  var MobEffectInstance = Java.loadClass('net.minecraft.world.effect.MobEffectInstance')
+  var effOf = id => ForgeRegistries.MOB_EFFECTS.getValue(rl(id))
+  var instant = id => { try { var e = effOf(id); return !!(typeof e.isInstantenous === 'function' ? e.isInstantenous() : e.m_8093_()) } catch (x) { return false } }
+  var r2 = v => Math.round(v * 100) / 100
+  var attrSnap = e => {
+    var o = {}
+    ForgeRegistries.ATTRIBUTES.getValues().forEach(at => { try { var a = c1(e, 'getAttribute', at); if (a) o['' + ForgeRegistries.ATTRIBUTES.getKey(at)] = Math.round(c0(a, 'getValue') * 1000) / 1000 } catch (x) {} })
+    return o
+  }
+  var noInv = d => { try { d.invulnerableTime = 0 } catch (x) {} try { d.f_19802_ = 0 } catch (x) {} }
+  var fxBatch = (ids, amp, bi) => {
+    var pigs = []
+    safe('forceload', () => server.runCommandSilent('forceload add ' + Math.floor(X) + ' ' + Math.floor(Z) + ' ' + Math.floor(X + 150) + ' ' + Math.floor(Z + 150)))
+    ids.forEach((id, k) => {
+      var d = dummy({ max: 1000, cur: 500 }), r = { id: id, d: d }
+      c3(d, 'setPos', X + 10 + (k % 8) * 16, Y, Z + 10 + Math.floor(k / 8) * 16); pigs.push(r)
+      // AI and gravity on: a no-AI mob has no physics, so Levitation read no height change (second run); it lands before the effect goes on
+      safe('fx physics', () => { c1(d, 'setNoAi', false); c1(d, 'setNoGravity', false) })
+    })
+    // the pack rescales a mob's health once it is in the world (first run: every pig back at 1,000, so Regeneration healed nothing): health is set
+    // to 500 two ticks later, then the effect goes on. An instant effect (Instant Health, Instant Damage) gets 1 tick: with a longer duration it fires every tick
+    return { wait: 20, then: () => { pigs.forEach(r => { var d = r.d
+      safe('fx health', () => c1(d, 'setHealth', 500), r.id)
+      if (r.id) safe('fx add', () => { r.added = !!c1(d, 'addEffect', new MobEffectInstance(effOf(r.id), instant(r.id) ? 1 : FXT + 40, amp)) }, r.id)
+      r.h0 = hp(d); r.y0 = c0(d, 'getY') })
+    return { wait: FXT, then: () => {
+      pigs.forEach(r => {
+        var d = r.d, o = { added: r.added }
+        safe('fx read', () => {
+          o.alive = !!c0(d, 'isAlive'); o.hp = r2(hp(d) - r.h0); o.dy = r2(c0(d, 'getY') - r.y0)
+          o.fire = c0(d, 'getRemainingFireTicks'); try { o.frozen = c0(d, 'getTicksFrozen') } catch (x) {}
+          o.fx = fx(d); o.attrs = attrSnap(d)
+          o.abs = r2(c0(d, 'getAbsorptionAmount'))
+          noInv(d); var h1 = hp(d), a1 = c0(d, 'getAbsorptionAmount')
+          // the vanilla /damage command (pig.hurt is not reachable from Rhino here: "Cannot find function hurt"), so armor, Resistance, absorption and the damage events all apply
+          var u = ''; ['uuid', 'stringUuid', 'stringUUID'].forEach(f => { if (!u) try { var x = d[f]; if (!LGW.none(x) && x) u = '' + x } catch (q) {} })
+          ;['getStringUUID', 'getStringUuid', 'm_20149_'].forEach(f => { if (!u) try { u = '' + d[f]() } catch (q) {} })
+          if (!u) throw 'no uuid on the pig'
+          server.runCommandSilent('damage ' + u + ' 10 minecraft:generic')
+          o.took = r2(h1 - hp(d) + a1 - c0(d, 'getAbsorptionAmount'))
+        }, r.id)
+        out.fxPig[amp][r.id ? r.id : '(none)#' + bi] = o
+        drop(d)
+      })
+      JsonIO.write('kubejs/' + base + '_measure.json', out)
+      return null
+    } } } }
+  }
+  // a fresh tester for each effect (its own UUID): after goetydelight:crimson_memories every later bare-hand hit read 1000 (full run 1,
+  // 549 effects) and removeAllEffects threw ConcurrentModificationException, so whatever an effect leaves on a player cannot carry over
+  var fxP0 = P
+  // a UUID from a text: four 32-bit FNV-1a hashes of it with different seeds, as hex
+  var fxUuid = t => { var h = [0x811c9dc5, 0x01000193, 0x5bd1e995, 0x27d4eb2d].map(sd => { var x = sd >>> 0; for (var i = 0; i < t.length; i++) { x ^= t.charCodeAt(i); x = Math.imul(x, 16777619) >>> 0 } return ('00000000' + x.toString(16)).slice(-8) }).join('')
+    return h.slice(0, 8) + '-' + h.slice(8, 12) + '-4' + h.slice(13, 16) + '-8' + h.slice(17, 20) + '-' + h.slice(20, 32) }
+  var fxPlayer = (id, amp) => {
+    P = FakePlayerFactory.get(level, new GameProfile(UUID.fromString(fxUuid('lgw_fx|' + (id || '(none)') + '|' + amp)), '[lgw_fx]'))
+    // what an earlier effect left in the world (clouds, projectiles, summons) gave the next testers the same 7 curses (full run 2): cleared first
+    clearAll(); safe('fx clear pigs', () => server.runCommandSilent('kill @e[type=minecraft:pig]'))
+    reset(); var o = {}
+    if (id) safe('fx player add', () => { o.added = !!c1(P, 'addEffect', new MobEffectInstance(effOf(id), instant(id) ? 1 : 400, amp)) }, id)
+    ticks(20)
+    o.attrs = extraAttrs(); o.fx = fx(P)
+    safe('fx fly', () => { var ab = c0(P, 'getAbilities'), f; try { f = ab.mayfly } catch (x) {} if (LGW.none(f)) try { f = ab.f_35936_ } catch (x) {} o.fly = !!f }, id)
+    // crit off (Apothic's 5% base crit made single swings read x1.5 at random), three swings, the smallest kept
+    safe('fx crit 0', () => { var CC = ForgeRegistries.ATTRIBUTES.getValue(rl('attributeslib:crit_chance')); c1(c1(P, 'getAttribute', CC), 'setBaseValue', 0) })
+    var hs = swings(3, id || '(none)', { max: 1000 }, true), h = hs.reduce((m, x) => x.dmg < m.dmg ? x : m, hs[0])
+    o.hit = h.dmg; o.hits = hs.map(x => x.dmg); o.heal = h.heal; o.tfx = h.tfx; o.tfire = h.fire
+    safe('fx player clear', () => c0(P, 'removeAllEffects'), id)
+    P = fxP0
+    return o
+  }
+  var fxSources = () => {
+    var s = { potions: {}, foods: {} }
+    ForgeRegistries.POTIONS.getKeys().forEach(k => {
+      var l = []; safe('src potion', () => c0(ForgeRegistries.POTIONS.getValue(k), 'getEffects').forEach(i => l.push(['' + ForgeRegistries.MOB_EFFECTS.getKey(c0(i, 'getEffect')), c0(i, 'getAmplifier'), c0(i, 'getDuration')])), '' + k)
+      if (l.length) s.potions['' + k] = l })
+    ForgeRegistries.ITEMS.getKeys().forEach(k => {
+      var fp = null; try { fp = c0(ForgeRegistries.ITEMS.getValue(k), 'getFoodProperties') } catch (x) {}
+      if (!fp) return
+      var l = []; safe('src food', () => c0(fp, 'getEffects').forEach(pr => { var i = pr.getFirst(); l.push(['' + ForgeRegistries.MOB_EFFECTS.getKey(c0(i, 'getEffect')), c0(i, 'getAmplifier'), c0(i, 'getDuration'), r2(pr.getSecond())]) }), '' + k)
+      if (l.length) s.foods['' + k] = l })
+    return s
+  }
   var jobs = []
   ;(plan.attrs || []).forEach(id => jobs.push(() => { out.attrs[id] = attrsOf(id) }))
   jobs.push(() => { out.melee['(none)'] = melee('minecraft:air') })
@@ -747,6 +847,19 @@ LGW.run = (server, who, name) => {
     r.hurt = hurt(8); out.hurtTrace = r; drop(d) })
   ;(plan.ranged || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } var w = null; safe('ranged', () => { w = ranged(id) }, id); return w }))
   ;(plan.minions || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } cur = id; var w = null; safe('minions', () => { w = minions(id) }, id); return w }))
+  if (FXE.length) {
+    out.fxPig = {}; out.fxPlayer = {}; out.fxSkip = Object.keys(FXS)
+    jobs.push(() => { safe('fx sources', () => { out.fxSources = fxSources() }) })
+    FXL.forEach(amp => {
+      out.fxPig[amp] = {}; out.fxPlayer[amp] = {}
+      var FXN = FXE.filter(x => !FXO[x]), FXSO = FXE.filter(x => FXO[x]), nb = 0
+      for (var b = 0; b * FXB < FXN.length; b++) (function (ids, bi) { jobs.push(() => { var w = null; safe('fx batch', () => { w = fxBatch([null].concat(ids), amp, bi) }); return w }) })(FXN.slice(b * FXB, b * FXB + FXB), nb++)
+      FXSO.forEach(x => (function (ids, bi) { jobs.push(() => { var w = null; safe('fx batch', () => { w = fxBatch([null].concat(ids), amp, bi) }); return w }) })([x], nb++))
+      jobs.push(() => { cur = '(none)'; safe('fx player', () => { out.fxPlayer[amp]['(none)'] = fxPlayer(null, amp) }) })
+      // level II in reverse order: a reading that only comes from what the effect before left behind does not repeat at both levels
+      ;(amp % 2 ? FXE.slice().reverse() : FXE).forEach(id => jobs.push(() => { cur = id; safe('fx player', () => { out.fxPlayer[amp][id] = fxPlayer(id, amp) }, id) }))
+    })
+  }
   ;(plan.blocks || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return null } cur = id; var w = null; safe('blocks', () => { w = blocks(id) }, id); return w }))
   var i = 0, next = 0
   say('starting: ' + jobs.length + ' measurements; the game slows down until it is done')
@@ -804,6 +917,10 @@ ServerEvents.customCommand('lgw_measure_chance', event => {
 // kubejs/lgw_cond_measure.json
 ServerEvents.customCommand('lgw_measure_cond', event => {
   try { LGW.run(event.server, event.player, 'lgw_cond') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
+})
+// lgw_measure_fx reads kubejs/lgw_fx_items.json ({"effects": [effect ids], "fxLevels": [0, 1], "fxTicks": 100, "fxBatch": 50}) and writes kubejs/lgw_fx_measure.json
+ServerEvents.customCommand('lgw_measure_fx', event => {
+  try { LGW.run(event.server, event.player, 'lgw_fx') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
 })
 ServerEvents.customCommand('lgw_measure', event => {
   try { LGW.run(event.server, event.player, 'lgw') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }

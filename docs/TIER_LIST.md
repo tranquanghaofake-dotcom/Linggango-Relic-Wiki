@@ -118,7 +118,7 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
 ### 5.1 Server
 - **Server pack 6.6.6cf** từ link Drive của chủ wiki (387 jar), giải nén ở `/home/user/pack/server` (ngoài repo, mất khi container bị thu hồi). Forge 47.4.20, Java 21, `-Xmx8G`.
 - **Chạy**: `cd /home/user/pack/server && tail -n0 -f console.txt | bash run.sh nogui > server.log`. Lệnh được gửi bằng cách ghi thêm dòng vào `console.txt`.
-- **`server.properties`**: thế giới phẳng, offline, không sinh quái, `max-tick-time=-1`, `gamemode=survival`.
+- **`server.properties`**: thế giới phẳng, offline, không sinh quái, `max-tick-time=-1`, `gamemode=survival`. `spawn-animals=true` và `spawn-npcs=true`: tắt đi thì mỗi tick vanilla xóa mọi động vật và dân làng, kể cả lợn thử (2026-11-18).
 - **Sau mỗi lần khởi động** chạy `forceload add -48 -48 48 48`: không có người chơi thật thì sau 300 tick vanilla ngừng cập nhật vật thể.
 
 ### 5.2 Các lượt đo
@@ -128,6 +128,7 @@ Cập nhật 2026-11-17. Tài liệu này gom mọi thứ về cách trang Equip
 | `lgw_measure_extra` | `--extra` | vũ khí theo mục tiêu, đeo thử curio | `import.py` (đối số thứ 3), `import_curios.py` |
 | `lgw_measure_third` | `--third [--guns] [--only-missed] [--mage] [--minions] [--rhp 1000]` | bắn thử, đòn riêng Mage, minion, curio chặn đòn, vũ khí quay mặt | `import_third.py LẦN_10K [LẦN_1K]` |
 | `lgw_measure_test` | file tay, ví dụ `{"hurtTrace": true}` | dò từng listener của event | đọc tay |
+| `lgw_measure_fx` | `kubejs/lgw_fx_items.json` (`effects`, `fxLevels`, `fxSkip`, `fxSolo`) | hiệu ứng trên lợn thử và người chơi thử, thuốc và đồ ăn cho ra hiệu ứng | `import_fx.py` |
 
 **Thứ tự nhập**: `import.py` → `import_curios.py` → `import_third.py`. Lý do: `import.py` viết lại `gear_measure.json` từ đầu, nên phải nhập lại phát bắn sau nó.
 

@@ -59,6 +59,29 @@
     for (const [id, v] of Object.entries(ED)) { const tr = document.getElementById('eff-' + id.replace(/[:_]/g, '-')), t = tr?.children[2];
       if (!v.d || !v.src) bad.push('effects: effect_desc.json ' + id + ' has no text or no source');
       else if (!t || !t.textContent.includes(v.d) || !t.querySelector('.edc')) bad.push('effects: ' + id + ' does not show its code-read description with the label'); } }
+  // measured in game (patches/effect_measure.json, lgw_measure_fx): every effect has a reading or is marked as crashing the server; the vanilla
+  // effects whose numbers are known read them (the calibration the run is trusted on); no wave of one-hit kills (2026-11-18: one effect left the
+  // tester killing the 1,000-health pig in one hit for the 549 effects after it, until each effect got a fresh tester)
+  { const MZ = await patchJSON('effect_measure.json'), SR = await patchJSON('effect_sources.json'), L = (id, i) => ((MZ[id] || {}).l || [])[i] || {};
+    for (const e of X) if (!MZ[e.i]) bad.push('effects: ' + e.i + ' has no in-game measurement');
+    const near = (a, b, t) => typeof a === 'number' && Math.abs(a - b) <= (t || 0.011);
+    const at = (id, i, a) => ((L(id, i).at || {})[a] || [])[1];
+    if (!near(at('minecraft:speed', 0, 'minecraft:generic.movement_speed'), 0.12, 0.002) || !near(at('minecraft:speed', 1, 'minecraft:generic.movement_speed'), 0.14, 0.002)) bad.push('effects: Speed does not read +20%/+40% movement');
+    if (!near(L('minecraft:poison', 0).hp, -0.8) || !near(L('minecraft:poison', 1).hp, -1.6)) bad.push('effects: Poison does not read -0.8/-1.6 health a second');
+    if (!near(L('minecraft:regeneration', 0).hp, 0.4) || !near(L('minecraft:regeneration', 1).hp, 0.8)) bad.push('effects: Regeneration does not read +0.4/+0.8 health a second');
+    if (!near(L('minecraft:resistance', 0).tk, 0.8) || !near(L('minecraft:resistance', 1).tk, 0.76)) bad.push('effects: Resistance does not read Linggango\'s 20%/24%');
+    if (String(L('minecraft:strength', 0).hit) !== '1,4' || String(L('minecraft:strength', 1).hit) !== '1,7') bad.push('effects: Strength does not read +3/+6 on a bare-hand hit');
+    if (!near(L('minecraft:absorption', 0).ab, 4) || !near(L('minecraft:absorption', 1).ab, 8)) bad.push('effects: Absorption does not read 4/8');
+    if (!(L('minecraft:levitation', 0).dy > 3)) bad.push('effects: Levitation does not lift the pig');
+    if (!near(L('terramity:vulnerable', 0).tk, 1.33)) bad.push('effects: Vulnerable does not read +33% damage taken');
+    if (String(L('terramity:amped', 0).hit) !== '1,1.5') bad.push('effects: Amped does not read x1.5 on a hit');
+    const kills = Object.keys(MZ).filter(k => (MZ[k].l || []).some(l => l.hit && l.hit[1] >= 100));
+    if (kills.length > 5) bad.push('effects: ' + kills.length + ' effects read a one-hit kill (a carried-over tester?): ' + kills.slice(0, 5).join(', '));
+    if (!(SR['minecraft:speed'] || []).some(x => x[0] === 'potion' && /Swiftness/.test(x[1]))) bad.push('effects: Speed lacks the Potion of Swiftness as a source');
+    location.hash = '#mechanics/effects/Speed'; await wait(80); render(); await wait(300);
+    const sp = document.getElementById('eff-minecraft-speed');
+    if (!sp || !sp.querySelector('.emz') || !/20%|0\.12/.test(sp.querySelector('.emz').textContent) && !/Speed/.test(sp.textContent)) bad.push('effects: the Speed row has no in-game measurement line');
+    if (!sp || !/Swiftness/.test(sp.textContent)) bad.push('effects: the Speed row does not list the Potion of Swiftness'); }
   // an effect name on an item page opens the list on that effect, marked and first
   location.hash = '#mechanics/effects/Speed'; await wait(80); render(); await wait(300);
   { const f = document.querySelector('#etb tr'); if (!f || f.id !== 'eff-minecraft-speed' || !f.classList.contains('hl')) bad.push('effects: #mechanics/effects/Speed does not open on Speed, marked (' + (f && f.id) + ')'); }
