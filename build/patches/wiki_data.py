@@ -52,6 +52,14 @@ out += "const BEXTRA=" + json.dumps(J("boss_extra.json"), ensure_ascii=False, se
 (H.parent / "src" / "wiki_data.js").write_text(out, encoding="utf-8")
 # every status effect in the pack (pack_audit/effects.py), the gear that gives each one (gear_fx.json) and the icons the licences allow: only the Effects page shows them, so they go to wiki_pics.js
 _ef = J("effects.json")
+# descriptions the wiki wrote from an effect's bytecode (pack_audit digest of its class and the methods that read it) for effects whose mod ships no
+# text: filled in only where the jar has none, and marked (dc) so the page says where it comes from
+_ed = J("effect_desc.json")
+assert set(_ed) <= {e["id"] for e in _ef["effects"]}, "effect_desc.json names an effect the game does not register: " + ", ".join(sorted(set(_ed) - {e["id"] for e in _ef["effects"]}))
+for _e in _ef["effects"]:
+    if _e["id"] in _ed:
+        assert not _e["desc"], "effect_desc.json describes " + _e["id"] + ", which has the mod's own text"
+        _e["desc"] = _ed[_e["id"]]["d"]; _e["dc"] = 1
 # an attribute's name from its mod's lang (effects.py aname); one whose key the jars do not hold (a library nested in another jar) reads as its id's last
 # part ("forge:step_height_addition" -> "Step Height Addition"), never as the id run together
 _ea = {k: (re.sub(r"[^A-Za-z0-9' ]+", "", re.sub(r"§.", "", v or "")).strip() or k.split(":")[1].split(".")[-1].replace("_", " ").title()) for k, v in _ef["attrs"].items()}
@@ -59,6 +67,7 @@ def _slim(r):
     o = {"i": r["id"], "n": r["name"] or "", "m": r["mod"]}
     for k, f in (("cat", "k"), ("color", "c"), ("desc", "d"), ("mods", "a")):
         if r[k] not in (None, [], ""): o[f] = r[k][0] if k == "cat" else r[k]
+    if r.get("dc"): o["dc"] = 1
     if r["icon"]: o["p"] = 1
     if not r["reg"]: o["u"] = 1
     return o

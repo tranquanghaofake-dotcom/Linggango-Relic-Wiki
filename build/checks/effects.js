@@ -52,6 +52,13 @@
       if (/^eff-minecraft-/.test(tr.id) && /No description/.test(t)) bad.push('effects: vanilla ' + tr.id + ' has no description'); }
     for (const a of document.querySelectorAll('#etb a[data-t]')) { const t = a.dataset.t; if (/^g\d+$/.test(t) ? !GE[+t.slice(1)] : /^\d+$/.test(t) ? !D[+t] : false) bad.push('effects: link data-t ' + t + ' resolves to nothing'); }
   }
+  // descriptions the wiki wrote from an effect's code (patches/effect_desc.json): each one shows on its row with the "read from the mod's code" label
+  { const ED = await patchJSON('effect_desc.json'); location.hash = '#mechanics/effects'; await wait(80); render(); await wait(300);
+    const g = document.getElementById('eg'); g.value = ''; g.dispatchEvent(new Event('input', { bubbles: true }));
+    for (let i = 0; i < 40 && document.querySelector('#emore button'); i++) document.querySelector('#emore button').click();
+    for (const [id, v] of Object.entries(ED)) { const tr = document.getElementById('eff-' + id.replace(/[:_]/g, '-')), t = tr?.children[2];
+      if (!v.d || !v.src) bad.push('effects: effect_desc.json ' + id + ' has no text or no source');
+      else if (!t || !t.textContent.includes(v.d) || !t.querySelector('.edc')) bad.push('effects: ' + id + ' does not show its code-read description with the label'); } }
   // an effect name on an item page opens the list on that effect, marked and first
   location.hash = '#mechanics/effects/Speed'; await wait(80); render(); await wait(300);
   { const f = document.querySelector('#etb tr'); if (!f || f.id !== 'eff-minecraft-speed' || !f.classList.contains('hl')) bad.push('effects: #mechanics/effects/Speed does not open on Speed, marked (' + (f && f.id) + ')'); }

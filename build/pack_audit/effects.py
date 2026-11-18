@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Every status effect in the pack, read from the jars -> build/patches/effects.json (+ effect_icons.json).
 Usage: python3 -I effects.py MODS_DIR SRG_SERVER_JAR VANILLA_CLIENT_JAR
-       python3 -I effects.py --lang MODS_DIR VANILLA_CLIENT_JAR   (names, descriptions, attribute names only; no jawa needed)
+       python3 -I effects.py --lang MODS_DIR VANILLA_CLIENT_JAR [LIBRARY_JAR ...]   (Forge's universal jar from libraries/; names, descriptions, attribute names only; no jawa needed)
   The list itself is the game's: patches/game_registry.json (pack_audit/kubejs/server_scripts/lgw_registry.js run in the server pack) names every
   registered effect with its category, colour and attribute modifiers; the jars add names, descriptions and icons. Without that file the list falls
   back to the jar scan below.
@@ -110,6 +110,25 @@ def read_assets(jars, client_jar):
             m = re.match(r'assets/([a-z0-9_.-]+)/textures/mob_effect/(.+)\.png$', n)
             if m: tex[(m.group(1), m.group(2))] = (p, z.read(n)); jarns[p].add(m.group(1)); nsjar.setdefault(m.group(1), p)
         for i in ids: jarns[p].add(i); nsjar.setdefault(i, p)
+    # libraries nested in a mod's jar (META-INF/jarjar: l2damagetracker inside L2 Complements, Celestial Core…): their lang only, keyed "outer!inner",
+    # and only for a namespace no top-level jar holds; textures stay with top-level jars (the scan reopens those by path)
+    for p in jars:
+        try: z = zipfile.ZipFile(p)
+        except Exception: continue
+        for jn in z.namelist():
+            if not (jn.startswith('META-INF/jarjar/') and jn.endswith('.jar')): continue
+            try: zz = zipfile.ZipFile(io.BytesIO(z.read(jn)))
+            except Exception: continue
+            key = p + '!' + jn
+            for n in zz.namelist():
+                m = re.match(r'assets/([a-z0-9_.-]+)/lang/en_us\.json$', n)
+                if not m or m.group(1) in nsjar: continue
+                try: d = json.loads(re.sub(r',(\s*[}\]])', r'\1', zz.read(n).decode('utf-8', 'replace')))
+                except Exception: continue
+                alang[key] = {kk: v for kk, v in d.items() if isinstance(v, str)}; nsjar[m.group(1)] = key
+                for kk, v in alang[key].items():
+                    km = re.match(r'effect\.([a-z0-9_.-]+?)\.', kk)
+                    if km and kk not in lang[km.group(1)]: lang[km.group(1)][kk] = v
     return lang, alang, tex, jarns, jarinfo, nsjar
 
 
@@ -241,10 +260,10 @@ def main(mods_dir, srg_jar, client_jar):
     print('effects', len(rows), 'unconfirmed (lang or icon only)', len(unconf), dict(c), 'icons', len(icons), 'with category', sum(1 for r in rows if r['cat']), 'with modifiers', sum(1 for r in rows if r['mods']))
 
 
-def relang(mods_dir, client_jar):
+def relang(mods_dir, client_jar, *libs):
     """--lang: names, descriptions and attribute names again from a pack's jars, on the list effects.json already holds (the game's own,
     from game_registry.json): ids, categories, colours, modifiers and icons stay as they are; a name or description the jars lack keeps the old one"""
-    jars = sorted(glob.glob(os.path.join(mods_dir, '*.jar')))
+    jars = sorted(glob.glob(os.path.join(mods_dir, '*.jar'))) + list(libs)
     lang, alang, tex, jarns, jarinfo, nsjar = read_assets(jars, client_jar)
     P = os.path.join(OUT, 'effects.json'); E = json.load(open(P, encoding='utf-8')); nn = nd = 0
     for r in E['effects']:
@@ -259,5 +278,5 @@ def relang(mods_dir, client_jar):
 
 
 if __name__ == '__main__':
-    if sys.argv[1:2] == ['--lang']: relang(*sys.argv[2:4])
+    if sys.argv[1:2] == ['--lang']: relang(*sys.argv[2:])
     else: main(*sys.argv[1:4])

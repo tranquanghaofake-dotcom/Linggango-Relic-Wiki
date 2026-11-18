@@ -1,0 +1,222 @@
+{
+ "adamsarsplus:abyssal_domination": {
+  "d": "Attacking a living creature inflicts Disruption on it for 5 seconds.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "adamsarsplus:earthen_heart": {
+  "d": "Halves maximum mana and grants a Health Boost that grows with max mana (about one level per 48 mana).",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "adamsarsplus:flame_deity_aura": {
+  "d": "Marks every other creature nearby that is not already marked with Marked for Cremation for 4 seconds.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "adamsarsplus:holy_legion": {
+  "d": "Tied to a summoned Terraprisma: the effect is removed from its summoner when the Terraprisma dies.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "adamsarsplus:lightning_steps": {
+  "d": "While it lasts, Leap Fatigue is removed.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "adamsarsplus:walking_blizzard": {
+  "d": "At level II, the next hit does no damage and makes the creature immune for 2 seconds; the effect then drops to level I for 30 seconds.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "alexscaves:darkness_incarnate": {
+  "d": "Lets a player fly.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "ars_nouveau:spell_damage": {
+  "d": "Adds 1.5 spell damage per level.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "brutality:enraged": {
+  "d": "Rage mode: starts when a player's rage meter fills while wearing the Anger Management curio. It raises attack and movement and lowers armor, more at higher levels.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "brutality:pulverized": {
+  "d": "Takes damage every tick, and its hit immunity is reset each time so every hit lands.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "caster_curios_bonus:arcane_overdrive": {
+  "d": "Spells cost no mana but build up overload; when it fills, the effect ends and the caster is silenced.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "cataclysm:abyssal_curse": {
+  "d": "Takes 1 abyssal burn damage every 2.5 seconds at level I, with the gap halving each level.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "cofh_core:love": {
+  "d": "Puts an adult animal that is not already in love into breeding mode, with heart particles.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "confluence:honey": {
+  "d": "Restores 1 health a second.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "goetydelight:warden": {
+  "d": "Senses nearby vibrations like a Warden; after sensing one, the creature deals extra damage to its source for 5 seconds.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "gtbcs_geomancy_plus:seismic_ride_timer": {
+  "d": "Timer for the Seismic Surf spell: applied when it is cast, lasting 11 seconds less than the spell's duration.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "irons_spellbooks:burning_dash": {
+  "d": "While dashing, damages creatures it touches with Burning Dash spell damage and ends when the creature hits a wall.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "irons_spellbooks:volt_strike": {
+  "d": "While dashing, damages creatures it touches with Volt Strike spell damage.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "legendary_monsters:unbreakable": {
+  "d": "A player with it takes no damage from any hit.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "oddaccessories:tetanus": {
+  "d": "Cannot be removed or cured by normal means, and cannot be inflicted on a creature that has Sepsis.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "peyroscythe:forever_young": {
+  "d": "Turns a mob that can be a baby (animals, zombies, piglins, zoglins) into a baby while it lasts.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "peyroscythe:illusion_crazy": {
+  "d": "Makes a mob turn on the nearest creature around it, friend or foe; some creature types are immune.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "peyroscythe:illusion_fear": {
+  "d": "Makes a mob run away from whoever cast the spell; some creature types are immune.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "refined_mod:hunters_mark_buff": {
+  "d": "Changes the spell damage its holder deals to the creature marked by Hunter's Mark, by an amount set by the effect's level.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:bleed": {
+  "d": "Loses 1 health every 1.75 seconds at level I, with the gap halving each level, and heals only half as much.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:blessing": {
+  "d": "Absorbs the next hit: the damage is cancelled, the effect is used up and the creature is healed.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:bloom": {
+  "d": "Gives short pulses of Speed and Resistance (about 1 second each) while it lasts.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:chill": {
+  "d": "Gradually builds up freezing on the creature, as powder snow does.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:curse": {
+  "d": "The next time it takes damage, the curse is used up and it gets Slowness IV and Blindness.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:hex": {
+  "d": "Keeps getting short bursts of Slowness, Mining Fatigue and Weakness, and the hex grows a level about every 5 seconds.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:mistified": {
+  "d": "A dash from the Smouldering Ruin: the first creature in its path that is not an ally takes 8 damage and gets Withering Fate for 30 seconds. The dash ends on landing.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:radiant_mark": {
+  "d": "Marks a creature for the Lustrous Moxie sword, which can later teleport its wielder to the marked target and strike it.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:ravenous": {
+  "d": "Rushes forward the way it faces, pushed along every other tick.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:starlight": {
+  "d": "Gets short bursts of Speed, more often at higher levels.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:tidebreaker_rain": {
+  "d": "Rain falls around it, and every creature within 3 blocks that is not its ally gets Insanity for 8 seconds.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplymore:venom": {
+  "d": "Takes 2 damage at a time (1 when nearly dead), every 1.25 seconds at level I and faster at higher levels, but never enough to kill.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplyswords:fatal_flicker": {
+  "d": "Dashes forward the way it is looking, briefly immune to hits and with Resistance IV.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplyswords:magistorm": {
+  "d": "While a Magiscythe is held, it keeps striking a random target in range, for damage that grows with the weapon.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplyswords:resilience": {
+  "d": "Negates incoming hits against a player, using up one level of the effect each time.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "simplyswords:ward": {
+  "d": "Once a second, a player gets a brief Absorption shield that grows with their current health, about one extra level per 4 health.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "soulsweapons:retribution": {
+  "d": "Hits from the Dawnbreaker stack it, each refresh lasting 4 seconds; a creature that dies with it may explode, more likely at higher levels.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "summonity:radiated": {
+  "d": "Takes radiation damage over time, every 1.25 seconds, and faster at higher levels.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "terramity:ability_cooldown": {
+  "d": "Blocks the item or accessory ability that applied it from being used again while it lasts, and milk cannot cure it.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "terramity:amped": {
+  "d": "Hits it lands deal 50% more damage.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "terramity:divine_flight": {
+  "d": "Lets it fly. Above height 320 the effect is removed with the message \"You cannot fly that high!\".",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "terramity:dizzy": {
+  "d": "Has Nausea for as long as it lasts, and a player's screen wobbles.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "terramity:hexed": {
+  "d": "Does nothing while it lasts; when it ends, its health is cut in half unless something protects it.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "terramity:immunity": {
+  "d": "Clears harmful effects every tick, among them Weakness, Wither, Poison, Slowness, Blindness, Nyxium Fire and Dizzy.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "terramity:mirroring": {
+  "d": "Whenever it hits something, it takes half of that damage itself.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "terramity:nyxium_fire": {
+  "d": "Burns for 3 shadowflame damage at a time while it lasts, unless it wears the full Nyxium Knight set.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "terramity:universal_transcendence": {
+  "d": "Flies along the way it is looking, one block a tick; a player is in Spectator mode while it lasts and gets Creative or Survival back after.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "terramity:vulnerable": {
+  "d": "Takes 33% more damage.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "traveloptics:aerial_collapse_helper": {
+  "d": "Holds it hovering just above the ground, over jet flames; it cannot be removed early.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "traveloptics:crimson_descend": {
+  "d": "While gliding it slams the creature downward, and when it touches the ground it releases a shockwave and the effect ends.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ },
+ "weapon:slow": {
+  "d": "Can barely move while on the ground.",
+  "src": "read from the mod's bytecode, 2026-11-18 (6.6.6cf)"
+ }
+}

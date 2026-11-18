@@ -2403,6 +2403,7 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
 /* Effects: the key above the list, the row a link opened, and cards on a phone (the 4-column table would scroll sideways) */
 #m-effects .ekey{margin:var(--s2) 0 var(--s3);padding-left:1.2em;font-size:13.5px;color:var(--gui-mute);line-height:1.7}
 #m-effects .ekey b{color:#e8e8e8}
+#m-effects .edc{color:var(--gui-mute);font-style:italic;font-size:12px;white-space:nowrap}
 #m-effects .rtab tr.hl td{background:#ffd75a1f}#m-effects .rtab tr.hl td:first-child{box-shadow:inset 3px 0 0 #ffd75a}
 @media (max-width:640px){
  #m-effects .rtw{max-height:none;overflow:visible}
