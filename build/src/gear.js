@@ -253,10 +253,12 @@ const gCC=c=>{if(!c)return null;const a=typeof CCH!=="undefined"?CCH[c.id]:null,
 const gStateName={lowhp:"low health",night:"night",burning:"burning",sprint:"sprinting",zombie:"against undead",tburn:"a burning target",tlow:"a low-health target"};
 const gKindName={melee:"melee",magic:"magic",fire:"fire",explosion:"explosion",fall:"fall"};
 function gChanceNote(c){const x=gCC(c);if(!x)return "";const p=[];
- if(x.hs)p.push(T("Damage dealt: ×{v} on average over {n} swings.",{v:x.hs,n:x.n}));
- if(x.tk)p.push(T("Damage taken: {v} on average over {m} hits of each kind.",{v:Object.entries(x.tk).map(([k,v])=>T(gKindName[k]||k)+" ×"+v).join(", "),m:x.m}));
+ if(x.hs&&x.n)p.push(T("Damage dealt: ×{v} on average over {n} swings.",{v:x.hs,n:x.n}));
+ if(x.tk&&x.m)p.push(T("Damage taken: {v} on average over {m} hits of each kind.",{v:Object.entries(x.tk).map(([k,v])=>T(gKindName[k]||k)+" ×"+v).join(", "),m:x.m}));
+ if(!x.n&&(x.hs||x.tk))p.push(T("Counted for the tier: {v}, each state's change taken for the share of the time a player is in it (an assumption).",{v:[x.hs?T("damage dealt")+" ×"+x.hs:"",x.tk?T("damage taken")+" "+Object.entries(x.tk).map(([k,v])=>T(gKindName[k]||k)+" ×"+v).join(", "):""].filter(Boolean).join("; ")}));
  if(x.lk&&x.lk.length)p.push(T("With the Luck effect: {v}.",{v:x.lk.map(l=>T("level {l}",{l:l[0]})+" ×"+l[1]+(l[2]&&Object.keys(l[2]).length?" / "+Object.entries(l[2]).map(([k,v])=>T(gKindName[k]||k)+" ×"+v).join(", "):"")).join("; ")}));
  if(x.cd&&x.cd.length)p.push(T("By condition: {v}.",{v:x.cd.map(([s,h,t])=>T(gStateName[s]||s)+(h!==1?" "+T("dealt")+" ×"+h:"")+(t&&Object.keys(t).length?" "+T("taken")+" "+Object.entries(t).map(([k,v])=>T(gKindName[k]||k)+" ×"+v).join(", "):"")).join("; ")}));
+ if(x.dfk&&x.dfk.length)p.push(T("The test meets its condition by default (it stands still, hits again and again, swings at half health), so these numbers are shown but not counted."));
  return p.length?T("Sampled in game, not read from its text:")+" "+p.join(" "):""}
 function gHitKind(c,m){if(!gHitX(m,c))return "";if(c&&GHITBUFF[c.id])return GHITBUFF[c.id];const ks=Object.keys(m.d||{}).map(GCK);if(ks.some(k=>GHITA.test(k)))return "ME";
  if(ks.some(k=>GHITALL.test(k)))return "ALL";
