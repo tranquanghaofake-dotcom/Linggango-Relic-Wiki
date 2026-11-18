@@ -38,12 +38,3 @@
   if (!/Lucky Dice/.test(t) || !/Fateful Coin/.test(t)) bad.push('planner gambler: no expected-value lines for Lucky Dice and Fateful Coin: ' + t);
   if (!/×1\.13/.test(t)) bad.push('planner gambler: Lucky Dice at Luck 0 should average ×1.13 (20% of ×1.66): ' + t);
   BS.s = {}; BS.g = ''; }
-// Effects: the column headers sort
-{ const wait = ms => new Promise(r => setTimeout(r, ms)); location.hash = '#mechanics/effects'; await wait(80); render(); await wait(300);
-  const names = () => [...document.querySelectorAll('#etb tr td:first-child b')].map(x => x.textContent), h = k => document.querySelector('#m-effects [data-sort="' + k + '"]');
-  if (!h('n') || !h('k') || !h('g')) bad.push('effects: sort buttons missing');
-  else { h('n').click(); await wait(60); let a = names(); if (a.slice(1).some((x, i) => a[i].localeCompare(x) > 0)) bad.push('effects: name sort not ascending');
-    h('n').click(); await wait(60); a = names(); if (a.slice(1).some((x, i) => a[i].localeCompare(x) < 0)) bad.push('effects: name sort not descending after a second click');
-    if (h('n').parentElement.getAttribute('aria-sort') !== 'descending') bad.push('effects: aria-sort not set');
-    h('k').click(); await wait(60); const ks = [...document.querySelectorAll('#etb tr')].map(r => r.className), R = { 'ek-b': 0, 'ek-h': 1, 'ek-n': 2 };
-    if (ks.slice(1).some((x, i) => (R[ks[i]] ?? 3) > (R[x] ?? 3))) bad.push('effects: type sort order is wrong'); } }

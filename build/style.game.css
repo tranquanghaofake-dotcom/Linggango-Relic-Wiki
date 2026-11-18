@@ -2401,7 +2401,3 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
 .eno{color:var(--gui-mute);font-size:12.5px;font-style:italic}
 #m-effects .rtab td.nchs{min-width:300px}
 .bev{margin:var(--s1) 0 var(--s2);padding-left:var(--s4);font-size:12.5px}
-#m-effects .ths{all:unset;cursor:pointer;font:inherit;color:inherit;display:inline-flex;gap:var(--s1);align-items:center}
-#m-effects .ths:hover,#m-effects .ths:focus-visible{color:var(--gui-link);outline:1px dotted currentColor;outline-offset:2px}
-#m-effects th[aria-sort=ascending] .ths i::after{content:"▲";font-size:10px}
-#m-effects th[aria-sort=descending] .ths i::after{content:"▼";font-size:10px}
