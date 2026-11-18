@@ -47,6 +47,7 @@ out += "const CTIER=" + json.dumps(J("curio_tiers.json"), separators=(",", ":"))
 out += "const THREAT=" + json.dumps(J("effect_threat.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const UPTIME=" + json.dumps(J("effect_uptime.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 out += "const CCH=" + json.dumps(J("curio_chance.json")["curios"], ensure_ascii=False, separators=(",", ":")) + ";\n"   # curios sampled in game for their chances (pack_audit/measure/import_chance.py)
+out += "const CCD=" + (json.dumps(J("curio_cond.json")["curios"], ensure_ascii=False, separators=(",", ":")) if (H / "curio_cond.json").exists() else "{}") + ";\n"   # curios sampled in game in conditions (pack_audit/measure/import_cond.py)
 out += "const BEXTRA=" + json.dumps(J("boss_extra.json"), ensure_ascii=False, separators=(",", ":")) + ";\n"
 (H.parent / "src" / "wiki_data.js").write_text(out, encoding="utf-8")
 # every status effect in the pack (pack_audit/effects.py), the gear that gives each one (gear_fx.json) and the icons the licences allow: only the Effects page shows them, so they go to wiki_pics.js

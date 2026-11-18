@@ -246,12 +246,17 @@ const GHITCODE={"terramity:chthonic_shell_casing":["dmg_far",.3]};
 /* a curio whose measured attributes already say what it does to damage (a crit chance, attack damage, speed, lifesteal) is scored from them: the sampled mean
    would count the same crit a second time (Divine Immolation: its 100% crit chance read x1.414 in the sample and is already scored as a crit) */
 const gHsOwned=m=>Object.keys((m&&m.d)||{}).some(k=>/crit|attack_damage|attack_speed|life_?steal|dmg|damage/i.test(GCK(k)));
-const gCC=c=>c&&typeof CCH!=="undefined"?CCH[c.id]||null:null;
+/* the sampled effect of a curio: its chance sample (CCH) and its condition sample (CCD, each state's change times the share of time a player is in it), the two together
+   when it has both */
+const gCC=c=>{if(!c)return null;const a=typeof CCH!=="undefined"?CCH[c.id]:null,b=typeof CCD!=="undefined"?CCD[c.id]:null;if(!a&&!b)return null;if(!b)return a;if(!a)return b;
+ const tk=Object.assign({},a.tk);for(const k in b.tk||{})tk[k]=(tk[k]||1)*b.tk[k];return Object.assign({},a,b,{hs:(a.hs||1)*(b.hs||1)||undefined,tk:Object.keys(tk).length?tk:undefined})};
+const gStateName={lowhp:"low health",night:"night",burning:"burning",sprint:"sprinting",zombie:"against undead",tburn:"a burning target",tlow:"a low-health target"};
 const gKindName={melee:"melee",magic:"magic",fire:"fire",explosion:"explosion",fall:"fall"};
 function gChanceNote(c){const x=gCC(c);if(!x)return "";const p=[];
  if(x.hs)p.push(T("Damage dealt: ×{v} on average over {n} swings.",{v:x.hs,n:x.n}));
  if(x.tk)p.push(T("Damage taken: {v} on average over {m} hits of each kind.",{v:Object.entries(x.tk).map(([k,v])=>T(gKindName[k]||k)+" ×"+v).join(", "),m:x.m}));
  if(x.lk&&x.lk.length)p.push(T("With the Luck effect: {v}.",{v:x.lk.map(l=>T("level {l}",{l:l[0]})+" ×"+l[1]+(l[2]&&Object.keys(l[2]).length?" / "+Object.entries(l[2]).map(([k,v])=>T(gKindName[k]||k)+" ×"+v).join(", "):"")).join("; ")}));
+ if(x.cd&&x.cd.length)p.push(T("By condition: {v}.",{v:x.cd.map(([s,h,t])=>T(gStateName[s]||s)+(h!==1?" "+T("dealt")+" ×"+h:"")+(t&&Object.keys(t).length?" "+T("taken")+" "+Object.entries(t).map(([k,v])=>T(gKindName[k]||k)+" ×"+v).join(", "):"")).join("; ")}));
  return p.length?T("Sampled in game, not read from its text:")+" "+p.join(" "):""}
 function gHitKind(c,m){if(!gHitX(m,c))return "";if(c&&GHITBUFF[c.id])return GHITBUFF[c.id];const ks=Object.keys(m.d||{}).map(GCK);if(ks.some(k=>GHITA.test(k)))return "ME";
  if(ks.some(k=>GHITALL.test(k)))return "ALL";

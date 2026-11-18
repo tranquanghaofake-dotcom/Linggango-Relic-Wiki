@@ -105,7 +105,7 @@ LGW.run = (server, who, name) => {
   var HITS = plan.hits || 3
   var level = who ? who.level : server.overworld()
   var say = m => { console.info('lgw_measure: ' + m); try { if (who) who.tell(m) } catch (e) {} }
-  var out = { started: '' + new Date(), check: {}, attrs: {}, melee: {}, armor: {}, grows: {}, curios: {}, chance: {}, ranged: {}, blocks: {}, minions: {}, errors: {} }
+  var out = { started: '' + new Date(), check: {}, attrs: {}, melee: {}, armor: {}, grows: {}, curios: {}, chance: {}, cond: {}, ranged: {}, blocks: {}, minions: {}, errors: {} }
   var told = 0
   var err = (stage, e, id) => {
     var w = typeof e == 'string' ? e : LGW.why(e), k = stage + ': ' + w.split(' @ ')[0].substring(0, 300)
@@ -225,11 +225,12 @@ LGW.run = (server, who, name) => {
   // overload (second extra run: 48 "turn pig" errors), so the rotations are set one by one
   var dummy = o => {
     o = o || {}
-    var d = newPig(), mx = o.max || 100000, cu = o.cur || mx
+    var d = o.type ? newEnt(o.type) : newPig(), mx = o.max || 100000, cu = o.cur || mx
     c3(d, 'setPos', X + (o.dx || 1.2), Y + (o.dy || 0), Z); c1(d, 'setNoAi', true); c1(d, 'setSilent', true); c1(d, 'setNoGravity', true); c1(d, 'setInvulnerable', false)
     if (typeof o.yaw === 'number') safe('turn pig', () => { d.setRotation(o.yaw, 0); c1(d, 'setYBodyRot', o.yaw); c1(d, 'setYHeadRot', o.yaw) })
     spawned.push(d)
     c1(c1(d, 'getAttribute', A_HP), 'setBaseValue', mx); c1(c1(d, 'getAttribute', A_ARMOR), 'setBaseValue', 0); c1(d, 'setHealth', cu)
+    if (o.tfire) safe('target fire', () => c1(d, 'setRemainingFireTicks', 20000))
     c1(level, 'addFreshEntity', d); return d
   }
   var drop = d => { safe('discard', () => c0(d, 'discard')); var j = spawned.indexOf(d); if (j >= 0) spawned.splice(j, 1) }
@@ -258,7 +259,7 @@ LGW.run = (server, who, name) => {
     var hits = []
     for (var k = 0; k < n; k++) {
       var w = 0; while (tickOk && c1(P, 'getAttackStrengthScale', 0.5) < 1 && w < 400) { ticks(1); w++ }
-      var d = dummy(o); c1(P, 'setHealth', Math.max(1, c0(P, 'getMaxHealth') - 10)); if (!keepFx) c0(P, 'removeAllEffects')
+      var d = dummy(o); c1(P, 'setHealth', o && o.php ? Math.max(1, c0(P, 'getMaxHealth') * o.php) : Math.max(1, c0(P, 'getMaxHealth') - 10)); if (!keepFx) c0(P, 'removeAllEffects')
       var h0 = hp(d), p0 = hp(P), str = c1(P, 'getAttackStrengthScale', 0.5)
       safe('attack', () => c1(P, 'attack', d), id)
       hits.push({ dmg: Math.round((h0 - hp(d)) * 100) / 100, str: Math.round(str * 100) / 100, tfx: fx(d), fire: c0(d, 'getRemainingFireTicks'), sfx: fx(P), heal: Math.round((hp(P) - p0) * 100) / 100, wait: w })
@@ -376,6 +377,31 @@ LGW.run = (server, who, name) => {
       res['' + lv] = { hit: stat(hs.map(h => h.dmg)), tfx: tf, sfx: sf, hurt: hs2 }
     })
     safe('luck back', () => { setLuck(0); c0(P, 'removeAllEffects') }, id)
+    return res
+  }
+  // 3c. conditions (2026-11-18): a curio whose text needs a state (low health, night, burning, sprinting, an undead or burning or weak target) is sampled in
+  // each state in plan.states, N swings (plan.condN, 200) and M hits (plan.condHurt, 100) of plan.chanceAmt, the bare tester (id null) too: the curio's effect
+  // is its sample over the bare tester's in the same state. The size is measured; how much of the time a player is in the state is not (docs/NOTES.md)
+  var STATES = { lowhp: { php: .2 }, night: { night: 1 }, burning: { selfFire: 1 }, sprint: { sprint: 1 }, zombie: { type: 'minecraft:zombie' }, tburn: { tfire: 1 }, tlow: { max: 1000, cur: 200 } }
+  var cond = id => {
+    var res = {}, N = plan.condN || 200, M = plan.condHurt || 100, S = plan.states || ['lowhp']
+    S.forEach(st => {
+      var o = {}, def = STATES[st] || {}; for (var k0 in def) o[k0] = def[k0]
+      reset(); if (id) equipCurio(id)
+      ticks(40)
+      if (def.night) safe('night', () => server.runCommandSilent('time set midnight'), id)
+      if (def.selfFire) safe('self fire', () => c1(P, 'setRemainingFireTicks', 20000), id)
+      if (def.sprint) safe('sprint', () => c1(P, 'setSprinting', true), id)
+      ticks(2)
+      wear(EquipmentSlot.MAINHAND, Item.of(REF)); ticks(5)
+      var hs = swings(N, id || REF, o, true), hu = {}
+      for (var k = 0; k < M; k++) { if (def.php) c1(P, 'setHealth', Math.max(1, c0(P, 'getMaxHealth') * def.php)); var h = hurt(plan.chanceAmt || 4); for (var kind in h) (hu[kind] = hu[kind] || []).push(h[kind][1]) }
+      var hs2 = {}; for (var kk in hu) hs2[kk] = stat(hu[kk])
+      res[st] = { hit: stat(hs.map(x => x.dmg)), hurt: hs2 }
+      if (def.night) safe('day', () => server.runCommandSilent('time set day'), id)
+      if (def.selfFire) safe('self fire off', () => c1(P, 'setRemainingFireTicks', 0), id)
+      if (def.sprint) safe('sprint off', () => c1(P, 'setSprinting', false), id)
+    })
     return res
   }
   // 4. shots: a bow, crossbow or thrown weapon drawn 40 ticks (bows reach full draw at 20) and let go, or for a crossbow loaded and
@@ -709,6 +735,8 @@ LGW.run = (server, who, name) => {
   ;(plan.curios || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return } cur = id; safe('curio', () => { out.curios[id] = curio(id) }, id) }))
   if ((plan.chance || []).length) jobs.push(() => { cur = '(none)'; safe('chance', () => { out.chance['(none)'] = chance(null) }, '(none)') })
   ;(plan.chance || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return } cur = id; safe('chance', () => { out.chance[id] = chance(id) }, id) }))
+  if ((plan.cond || []).length) jobs.push(() => { cur = '(none)'; safe('cond', () => { out.cond['(none)'] = cond(null) }, '(none)') })
+  ;(plan.cond || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return } cur = id; safe('cond', () => { out.cond[id] = cond(id) }, id) }))
   // jobs that return { wait, then } go on after that many server ticks (shots in flight)
   if (plan.probe) { out.probe = []; jobs.push(() => { reset(); return arrowProbe(true) }); jobs.push(() => arrowProbe(false)) }
   // why the tester takes no damage in the hurt test (2026-11-17, a 6.6.6cf server: 8 in, 0 out for every kind, bare too): an 8-damage
@@ -771,6 +799,11 @@ ServerEvents.customCommand('lgw_measure_third_test', event => {
 // kubejs/lgw_chance_measure.json; from the console (no player) it runs the same
 ServerEvents.customCommand('lgw_measure_chance', event => {
   try { LGW.run(event.server, event.player, 'lgw_chance') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
+})
+// lgw_measure_cond reads kubejs/lgw_cond_items.json ({"cond": [curio ids], "states": ["lowhp", "night", ...], "condN": 200, "condHurt": 100}) and writes
+// kubejs/lgw_cond_measure.json
+ServerEvents.customCommand('lgw_measure_cond', event => {
+  try { LGW.run(event.server, event.player, 'lgw_cond') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
 })
 ServerEvents.customCommand('lgw_measure', event => {
   try { LGW.run(event.server, event.player, 'lgw') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }

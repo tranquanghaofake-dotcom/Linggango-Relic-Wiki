@@ -1,5 +1,5 @@
 {
- "_basis": "Assumptions, not measurements: what share of the time a conditional bonus is on. The first row that matches a clause counts; no match means it is always on (100%). Change a share here and the Stated percent ranking follows.",
+ "_basis": "Assumptions, not measurements: what share of the time a conditional bonus is on. The first row that matches a clause counts; no match means it is always on (100%). Change a share here and the Stated percent ranking follows. The states are the conditions sampled in game (lgw_measure.js 3c): the size of a curio's effect in a state is measured, the share of the time a player is in it is an assumption set here.",
  "items": [
   {
    "id": "builds",
@@ -31,5 +31,35 @@
    "share": 0.2,
    "why": "A timed ability: 20% counted"
   }
- ]
+ ],
+ "states": {
+  "lowhp": {
+   "share": 0.25,
+   "why": "Below a fifth of your health: counted a quarter of the time"
+  },
+  "night": {
+   "share": 0.33,
+   "why": "At night: counted a third of the time"
+  },
+  "burning": {
+   "share": 0.1,
+   "why": "While you burn: counted a tenth of the time"
+  },
+  "sprint": {
+   "share": 0.4,
+   "why": "While sprinting: counted 40% of the time"
+  },
+  "zombie": {
+   "share": 0.3,
+   "why": "Against undead: counted 30% of the time"
+  },
+  "tburn": {
+   "share": 0.15,
+   "why": "Against a burning target: counted 15% of the time"
+  },
+  "tlow": {
+   "share": 0.25,
+   "why": "Against a target at a fifth of its health: counted a quarter of the time"
+  }
+ }
 }
