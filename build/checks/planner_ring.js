@@ -24,3 +24,26 @@
   BS.g = rq.rq[0]; buildPage(); await wait(50);
   if (document.querySelector('.bx.on.rqoff')) bad.push('planner ring: dimmed although its ring is chosen');
   BS.g = ''; BS.s = {}; }
+// choosing a ring puts it in a Ring slot, un-choosing takes it out; a starter build keeps the chosen ring once
+{ const wait = ms => new Promise(r => setTimeout(r, ms)), ring = () => (BS.s.Ring || []).slice(), C = 'enigmaticlegacy:cursed_ring', V = 'covenant_of_the_seven:virtue_ring', click = async c => { document.querySelector('[data-ring="' + c + '"]').click(); await wait(60); };
+  BS.g = ''; BS.s = {}; buildPage(); await wait(50);
+  await click('C'); if (ring().join() !== C) bad.push('planner ring: Curses did not put its ring in a Ring slot: ' + ring());
+  await click('CV'); if (ring().sort().join() !== [C, V].sort().join()) bad.push('planner ring: Both did not give both rings: ' + ring());
+  await click('V'); if (ring().join() !== V) bad.push('planner ring: Virtues left ' + ring());
+  await click(''); if (ring().length) bad.push('planner ring: None left ' + ring());
+  BS.g = 'C'; bPreset('ME'); if (ring().filter(x => x === C).length !== 1) bad.push('planner ring: a Melee build with Curses holds the ring ' + ring().filter(x => x === C).length + ' times');
+  // Gambler: the expected-value lines follow the build's Luck
+  BS.g = ''; BS.s = { Charm: ['terramity:lucky_dice', 'terramity:fateful_coin'] }; buildPage(); await wait(50);
+  const t = document.querySelector('.bev') ? document.querySelector('.bev').innerText : '';
+  if (!/Lucky Dice/.test(t) || !/Fateful Coin/.test(t)) bad.push('planner gambler: no expected-value lines for Lucky Dice and Fateful Coin: ' + t);
+  if (!/×1\.13/.test(t)) bad.push('planner gambler: Lucky Dice at Luck 0 should average ×1.13 (20% of ×1.66): ' + t);
+  BS.s = {}; BS.g = ''; }
+// Effects: the column headers sort
+{ const wait = ms => new Promise(r => setTimeout(r, ms)); location.hash = '#mechanics/effects'; await wait(80); render(); await wait(300);
+  const names = () => [...document.querySelectorAll('#etb tr td:first-child b')].map(x => x.textContent), h = k => document.querySelector('#m-effects [data-sort="' + k + '"]');
+  if (!h('n') || !h('k') || !h('g')) bad.push('effects: sort buttons missing');
+  else { h('n').click(); await wait(60); let a = names(); if (a.slice(1).some((x, i) => a[i].localeCompare(x) > 0)) bad.push('effects: name sort not ascending');
+    h('n').click(); await wait(60); a = names(); if (a.slice(1).some((x, i) => a[i].localeCompare(x) < 0)) bad.push('effects: name sort not descending after a second click');
+    if (h('n').parentElement.getAttribute('aria-sort') !== 'descending') bad.push('effects: aria-sort not set');
+    h('k').click(); await wait(60); const ks = [...document.querySelectorAll('#etb tr')].map(r => r.className), R = { 'ek-b': 0, 'ek-h': 1, 'ek-n': 2 };
+    if (ks.slice(1).some((x, i) => (R[ks[i]] ?? 3) > (R[x] ?? 3))) bad.push('effects: type sort order is wrong'); } }

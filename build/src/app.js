@@ -79,13 +79,24 @@ function keepFocus(fn,pref){const k=focusKey();fn();if(!k)return;const m=el("mai
 function bSave(pref){history.replaceState(null,"",bHash());keepFocus(buildPage,pref)}
 // the two starter rings: a curio whose own text needs one is only wanted when that ring is chosen (BS.g: "", "C", "V" or "CV")
 const bRing=d=>!d.rq||BS.g.includes(d.rq[0]);
+// choosing a ring puts it in a Ring slot (if one is free); un-choosing takes it out again
+function bRingSync(o,n){const RID={C:RQRING.Curses,V:RQRING.Virtues},R=BS.s.Ring||(BS.s.Ring=[]);
+ for(const c of "CV"){const id=RID[c];if(o.includes(c)&&!n.includes(c)){const i=R.indexOf(id);if(i>=0)R.splice(i,1)}
+  else if(n.includes(c)&&!o.includes(c)&&!R.includes(id)&&R.length<bCaps().Ring&&BYID[id])R.push(id)}
+ if(!R.length)delete BS.s.Ring}
+// expected value of the chance curios whose own text gives both the odds and the size (an estimate: each Luck point counted as one Luck level)
+const pc=x=>Math.round(x*100);
+const RNGEV=[["terramity:lucky_dice",L=>{const p=Math.min(1,.2+.1*L);return T("Lucky Dice: True Crit on {p}% of hits, ×{m} damage on average (×1.66 when it triggers)",{p:pc(p),m:(1+p*.66).toFixed(2)})}],
+ ["terramity:fateful_coin",()=>T("Fateful Coin: ×1.25 damage on average (a 50% chance of ×1.5); mobs get the same odds against you")],
+ ["terramity:nullifying_dice",L=>T("Nullifying Dice: cancels {p}% of the damage you would take (10% + 5% per Luck, at most 66%)",{p:pc(Math.min(.66,.1+.05*L))})],
+ ["terramity:devils_dice",L=>{const p=Math.min(1,.5+.1*L);return T("Devil's Dice: each roll is a buff {p}% of the time, a debuff {q}%",{p:pc(p),q:pc(1-p)})}]];
 // chance-based curios (dice, coins, "N% chance", random rolls): their odds are not in the stat totals
 const RNGRX=/\bdice\b|\bcoin\b|gambl|\d+% chance|chance (?:to|for|rises)|\brandom|\brolls? |luck level/i,bRng=d=>RNGRX.test(d.n+" "+d.fx);
 function bPreset(role){
- BS.s={};const pool=D.filter(d=>bAvail(d)&&!d.inv&&bRing(d)&&(role!=="RNG"||bRng(d)||slotAdds(d)&&Object.keys(slotAdds(d)).length));
+ BS.s={};bRingSync("",BS.g);const pool=D.filter(d=>bAvail(d)&&!d.inv&&bRing(d)&&(role!=="RNG"||bRng(d)||slotAdds(d)&&Object.keys(slotAdds(d)).length));
  const fit=d=>role==="RNG"?bRng(d):d.ro.includes(role);
  const score=d=>(role==="RNG"&&/dice|coin|gambl/i.test(d.n)?1e5:0)+(role==="RNG"&&d.mt.includes("l:Luck")?1e4:0)+(isMust(d)&&role!=="RNG"?1e6:0)+(fit(d)?1e3:0)+d.r*10+(+d.sc||0);
- const order=pool.sort((a,b)=>score(b)-score(a)),used=new Set();
+ const order=pool.sort((a,b)=>score(b)-score(a)),used=new Set(Object.values(BS.s).flat());
  for(const pass of [0,1]){const caps=bCaps();
   for(const d of order){if(used.has(d.id))continue;const adds=slotAdds(d),n=Object.keys(adds).length;
    if(pass===0&&!n)continue;if(pass===1&&!fit(d)&&!(role!=="RNG"&&isMust(d)))continue;
@@ -137,7 +148,7 @@ function buildPage(h){
   const si=slotIcon(k);return `<div class="bslot${have.length?" has":""}"><div class="bsh">${si?`<img class="bsi" alt="" src="${si}">`:""}<b>${esc(T(k))}</b><span class="${have.length>cap?"bad":""}">${have.length}/${cap}</span>${caps[k]>SLOT_BASE[k]?`<em>+${caps[k]-SLOT_BASE[k]}</em>`:""}</div><div class="bsb">${b}</div></div>`};
  const stats=Object.entries(tot).filter(([,v])=>v).sort((a,b)=>a[0].localeCompare(b[0]));
  const pages=[["stats",T("Build"),T("Stat totals"),`${stats.length?`<table>${stats.map(([k,v])=>`<tr><td>${esc(k.replace(/ %$/," (%)"))}</td><td class="num ${v<0?"neg":""}">${v>0?"+":""}${v}${/ %$/.test(k)?"%":""}</td></tr>`).join("")}</table>`:`<p class="note">${eq.length?T("No flat or percentage bonuses to sum."):T("Add curios to see totals.")}</p>`}
-${rng.length?`<p class="note">${TN(rng.length,"{n} chance-based curio in this build. Its odds are not in the totals; many rise with Luck (Luck total: {luck}).","{n} chance-based curios in this build. Their odds are not in the totals; many rise with Luck (Luck total: {luck}).",{luck:tot.Luck||0})}</p>`:""}${BSTALE?`<p class="note">${T("This link was made on a different wiki version, so some items may not match.")}</p>`:""}${BLOST?`<p class="note">${TN(BLOST,"{n} item in this link could not be placed.","{n} items in this link could not be placed.")}</p>`:""}<p class="note">${Object.values(lf).some(v=>v<1)?T("Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks, and ladder-reduced curios count at their reduced share. Conditional effects and ×multipliers are not summed: see the Effects tab."):T("Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks. Conditional effects and ×multipliers are not summed: see the Effects tab.")}</p>`]];
+${rng.length?`<p class="note">${TN(rng.length,"{n} chance-based curio in this build. Its odds are not in the totals; many rise with Luck (Luck total: {luck}).","{n} chance-based curios in this build. Their odds are not in the totals; many rise with Luck (Luck total: {luck}).",{luck:tot.Luck||0})}</p>`:""}${(ev=>ev.length?`<p class="note">${T("Expected value at Luck {luck} (an estimate from the item text, counting each Luck point as one level):",{luck:tot.Luck||0})}</p><ul class="bev">${ev.map(f=>`<li>${f}</li>`).join("")}</ul>`:"")(RNGEV.filter(x=>eq.includes(x[0])).map(x=>x[1](tot.Luck||0)))}${BSTALE?`<p class="note">${T("This link was made on a different wiki version, so some items may not match.")}</p>`:""}${BLOST?`<p class="note">${TN(BLOST,"{n} item in this link could not be placed.","{n} items in this link could not be placed.")}</p>`:""}<p class="note">${Object.values(lf).some(v=>v<1)?T("Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks, and ladder-reduced curios count at their reduced share. Conditional effects and ×multipliers are not summed: see the Effects tab."):T("Flat bonuses (+N) and percentage bonuses (+N%) are summed on separate lines; a second copy counts only if its bonus stacks. Conditional effects and ×multipliers are not summed: see the Effects tab.")}</p>`]];
  bKeys().filter(k=>RL[rlId(k)]).forEach(k=>{const id=rlId(k),c=k.split("#")[1]||(bWorn(id)>1?1:0);pages.push(["rl:"+k,T("Relic levels"),TD(BYID[id].n)+(c?" #"+c:""),rlPanel(k,true)+`<p class="note">${T("Slots a relic adds count its lowest roll.")}</p>`,id])});
  if(eq.length)pages.push(["fx",T("Build"),T("Effects"),`<ul>${uq.map(id=>{const d=BYID[id],n=bWorn(id);const k=Object.keys(BS.s).find(k=>BS.s[k].includes(id)),nx=(evo().to[id]||[]).filter(t=>bFits(BYID[t],k));return `<li><a href="#i${d.ix}" data-t="${d.ix}">${esc(TD(d.n))}</a>${n>1?` ×${n}${SK.i[id]?" "+skTag(id):""}`:""}: ${esc(fxT(d))}${lf[id]<1?` <span class="sk sk-${lf[id]?"l":"n"}" title="${esc(T("Outranked by a better {set} curio in this build",{set:SK.i[id].l[0]}))}">${lf[id]?esc(T("{set} ladder: {pct} strength",{set:SK.i[id].l[0],pct:pct(lf[id])})):esc(T("{set} ladder: switched off",{set:SK.i[id].l[0]}))}</span>`:""}${nx.map(t=>` <button class="chip" data-evo="${esc(k)}|${esc(id)}|${esc(t)}">${T("Evolve → {name}",{name:esc(TD(BYID[t].n))})}</button>`).join("")}</li>`}).join("")}</ul>`]);
  el("main").innerHTML=`${crumb(T("Build planner"))}${room("armory",uq.map(id=>rCurio(BYID[id])),{head:`<h1>${T("Build planner")}</h1>
@@ -165,7 +176,7 @@ ${bPaneHtml(pages)}</aside></div>`;
   else if(ad){const [k,id]=ad.dataset.add.split("|");(BS.s[k]=BS.s[k]||[]).push(id);const shut=BS.s[k].length>=bCaps()[k];if(shut)BPICK=null;hideTip();
    bSave(shut?m=>[...m.querySelectorAll(`.bslots [data-rm="${CSS.escape(k+"|"+id)}"]`)].pop()||m.querySelector(`.bslots [data-pick="${CSS.escape(k)}"]`):null)}};
  bPaneWire();
- el("main").querySelector(".brg").onclick=e=>{const b=e.target.closest("[data-ring]");if(b){BS.g=b.dataset.ring;hideTip();bSave()}};
+ el("main").querySelector(".brg").onclick=e=>{const b=e.target.closest("[data-ring]");if(b){const o=BS.g;BS.g=b.dataset.ring;bRingSync(o,BS.g);hideTip();bSave()}};
  el("main").querySelector(".bpre:not(.brs)").onclick=e=>{const b=e.target.closest("[data-preset]");if(b){BPICK=null;bPreset(b.dataset.preset)}};
 }
 
@@ -593,7 +604,7 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 <p>${T("Status effects in the pack, what each one does, and the items whose own text names it. Food buffs are not an item: eating a meal that scores high enough gives them, as set in <code>linggango_tweaks-common.toml</code>.")}</p>
 <p class="note">${T("Every effect the game registers: {n} in {m} mods, listed by the running pack itself, with each effect's category, colour and attribute changes. Names, descriptions and icons come from the mods' own files.",{n:X.length,m:new Set(X.map(e=>e.m)).size})}</p>
 <div class="rflt"><input id="eq" type="search" aria-label="${T("Find an effect, mod or item…")}" placeholder="${T("Find an effect, mod or item…")}"><select id="em" aria-label="${T("All mods")}"><option value="">${T("All mods")}</option>${[...new Set(X.map(e=>e.m))].sort((a,b)=>(a==="Minecraft"?-1:b==="Minecraft"?1:a.localeCompare(b))).map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join("")}</select><select id="ek" aria-label="${T("All kinds")}"><option value="">${T("All kinds")}</option><option value="b">${T("Beneficial")}</option><option value="h">${T("Harmful")}</option><option value="n">${T("Neutral")}</option></select><span id="en"></span></div>
-<div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Effect")}</th><th>${T("Type")}</th><th>${T("What it does")}</th><th>${T("Given by")}</th></tr></thead><tbody id="etb"></tbody></table></div><div id="emore"></div></section>`},
+<div class="tw rtw"><table class="rtab"><thead><tr>${[["n",T("Effect")],["k",T("Type")],["",T("What it does")],["g",T("Given by")]].map(([k,h])=>k?`<th aria-sort="none"><button type="button" class="ths" data-sort="${k}">${h}<i aria-hidden="true"></i></button></th>`:`<th>${h}</th>`).join("")}</tr></thead><tbody id="etb"></tbody></table></div><div id="emore"></div></section>`},
  stats:()=>`<section class="s" id="m-stats"><h2>${T("Stats explained")}</h2>
 <p>${T("About a dozen mods in the pack add combat stats, often with the same name and a different rule. This section follows one hit from your swing to the target's health bar and says at which step each stat counts. It is read from the code of the V6.6.6hf jars and the pack's own config files (the stat caps in <code>attributefix.json</code>, the Linggango Tweaks combat rules). Two warnings up front: several stats on the wiki do nothing in this pack, and some caps are much lower than the mods' own tooltips say.")}</p>
 <nav class="mtabs" aria-label="${T("Stats explained")}"><a href="#mechanics" data-go="m-st-hit">${T("One hit")}</a><a href="#mechanics" data-go="m-st-armor">${T("Armor")}</a><a href="#mechanics" data-go="m-st-crit">${T("Crits")}</a><a href="#mechanics" data-go="m-st-dodge">${T("Dodge")}</a><a href="#mechanics" data-go="m-st-def">${T("Taking damage")}</a><a href="#mechanics" data-go="m-st-heal">${T("Healing")}</a><a href="#mechanics" data-go="m-st-roll">${T("Roll and parry")}</a><a href="#mechanics" data-go="m-st-type">${T("Damage types")}</a><a href="#mechanics" data-go="m-st-combo">${T("Status and combos")}</a><a href="#mechanics" data-go="m-st-magic">${T("Magic")}</a><a href="#mechanics" data-go="m-st-summon">${T("Summons")}</a></nav>
@@ -786,7 +797,7 @@ ${S[sk]()}${wikiNav()}`;
   const gix=typeof GE!=="undefined"?new Map(GE.map((g,i)=>[g.id,i])):new Map(),cnt={};X.forEach(e=>{const k=e.n.toLowerCase();cnt[k]=(cnt[k]||0)+1});
   const rk=e=>e.i.startsWith("minecraft:")?0:e.i.startsWith("linggango_tweaks:")?1:2,pretty=i=>i.split(":")[1].replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
   const WH={worn:N("worn"),hit:N("on hit"),carried:N("carried"),use:N("on use"),release:N("on release")};
-  const rows=X.map(e=>{const nm=e.n||pretty(e.i),h=rk(e)<2&&hand.get(nm.toLowerCase());return {e,nm,h,txt:((h&&h.d)||e.d||"").replace(/§./g,"").trim()}})
+  const rows=X.map(e=>{const nm=e.n||pretty(e.i),h=rk(e)<2&&hand.get(nm.toLowerCase());return {e,nm,h,gn:new Set((GF[e.i]||[]).map(x=>x[0])).size,txt:((h&&h.d)||e.d||"").replace(/§./g,"").trim()}})
    .sort((a,b)=>rk(a.e)-rk(b.e)||(rk(a.e)<2?0:a.e.m.localeCompare(b.e.m))||a.nm.localeCompare(b.nm));
   const num=v=>Math.round(v*100)/100,mt=m=>{const n=esc(TD(A[m.attr]||m.attr||"?"));if(m.amount==null)return `<b>${n}</b>`;const pc=/MULTIPLY/.test(m.op),v=pc?Math.round(m.amount*1000)/10:num(m.amount);return `<b>${n}</b> ${v<0?"−":"+"}${Math.abs(v)}${pc?"%":""}`};
   const given=r=>{const o=[];if(r.h&&r.h.note)o.push(`<span class="nch">${esc(TD(r.h.note))}</span>`);
@@ -798,12 +809,15 @@ ${S[sk]()}${wikiNav()}`;
    return o.length>4?o.slice(0,4).join("")+`<details class="nmore"><summary>${T("{n} more",{n:o.length-4})}</summary><div class="nchs">${o.slice(4).join("")}</div></details>`:o.join("")||`<span class="eno">${T("No item or spell in the wiki gives it")}</span>`};
   const row=r=>{const e=r.e,k=e.k==="b"?T("Beneficial"):e.k==="h"?T("Harmful"):e.k==="n"?T("Neutral"):"—",ms=(e.a||[]).map(mt).join(", ");
    return `<tr class="ek-${e.k||"x"}" id="eff-${esc(e.i.replace(/[:_]/g,"-"))}"><td>${IC2[e.i]?`<img class="nic" alt="" loading="lazy" src="data:image/png;base64,${IC2[e.i]}"> `:""}<b>${esc(TD(r.nm))}</b>${e.u?` <sup>†</sup>`:""}<br><small title="${esc(e.i)}">${esc(e.m)}</small></td><td><span class="ekb">${k}</span></td><td>${r.txt?esc(TD(r.txt)):""}${r.txt&&ms?"<br>":""}${ms?`${ms} <small>${T("per level")}</small>`:""}${r.txt||ms?"":`<span class="eno">${T("No description in the game files")}</span>`}</td><td class="nchs">${given(r)}</td></tr>`};
-  const eq=el("eq"),em=el("em"),ek=el("ek");let lim=EM;{const pre=decodeURIComponent(location.hash).split("/").slice(2).join("/");if(pre)eq.value=pre}
+  const eq=el("eq"),em=el("em"),ek=el("ek");let lim=EM,sk="",sd=1;{const pre=decodeURIComponent(location.hash).split("/").slice(2).join("/");if(pre)eq.value=pre}
   const fe=more=>{if(more!==true)lim=EM;const v=eq.value.trim().toLowerCase(),hit=rows.filter(r=>(!em.value||r.e.m===em.value)&&(!ek.value||r.e.k===ek.value)&&(!v||(r.nm+" "+r.e.i+" "+r.e.m+" "+r.txt).toLowerCase().includes(v)));
+   if(sk){const KR={b:0,h:1,n:2};hit.sort((a,b)=>sd*(sk==="n"?a.nm.localeCompare(b.nm):sk==="k"?(KR[a.e.k]??3)-(KR[b.e.k]??3):a.gn-b.gn))}
    el("etb").innerHTML=hit.slice(0,lim).map(row).join("");el("en").textContent=T("{a} of {b}",{a:hit.length,b:rows.length});
    el("emore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(EM*5,hit.length-lim)})}</button>`:"";
    const b=el("emore").firstChild;if(b)b.onclick=()=>{lim+=EM*5;fe(true)}};
-  [eq,em,ek].forEach(x=>x.addEventListener("input",fe));fe()}
+  [eq,em,ek].forEach(x=>x.addEventListener("input",fe));
+  document.querySelector("#m-effects thead").onclick=e=>{const b=e.target.closest("[data-sort]");if(!b)return;const k=b.dataset.sort;if(sk===k)sd=-sd;else{sk=k;sd=k==="g"?-1:1}
+   document.querySelectorAll("#m-effects thead th[aria-sort]").forEach(th=>th.setAttribute("aria-sort",th.firstChild.dataset.sort===sk?(sd>0?"ascending":"descending"):"none"));fe()};fe()}
  if(sk==="stats")hitInit();
  el("main").querySelectorAll(".mtabs [data-go]").forEach(a=>a.onclick=e=>{e.preventDefault();el(a.dataset.go).scrollIntoView({behavior:"smooth"})});
 }
