@@ -14,6 +14,7 @@
 "1f34xg6je9d": {"en": "Bow Crit Chance", "t": "Tỉ lệ chí mạng cung", "s": "llm"},
 "hc392gjnjq": {"en": "Bow Draw Speed", "t": "Tốc độ giương cung", "s": "llm"},
 "1y9n5wdgvc5": {"en": "Burning Stability", "t": "Ổn định khi cháy", "s": "llm"},
+"dg0eqaxe9b": {"en": "By condition: {v}.", "t": "Theo điều kiện: {v}.", "s": "llm"},
 "1gv6ktu10up": {"en": "Cast Duration (Goety)", "t": "Thời gian niệm (Goety)", "s": "llm"},
 "qumjxuz3pf": {"en": "Cast Time Reduction", "t": "Giảm thời gian niệm", "s": "llm"},
 "17v3i4a4hc6": {"en": "Casting Movespeed", "t": "Tốc độ di chuyển khi niệm", "s": "llm"},
@@ -99,5 +100,14 @@
 "y4bzi7rkg6": {"en": "Warding", "t": "Hộ thân", "s": "llm"},
 "1xr41yxfbac": {"en": "With the Luck effect: {v}.", "t": "Với hiệu ứng Luck: {v}.", "s": "llm"},
 "2bvozyd4vw1": {"en": "XP Gained", "t": "Lượng XP nhận", "s": "llm"},
-"18917vu529i": {"en": "level {l}", "t": "cấp {l}", "s": "llm"}
+"2gjleyc12oz": {"en": "a burning target", "t": "mục tiêu đang cháy", "s": "llm"},
+"1070eqk38j6": {"en": "a low-health target", "t": "mục tiêu máu thấp", "s": "llm"},
+"1ip835ngz3l": {"en": "against undead", "t": "khi đánh undead", "s": "llm"},
+"cchbksbabj": {"en": "burning", "t": "đang cháy", "s": "llm"},
+"2od5n2my51": {"en": "dealt", "t": "gây ra", "s": "llm"},
+"18917vu529i": {"en": "level {l}", "t": "cấp {l}", "s": "llm"},
+"1uccos3i9q6": {"en": "low health", "t": "máu thấp", "s": "llm"},
+"1qwilfdfiou": {"en": "night", "t": "ban đêm", "s": "llm"},
+"bto6j6np25": {"en": "sprinting", "t": "chạy nước rút", "s": "llm"},
+"16bxdp5q64f": {"en": "taken", "t": "nhận vào", "s": "llm"}
 }

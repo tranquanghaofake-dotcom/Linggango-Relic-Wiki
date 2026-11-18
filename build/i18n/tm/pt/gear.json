@@ -14,6 +14,7 @@
 "1f34xg6je9d": {"en": "Bow Crit Chance", "t": "Chance de crítico com arco", "s": "llm"},
 "hc392gjnjq": {"en": "Bow Draw Speed", "t": "Velocidade de puxar o arco", "s": "llm"},
 "1y9n5wdgvc5": {"en": "Burning Stability", "t": "Estabilidade ao queimar", "s": "llm"},
+"dg0eqaxe9b": {"en": "By condition: {v}.", "t": "Por condição: {v}.", "s": "llm"},
 "1gv6ktu10up": {"en": "Cast Duration (Goety)", "t": "Duração da conjuração (Goety)", "s": "llm"},
 "qumjxuz3pf": {"en": "Cast Time Reduction", "t": "Redução do tempo de conjuração", "s": "llm"},
 "17v3i4a4hc6": {"en": "Casting Movespeed", "t": "Velocidade de movimento ao conjurar", "s": "llm"},
@@ -99,5 +100,14 @@
 "y4bzi7rkg6": {"en": "Warding", "t": "Proteção", "s": "llm"},
 "1xr41yxfbac": {"en": "With the Luck effect: {v}.", "t": "Com o efeito Luck: {v}.", "s": "llm"},
 "2bvozyd4vw1": {"en": "XP Gained", "t": "XP ganho", "s": "llm"},
-"18917vu529i": {"en": "level {l}", "t": "nível {l}", "s": "llm"}
+"2gjleyc12oz": {"en": "a burning target", "t": "um alvo em chamas", "s": "llm"},
+"1070eqk38j6": {"en": "a low-health target", "t": "um alvo com pouca vida", "s": "llm"},
+"1ip835ngz3l": {"en": "against undead", "t": "contra mortos-vivos", "s": "llm"},
+"cchbksbabj": {"en": "burning", "t": "em chamas", "s": "llm"},
+"2od5n2my51": {"en": "dealt", "t": "causado", "s": "llm"},
+"18917vu529i": {"en": "level {l}", "t": "nível {l}", "s": "llm"},
+"1uccos3i9q6": {"en": "low health", "t": "vida baixa", "s": "llm"},
+"1qwilfdfiou": {"en": "night", "t": "à noite", "s": "llm"},
+"bto6j6np25": {"en": "sprinting", "t": "correndo", "s": "llm"},
+"16bxdp5q64f": {"en": "taken", "t": "recebido", "s": "llm"}
 }

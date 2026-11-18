@@ -14,6 +14,7 @@
 "1f34xg6je9d": {"en": "Bow Crit Chance", "t": "Шанс крита луком", "s": "llm"},
 "hc392gjnjq": {"en": "Bow Draw Speed", "t": "Скорость натяжения лука", "s": "llm"},
 "1y9n5wdgvc5": {"en": "Burning Stability", "t": "Устойчивость к горению", "s": "llm"},
+"dg0eqaxe9b": {"en": "By condition: {v}.", "t": "По условиям: {v}.", "s": "llm"},
 "1gv6ktu10up": {"en": "Cast Duration (Goety)", "t": "Длительность каста (Goety)", "s": "llm"},
 "qumjxuz3pf": {"en": "Cast Time Reduction", "t": "Сокращение времени каста", "s": "llm"},
 "17v3i4a4hc6": {"en": "Casting Movespeed", "t": "Скорость передвижения при касте", "s": "llm"},
@@ -99,5 +100,14 @@
 "y4bzi7rkg6": {"en": "Warding", "t": "Оберег", "s": "llm"},
 "1xr41yxfbac": {"en": "With the Luck effect: {v}.", "t": "С эффектом Luck: {v}.", "s": "llm"},
 "2bvozyd4vw1": {"en": "XP Gained", "t": "Получаемый опыт", "s": "llm"},
-"18917vu529i": {"en": "level {l}", "t": "уровень {l}", "s": "llm"}
+"2gjleyc12oz": {"en": "a burning target", "t": "горящая цель", "s": "llm"},
+"1070eqk38j6": {"en": "a low-health target", "t": "цель с малым здоровьем", "s": "llm"},
+"1ip835ngz3l": {"en": "against undead", "t": "против нежити", "s": "llm"},
+"cchbksbabj": {"en": "burning", "t": "в огне", "s": "llm"},
+"2od5n2my51": {"en": "dealt", "t": "наносимый", "s": "llm"},
+"18917vu529i": {"en": "level {l}", "t": "уровень {l}", "s": "llm"},
+"1uccos3i9q6": {"en": "low health", "t": "мало здоровья", "s": "llm"},
+"1qwilfdfiou": {"en": "night", "t": "ночью", "s": "llm"},
+"bto6j6np25": {"en": "sprinting", "t": "в спринте", "s": "llm"},
+"16bxdp5q64f": {"en": "taken", "t": "получаемый", "s": "llm"}
 }
