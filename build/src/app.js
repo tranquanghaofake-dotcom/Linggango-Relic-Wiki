@@ -787,6 +787,12 @@ ${HROWS.map(r=>`<tr>${r.map(x=>`<td>${T(x)}</td>`).join("")}</tr>`).join("")}</t
 <h3 id="m-st-util">${T("Movement and loot ranking")}</h3>
 <p>${T("Curios ranked by the percentage their own text states: movement speed for movement, extra XP or drops for loot. Only a number written as a percent counts; flight, jumps, step height, Looting and Fortune levels are not percentages, so they are not ranked here. A bonus that needs a condition (per kill, on sand, standing still) is not counted.")}</p>
 ${["move","loot"].map(c=>`<h4>${T(UTILN[c])}</h4><div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Rank")}</th><th>${T("Curio")}</th><th>${T("Tier")}</th><th>${T("Bonus")}</th></tr></thead><tbody>${utilRank()[c].map(d=>`<tr><td>${d._ur[c].k}</td><td>${ilink(d.id,d.n)}</td><td>${d._ur[c].t}</td><td>+${Math.round(utilOf(d)[c].pct*100)/100}%</td></tr>`).join("")}</tbody></table></div>`).join("")}
+<h3 id="m-st-cover">${T("Where every curio stands")}</h3>
+<p>${T("Every curio except the Looting Charms is in one of these places. A curio whose text states no number has nothing to rank by without a new measurement in game, so it is listed by what its text is about instead.")}</p>
+${(cv=>`<div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Where")}</th><th>${T("Curios")}</th></tr></thead><tbody>${cv.rows.map(([n,c])=>`<tr><td>${T(n)}</td><td>${c}</td></tr>`).join("")}${cv.rest.map(([k,c])=>`<tr><td>${T("No number to rank by")}: ${esc(k)}</td><td>${c}</td></tr>`).join("")}<tr><td><b>${T("All curios")}</b></td><td><b>${cv.total}</b></td></tr></tbody></table></div>`)(coverage())}
+<h3 id="m-st-stated">${T("Stated percent ranking")}</h3>
+<p>${T("Curios without a measured tier, ranked by the percents their own text states, in four classes. A conditional bonus counts the share set in effect_uptime.json (an assumption). A curio whose text also names a cost or a limit is left out, because counting only its gain would rank it too high. Points are a sum of stated percents, not a damage figure.")}</p>
+${Object.keys(SPC_NAME).map(c=>`<details class="stp"><summary>${T(SPC_NAME[c])} (${statRank()[c].length})</summary><div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Rank")}</th><th>${T("Curio")}</th><th>${T("Tier")}</th><th>${T("Points")}</th><th>${T("Counted")}</th></tr></thead><tbody>${statRank()[c].map(d=>`<tr><td>${d._sr[c].k}</td><td>${ilink(d.id,d.n)}</td><td>${d._sr[c].t}</td><td>${statOf(d)[c].pts}</td><td>${esc(statOf(d)[c].parts.map(p=>p.t+(p.sh<1?" ×"+p.sh:"")).join(", "))}</td></tr>`).join("")}</tbody></table></div></details>`).join("")}
 </section>`};
  el("main").innerHTML=`${crumb(`<a href="#mechanics">${T("Mechanics")}</a>`,esc(T(sub[1])))}${room("ritual",made.map(d=>rCurio(d)),{head:`<h1>${T("Mechanics")}</h1><p class="lede">${T("How the pack's bigger systems work: Goety's dark rituals, AE2 storage and how the combat stats work, with Linggango's own changes.")}</p>`,cols:4,label:T("Curios made by rituals")})}
 <nav class="mtabs" aria-label="${T("Mechanics")}">${MSEC.map(([k,l])=>`<a href="#mechanics/${k}"${k===sk?' aria-current="page"':""}>${T(l)}</a>`).join("")}</nav>
@@ -1174,6 +1180,33 @@ function utilRank(){if(UTR)return UTR;UTR={};for(const c of ["move","loot"]){con
   xs.forEach((d,i)=>{const q=utilOf(d)[c].pct/ref;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;(d._ur=d._ur||{})[c]={k:i+1,m:xs.length,t:GTIER[t][0]}});UTR[c]=xs}return UTR}
 function utilHtml(d){const o=utilOf(d);if(!o)return"";utilRank();
  return Object.keys(o).map(c=>{const r=d._ur[c],x=o[c];return `<p>${T("{cat} rank {k} of {m}: tier {t}. Its text states +{pct}%.",{cat:T(UTILN[c]),k:r.k,m:r.m,t:r.t,pct:Math.round(x.pct*100)/100})}</p>${x.cond.length?`<p class="note">${T("Conditional, not counted: {names}.",{names:esc(x.cond.join(", "))})}</p>`:""}`}).join("")}
+/* Stated percent ranking, for the curios that have no measured tier: the percents the curio's own text states, each type of bonus in its class (offence,
+   defence, spells, summons), a conditional bonus counted at the share in patches/effect_uptime.json (an assumption, labelled). Points = the sum of stated
+   percents: a crude common unit, not a damage figure. A curio whose text also names a cost or a limit ("in return", "but", "loses") is left out: counting only the
+   gain would rank it too high. Tiered S to D against the fifth best of its class. */
+const UPTM=(UPTIME.items||[]).map(x=>({...x,re:new RegExp(x.re,"i")})),SPC_NUM="(\\d+(?:\\.\\d+)?)",SPC_SGN="([+\\-\\u2212]?)\\s*",SPC_COST=/\b(in return|but |lose[s]?|costs?|penalt\w+|cannot|can't|drains?|sacrifice|downside|only wearable)\b/i;
+const SPC_STAT=[["offence",new RegExp(SPC_SGN+SPC_NUM+"%\\s*(?:more\\s+)?(?:(?!crit|attack|life)[a-z]+ )?damage(?! (?:reduction|taken|resistance))","gi"),1],["offence",new RegExp(SPC_SGN+SPC_NUM+"%\\s*(?:more\\s+)?attack speed","gi"),1],
+ ["offence",new RegExp(SPC_SGN+SPC_NUM+"%\\s*(?:more\\s+)?crit(?:ical)?(?: strike)?\\s*(?:chance|damage|rate)","gi"),1],["offence",new RegExp(SPC_SGN+SPC_NUM+"%\\s*(?:more\\s+)?(?:life ?steal|armou?r (?:pierce|piercing|penetration))","gi"),1],
+ ["defence",new RegExp(SPC_SGN+SPC_NUM+"%\\s*(?:damage reduction|dodge(?: chance)?|less damage)","gi"),1],["defence",new RegExp("\\+"+SPC_NUM+"%\\s*damage taken","gi"),-1],["defence",new RegExp(SPC_SGN+SPC_NUM+"%\\s*max(?:imum)? health","gi"),1],
+ ["spell",new RegExp(SPC_SGN+SPC_NUM+"%\\s*(?:more\\s+)?(?:spell (?:power|damage)|cast(?:ing)? speed|cooldown reduction|mana regen\\w*|max(?:imum)? mana)","gi"),1],["spell",new RegExp(SPC_NUM+"%\\s*(?:less|cheaper)\\s+(?:mana|lp|souls?|cost)","gi"),1,1],
+ ["spell",new RegExp("(?:cooldowns?|cast time)\\s*(?:[-\\u2212]|reduced by )\\s*"+SPC_NUM+"%","gi"),1,1],["summon",new RegExp(SPC_SGN+SPC_NUM+"%\\s*(?:more\\s+)?(?:minion|summon\\w*|servant)s?\\s*(?:damage|attack speed|health)","gi"),1]];
+const SPC_NAME={offence:"Offence",defence:"Defence",spell:"Spells",summon:"Summons"};
+function statOf(d){if(d._st!==undefined)return d._st;d._st=null;if(CTIER[d.id]||SPC_COST.test(d.fx||""))return null;const o={};
+ for(const sg of (d.fx||"").split(";"))for(const cl of sg.split(","))for(const [c,re,dir,nos] of SPC_STAT){re.lastIndex=0;let m;while((m=re.exec(cl))){
+  if(/of the$/i.test(cl.slice(0,m.index).trim()))continue;const sgn=nos?1:(m[1]==="-"||m[1]==="−"?-1:1),v=+(nos?m[1]:m[2]),u=UPTM.find(x=>x.re.test(sg)||x.re.test(cl)),sh=u?u.share:1,x=o[c]||(o[c]={pts:0,parts:[]});
+  x.pts+=dir*sgn*v*sh;x.parts.push({t:m[0].trim(),sh,why:u?u.why:""})}}
+ for(const c in o){o[c].pts=Math.round(o[c].pts*100)/100;if(o[c].pts<=0)delete o[c]}
+ return d._st=Object.keys(o).length?o:null}
+let STR=null;
+function statRank(){if(STR)return STR;STR={};for(const c in SPC_NAME){const xs=D.filter(d=>d.r!==6&&statOf(d)&&statOf(d)[c]).sort((p,q)=>statOf(q)[c].pts-statOf(p)[c].pts||p.n.localeCompare(q.n)),ref=xs.length?statOf(xs[xs.length<5?0:4])[c].pts:1;
+  xs.forEach((d,i)=>{const q=statOf(d)[c].pts/ref;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;(d._sr=d._sr||{})[c]={k:i+1,m:xs.length,t:GTIER[t][0]}});STR[c]=xs}return STR}
+function statHtml(d){const o=statOf(d);if(!o)return"";statRank();
+ return Object.keys(o).map(c=>{const r=d._sr[c],x=o[c];return `<p>${T("{cat} rank {k} of {m}: tier {t}. Stated percent points: {pts} (an estimate: a bonus that needs a condition counts a share).",{cat:T(SPC_NAME[c]),k:r.k,m:r.m,t:r.t,pts:x.pts})}</p><ul class="imm">${x.parts.map(p=>`<li><b>${esc(p.t)}</b>${p.sh<1?` · ×${p.sh} <small>${esc(TD(p.why))}</small>`:""}</li>`).join("")}</ul>`}).join("")}
+/* where every curio stands: one count per route, the rest by what its text is about */
+function coverage(){utilRank();immRank();statRank();const rows=[],seen=new Set(),pool=D.filter(d=>d.r!==6),take=(n,f)=>{const xs=pool.filter(d=>!seen.has(d.id)&&f(d));xs.forEach(d=>seen.add(d.id));rows.push([n,xs.length])};
+ take("Measured in game: a tier on the Curios page",d=>!!CTIER[d.id]);take("Immunity ranking",d=>!!immOf(d));take("Movement and loot ranking",d=>!!utilOf(d));take("Stated percent ranking",d=>!!statOf(d));
+ const rest=pool.filter(d=>!seen.has(d.id)),by={};rest.forEach(d=>{const k=gUnrKind(d);(by[k]=by[k]||[]).push(d)});
+ return {rows,rest:Object.entries(by).sort((p,q)=>q[1].length-p[1].length).map(([k,v])=>[k,v.length]),total:pool.length,left:rest.length}}
 /* d.rq: the curio's own text says it needs the Ring of the Seven Curses or Virtues */
 const RQRING={Curses:"enigmaticlegacy:cursed_ring",Virtues:"covenant_of_the_seven:virtue_ring"},RQRX=/requires (?:the )?(?:Ring of )?(?:the )?Seven (?:Curses|Virtues)|Seven (?:Curses|Virtues) bearers only|\(Seven (?:Curses|Virtues)(?: path)?\)|Break the Ring of (?:the )?Seven Curses/i;
 D.forEach(d=>{if(d.id===RQRING.Curses||d.id===RQRING.Virtues)return;const m=RQRX.exec([d.fx,...d.st,...d.src].join(" | "));if(m)d.rq=/curses/i.test(m[0])?"Curses":"Virtues"});
@@ -2054,6 +2087,7 @@ function page(d){
  if(typeof gCurioMs==="function"){const mh=gCurioMs(d);if(mh)secs.push(["ms",T("Measured in game"),mh])}
  if(immOf(d))secs.push(["im",T("Immunity"),immHtml(d)])
  if(utilOf(d))secs.push(["ut",T("Movement and loot ranking"),utilHtml(d)])
+ if(statOf(d))secs.push(["sp",T("Stated percent ranking"),statHtml(d)])
  if(d.uid.length)secs.push(["uses",T("Used to craft"),`<div class="cards">${d.uid.map(o=>{const t=BYID[o];return `<a class="card"${t?` href="#i${t.ix}" data-t="${t.ix}"`:""}>${img(o)}<span>${esc(NM[o]||o)}${t?"":` <span class="meta">${T("(not a curio)")}</span>`}</span></a>`}).join("")}</div>`]);
  const bar=(v,l)=>`<div class="sg" style="grid-template-columns:150px 1fr;margin:var(--s1) 0"><span>${l}</span><div class="bar"><i style="width:${Math.round(Math.min(5,Math.max(0,v))*20)}%;background:var(--rc);opacity:.55"></i><span>${(+v).toFixed(1)} / 5</span></div></div>`;
   const same=D.filter(x=>x!==d&&x.m===d.m&&x.t===d.t).slice(0,8);

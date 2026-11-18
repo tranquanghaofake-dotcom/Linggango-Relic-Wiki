@@ -2404,3 +2404,4 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
 
 /* immunity: the list of what a curio blocks, and its ranking table on the Effects tab */
 .imm{margin:var(--s2) 0;padding-left:var(--s4)}.imm small{color:var(--gui-mute)}
+.stp{margin:var(--s2) 0}.stp>summary{cursor:pointer;color:var(--gui-link);font-size:14px}

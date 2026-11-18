@@ -1,0 +1,35 @@
+{
+ "_basis": "Assumptions, not measurements: what share of the time a conditional bonus is on. The first row that matches a clause counts; no match means it is always on (100%). Change a share here and the Stated percent ranking follows.",
+ "items": [
+  {
+   "id": "builds",
+   "re": "per |each |stack|consecutive|every few",
+   "share": 0.5,
+   "why": "Builds up with hits or kills: half counted"
+  },
+  {
+   "id": "weapon",
+   "re": "\\bwith (?:a |an )?(?:[a-z-]+ )?(?:claymores?|hammers?|swords?|axes|daggers?|spears?|bows?|crossbows?|staves|staffs|wands?|whips?|katanas?|scythes?|guns?|pistols?|rifles?|knives|knife)\\b",
+   "share": 0.3,
+   "why": "Works with one weapon type: 30% counted"
+  },
+  {
+   "id": "target",
+   "re": "\\b(?:to|against|vs\\.?) (?:undead|illagers?|zombies|skeletons|spiders?|arthropods?|bosses|boss|withered|burning|frozen|bleeding|hostile|nether mobs|ender|piglins|villagers)\\b",
+   "share": 0.3,
+   "why": "Works on one kind of target: 30% counted"
+  },
+  {
+   "id": "state",
+   "re": "\\b(?:below|above|under|over|when|while|if|during|after|upon|on kill|on hit|at night|underwater|in water|on sand|standing|sneaking|sprinting|airborne|mid-jump|full health|low health)\\b",
+   "share": 0.25,
+   "why": "Needs a condition: 25% counted"
+  },
+  {
+   "id": "timed",
+   "re": "\\bfor \\d+ ?s\\b|\\bcooldown\\b",
+   "share": 0.2,
+   "why": "A timed ability: 20% counted"
+  }
+ ]
+}
