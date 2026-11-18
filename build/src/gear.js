@@ -297,6 +297,9 @@ const gIsCurio=x=>!!(x&&x.ro&&x.st);
    Spelunker Talisman's Resistance below Y 0, Crowbar's +40% to mobs above 90% health, Malice's +30% to mobs that are not hostile) or hid its cost (Venerated Locket loses the armor the
    tester did not have): its numbers would not hold in a real build, so it is shown but not tiered */
 const GCTX=/unarmed|bare[- ]?hand|empty armou?r slot|empty armor slots|without armou?r|lose all (your )?armou?r|armou?r stops working|armou?r debuff|standing still|stand still|below y ?0|underground|at full health|full health|health you (have )?lose|health you (have )?lost|missing health|low(er)? health|below \d+ ?% (of )?(your )?(max )?(health|hp)|during the day|in daylight|daytime|in sunlight|at night|during the night|nighttime|mobs? above \d+ ?%|not hostile|haven't noticed you|for each mob|per mob within|to larger enemies|oscillates|faster you fall|combos? on one mob/i;
+/* a curio whose text is only numbers on attributes ("+3 attack damage", "+2.5% lifesteal"): what the test measured is all it does, so a low measured gain
+   is its real rank. A word of condition, chance, immunity, loot or an effect means the test cannot see its main value: it is not ranked by the measurement alone */
+const gPlain=c=>(c.fx||"").split(/[;,]| and /).map(x=>x.trim()).filter(Boolean).every(x=>/^[+−-]?\s*\d[\d.,]*\s*%?\s+\S/.test(x)&&!/(chance|when|while|if |per |every|after|on hit|on kill|immun|loot|drop)/i.test(x));
 const gCtx=c=>{const m=GCTX.exec([c.fx||"",...(c.st||[])].join(" | "));return m?m[0]:""};
 /* the curio page's "Measured in game" section */
 /* the unit a measured change (CM d: the value worn minus the base) is printed in: flat points; a percent (base-1 multipliers, Apothic

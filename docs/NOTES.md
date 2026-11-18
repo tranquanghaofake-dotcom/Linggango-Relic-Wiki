@@ -2154,3 +2154,10 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Cần để mắt**: trang Fateful Coin hiện hạng A (Act 0–I, Mage +10%) dù nhận thêm 25% sát thương; đó là kết quả của mô hình điểm hiện có (trọng số sống sót theo role), chưa ai xem lại. Số tier ở Luck 0, nên chỉ thấp hơn thực tế khi build có Luck.
 - **Kiểm**: `checks/chance_curios.js` mới; ảnh đã xem: trang Lucky Dice 1440; `check.sh` exit 0 (invariants 0, QA dịch 0 hard, a11y 0, script 0). Bản dịch vi, ru, pt, es cho 3 ghi chú mới.
 - **Open**: 11 món dice/Luck còn lại; nguồn số Luck; chủ wiki xem lại hạng A của Fateful Coin.
+
+## 2026-11-18 (tiếp 3): xếp hạng mọi curio, đợt 1 (đã đo)
+- **Ý chủ wiki**: "xếp tất cả các curio, tìm logic phù hợp"; duyệt hướng 3 tầng (đo, kỳ vọng từ text, bổ trợ tách riêng) và chia đợt. Kế hoạch: `docs/plans/2026-11-18-rank-all-curios.md`.
+- **Số liệu trước khi làm** (đếm 2026-11-18): 1321 curio; 255 có tier; 692 bài đo không thấy gì; 64 bị giữ vì điều kiện; 94 đo được có lợi nhưng dưới ngưỡng mọi tier; 17 Looting Charm.
+- **Đợt 1** (`patches/curio_tiers.js`, `gear.js` `gPlain`): món đo được có lợi, dưới ngưỡng, và text chỉ gồm số thuộc tính → hạng Common. **22 món** (255 → 277). 72 món còn lại trong 94 có cơ chế bài đo không thấy (Ankh Aegis: đo thấy +5 giáp nhưng giá trị chính là miễn nhiễm 9 hiệu ứng); lần thử đầu hạ cả 94 xuống Common, thấy sai ở trang Ankh Aegis nên đã thu hẹp.
+- **Kiểm**: `checks/curio_tiers.js` mới (món có lợi và text thuần số phải có tier; Common không dành cho món có cơ chế ẩn; không đồng thời có tier đo và nhãn estimate). Ảnh đã xem: trang Ankh Aegis (trước khi thu hẹp). `check.sh` exit 0.
+- **Open**: tầng 2 (ước lượng từ text cho 692 món bài đo không thấy và 72 món trên; mỗi giả định ghi rõ), tầng 3 (món bổ trợ xếp riêng), 64 món bị giữ vì điều kiện, 17 Looting Charm. Hạng A của Fateful Coin chờ chủ wiki xem.
