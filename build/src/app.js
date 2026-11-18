@@ -784,6 +784,9 @@ ${HROWS.map(r=>`<tr>${r.map(x=>`<td>${T(x)}</td>`).join("")}</tr>`).join("")}</t
 </table></div>
 <p class="note">${T("Your summons' hits skip the ×3 soft cap, and your crit and lifesteal stats do not apply to them. When a mob hurts you, idle Summonity minions turn on it.")}</p>
 <p class="note">${T("Read from the V6.6.6hf jars (Brutality 0.8.5, Apothic Attributes 1.3.7, Lethality Guard 1.0.0, Iron's Lib 1.1.0, Iron's Spells 3.15.6, TerraCurio 0.1.13, Summonity 0.1.7, L2 Damage Tracker 0.3.8, Linggango Tweaks 7.47, Linggango Fixes 2.16) and the pack's config. Not yet measured in game. Where two mods act at the same step with no fixed order, the text says so. Stat names on curio pages have a dotted underline: {a}.",{a:NOHOVER?T("tap one to come back here"):T("hover one for the short version, or click it to come back here")})}</p>
+<h3 id="m-st-util">${T("Movement and loot ranking")}</h3>
+<p>${T("Curios ranked by the percentage their own text states: movement speed for movement, extra XP or drops for loot. Only a number written as a percent counts; flight, jumps, step height, Looting and Fortune levels are not percentages, so they are not ranked here. A bonus that needs a condition (per kill, on sand, standing still) is not counted.")}</p>
+${["move","loot"].map(c=>`<h4>${T(UTILN[c])}</h4><div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Rank")}</th><th>${T("Curio")}</th><th>${T("Tier")}</th><th>${T("Bonus")}</th></tr></thead><tbody>${utilRank()[c].map(d=>`<tr><td>${d._ur[c].k}</td><td>${ilink(d.id,d.n)}</td><td>${d._ur[c].t}</td><td>+${Math.round(utilOf(d)[c].pct*100)/100}%</td></tr>`).join("")}</tbody></table></div>`).join("")}
 </section>`};
  el("main").innerHTML=`${crumb(`<a href="#mechanics">${T("Mechanics")}</a>`,esc(T(sub[1])))}${room("ritual",made.map(d=>rCurio(d)),{head:`<h1>${T("Mechanics")}</h1><p class="lede">${T("How the pack's bigger systems work: Goety's dark rituals, AE2 storage and how the combat stats work, with Linggango's own changes.")}</p>`,cols:4,label:T("Curios made by rituals")})}
 <nav class="mtabs" aria-label="${T("Mechanics")}">${MSEC.map(([k,l])=>`<a href="#mechanics/${k}"${k===sk?' aria-current="page"':""}>${T(l)}</a>`).join("")}</nav>
@@ -1152,6 +1155,25 @@ function immRank(){if(IMMR)return IMMR;const xs=D.filter(d=>immOf(d)).sort((p,q)
  xs.forEach((d,i)=>{const q=immOf(d).pts/top;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;d._immK=i+1;d._immT=GTIER[t][0]});return IMMR=xs}
 function immHtml(d){const o=immOf(d);if(!o)return"";const rk=immRank();
  return `<p>${T("Immunity rank {k} of {m}: tier {t}. It scores {pts} threat points for what it blocks (an estimate: each effect is weighted 1 to 3 by how much it hurts).",{k:d._immK,m:rk.length,t:d._immT,pts:o.pts})}</p><ul class="imm">${o.hits.map(h=>`<li><b>${esc(TD(h.n.replace(/^\w/,c=>c.toUpperCase())))}</b> · ${Math.round(h.w*100)/100}${h.part&&h.part<1?" ("+T("partly")+")":""}${h.why?` <small>${esc(TD(h.why))}</small>`:""}</li>`).join("")}</ul>${o.miss.length?`<p class="note">${T("Not counted: {names}. Only what it blocks is scored; its other effects are not.",{names:esc(o.miss.join(", "))})}</p>`:`<p class="note">${T("Only what it blocks is scored; its other effects are not.")}</p>`}`}
+/* Movement and loot ranking: only what the curio's own text states as a percent (movement speed; extra XP or drops), summed; a bonus that needs a
+   condition is listed, not counted. Flight, jumps, step height and Looting or Fortune levels are not percents and are not ranked here. Tiered S to D against the
+   fifth best (or the best, with fewer than five) like the rest. */
+const UCOND=/\b(per |max|on sand|while|when|standing|during|if |after|each|below|above|only|at night|unarmed|grants|upon|on respawn)\b|\bfor \d+ ?s\b/i,USEG=/\b(empty armou?r slots?|standing still)\b/i,USGN=s=>s==="-"||s==="\u2212"?-1:1;
+function utilOf(d){if(d._ut!==undefined)return d._ut;const o={},add=(c,v,cond,w)=>{const x=o[c]||(o[c]={pct:0,cond:[]});if(cond)x.cond.push(w);else x.pct+=v};
+ for(const sg of (d.fx||"").split(";")){const segc=USEG.test(sg);
+  for(const cl of sg.split(",")){const c=segc||UCOND.test(cl);
+   for(const m of cl.matchAll(/([+\u2212-]?)\s*(\d+(?:\.\d+)?)%\s*(?:more\s+)?(?:movement|move|sprint|walk\w*|run\w*)\s*speed/gi))add("move",USGN(m[1])*+m[2],c,m[0].trim());
+   const b=/\(\+(\d+(?:\.\d+)?)% of base walking speed\)/i.exec(cl);if(b)add("move",+b[1],c,b[0]);
+   for(const m of cl.matchAll(/drops?\s+(\d+(?:\.\d+)?)%\s+more\s+(?:xp|experience)/gi))add("loot",+m[1],c,m[0].trim());
+   if(/double\s+(?:xp|experience|barter rewards)/i.test(cl))add("loot",100,c,cl.trim())}}
+ for(const k in o)if(o[k].pct<=0){if(!o[k].cond.length)delete o[k];else o[k].pct=0}
+ for(const k in o)if(o[k].pct<=0)delete o[k];
+ return d._ut=Object.keys(o).length?o:null}
+const UTILN={move:"Movement speed",loot:"XP and drops"};let UTR=null;
+function utilRank(){if(UTR)return UTR;UTR={};for(const c of ["move","loot"]){const xs=D.filter(d=>utilOf(d)&&utilOf(d)[c]).sort((p,q)=>utilOf(q)[c].pct-utilOf(p)[c].pct||p.n.localeCompare(q.n)),ref=xs.length?utilOf(xs[xs.length<5?0:4])[c].pct:1;
+  xs.forEach((d,i)=>{const q=utilOf(d)[c].pct/ref;let t=GTIER_R.findIndex(f=>q>=f);if(t<0)t=GTIER.length-1;(d._ur=d._ur||{})[c]={k:i+1,m:xs.length,t:GTIER[t][0]}});UTR[c]=xs}return UTR}
+function utilHtml(d){const o=utilOf(d);if(!o)return"";utilRank();
+ return Object.keys(o).map(c=>{const r=d._ur[c],x=o[c];return `<p>${T("{cat} rank {k} of {m}: tier {t}. Its text states +{pct}%.",{cat:T(UTILN[c]),k:r.k,m:r.m,t:r.t,pct:Math.round(x.pct*100)/100})}</p>${x.cond.length?`<p class="note">${T("Conditional, not counted: {names}.",{names:esc(x.cond.join(", "))})}</p>`:""}`}).join("")}
 /* d.rq: the curio's own text says it needs the Ring of the Seven Curses or Virtues */
 const RQRING={Curses:"enigmaticlegacy:cursed_ring",Virtues:"covenant_of_the_seven:virtue_ring"},RQRX=/requires (?:the )?(?:Ring of )?(?:the )?Seven (?:Curses|Virtues)|Seven (?:Curses|Virtues) bearers only|\(Seven (?:Curses|Virtues)(?: path)?\)|Break the Ring of (?:the )?Seven Curses/i;
 D.forEach(d=>{if(d.id===RQRING.Curses||d.id===RQRING.Virtues)return;const m=RQRX.exec([d.fx,...d.st,...d.src].join(" | "));if(m)d.rq=/curses/i.test(m[0])?"Curses":"Virtues"});
@@ -2031,6 +2053,7 @@ function page(d){
  if(sh)secs.push(["stats",T("Stats"),sh]);
  if(typeof gCurioMs==="function"){const mh=gCurioMs(d);if(mh)secs.push(["ms",T("Measured in game"),mh])}
  if(immOf(d))secs.push(["im",T("Immunity"),immHtml(d)])
+ if(utilOf(d))secs.push(["ut",T("Movement and loot ranking"),utilHtml(d)])
  if(d.uid.length)secs.push(["uses",T("Used to craft"),`<div class="cards">${d.uid.map(o=>{const t=BYID[o];return `<a class="card"${t?` href="#i${t.ix}" data-t="${t.ix}"`:""}>${img(o)}<span>${esc(NM[o]||o)}${t?"":` <span class="meta">${T("(not a curio)")}</span>`}</span></a>`}).join("")}</div>`]);
  const bar=(v,l)=>`<div class="sg" style="grid-template-columns:150px 1fr;margin:var(--s1) 0"><span>${l}</span><div class="bar"><i style="width:${Math.round(Math.min(5,Math.max(0,v))*20)}%;background:var(--rc);opacity:.55"></i><span>${(+v).toFixed(1)} / 5</span></div></div>`;
   const same=D.filter(x=>x!==d&&x.m===d.m&&x.t===d.t).slice(0,8);
