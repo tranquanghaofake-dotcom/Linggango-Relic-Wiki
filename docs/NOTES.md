@@ -2142,3 +2142,15 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Chưa có nguồn cho số**: quy tắc "mỗi điểm Luck +2% damage, +2.5% attack speed, +2% dodge (dodge tối đa 15%)" chỉ nằm trong bảng viết tay ở `app.js` (Scroll of Blessing), không có trong file pack hay export trong repo; phải đọc từ file pack trước khi dùng để xếp hạng.
 - **Kiểm**: `check.sh` exit 0 (0 invariant hỏng, 0 lỗi QA dịch, a11y 0, script 0). Thêm bản dịch vi, ru, pt, es cho các chuỗi mới (ru, pt, es dùng dấu phẩy thập phân, es có khoảng trắng trước %).
 - **Open**: xếp tier cho 14 món dice/Luck (cần nguồn số Luck và mô hình giá trị kỳ vọng; đổi điểm trong `gear.js` làm tier các curio khác dịch, nên cần chủ wiki duyệt); bản dịch ru/pt/es của các chuỗi mới chưa có người bản ngữ duyệt.
+
+## 2026-11-18 (tiếp 2): dice có tier từ giá trị kỳ vọng trong text
+- **Ý chủ wiki**: "làm" sau khi tôi nêu: 14 món dice/Luck không có tier vì bài đo không thấy hiệu ứng xác suất.
+- **Đã làm** (`gear.js`: `GHITCODE`, `GTKCODE`, `gEvNote`): ba món mà text của chính chúng cho cả tỉ lệ lẫn mức tăng được tính theo giá trị kỳ vọng ở Luck 0, ghi trên trang là "đọc từ text, không đo":
+  - Lucky Dice: 20% True Crit ×1.66 → +13.2% sát thương.
+  - Fateful Coin: 50% Coin Crit ×1.5 → +25% gây ra; mob cùng tỉ lệ lên bạn → ×1.25 nhận vào (thay số đo ×1.5 của người thử, vốn là một lần crit chứ không phải kỳ vọng).
+  - Nullifying Dice: 10% sát thương bị hủy → ×0.9 nhận vào.
+- **Kết quả**: `curio_tiers.json` 253 → 255 (Lucky Dice, Nullifying Dice thêm vào; không curio nào khác đổi tier). Trang curio hiện dòng tier và mức cộng; trước đó trang Lucky Dice chỉ nói "changed nothing the test can see" (nhánh thoát sớm của `gCurioMs`, đã sửa).
+- **Chưa xếp, có lý do**: Fuzzy Dice, Loaded Dice, Slicer's Dice (text không có tỉ lệ hay mức tăng), Devil's Dice (kỹ năng chủ động, buff/debuff ngẫu nhiên), Weighted Die, Die of Revival, Poker Chip Bracelets, và các món Luck thuần (Ring of Luck, Gambler's Chain, Lucky Emerald Ring…). Quy tắc "mỗi điểm Luck +2% damage…" chỉ có trong bảng viết tay của `app.js`, chưa có nguồn từ file pack, nên không dùng.
+- **Cần để mắt**: trang Fateful Coin hiện hạng A (Act 0–I, Mage +10%) dù nhận thêm 25% sát thương; đó là kết quả của mô hình điểm hiện có (trọng số sống sót theo role), chưa ai xem lại. Số tier ở Luck 0, nên chỉ thấp hơn thực tế khi build có Luck.
+- **Kiểm**: `checks/chance_curios.js` mới; ảnh đã xem: trang Lucky Dice 1440; `check.sh` exit 0 (invariants 0, QA dịch 0 hard, a11y 0, script 0). Bản dịch vi, ru, pt, es cho 3 ghi chú mới.
+- **Open**: 11 món dice/Luck còn lại; nguồn số Luck; chủ wiki xem lại hạng A của Fateful Coin.
