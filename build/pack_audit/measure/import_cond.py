@@ -1,5 +1,6 @@
 """Curios sampled in game in conditions (lgw_measure_cond, kubejs/lgw_cond_measure.json) -> build/patches/curio_cond.json.
-Usage: python3 pack_audit/measure/import_cond.py lgw_cond_measure.json
+Usage: python3 pack_audit/measure/import_cond.py lgw_cond_measure.json [more batches of the same run…]
+Every file has its own bare-tester baseline ("(none)"), so batches run on separate servers (one run of 330 curios ran out of Java heap) are read each against its own.
 
 Each curio (and the bare tester, "(none)") is worn in each state of lgw_measure.js section 3c (low health, night, burning, sprinting, an undead target,
 a burning target, a target at a fifth of its health): N swings and M hits of 4 damage of each kind through the damage events. A curio's effect in a state is
@@ -10,12 +11,15 @@ its mean over the bare tester's in the same state. Per curio:
 The size is measured; the share is not."""
 import json, sys, pathlib, statistics
 H = pathlib.Path(__file__).resolve().parents[2] / "patches"
-X = json.load(open(sys.argv[1], encoding="utf-8")); C = X["cond"]; B = C["(none)"]
+XS = [json.load(open(f, encoding="utf-8")) for f in sys.argv[1:]]; X = XS[0]
 SH = {k: v["share"] for k, v in json.load(open(H / "effect_uptime.json"))["states"].items()}
 r3 = lambda v: round(v, 3); TH = 0.05
-out = {}
-for k, v in C.items():
+out = {}; NS = 0
+for X1 in XS:
+  C = X1["cond"]; B = C["(none)"]
+  for k, v in C.items():
     if k == "(none)": continue
+    NS += 1
     cd = []; hs_all = {}; tk_all = {}
     for st, rec in v.items():
         b = B[st]; hs = rec["hit"]["mean"] / b["hit"]["mean"] if b["hit"]["mean"] else 1
@@ -41,4 +45,4 @@ for k, v in C.items():
 res = {"_source": "Linggango 6.6.6cf server pack, sampled in game by build/pack_audit/kubejs/server_scripts/lgw_measure.js (lgw_measure_cond, " + X.get("started", "") + "); see build/pack_audit/measure/import_cond.py for what each field is.", "curios": out}
 (H / "curio_cond.json").write_text(json.dumps(res, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 print(len(out), "curios ->", H / "curio_cond.json")
-print("damage dealt counted", sum(1 for o in out.values() if "hs" in o), "| damage taken counted", sum(1 for o in out.values() if "tk" in o), "of", len(C) - 1, "sampled")
+print("damage dealt counted", sum(1 for o in out.values() if "hs" in o), "| damage taken counted", sum(1 for o in out.values() if "tk" in o), "of", NS, "sampled")
