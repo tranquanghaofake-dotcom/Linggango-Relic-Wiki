@@ -105,7 +105,7 @@ LGW.run = (server, who, name) => {
   var HITS = plan.hits || 3
   var level = who ? who.level : server.overworld()
   var say = m => { console.info('lgw_measure: ' + m); try { if (who) who.tell(m) } catch (e) {} }
-  var out = { started: '' + new Date(), check: {}, attrs: {}, melee: {}, armor: {}, grows: {}, curios: {}, ranged: {}, blocks: {}, minions: {}, errors: {} }
+  var out = { started: '' + new Date(), check: {}, attrs: {}, melee: {}, armor: {}, grows: {}, curios: {}, chance: {}, ranged: {}, blocks: {}, minions: {}, errors: {} }
   var told = 0
   var err = (stage, e, id) => {
     var w = typeof e == 'string' ? e : LGW.why(e), k = stage + ': ' + w.split(' @ ')[0].substring(0, 300)
@@ -348,6 +348,35 @@ LGW.run = (server, who, name) => {
     r.hits = swings(2, id || REF, null, true)
     r.hurt = hurt(8)
     return r
+  }
+  // 3b. chance (2026-11-18): a curio whose effect is a chance (a dice, a coin, a proc on a hit) cannot be read from two swings. It is
+  // sampled: worn, then N (plan.chanceN, 300) diamond-sword swings at fresh pigs and M (plan.chanceHurt, 200) hits of plan.chanceAmt (4: a x1.5 or x2 stays under the pack's cap of half the tester's health, which cut an 8 to 10) of each kind
+  // sent through the damage events, at each Luck level in plan.chanceLuck (default [0]); the Luck attribute is set on the tester after the
+  // curio is worn. Kept per level: the distribution of the damage dealt (value -> count), its mean, the effects the hits left on the pig
+  // and on the tester (effect -> hits that carried it), and the distribution and mean of the damage taken by kind. The mean over N is
+  // the expected value the wiki scores; the histogram shows what the chance is (a value that comes up one time in five is a 20% roll).
+  var A_LUCK = ForgeRegistries.ATTRIBUTES.getValue(rl('minecraft:generic.luck'))
+  var setLuck = v => c1(c1(P, 'getAttribute', A_LUCK), 'setBaseValue', v)
+  var stat = a => { var s = 0, h = {}; a.forEach(x => { s += x; var k = '' + (Math.round(x * 100) / 100); h[k] = (h[k] || 0) + 1 }); return { n: a.length, mean: a.length ? Math.round(s / a.length * 1000) / 1000 : 0, hist: h } }
+  var chance = id => {
+    var res = {}, N = plan.chanceN || 300, M = plan.chanceHurt || 200, L = plan.chanceLuck || [0]
+    L.forEach(lv => {
+      reset(); if (id) equipCurio(id)
+      ticks(40)
+      // a level is the Luck attribute ('5' = +5) or the Luck effect ('e5' = Luck V as a potion): the pack's text says "per Luck level"
+      if (('' + lv).charAt(0) == 'e') safe('luck effect', () => P.potionEffects.add('minecraft:luck', 72000, +('' + lv).substring(1) - 1), id)
+      else safe('luck', () => setLuck(+lv), id)
+      ticks(2)
+      wear(EquipmentSlot.MAINHAND, Item.of(REF)); ticks(5)
+      var hs = swings(N, id || REF, null, true), tf = {}, sf = {}
+      hs.forEach(h => { for (var e in h.tfx) tf[e] = (tf[e] || 0) + 1; for (var e2 in h.sfx) sf[e2] = (sf[e2] || 0) + 1 })
+      var hu = {}
+      for (var k = 0; k < M; k++) { var o = hurt(plan.chanceAmt || 4); for (var kind in o) (hu[kind] = hu[kind] || []).push(o[kind][1]) }
+      var hs2 = {}; for (var kk in hu) hs2[kk] = stat(hu[kk])
+      res['' + lv] = { hit: stat(hs.map(h => h.dmg)), tfx: tf, sfx: sf, hurt: hs2 }
+    })
+    safe('luck back', () => { setLuck(0); c0(P, 'removeAllEffects') }, id)
+    return res
   }
   // 4. shots: a bow, crossbow or thrown weapon drawn 40 ticks (bows reach full draw at 20) and let go, or for a crossbow loaded and
   // then fired, at a 10,000-health pig 5 blocks ahead at eye height; the arrow flies on the server's own ticks, so the job waits
@@ -678,6 +707,8 @@ LGW.run = (server, who, name) => {
   ;(plan.grows || []).forEach(id => jobs.push(() => { safe('grows', () => { out.grows[id] = grows(id) }, id) }))
   if ((plan.curios || []).length) jobs.push(() => { cur = '(none)'; safe('curio', () => { out.curios['(none)'] = curio(null) }, '(none)') })
   ;(plan.curios || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return } cur = id; safe('curio', () => { out.curios[id] = curio(id) }, id) }))
+  if ((plan.chance || []).length) jobs.push(() => { cur = '(none)'; safe('chance', () => { out.chance['(none)'] = chance(null) }, '(none)') })
+  ;(plan.chance || []).forEach(id => jobs.push(() => { if (!known(id)) { err('unknown item', 'not in this game', id); return } cur = id; safe('chance', () => { out.chance[id] = chance(id) }, id) }))
   // jobs that return { wait, then } go on after that many server ticks (shots in flight)
   if (plan.probe) { out.probe = []; jobs.push(() => { reset(); return arrowProbe(true) }); jobs.push(() => arrowProbe(false)) }
   // why the tester takes no damage in the hurt test (2026-11-17, a 6.6.6cf server: 8 in, 0 out for every kind, bare too): an 8-damage
@@ -735,6 +766,11 @@ ServerEvents.customCommand('lgw_measure_third', event => {
 })
 ServerEvents.customCommand('lgw_measure_third_test', event => {
   try { LGW.run(event.server, event.player, 'lgw_third_test') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
+})
+// lgw_measure_chance reads kubejs/lgw_chance_items.json ({"chance": [curio ids], "chanceN": 300, "chanceHurt": 200, "chanceLuck": [0, 10]}) and writes
+// kubejs/lgw_chance_measure.json; from the console (no player) it runs the same
+ServerEvents.customCommand('lgw_measure_chance', event => {
+  try { LGW.run(event.server, event.player, 'lgw_chance') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
 })
 ServerEvents.customCommand('lgw_measure', event => {
   try { LGW.run(event.server, event.player, 'lgw') } catch (e) { console.error('lgw_measure failed: ' + LGW.why(e)); try { event.player.tell('lgw_measure failed: ' + e) } catch (x) {} }
