@@ -1339,6 +1339,22 @@ const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.index
 function changesPage(){
  document.title=T("Changes")+" · Linggango Wiki";
  el("main").innerHTML=`${crumb(T("Changes"))}${room("vault",[],{head:`<h1>${T("Changes")}</h1><p class="lede">${T("What's new on the wiki, newest first.")}</p>`})}
+<section class="s" id="c-2026-11-18"><h2>${T("November 18, 2026")}</h2>
+<h3 class="ck add">${T("Added")}</h3><ul>
+<li>${T("<b>Spells:</b> a library of every spell in the pack's four spell systems (Iron's Spells, Goety, Ars Nouveau and Brutality), 708 in all, with search, filters, the numbers the mods and the pack's config give each spell, what makes it stronger, and a clip from the game for 637 of them. A spell with no clip says why.")}</li>
+<li>${T("<b>Rings in the Build planner:</b> choose the Ring of the Seven Curses, the Ring of the Seven Virtues, both or neither. The ring goes into a Ring slot, and a curio that needs a ring you have not chosen is dimmed with a warning.")}</li>
+<li>${T("<b>Gambler starter build:</b> dice, coins and other chance-based curios, with the Luck curios that raise their odds. For Lucky Dice, Fateful Coin, Nullifying Dice and Devil's Dice the totals panel shows what the chance is worth on average at your Luck.")}</li>
+<li>${T("<b>Sampled in game:</b> curios whose effect is a chance (dice, coins, procs) or needs a state (low health, night, burning, sprinting, an undead target) were worn in the running pack and hit or were hit hundreds of times, and the curio page shows the average. The Luck effect raises the odds as the texts say; the Luck attribute does nothing.")}</li>
+<li>${T("<b>Immunity ranking</b> (Mechanics › Effects): the curios that block effects or hazards, ranked by how many and how strong. The strength of each effect is an estimate, set in a table.")}</li>
+<li>${T("<b>Movement and loot ranking</b> and <b>Stated percent ranking</b> (Mechanics › Stats): movement and loot curios ranked by the percent their text states, and the others by the percents their text states, with a share counted for a bonus that needs a condition.")}</li>
+<li>${T("<b>Where every curio stands</b> (Mechanics › Stats): every curio except the Looting Charms is in a table by how it was ranked, and the ones with no number to rank by are listed by what their text is about.")}</li>
+</ul>
+<h3 class="ck chg">${T("Changed")}</h3><ul>
+<li>${T("<b>Mechanics</b> is now four pages: Goety rituals, AE2 storage, Effects and Stats.")}</li>
+<li>${T("<b>Effects</b> lists every status effect the game registers (973 in 83 mods) with its kind, icon, attribute changes and the items and spells that give it. Effect names on item pages link there.")}</li>
+<li>${T("<b>Equipment ranking</b> uses numbers measured in game for Ranged and Summon weapons too (shots with reloads, minion damage). The Mage's own attack and the whips have their own tables, the Act only decides what is open to you, and a curio is ranked only for the playstyle it serves.")}</li>
+<li>${T("<b>Curio tiers:</b> 288 curios have a tier from numbers measured in game. The page of every other curio says what its power is read from and why the game test could not measure it.")}</li>
+</ul></section>
 <section class="s" id="c-2026-11-12"><h2>${T("November 12, 2026")}</h2>
 <h3 class="ck add">${T("Added")}</h3><ul>
 <li>${T("<b>New home page, The Climb:</b> The Path at dusk. One brick column for each Act, with its Keeper on top. Point at a column and it grows while its neighbours shrink like a wave, and the Keeper walks. A sky with a sun, a moon, a castle on a peak, floating islands, clouds and birds fills the screen.")}</li>

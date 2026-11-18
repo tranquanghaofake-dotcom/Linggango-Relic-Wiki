@@ -72,6 +72,12 @@ How the pieces fit: `build/README.md`; why they are shaped that way: `build/ARCH
 - Do not build what the reader cannot see yet: The Path opens one Act (the reader's "I'm here" Act, else Act 0–I) and builds a collapsed Act's tiles when it opens.
 - Desktop and laptop first; check phones (375 px) for anything that can overflow.
 
+## Changes page (`#changes`)
+- **The date of a day is the day the owner says it**, when they ask for the Changes to be updated; not the day a commit was made or a step was done. A new day goes on top (`id="c-YYYY-MM-DD"`), a day already there is not rewritten.
+- **A day is a summary of every new feature compared with the old wiki** (the wiki as the previous day of this page describes it), as the reader sees it. It is not a log of the work done: no process, no measurement runs, no tools, no bugs found and fixed on the way, no states the feature went through; a feature that was added and changed within the same stretch is one entry.
+- Groups are Added, Changed and Fixed only (`checks/changes.js`); an entry names the feature first (`<b>Feature:</b>`), then says what the reader can do or see in a sentence or two. A count in an entry is read from the built site first (`docs/NOTES.md` rule "Docs say only what was checked").
+- Every entry is a `T("…")` sentence and needs its translation in vi, ru, pt and es (`build/i18n/tm/<lang>/ui.json`; the glossary decides terms such as Mechanics and Act, and the tab names are the ones the interface uses).
+
 ## Content
 - Naming: the progression as a whole is "The Path"; each stage is an "Act" (Act 0–I, Act II, … Warden Act).
 - The curio list page (`#home`) is called "Curios" (nav, breadcrumbs, title); "The Path" names the progression map on the hub and the Acts, not that page.
