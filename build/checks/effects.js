@@ -25,9 +25,20 @@
     for (const id of ['irons_spellbooks', 'terramity', 'relics']) if (Object.keys(ic).some(k => k.startsWith(id + ':'))) bad.push('effects: icons from ' + id + ' (build/README.md Licence rules)');
     // the page
     location.hash = '#mechanics/effects'; await wait(80); render(); await wait(300);
-    const n = () => document.querySelectorAll('#etb tr').length, q = document.getElementById('eq'), m = document.getElementById('em'), k = document.getElementById('ek'), inp = (e, v) => { e.value = v; e.dispatchEvent(new Event('input', { bubbles: true })); };
+    const n = () => document.querySelectorAll('#etb tr').length, q = document.getElementById('eq'), g = document.getElementById('eg'), m = document.getElementById('em'), k = document.getElementById('ek'), inp = (e, v) => { e.value = v; e.dispatchEvent(new Event('input', { bubbles: true })); };
     if (n() !== 60) bad.push('effects: the first draw has ' + n() + ' rows, want 60');
-    if (document.getElementById('en')?.textContent !== X.length + ' of ' + X.length) bad.push('effects: the count line says ' + document.getElementById('en')?.textContent);
+    // the page opens on the effects something in the pack gives (2026-11-18): a curio that only blocks an effect ("Immune to Darkness") is not a way to get it
+    { const ng = +(g?.options[0].textContent.match(/\((\d+)\)/) || [])[1];
+      if (g?.value !== 'g' || !(ng > 100 && ng < X.length)) bad.push('effects: the list does not open on "Effects you can get" (' + g?.value + ', ' + ng + ')');
+      if (document.getElementById('en')?.textContent !== ng + ' of ' + ng) bad.push('effects: the count line says ' + document.getElementById('en')?.textContent + ', want ' + ng + ' of ' + ng);
+      for (let i = 0; i < 10 && document.querySelector('#emore button'); i++) document.querySelector('#emore button').click();
+      for (const tr of document.querySelectorAll('#etb tr')) { tr.querySelectorAll('details').forEach(d => d.open = true); const c = tr.querySelectorAll('td.nchs .nch'); if (!c.length || [...c].every(x => x.classList.contains('nblk'))) bad.push('effects: ' + tr.id + ' is in "Effects you can get" with nothing that gives it'); }
+      for (const x of document.querySelectorAll('#etb .nblk a[data-t]')) { const d = D[+x.dataset.t]; if (!d || !/immun|prevent|negat|cure|remov|cleans|nullif|protect|resist|ward|unaffected/i.test(d.fx || '')) bad.push('effects: ' + x.textContent + ' is marked "blocks it" but its text blocks nothing'); }
+      // a curio that says "Immune to Darkness" never stands among the curios that give Darkness
+      const dk = document.getElementById('eff-minecraft-darkness');
+      if (dk) for (const c of dk.querySelectorAll('.nch:not(.nblk) a[data-t]')) { const d = D[+c.dataset.t]; if (d && /immune to[^.;]*\bDarkness\b/i.test(d.fx || '')) bad.push('effects: ' + d.n + ' is immune to Darkness and listed as giving it'); }
+      inp(g, ''); }
+    if (document.getElementById('en')?.textContent !== X.length + ' of ' + X.length) bad.push('effects: All effects: the count line says ' + document.getElementById('en')?.textContent);
     inp(q, 'bleeding'); if (n() < 2 || n() > 60 || ![...document.querySelectorAll('#etb tr')].every(t => /bleeding/i.test(t.textContent))) bad.push('effects: filter "bleeding" gives ' + n() + ' rows');
     inp(q, 'zzzzqq'); if (n() !== 0) bad.push('effects: a nonsense filter still shows ' + n() + ' rows'); inp(q, '');
     inp(m, 'Minecraft'); if (document.getElementById('en')?.textContent !== VANILLA.length + ' of ' + X.length) bad.push('effects: mod Minecraft says ' + document.getElementById('en')?.textContent); inp(m, '');
@@ -35,6 +46,13 @@
     for (let i = 0; i < 40 && document.querySelector('#emore button'); i++) document.querySelector('#emore button').click();
     if (n() !== X.length) bad.push('effects: Show more ends at ' + n() + ' rows of ' + X.length);
     if (/undefined|NaN|\[object/.test(document.getElementById('main').innerText)) bad.push('effects: undefined, NaN or [object] on the page');
+    // attribute names read as names (2026-11-18: all 67 were the id run together, "minecraftgenericluck"), and no modifier shows +0 (Strength, Weakness: the value is in the effect's code)
+    for (const [a, v] of Object.entries(window.EFXA || {})) if (!v || v === a || v.toLowerCase() === a.replace(/[^a-z0-9]/gi, '').toLowerCase() || !/[A-Z]/.test(v[0])) bad.push('effects: attribute ' + a + ' is named "' + v + '"');
+    for (const tr of document.querySelectorAll('#etb tr')) { const t = tr.children[2]?.textContent || ''; if (/(^|\s)[+−]0(%|\s|$)/.test(t)) bad.push('effects: ' + tr.id + ' shows a modifier of 0: ' + t.slice(0, 80));
+      if (/^eff-minecraft-/.test(tr.id) && /No description/.test(t)) bad.push('effects: vanilla ' + tr.id + ' has no description'); }
     for (const a of document.querySelectorAll('#etb a[data-t]')) { const t = a.dataset.t; if (/^g\d+$/.test(t) ? !GE[+t.slice(1)] : /^\d+$/.test(t) ? !D[+t] : false) bad.push('effects: link data-t ' + t + ' resolves to nothing'); }
   }
+  // an effect name on an item page opens the list on that effect, marked and first
+  location.hash = '#mechanics/effects/Speed'; await wait(80); render(); await wait(300);
+  { const f = document.querySelector('#etb tr'); if (!f || f.id !== 'eff-minecraft-speed' || !f.classList.contains('hl')) bad.push('effects: #mechanics/effects/Speed does not open on Speed, marked (' + (f && f.id) + ')'); }
   location.hash = '#mechanics'; await wait(80); render(); }

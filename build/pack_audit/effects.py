@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Every status effect in the pack, read from the jars -> build/patches/effects.json (+ effect_icons.json).
 Usage: python3 -I effects.py MODS_DIR SRG_SERVER_JAR VANILLA_CLIENT_JAR
+       python3 -I effects.py --lang MODS_DIR VANILLA_CLIENT_JAR   (names, descriptions, attribute names only; no jawa needed)
   The list itself is the game's: patches/game_registry.json (pack_audit/kubejs/server_scripts/lgw_registry.js run in the server pack) names every
   registered effect with its category, colour and attribute modifiers; the jars add names, descriptions and icons. Without that file the list falls
   back to the jar scan below.
@@ -14,10 +15,10 @@ What is read, per effect (the game's registry id is namespace:name):
   lang          effect.<ns>.<name> is the name; any effect.<ns>.<name>.<x> key with text is the mod's own description
   texture       assets/<ns>/textures/mob_effect/<name>.png, kept only where the licence in the jar's mods.toml allows (build/README.md, Licence rules)
 An effect found only in lang or textures (no registration seen) is listed with reg=false and src naming where it was seen."""
-import sys, os, re, io, json, zipfile, glob, base64, collections
+import sys, os, re, io, json, zipfile, glob, base64, collections, tomllib
 H = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(H, '..', 'gear'))
-import classlib as CL
+CL = None   # classlib (jawa), imported by main(): the --lang pass reads only lang files and needs neither
 OUT = os.path.join(H, '..', 'patches')
 ATT = 'Lnet/minecraft/world/entity/ai/attributes/Attribute;'
 ADD = '(' + ATT + 'Ljava/lang/String;DLnet/minecraft/world/entity/ai/attributes/AttributeModifier$Operation;)Lnet/minecraft/world/effect/MobEffect;'
@@ -78,14 +79,18 @@ def read_region(cp, k, ins, attr_name, seen=None):
     return cat, col, ctor, mods
 
 
-def main(mods_dir, srg_jar, client_jar):
-    jars = sorted(glob.glob(os.path.join(mods_dir, '*.jar')))
-    cp = CL.ClassPath([srg_jar] + jars, sort=False)
+def mods_toml(z):
+    try: return tomllib.loads(z.read('META-INF/mods.toml').decode('utf8', 'ignore'))
+    except Exception: return {}
+
+
+def read_assets(jars, client_jar):
+    """lang (effect keys per namespace), alang (every lang key per jar), textures, and which jar holds which namespace"""
     alang = {}; lang = collections.defaultdict(dict); tex = {}; jarns = collections.defaultdict(set); jarinfo = {}; nsjar = {}
     for p in jars + [client_jar]:
         try: z = zipfile.ZipFile(p)
         except Exception: continue
-        mt = CL.mods_toml(z) if p != client_jar else {}
+        mt = mods_toml(z) if p != client_jar else {}
         ids = [m.get('modId') for m in mt.get('mods', [])]; disp = {m.get('modId'): m.get('displayName') for m in mt.get('mods', [])}
         jarinfo[p] = {'ids': ids, 'lic': str(mt.get('license', '')), 'disp': disp}
         for n in z.namelist():
@@ -94,12 +99,38 @@ def main(mods_dir, srg_jar, client_jar):
                 try: d = json.loads(re.sub(r',(\s*[}\]])', r'\1', z.read(n).decode('utf-8', 'replace')))
                 except Exception: continue
                 for kk, v in d.items():
-                    if kk.startswith('effect.') and isinstance(v, str): lang[m.group(1)][kk] = v
-                    elif kk.startswith('attribute.') and isinstance(v, str): alang.setdefault(kk, v)
+                    if not isinstance(v, str): continue
+                    # an effect key is filed under its own namespace, whichever jar ships it: Apothic Attributes writes descriptions for vanilla effects
+                    # (effect.minecraft.fire_resistance.desc in assets/attributeslib); the effect's own jar wins over another jar's text
+                    km = re.match(r'effect\.([a-z0-9_.-]+?)\.', kk)
+                    if kk.startswith('effect.') and km:
+                        if m.group(1) == km.group(1) or kk not in lang[km.group(1)]: lang[km.group(1)][kk] = v
+                    alang.setdefault(p, {})[kk] = v
                 jarns[p].add(m.group(1)); nsjar.setdefault(m.group(1), p)
             m = re.match(r'assets/([a-z0-9_.-]+)/textures/mob_effect/(.+)\.png$', n)
             if m: tex[(m.group(1), m.group(2))] = (p, z.read(n)); jarns[p].add(m.group(1)); nsjar.setdefault(m.group(1), p)
         for i in ids: jarns[p].add(i); nsjar.setdefault(i, p)
+    return lang, alang, tex, jarns, jarinfo, nsjar
+
+
+# an attribute's name: its lang key is the descriptionId set in its constructor, and each mod shapes it its own way (attribute.name.generic.luck,
+# attributeslib:crit_chance, attribute.celestial_core.regen_rate, forge.swim_speed, Brutality's attribute.name.generic.<name>). Only the jar that
+# owns the namespace (the client jar for minecraft) is asked, so another mod's look-alike key never names it; no key found stays null
+def aname(a, alang, nsjar, client_jar):
+    ns, path = a.split(':', 1); tail = path.split('.')[-1]
+    jar = client_jar if ns == 'minecraft' else nsjar.get(ns)
+    L = alang.get(jar, {})
+    for kk in ('attribute.name.' + path, a, 'attribute.%s.%s' % (ns, path), 'attribute.name.%s.%s' % (ns, path), '%s.%s' % (ns, path), 'attribute.name.generic.' + tail, 'attribute.%s.name.%s' % (ns, path)):
+        if L.get(kk): return L[kk]
+    return None
+
+
+def main(mods_dir, srg_jar, client_jar):
+    global CL
+    import classlib as CL
+    jars = sorted(glob.glob(os.path.join(mods_dir, '*.jar')))
+    cp = CL.ClassPath([srg_jar] + jars, sort=False)
+    lang, alang, tex, jarns, jarinfo, nsjar = read_assets(jars, client_jar)
     # attribute registry names: a static field of an Attribute type -> the string put next to it in <clinit> (vanilla Attributes, mod attribute holders)
     amap = {}
     def attr_name(owner, field):
@@ -204,10 +235,29 @@ def main(mods_dir, srg_jar, client_jar):
         rows.append(row)
         if row['icon']: icons[row['id']] = base64.b64encode(tex[(ns, name)][1]).decode()
     used = sorted({m['attr'] for r in rows for m in r['mods'] if m['attr']})
-    json.dump({'effects': rows, 'unconfirmed': unconf, 'attrs': {a: alang.get(a) for a in used}}, open(os.path.join(OUT, 'effects.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0, separators=(',', ':'), sort_keys=True)
+    json.dump({'effects': rows, 'unconfirmed': unconf, 'attrs': {a: aname(a, alang, nsjar, client_jar) for a in used}}, open(os.path.join(OUT, 'effects.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0, separators=(',', ':'), sort_keys=True)
     json.dump(icons, open(os.path.join(OUT, 'effect_icons.json'), 'w'), separators=(',', ':'), sort_keys=True)
     c = collections.Counter(r['src'] for r in rows)
     print('effects', len(rows), 'unconfirmed (lang or icon only)', len(unconf), dict(c), 'icons', len(icons), 'with category', sum(1 for r in rows if r['cat']), 'with modifiers', sum(1 for r in rows if r['mods']))
 
 
-if __name__ == '__main__': main(*sys.argv[1:4])
+def relang(mods_dir, client_jar):
+    """--lang: names, descriptions and attribute names again from a pack's jars, on the list effects.json already holds (the game's own,
+    from game_registry.json): ids, categories, colours, modifiers and icons stay as they are; a name or description the jars lack keeps the old one"""
+    jars = sorted(glob.glob(os.path.join(mods_dir, '*.jar')))
+    lang, alang, tex, jarns, jarinfo, nsjar = read_assets(jars, client_jar)
+    P = os.path.join(OUT, 'effects.json'); E = json.load(open(P, encoding='utf-8')); nn = nd = 0
+    for r in E['effects']:
+        ns, name = r['id'].split(':', 1); L = lang.get(ns, {})
+        t = L.get('effect.%s.%s' % (ns, name)); d = next((v for kk, v in sorted(L.items()) if kk.startswith('effect.%s.%s.' % (ns, name)) and v and not v.startswith('effect.')), None)
+        if t and t != r['name']: r['name'] = t; nn += 1
+        if d and d != r['desc']: r['desc'] = d; nd += 1
+        if t and '+lang' not in r['src']: r['src'] = r['src'].replace('+tex', '') + '+lang' + ('+tex' if '+tex' in r['src'] else '')
+    E['attrs'] = {a: aname(a, alang, nsjar, client_jar) or E['attrs'].get(a) for a in E['attrs']}
+    json.dump(E, open(P, 'w', encoding='utf-8'), ensure_ascii=False, indent=0, separators=(',', ':'), sort_keys=True)
+    print('effects', len(E['effects']), 'names changed', nn, 'descriptions changed', nd, 'attributes named', sum(1 for v in E['attrs'].values() if v), 'of', len(E['attrs']))
+
+
+if __name__ == '__main__':
+    if sys.argv[1:2] == ['--lang']: relang(*sys.argv[2:4])
+    else: main(*sys.argv[1:4])

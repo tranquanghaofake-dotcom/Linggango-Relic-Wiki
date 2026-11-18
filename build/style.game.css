@@ -2399,6 +2399,21 @@ body.qbook .bcardl:has(>.bfig){grid-template-columns:112px minmax(0,1fr)}
 .ekb{display:inline-block;padding:1px var(--s2);border-radius:4px;font:700 12px var(--body);background:#ffffff12;color:#c9ccd2;white-space:nowrap}
 .ek-b .ekb{background:#47b05a26;color:#8fe39f}.ek-h .ekb{background:#e0565b26;color:#ff9a9e}
 .eno{color:var(--gui-mute);font-size:12.5px;font-style:italic}
+.ekb.ekb-b{background:#47b05a26;color:#8fe39f}.ekb.ekb-h{background:#e0565b26;color:#ff9a9e}
+/* Effects: the key above the list, the row a link opened, and cards on a phone (the 4-column table would scroll sideways) */
+#m-effects .ekey{margin:var(--s2) 0 var(--s3);padding-left:1.2em;font-size:13.5px;color:var(--gui-mute);line-height:1.7}
+#m-effects .ekey b{color:#e8e8e8}
+#m-effects .rtab tr.hl td{background:#ffd75a1f}#m-effects .rtab tr.hl td:first-child{box-shadow:inset 3px 0 0 #ffd75a}
+@media (max-width:640px){
+ #m-effects .rtw{max-height:none;overflow:visible}
+ #m-effects .rtab,#m-effects .rtab tbody,#m-effects .rtab tr,#m-effects .rtab td{display:block;min-width:0;width:auto}
+ #m-effects .rtab thead{display:none}
+ #m-effects .rtab tr{padding:var(--s2) var(--s2) var(--s2) var(--s3);border-bottom:1px solid #ffffff14;box-shadow:inset 3px 0 0 #8a8f99}
+ #m-effects .rtab tr.ek-b{box-shadow:inset 3px 0 0 #47b05a}#m-effects .rtab tr.ek-h{box-shadow:inset 3px 0 0 #e0565b}#m-effects .rtab tr.hl{box-shadow:inset 3px 0 0 #ffd75a;background:#ffd75a1f}
+ #m-effects .rtab td,#m-effects .rtab td:first-child{padding:2px 0;box-shadow:none;border:0}
+ #m-effects .rtab tr td.nchs{min-width:0}
+ #m-effects .rflt{flex-wrap:wrap}#m-effects .rflt input{flex:1 1 100%}
+}
 #m-effects .rtab td.nchs{min-width:300px}
 .bev{margin:var(--s1) 0 var(--s2);padding-left:var(--s4);font-size:12.5px}
 

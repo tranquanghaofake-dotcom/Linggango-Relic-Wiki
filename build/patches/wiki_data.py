@@ -52,7 +52,9 @@ out += "const BEXTRA=" + json.dumps(J("boss_extra.json"), ensure_ascii=False, se
 (H.parent / "src" / "wiki_data.js").write_text(out, encoding="utf-8")
 # every status effect in the pack (pack_audit/effects.py), the gear that gives each one (gear_fx.json) and the icons the licences allow: only the Effects page shows them, so they go to wiki_pics.js
 _ef = J("effects.json")
-_ea = {k: (re.sub(r"[^A-Za-z0-9 ]+", "", re.sub(r"§.", "", v or k)).strip() or k) for k, v in _ef["attrs"].items()}
+# an attribute's name from its mod's lang (effects.py aname); one whose key the jars do not hold (a library nested in another jar) reads as its id's last
+# part ("forge:step_height_addition" -> "Step Height Addition"), never as the id run together
+_ea = {k: (re.sub(r"[^A-Za-z0-9' ]+", "", re.sub(r"§.", "", v or "")).strip() or k.split(":")[1].split(".")[-1].replace("_", " ").title()) for k, v in _ef["attrs"].items()}
 def _slim(r):
     o = {"i": r["id"], "n": r["name"] or "", "m": r["mod"]}
     for k, f in (("cat", "k"), ("color", "c"), ("desc", "d"), ("mods", "a")):

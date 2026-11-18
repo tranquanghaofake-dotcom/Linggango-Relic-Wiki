@@ -314,8 +314,8 @@ const EFFECTS=[
  {n:"Well Fed",k:"Food",d:"Attack, spell, summon and arrow damage and movement speed +5%, a little mining speed. A meal scoring 12 or more (cooked chicken is 13). Lasts 10 minutes.",note:"Any meal scoring 12 or more"},
  {n:"Plenty Satisfied",k:"Food",d:"The same bonuses at +10%. A meal scoring 24 or more. Lasts 15 minutes.",note:"Any meal scoring 24 or more"},
  {n:"Exquisitely Stuffed",k:"Food",d:"The same bonuses at +15%. A meal scoring 30 or more: every bowl and plate from a cooking pot. Lasts 20 minutes.",note:"Any meal scoring 30 or more"},
- {n:"Exposed",k:"Linggango",d:""},
- {n:"Familiar Face",k:"Linggango",d:""},
+ {n:"Exposed",k:"Linggango",d:"Flinches when hit and takes 20% more damage. Parries, rolls and some combat arts put it on mobs."},
+ {n:"Familiar Face",k:"Linggango",d:"Shown while you wear Emerald armour; its level is the number of pieces. Villagers lower their prices by 20, 30, 40 or 50% for 1 to 4 pieces.",note:"Emerald armour, worn"},
  {n:"Winded",k:"Linggango",d:"You hit the ground hard. Give yourself a second to get back up."},
  {n:"Erosion",k:"Linggango",d:"The End is rubbing you out. Each level takes 8% of your max health until you find cover."},
  {n:"Bleeding",k:"Linggango",d:"Loses a bit of health every half second, twice as much while moving."},
@@ -329,10 +329,24 @@ const EFFECTS=[
  {n:"Unravelled",k:"Linggango",d:"Takes 20% more elemental and magic damage."},
  {n:"Chaos Spent",k:"Linggango",d:"Your Chaos Surge is recharging. Until this ends, a killing blow kills you."},
  {n:"Paradox Charge",k:"Linggango",d:"Damage your armour blocked, waiting to be unleashed by your next melee hit. When this runs out it bursts inside you for half."},
- ...["Speed","Slowness","Haste","Mining Fatigue","Strength","Jump Boost","Nausea","Regeneration","Resistance","Fire Resistance","Water Breathing","Invisibility","Blindness","Night Vision","Hunger","Weakness","Poison","Wither","Absorption","Saturation","Glowing","Levitation","Slow Falling","Darkness","Health Boost"].map(n=>({n,k:"Vanilla",d:""}))
+ // vanilla: what Minecraft 1.20.1's own code does (an empty d keeps the game's text; the numbers a modifier already shows are not repeated)
+ ...Object.entries({"Speed":"Walk and run faster.","Slowness":"Walk and run slower.","Haste":"Mine 20% faster per level, and attack faster.","Mining Fatigue":"Mine far slower: ×0.3 at level I, ×0.09 at II, ×0.0027 at III, less beyond. Attacks are slower too.",
+  "Strength":"+3 attack damage per level. The game adds it in the effect's own code, so no modifier shows here.","Jump Boost":"","Nausea":"The screen warps and wobbles.","Regeneration":"",
+  "Resistance":"Cuts the damage you take. Linggango rescales it: I 20%, V 38%, X 60%; vanilla Resistance V would make you immune.","Fire Resistance":"","Water Breathing":"","Invisibility":"",
+  "Blindness":"Thick fog cuts your sight to a few blocks; you can't sprint or land critical hits.","Night Vision":"","Hunger":"Your food bar drains faster.",
+  "Weakness":"−4 attack damage per level. The game takes it off in the effect's own code, so no modifier shows here.","Poison":"","Wither":"Loses health over time, faster at higher levels, and can kill. The hearts turn black.",
+  "Absorption":"4 extra health per level as golden hearts. They are lost first when hit and do not heal back.","Saturation":"Fills the food bar and saturation every tick.","Glowing":"An outline that shows through walls.",
+  "Levitation":"Floats you upward; a higher level rises faster.","Slow Falling":"Fall slowly and take no fall damage.","Darkness":"The view darkens and pulses. The Warden and sculk shriekers give it.",
+  "Health Boost":"Raises max health; the new hearts start empty.","Bad Omen":"Walking into a village with it starts a raid; a higher level makes the raid harder.","Hero of the Village":"Villagers lower their prices and throw you gifts. Won by beating a raid.",
+  "Conduit Power":"Breathe, see and mine at normal speed underwater, near an active conduit.","Dolphin's Grace":"Swim much faster, near dolphins.","Luck":"Better rolls on loot. Chance-based curios read this effect's level.","Bad Luck":"Worse rolls on loot.",
+  "Instant Health":"","Instant Damage":""}).map(([n,d])=>({n,k:"Vanilla",d}))
 ].map(e=>({...e,re:effRe(e.n)}));
+// a sentence that keeps an effect off you rather than giving it (Effects page, "Given by")
+function effBlocks(fx,re){const sn=fx.split(/(?<=[.;!])\s+|\n/).find(x=>re.test(x))||fx,pre=sn.slice(0,sn.match(re).index),last=(rx)=>{let i=-1;for(const m of pre.matchAll(new RegExp(rx.source,"gi")))i=m.index;return i};
+ const b=last(EBLOCK);return b>=0&&b>last(/\b(?:grants?|gives?|gain|inflicts?|appl(?:y|ies)|causes?|deals?|afflicts?)\b/)}
+const EBLOCK=/\bimmun(?:e|ity) (?:to|against)\b|\bprevents?\b|\bnegates?\b|\bcures?\b|\bremov(?:e|es|ing)\b|\bcleans|\bnullif|\bprotects? (?:you )?(?:from|against)|\bcan(?:no|')t be (?:given|inflicted|afflicted)|\bresist(?:s|ance to)\b|\bwards? off|\bunaffected by/i;
 // effect names in an item's text link to the Effects list
-function effHint(h){for(const e of EFFECTS){const m=h.match(e.re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/effects" title="${esc(TD(e.n))}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
+function effHint(h){for(const e of EFFECTS){if(/Luck$/.test(e.n))continue;/* "Luck" in an item's text is mostly the attribute */const m=h.match(e.re);if(!m)continue;const pre=h.slice(0,m.index);if(/<[^>]*$/.test(pre)||pre.lastIndexOf('<a class="sth"')>pre.lastIndexOf("</a>"))continue;h=pre+`<a class="sth" href="#mechanics/effects/${enc(e.n)}" title="${esc(TD(e.n))}">${m[0]}</a>`+h.slice(m.index+m[0].length)}return h}
 /* ---------- Spells: every spell the jars register (pack_audit/spells.py); the rows and icons come with wiki_pics.js (SPL, SPLI) ---------- */
 const SCOL={annihilation:"#c2185b",fire:"#e8602c",ice:"#7fd0ff",lightning:"#ffe14a",holy:"#fff3b0",ender:"#b36bff",blood:"#c0262d",evocation:"#79c84a",nature:"#5fbf4a",eldritch:"#5aa5a0",geo:"#b08a5a",aqua:"#3f8fe0"};
 // Spells is one library for the four spell systems (2026-11-17, docs/plans/2026-11-17-spell-library.md): one search, the system chips, filters with live
@@ -601,9 +615,13 @@ ${typeof ROOMT!=="undefined"&&ROOMT.ae2_item_storage_cell_1k?slotRow([["1k",0],[
 <p>${T("The wireless range is {a} blocks around a Wireless Access Point before boosters. These terminals can be worn in the Curio slot, so you can use them without holding them: {b}. The plain Wireless Terminal can't.",{a:A.wireless_range,b:A.curio.map(esc).join(", ")})}</p>
 </section>`,
  effects:()=>{needPics();const X=window.EFX||[];return `<section class="s" id="m-effects"><h2>${T("Effects")}</h2>
-<p>${T("Status effects in the pack, what each one does, and the items whose own text names it. Food buffs are not an item: eating a meal that scores high enough gives them, as set in <code>linggango_tweaks-common.toml</code>.")}</p>
-<p class="note">${T("Every effect the game registers: {n} in {m} mods, listed by the running pack itself, with each effect's category, colour and attribute changes. Names, descriptions and icons come from the mods' own files.",{n:X.length,m:new Set(X.map(e=>e.m)).size})}</p>
-<div class="rflt"><input id="eq" type="search" aria-label="${T("Find an effect, mod or item…")}" placeholder="${T("Find an effect, mod or item…")}"><select id="em" aria-label="${T("All mods")}"><option value="">${T("All mods")}</option>${[...new Set(X.map(e=>e.m))].sort((a,b)=>(a==="Minecraft"?-1:b==="Minecraft"?1:a.localeCompare(b))).map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join("")}</select><select id="ek" aria-label="${T("All kinds")}"><option value="">${T("All kinds")}</option><option value="b">${T("Beneficial")}</option><option value="h">${T("Harmful")}</option><option value="n">${T("Neutral")}</option></select><span id="en"></span></div>
+<p>${T("Status effects: what each one does and what gives it, from a curio, a weapon, armour, a spell or a meal. The list opens on the effects something in the pack gives you; switch to all effects to see the {n} that the {m} mods register.",{n:X.length,m:new Set(X.map(e=>e.m)).size})}</p>
+<nav class="mtabs" aria-label="${T("Effects")}"><a href="#mechanics/effects" data-go="m-eff-list">${T("Effect list")}</a><a href="#mechanics/effects" data-go="m-imm">${T("Immunity ranking")}</a></nav>
+<ul class="ekey"><li><span class="ekb ekb-b">${T("Beneficial")}</span> <span class="ekb ekb-h">${T("Harmful")}</span> <span class="ekb">${T("Neutral")}</span> ${T("is the game's own category, also shown as the bar on the left.")}</li>
+<li>${T("<b>per level</b>: the change at level I; level II doubles it, level III triples it.")}</li>
+<li>${T("<b>†</b>: the mod gives this effect no name, so its id is shown.")}</li>
+<li>${T("Names, descriptions and icons come from the mods' own files; food buffs are set in <code>linggango_tweaks-common.toml</code>.")}</li></ul>
+<div class="rflt" id="m-eff-list"><input id="eq" type="search" aria-label="${T("Find an effect, mod or item…")}" placeholder="${T("Find an effect, mod or item…")}"><select id="eg" aria-label="${T("Which effects")}"><option value="g">${T("Effects you can get")}</option><option value="">${T("All effects")}</option></select><select id="em" aria-label="${T("All mods")}"><option value="">${T("All mods")}</option>${[...new Set(X.map(e=>e.m))].sort((a,b)=>(a==="Minecraft"?-1:b==="Minecraft"?1:a.localeCompare(b))).map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join("")}</select><select id="ek" aria-label="${T("All kinds")}"><option value="">${T("All kinds")}</option><option value="b">${T("Beneficial")}</option><option value="h">${T("Harmful")}</option><option value="n">${T("Neutral")}</option></select><span id="en"></span></div>
 <div class="tw rtw"><table class="rtab"><thead><tr><th>${T("Effect")}</th><th>${T("Type")}</th><th>${T("What it does")}</th><th>${T("Given by")}</th></tr></thead><tbody id="etb"></tbody></table></div><div id="emore"></div>
 <h3 id="m-imm">${T("Immunity ranking")}</h3>
 <p>${T("Curios that block effects or hazards, ranked by how many and how strong. Each effect or hazard is weighted 1 (a nuisance), 2 (cripples what you do) or 3 (damages you or can kill); this is an estimate, not a measurement, and only the blocking is scored.")}</p>
@@ -811,23 +829,33 @@ ${S[sk]()}${wikiNav()}`;
   const WH={worn:N("worn"),hit:N("on hit"),carried:N("carried"),use:N("on use"),release:N("on release")};
   const rows=X.map(e=>{const nm=e.n||pretty(e.i),h=rk(e)<2&&hand.get(nm.toLowerCase());return {e,nm,h,txt:((h&&h.d)||e.d||"").replace(/§./g,"").trim()}})
    .sort((a,b)=>rk(a.e)-rk(b.e)||(rk(a.e)<2?0:a.e.m.localeCompare(b.e.m))||a.nm.localeCompare(b.nm));
-  const num=v=>Math.round(v*100)/100,mt=m=>{const n=esc(TD(A[m.attr]||m.attr||"?"));if(m.amount==null)return `<b>${n}</b>`;const pc=/MULTIPLY/.test(m.op),v=pc?Math.round(m.amount*1000)/10:num(m.amount);return `<b>${n}</b> ${v<0?"−":"+"}${Math.abs(v)}${pc?"%":""}`};
+  const num=v=>Math.round(v*100)/100,mt=m=>{if(m.amount===0)return "";/* Strength, Weakness: the value is in the effect's code and its text */const n=esc(TD(A[m.attr]||m.attr||"?"));if(m.amount==null)return `<b>${n}</b>`;const pc=/MULTIPLY/.test(m.op),v=pc?Math.round(m.amount*1000)/10:num(m.amount);return `<b>${n}</b> ${v<0?"−":"+"}${Math.abs(v)}${pc?"%":""}`};
   const given=r=>{const o=[];if(r.h&&r.h.note)o.push(`<span class="nch">${esc(TD(r.h.note))}</span>`);
    const by=new Map();for(const [it,when] of GF[r.e.i]||[]){const x=by.get(it)||by.set(it,new Set()).get(it);x.add(when)}
    for(const [it,ws] of by){const lab=` <small>${[...ws].map(w=>T(WH[w]||w)).join(", ")}</small>`,ix=gix.get(it);
     if(ix!=null)o.push(`<span class="nch"><a data-t="g${ix}" href="#g${ix}">${esc(GE[ix].n)}</a>${lab}</span>`);else if(BYID[it])o.push(`<span class="nch">${ilink(it,BYID[it].n)}${lab}</span>`)}
-   for(const sp of window.SPL||[])if((sp.f||[]).includes(r.e.i))o.push(`<span class="nch"><a href="#spells/${enc(sp.i)}">${esc(TD(sp.n||pretty(sp.i)))}</a> <small>${T("spell")}</small></span>`);
-   if(rk(r.e)<2||cnt[r.nm.toLowerCase()]===1){const re=effRe(r.nm.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"));for(const d of D)if(d.fx&&re.test(d.fx))o.push(`<span class="nch">${ilink(d.id,d.n)}</span>`)}
-   return o.length>4?o.slice(0,4).join("")+`<details class="nmore"><summary>${T("{n} more",{n:o.length-4})}</summary><div class="nchs">${o.slice(4).join("")}</div></details>`:o.join("")||`<span class="eno">${T("No item or spell in the wiki gives it")}</span>`};
-  const row=r=>{const e=r.e,k=e.k==="b"?T("Beneficial"):e.k==="h"?T("Harmful"):e.k==="n"?T("Neutral"):"—",ms=(e.a||[]).map(mt).join(", ");
-   return `<tr class="ek-${e.k||"x"}" id="eff-${esc(e.i.replace(/[:_]/g,"-"))}"><td>${IC2[e.i]?`<img class="nic" alt="" loading="lazy" src="data:image/png;base64,${IC2[e.i]}"> `:""}<b>${esc(TD(r.nm))}</b>${e.u?` <sup>†</sup>`:""}<br><small title="${esc(e.i)}">${esc(e.m)}</small></td><td><span class="ekb">${k}</span></td><td>${r.txt?esc(TD(r.txt)):""}${r.txt&&ms?"<br>":""}${ms?`${ms} <small>${T("per level")}</small>`:""}${r.txt||ms?"":`<span class="eno">${T("No description in the game files")}</span>`}</td><td class="nchs">${given(r)}</td></tr>`};
-  const eq=el("eq"),em=el("em"),ek=el("ek");let lim=EM;{const pre=decodeURIComponent(location.hash).split("/").slice(2).join("/");if(pre)eq.value=pre}
-  const fe=more=>{if(more!==true)lim=EM;const v=eq.value.trim().toLowerCase(),hit=rows.filter(r=>(!em.value||r.e.m===em.value)&&(!ek.value||r.e.k===ek.value)&&(!v||(r.nm+" "+r.e.i+" "+r.e.m+" "+r.txt).toLowerCase().includes(v)));
-   el("etb").innerHTML=hit.slice(0,lim).map(row).join("");el("en").textContent=T("{a} of {b}",{a:hit.length,b:rows.length});
+   for(const sp of spBy.get(r.e.i)||[])o.push(`<span class="nch"><a href="#spells/${enc(sp.i)}">${esc(TD(sp.n||pretty(sp.i)))}</a> <small>${T("spell")}</small></span>`);
+   // a curio whose text names the effect: the words just before the name say whether it gives the effect or keeps it off you (immune, prevents, removes…);
+   // the curios that keep it off come last and do not count as a way to get it
+   const bl=[];if(rk(r.e)<2||cnt[r.nm.toLowerCase()]===1){const re=effRe(r.nm.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")),lo=r.nm.toLowerCase();for(const [d,fl] of fxl)if(fl.includes(lo)&&re.test(d.fx)){
+    if(effBlocks(d.fx,re))bl.push(`<span class="nch nblk">${ilink(d.id,d.n)} <small>${T("blocks it")}</small></span>`);else o.push(`<span class="nch">${ilink(d.id,d.n)}</span>`)}}
+   r.n=o.length;o.push(...bl);return o.length>4?o.slice(0,4).join("")+`<details class="nmore"><summary>${T("{n} more",{n:o.length-4})}</summary><div class="nchs">${o.slice(4).join("")}</div></details>`:o.join("")||`<span class="eno">${T("No item or spell in the wiki gives it")}</span>`};
+  const row=r=>{const e=r.e,k=e.k==="b"?T("Beneficial"):e.k==="h"?T("Harmful"):e.k==="n"?T("Neutral"):"—",ms=(e.a||[]).map(mt).filter(Boolean).join(", ");
+   return `<tr class="ek-${e.k||"x"}${r.hl?" hl":""}" id="eff-${esc(e.i.replace(/[:_]/g,"-"))}"><td>${IC2[e.i]?`<img class="nic" alt="" loading="lazy" src="data:image/png;base64,${IC2[e.i]}"> `:""}<b>${esc(TD(r.nm))}</b>${e.u?` <sup>†</sup>`:""}<br><small title="${esc(e.i)}">${esc(e.m)}</small></td><td><span class="ekb">${k}</span></td><td>${r.txt?esc(TD(r.txt)):""}${r.txt&&ms?"<br>":""}${ms?`${ms} <small>${T("per level")}</small>`:""}${r.txt||ms?"":`<span class="eno">${T("No description in the game files")}</span>`}</td><td class="nchs">${r.g}</td></tr>`};
+  // the "Given by" of all 973 rows at once stays under the long-task limit: spells indexed by effect, a curio's text tried with a plain includes first
+  const spBy=new Map();for(const sp of window.SPL||[])for(const f of sp.f||[])(spBy.get(f)||spBy.set(f,[]).get(f)).push(sp);
+  const fxl=D.filter(d=>d.fx).map(d=>[d,d.fx.toLowerCase()]);
+  rows.forEach(r=>{r.g=given(r)});   // what gives each effect, once: the "Effects you can get" view needs it for every row
+  const eq=el("eq"),eg=el("eg"),em=el("em"),ek=el("ek");let lim=EM;
+  // #mechanics/effects/<name> (an effect name on an item page, a spell's "Applies"): every effect, filtered to that name, the exact match marked and in view
+  {const pre=decodeURIComponent(location.hash).split("/").slice(2).join("/");if(pre){eq.value=pre;eg.value="";const lo=pre.toLowerCase();rows.forEach(r=>{r.hl=r.nm.toLowerCase()===lo||r.e.i===pre})}}
+  const ng=rows.filter(r=>r.n).length;eg.options[0].textContent=T("Effects you can get ({n})",{n:ng});eg.options[1].textContent=T("All effects ({n})",{n:rows.length});
+  const fe=more=>{if(more!==true)lim=EM;const v=eq.value.trim().toLowerCase(),hit=rows.filter(r=>(!eg.value||r.n)&&(!em.value||r.e.m===em.value)&&(!ek.value||r.e.k===ek.value)&&(!v||(r.nm+" "+r.e.i+" "+r.e.m+" "+r.txt).toLowerCase().includes(v))).sort((a,b)=>(b.hl|0)-(a.hl|0));
+   el("etb").innerHTML=hit.slice(0,lim).map(row).join("");el("en").textContent=T("{a} of {b}",{a:hit.length,b:eg.value?ng:rows.length});
    el("emore").innerHTML=hit.length>lim?`<button class="gmore" type="button">${T("Show {n} more",{n:Math.min(EM*5,hit.length-lim)})}</button>`:"";
    const b=el("emore").firstChild;if(b)b.onclick=()=>{lim+=EM*5;fe(true)}};
-  [eq,em,ek].forEach(x=>x.addEventListener("input",fe));
-  fe()}
+  [eq,eg,em,ek].forEach(x=>x.addEventListener("input",fe));
+  fe();const h1=el("etb").querySelector("tr.hl");if(h1)setTimeout(()=>h1.scrollIntoView({block:"center"}),60)}
  if(sk==="stats")hitInit();
  el("main").querySelectorAll(".mtabs [data-go]").forEach(a=>a.onclick=e=>{e.preventDefault();el(a.dataset.go).scrollIntoView({behavior:"smooth"})});
 }
