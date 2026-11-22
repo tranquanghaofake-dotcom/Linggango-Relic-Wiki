@@ -187,6 +187,12 @@ for n in clips:
     for ext in (".mp4", ".webp"):
         if (CL / (n + ext)).exists(): (A / ("clip." + n + ext)).write_bytes((CL / (n + ext)).read_bytes())
 if clips: site = site.replace("<html", '<html data-clips="static/clip."', 1)
+# visitor counts: GoatCounter (no cookies, no personal data), on the site only; the offline file stays free of outside requests. The pages are
+# hash routes (#home, #g12), so the path counted includes the hash and every route change counts again. Dashboard: https://linggango-wiki.goatcounter.com
+GC = "linggango-wiki"
+site = site.replace("</head>", '<script>window.goatcounter={path:function(){return location.pathname+location.hash}};addEventListener("hashchange",function(){window.goatcounter.count&&window.goatcounter.count()})</script>'
+                    '<script data-goatcounter="https://%s.goatcounter.com/count" async src="https://gc.zgo.at/count.v4.js" crossorigin="anonymous"></script>\n</head>' % GC, 1)
+assert "goatcounter" not in html, "the offline file must not call out to the counter"
 assert "{{" not in site, "template slot left unfilled"
 (ROOT / "index.html").write_text(site, encoding="utf-8")
 print("index.html", round(len(site.encode()) / 1e3, 1), "kB + static/;", dist, round(len(html.encode()) / 1e6, 2), "MB")
