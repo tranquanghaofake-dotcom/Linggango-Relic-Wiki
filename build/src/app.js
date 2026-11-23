@@ -1392,7 +1392,7 @@ const KEEPERS=()=>{const ks=ORDER.map(a=>PB[a]).filter(Boolean);const i=ks.index
 /* update log, newest first */
 function changesPage(){
  document.title=T("Changes")+" · Linggango Wiki";
- el("main").innerHTML=`${crumb(T("Changes"))}${room("vault",[],{head:`<h1>${T("Changes")}</h1><p class="lede">${T("What's new on the wiki, newest first.")}</p>`})}
+ el("main").innerHTML=`${crumb(T("Changes"))}${room("vault",[],{head:`<h1>${T("Changes")}</h1><p class="lede">${T("What's new on the wiki, newest first.")}</p><p class="visits" hidden title="${esc(T("Counted by GoatCounter, without cookies. The number updates every few hours."))}">${T("Page views so far")} <b></b></p>`})}
 <section class="s" id="c-2026-11-18"><h2>${T("November 18, 2026")}</h2>
 <h3 class="ck add">${T("Added")}</h3><ul>
 <li>${T("<b>Spells:</b> a library of every spell in the pack's four spell systems (Iron's Spells, Goety, Ars Nouveau and Brutality), 708 in all, with search, filters, the numbers the mods and the pack's config give each spell, what makes it stronger, and a clip from the game for 637 of them. A spell with no clip says why.")}</li>
@@ -1510,6 +1510,10 @@ function changesPage(){
 <li>${T("Warden health is now 700 and Wither health is now 500.")}</li>
 <li>${T("Keeper armor in the Path rows: Goblin Lord 12 (Act II), Arion 20 on foot and 15 on its Ravager (Act III), Eldorath 18 (Act IV).")}</li></ul>
 </section>${wikiNav()}`;
+ /* page views: the site build names its counter on <html data-gc> (build.py); the offline file has none and asks nothing. GoatCounter answers
+    {"count":"1,234",…} once the owner allows public counts; any failure leaves the line hidden. */
+ const vis=el("main").querySelector(".visits"),gc=document.documentElement.dataset.gc;
+ if(vis&&gc)fetch(gc+"/counter/TOTAL.json").then(r=>r.ok?r.json():Promise.reject(r.status)).then(j=>{if(!vis.isConnected||!j||j.count==null)return;vis.querySelector("b").textContent=j.count;vis.hidden=false}).catch(()=>{});
  /* the bar: show one kind of change (Added, Changed, Fixed) or jump to a day. A day folds at its date; the two newest start open,
     and a folded day's date carries its counts. The page's own text is untouched: the groups are tagged, not moved. A new kind
     of group needs its class here and in KN (and a translated name). */

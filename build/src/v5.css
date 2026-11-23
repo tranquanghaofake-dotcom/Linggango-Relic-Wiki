@@ -1361,3 +1361,8 @@ body:not(.hub) #main{background:var(--bg)}
 body.gearv #side{display:none}
 body.gearv .shell{grid-template-columns:minmax(0,1fr)!important}
 body.gearv main{max-width:1440px;margin-inline:auto;width:100%}
+
+/* Changes: page views so far, a number in an inset slot */
+.visits{display:inline-flex;align-items:center;gap:var(--s2,8px);margin:0;padding:4px 10px;background:#1b1a20;box-shadow:inset 2px 2px 0 #0a0a0d,inset -2px -2px 0 #4a4852;font-size:13px;color:var(--mute)}
+.visits[hidden]{display:none}
+.visits b{font:400 14px var(--disp);color:#ffd75e;text-shadow:2px 2px 0 #3f3500}
