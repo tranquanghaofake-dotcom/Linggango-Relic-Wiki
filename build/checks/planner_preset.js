@@ -68,6 +68,8 @@
   if (Math.abs(v(['terramity:gamblers_ring'], 'ME', 9) - 1) > .02) bad.push("Luck: Gambler's Ring alone should add nothing");
   // armor: Brutality penetration and lethality count against the next Keeper's armor (melee); Goety Revelation's penetration does not run on player hits
   if (!(v(['brutality:warpslice_scabbard'], 'ME', 6) > 1.2)) bad.push('armor: Warpslice Scabbard (7 lethality, 20% penetration) adds under 20% at Act VI');
+  // the same count gives the Curios tiers (gCurioScore): armor pierce curios the 0-armor test saw nothing of are tiered
+  if (!CTIER['brutality:warpslice_scabbard'] || !CTIER['brutality:daemonium_sewing_kit']) bad.push('armor: Warpslice Scabbard or Daemonium Sewing Kit has no tier');
   if (Math.abs(v(['brutality:warpslice_scabbard'], 'MA', 6) - 1) > .02) bad.push('armor: penetration counted for spells, which skip armor');
   if (BYID['goety_revelation:the_needle'] && Math.abs(v(['goety_revelation:the_needle'], 'ME', 6) - 1) > .02) bad.push("armor: The Needle's Goety Revelation penetration counted");
   // dodge: Brutality's and Apothic's roll apart, each under its own cap

@@ -307,7 +307,7 @@ function gCurioScore(c,r,a){const key=c.id+r+a;let v=GCS.get(key);if(v!=null)ret
  let ex=0;for(const k in GKW)ex+=GKW[k]*(tk[k]!=null?tk[k]/(k==="magic"||k==="fall"?1:pred):1);
  const hpm=1+((at.max_health||[0,0])[1]),f={arm:b.arm+o("armor"),tough:b.tough+o("armor_toughness"),hp:(gBaseHP(a)+b.hp+o("max_health"))*hpm-gBaseHP(a),kbr:o("knockback_resistance"),dtk:Math.abs(1-ex)>.02?1-ex:0,
   at:{dodge_chance:[o("dodge_chance"),0],apo_dodge:[o("apo_dodge"),0],resistance:at.resistance||[0,0]}};
- v=gRound(GOFF[r](at,a)*Math.pow(gEHP(f,a)/gEHP(base,a),GSURV[r])*1000)/1000;GCS.set(key,v);return v}
+ v=gRound(GOFF[r](at,a)*gArm(at,r,a)*Math.pow(gEHP(f,a)/gEHP(base,a),GSURV[r])*1000)/1000;GCS.set(key,v);return v}
 /* a whole build on the same model (the planner's starter builds): each curio's measured changes summed (a ladder curio at its share),
    a chance curio read at the build's Luck where it was sampled with more Luck (gPart lk),
    damage taken per kind multiplied, % health multiplied; the log of what gCurioScore would give the lot worn together (HE/TA: the
@@ -336,12 +336,13 @@ function gBuildVal(ps,r,a){const at={},rk={},b=gMedAt(a);let hpm=1;for(const k i
   kbr:o("knockback_resistance"),dtk:Math.abs(1-ex)>.02?1-ex:0,at:{dodge_chance:[o("dodge_chance"),0],apo_dodge:[o("apo_dodge"),0],resistance:at.resistance||[0,0]}};
  const s=Math.log(gEHP(f,a)/gEHP(base,a));
  if(r==="TA")return s;if(r==="HE")return s+.5*Math.log(Math.max(.01,(B+f.hp)/(B+b.hp)));
- return Math.log(Math.max(1e-6,GOFF[r](at,a)))+GSURV[r]*s+(r==="ME"||r==="RA"?Math.log(gArmorHit(at,a)):0)}
-/* the planner only (the Curios tiers do not use it yet): Armor Penetration and Lethality against the armor of the Keeper you face next
+ return Math.log(Math.max(1e-6,GOFF[r](at,a)))+GSURV[r]*s+Math.log(gArm(at,r,a))}
+/* Armor Penetration and Lethality against the armor of the Keeper you face next (curio scores, tiers and the planner; not weapons)
    (BST effective armor, the pack's overrides). Lethality Guard, read from the jar (NOTES 2026-10-28): armor x clamp(2 - penetration, 0, 10),
    not below 0, then minus Lethality; each Lethality point past 0 armor is +10% of the hit; then Apothic's armor, hit x A/(A + armor),
    A = 10 under a 20 hit, else 10 + (hit - 20)/2. The hit is the Act's frontier melee hit (gFront). Magic skips armor: Mage is left out.
    The test hit a 0-armor pig, so the measured gain of these two stats was 0 */
+const gArm=(at,r,a)=>r==="ME"||r==="RA"?gArmorHit(at,+a):1;
 function gArmorHit(at,a){const sum=k=>(at[k]||[0,0])[0]+(at[k]||[0,0])[1],pen=sum("armor_penetration"),leth=sum("lethality");if(!pen&&!leth)return 1;
  const T=gNextArmor(a);if(!T)return 1;const H=gFront(a).hit,A=H<20?10:10+(H-20)/2,base=A/(A+T);
  const t=Math.max(0,T*Math.max(0,Math.min(10,1-pen))),ex=leth-t,hit=ex>=0?1+.1*ex:A/(A-ex);return hit/base}
@@ -385,7 +386,7 @@ function gCurioMs(c){const m=typeof CM!=="undefined"&&CM[c.id];if(!m)return "";c
  const a=c.t,ctx=gCtx(c),sc=ctx?[]:Object.keys(GROLE).map(r=>[r,gCurioScore(c,r,a)]).filter(x=>x[1]>1.005).sort((p,q)=>q[1]-p[1]);
  const any=rows.length||GHITCODE[c.id]||gCC(c)||m.hit||Object.keys(tk).length||fxl.length||tfx.length||m.hp||m.fire||m.heal||m.neg||m.blk;
  if(!any)return `<p class="note">${T("Worn alone in game (in its {slot} slot) it changed nothing the test can see: no attribute, no change to a sword hit, no change to damage taken, no effect. What it does needs a condition (low health, a kill, being hit, night, a key press) or works on something else (mobs, loot, blocks); its text above says what.",{slot:gSl(m.sl)})}</p>`;
- return `${sc.length?`<p class="gverd" style="--gc:${GTIER[0][2]}"><b>${gTierOf(c,a,sc[0][0],gShared(c,sc[0][0],a)?"s":gOwn(c,sc[0][0],a)?"o":"v")||"–"}</b><span>${T("On a typical {act} build it adds {gains}. {link}",{act:esc(actL(a)),gains:sc.map(([r,v])=>`<strong>+${Math.round((v-1)*100)}%</strong> ${GROLE[r]}`).join(", "),link:`<a href="#gear/${a}/${sc[0][0]}/c${gShared(c,sc[0][0],a)?"/shared":gOwn(c,sc[0][0],a)?"":"/any"}">${T("See the curio tiers")}</a>`})}</span></p>`:""}
+ return `${sc.length?`<p class="gverd" style="--gc:${GTIER[0][2]}"><b>${gTierOf(c,a,sc[0][0],gShared(c,sc[0][0],a)?"s":gOwn(c,sc[0][0],a)?"o":"v")||"–"}</b><span>${T("On a typical {act} build it adds {gains}. {link}",{act:esc(actL(a)),gains:sc.map(([r,v])=>`<strong>+${Math.round((v-1)*100)}%</strong> ${GROLE[r]}`).join(", "),link:`<a href="#gear/${a}/${sc[0][0]}/c${gShared(c,sc[0][0],a)?"/shared":gOwn(c,sc[0][0],a)?"":"/any"}">${T("See the curio tiers")}</a>`})}${(at=>gArmorHit(at,a)!==1?" "+T("Its Lethality and Armor Penetration are counted against {n} armor, the next Keeper's; the test target had none.",{n:gNextArmor(a)}):"")(gCurioAt(CM[c.id],c))}</span></p>`:""}
 ${ctx?`<p class="note">${T("Not tiered: what it does depends on “{ctx}”, and the test met that condition or hid its cost: a bare player (no armor, empty hands when read, standing still, at full health when read and half health when swinging, below Y 0, in daylight) hitting a full-health pig with no AI (not hostile, it never noticed the player) with other mobs near, all in moments. These numbers would not hold in a real build.",{ctx:esc(ctx)})}</p>`:""}
 ${rows.length?`<h3>${T("Attributes")}</h3><ul class="gbon attr">${rows.join("")}</ul>`:""}
 ${m.hit?`<table class="gst"><tr><td>${T("Diamond sword hit")}</td><td class="num">${gRound(CMREF)} → ${gRound(CMREF*m.hit)} (${m.hit>1?"+":""}${gRound((m.hit-1)*100)}%)</td></tr></table>`:""}${gChanceNote(c)?`<p class="note">${gChanceNote(c)}</p>`:""}${c.id==="terramity:chthonic_shell_casing"?`<p class="note">${T("Read in its code, not measured: it multiplies a hit by 1.3 when the target is more than 3 blocks away, which the test's sword swing at 1.2 blocks cannot meet. Counted for shots and spells from range.")}</p>`:""}${gHitX(m,c)&&!gHitKind(c,m)&&!ctx?`<p class="note">${T("Not counted: nothing in its text or its attributes explains this change to the sword hit. Measured again on 2026-11-17 with the test player held still, the change was gone (×1): the first test swung while the player was falling, which makes a vanilla jump critical (×1.5).")}</p>`:""}
@@ -493,7 +494,7 @@ function gSubOf(g,r){if(g.ps)return [];const key=g.id+r;let v=GSM.get(key);if(v)
 const GOWN=.02;
 /* how much a curio raises a playstyle's own output: GOFF on its measured changes, minus 1 (the own view ranks by this) */
 const GOG=new Map();
-function gCurioGain(c,r,a){const key=c.id+r+a;let v=GOG.get(key);if(v!=null)return v;const m=typeof CM!=="undefined"&&CM[c.id];v=m?gRound(GOFF[r](gCurioAt(m,c),+a)*1000)/1000-1:0;GOG.set(key,v);return v}
+function gCurioGain(c,r,a){const key=c.id+r+a;let v=GOG.get(key);if(v!=null)return v;const m=typeof CM!=="undefined"&&CM[c.id];v=m?(at=>gRound(GOFF[r](at,+a)*gArm(at,r,a)*1000)/1000-1)(gCurioAt(m,c)):0;GOG.set(key,v);return v}
 /* the playstyles a curio raises by GOWN or more. One: it is that playstyle's own curio (the "own" view). Several: it is shared, a
    curio of no one playstyle (damage dealt in general, crit for blades and bows alike, the Avenger Emblem's melee, ranged and magic
    damage), listed in the "shared" view of each playstyle it raises, by what it adds to that one. None: the survival view */

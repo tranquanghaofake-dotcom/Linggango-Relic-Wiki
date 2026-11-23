@@ -2290,3 +2290,10 @@ New patch `gear_stats.py` (data in `gear_stats.json`, runs after `gear_fix`); sc
 - **Brutality**: 188 curio, đều có số đo. Trong Starter build: 30 → 36 món. 109 món bài đo không thấy gì, chủ yếu: hệ Rage (15 món; có số đo `rage_gain/rage_time/max_rage` nhưng repo chưa có công thức Rage từ jar), math charms (10 món, cần Scientific Calculator), các Sin (6), mana/phép (13). Không có món Brutality nào dùng hệ "Relic levels" (đó là mod Relics).
 - **Kiểm**: thước đo 4,97/5 (117 build); 3 invariant mới trong `checks/planner_preset.js` (Luck khớp số đo ×1,329 / ×1,123; Warpslice >20% Melee, 0 cho Mage, The Needle 0; dodge 30%+30% → 51%); tier trang Curios không đổi (288, unchanged); `check.sh`: xem commit.
 - **Open**: công thức Rage (đọc jar Brutality); đưa hệ số giáp sang tier trang Curios (cần duyệt); trần dodge Brutality (cần `config/attributefix.json`); hồi máu/cứu mạng.
+
+## 2026-11-23 (tiếp 3): giáp của Keeper vào tier trang Curios
+- **Ý chủ wiki**: "làm" (đưa hệ số giáp của Keeper sang tier trang Curios).
+- **Đã làm** (`gear.js`): `gArm` nhân vào `gCurioScore` và `gCurioGain` (Melee, Ranged; vũ khí không đổi), nên trang Curios, Equipment → Curios và Builder dùng chung một con số; `gBuildVal` một món lại khớp `gCurioScore` (2.642/2.642).
+- **Kết quả** (`curio_tiers.json` 288 → 294): Warpslice Scabbard chưa có → Mythic, Daemonium Sewing Kit → Epic, Daemonium Whetstone và Portable Quantum Thingamabob → Uncommon, Microblade Band và Wire Cutters → Common, Stygian Chain Common → Epic. Không món nào khác đổi tier.
+- **Trang curio**: dòng "On a typical … build it adds …" thêm câu "Its Lethality and Armor Penetration are counted against {n} armor, the next Keeper's; the test target had none." (vi, ru, pt, es; "Keeper" giữ nguyên theo glossary). Ảnh đã xem: Warpslice Scabbard (1440, en và vi).
+- **Kiểm**: invariant mới (Warpslice, Sewing Kit có tier); QA dịch 0 hard; `check.sh`: xem commit.

@@ -1528,5 +1528,6 @@
 "2cz15aip7c9": {"en": "↑ Back to top", "t": "↑ Volver arriba", "s": "llm"},
 "pvvvd00ew0": {"en": "≈ Faded picks are estimates: the wiki could not read their damage or armor, so they are ranked by when you get them.", "t": "≈ Las opciones atenuadas son estimaciones: la wiki no pudo leer su daño ni su armadura, así que se clasifican por cuándo las consigues.", "s": "llm"},
 "efubuwk8a2": {"en": "⟲ Evolves from {name}", "t": "⟲ Evoluciona desde {name}", "s": "llm"},
-"11esgkl1zi2": {"en": "⟳ Evolves into {name}", "t": "⟳ Evoluciona a {name}", "s": "llm"}
+"11esgkl1zi2": {"en": "⟳ Evolves into {name}", "t": "⟳ Evoluciona a {name}", "s": "llm"},
+"10wotaz9rz3": {"en": "Its Lethality and Armor Penetration are counted against {n} armor, the next Keeper's; the test target had none.", "t": "Su Lethality y Armor Penetration se cuentan contra {n} de armadura, la del siguiente Keeper; el objetivo de la prueba no tenía ninguna.", "s": "llm"}
 }

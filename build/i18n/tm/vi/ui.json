@@ -1508,5 +1508,6 @@
 "2cz15aip7c9": {"en": "↑ Back to top", "t": "↑ Lên đầu trang", "s": "llm"},
 "pvvvd00ew0": {"en": "≈ Faded picks are estimates: the wiki could not read their damage or armor, so they are ranked by when you get them.", "t": "≈ Các lựa chọn mờ là ước lượng: wiki không đọc được sát thương hoặc giáp của chúng, nên chúng được xếp hạng theo lúc bạn có được.", "s": "llm"},
 "efubuwk8a2": {"en": "⟲ Evolves from {name}", "t": "⟲ Tiến hóa từ {name}", "s": "llm"},
-"11esgkl1zi2": {"en": "⟳ Evolves into {name}", "t": "⟳ Tiến hóa thành {name}", "s": "llm"}
+"11esgkl1zi2": {"en": "⟳ Evolves into {name}", "t": "⟳ Tiến hóa thành {name}", "s": "llm"},
+"10wotaz9rz3": {"en": "Its Lethality and Armor Penetration are counted against {n} armor, the next Keeper's; the test target had none.", "t": "Lethality và Armor Penetration của nó được tính với {n} giáp của Keeper kế tiếp; mục tiêu trong bài đo không có giáp.", "s": "llm"}
 }

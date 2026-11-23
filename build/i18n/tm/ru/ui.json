@@ -1528,5 +1528,6 @@
 "2cz15aip7c9": {"en": "↑ Back to top", "t": "↑ Наверх", "s": "llm"},
 "pvvvd00ew0": {"en": "≈ Faded picks are estimates: the wiki could not read their damage or armor, so they are ranked by when you get them.", "t": "≈ Блёклые варианты — оценка: вики не смогла прочитать их урон или броню, поэтому они ранжируются по времени получения.", "s": "llm"},
 "efubuwk8a2": {"en": "⟲ Evolves from {name}", "t": "⟲ Эволюционирует из: {name}", "s": "llm"},
-"11esgkl1zi2": {"en": "⟳ Evolves into {name}", "t": "⟳ Эволюционирует в: {name}", "s": "llm"}
+"11esgkl1zi2": {"en": "⟳ Evolves into {name}", "t": "⟳ Эволюционирует в: {name}", "s": "llm"},
+"10wotaz9rz3": {"en": "Its Lethality and Armor Penetration are counted against {n} armor, the next Keeper's; the test target had none.", "t": "Его Lethality и Armor Penetration считаются против {n} брони следующего Keeper; у цели в тесте брони не было.", "s": "llm"}
 }
