@@ -60,3 +60,15 @@
   // hard rules whatever the grade: no trap, no second Looting Charm, nothing past the Act
   grades.filter(x => x[3].some(w => /^trap/.test(w))).forEach(([a, r, , w]) => bad.push(`starter build Act ${a} ${r}: ${w.find(x => /^trap/.test(x))}`));
   BS.g = ringBefore; BS.p = pBefore; BS.s = JSON.parse(sBefore); }
+// the whole-build model (gBuildVal) against what was sampled in game and read from the jars
+{ const v = (ids, r, a) => Math.exp(gBuildVal(ids.map(id => [gPart(BYID[id]), 1]), r, a));
+  // Luck: Lucky Dice with Gambler's Ring (Luck III) reads the Luck 3 sample of curio_chance.json (x1.329), alone the Luck 0 one (x1.123)
+  const ld = v(['terramity:lucky_dice', 'terramity:gamblers_ring'], 'ME', 9), l0 = v(['terramity:lucky_dice'], 'ME', 9);
+  if (Math.abs(ld - 1.329) > .01 || Math.abs(l0 - 1.123) > .01) bad.push(`Luck: Lucky Dice + Gambler's Ring x${ld.toFixed(3)} (want 1.329), alone x${l0.toFixed(3)} (want 1.123)`);
+  if (Math.abs(v(['terramity:gamblers_ring'], 'ME', 9) - 1) > .02) bad.push("Luck: Gambler's Ring alone should add nothing");
+  // armor: Brutality penetration and lethality count against the next Keeper's armor (melee); Goety Revelation's penetration does not run on player hits
+  if (!(v(['brutality:warpslice_scabbard'], 'ME', 6) > 1.2)) bad.push('armor: Warpslice Scabbard (7 lethality, 20% penetration) adds under 20% at Act VI');
+  if (Math.abs(v(['brutality:warpslice_scabbard'], 'MA', 6) - 1) > .02) bad.push('armor: penetration counted for spells, which skip armor');
+  if (BYID['goety_revelation:the_needle'] && Math.abs(v(['goety_revelation:the_needle'], 'ME', 6) - 1) > .02) bad.push("armor: The Needle's Goety Revelation penetration counted");
+  // dodge: Brutality's and Apothic's roll apart, each under its own cap
+  if (Math.abs(gEHP({ arm: 0, tough: 0, hp: 0, kbr: 0, dtk: 0, at: { dodge_chance: [.3, 0], apo_dodge: [.3, 0] } }, 5) / gEHP({ arm: 0, tough: 0, hp: 0, kbr: 0, dtk: 0, at: {} }, 5) - 1 / .49) > .01) bad.push('dodge: 30% + 30% should avoid 51% of hits (1 - 0.7 x 0.7)'); }

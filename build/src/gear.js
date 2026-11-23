@@ -309,22 +309,46 @@ function gCurioScore(c,r,a){const key=c.id+r+a;let v=GCS.get(key);if(v!=null)ret
   at:{dodge_chance:[o("dodge_chance"),0],apo_dodge:[o("apo_dodge"),0],resistance:at.resistance||[0,0]}};
  v=gRound(GOFF[r](at,a)*Math.pow(gEHP(f,a)/gEHP(base,a),GSURV[r])*1000)/1000;GCS.set(key,v);return v}
 /* a whole build on the same model (the planner's starter builds): each curio's measured changes summed (a ladder curio at its share),
+   a chance curio read at the build's Luck where it was sampled with more Luck (gPart lk),
    damage taken per kind multiplied, % health multiplied; the log of what gCurioScore would give the lot worn together (HE/TA: the
    survival part only, HE with half again the health it adds). One curio alone gives log(gCurioScore) */
 const GKW={melee:.6,magic:.15,fire:.1,explosion:.1,fall:.05},GPART=new Map();
 function gPart(c){if(GPART.has(c.id))return GPART.get(c.id);const m=typeof CM!=="undefined"&&CM[c.id];let p=null;
  if(m){const at=gCurioAt(m,c),pred=10/(10+Math.max(0,(at.armor||[0,0])[0])),tk=Object.assign(gTk(m),(gCC(c)&&gCC(c).tk)||{},m.blk?{melee:m.blk.tk}:{}),r={};
-  for(const k in GKW)r[k]=tk[k]!=null?tk[k]/(k==="magic"||k==="fall"?1:pred):1;p={at,r,hpp:(at.max_health||[0,0])[1]}}
+  for(const k in GKW)r[k]=tk[k]!=null?tk[k]/(k==="magic"||k==="fall"?1:pred):1;p={at,r,hpp:(at.max_health||[0,0])[1]};
+  // sampled in game again with the Luck effect at levels 1 and 3 on top of the curio's own Luck (curio_chance.json lk): the build's
+  // Luck past its own picks the reading (straight lines between the levels, held at level 3, never stretched past it)
+  const cc=typeof CCH!=="undefined"&&CCH[c.id];if(cc&&cc.lk&&!gHsOwned(m)){const h0=cc.hs||1,mx=cc.lk.reduce((x,l)=>Math.abs(l[1]-1)>Math.abs(x-1)?l[1]:x,h0);
+   const kind=gHitKind(c,Object.assign({},m,{hit:mx,hit2:0}))||"ME";
+   p.lk={own:(at.luck||[0,0])[0]+(at.luck||[0,0])[1],key:kind==="ME"?"attack_damage":kind==="RA"?"arrow_damage":kind==="FAR"?"dmg_far":"dmg_all",
+    pts:[[0,h0,cc.tk||{}],...cc.lk.map(l=>[l[0],l[1],l[2]||{}])]}}}
  GPART.set(c.id,p);return p}
+const gLkAt=(pts,L,f)=>{if(L<=0)return f(pts[0]);for(let i=1;i<pts.length;i++)if(L<=pts[i][0]){const a=pts[i-1],b=pts[i],t=(L-a[0])/(b[0]-a[0]);return f(a)+(f(b)-f(a))*t}return f(pts[pts.length-1])};
 function gBuildVal(ps,r,a){const at={},rk={},b=gMedAt(a);let hpm=1;for(const k in GKW)rk[k]=1;
  for(const [p,f] of ps){if(!p||!f)continue;for(const k in p.at){const v=p.at[k],x=at[k]||(at[k]=[0,0]);x[0]+=v[0]*f;x[1]+=v[1]*f}
   for(const k in rk)rk[k]*=Math.pow(p.r[k],f);hpm*=1+f*p.hpp}
+ const L=(at.luck||[0,0])[0]+(at.luck||[0,0])[1];
+ for(const [p,f] of ps){if(!p||!f||!p.lk||L<=p.lk.own+1e-9)continue;const x=L-p.lk.own,P=p.lk.pts;
+  (at[p.lk.key]=at[p.lk.key]||[0,0])[1]+=(gLkAt(P,x,q=>q[1])-P[0][1])*f;
+  for(const k in rk){const t0=P[0][2][k]??1,tL=gLkAt(P,x,q=>q[2][k]??t0);if(t0>0)rk[k]*=Math.pow(tL/t0,f)}}
  let ex=0;for(const k in GKW)ex+=GKW[k]*rk[k];const o=k=>(at[k]||[0,0])[0],B=gBaseHP(a);
  const base={arm:b.arm,tough:b.tough,hp:b.hp,kbr:0,dtk:0,at:{}},f={arm:b.arm+o("armor"),tough:b.tough+o("armor_toughness"),hp:(B+b.hp+o("max_health"))*hpm-B,
   kbr:o("knockback_resistance"),dtk:Math.abs(1-ex)>.02?1-ex:0,at:{dodge_chance:[o("dodge_chance"),0],apo_dodge:[o("apo_dodge"),0],resistance:at.resistance||[0,0]}};
  const s=Math.log(gEHP(f,a)/gEHP(base,a));
  if(r==="TA")return s;if(r==="HE")return s+.5*Math.log(Math.max(.01,(B+f.hp)/(B+b.hp)));
- return Math.log(Math.max(1e-6,GOFF[r](at,a)))+GSURV[r]*s}
+ return Math.log(Math.max(1e-6,GOFF[r](at,a)))+GSURV[r]*s+(r==="ME"||r==="RA"?Math.log(gArmorHit(at,a)):0)}
+/* the planner only (the Curios tiers do not use it yet): Armor Penetration and Lethality against the armor of the Keeper you face next
+   (BST effective armor, the pack's overrides). Lethality Guard, read from the jar (NOTES 2026-10-28): armor x clamp(2 - penetration, 0, 10),
+   not below 0, then minus Lethality; each Lethality point past 0 armor is +10% of the hit; then Apothic's armor, hit x A/(A + armor),
+   A = 10 under a 20 hit, else 10 + (hit - 20)/2. The hit is the Act's frontier melee hit (gFront). Magic skips armor: Mage is left out.
+   The test hit a 0-armor pig, so the measured gain of these two stats was 0 */
+function gArmorHit(at,a){const sum=k=>(at[k]||[0,0])[0]+(at[k]||[0,0])[1],pen=sum("armor_penetration"),leth=sum("lethality");if(!pen&&!leth)return 1;
+ const T=gNextArmor(a);if(!T)return 1;const H=gFront(a).hit,A=H<20?10:10+(H-20)/2,base=A/(A+T);
+ const t=Math.max(0,T*Math.max(0,Math.min(10,1-pen))),ex=leth-t,hit=ex>=0?1+.1*ex:A/(A-ex);return hit/base}
+const GNA={};
+function gNextArmor(a){if(a in GNA)return GNA[a];if(typeof BST==="undefined"||typeof PB==="undefined")return 0;const i=ORDER.indexOf(+a);
+ let v=0;for(let j=Math.max(i+1,0);j<ORDER.length&&!v;j++){const k=PB[ORDER[j]],e=k&&BST[k]&&BST[k].effective;if(e&&e.armor)v=e.armor}
+ if(!v){const k=PB[a],e=k&&BST[k]&&BST[k].effective;v=e&&e.armor||0}return GNA[a]=v}
 const gIsCurio=x=>!!(x&&x.ro&&x.st);
 /* the test player was bare: no armor, nothing in hand when its attributes were read, standing still, at full health when read and
    at 10 under it (half, for a 20-health tester) when swinging, below Y 0, in daylight

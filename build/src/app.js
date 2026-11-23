@@ -120,7 +120,9 @@ function bPreset(role){
   const two=id=>bStk(id)&&SK.i[id].s!=="u",n=id=>out.filter(x=>x[1]===id).length,ok=d=>(!have.has(d.id)||two(d.id)&&n(d.id)<2)&&free(caps,used,d);
   const V=()=>{const ids=out.map(x=>x[1]).filter(id=>!RID.has(id)),lf=skLadder(ids);return gBuildVal(ids.map(id=>[gPart(BYID[id]),lf[id]??1]),vr,a)};
   let cur=V(),seen=0;
-  const C=M?pool.filter(d=>gPart(d)&&!bCtx(d)&&!Object.keys(slotAdds(d)).length&&val(d)>.002).map(d=>[d,val(d)]).sort((x,y)=>y[1]-x[1]):[];
+  const luck=d=>{const x=gPart(d)&&gPart(d).at.luck;return !!x&&x[0]+x[1]>0};
+  // a Luck curio adds nothing alone: it is a candidate for what it does to the chance curios worn with it (gBuildVal)
+  const C=M?pool.filter(d=>gPart(d)&&!bCtx(d)&&!Object.keys(slotAdds(d)).length&&(val(d)>.002||luck(d))).map(d=>[d,val(d)]).sort((x,y)=>y[1]-x[1]):[];
   // lazy greedy: candidates keep their last key (gain to the build + 5% of their own strength, so a build at the model's limits,
   // where little adds anything, still takes the strongest curios); only the top one is measured again. A curio that would lower
   // the build is never taken
@@ -128,7 +130,7 @@ function bPreset(role){
    while(q.length){const [d,,s0]=q[0];if(!ok(d)){q.shift();continue}
     const k=free(caps,used,d);put(k,d);const g=V()-cur,key=g+.05*s0;out.pop();used[k]--;if(!n(d.id))have.delete(d.id);
     if(q.length>1&&key<q[1][1]-1e-9){q[0][1]=key;q.sort((x,y)=>y[1]-x[1]);continue}
-    if(g<-5e-4){q.shift();continue}put(k,d);cur+=g;if(!two(d.id)||n(d.id)>=2)q.shift()}};
+    if(g<-5e-4||g<=.002&&s0<=.002){q.shift();continue}put(k,d);cur+=g;if(!two(d.id)||n(d.id)>=2)q.shift()}};
   // the final fill only: swap a worn curio for one not worn while that adds 0.5% or more (greedy picks can block a better pair)
   const polish=()=>{for(let r=0;r<3;r++){let moved=false;
    for(let i=0;i<out.length;i++){const [k,id]=out[i],d0=BYID[id];if(i<fixed.length||!gPart(d0)||Object.keys(slotAdds(d0)).length)continue;let bg=.005,bd=null;
