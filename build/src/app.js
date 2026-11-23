@@ -95,12 +95,15 @@ const RNGRX=/\bdice\b|\bcoin\b|gambl|\d+% chance|chance (?:to|for|rises)|\brando
 /* Starter builds. Melee, Ranged, Mage, Summon, Health and Tank: a greedy fill on the measured model (gBuildVal, the Equipment ->
    Curios scores worn together at the chosen Act): each step takes the curio that raises the whole build most, ladder shares and
    costs counted; then curios the test cannot see (an unmeasured mechanic) that their text gives this playstyle, best rank first.
-   A curio that adds slots is kept only when the build is better with it. Never: a curio whose text sets a condition (low health,
-   night, unarmed: gCtx), one measured to hurt this playstyle, a second Looting Charm (the furthest one covers the rest), a
+   A curio that adds slots is kept only when the build is better with it. Never: a curio whose text sets a condition on what it gives (low
+   health, night, unarmed: bCtx), one measured to hurt this playstyle, a second Looting Charm (the furthest one covers the rest), a
    duplicate that does not stack, a third copy, a cost the text states (bDraw). Movement, Utility and Gambler have no measured model: text roles, ranked by rarity, same rules */
 const LOOTRX=/Looting Charm$/,BDRAW=/difficulty by|loses? your (whole )?inventory|no Fairy Bottle|straying over|\d+ health per second|max(imum)? health -9\d%/i;
 // a cost its text states that the test cannot see (harder mobs, losing your items on death, debuffs away from spawn): never in a starter build
 const bDraw=d=>BDRAW.test(d.fx);
+/* a condition only rules a curio out when it governs what the curio gives: "+2 attack damage, +0.2 attack speed; explodes below 30%
+   health" keeps its plain numbers whatever your health (a clause of plain attribute numbers, gPlain, with no condition in it) */
+const bCtx=d=>!!gCtx(d)&&!d.fx.split(";").some(c=>!gCtx({fx:c})&&gPlain({fx:c}));
 function bPreset(role){
  BS.s={};bRingSync("",BS.g);const a=BS.p,fixed=Object.entries(BS.s).flatMap(([k,v])=>v.map(id=>[k,id]));
  const RID=new Set(Object.values(RQRING)),base=D.filter(d=>bAvail(d)&&!d.inv&&bRing(d)&&!RID.has(d.id)&&!bDraw(d));
@@ -117,7 +120,7 @@ function bPreset(role){
   const two=id=>bStk(id)&&SK.i[id].s!=="u",n=id=>out.filter(x=>x[1]===id).length,ok=d=>(!have.has(d.id)||two(d.id)&&n(d.id)<2)&&free(caps,used,d);
   const V=()=>{const ids=out.map(x=>x[1]).filter(id=>!RID.has(id)),lf=skLadder(ids);return gBuildVal(ids.map(id=>[gPart(BYID[id]),lf[id]??1]),vr,a)};
   let cur=V(),seen=0;
-  const C=M?pool.filter(d=>gPart(d)&&!gCtx(d)&&!Object.keys(slotAdds(d)).length&&val(d)>.002).map(d=>[d,val(d)]).sort((x,y)=>y[1]-x[1]):[];
+  const C=M?pool.filter(d=>gPart(d)&&!bCtx(d)&&!Object.keys(slotAdds(d)).length&&val(d)>.002).map(d=>[d,val(d)]).sort((x,y)=>y[1]-x[1]):[];
   // lazy greedy: candidates keep their last key (gain to the build + 5% of their own strength, so a build at the model's limits,
   // where little adds anything, still takes the strongest curios); only the top one is measured again. A curio that would lower
   // the build is never taken
@@ -135,14 +138,14 @@ function bPreset(role){
   if(M){grow();if(last){polish();grow()}}
   // then what the test cannot see: unmeasured (or measured as nothing, with more than numbers in its text), given this role by its text
   const fits=d=>role==="RNG"?bRng(d):d.ro.includes(role),unseen=d=>!gPart(d)||Math.abs(val(d))<=.002&&!gPlain(d);
-  const rest=pool.filter(d=>fits(d)&&(!M||unseen(d))&&!gCtx(d)&&!harm(d)&&!Object.keys(slotAdds(d)).length&&!/[−-]\s*\d+\s*%\s*max(imum)? health|max(imum)? health\s*[−-]/i.test(d.fx))
+  const rest=pool.filter(d=>fits(d)&&(!M||unseen(d))&&!bCtx(d)&&!harm(d)&&!Object.keys(slotAdds(d)).length&&!/[−-]\s*\d+\s*%\s*max(imum)? health|max(imum)? health\s*[−-]/i.test(d.fx))
    .sort((x,y)=>(role==="RNG"?(/dice|coin|gambl/i.test(y.n)-/dice|coin|gambl/i.test(x.n))*2+(y.mt.includes("l:Luck")-x.mt.includes("l:Luck")):0)||y.r-x.r||(+y.sc||0)-(+x.sc||0));
   const lads=new Set(out.map(x=>lad(x[1])).filter(Boolean));
   for(const d of rest){if(have.has(d.id)||lads.has(lad(d.id)))continue;const k=free(caps,used,d);if(!k)continue;put(k,d);seen++;if(lad(d.id))lads.add(lad(d.id))}
   if(loot&&!have.has(loot.id)){const k=free(caps,used,loot);if(k)put(k,loot)}
   return {out,v:cur+.003*seen}};
  // slot adders: try each, keep the one that helps most, until none helps (a relic adder counts its lowest roll)
- const adds=pool.filter(d=>Object.keys(slotAdds(d)).length&&!gCtx(d)&&!harm(d));let take=[],best=fill([]);
+ const adds=pool.filter(d=>Object.keys(slotAdds(d)).length&&!bCtx(d)&&!harm(d));let take=[],best=fill([]);
  for(;;){let pick=null;for(const d of adds){if(take.includes(d))continue;const r=fill([...take,d]);if(r&&r.v>best.v+1e-4&&(!pick||r.v>pick[1].v))pick=[d,r]}
   if(!pick)break;take.push(pick[0]);best=pick[1]}
  best=fill(take,1)||best;BS.s={};for(const [k,id] of best.out)(BS.s[k]=BS.s[k]||[]).push(id);

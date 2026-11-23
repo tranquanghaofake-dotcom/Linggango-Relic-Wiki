@@ -144,7 +144,9 @@ const gOff=(g,r,a)=>GOFF[r](gAt(g),a);
 const GFLOORHIT=.13,GHITCAP=.5;
 function gEHP(f,a){const D=GHIT[a]!=null?GHIT[a]:50,A=D<20?10:10+(D-20)/2,at=f.at||{};
  const arm=Math.max(0,f.arm)*(1-.1*(1-Math.min(.6,.02*Math.max(0,f.tough))));
- const dr=Math.min(.8,Math.max(-2,f.dtk+gS(at,/^resistance$/,1))),dg=Math.min(.5,gS(at,/^dodge_chance$/,0));
+ // two dodge stats roll one after the other (Mechanics -> Dodge): Brutality's (anklets) up to 50%, Apothic's (attributeslib, Master
+ // Ninja Gear) up to 40% (attributefix caps, NOTES 2026-10-28); they used to be summed under one 50% cap
+ const dr=Math.min(.8,Math.max(-2,f.dtk+gS(at,/^resistance$/,1))),dg=1-(1-Math.min(.5,gS(at,/^dodge_chance$/,0)))*(1-Math.min(.4,gS(at,/^apo_dodge$/,0)));
  const hp=Math.max(1,gBaseHP(a)+f.hp),frac=Math.max(GFLOORHIT,A/(A+arm)*(1-dr)*(f.ms&&f.ms.evr||1));
  return D*hp/Math.min(D*frac,GHITCAP*hp)/(1-dg)*(1+.1*Math.min(1,f.kbr))}
 /* recipe stations and ingredients that say nothing about an item (the crafting table, a plain ritual) */
@@ -285,7 +287,8 @@ function gAsKind(v,t){if(Math.abs(Math.abs(v)-.1)<.001&&!/attack speed|haste/i.t
  return "pct"}
 function gCurioAt(m,c){const at={},add=(k,i,v)=>{(at[k]=at[k]||[0,0])[i]+=v},d=m.d||{},txt=c?[c.fx||"",...(c.st||[])].join(" / "):"",hpPct=!!c&&GHPCT.test(txt);
  for(const k in d){const p=GCK(k),v=d[k];
-  if(p==="attack_speed"){const h=c?gAsKind(v,txt):"pct";if(h==="flat")add(p,0,v);else if(h)add(p,1,v/GTESTAS)}
+  if(k==="attributeslib:dodge_chance")add("apo_dodge",0,v);
+  else if(p==="attack_speed"){const h=c?gAsKind(v,txt):"pct";if(h==="flat")add(p,0,v);else if(h)add(p,1,v/GTESTAS)}
   else if(p==="max_health"&&hpPct)add(p,1,v/GTESTHP);else add(p,GCADD.test(p)?0:1,v)}
  if(c&&GHITCODE[c.id])add(GHITCODE[c.id][0],1,GHITCODE[c.id][1]);
 
@@ -303,7 +306,7 @@ function gCurioScore(c,r,a){const key=c.id+r+a;let v=GCS.get(key);if(v!=null)ret
  const pred=10/(10+Math.max(0,o("armor"))),tk=Object.assign(gTk(m),(gCC(c)&&gCC(c).tk)||{},m.blk?{melee:m.blk.tk}:{}),GKW={melee:.6,magic:.15,fire:.1,explosion:.1,fall:.05};
  let ex=0;for(const k in GKW)ex+=GKW[k]*(tk[k]!=null?tk[k]/(k==="magic"||k==="fall"?1:pred):1);
  const hpm=1+((at.max_health||[0,0])[1]),f={arm:b.arm+o("armor"),tough:b.tough+o("armor_toughness"),hp:(gBaseHP(a)+b.hp+o("max_health"))*hpm-gBaseHP(a),kbr:o("knockback_resistance"),dtk:Math.abs(1-ex)>.02?1-ex:0,
-  at:{dodge_chance:[o("dodge_chance"),0],resistance:at.resistance||[0,0]}};
+  at:{dodge_chance:[o("dodge_chance"),0],apo_dodge:[o("apo_dodge"),0],resistance:at.resistance||[0,0]}};
  v=gRound(GOFF[r](at,a)*Math.pow(gEHP(f,a)/gEHP(base,a),GSURV[r])*1000)/1000;GCS.set(key,v);return v}
 /* a whole build on the same model (the planner's starter builds): each curio's measured changes summed (a ladder curio at its share),
    damage taken per kind multiplied, % health multiplied; the log of what gCurioScore would give the lot worn together (HE/TA: the
@@ -318,7 +321,7 @@ function gBuildVal(ps,r,a){const at={},rk={},b=gMedAt(a);let hpm=1;for(const k i
   for(const k in rk)rk[k]*=Math.pow(p.r[k],f);hpm*=1+f*p.hpp}
  let ex=0;for(const k in GKW)ex+=GKW[k]*rk[k];const o=k=>(at[k]||[0,0])[0],B=gBaseHP(a);
  const base={arm:b.arm,tough:b.tough,hp:b.hp,kbr:0,dtk:0,at:{}},f={arm:b.arm+o("armor"),tough:b.tough+o("armor_toughness"),hp:(B+b.hp+o("max_health"))*hpm-B,
-  kbr:o("knockback_resistance"),dtk:Math.abs(1-ex)>.02?1-ex:0,at:{dodge_chance:[o("dodge_chance"),0],resistance:at.resistance||[0,0]}};
+  kbr:o("knockback_resistance"),dtk:Math.abs(1-ex)>.02?1-ex:0,at:{dodge_chance:[o("dodge_chance"),0],apo_dodge:[o("apo_dodge"),0],resistance:at.resistance||[0,0]}};
  const s=Math.log(gEHP(f,a)/gEHP(base,a));
  if(r==="TA")return s;if(r==="HE")return s+.5*Math.log(Math.max(.01,(B+f.hp)/(B+b.hp)));
  return Math.log(Math.max(1e-6,GOFF[r](at,a)))+GSURV[r]*s}

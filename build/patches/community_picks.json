@@ -1,0 +1,1262 @@
+{
+"source": "Two community best-in-slot guides pasted by the wiki owner on 2026-11-23 (Linggango players, not the pack). Reference only: the planner's starter builds use them to break ties and to rank what the game test cannot see; they never override a measured harm, a Starter-ring rule or a ladder.",
+"tiers": {
+"bis": "best in slot or 'always'",
+"good": "recommended",
+"ok": "okay",
+"early": "early game or budget",
+"util": "utility or travel",
+"niche": "situational"
+},
+"picks": {
+"terramity:band_of_power": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"x": [
+"terramity:band_of_power_plus"
+],
+"n": "rings: always (with Band of Power + and Dragonband)"
+},
+"terramity:band_of_power_plus": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"n": "rings: always"
+},
+"terramity:dragon_band": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"n": "rings: always"
+},
+"brutality:sanguine_signet": {
+"t": "good",
+"r": [
+"ME",
+"HE"
+],
+"n": "rings: extra lifesteal"
+},
+"terramity:gamblers_ring": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"n": "rings: synergy with crits and the dice"
+},
+"terramity:die_of_revival": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "rings/charms: sustain, defensive"
+},
+"terramity:nullifying_dice": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "charms: sustain, defensive"
+},
+"terramity:life_ring": {
+"t": "ok",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"terramity:life_ring_plus"
+],
+"n": "rings: okay"
+},
+"terramity:life_ring_plus": {
+"t": "ok",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "rings: okay"
+},
+"terramity:ring_of_rejuvenation": {
+"t": "ok",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"terramity:ring_of_rejuvenation_plus"
+],
+"n": "rings: okay"
+},
+"terramity:ring_of_rejuvenation_plus": {
+"t": "ok",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "rings: okay"
+},
+"terramity:chaos_heart_ring": {
+"t": "ok",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "rings: okay"
+},
+"morerelics:made_in_heaven": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "feet: best in slot"
+},
+"artifacts:running_shoes": {
+"t": "bis",
+"r": [
+"MO"
+],
+"n": "feet: top tier"
+},
+"brutality:air_jordan_earrings": {
+"t": "good",
+"r": [
+"MO"
+],
+"n": "feet: 'you need the jordans'"
+},
+"artifacts:bunny_hoppers": {
+"t": "good",
+"r": [
+"MO"
+],
+"n": "feet: next in utility"
+},
+"uniqueaccessories:anklet_of_fortune": {
+"t": "early",
+"r": [
+"MO"
+],
+"n": "feet: budget"
+},
+"uniqueaccessories:blade_shoes": {
+"t": "early",
+"r": [
+"MO"
+],
+"n": "feet: budget"
+},
+"uniqueaccessories:rocket_shoes": {
+"t": "early",
+"r": [
+"MO"
+],
+"n": "feet: budget"
+},
+"relics:magma_walker": {
+"t": "util",
+"r": [
+"MO"
+],
+"n": "feet: travel"
+},
+"relics:aqua_walker": {
+"t": "util",
+"r": [
+"MO"
+],
+"n": "feet: travel"
+},
+"relics:amphibian_boot": {
+"t": "util",
+"r": [
+"MO"
+],
+"n": "feet: travel"
+},
+"relics:roller_skates": {
+"t": "util",
+"r": [
+"MO"
+],
+"n": "feet: travel"
+},
+"terramity:steel_shell": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "charms: sustain"
+},
+"morerelics:whims_of_fate": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "charms: sustain"
+},
+"uniqueaccessories:hero_emblem": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "charms: sustain"
+},
+"morerelics:axolotl_cream": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "charms: 'a tier of its own, you need this'"
+},
+"brutality:hemograft_needle": {
+"t": "bis",
+"r": [
+"ME",
+"HE"
+],
+"n": "charms/lifesteal: aim for"
+},
+"brutality:bloodstained_mirror": {
+"t": "bis",
+"r": [
+"ME",
+"HE"
+],
+"n": "charms/lifesteal: aim for"
+},
+"brutality:self_repair_nexus": {
+"t": "good",
+"r": [
+"ME",
+"HE"
+],
+"n": "charms/lifesteal"
+},
+"brutality:vampiric_talisman": {
+"t": "good",
+"r": [
+"ME",
+"HE"
+],
+"n": "charms/lifesteal"
+},
+"brutality:blood_chalice": {
+"t": "good",
+"r": [
+"ME",
+"HE"
+],
+"n": "charms/lifesteal"
+},
+"terramity:neutron_star": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "charms: defensive"
+},
+"terramity:stygian_safety_talisman": {
+"t": "niche",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "charms: anti-Hex for Shadow Wizards and Trial Guardian"
+},
+"brutality:soldiers_syringe": {
+"t": "good",
+"r": [
+"ME"
+],
+"n": "charms: extra damage"
+},
+"brutality:pencil_sharpener": {
+"t": "good",
+"r": [
+"ME"
+],
+"n": "charms: extra damage"
+},
+"brutality:daemonium_whetstone": {
+"t": "good",
+"r": [
+"ME"
+],
+"n": "charms: extra damage"
+},
+"brutality:knuckle_wraps": {
+"t": "good",
+"r": [
+"ME"
+],
+"n": "charms: extra damage"
+},
+"brutality:target_cube": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"n": "charms: extra damage"
+},
+"brutality:lucky_insoles": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"n": "charms: extra damage"
+},
+"terramity:sharpening_stone": {
+"t": "good",
+"r": [
+"ME"
+],
+"x": [
+"terramity:magma_stone"
+],
+"n": "charms: extra damage"
+},
+"terramity:magma_stone": {
+"t": "good",
+"r": [
+"ME"
+],
+"n": "charms: extra damage"
+},
+"terramity:ultra_sniffer_fur": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"n": "charms: extra damage"
+},
+"brutality:sloth": {
+"t": "good",
+"r": [
+"ME"
+],
+"n": "charms: extra damage and effects"
+},
+"terramity:lucky_dice": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"n": "charms: extra damage"
+},
+"terramity:ultrabright_ink_sac": {
+"t": "util",
+"r": [
+"UT"
+],
+"n": "charms: utility"
+},
+"terramity:prismatic_feather": {
+"t": "util",
+"r": [
+"UT"
+],
+"n": "charms: utility"
+},
+"terramity:ball_n_chain": {
+"t": "early",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "charms: early game"
+},
+"terramity:acidic_ampoule": {
+"t": "early",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"n": "charms: early game"
+},
+"terramity:pot_of_hot_coals": {
+"t": "early",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"n": "charms: early game"
+},
+"brutality:daemonium_sewing_kit": {
+"t": "early",
+"r": [
+"ME"
+],
+"n": "charms: early game"
+},
+"terramity:ambrosia": {
+"t": "early",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "charms: early game"
+},
+"terramity:celestial_brew": {
+"t": "early",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "charms: early game"
+},
+"terramity:bomb_charm": {
+"t": "early",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "charms: early game"
+},
+"brutality:empty_anklet": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"brutality:redstone_anklet",
+"brutality:emerald_anklet"
+],
+"n": "anklets: aim for it from the start"
+},
+"brutality:redstone_anklet": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"brutality:ultra_dodge_anklet"
+],
+"n": "anklets: upgrade immediately"
+},
+"brutality:emerald_anklet": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"brutality:ultra_dodge_anklet"
+],
+"n": "anklets: upgrade immediately"
+},
+"brutality:anklent": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "anklets: for an extra ring"
+},
+"brutality:davys_anklet": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "anklets: with Ultra Dodge, enough for everything"
+},
+"brutality:ultra_dodge_anklet": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "anklets: with Davy's, enough for everything"
+},
+"enigmaticlegacy:golem_heart": {
+"t": "early",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"enigmaticlegacy:angel_blessing",
+"enigmaticlegacy:eye_of_nebula",
+"enigmaticaddons:etherium_core"
+],
+"n": "spellstone: until Angel's Blessing or Eye of the Nebula"
+},
+"enigmaticlegacy:angel_blessing": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"enigmaticaddons:etherium_core"
+],
+"n": "spellstone"
+},
+"enigmaticlegacy:eye_of_nebula": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"enigmaticaddons:etherium_core"
+],
+"n": "spellstone"
+},
+"enigmaticaddons:etherium_core": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"enigmaticlegacy:the_cube",
+"enigmaticlegacy:enigmatic_item"
+],
+"n": "spellstone: best priority"
+},
+"enigmaticlegacy:the_cube": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "spellstone: last objective"
+},
+"enigmaticlegacy:enigmatic_item": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "spellstone: last objective"
+},
+"armageddon_mod:colossal_ward": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"armageddon_mod:anhk_aegis",
+"armageddon_mod:thorned_requital"
+],
+"n": "accessories: right after the first boss"
+},
+"armageddon_mod:colossal_shield": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"armageddon_mod:anhk_aegis",
+"armageddon_mod:thorned_requital"
+],
+"n": "accessories: right after the first boss"
+},
+"armageddon_mod:anhk_aegis": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "accessories: late game"
+},
+"armageddon_mod:thorned_requital": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "accessories: late game"
+},
+"armageddon_mod:life_necklace": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "accessories: late game"
+},
+"armageddon_mod:pendant_of_convergence": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "accessories: late game"
+},
+"armageddon_mod:ankh_tablet": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "accessories: replaces one when you get it"
+},
+"armageddon_mod:rose_shield": {
+"t": "niche",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "accessories: honorable mention"
+},
+"armageddon_mod:voidcall_ward": {
+"t": "niche",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "accessories: honorable mention"
+},
+"armageddon_mod:anathema_gauntlet": {
+"t": "niche",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "accessories: honorable mention"
+},
+"armageddon_mod:sculk_eye_gem": {
+"t": "niche",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "accessories: for the Warden"
+},
+"brutality:second_heart": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"brutality:dragonheart"
+],
+"n": "heart: early game priority"
+},
+"brutality:dragonheart": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "heart: after the Second Heart"
+},
+"relics:leather_belt": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "belt/curio: extra charm slots"
+},
+"morerelics:biojoint": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "belt/curio: damage reduction"
+},
+"brutality:scientific_calculator": {
+"t": "niche",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "belt: for the math charms"
+},
+"artifacts:crystal_heart": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"brutality:second_heart"
+],
+"n": "curio: extra health early"
+},
+"morerelics:shieldweave_cape": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "back: number one, best sustain"
+},
+"enigmaticlegacy:enigmatic_elytra": {
+"t": "util",
+"r": [
+"MO"
+],
+"n": "back: movement late game"
+},
+"artifacts:vampiric_glove": {
+"t": "niche",
+"r": [
+"ME",
+"HE"
+],
+"n": "curio: lifesteal before Crown of the Legend"
+},
+"morerelics:sentient_rust": {
+"t": "bis",
+"r": [
+"ME"
+],
+"x": [
+"terramity:poker_chip_bracelets"
+],
+"n": "hands: easiest early"
+},
+"morerelics:mass_gauntlet": {
+"t": "bis",
+"r": [
+"ME"
+],
+"x": [
+"terramity:poker_chip_bracelets"
+],
+"n": "hands: easiest early"
+},
+"morerelics:crown_of_the_legend": {
+"t": "bis",
+"r": [
+"ME",
+"HE"
+],
+"x": [
+"brutality:hemograft_needle"
+],
+"n": "head: best early-mid lifesteal"
+},
+"terramity:swag_glasses": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "head: perfect late game"
+},
+"goety_revelation:ascension_halo": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "head"
+},
+"goety_revelation:halo_of_the_end": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "head"
+},
+"brutality:sanguine_spectacles": {
+"t": "good",
+"r": [
+"ME",
+"HE"
+],
+"n": "head: mid game omnivamp"
+},
+"terramity:ancient_stone_mask": {
+"t": "niche",
+"r": [
+"ME",
+"HE"
+],
+"n": "head: lifesteal, not outside by day"
+},
+"artifacts:superstitious_hat": {
+"t": "early",
+"r": [
+"UT"
+],
+"n": "head: early looting"
+},
+"confluence:cross_necklace": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"terramity:prismatic_scarf"
+],
+"n": "necklace: best early option"
+},
+"morerelics:opal_necklace": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "necklace"
+},
+"relics:holy_locket": {
+"t": "niche",
+"r": [
+"UT"
+],
+"n": "necklace: afk undead farm"
+},
+"brutality:knights_pendant": {
+"t": "good",
+"r": [
+"ME"
+],
+"n": "necklace: combat value"
+},
+"terramity:prismatic_scarf": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"terramity:gold_medal"
+],
+"n": "necklace: best early sustain"
+},
+"terramity:gold_medal": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "necklace: best in slot"
+},
+"terramity:exodium_shield_amulet": {
+"t": "bis",
+"r": [
+"HE",
+"TA"
+],
+"n": "necklace: best defensive, less damage"
+},
+"terramity:holy_heart_necklace": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "necklace: immunity and health"
+},
+"meetyourfight:caged_heart": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"x": [
+"morerelics:wonder_of_u"
+],
+"n": "body: best early to mid"
+},
+"morerelics:wonder_of_u": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "body: best sustain"
+},
+"meetyourfight:ace_of_iron": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "body: needs Luck"
+},
+"terramity:poker_chip_bracelets": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"n": "hands: mid game, poker crit is huge"
+},
+"brutality:phantom_finger": {
+"t": "bis",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "hands: best ring utility"
+},
+"brutality:nanomachines": {
+"t": "good",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "hands: extra sustain"
+},
+"terramity:chthonic_curse_bracelets": {
+"t": "early",
+"r": [
+"ME"
+],
+"x": [
+"terramity:poker_chip_bracelets"
+],
+"n": "hands: falls off late"
+},
+"terramity:diamond_gauntlet": {
+"t": "early",
+"r": [
+"ME"
+],
+"x": [
+"terramity:poker_chip_bracelets"
+],
+"n": "hands: budget"
+},
+"terramity:famine_gauntlet": {
+"t": "early",
+"r": [
+"ME"
+],
+"x": [
+"terramity:poker_chip_bracelets"
+],
+"n": "hands: budget"
+},
+"confluence:power_glove": {
+"t": "early",
+"r": [
+"ME"
+],
+"n": "hands: budget"
+},
+"terramity:sacred_speed_bracelets": {
+"t": "good",
+"r": [
+"ME"
+],
+"n": "hands: attack speed builds"
+},
+"terramity:exodium_twin_bracelets": {
+"t": "niche",
+"r": [
+"ME",
+"RA",
+"MA"
+],
+"n": "hands: honorable mention"
+},
+"brutality:warpslice_scabbard": {
+"t": "good",
+"r": [
+"ME"
+],
+"n": "belt: penetration"
+},
+"terramity:diamond_studded_belt": {
+"t": "early",
+"r": [
+"ME",
+"RA",
+"MA",
+"SU",
+"HE",
+"TA"
+],
+"n": "belt: budget"
+},
+"artifacts:helium_flamingo": {
+"t": "early",
+"r": [
+"MO"
+],
+"n": "belt: budget"
+}
+}
+}

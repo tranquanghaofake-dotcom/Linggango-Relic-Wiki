@@ -1,6 +1,6 @@
 // Build planner: the starter builds (bPreset, 2026-11-23). Runs in the page (check.js: `bad` and `acts` in scope).
 // Each starter build is graded 0-5, one point a rule, on the measured model the Equipment -> Curios tiers use (gBuildVal):
-//  1 no trap: nothing past the Act, no condition in its text (gCtx), no cost its text states (bDraw), nothing measured to hurt the playstyle
+//  1 no trap: nothing past the Act, no condition on what it gives (bCtx), no cost its text states (bDraw), nothing measured to hurt the playstyle
 //  2 no waste: one Looting Charm at most, no copy that does not stack, no third copy, no ladder curio switched off
 //  3 full: at least 85% of the slots that have a curio for this playstyle are filled
 //  4 the best are in: 4 of the 5 best measured curios for the playstyle at this Act (by themselves, that fit the slots together) are worn (Movement, Utility,
@@ -8,15 +8,17 @@
 //  5 no easy swap: no measured curio does nothing by itself and for the build, and swapping one for a curio not worn never adds 2% or more
 // The grade must average 4.5 or more over every Act and playstyle checked, and none may be under 4. Set PRESET_ACTS to grade others.
 { const RID = new Set(Object.values(RQRING)), M = ['ME', 'RA', 'MA', 'SU', 'HE', 'TA'], grades = [], at = (typeof PRESET_ACTS !== 'undefined' ? PRESET_ACTS : [0, 4, 8, 12]);
+  // for reference, not graded (PRESET_DUMP only): how many community best-in-slot picks (patches/community_picks.json) the build wears
+  const COMM = typeof PRESET_DUMP !== 'undefined' && typeof patchJSON !== 'undefined' ? (await patchJSON('community_picks.json')).picks : null;
   const ringBefore = BS.g, pBefore = BS.p, sBefore = JSON.stringify(BS.s), dump = typeof PRESET_DUMP !== 'undefined';
   for (const a of at) for (const role of [...Object.keys(ROLE), 'RNG']) {
     BS.p = a; BS.g = ''; bPreset(role);
     const items = Object.entries(BS.s).flatMap(([k, v]) => v.map(id => [k, id])).filter(x => !RID.has(x[1])), ids = items.map(x => x[1]);
     const m = M.includes(role), vr = m ? role : 'TA', solo = d => gPart(d) ? gBuildVal([[gPart(d), 1]], vr, a) : null;
-    const valid = d => bAvail(d) && !d.inv && bRing(d) && !RID.has(d.id) && !gCtx(d) && !bDraw(d) && !(solo(d) < -.01);
+    const valid = d => bAvail(d) && !d.inv && bRing(d) && !RID.has(d.id) && !bCtx(d) && !bDraw(d) && !(solo(d) < -.01);
     const why = [];
     // 1 no trap
-    const trap = ids.filter(id => { const d = BYID[id]; return !bAvail(d) || gCtx(d) || bDraw(d) || solo(d) < -.01 });
+    const trap = ids.filter(id => { const d = BYID[id]; return !bAvail(d) || bCtx(d) || bDraw(d) || solo(d) < -.01 });
     if (trap.length) why.push('trap: ' + trap.map(id => BYID[id].n).join(', '));
     // 2 no waste
     const cnt = {}, lf = skLadder(ids); ids.forEach(id => cnt[id] = (cnt[id] || 0) + 1);
@@ -46,6 +48,9 @@
       if (swap) why.push(`swap ${swap[0]} for ${swap[1]}: +${Math.round((Math.exp(swap[2]) - 1) * 100)}%`) }
     else if (ids.some(id => !(fit(BYID[id]) || Object.keys(slotAdds(BYID[id])).length || LOOTRX.test(BYID[id].n)))) why.push('worn without a reason');
     const g = 5 - why.length; grades.push([a, role, g, why]);
+    if (COMM) { const has = new Set(ids), av = new Set(D.filter(d => bAvail(d) && !d.inv && bRing(d)).map(d => d.id));
+      const bis = Object.keys(COMM).filter(id => COMM[id].t === 'bis' && COMM[id].r.includes(role) && av.has(id) && !(COMM[id].x || []).some(x => av.has(x)));
+      if (bis.length) console.log(`  community: ${bis.filter(id => has.has(id)).length}/${bis.length} worn; missing ${bis.filter(id => !has.has(id)).map(id => BYID[id].n).join(', ')}`) }
     if (dump) console.log(`Act ${a} ${role}: ${g}/5 ${why.join(' | ')}`);
   }
   const avg = grades.reduce((s, x) => s + x[2], 0) / grades.length, low = grades.filter(x => x[2] < 4);
