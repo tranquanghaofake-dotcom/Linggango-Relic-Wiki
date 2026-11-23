@@ -92,16 +92,60 @@ const RNGEV=[["terramity:lucky_dice",L=>{const p=Math.min(1,.2+.1*L);return T("L
  ["terramity:devils_dice",L=>{const p=Math.min(1,.5+.1*L);return T("Devil's Dice: each roll is a buff {p}% of the time, a debuff {q}%",{p:pc(p),q:pc(1-p)})}]];
 // chance-based curios (dice, coins, "N% chance", random rolls): their odds are not in the stat totals
 const RNGRX=/\bdice\b|\bcoin\b|gambl|\d+% chance|chance (?:to|for|rises)|\brandom|\brolls? |luck level/i,bRng=d=>RNGRX.test(d.n+" "+d.fx);
+/* Starter builds. Melee, Ranged, Mage, Summon, Health and Tank: a greedy fill on the measured model (gBuildVal, the Equipment ->
+   Curios scores worn together at the chosen Act): each step takes the curio that raises the whole build most, ladder shares and
+   costs counted; then curios the test cannot see (an unmeasured mechanic) that their text gives this playstyle, best rank first.
+   A curio that adds slots is kept only when the build is better with it. Never: a curio whose text sets a condition (low health,
+   night, unarmed: gCtx), one measured to hurt this playstyle, a second Looting Charm (the furthest one covers the rest), a
+   duplicate that does not stack, a third copy, a cost the text states (bDraw). Movement, Utility and Gambler have no measured model: text roles, ranked by rarity, same rules */
+const LOOTRX=/Looting Charm$/,BDRAW=/difficulty by|loses? your (whole )?inventory|no Fairy Bottle|straying over|\d+ health per second|max(imum)? health -9\d%/i;
+// a cost its text states that the test cannot see (harder mobs, losing your items on death, debuffs away from spawn): never in a starter build
+const bDraw=d=>BDRAW.test(d.fx);
 function bPreset(role){
- BS.s={};bRingSync("",BS.g);const pool=D.filter(d=>bAvail(d)&&!d.inv&&bRing(d)&&(role!=="RNG"||bRng(d)||slotAdds(d)&&Object.keys(slotAdds(d)).length));
- const fit=d=>role==="RNG"?bRng(d):d.ro.includes(role);
- const score=d=>(role==="RNG"&&/dice|coin|gambl/i.test(d.n)?1e5:0)+(role==="RNG"&&d.mt.includes("l:Luck")?1e4:0)+(isMust(d)&&role!=="RNG"?1e6:0)+(fit(d)?1e3:0)+d.r*10+(+d.sc||0);
- const order=pool.sort((a,b)=>score(b)-score(a)),used=new Set(Object.values(BS.s).flat());
- for(const pass of [0,1]){const caps=bCaps();
-  for(const d of order){if(used.has(d.id))continue;const adds=slotAdds(d),n=Object.keys(adds).length;
-   if(pass===0&&!n)continue;if(pass===1&&!fit(d)&&!(role!=="RNG"&&isMust(d)))continue;
-   const k=d.sl.find(s=>s in caps&&caps[s]>(BS.s[s]||[]).length);if(!k)continue;
-   (BS.s[k]=BS.s[k]||[]).push(d.id);used.add(d.id);for(const x in adds)caps[x]+=adds[x]}}
+ BS.s={};bRingSync("",BS.g);const a=BS.p,fixed=Object.entries(BS.s).flatMap(([k,v])=>v.map(id=>[k,id]));
+ const RID=new Set(Object.values(RQRING)),base=D.filter(d=>bAvail(d)&&!d.inv&&bRing(d)&&!RID.has(d.id)&&!bDraw(d));
+ const loot=base.filter(d=>LOOTRX.test(d.n)).sort((x,y)=>ORDER.indexOf(y.t)-ORDER.indexOf(x.t)||y.n.length-x.n.length)[0];
+ const pool=base.filter(d=>!LOOTRX.test(d.n)||d===loot),M=["ME","RA","MA","SU","HE","TA"].includes(role);
+ const vr=M?role:"TA",val=d=>gBuildVal([[gPart(d),1]],vr,a),harm=d=>gPart(d)&&val(d)<-.01;
+ const free=(caps,used,d)=>d.sl.find(s=>s in caps&&caps[s]>(used[s]||0))||(caps.Curio>(used.Curio||0)&&d.sl.length?"Curio":null);
+ const lad=id=>SK.i[id]&&SK.i[id].l&&SK.i[id].l[0];
+ // one fill with the given slot adders worn first: returns the slots and the build's value
+ const fill=(adders,last)=>{const caps={...SLOT_BASE},used={},out=[],have=new Set();
+  const put=(k,d)=>{out.push([k,d.id]);used[k]=(used[k]||0)+1;have.add(d.id);const x=slotAdds(d);for(const s in x)caps[s]+=x[s]};
+  for(const [k,id] of fixed){out.push([k,id]);used[k]=(used[k]||0)+1;have.add(id)}
+  for(const d of adders){const k=free(caps,used,d);if(!k)return null;put(k,d)}
+  const two=id=>bStk(id)&&SK.i[id].s!=="u",n=id=>out.filter(x=>x[1]===id).length,ok=d=>(!have.has(d.id)||two(d.id)&&n(d.id)<2)&&free(caps,used,d);
+  const V=()=>{const ids=out.map(x=>x[1]).filter(id=>!RID.has(id)),lf=skLadder(ids);return gBuildVal(ids.map(id=>[gPart(BYID[id]),lf[id]??1]),vr,a)};
+  let cur=V(),seen=0;
+  const C=M?pool.filter(d=>gPart(d)&&!gCtx(d)&&!Object.keys(slotAdds(d)).length&&val(d)>.002).map(d=>[d,val(d)]).sort((x,y)=>y[1]-x[1]):[];
+  // lazy greedy: candidates keep their last key (gain to the build + 5% of their own strength, so a build at the model's limits,
+  // where little adds anything, still takes the strongest curios); only the top one is measured again. A curio that would lower
+  // the build is never taken
+  const grow=()=>{const q=C.map(x=>[x[0],1.05*x[1],x[1]]);
+   while(q.length){const [d,,s0]=q[0];if(!ok(d)){q.shift();continue}
+    const k=free(caps,used,d);put(k,d);const g=V()-cur,key=g+.05*s0;out.pop();used[k]--;if(!n(d.id))have.delete(d.id);
+    if(q.length>1&&key<q[1][1]-1e-9){q[0][1]=key;q.sort((x,y)=>y[1]-x[1]);continue}
+    if(g<-5e-4){q.shift();continue}put(k,d);cur+=g;if(!two(d.id)||n(d.id)>=2)q.shift()}};
+  // the final fill only: swap a worn curio for one not worn while that adds 0.5% or more (greedy picks can block a better pair)
+  const polish=()=>{for(let r=0;r<3;r++){let moved=false;
+   for(let i=0;i<out.length;i++){const [k,id]=out[i],d0=BYID[id];if(i<fixed.length||!gPart(d0)||Object.keys(slotAdds(d0)).length)continue;let bg=.005,bd=null;
+    for(const [d] of C){if(d.id===id||!bFits(d,k)||have.has(d.id)&&!(two(d.id)&&n(d.id)<2))continue;out[i]=[k,d.id];const g=V()-cur;out[i]=[k,id];if(g>bg){bg=g;bd=d}}
+    if(bd){out[i]=[k,bd.id];if(!n(id))have.delete(id);have.add(bd.id);cur+=bg;moved=true}}
+   if(!moved)break}};
+  if(M){grow();if(last){polish();grow()}}
+  // then what the test cannot see: unmeasured (or measured as nothing, with more than numbers in its text), given this role by its text
+  const fits=d=>role==="RNG"?bRng(d):d.ro.includes(role),unseen=d=>!gPart(d)||Math.abs(val(d))<=.002&&!gPlain(d);
+  const rest=pool.filter(d=>fits(d)&&(!M||unseen(d))&&!gCtx(d)&&!harm(d)&&!Object.keys(slotAdds(d)).length&&!/[−-]\s*\d+\s*%\s*max(imum)? health|max(imum)? health\s*[−-]/i.test(d.fx))
+   .sort((x,y)=>(role==="RNG"?(/dice|coin|gambl/i.test(y.n)-/dice|coin|gambl/i.test(x.n))*2+(y.mt.includes("l:Luck")-x.mt.includes("l:Luck")):0)||y.r-x.r||(+y.sc||0)-(+x.sc||0));
+  const lads=new Set(out.map(x=>lad(x[1])).filter(Boolean));
+  for(const d of rest){if(have.has(d.id)||lads.has(lad(d.id)))continue;const k=free(caps,used,d);if(!k)continue;put(k,d);seen++;if(lad(d.id))lads.add(lad(d.id))}
+  if(loot&&!have.has(loot.id)){const k=free(caps,used,loot);if(k)put(k,loot)}
+  return {out,v:cur+.003*seen}};
+ // slot adders: try each, keep the one that helps most, until none helps (a relic adder counts its lowest roll)
+ const adds=pool.filter(d=>Object.keys(slotAdds(d)).length&&!gCtx(d)&&!harm(d));let take=[],best=fill([]);
+ for(;;){let pick=null;for(const d of adds){if(take.includes(d))continue;const r=fill([...take,d]);if(r&&r.v>best.v+1e-4&&(!pick||r.v>pick[1].v))pick=[d,r]}
+  if(!pick)break;take.push(pick[0]);best=pick[1]}
+ best=fill(take,1)||best;BS.s={};for(const [k,id] of best.out)(BS.s[k]=BS.s[k]||[]).push(id);
  bSave()}
 function bOpts(k,q){
  const eq=new Set(Object.values(BS.s).flat());q=(q||"").toLowerCase();

@@ -305,6 +305,23 @@ function gCurioScore(c,r,a){const key=c.id+r+a;let v=GCS.get(key);if(v!=null)ret
  const hpm=1+((at.max_health||[0,0])[1]),f={arm:b.arm+o("armor"),tough:b.tough+o("armor_toughness"),hp:(gBaseHP(a)+b.hp+o("max_health"))*hpm-gBaseHP(a),kbr:o("knockback_resistance"),dtk:Math.abs(1-ex)>.02?1-ex:0,
   at:{dodge_chance:[o("dodge_chance"),0],resistance:at.resistance||[0,0]}};
  v=gRound(GOFF[r](at,a)*Math.pow(gEHP(f,a)/gEHP(base,a),GSURV[r])*1000)/1000;GCS.set(key,v);return v}
+/* a whole build on the same model (the planner's starter builds): each curio's measured changes summed (a ladder curio at its share),
+   damage taken per kind multiplied, % health multiplied; the log of what gCurioScore would give the lot worn together (HE/TA: the
+   survival part only, HE with half again the health it adds). One curio alone gives log(gCurioScore) */
+const GKW={melee:.6,magic:.15,fire:.1,explosion:.1,fall:.05},GPART=new Map();
+function gPart(c){if(GPART.has(c.id))return GPART.get(c.id);const m=typeof CM!=="undefined"&&CM[c.id];let p=null;
+ if(m){const at=gCurioAt(m,c),pred=10/(10+Math.max(0,(at.armor||[0,0])[0])),tk=Object.assign(gTk(m),(gCC(c)&&gCC(c).tk)||{},m.blk?{melee:m.blk.tk}:{}),r={};
+  for(const k in GKW)r[k]=tk[k]!=null?tk[k]/(k==="magic"||k==="fall"?1:pred):1;p={at,r,hpp:(at.max_health||[0,0])[1]}}
+ GPART.set(c.id,p);return p}
+function gBuildVal(ps,r,a){const at={},rk={},b=gMedAt(a);let hpm=1;for(const k in GKW)rk[k]=1;
+ for(const [p,f] of ps){if(!p||!f)continue;for(const k in p.at){const v=p.at[k],x=at[k]||(at[k]=[0,0]);x[0]+=v[0]*f;x[1]+=v[1]*f}
+  for(const k in rk)rk[k]*=Math.pow(p.r[k],f);hpm*=1+f*p.hpp}
+ let ex=0;for(const k in GKW)ex+=GKW[k]*rk[k];const o=k=>(at[k]||[0,0])[0],B=gBaseHP(a);
+ const base={arm:b.arm,tough:b.tough,hp:b.hp,kbr:0,dtk:0,at:{}},f={arm:b.arm+o("armor"),tough:b.tough+o("armor_toughness"),hp:(B+b.hp+o("max_health"))*hpm-B,
+  kbr:o("knockback_resistance"),dtk:Math.abs(1-ex)>.02?1-ex:0,at:{dodge_chance:[o("dodge_chance"),0],resistance:at.resistance||[0,0]}};
+ const s=Math.log(gEHP(f,a)/gEHP(base,a));
+ if(r==="TA")return s;if(r==="HE")return s+.5*Math.log(Math.max(.01,(B+f.hp)/(B+b.hp)));
+ return Math.log(Math.max(1e-6,GOFF[r](at,a)))+GSURV[r]*s}
 const gIsCurio=x=>!!(x&&x.ro&&x.st);
 /* the test player was bare: no armor, nothing in hand when its attributes were read, standing still, at full health when read and
    at 10 under it (half, for a 20-health tester) when swinging, below Y 0, in daylight
